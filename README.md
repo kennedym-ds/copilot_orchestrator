@@ -25,11 +25,42 @@ This repository hosts the greenfield, conductor-driven GitHub Copilot configurat
 | --- | --- |
 | `.github/chatmodes/` | Conductor and subagent chat modes (to be authored). |
 | `.github/prompts/` | Slash-command style prompts tied to orchestrated workflows. |
+| `.github/copilot-instructions.md` | Main instructions for GitHub Copilot (both VS Code extension and coding agent). |
+| `.github/copilot-setup-steps.yml` | Development environment setup for Copilot coding agent. |
 | `docs/workflows/` | Planning, blueprint, and setup documentation. |
 | `docs/templates/` | Reusable templates (plan format, phase reports, etc.). |
 | `instructions/` | Layered instruction files for global, workflow, language, and compliance scopes. |
 | `scripts/` | Validation and automation utilities. |
 | `plans/` | Generated plan and phase artifacts (ignored by default). |
+
+## Working with GitHub Copilot
+
+This repository is optimized for use with GitHub Copilot, including both the VS Code extension and the GitHub Copilot coding agent.
+
+### For GitHub Copilot Coding Agent
+
+To delegate tasks to the Copilot coding agent:
+
+1. **Create a clear, well-scoped issue** with specific acceptance criteria
+2. **Assign the issue to `@copilot`** - the agent will automatically start working
+3. **Review the pull request** that Copilot creates - treat it like any other contributor's work
+4. **Provide feedback** via PR comments mentioning `@copilot` for iterations
+
+The agent is configured via `.github/copilot-instructions.md` and will automatically:
+- Run validation scripts before submitting changes
+- Follow the conductor workflow for complex tasks
+- Use appropriate custom agents for specialized work (security, performance, documentation)
+
+### For VS Code Copilot Chat
+
+Developers using VS Code should:
+
+1. Install **VS Code Insiders** for full Agent Sessions support
+2. Enable chat modes and nested `AGENTS.md` support (see `.github/copilot-instructions.md`)
+3. Start complex work in `conductor` mode for orchestrated workflows
+4. Use handoff buttons to delegate to specialized agents
+
+See `docs/guides/onboarding.md` and `docs/guides/vscode-copilot-configuration.md` for detailed setup instructions.
 
 ## Next Actions
 

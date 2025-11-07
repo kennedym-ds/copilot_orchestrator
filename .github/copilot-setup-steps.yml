@@ -1,0 +1,62 @@
+name: Setup Copilot Development Environment
+
+# This workflow file configures the development environment for GitHub Copilot coding agent.
+# It ensures the agent has all necessary dependencies and tools to work with this repository.
+
+on:
+  workflow_call:
+
+jobs:
+  setup:
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup PowerShell modules
+        shell: pwsh
+        run: |
+          # Install Pester for testing
+          if (-not (Get-Module -ListAvailable -Name Pester)) {
+            Install-Module Pester -Scope CurrentUser -Force -SkipPublisherCheck
+          }
+          
+          # Verify PowerShell version
+          $PSVersionTable.PSVersion
+
+      - name: Verify repository structure
+        shell: pwsh
+        run: |
+          # Ensure required directories exist
+          $requiredDirs = @(
+            '.github/agents',
+            '.github/chatmodes',
+            '.github/prompts',
+            'docs/workflows',
+            'docs/templates',
+            'instructions',
+            'scripts'
+          )
+          
+          foreach ($dir in $requiredDirs) {
+            if (-not (Test-Path $dir)) {
+              Write-Error "Required directory missing: $dir"
+              exit 1
+            }
+          }
+          
+          Write-Host "✅ Repository structure verified"
+
+      - name: Run validation scripts
+        shell: pwsh
+        run: |
+          # Run Copilot asset validation
+          .\scripts\validate-copilot-assets.ps1 -RepositoryRoot .
+          
+          # Check prompt metadata
+          .\scripts\add-prompt-metadata.ps1 -RepositoryRoot . -CheckOnly
+          
+          Write-Host "✅ Validation complete - environment ready for Copilot coding agent"
