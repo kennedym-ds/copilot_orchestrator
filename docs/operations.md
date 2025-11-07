@@ -1,7 +1,7 @@
 ---
 title: "Operations & Continuous Improvement Plan"
-version: "0.1.0"
-lastUpdated: "2025-11-07"
+version: "0.2.0"
+lastUpdated: "2025-11-08"
 status: draft
 ---
 
@@ -15,11 +15,64 @@ status: draft
 
 ## Metrics
 
-- Adoption rate (% of work executed via Conductor workflow).
-- Validation pass rate (CI workflow success vs. failures).
-- Average phase duration (planning, implementation, review) vs. baseline.
-- Model cost distribution (premium vs. efficiency models).
-- Incident count (policy/security issues per sprint).
+### Workflow Effectiveness
+
+- **Adoption rate** — Percentage of work executed via Conductor workflow vs. ad-hoc development.
+- **Validation pass rate** — CI workflow success vs. failures.
+- **Average phase duration** — Planning, implementation, review durations vs. baseline.
+- **Incident count** — Policy/security issues per sprint.
+
+### Multi-Tier Model Effectiveness
+
+**Cost Efficiency Metrics:**
+- **Premium vs. execution tier ratio** — Target: 20% premium / 80% execution. Track actual ratio weekly.
+- **Cost per completed phase** — Total model costs divided by phases completed successfully.
+- **Cost per agent type** — Break down costs by Conductor, Planner, Implementer, Reviewer, Researcher, Security, Performance, Docs.
+- **Budget variance** — Actual spend vs. projected spend; alert when >10% over budget.
+
+**Quality & Escalation Metrics:**
+- **Review rejection rate** — Percentage of phases rejected by Reviewer, broken down by:
+  - Implementer using execution tier (baseline)
+  - Implementer after escalation to premium tier (should be lower)
+  - Trend over time (should decrease as patterns mature)
+- **Escalation frequency** — Track escalations per phase by trigger type:
+  - Tier 1 (automatic): Test failures, ambiguity, security, performance
+  - Tier 2 (recommended): Architecture changes, API integration, context overflow, cross-cutting concerns
+  - Tier 3 (optional): Refactoring opportunities, test coverage gaps, documentation updates
+- **Escalation resolution time** — Mean time from escalation to unblock.
+- **False escalation rate** — Escalations where execution tier could have succeeded (indicates need for better prompting).
+
+**Model Availability & Resilience:**
+- **Primary model uptime** — Availability percentage by model type (GPT-5, Claude Sonnet 4.5, GPT-4.1, etc.).
+- **Fallback invocation frequency** — How often fallback models used vs. primary.
+- **Fallback success rate** — Percentage of successful completions when using 1st, 2nd, 3rd fallback.
+- **Mean time to recovery** — When primary model unavailable, how long until restored.
+
+**Model-Task Fit:**
+- **Success rate by model-task pairs** — Track which models perform best for:
+  - Code generation vs. refactoring vs. test writing
+  - Security analysis vs. performance analysis
+  - Research vs. planning vs. review
+- **Context window utilization** — Average and peak token usage by agent, identify opportunities for optimization.
+- **Response quality scores** — Manual or automated scoring of output quality (1-5 scale) by model and task type.
+
+### Data-Driven Model Allocation
+
+**Weekly Review:**
+- Check premium/execution tier ratio; adjust agent defaults if consistently off-target.
+- Review top 5 escalation triggers; document patterns and update escalation guidance if needed.
+- Identify models with high failure or fallback rates; investigate root causes.
+
+**Monthly Review:**
+- Analyze cost per phase trends; optimize prompts or model selection if costs rising.
+- Review false escalation patterns; improve Implementer prompts to reduce unnecessary premium usage.
+- Compare review rejection rates before vs. after introducing escalation patterns; validate quality improvement.
+
+**Quarterly Review:**
+- Assess model-task fit data; update default model assignments in agent definitions.
+- Evaluate new model releases (GPT-5.1, Claude Sonnet 5, etc.) for potential inclusion.
+- Fine-tune cost-efficient models on successful patterns if data available.
+- Adjust fallback chains based on empirical reliability and performance data.
 
 ## Incident Response
 
@@ -45,6 +98,13 @@ status: draft
 | Replace placeholder `.github/copilot-instructions.md` with finalized workspace charter | Docs Guild | Complete |
 | Document nested `AGENTS.md` settings and Agent Sessions workflow | Enablement | Complete |
 | Align prompt front matter with chat modes and tool priority rules | Prompt Guild | Complete |
+| Document escalation patterns for multi-tier model usage | Prompt Guild | Complete |
+| Define model fallback matrix and resilience strategies | Platform Guild | Complete |
+| Add multi-tier effectiveness metrics to operations playbook | Operations | Complete |
+| Create prompt engineering by tier guidelines | Enablement | Complete |
+| Implement escalation metrics tracking dashboard | Tooling | Planned |
+| Pilot dynamic escalation in low-risk workflows | Platform Guild | Planned |
+| Evaluate model re-evaluation cadence for new releases | Operations | Planned |
 
 ## Tooling
 
