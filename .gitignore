@@ -1,0 +1,5 @@
+# Generated plan artifacts
+plans/
+
+# VS Code
+.vscode/

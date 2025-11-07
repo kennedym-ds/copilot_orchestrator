@@ -1,0 +1,342 @@
+{
+    "root":  "C:\\Users\\Micha\\OneDrive\\Documents\\Projects\\copilot_orchestrator",
+    "summary":  [
+                    {
+                        "Category":  "instructions",
+                        "Tokens":  3505
+                    },
+                    {
+                        "Category":  "agents",
+                        "Tokens":  7084
+                    },
+                    {
+                        "Category":  "prompts",
+                        "Tokens":  3575
+                    },
+                    {
+                        "Category":  "docs",
+                        "Tokens":  11789
+                    }
+                ],
+    "totalTokens":  25953,
+    "files":  [
+                  {
+                      "File":  "instructions\\compliance\\documentation.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  184,
+                      "Words":  96,
+                      "Chars":  733
+                  },
+                  {
+                      "File":  "instructions\\compliance\\security.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  157,
+                      "Words":  78,
+                      "Chars":  625
+                  },
+                  {
+                      "File":  "instructions\\global\\00_behavior.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  210,
+                      "Words":  113,
+                      "Chars":  840
+                  },
+                  {
+                      "File":  "instructions\\global\\01_quality.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  367,
+                      "Words":  196,
+                      "Chars":  1467
+                  },
+                  {
+                      "File":  "instructions\\global\\02_security.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  201,
+                      "Words":  102,
+                      "Chars":  803
+                  },
+                  {
+                      "File":  "instructions\\languages\\python.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  1217,
+                      "Words":  650,
+                      "Chars":  4866
+                  },
+                  {
+                      "File":  "instructions\\workflows\\conductor.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  268,
+                      "Words":  138,
+                      "Chars":  1070
+                  },
+                  {
+                      "File":  "instructions\\workflows\\implementer.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  237,
+                      "Words":  133,
+                      "Chars":  946
+                  },
+                  {
+                      "File":  "instructions\\workflows\\planner.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  227,
+                      "Words":  121,
+                      "Chars":  907
+                  },
+                  {
+                      "File":  "instructions\\workflows\\researcher.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  216,
+                      "Words":  109,
+                      "Chars":  861
+                  },
+                  {
+                      "File":  "instructions\\workflows\\reviewer.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  221,
+                      "Words":  111,
+                      "Chars":  881
+                  },
+                  {
+                      "File":  ".github\\agents\\billy-butcher.agent.md",
+                      "Category":  "agents",
+                      "Tokens":  631,
+                      "Words":  341,
+                      "Chars":  2524
+                  },
+                  {
+                      "File":  ".github\\agents\\conductor.agent.md",
+                      "Category":  "agents",
+                      "Tokens":  774,
+                      "Words":  385,
+                      "Chars":  3096
+                  },
+                  {
+                      "File":  ".github\\agents\\docs.agent.md",
+                      "Category":  "agents",
+                      "Tokens":  617,
+                      "Words":  313,
+                      "Chars":  2466
+                  },
+                  {
+                      "File":  ".github\\agents\\implementer.agent.md",
+                      "Category":  "agents",
+                      "Tokens":  667,
+                      "Words":  345,
+                      "Chars":  2665
+                  },
+                  {
+                      "File":  ".github\\agents\\performance.agent.md",
+                      "Category":  "agents",
+                      "Tokens":  628,
+                      "Words":  310,
+                      "Chars":  2511
+                  },
+                  {
+                      "File":  ".github\\agents\\planner.agent.md",
+                      "Category":  "agents",
+                      "Tokens":  575,
+                      "Words":  288,
+                      "Chars":  2297
+                  },
+                  {
+                      "File":  ".github\\agents\\researcher.agent.md",
+                      "Category":  "agents",
+                      "Tokens":  449,
+                      "Words":  218,
+                      "Chars":  1796
+                  },
+                  {
+                      "File":  ".github\\agents\\reviewer.agent.md",
+                      "Category":  "agents",
+                      "Tokens":  564,
+                      "Words":  287,
+                      "Chars":  2254
+                  },
+                  {
+                      "File":  ".github\\agents\\security.agent.md",
+                      "Category":  "agents",
+                      "Tokens":  622,
+                      "Words":  312,
+                      "Chars":  2487
+                  },
+                  {
+                      "File":  ".github\\chatmodes\\billy-butcher.chatmode.md",
+                      "Category":  "agents",
+                      "Tokens":  80,
+                      "Words":  39,
+                      "Chars":  317
+                  },
+                  {
+                      "File":  ".github\\chatmodes\\conductor.chatmode.md",
+                      "Category":  "agents",
+                      "Tokens":  802,
+                      "Words":  406,
+                      "Chars":  3207
+                  },
+                  {
+                      "File":  ".github\\chatmodes\\planner.chatmode.md",
+                      "Category":  "agents",
+                      "Tokens":  675,
+                      "Words":  341,
+                      "Chars":  2698
+                  },
+                  {
+                      "File":  ".github\\prompts\\implementation\\execute-phase.prompt.md",
+                      "Category":  "prompts",
+                      "Tokens":  474,
+                      "Words":  267,
+                      "Chars":  1894
+                  },
+                  {
+                      "File":  ".github\\prompts\\planning\\multi-phase-plan.prompt.md",
+                      "Category":  "prompts",
+                      "Tokens":  572,
+                      "Words":  316,
+                      "Chars":  2286
+                  },
+                  {
+                      "File":  ".github\\prompts\\research\\context-dossier.prompt.md",
+                      "Category":  "prompts",
+                      "Tokens":  498,
+                      "Words":  274,
+                      "Chars":  1989
+                  },
+                  {
+                      "File":  ".github\\prompts\\review\\structured-review.prompt.md",
+                      "Category":  "prompts",
+                      "Tokens":  445,
+                      "Words":  238,
+                      "Chars":  1778
+                  },
+                  {
+                      "File":  ".github\\prompts\\support\\onboarding-playbook.prompt.md",
+                      "Category":  "prompts",
+                      "Tokens":  504,
+                      "Words":  266,
+                      "Chars":  2013
+                  },
+                  {
+                      "File":  ".github\\prompts\\support\\performance-audit.prompt.md",
+                      "Category":  "prompts",
+                      "Tokens":  544,
+                      "Words":  282,
+                      "Chars":  2175
+                  },
+                  {
+                      "File":  ".github\\prompts\\support\\security-review.prompt.md",
+                      "Category":  "prompts",
+                      "Tokens":  538,
+                      "Words":  287,
+                      "Chars":  2151
+                  },
+                  {
+                      "File":  "docs\\CHANGELOG.md",
+                      "Category":  "docs",
+                      "Tokens":  642,
+                      "Words":  271,
+                      "Chars":  2568
+                  },
+                  {
+                      "File":  "docs\\operations.md",
+                      "Category":  "docs",
+                      "Tokens":  793,
+                      "Words":  438,
+                      "Chars":  3169
+                  },
+                  {
+                      "File":  "docs\\README.md",
+                      "Category":  "docs",
+                      "Tokens":  517,
+                      "Words":  262,
+                      "Chars":  2066
+                  },
+                  {
+                      "File":  "docs\\guides\\onboarding.md",
+                      "Category":  "docs",
+                      "Tokens":  1225,
+                      "Words":  583,
+                      "Chars":  4900
+                  },
+                  {
+                      "File":  "docs\\guides\\sample-agent-session.md",
+                      "Category":  "docs",
+                      "Tokens":  484,
+                      "Words":  265,
+                      "Chars":  1936
+                  },
+                  {
+                      "File":  "docs\\guides\\vscode-copilot-configuration.md",
+                      "Category":  "docs",
+                      "Tokens":  830,
+                      "Words":  387,
+                      "Chars":  3319
+                  },
+                  {
+                      "File":  "docs\\templates\\agents-root.md",
+                      "Category":  "docs",
+                      "Tokens":  154,
+                      "Words":  82,
+                      "Chars":  615
+                  },
+                  {
+                      "File":  "docs\\templates\\phase-complete.md",
+                      "Category":  "docs",
+                      "Tokens":  97,
+                      "Words":  45,
+                      "Chars":  385
+                  },
+                  {
+                      "File":  "docs\\templates\\plan-complete.md",
+                      "Category":  "docs",
+                      "Tokens":  103,
+                      "Words":  56,
+                      "Chars":  412
+                  },
+                  {
+                      "File":  "docs\\templates\\plan.md",
+                      "Category":  "docs",
+                      "Tokens":  131,
+                      "Words":  69,
+                      "Chars":  523
+                  },
+                  {
+                      "File":  "docs\\workflows\\agent-instruction-gap-analysis.md",
+                      "Category":  "docs",
+                      "Tokens":  1493,
+                      "Words":  762,
+                      "Chars":  5971
+                  },
+                  {
+                      "File":  "docs\\workflows\\new-workspace-blueprint.md",
+                      "Category":  "docs",
+                      "Tokens":  1590,
+                      "Words":  809,
+                      "Chars":  6360
+                  },
+                  {
+                      "File":  "docs\\workflows\\new-workspace-setup-checklist.md",
+                      "Category":  "docs",
+                      "Tokens":  918,
+                      "Words":  471,
+                      "Chars":  3669
+                  },
+                  {
+                      "File":  "docs\\workflows\\orchestration-rebuild-plan.md",
+                      "Category":  "docs",
+                      "Tokens":  2812,
+                      "Words":  1492,
+                      "Chars":  11247
+                  }
+              ],
+    "generatedAt":  "2025-11-07T16:29:40.7769425+00:00",
+    "thresholds":  {
+                       "total":  120000,
+                       "categories":  {
+                                          "instructions":  40000,
+                                          "docs":  80000,
+                                          "agents":  60000,
+                                          "prompts":  50000
+                                      }
+                   }
+}

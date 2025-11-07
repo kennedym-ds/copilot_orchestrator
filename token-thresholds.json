@@ -1,0 +1,10 @@
+{
+  "totalThreshold": 120000,
+  "failOnThreshold": true,
+  "categoryThresholds": {
+    "instructions": 40000,
+    "agents": 60000,
+    "prompts": 50000,
+    "docs": 80000
+  }
+}

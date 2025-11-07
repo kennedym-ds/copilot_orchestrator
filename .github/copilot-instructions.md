@@ -1,0 +1,40 @@
+# Copilot Orchestrator Workspace Instructions
+
+Welcome! This workspace is tuned for the conductor-led multi-agent workflow defined in `AGENTS.md` and `docs/workflows/`. Follow these guardrails to keep VS Code, Copilot agents, and repository automation in sync.
+
+## Workspace Configuration
+- Use **VS Code Insiders** so you can access Agent Sessions, chat handoffs, and nested `AGENTS.md` support.
+- Enable the GitHub Copilot Chat extension and sign in with a subscription that unlocks premium and efficiency models.
+- Add the following settings (user or workspace) to ensure prompt, chat mode, and nested instruction files load correctly:
+
+```json
+{
+	"chat.useAgentsMdFile": true,
+	"chat.useNestedAgentsMdFiles": true,
+	"chat.promptFiles": true,
+	"chat.modeFilesLocations": [".github/chatmodes"],
+	"chat.promptFilesLocations": [".github/prompts"]
+}
+```
+
+## Instruction Mesh
+- Treat the root `AGENTS.md` as the canonical overview of architecture, tooling, and guardrails.
+- Workflow-specific behaviors live under `instructions/workflows/`; language or compliance overlays live under `instructions/global/` and `instructions/compliance/`.
+- Nested `AGENTS.md` files in `.github/prompts/` and other directories may supplement the root file; VS Code Insiders loads them automatically when the settings above are enabled.
+
+## Lifecycle Guardrails
+- Always begin complex work in the `conductor` chat mode; it orchestrates planning → implementation → review → completion and enforces pause points.
+- Use handoff buttons (Planner → Implementer → Reviewer → Conductor) instead of switching modes manually so context and prompts stay aligned.
+- Persist artifacts in `plans/` (plan draft, per-phase summaries, completion report) using templates from `docs/templates/`.
+
+## Validation & Tooling
+- After modifying instructions, prompts, or chat modes, run:
+	- `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
+	- `pwsh -File scripts/add-prompt-metadata.ps1 -RepositoryRoot . -CheckOnly`
+	- `pwsh -File scripts/token-report.ps1 -Path .`
+- Capture command output in PR descriptions and update `docs/CHANGELOG.md` for notable instruction or prompt changes.
+
+## Documentation & Onboarding
+- Review `docs/workflows/orchestration-rebuild-plan.md`, `docs/workflows/new-workspace-blueprint.md`, and the new `docs/workflows/agent-instruction-gap-analysis.md` for roadmap and gap insights.
+- Reference `docs/guides/onboarding.md` and `docs/operations.md` for enablement materials, metrics, and backlog tracking.
+- Log gaps or follow-up work in `docs/operations.md` so the conductor can prioritize the next iteration.

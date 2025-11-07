@@ -1,0 +1,65 @@
+name: Validation Suite
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: validation-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  tooling:
+    name: Run Copilot validation toolkit
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Validate Copilot assets
+        run: .\scripts\validate-copilot-assets.ps1 -RepositoryRoot .
+
+      - name: Check prompt metadata
+        run: .\scripts\add-prompt-metadata.ps1 -RepositoryRoot . -CheckOnly
+
+      - name: Run Markdown lint checks
+        run: .\scripts\run-lint.ps1 -RepositoryRoot .
+
+      - name: Run repository smoke tests
+        run: .\scripts\run-smoke-tests.ps1 -RepositoryRoot .
+
+      - name: Generate token budget report
+        run: |
+          if (-not (Test-Path -LiteralPath artifacts)) {
+            New-Item -ItemType Directory -Path artifacts | Out-Null
+          }
+          .\scripts\token-report.ps1 -Path . -OutputPath artifacts\token-report.json -ConfigPath token-thresholds.json
+
+      - name: Upload token report
+        uses: actions/upload-artifact@v4
+        with:
+          name: token-report
+          path: artifacts/token-report.json
+          retention-days: 5
+
+      - name: Install Pester
+        run: |
+          if (-not (Get-Module -ListAvailable -Name Pester)) {
+            Install-Module Pester -Scope CurrentUser -Force -SkipPublisherCheck
+          }
+
+      - name: Run PowerShell tests
+        run: Invoke-Pester -Path tests
