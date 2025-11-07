@@ -1,6 +1,8 @@
 ---
 description: "Baseline collaboration style, safety posture, and ethics for all personas."
 applyTo: "**/*.{md,ps1,psm1,psd1,yml,yaml,json}"
+version: "1.0.0"
+lastUpdated: "2025-11-07"
 ---
 
 # Global Behavior & Safety Contract

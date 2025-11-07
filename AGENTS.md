@@ -34,6 +34,8 @@ Supporting documentation:
 | Prompt metadata check | `pwsh -File scripts/add-prompt-metadata.ps1 -RepositoryRoot . -CheckOnly` |
 | Token budget report | `pwsh -File scripts/token-report.ps1 -Path .` |
 | PowerShell regression tests | `Invoke-Pester -Path tests -Output Detailed` |
+| **Session analytics** | **`pwsh -File scripts/analyze-sessions.ps1`** |
+| **View metrics dashboard** | **`docs/dashboards/workflow-metrics.md`** |
 
 **Shell expectations**
 
@@ -57,7 +59,7 @@ All agents must honor the global instructions in `instructions/global/*.instruct
 
 - Use premium reasoning models (GPT-5, Claude Sonnet 4.5, Gemini 2.5 Pro).
 - Perform live research for every external reference via `fetch_webpage` and capture findings, options, assumptions, and open questions.
-- Produce plans aligned with `docs/templates/plan.md` and avoid implementation actions.
+- Produce plans aligned with `docs/templates/plan.md` (including Mermaid diagrams when applicable) and avoid implementation actions.
 
 ### Implementer
 
@@ -69,6 +71,7 @@ All agents must honor the global instructions in `instructions/global/*.instruct
 
 - Review only, never apply fixes. Return status (`APPROVED`, `NEEDS_REVISION`, `FAILED`) with severity-tagged findings.
 - Confirm tests were executed and recommend additional coverage when gaps appear.
+- **Billy Butcher variant**: Adversarial "red team" review actively tries to break the implementation with edge cases, security scenarios, and resource exhaustion attacks.
 
 ### Support Personas
 
@@ -104,3 +107,36 @@ All agents must honor the global instructions in `instructions/global/*.instruct
 4. For major changes, attach sample Agent Sessions exports demonstrating the conductor workflow.
 
 If any guideline conflicts with immediate customer needs, escalate via the Conductor plan’s open questions rather than bypassing the guardrails.
+
+---
+
+## Observability & Continuous Improvement
+
+**Session Analytics** (see `docs/guides/session-analytics.md`):
+- Track workflow metrics with `scripts/analyze-sessions.ps1`
+- Monitor: escalation patterns, model usage/cost, quality metrics, phase durations
+- View dashboard: `docs/dashboards/workflow-metrics.md`
+- Targets: ≤20% premium model usage, ≥90% review approval rate
+
+**Instruction Evolution** (see `INSTRUCTION_CHANGELOG.md`):
+- All instruction files include version metadata
+- Changes tracked with before/after metrics
+- Rollback procedures documented
+- A/B testing framework for instruction variants
+
+**Quality Enhancement**:
+- Billy Butcher agent provides adversarial "red team" review
+- Multi-perspective review (standard + adversarial)
+- Severity-tagged findings (BLOCKER, MAJOR, MINOR, NIT)
+- Automated validation scripts and tests
+
+**Process Metrics**:
+- Run analytics weekly/monthly: `pwsh -File scripts/analyze-sessions.ps1 -StartDate (Get-Date).AddMonths(-1)`
+- Compare metrics before/after instruction changes
+- Document patterns in `docs/operations.md`
+- Update escalation triggers based on data
+
+**Contribution Updates**:
+- Track instruction changes in `INSTRUCTION_CHANGELOG.md` with expected impact and metrics
+- Update session metadata in `plans/sessions/` to enable analytics
+- Include Mermaid diagrams in plans for complex architectures
