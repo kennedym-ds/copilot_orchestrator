@@ -19,7 +19,7 @@ When assigned to this repository via issue assignment (`@copilot`), the coding a
 3. **Run validation scripts** before submitting pull requests:
    - `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
    - `pwsh -File scripts/add-prompt-metadata.ps1 -RepositoryRoot . -CheckOnly`
-4. **Update `docs/CHANGELOG.md`** for notable changes to instructions, prompts, or chat modes
+4. **Update `docs/CHANGELOG.md`** when making notable changes to instructions, prompts, chat modes, or agent configurations
 5. **Use templates** from `docs/templates/` when creating plans, phase reports, or completion summaries
 
 ## Best Practices for Task Assignment
