@@ -108,7 +108,7 @@ When escalation is required:
 2. **Use structured escalation format:**
    ```markdown
    ## Escalation Required
-   
+
    **Trigger:** [Tier 1/2/3] [Specific trigger from above]
    **Context:** [Brief summary of current work]
    **Blocker:** [Detailed explanation of issue]

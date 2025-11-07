@@ -14,7 +14,7 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 ### Planning/Review Tier (Premium Models)
 
-**Target allocation:** 20% of total invocations  
+**Target allocation:** 20% of total invocations
 **Use cases:** Research, architecture decisions, ambiguity resolution, code review, threat modeling
 
 | Agent | Primary Model | Reasoning Capability | Context Window | Cost Tier |
@@ -34,7 +34,7 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 ### Execution Tier (Cost-Efficient Models)
 
-**Target allocation:** 80% of total invocations  
+**Target allocation:** 80% of total invocations
 **Use cases:** Structured implementation, test execution, routine refactoring
 
 | Agent | Primary Model | Execution Capability | Context Window | Cost Tier |
@@ -64,7 +64,7 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 #### Implementer (Execution Tier)
 
-**Primary:** GPT-4.1  
+**Primary:** GPT-4.1
 **Fallback sequence:**
 1. Claude Haiku 4.5 (similar cost, different architecture)
 2. GPT-5 Mini (lower cost, still capable for structured tasks)
@@ -78,7 +78,7 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 #### Conductor (Premium Tier)
 
-**Primary:** Claude Sonnet 4.5  
+**Primary:** Claude Sonnet 4.5
 **Fallback sequence:**
 1. GPT-5 (comparable reasoning, different architecture)
 2. Gemini 2.5 Pro (massive context window, strong synthesis)
@@ -92,7 +92,7 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 #### Planner (Premium Tier)
 
-**Primary:** GPT-5  
+**Primary:** GPT-5
 **Fallback sequence:**
 1. Claude Sonnet 4.5 (strong planning, lower context)
 2. Gemini 2.5 Pro (research-heavy planning)
@@ -106,7 +106,7 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 #### Researcher (Premium Tier)
 
-**Primary:** Gemini 2.5 Pro  
+**Primary:** Gemini 2.5 Pro
 **Fallback sequence:**
 1. Claude Opus (excellent synthesis, smaller context)
 2. GPT-5 (strong research, good web integration)
@@ -120,7 +120,7 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 #### Reviewer (Premium Tier)
 
-**Primary:** Claude Sonnet 4.5  
+**Primary:** Claude Sonnet 4.5
 **Fallback sequence:**
 1. GPT-5 (strong code understanding)
 2. Claude Opus (highest scrutiny for critical reviews)
@@ -134,7 +134,7 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 #### Docs (Execution Tier)
 
-**Primary:** Claude Haiku 4.5  
+**Primary:** Claude Haiku 4.5
 **Fallback sequence:**
 1. GPT-5 Mini (cost-efficient documentation)
 2. GPT-4.1 (structured writing)
@@ -147,7 +147,7 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 #### Security (Premium Tier)
 
-**Primary:** Claude Opus  
+**Primary:** Claude Opus
 **Fallback sequence:**
 1. Claude Sonnet 4.5 (strong security analysis, lower cost)
 2. GPT-5 (good threat modeling)
@@ -161,7 +161,7 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 #### Performance (Premium Tier)
 
-**Primary:** GPT-5  
+**Primary:** GPT-5
 **Fallback sequence:**
 1. Gemini 2.5 Pro (good analytical reasoning)
 2. Claude Sonnet 4.5 (cost-effective performance review)

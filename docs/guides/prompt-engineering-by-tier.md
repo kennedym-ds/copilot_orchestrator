@@ -296,7 +296,7 @@ Refactor the authentication code to be cleaner.
 ```
 Refactor `src/auth/login.js` to extract duplicated validation logic while keeping tests green.
 
-**Current state:** 
+**Current state:**
 - File: `src/auth/login.js` (100 lines)
 - Duplication: Email/password validation appears in 3 places
 - Tests: `tests/auth/login.test.js` (all passing)
