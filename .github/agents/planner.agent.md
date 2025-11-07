@@ -39,6 +39,7 @@ Adhere to `instructions/workflows/planner.instructions.md`.
 ## Deliverable Checklist
 
 - TL;DR summary including scope boundaries and success metrics.
+- **Diagrams** (when applicable): Architecture, workflow, or state machine diagrams using Mermaid syntax.
 - Phased breakdown with objectives, target files/functions, tests, and numbered steps (tests first, then implementation, then validation).
 - Risks, mitigations, and compliance checkpoints.
 - Open questions and decisions requiring human input.
