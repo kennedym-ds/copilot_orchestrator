@@ -27,6 +27,7 @@ All notable changes will be documented here following [Keep a Changelog](https:/
 - Promotional launch post (`docs/posts/orchestrator-launch-promo.md`) highlighting the multi-agent workflow and dataflow diagram.
 - Documentation refresh covering subagent invocation best practices and the `github.copilot.chat.tools.memory.enabled` requirement across README and setup guides.
 - Agent personas and workflow instructions now direct responses to embed explicit `#runSubagent {persona}` commands for every handoff.
+- Comprehensive reviewer playbook (`.copilot-review-instructions.md`) for the VS Code review selection feature.
 - Pester-based regression suite for validation scripts and CI step to run `Invoke-Pester -Path tests`.
 - Configurable token thresholds in `token-report.ps1` with category-aware warnings and JSON output metadata.
 - Markdown lint check automation (`scripts/run-lint.ps1`) and repository smoke test harness (`scripts/run-smoke-tests.ps1`).

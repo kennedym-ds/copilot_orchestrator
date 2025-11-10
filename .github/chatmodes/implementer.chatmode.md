@@ -1,1 +1,0 @@
-# Deprecated legacy chat mode placeholder. Implementer persona now lives in `.github/agents/implementer.agent.md`.
