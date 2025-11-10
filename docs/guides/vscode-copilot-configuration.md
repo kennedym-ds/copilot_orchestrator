@@ -1,5 +1,5 @@
 title: "VS Code Copilot Configuration"
-version: "0.2.0"
+version: "0.3.0"
 lastUpdated: "2025-11-10"
 status: draft
 ---
@@ -75,7 +75,7 @@ You can register the paths globally in your user `settings.json` (recommended fo
 - `AGENTS.md` plus nested variants for persona and workflow rules.
 - Scoped instruction overlays under `instructions/` and `.github/instructions/` (behavior, compliance, language-specific).
 - Prompt libraries for planning, implementation, review, research, and support personas.
-- Chat modes and agent definitions with full handoff buttons (Conductor, Planner, Implementer, Reviewer, Researcher, Security, Performance, Docs).
+- Chat modes and agent definitions with full handoff buttons (Conductor, Planner, Implementer, Reviewer, Researcher, Maintainer, Security, Performance, Visualizer, Data Analytics, Docs).
 
 ## Optional Enhancements
 - Define tool set collections via `chat.tools.sets` when you create shared tool groups in `.github/toolsets.jsonc`.
@@ -84,7 +84,7 @@ You can register the paths globally in your user `settings.json` (recommended fo
 
 ## Verification Checklist
 1. Restart VS Code Insiders after saving the settings.
-2. Open the Chat view and confirm custom modes (Conductor, Planner, Implementer, Reviewer, Researcher, Security, Performance, Docs) appear in the mode picker.
+2. Open the Chat view and confirm custom modes (Conductor, Planner, Implementer, Reviewer, Researcher, Maintainer, Security, Performance, Visualizer, Data Analytics, Docs) appear in the mode picker.
 3. Type `/` in chat and ensure prompt files from `.github/prompts` are listed.
 4. Select a mode and verify handoff buttons appear after responses.
 5. Run `./scripts/run-lint.ps1`, `./scripts/run-smoke-tests.ps1`, and `Invoke-Pester -Path tests` to confirm instructions and prompts remain valid.

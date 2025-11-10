@@ -69,7 +69,7 @@ Always capture open questions and escalate blockers via the conductor before pro
 	```
 
 	The `.agent.md` files are the canonical persona definitions. The `.chatmode.md` directory is retained for backward compatibility with older Insider builds.
-- After saving the settings, restart VS Code and verify in the Agent Sessions view that Conductor, Planner, Implementer, Reviewer, Researcher, Security, Performance, and Docs appear in the agent picker.
+- After saving the settings, restart VS Code and verify in the Agent Sessions view that Conductor, Planner, Implementer, Reviewer, Researcher, Maintainer, Security, Performance, Visualizer, Data Analytics, and Docs appear in the agent picker.
 
 ## Instruction Mesh
 
@@ -99,4 +99,4 @@ Always capture open questions and escalate blockers via the conductor before pro
 - Review `docs/workflows/orchestration-rebuild-plan.md`, `docs/workflows/new-workspace-blueprint.md`, and `docs/workflows/agent-instruction-gap-analysis.md` to understand the roadmap and guardrails.
 - Use `docs/guides/onboarding.md`, `docs/guides/vscode-copilot-configuration.md`, and `docs/guides/sample-agent-session.md` for enablement and training.
 - Track follow-up work, incidents, and backlog items in `docs/operations.md`; record notable instruction changes in `INSTRUCTION_CHANGELOG.md`.
-- Engage the security, performance, and docs personas whenever risks or documentation gaps surface; document all outcomes in the relevant plan or phase artifact.
+- Engage the maintainer, security, performance, visualizer, data analytics, and docs personas whenever risks or documentation gaps surface; document all outcomes in the relevant plan or phase artifact.

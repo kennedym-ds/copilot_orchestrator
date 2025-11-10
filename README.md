@@ -1,6 +1,6 @@
 ---
 title: "Copilot Orchestrator"
-version: "0.2.0"
+version: "0.3.0"
 lastUpdated: "2025-11-10"
 status: draft
 ---
@@ -50,7 +50,8 @@ All personas are authored as `.agent.md` files with explicit tool scopes and han
 - **Implementer** — executes phases with TDD discipline and comprehensive validation logs.
 - **Reviewer** — delivers severity-tagged findings and guards quality, security, and compliance.
 - **Researcher** — gathers context with recursive fetches and option analysis.
-- **Security**, **Performance**, **Docs** — specialist personas for targeted follow-ups and release readiness.
+- **Maintainer** — triages issues, packages pull requests, and keeps validation artifacts current.
+- **Security**, **Performance**, **Visualizer**, **Data Analytics**, **Docs** — specialist personas for targeted follow-ups and release readiness.
 
 Each agent surfaces consistent handoffs so user-facing workflows remain one click away (for example Planner → Implementer → Reviewer → Conductor, with optional Security/Performance/Docs checkpoints).
 
@@ -83,10 +84,6 @@ Record validation output in pull requests and update `docs/CHANGELOG.md` for not
 
 ## Learn More
 
-- `AGENTS.md` — mission, architecture, and workflow guardrails.
-- `docs/workflows/` — strategic plans, blueprints, and setup checklists.
-- `docs/guides/` — onboarding, VS Code configuration, sample agent transcripts.
-- `docs/templates/` — plan, phase, and completion templates used by the conductor.
-- `docs/operations.md` — monitoring cadence, metrics, and backlog tracking.
+- `docs/posts/orchestrator-launch-promo.md` — promotional overview with end-to-end dataflow diagram for a sample request.
 
 The repository is production-ready; downstream workspaces simply reference it via settings to adopt the same multi-agent conductor experience.

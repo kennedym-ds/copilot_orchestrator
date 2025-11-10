@@ -21,7 +21,10 @@ All notable changes will be documented here following [Keep a Changelog](https:/
 - Onboarding documentation (`docs/guides/onboarding.md`, `docs/guides/sample-agent-session.md`) and sample plan artifacts under `plans/samples/`.
 - Compliance overlay for documentation (`instructions/compliance/documentation.instructions.md`).
 - Support personas for security, performance, and documentation (`.github/agents/**`) with companion prompts and conductor handoffs.
+- Support personas for security, performance, visual design, data analytics, and documentation (`.github/agents/**`) with companion prompts and conductor handoffs.
 - Expanded onboarding guide covering VS Code Insiders configuration, Agent Sessions, and support-persona coordination.
+- Maintainer, visualizer, and data analytics personas documented with workflow overlays and VS Code setup guidance updates.
+- Promotional launch post (`docs/posts/orchestrator-launch-promo.md`) highlighting the multi-agent workflow and dataflow diagram.
 - Pester-based regression suite for validation scripts and CI step to run `Invoke-Pester -Path tests`.
 - Configurable token thresholds in `token-report.ps1` with category-aware warnings and JSON output metadata.
 - Markdown lint check automation (`scripts/run-lint.ps1`) and repository smoke test harness (`scripts/run-smoke-tests.ps1`).
@@ -34,4 +37,4 @@ All notable changes will be documented here following [Keep a Changelog](https:/
 
 ### Next
 - Add scheduled validation runs leveraging the new lint and smoke test scripts.
-- Explore additional support personas (accessibility, observability, deployment) as orchestration coverage grows.
+- Explore additional support personas (observability, deployment) as orchestration coverage grows.

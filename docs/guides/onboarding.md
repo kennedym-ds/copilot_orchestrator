@@ -1,7 +1,7 @@
 ---
 title: "Copilot Orchestrator Onboarding Guide"
-version: "0.1.0"
-lastUpdated: "2025-11-07"
+version: "0.2.0"
+lastUpdated: "2025-11-10"
 status: draft
 ---
 
@@ -24,7 +24,7 @@ This guide accelerates new contributors joining the Copilot Orchestrator project
 | Root instructions | `AGENTS.md` | Source-of-truth for roles, tooling, and validation expectations. |
 | Validation scripts | `scripts/*.ps1` | Automated checks for instructions, prompts, token budgets, and now covered by Pester tests. |
 | Prompt library | `.github/prompts/` | Personas-specific prompts used by the conductor, subagents, and support reviewers. |
-| Support personas | `.github/agents/{security,performance,docs}.agent.md` | Security, performance, and documentation specialists with lightweight toolsets. |
+| Support personas | `.github/agents/{maintainer,security,performance,visualizer,data-analytics,docs}.agent.md` | Specialists covering triage, security, performance, UX, analytics, and documentation follow-ups. |
 | Plan templates | `docs/templates/` | Structures for plan, phase summary, and completion artifacts. |
 | Sample plans | `plans/samples/` | Filled examples demonstrating the conductor deliverables. |
 | Operations backlog | `docs/operations.md` | Tracks outstanding tasks, owners, and status. |
@@ -33,17 +33,20 @@ This guide accelerates new contributors joining the Copilot Orchestrator project
 1. **Review Guidance:** Read `AGENTS.md`, relevant workflow instructions, and this onboarding guide.
 2. **Configure VS Code:** Enable the following settings (user or workspace) to load nested instructions, chat agents, and prompts (see `docs/guides/vscode-copilot-configuration.md` for details):
    ```json
-   {
-     "chat.useAgentsMdFile": true,
-     "chat.useNestedAgentsMdFiles": true,
-     "chat.instructionsFilesLocations": [
-        "instructions",
-        ".github/instructions"
-      ],
-      "chat.promptFiles": true,
-     "chat.modeFilesLocations": [".github/chatmodes"],
-     "chat.promptFilesLocations": [".github/prompts"]
-   }
+    {
+       "chat.useAgentsMdFile": true,
+       "chat.useNestedAgentsMdFiles": true,
+       "chat.instructionsFilesLocations": [
+            "instructions",
+            ".github/instructions"
+         ],
+         "chat.promptFiles": true,
+       "chat.promptFilesLocations": [".github/prompts"],
+       "chat.modeFilesLocations": [
+          ".github/agents",
+          ".github/chatmodes"
+       ]
+    }
    ```
 3. **Explore Samples:** Open files under `plans/samples/` to see completed plan, phase, and completion artifacts.
 4. **Validate Local Clone:**
@@ -55,7 +58,7 @@ This guide accelerates new contributors joining the Copilot Orchestrator project
    pwsh -File scripts/token-report.ps1 -Path . -ConfigPath token-thresholds.json
    Invoke-Pester -Path tests
    ```
-5. **Launch Conductor:** Use the `conductor` chat mode (`.github/chatmodes/conductor.chatmode.md`) with a simple task to walkthrough plan → implementation → review, invoking support personas when security, performance, or documentation follow-ups arise.
+5. **Launch Conductor:** Use the `conductor` chat mode (`.github/chatmodes/conductor.chatmode.md`) with a simple task to walkthrough plan → implementation → review, invoking support personas when triage, security, performance, visual, analytics, or documentation follow-ups arise.
 6. **Capture Notes:** Log questions, risks, or missing guidance in `docs/operations.md` under the backlog table.
 
 ## Agent Sessions & Handoffs
