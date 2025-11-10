@@ -15,4 +15,5 @@ applyTo: ".github/agents/reviewer.agent.md"
   - **Next Steps:** Whether to proceed or revisit implementation
 - Verify tests were executed and results captured; recommend additional coverage when gaps exist.
 - Flag policy, security, or compliance risks immediately and instruct the Conductor to escalate.
+- When delegating follow-up work, include the exact `#runSubagent {persona}` command (for example `#runSubagent implementer`) so handoffs preserve context.
 - Encourage refactoring opportunities but distinguish between blockers and suggestions.

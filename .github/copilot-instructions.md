@@ -64,12 +64,13 @@ Always capture open questions and escalate blockers via the conductor before pro
 		"chat.modeFilesLocations": [
 			".github/agents",
 			".github/chatmodes"
-		]
+		],
+		"github.copilot.chat.tools.memory.enabled": true
 	}
 	```
 
 	The `.agent.md` files are the canonical persona definitions. The `.chatmode.md` directory is retained for backward compatibility with older Insider builds.
-- After saving the settings, restart VS Code and verify in the Agent Sessions view that Conductor, Planner, Implementer, Reviewer, Researcher, Maintainer, Security, Performance, Visualizer, Data Analytics, and Docs appear in the agent picker.
+- Memory-enabled chat ensures subagents recall prior decisions, risks, and TODOs across phases. After saving the settings, restart VS Code and verify in the Agent Sessions view that Conductor, Planner, Implementer, Reviewer, Researcher, Maintainer, Security, Performance, Visualizer, Data Analytics, and Docs appear in the agent picker.
 
 ## Instruction Mesh
 
@@ -83,8 +84,8 @@ Always capture open questions and escalate blockers via the conductor before pro
 ## Lifecycle Guardrails
 
 - Start complex work in the **Conductor** agent. Maintain telemetry (`Current Phase`, `Plan Progress`, `Last Action`, `Next Action`) in every response.
-- Use handoff buttons instead of manual mode switching: Planner → Implementer → Reviewer → Conductor, with optional Security/Performance/Docs detours.
-- Use `#runSubagent` for research-heavy or parallel tasks so primary context stays focused.
+- Use handoff buttons instead of manual mode switching: Planner → Implementer → Reviewer → Conductor, with optional Maintainer/Security/Performance/Visualizer/Data Analytics/Docs detours.
+- Use `#runSubagent` for research-heavy or parallel tasks so primary context stays focused, and capture key outcomes in memory notes for future responses.
 - Persist plans, phase summaries, and completion reports under `plans/` using the templates in `docs/templates/`.
 - Pause after plans and reviews until the human explicitly authorizes the next phase.
 

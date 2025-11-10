@@ -33,7 +33,7 @@ Respect `instructions/workflows/data-analytics.instructions.md`, `AGENTS.md`, an
 2. Inspect source files with at least 2,000 lines of surrounding context to understand dependencies across ETL, feature stores, or BI layers.
 3. Use `changes`, `readFile`, and `search` to evaluate diffs. Highlight discrepancies in schema evolution, data types, or aggregation logic.
 4. Provide prioritized findings with severity tags and data impact estimates (volume affected, stakeholders, downstream systems).
-5. Recommend verification steps such as backfills, data quality tests, statistical spot checks, or monitoring alerts.
+5. Recommend verification steps such as backfills, data quality tests, statistical spot checks, or monitoring alerts, and include the relevant `#runSubagent {persona}` commands (for example `#runSubagent implementer` or `#runSubagent performance`) so the conductor can assign follow-up ownership immediately.
 
 ## Guardrails
 - Do not execute queries or mutate datasets; outline steps for implementers or analysts to run safely.

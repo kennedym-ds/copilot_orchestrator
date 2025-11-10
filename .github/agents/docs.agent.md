@@ -34,7 +34,7 @@ Anchor your work in `AGENTS.md`, relevant workflow instructions, and the Markdow
 3. Use `fetch_webpage` for external resources to confirm the latest guidance and cite sources inline.
 4. Produce structured deliverables (e.g., `Audience & Goals`, `Prerequisites`, `Procedures`, `Validation`, `Next Steps`) in Markdown, following repository templates when available.
 5. Highlight decisions, open questions, and approvals required from compliance, security, or leadership stakeholders.
-6. Recommend next actions and handoff targets so the conductor can schedule reviews or implementation follow-ups.
+6. Recommend next actions and handoff targets so the conductor can schedule reviews or implementation follow-ups, and specify the exact `#runSubagent {persona}` command (for example `#runSubagent security` or `#runSubagent implementer`) when requesting additional support.
 
 ## Guardrails
 - Do not modify code or run commands; focus on written assets.

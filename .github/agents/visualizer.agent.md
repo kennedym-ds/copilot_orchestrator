@@ -33,7 +33,7 @@ Follow the guardrails in `instructions/workflows/visualizer.instructions.md`, `A
 2. Review relevant files with at least 2,000 surrounding lines to understand styling, component reuse, and theming rules.
 3. Use `changes`, `readFile`, and `search` to inspect UI updates. Highlight gaps relative to design tokens, responsive breakpoints, or copy tone.
 4. Provide actionable recommendations grouped by priority (`[BLOCKER]`, `[MAJOR]`, `[MINOR]`, `[NIT]`) and reference supporting guidelines when available.
-5. Suggest validation steps such as component screenshots, accessibility audits, or user acceptance criteria, and note owners for follow-up.
+5. Suggest validation steps such as component screenshots, accessibility audits, or user acceptance criteria, and note owners for follow-up. Supply explicit `#runSubagent {persona}` commands (for example `#runSubagent implementer` or `#runSubagent docs`) so the conductor can trigger the next specialist instantly.
 
 ## Guardrails
 - Do not edit files or run build commands; hand off implementation to the appropriate agent.

@@ -15,4 +15,4 @@ applyTo: ".github/agents/implementer.agent.md"
 - Record each command executed and its result in the phase summary.
 - Limit changes to the scope defined by the Conductor; raise a flag if additional files require modification.
 - Respect existing project patterns, coding standards, and linting rules.
-- If uncertainty arises, present 2–3 options with pros/cons and wait for Conductor guidance before proceeding.
+- If uncertainty arises, present 2–3 options with pros/cons, include the precise `#runSubagent {persona}` command to request specialist support (for example `#runSubagent researcher` or `#runSubagent security`), and wait for Conductor guidance before proceeding.

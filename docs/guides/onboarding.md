@@ -45,11 +45,13 @@ This guide accelerates new contributors joining the Copilot Orchestrator project
        "chat.modeFilesLocations": [
           ".github/agents",
           ".github/chatmodes"
-       ]
+       ],
+       "github.copilot.chat.tools.memory.enabled": true
     }
    ```
 3. **Explore Samples:** Open files under `plans/samples/` to see completed plan, phase, and completion artifacts.
-4. **Validate Local Clone:**
+4. **Enable Memory Notes:** Open the Chat sidebar, locate **Chat History & Memory**, and pin any project context that downstream subagents should inherit before starting work.
+5. **Validate Local Clone:**
    ```
    pwsh -File scripts/run-lint.ps1
    pwsh -File scripts/run-smoke-tests.ps1
@@ -58,12 +60,12 @@ This guide accelerates new contributors joining the Copilot Orchestrator project
    pwsh -File scripts/token-report.ps1 -Path . -ConfigPath token-thresholds.json
    Invoke-Pester -Path tests
    ```
-5. **Launch Conductor:** Use the `conductor` chat mode (`.github/chatmodes/conductor.chatmode.md`) with a simple task to walkthrough plan → implementation → review, invoking support personas when triage, security, performance, visual, analytics, or documentation follow-ups arise.
-6. **Capture Notes:** Log questions, risks, or missing guidance in `docs/operations.md` under the backlog table.
+6. **Launch Conductor:** Use the `conductor` chat mode (`.github/chatmodes/conductor.chatmode.md`) with a simple task to walkthrough plan → implementation → review, dispatching work via the handoff buttons or explicit `#runSubagent` commands for Planner, Implementer, Reviewer, and support personas.
+7. **Capture Notes:** Log questions, risks, or missing guidance in `docs/operations.md` under the backlog table.
 
 ## Agent Sessions & Handoffs
 - Open the **Agent Sessions** view in VS Code Insiders to monitor conductor, subagent, and support persona activity. Each lifecycle response includes `Current Phase`, `Plan Progress`, `Last Action`, and `Next Action` telemetry.
-- Use handoff buttons (Planner → Implementer → Reviewer → Support) instead of switching modes manually; the prefilled prompts preserve context and enforce pause points.
+- Use handoff buttons (Planner → Implementer → Reviewer → Support) or `#runSubagent` commands instead of switching modes manually; the prefilled prompts preserve context and enforce pause points.
 - When reviewing transcripts, confirm that plans, phase summaries, and completion reports are persisted under `plans/` and that support personas captured follow-up tasks.
 - If handoff buttons are missing, re-run the validation scripts above and confirm the chat/agent settings remain enabled.
 

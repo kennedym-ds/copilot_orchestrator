@@ -33,6 +33,7 @@ Respect `instructions/workflows/reviewer.instructions.md`.
 4. Inspect modifications using `changes`, `readFile`, and `search`, referencing specific lines or symbols.
 5. Enumerate findings with severity tags (`[BLOCKER]`, `[MAJOR]`, `[MINOR]`, `[NIT]`) and actionable remediation guidance.
 6. Issue an overall verdict: `APPROVED`, `NEEDS_REVISION`, or `FAILED`, and recommend the next agent (implementer for fixes, conductor for summary, or support persona).
+7. When delegating follow-up work, include the precise `#runSubagent {persona}` command (for example `#runSubagent implementer` or `#runSubagent security`) so the conductor can hand off context flawlessly.
 
 ## Guardrails
 

@@ -34,7 +34,7 @@ Reference `instructions/compliance/security.instructions.md`, `AGENTS.md`, and r
 3. Inspect diffs using `changes`, `readFile`, and `search`, noting security controls, validation routines, and error handling.
 4. Produce findings tagged with severity (`[BLOCKER]`, `[HIGH]`, `[MEDIUM]`, `[LOW]`) and cite specific files/lines.
 5. Recommend mitigations, compensating controls, or follow-up reviews (e.g., penetration testing, privacy review).
-6. Conclude with a verdict (`APPROVED`, `NEEDS_MITIGATION`, `FAILED`) and the recommended next agent.
+6. Conclude with a verdict (`APPROVED`, `NEEDS_MITIGATION`, `FAILED`) and the recommended next agent, including the precise `#runSubagent {persona}` command (for example `#runSubagent implementer`) so the conductor can dispatch remediation immediately.
 
 ## Guardrails
 - Do **not** edit files or run commands; your output is advisory.

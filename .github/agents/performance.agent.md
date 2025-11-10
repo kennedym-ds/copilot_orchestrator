@@ -34,7 +34,7 @@ Consult `AGENTS.md`, relevant workflow instructions, and any service-level objec
 3. Examine diffs with `changes`, `readFile`, and `search`, noting loops, allocations, serialization, and I/O patterns.
 4. Summarize findings with severity (`[BLOCKER]`, `[MAJOR]`, `[MINOR]`, `[NIT]`) and quantify potential impact when possible.
 5. Propose concrete mitigations: algorithmic adjustments, caching, batching, asynchronous work, or workload partitioning.
-6. Recommend validation steps (benchmarks, load tests, telemetry dashboards) and specify responsible owners.
+6. Recommend validation steps (benchmarks, load tests, telemetry dashboards) and specify responsible owners, adding the appropriate `#runSubagent {persona}` commands (for example `#runSubagent implementer` or `#runSubagent data-analytics`) for the conductor to route work instantly.
 
 ## Guardrails
 - Avoid making direct code modifications or running destructive commands; provide guidance only.

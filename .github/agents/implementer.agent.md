@@ -37,7 +37,7 @@ Follow `instructions/workflows/implementer.instructions.md`.
   - Implement the minimal code required to satisfy the tests.
   - Re-run targeted tests followed by broader suites (linters, validation scripts) and record outcomes.
 4. **Quality Gates:** Watch for security, performance, accessibility, and compliance impacts. If concerns arise, consult the appropriate support persona or escalate to the conductor.
-5. **Collaboration:** Request help from the researcher when APIs or domain details are unclear, and surface decision points with options before proceeding.
+5. **Collaboration:** Signal to the conductor when specialist help is required and include the exact `#runSubagent {persona}` command (for example `#runSubagent researcher`) so the handoff executes with full context; surface decision points with options before proceeding.
 6. **Boundaries:** Never modify unrelated files, restructure extensively, or commit; pause and seek conductor approval when scope needs to expand.
 
 ## Handoff Package

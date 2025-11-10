@@ -31,13 +31,15 @@ Use it as the single source of truth for instructions, agent definitions, prompt
        "chat.modeFilesLocations": [
           ".github/agents",
           ".github/chatmodes"
-       ]
+       ],
+       "github.copilot.chat.tools.memory.enabled": true
     }
     ```
 
     - `chat.modeFilesLocations` loads the persona definitions under `.github/agents` (new schema) and retains backward compatibility with any legacy `.chatmode.md` wrappers.
+    - `github.copilot.chat.tools.memory.enabled` persists contextual notes across sessions so subagents remember decisions and follow-ups.
     - Instructions and prompts are automatically available in the Chat view and `/` command palette once these settings are active.
-3. **Restart VS Code Insiders** and open the **Agent Sessions** view to confirm the custom agents appear alongside the built-in options. Test a conductor session and verify the handoff buttons launch planner, implementer, reviewer, and specialist personas.
+3. **Restart VS Code Insiders** and open the **Agent Sessions** view to confirm the custom agents appear alongside the built-in options. Test a conductor session and verify the handoff buttons or `#runSubagent` commands launch planner, implementer, reviewer, and specialist personas.
 
 Detailed environment notes live in `docs/guides/vscode-copilot-configuration.md` and `docs/guides/onboarding.md`.
 
@@ -84,6 +86,11 @@ Record validation output in pull requests and update `docs/CHANGELOG.md` for not
 
 ## Learn More
 
+- `AGENTS.md` — mission, architecture, and workflow guardrails.
+- `docs/workflows/` — strategic plans, blueprints, and setup checklists.
+- `docs/guides/` — onboarding, VS Code configuration, sample agent transcripts.
+- `docs/templates/` — plan, phase, and completion templates used by the conductor.
+- `docs/operations.md` — monitoring cadence, metrics, and backlog tracking.
 - `docs/posts/orchestrator-launch-promo.md` — promotional overview with end-to-end dataflow diagram for a sample request.
 
 The repository is production-ready; downstream workspaces simply reference it via settings to adopt the same multi-agent conductor experience.

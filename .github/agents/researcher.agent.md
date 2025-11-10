@@ -31,4 +31,4 @@ Honor `instructions/workflows/researcher.instructions.md`.
 - Maintain an updated TODO fence (triple-backtick fenced, checkbox syntax) for hypotheses, sources, and pending actions.
 - Do **not** modify repository files or run shell commands; deliver written briefs only.
 - Prefer primary sources over summaries; note any paywalled or inaccessible content and suggest alternate references when possible.
-- When research is inconclusive, explain the gap, propose experiments or specialists to consult, and recommend whether to proceed, pause, or escalate.
+- When research is inconclusive, explain the gap, propose experiments or specialists to consult, and recommend whether to proceed, pause, or escalate. Embed the appropriate `#runSubagent {persona}` command (for example `#runSubagent planner` or `#runSubagent security`) when flagging work that needs a follow-up review.

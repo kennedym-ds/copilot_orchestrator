@@ -1,3 +1,4 @@
+---
 title: "VS Code Copilot Configuration"
 version: "0.3.0"
 lastUpdated: "2025-11-10"
@@ -42,6 +43,7 @@ You can register the paths globally in your user `settings.json` (recommended fo
        "C:\\Workspaces\\copilot_orchestrator\\.github\\agents": true,
        "C:\\Workspaces\\copilot_orchestrator\\.github\\chatmodes": true
      },
+     "github.copilot.chat.tools.memory.enabled": true,
      "github.copilot.chat.reviewSelection.instructions": [
        {
          "file": "C:\\CopilotConfig\\.copilot-review-instructions.md"
@@ -67,7 +69,8 @@ You can register the paths globally in your user `settings.json` (recommended fo
      "chat.modeFilesLocations": [
        ".github/agents",
        ".github/chatmodes"
-     ]
+     ],
+     "github.copilot.chat.tools.memory.enabled": true
    }
    ```
 
@@ -81,13 +84,21 @@ You can register the paths globally in your user `settings.json` (recommended fo
 - Define tool set collections via `chat.tools.sets` when you create shared tool groups in `.github/toolsets.jsonc`.
 - Control terminal approvals with `chat.tools.terminal.autoApprove` to match your security posture.
 - Sync prompt and instruction files across machines by enabling Settings Sync for “Prompts and Instructions.”
+- Review the **Chat History & Memory** panel to curate notes that subagents should inherit; with memory enabled, the conductor and `#runSubagent` calls can re-use decisions from prior sessions.
+
+## Subagent Handoffs in Practice
+- Launch complex work in the Conductor, then delegate using the handoff buttons or explicit `#runSubagent` commands (for example `#runSubagent planner`).
+- When delegating manually, include scope, files, and expectations so memory captures the context for follow-up personas.
+- Encourage specialists (Security, Performance, Visualizer, Data Analytics, Docs) to append memory notes summarizing their findings for downstream agents.
+- Clear or update memory entries before starting a new initiative to avoid cross-talk between projects.
 
 ## Verification Checklist
 1. Restart VS Code Insiders after saving the settings.
 2. Open the Chat view and confirm custom modes (Conductor, Planner, Implementer, Reviewer, Researcher, Maintainer, Security, Performance, Visualizer, Data Analytics, Docs) appear in the mode picker.
 3. Type `/` in chat and ensure prompt files from `.github/prompts` are listed.
-4. Select a mode and verify handoff buttons appear after responses.
-5. Run `./scripts/run-lint.ps1`, `./scripts/run-smoke-tests.ps1`, and `Invoke-Pester -Path tests` to confirm instructions and prompts remain valid.
+4. Select a mode and verify handoff buttons or `#runSubagent` invocations appear after responses.
+5. Confirm the memory indicator shows as enabled (gear icon → “Chat > Tools > Memory”) and pin any critical context for the next session.
+6. Run `./scripts/run-lint.ps1`, `./scripts/run-smoke-tests.ps1`, and `Invoke-Pester -Path tests` to confirm instructions and prompts remain valid.
 
 ## Troubleshooting
 - If modes or prompts are missing, ensure the settings paths match the workspace layout and that `chat.promptFiles` is enabled.
