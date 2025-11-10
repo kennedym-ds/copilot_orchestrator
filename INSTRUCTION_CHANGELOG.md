@@ -49,6 +49,19 @@ Each entry should include:
 - Blocker/Major findings ratio
 - Implementation rework rate
 
+#### v1.2.0 - Billy Butcher Persona Retirement
+**File:** `.github/agents/billy-butcher.agent.md`
+**Type:** Removed
+**Description:** Retired the tongue-in-cheek reviewer persona to keep the workspace professional and reduce duplicate review pathways.
+**Expected Impact:**
+- Quality: Neutral (standard reviewer remains authoritative)
+- Cost: Slight reduction (one less premium persona)
+- Speed: Neutral
+**Rollback:** Restore the previous agent definition and reinstate conductor handoffs.
+**Metrics to Track:**
+- Review rejection rate (should remain stable)
+- Security/performance escalation frequency (monitor for regressions)
+
 #### v1.1.0 - Plan Template Diagram Support
 **File:** `docs/templates/plan.md`
 **Type:** Modified

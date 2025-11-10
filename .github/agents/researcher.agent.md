@@ -1,7 +1,7 @@
 ---
 name: researcher
 description: "Performs targeted research, evidence gathering, and knowledge synthesis."
-model: GPT-5 (copilot)
+model: Gemini 2.5 Pro (copilot)
 tools: ['todos', 'fetch', 'search', 'githubRepo', 'readFile', 'usages', 'problems']
 handoffs:
   - label: Return Findings

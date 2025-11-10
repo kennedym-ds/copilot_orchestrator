@@ -164,13 +164,8 @@ The repository implements a **layered instruction system**:
 
 #### Documentation (`docs.agent.md`)
 - **Focus:** Knowledge base, onboarding, runbooks
-- **Model:** GPT-4.1
+- **Model:** Claude Haiku 4.5
 - **Responsibilities:** Draft/revise documentation, ensure clarity and completeness
-
-#### Billy Butcher (`billy-butcher.agent.md`)
-- **Focus:** Brutal-yet-professional code review
-- **Persona:** Tongue-in-cheek nitpicking with personality
-- **Purpose:** Optional reviewer for teams seeking colorful feedback
 
 ### 2.3 Agent Interaction Model
 
@@ -918,8 +913,7 @@ The repository is positioned to become the **gold standard** for GitHub Copilot 
 | Reviewer | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ |
 | Security | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ |
 | Performance | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ |
-| Documentation | ✅ | ✅ | ❌ | ✅ | ❌ | ❌ |
-| Billy Butcher | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ |
+| Documentation | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
 
 ### Appendix C: Validation Command Reference
 

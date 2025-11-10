@@ -1,7 +1,7 @@
 ---
 title: "Copilot Orchestrator Changelog"
 version: "0.1.0"
-lastUpdated: "2025-11-07"
+lastUpdated: "2025-11-10"
 status: draft
 ---
 
@@ -28,7 +28,9 @@ All notable changes will be documented here following [Keep a Changelog](https:/
 - Scoped global behavior, security, and compliance instructions to targeted file globs to minimize unnecessary context loading.
 - Python language guardrails (`instructions/languages/python.instructions.md`) grounded in the Zen of Python and modern tooling expectations.
 - VS Code Copilot configuration guide documenting required settings for custom modes, prompts, and instruction meshes.
-- Billy Butcher reviewer persona (`.github/agents/billy-butcher.agent.md`) with conductor handoff for tongue-in-cheek nitpicking.
+
+### Removed
+- Retired the Billy Butcher reviewer persona and associated legacy chat mode assets to maintain a professional review posture.
 
 ### Next
 - Add scheduled validation runs leveraging the new lint and smoke test scripts.

@@ -1,7 +1,7 @@
 ---
 name: research-context-dossier
 description: "Research prompt that compels the researcher agent to gather evidence, cite sources, and surface open questions."
-model: GPT-5-Codex (Preview)
+model: Gemini 2.5 Pro (copilot)
 agent: researcher
 tools:
   - fetch

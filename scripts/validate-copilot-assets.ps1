@@ -107,7 +107,6 @@ if ($instructionFiles.Count -eq 0) {
 # 3. Validate agent and chat mode definitions
 $agentFiles = @()
 $agentFiles += Get-ChildItem -Path (Join-Path $RepoRoot '.github/agents') -Filter '*.agent.md' -File -ErrorAction SilentlyContinue
-$agentFiles += Get-ChildItem -Path (Join-Path $RepoRoot '.github/chatmodes') -Filter '*.chatmode.md' -File -ErrorAction SilentlyContinue
 
 foreach ($agent in $agentFiles) {
     $frontMatter = Get-FrontMatter -FilePath $agent.FullName

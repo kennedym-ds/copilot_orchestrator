@@ -71,8 +71,8 @@ Reimagine the Copilot configuration around a conductor-led, multi-agent system t
 
 | Persona | Primary Models | Scope | Tooling | Notes |
 | --- | --- | --- | --- | --- |
-| Planning Researcher | GPT-5, Claude Sonnet 4.5, Gemini 2.5 Pro | Deep code/document research, summarization, option analysis | `search`, `fetch`, `githubRepo`, `readFile`, `usages`, `problems` | Must stop at findings; no plans or edits. |
-| Planner (Plan Drafting) | GPT-5-Codex (Preview), Claude Opus | Drafts plan artifacts using plan template, asks clarification, tracks TODO list | `todos`, `readFile`, `fetch`, `search` (read-only) | Returns plan markdown without executing work. |
+| Planning Researcher | Gemini 2.5 Pro, GPT-5, Claude Sonnet 4.5 | Deep code/document research, summarization, option analysis | `search`, `fetch`, `githubRepo`, `readFile`, `usages`, `problems` | Must stop at findings; no plans or edits. |
+| Planner (Plan Drafting) | GPT-5 | Drafts plan artifacts using plan template, asks clarification, tracks TODO list | `todos`, `readFile`, `fetch`, `search` (read-only) | Returns plan markdown without executing work. |
 | Implementer (TDD) | GPT-5 Mini, Claude Haiku 4.5, GPT-4.1 | Executes per-phase work using strict TDD, minimal commits per step | `edit`, `runCommands`, `search`, `todos`, `problems`, `changes` | Auto-runs targeted tests → full suite; escalates critical decisions. |
 | Reviewer | Claude Sonnet 4.5, GPT-5 | Reviews diffs, ensures tests, flags issues with severity tags | `changes`, `search`, `usages`, `problems` | Returns structured review (`APPROVED/NEEDS_REVISION/FAILED`). |
 | Support Agents | Model varies | Accessibility, security, performance, docs | Tools tailored per specialty | Integrate as optional subagents triggered by Conductor or handoffs. |

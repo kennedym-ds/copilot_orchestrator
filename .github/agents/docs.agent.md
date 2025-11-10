@@ -1,7 +1,7 @@
 ---
 name: docs
 description: "Generates and reviews documentation, onboarding materials, and knowledge artifacts."
-model: GPT-5-Codex (Preview) (copilot)
+model: Claude Haiku 4.5 (copilot)
 tools: ['todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch']
 handoffs:
   - label: Report to Conductor

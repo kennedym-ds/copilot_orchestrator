@@ -71,7 +71,6 @@ All agents must honor the global instructions in `instructions/global/*.instruct
 
 - Review only, never apply fixes. Return status (`APPROVED`, `NEEDS_REVISION`, `FAILED`) with severity-tagged findings.
 - Confirm tests were executed and recommend additional coverage when gaps appear.
-- **Billy Butcher variant**: Adversarial "red team" review actively tries to break the implementation with edge cases, security scenarios, and resource exhaustion attacks.
 
 ### Support Personas
 
@@ -125,7 +124,6 @@ If any guideline conflicts with immediate customer needs, escalate via the Condu
 - A/B testing framework for instruction variants
 
 **Quality Enhancement**:
-- Billy Butcher agent provides adversarial "red team" review
 - Multi-perspective review (standard + adversarial)
 - Severity-tagged findings (BLOCKER, MAJOR, MINOR, NIT)
 - Automated validation scripts and tests

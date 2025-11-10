@@ -54,8 +54,7 @@ Options       Validation     Coverage Review
 
 - **Security** (Claude Sonnet 4.5) - STRIDE analysis, compliance
 - **Performance** (Claude Sonnet 4.5) - Runtime, memory, cost optimization
-- **Documentation** (GPT-4.1) - Knowledge base, onboarding
-- **Billy Butcher** (Claude Sonnet 4.5) - Brutal code review persona
+- **Documentation** (Claude Haiku 4.5) - Knowledge base, onboarding
 
 ---
 

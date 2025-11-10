@@ -2,7 +2,7 @@
 name: implementer
 description: "Executes the approved plan, making disciplined, tested code changes."
 model: GPT-4.1 (copilot)
-tools: ['runSubagent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems']
+tools: ['todos', 'search', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems']
 handoffs:
   - label: Return to Conductor
     agent: conductor

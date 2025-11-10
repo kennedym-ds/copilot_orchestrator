@@ -25,7 +25,6 @@ This guide accelerates new contributors joining the Copilot Orchestrator project
 | Validation scripts | `scripts/*.ps1` | Automated checks for instructions, prompts, token budgets, and now covered by Pester tests. |
 | Prompt library | `.github/prompts/` | Personas-specific prompts used by the conductor, subagents, and support reviewers. |
 | Support personas | `.github/agents/{security,performance,docs}.agent.md` | Security, performance, and documentation specialists with lightweight toolsets. |
-| Brutal reviewer persona | `.github/agents/billy-butcher.agent.md` | Tongue-in-cheek code reviewer that delivers nitpicky feedback with flair. |
 | Plan templates | `docs/templates/` | Structures for plan, phase summary, and completion artifacts. |
 | Sample plans | `plans/samples/` | Filled examples demonstrating the conductor deliverables. |
 | Operations backlog | `docs/operations.md` | Tracks outstanding tasks, owners, and status. |

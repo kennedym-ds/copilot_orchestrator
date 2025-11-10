@@ -1,7 +1,7 @@
 ---
 name: reviewer-structured-checklist
 description: "Review prompt ensuring diffs are evaluated for correctness, tests, compliance, and documentation coverage."
-model: GPT-5-Codex (Preview)
+model: Claude Sonnet 4.5 (copilot)
 agent: reviewer
 tools:
   - todos

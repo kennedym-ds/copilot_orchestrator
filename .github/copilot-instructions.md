@@ -12,65 +12,91 @@ This is a greenfield conductor workspace for GitHub Copilot that implements a mu
 
 ## Working with GitHub Copilot Coding Agent
 
-When assigned to this repository via issue assignment (`@copilot`), the coding agent should:
+When an issue is assigned to `@copilot`, the cloud coding agent should:
 
-1. **Review this file first** to understand repository structure, conventions, and validation requirements
-2. **Follow the conductor workflow** outlined in `AGENTS.md` for complex tasks
-3. **Run validation scripts** before submitting pull requests:
-   - `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
-   - `pwsh -File scripts/add-prompt-metadata.ps1 -RepositoryRoot . -CheckOnly`
-4. **Update `docs/CHANGELOG.md`** when making notable changes to instructions, prompts, chat modes, or agent configurations
-5. **Use templates** from `docs/templates/` when creating plans, phase reports, or completion summaries
+1. **Read this file and `AGENTS.md`** to understand the conductor workflow, validation contracts, and escalation guardrails.
+2. **Adhere to the lifecycle sequence** (planning → implementation → review → completion) and use the appropriate persona prompts under `.github/prompts/`.
+3. **Run the validation suite** before opening a pull request:
+	 - `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
+	 - `pwsh -File scripts/add-prompt-metadata.ps1 -RepositoryRoot . -CheckOnly`
+	 - `pwsh -File scripts/run-lint.ps1 -RepositoryRoot .`
+	 - `pwsh -File scripts/run-smoke-tests.ps1 -RepositoryRoot .`
+4. **Update `docs/CHANGELOG.md`** and attach validation output to the PR description whenever instructions, prompts, or agent definitions change.
+5. **Persist lifecycle artifacts** (plans, phase summaries, completion reports) using the templates in `docs/templates/`.
 
-## Best Practices for Task Assignment
+## Task Assignment Guidance
 
-**Suitable Tasks for Copilot Coding Agent:**
-- Documentation updates and improvements
-- Adding or updating tests
-- Bug fixes with clear reproduction steps
-- Refactoring with well-defined scope
-- Updating validation scripts or tooling
-- Adding new prompts or chat modes following existing patterns
+**Great fits for the Copilot agent**
 
-**Tasks Requiring Human Oversight:**
-- Major architectural changes to the conductor workflow
-- Security or compliance instruction modifications
-- Changes to core agent behavior or model allocations
-- Integration of new external dependencies
+- Documentation improvements, knowledge base updates, onboarding guides.
+- Test authoring and maintenance (unit, integration, smoke) aligned with TDD expectations.
+- Bug fixes or refactors with well-scoped reproduction steps.
+- Prompt, agent, or instruction updates that follow existing patterns and validations.
+- Enhancements to the PowerShell validation/tooling scripts in `scripts/`.
 
-## Workspace Configuration (for VS Code Users)
-- Use **VS Code Insiders** so you can access Agent Sessions, chat handoffs, and nested `AGENTS.md` support.
-- Enable the GitHub Copilot Chat extension and sign in with a subscription that unlocks premium and efficiency models.
-- Add the following settings (user or workspace) to ensure prompt, chat mode, and nested instruction files load correctly:
+**Require human approval or pairing**
 
-```json
-{
-	"chat.useAgentsMdFile": true,
-	"chat.useNestedAgentsMdFiles": true,
-	"chat.promptFiles": true,
-	"chat.modeFilesLocations": [".github/chatmodes"],
-	"chat.promptFilesLocations": [".github/prompts"]
-}
-```
+- Architectural shifts to the conductor workflow or instruction mesh.
+- Security, privacy, or compliance changes outside the documented overlays.
+- Model allocation changes that affect cost tiers or fallbacks.
+- Introduction of new external dependencies or infrastructure.
+
+Always capture open questions and escalate blockers via the conductor before proceeding.
+
+## VS Code Configuration (Developers & Agents)
+
+- Use **VS Code Insiders** to access Agent Sessions, handoffs, and context-isolated subagents.
+- Sign in with a Copilot subscription tier that exposes GPT-5-Codex (Preview) and the premium models referenced in agent files.
+- Add the following `settings.json` snippet (path adjusted to where this repo lives on disk):
+
+	```json
+	{
+		"chat.useAgentsMdFile": true,
+		"chat.useNestedAgentsMdFiles": true,
+		"chat.instructionsFilesLocations": [
+			"instructions",
+			".github/instructions"
+		],
+		"chat.promptFiles": true,
+		"chat.promptFilesLocations": [
+			".github/prompts"
+		],
+		"chat.modeFilesLocations": [
+			".github/agents",
+			".github/chatmodes"
+		]
+	}
+	```
+
+	The `.agent.md` files are the canonical persona definitions. The `.chatmode.md` directory is retained for backward compatibility with older Insider builds.
+- After saving the settings, restart VS Code and verify in the Agent Sessions view that Conductor, Planner, Implementer, Reviewer, Researcher, Security, Performance, and Docs appear in the agent picker.
 
 ## Instruction Mesh
-- Treat the root `AGENTS.md` as the canonical overview of architecture, tooling, and guardrails.
-- Workflow-specific behaviors live under `instructions/workflows/`; language or compliance overlays live under `instructions/global/` and `instructions/compliance/`.
-- Nested `AGENTS.md` files in `.github/prompts/` and other directories may supplement the root file; VS Code Insiders loads them automatically when the settings above are enabled.
+
+- `AGENTS.md` — source-of-truth for mission, model allocation strategy, and lifecycle guardrails.
+- `instructions/global/` — behavior, quality, and security overlays applied to every session.
+- `instructions/workflows/` — conductor, planner, implementer, reviewer, and researcher personas.
+- `instructions/compliance/` — documentation and security compliance requirements.
+- `instructions/languages/` — language-specific guidance (for example Python guardrails).
+- Nested `AGENTS.md` files under `.github/prompts/` or elsewhere supplement behavior when those assets are loaded.
 
 ## Lifecycle Guardrails
-- Always begin complex work in the `conductor` chat mode; it orchestrates planning → implementation → review → completion and enforces pause points.
-- Use handoff buttons (Planner → Implementer → Reviewer → Conductor) instead of switching modes manually so context and prompts stay aligned.
-- Persist artifacts in `plans/` (plan draft, per-phase summaries, completion report) using templates from `docs/templates/`.
+
+- Start complex work in the **Conductor** agent. Maintain telemetry (`Current Phase`, `Plan Progress`, `Last Action`, `Next Action`) in every response.
+- Use handoff buttons instead of manual mode switching: Planner → Implementer → Reviewer → Conductor, with optional Security/Performance/Docs detours.
+- Use `#runSubagent` for research-heavy or parallel tasks so primary context stays focused.
+- Persist plans, phase summaries, and completion reports under `plans/` using the templates in `docs/templates/`.
+- Pause after plans and reviews until the human explicitly authorizes the next phase.
 
 ## Validation & Tooling
-- After modifying instructions, prompts, or chat modes, run:
-	- `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
-	- `pwsh -File scripts/add-prompt-metadata.ps1 -RepositoryRoot . -CheckOnly`
-	- `pwsh -File scripts/token-report.ps1 -Path .`
-- Capture command output in PR descriptions and update `docs/CHANGELOG.md` for notable instruction or prompt changes.
 
-## Documentation & Onboarding
-- Review `docs/workflows/orchestration-rebuild-plan.md`, `docs/workflows/new-workspace-blueprint.md`, and the new `docs/workflows/agent-instruction-gap-analysis.md` for roadmap and gap insights.
-- Reference `docs/guides/onboarding.md` and `docs/operations.md` for enablement materials, metrics, and backlog tracking.
-- Log gaps or follow-up work in `docs/operations.md` so the conductor can prioritize the next iteration.
+- Run `validate-copilot-assets`, `add-prompt-metadata`, `run-lint`, `run-smoke-tests`, and `token-report` after modifying any instructions, prompts, or agent files.
+- Capture command output with timestamps and include it in PR descriptions.
+- Monitor token usage with `token-report.ps1 -ConfigPath token-thresholds.json`; adjust thresholds when new assets are added.
+
+## Documentation & Continuous Improvement
+
+- Review `docs/workflows/orchestration-rebuild-plan.md`, `docs/workflows/new-workspace-blueprint.md`, and `docs/workflows/agent-instruction-gap-analysis.md` to understand the roadmap and guardrails.
+- Use `docs/guides/onboarding.md`, `docs/guides/vscode-copilot-configuration.md`, and `docs/guides/sample-agent-session.md` for enablement and training.
+- Track follow-up work, incidents, and backlog items in `docs/operations.md`; record notable instruction changes in `INSTRUCTION_CHANGELOG.md`.
+- Engage the security, performance, and docs personas whenever risks or documentation gaps surface; document all outcomes in the relevant plan or phase artifact.

@@ -23,7 +23,7 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 | Planner | GPT-5 | Strategic planning, option analysis | 128K tokens | Premium |
 | Researcher | Gemini 2.5 Pro | Research synthesis, web integration | 2M tokens | Premium |
 | Reviewer | Claude Sonnet 4.5 | Code review, pattern recognition | 200K tokens | Premium |
-| Security | Claude Opus | Threat modeling, compliance | 200K tokens | Premium |
+| Security | Claude Sonnet 4.5 | Threat modeling, compliance | 200K tokens | Premium |
 | Performance | GPT-5 | Profiling analysis, optimization | 128K tokens | Premium |
 
 **Premium model characteristics:**
@@ -147,15 +147,15 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 #### Security (Premium Tier)
 
-**Primary:** Claude Opus
+**Primary:** Claude Sonnet 4.5
 **Fallback sequence:**
-1. Claude Sonnet 4.5 (strong security analysis, lower cost)
+1. Claude Opus (highest capability when available)
 2. GPT-5 (good threat modeling)
 3. **No further fallback** — security reviews require premium capability
 
 **Decision logic:**
-- Fallback 1 for routine security reviews
-- Fallback 2 for specific threat scenarios
+- Fallback 1 when higher reasoning or larger context is required
+- Fallback 2 for specific threat scenarios when Anthropic models are unavailable
 - If both unavailable, defer security review until primary restored
 - Never downgrade security to execution tier
 

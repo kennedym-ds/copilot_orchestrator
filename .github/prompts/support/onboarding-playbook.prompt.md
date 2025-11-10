@@ -1,7 +1,7 @@
 ---
 name: support-onboarding-playbook
 description: "Support prompt that helps documentation specialists craft onboarding guidance and sample artifacts."
-model: GPT-5-Codex (Preview)
+model: Claude Haiku 4.5 (copilot)
 agent: docs
 tools:
   - todos

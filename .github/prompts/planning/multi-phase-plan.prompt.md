@@ -1,7 +1,7 @@
 ---
 name: plan-multi-phase-delivery
 description: "Planner prompt for breaking complex requests into conductor-ready phases with risks, compliance, and TODO tracking."
-model: GPT-5-Codex (Preview)
+model: GPT-5 (copilot)
 agent: planner
 tools:
   - todos

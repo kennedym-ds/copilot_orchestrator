@@ -1,7 +1,6 @@
----
 title: "VS Code Copilot Configuration"
-version: "0.1.0"
-lastUpdated: "2025-11-07"
+version: "0.2.0"
+lastUpdated: "2025-11-10"
 status: draft
 ---
 
@@ -10,35 +9,73 @@ This guide shows how to configure VS Code Insiders so the Copilot Orchestrator w
 
 ## Prerequisites
 - VS Code Insiders 1.101 or later with GitHub Copilot Chat enabled.
-- Repository cloned locally with access to `.github/chatmodes`, `.github/prompts`, and `instructions/` folders.
+- A central configuration repository that stores shared agents, prompts, and instruction meshes.
+- Local clones of any workspaces that should consume the central configuration (for example `copilot_orchestrator`).
 - Copilot subscription tier that unlocks GPT-5-Codex (Preview) and premium reasoning models referenced in mode files.
 
-## Core Settings
-Add the following block to `.vscode/settings.json` (or user settings) to register the workspace assets:
+## Setup Overview
+Most teams keep a single **configuration hub** (for example `C:\CopilotConfig`) that holds reusable chat modes, agent definitions, prompts, and instruction overlays. Individual workspaces, such as `copilot_orchestrator`, inherit those assets by pointing VS Code to both the hub and the workspace-local definitions.
 
-```json
-{
-  "chat.useAgentsMdFile": true,
-  "chat.useNestedAgentsMdFiles": true,
-  "chat.instructionsFilesLocations": [
-    "instructions",
-    ".github/instructions"
-  ],
-  "chat.promptFiles": true,
-  "chat.promptFilesLocations": [
-    ".github/prompts"
-  ],
-  "chat.modeFilesLocations": [
-    ".github/chatmodes"
-  ]
-}
-```
+You can register the paths globally in your user `settings.json` (recommended for shared devices) and optionally add a minimal `.vscode/settings.json` in the workspace if you need repository-specific overrides.
 
-These settings unlock:
+## Step-by-Step Configuration
+1. Clone the central configuration repository and note its absolute path (replace `C:\CopilotConfig` below with your location).
+2. Clone any workspace repositories that rely on those assets (for example `C:\Workspaces\copilot_orchestrator`).
+3. Open VS Code Insiders and update your user `settings.json` with the following block:
+
+   ```json
+   {
+     "chat.useAgentsMdFile": true,
+     "chat.useNestedAgentsMdFiles": true,
+     "chat.promptFiles": true,
+     "chat.instructionsFilesLocations": {
+       "C:\\CopilotConfig\\instructions": true,
+       "C:\\Workspaces\\copilot_orchestrator\\instructions": true,
+       "C:\\Workspaces\\copilot_orchestrator\\.github\\instructions": true
+     },
+     "chat.promptFilesLocations": {
+       "C:\\CopilotConfig\\prompts": true,
+       "C:\\Workspaces\\copilot_orchestrator\\.github\\prompts": true
+     },
+     "chat.modeFilesLocations": {
+       "C:\\CopilotConfig\\chatmode": true,
+       "C:\\Workspaces\\copilot_orchestrator\\.github\\agents": true,
+       "C:\\Workspaces\\copilot_orchestrator\\.github\\chatmodes": true
+     },
+     "github.copilot.chat.reviewSelection.instructions": [
+       {
+         "file": "C:\\CopilotConfig\\.copilot-review-instructions.md"
+       }
+     ]
+   }
+   ```
+
+   VS Code silently skips any paths that are missing, making it safe to reuse this block across machines where only a subset of repositories exists.
+
+4. (Optional) Create `.vscode/settings.json` inside `copilot_orchestrator` if you want repository-specific additions. Include only the paths that live inside the workspace so the file remains portable:
+
+   ```json
+   {
+     "chat.instructionsFilesLocations": [
+       "instructions",
+       ".github/instructions"
+     ],
+     "chat.promptFiles": true,
+     "chat.promptFilesLocations": [
+       ".github/prompts"
+     ],
+     "chat.modeFilesLocations": [
+       ".github/agents",
+       ".github/chatmodes"
+     ]
+   }
+   ```
+
+## What the Settings Unlock
 - `AGENTS.md` plus nested variants for persona and workflow rules.
-- Scoped `*.instructions.md` overlays (global, compliance, language-specific) under `instructions/`.
-- Prompt library files (`.prompt.md`) for planning, implementation, review, research, and support personas.
-- Custom chat modes with handoffs (`planner`, `conductor`, `implementer`, and support agents).
+- Scoped instruction overlays under `instructions/` and `.github/instructions/` (behavior, compliance, language-specific).
+- Prompt libraries for planning, implementation, review, research, and support personas.
+- Chat modes and agent definitions with full handoff buttons (Conductor, Planner, Implementer, Reviewer, Researcher, Security, Performance, Docs).
 
 ## Optional Enhancements
 - Define tool set collections via `chat.tools.sets` when you create shared tool groups in `.github/toolsets.jsonc`.

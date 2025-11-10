@@ -1,72 +1,92 @@
 ---
 title: "Copilot Orchestrator"
-version: "0.1.0"
-lastUpdated: "2025-11-07"
+version: "0.2.0"
+lastUpdated: "2025-11-10"
 status: draft
 ---
 
 # Copilot Orchestrator
 
-This repository hosts the greenfield, conductor-driven GitHub Copilot configuration. It embraces the multi-agent workflow introduced by GitHub Copilot Orchestra and the latest VS Code agent platform features (Agent Sessions, handoffs, context-isolated subagents).
+This repository is the centrally managed Copilot instruction pack used by VS Code Insiders across multiple workspaces. It ships a complete multi-agent workflow (conductor → planner → implementer → reviewer → completion) with handoffs, context-isolated subagents, and support personas for security, performance, and documentation.
 
-## Getting Started
+Use it as the single source of truth for instructions, agent definitions, prompts, and validation tooling. Point your VS Code settings at this repo and every workspace inherits the same guardrails, tool permissions, and lifecycle handoffs.
 
-1. Review the planning documents in `docs/workflows/`:
-   - `orchestration-rebuild-plan.md`
-   - `new-workspace-blueprint.md`
-   - `new-workspace-setup-checklist.md`
-2. Configure VS Code Insiders with agent mode, handoffs, and nested `AGENTS.md` support.
-3. Copy validation scripts from the legacy `copilot_config` repository or author replacements under `scripts/`.
-4. Flesh out the instruction mesh (`AGENTS.md`, `.instructions.md`) and scaffold conductor/subagent chat modes under `.github/chatmodes/`.
+## Configure VS Code Insiders
 
-## Repository Layout
+1. **Clone or reference this repo** from a location accessible to all participating workspaces (for example `~/Copilot/copilot_orchestrator`).
+2. **Enable the following settings** in _user_ or _workspace_ `settings.json` (update the path to match your environment):
+
+    ```json
+    {
+       "chat.useAgentsMdFile": true,
+       "chat.useNestedAgentsMdFiles": true,
+       "chat.instructionsFilesLocations": [
+          "instructions",
+          ".github/instructions"
+       ],
+       "chat.promptFiles": true,
+       "chat.promptFilesLocations": [
+          ".github/prompts"
+       ],
+       "chat.modeFilesLocations": [
+          ".github/agents",
+          ".github/chatmodes"
+       ]
+    }
+    ```
+
+    - `chat.modeFilesLocations` loads the persona definitions under `.github/agents` (new schema) and retains backward compatibility with any legacy `.chatmode.md` wrappers.
+    - Instructions and prompts are automatically available in the Chat view and `/` command palette once these settings are active.
+3. **Restart VS Code Insiders** and open the **Agent Sessions** view to confirm the custom agents appear alongside the built-in options. Test a conductor session and verify the handoff buttons launch planner, implementer, reviewer, and specialist personas.
+
+Detailed environment notes live in `docs/guides/vscode-copilot-configuration.md` and `docs/guides/onboarding.md`.
+
+## Agent Lineup
+
+All personas are authored as `.agent.md` files with explicit tool scopes and handoffs:
+
+- **Conductor** — orchestrates the entire lifecycle, enforces pause points, and delegates via `#runSubagent`.
+- **Planner** — performs deep research, drafts multi-phase plans, and cites every external source.
+- **Implementer** — executes phases with TDD discipline and comprehensive validation logs.
+- **Reviewer** — delivers severity-tagged findings and guards quality, security, and compliance.
+- **Researcher** — gathers context with recursive fetches and option analysis.
+- **Security**, **Performance**, **Docs** — specialist personas for targeted follow-ups and release readiness.
+
+Each agent surfaces consistent handoffs so user-facing workflows remain one click away (for example Planner → Implementer → Reviewer → Conductor, with optional Security/Performance/Docs checkpoints).
+
+## Directory Map
 
 | Path | Purpose |
 | --- | --- |
-| `.github/chatmodes/` | Conductor and subagent chat modes (to be authored). |
-| `.github/prompts/` | Slash-command style prompts tied to orchestrated workflows. |
-| `.github/copilot-instructions.md` | Main instructions for GitHub Copilot (both VS Code extension and coding agent). |
-| `.github/copilot-setup-steps.yml` | Development environment setup for Copilot coding agent. |
-| `docs/workflows/` | Planning, blueprint, and setup documentation. |
-| `docs/templates/` | Reusable templates (plan format, phase reports, etc.). |
-| `instructions/` | Layered instruction files for global, workflow, language, and compliance scopes. |
-| `scripts/` | Validation and automation utilities. |
-| `plans/` | Generated plan and phase artifacts (ignored by default). |
+| `.github/agents/` | Canonical agent definitions (used by VS Code Insiders handoffs). |
+| `.github/chatmodes/` | Legacy wrappers and compatibility placeholders. Prefer the `.agent.md` files. |
+| `.github/prompts/` | Reusable `/` prompt library scoped per persona and workflow. |
+| `instructions/` | Layered instruction mesh (global, workflow, compliance, language). |
+| `docs/` | Guides, onboarding material, roadmaps, and analysis. |
+| `scripts/` | Validation utilities (`validate-copilot-assets`, `add-prompt-metadata`, `token-report`, lint, smoke tests). |
+| `plans/` | Generated plans, phase summaries, and completion artifacts (samples included). |
 
-## Working with GitHub Copilot
+## Validation Suite
 
-This repository is optimized for use with GitHub Copilot, including both the VS Code extension and the GitHub Copilot coding agent.
+Run the following commands before publishing changes or updating downstream repositories:
 
-### For GitHub Copilot Coding Agent
+```powershell
+pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .
+pwsh -File scripts/add-prompt-metadata.ps1 -RepositoryRoot . -CheckOnly
+pwsh -File scripts/run-lint.ps1 -RepositoryRoot .
+pwsh -File scripts/run-smoke-tests.ps1 -RepositoryRoot .
+pwsh -File scripts/token-report.ps1 -Path . -ConfigPath token-thresholds.json
+Invoke-Pester -Path tests -Output Detailed
+```
 
-To delegate tasks to the Copilot coding agent:
+Record validation output in pull requests and update `docs/CHANGELOG.md` for notable instruction or agent changes.
 
-1. **Create a clear, well-scoped issue** with specific acceptance criteria
-2. **Assign the issue to `@copilot`** - the agent will automatically start working
-3. **Review the pull request** that Copilot creates - treat it like any other contributor's work
-4. **Provide feedback** via PR comments mentioning `@copilot` for iterations
+## Learn More
 
-The agent is configured via `.github/copilot-instructions.md` and will automatically:
-- Run validation scripts before submitting changes
-- Follow the conductor workflow for complex tasks
-- Use appropriate custom agents for specialized work (security, performance, documentation)
+- `AGENTS.md` — mission, architecture, and workflow guardrails.
+- `docs/workflows/` — strategic plans, blueprints, and setup checklists.
+- `docs/guides/` — onboarding, VS Code configuration, sample agent transcripts.
+- `docs/templates/` — plan, phase, and completion templates used by the conductor.
+- `docs/operations.md` — monitoring cadence, metrics, and backlog tracking.
 
-### For VS Code Copilot Chat
-
-Developers using VS Code should:
-
-1. Install **VS Code Insiders** for full Agent Sessions support
-2. Enable chat modes and nested `AGENTS.md` support (see `.github/copilot-instructions.md`)
-3. Start complex work in `conductor` mode for orchestrated workflows
-4. Use handoff buttons to delegate to specialized agents
-
-See `docs/guides/onboarding.md` and `docs/guides/vscode-copilot-configuration.md` for detailed setup instructions.
-
-## Next Actions
-
-- Finalize root `AGENTS.md` and nested instruction files.
-- Author `conductor.chatmode.md` alongside planner, researcher, implementer, and reviewer agents.
-- Port or redesign prompts from the legacy repository using the new templates.
-- Configure GitHub Actions validation workflow.
-
-Track progress in `docs/workflows/orchestration-rebuild-plan.md` and update `docs/CHANGELOG.md` once the initial scaffold is complete.
+The repository is production-ready; downstream workspaces simply reference it via settings to adopt the same multi-agent conductor experience.
