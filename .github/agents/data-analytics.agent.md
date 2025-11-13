@@ -2,6 +2,10 @@
 name: data-analytics
 description: "Assesses data models, pipelines, and reporting for accuracy and insight quality."
 model: GPT-5 (copilot)
+preferred_formats:
+  primary: json
+  secondary: conversational
+  rationale: "JSON for data schemas and quality metrics; conversational for insight analysis and recommendations"
 tools: ['todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems']
 handoffs:
   - label: Report to Conductor

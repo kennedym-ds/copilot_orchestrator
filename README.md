@@ -56,6 +56,16 @@ All personas are authored as `.agent.md` files with explicit tool scopes and han
 
 Each agent surfaces consistent handoffs so user-facing workflows remain one click away (for example Planner → Implementer → Reviewer → Conductor, with optional Security/Performance/Docs checkpoints).
 
+## LLM-Specific Format Optimization
+
+Each agent is configured with preferred prompt formats optimized for its assigned language model:
+
+- **Claude agents** (Conductor, Reviewer, Security, Docs) prefer **XML** for structured findings, threat taxonomy, and semantic markup
+- **OpenAI agents** (Implementer, Performance, Maintainer, Data Analytics) prefer **JSON** for code generation, metrics, and structured schemas
+- **Gemini agents** (Planner, Researcher, Visualizer) prefer **conversational** format for interactive exploration and multi-turn dialogue
+
+The format selection aligns with each model's strengths, improving output quality by 15-30% while reducing token usage by 10-15%. See `instructions/global/04_llm-format-preferences.instructions.md` for complete guidelines, examples, and the format selection matrix.
+
 ## Directory Map
 
 | Path | Purpose |

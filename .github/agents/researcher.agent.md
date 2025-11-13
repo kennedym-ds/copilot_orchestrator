@@ -2,6 +2,10 @@
 name: researcher
 description: "Performs targeted research, evidence gathering, and knowledge synthesis."
 model: Gemini 2.5 Pro (copilot)
+preferred_formats:
+  primary: conversational
+  secondary: xml
+  rationale: "Conversational for multi-turn exploration and interactive research; XML for structured findings synthesis"
 tools: ['todos', 'fetch', 'search', 'githubRepo', 'readFile', 'usages', 'problems']
 handoffs:
   - label: Return Findings

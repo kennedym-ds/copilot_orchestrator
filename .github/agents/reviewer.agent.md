@@ -2,6 +2,10 @@
 name: reviewer
 description: "Audits changes for correctness, quality, and policy compliance before handoff."
 model: Claude Sonnet 4.5 (copilot)
+preferred_formats:
+  primary: xml
+  secondary: json
+  rationale: "XML for structured code review findings with severity tags; JSON for quality metrics and test coverage reports"
 tools: ['todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems']
 handoffs:
   - label: Report to Conductor

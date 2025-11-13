@@ -2,6 +2,10 @@
 name: docs
 description: "Generates and reviews documentation, onboarding materials, and knowledge artifacts."
 model: Claude Haiku 4.5 (copilot)
+preferred_formats:
+  primary: xml
+  secondary: conversational
+  rationale: "XML for semantic document structure and consistent formatting; conversational for onboarding guides"
 tools: ['todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch']
 handoffs:
   - label: Report to Conductor
