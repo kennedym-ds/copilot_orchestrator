@@ -258,7 +258,7 @@ pwsh -Command "Invoke-Pester -Path tests -Output Detailed"
   "chat.useNestedAgentsMdFiles": true,
   "chat.instructionsFilesLocations": ["instructions", ".github/instructions"],
   "chat.promptFiles": true,
-  "chat.modeFilesLocations": [".github/chatmodes"],
+  "chat.modeFilesLocations": [".github/agents"],
   "chat.promptFilesLocations": [".github/prompts"]
 }
 ```

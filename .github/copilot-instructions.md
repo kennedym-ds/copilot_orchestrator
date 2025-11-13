@@ -6,7 +6,7 @@ Welcome! This workspace is tuned for the conductor-led multi-agent workflow defi
 
 This is a greenfield conductor workspace for GitHub Copilot that implements a multi-agent orchestration pattern. The repository contains:
 - **Custom agents**: Specialized AI agents for planning, implementation, review, security, performance, and documentation tasks
-- **Chat modes**: Orchestrated workflows with handoffs between different agent personas
+- **Agent definitions**: `.agent.md` files defining agent personas, models, tools, and handoffs
 - **Instructions**: Layered guidance files for global, workflow-specific, language-specific, and compliance behaviors
 - **Validation tooling**: PowerShell scripts to ensure quality and consistency of Copilot assets
 
@@ -62,14 +62,13 @@ Always capture open questions and escalate blockers via the conductor before pro
 			".github/prompts"
 		],
 		"chat.modeFilesLocations": [
-			".github/agents",
-			".github/chatmodes"
+			".github/agents"
 		],
 		"github.copilot.chat.tools.memory.enabled": true
 	}
 	```
 
-	The `.agent.md` files are the canonical persona definitions. The `.chatmode.md` directory is retained for backward compatibility with older Insider builds.
+	The `.agent.md` files are the canonical persona definitions for GitHub Copilot agents.
 - Memory-enabled chat ensures subagents recall prior decisions, risks, and TODOs across phases. After saving the settings, restart VS Code and verify in the Agent Sessions view that Conductor, Planner, Implementer, Reviewer, Researcher, Maintainer, Security, Performance, Visualizer, Data Analytics, and Docs appear in the agent picker.
 
 ## Instruction Mesh

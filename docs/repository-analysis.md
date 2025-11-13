@@ -34,8 +34,7 @@ The repository implements the **GitHub Copilot Orchestra pattern**, a multi-agen
 ```
 copilot_orchestrator/
 ├── .github/
-│   ├── agents/              # 9 agent definitions (conductor, lifecycle, support)
-│   ├── chatmodes/           # 3 chat mode configurations
+│   ├── agents/              # Agent definitions (conductor, lifecycle, support)
 │   ├── prompts/             # 7 specialized prompts across 4 categories
 │   ├── workflows/ci/        # CI validation workflow
 │   └── copilot-instructions.md
@@ -226,7 +225,7 @@ Conductor (orchestrator)
 
 #### `validate-copilot-assets.ps1`
 - **Purpose:** Validates frontmatter, schema compliance, naming conventions
-- **Coverage:** Agents, chatmodes, prompts, instructions
+- **Coverage:** Agents, prompts, instructions
 - **Exit Codes:** 0 = pass, 1 = fail
 - **Current Status:** ✅ All assets passing
 
@@ -408,7 +407,7 @@ Conductor (orchestrator)
   "chat.useAgentsMdFile": true,
   "chat.useNestedAgentsMdFiles": true,
   "chat.promptFiles": true,
-  "chat.modeFilesLocations": [".github/chatmodes"],
+  "chat.modeFilesLocations": [".github/agents"],
   "chat.promptFilesLocations": [".github/prompts"]
 }
 ```
@@ -944,7 +943,7 @@ pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot . -FailOnWarning
     ".github/instructions"
   ],
   "chat.promptFiles": true,
-  "chat.modeFilesLocations": [".github/chatmodes"],
+  "chat.modeFilesLocations": [".github/agents"],
   "chat.promptFilesLocations": [".github/prompts"]
 }
 ```

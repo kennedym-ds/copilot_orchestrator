@@ -39,9 +39,8 @@ You can register the paths globally in your user `settings.json` (recommended fo
        "C:\\Workspaces\\copilot_orchestrator\\.github\\prompts": true
      },
      "chat.modeFilesLocations": {
-       "C:\\CopilotConfig\\chatmode": true,
-       "C:\\Workspaces\\copilot_orchestrator\\.github\\agents": true,
-       "C:\\Workspaces\\copilot_orchestrator\\.github\\chatmodes": true
+       "C:\\CopilotConfig\\agents": true,
+       "C:\\Workspaces\\copilot_orchestrator\\.github\\agents": true
      },
      "github.copilot.chat.tools.memory.enabled": true,
      "github.copilot.chat.reviewSelection.instructions": [
@@ -67,8 +66,7 @@ You can register the paths globally in your user `settings.json` (recommended fo
        ".github/prompts"
      ],
      "chat.modeFilesLocations": [
-       ".github/agents",
-       ".github/chatmodes"
+       ".github/agents"
      ],
      "github.copilot.chat.tools.memory.enabled": true
    }

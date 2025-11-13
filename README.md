@@ -29,14 +29,13 @@ Use it as the single source of truth for instructions, agent definitions, prompt
           ".github/prompts"
        ],
        "chat.modeFilesLocations": [
-          ".github/agents",
-          ".github/chatmodes"
+          ".github/agents"
        ],
        "github.copilot.chat.tools.memory.enabled": true
     }
     ```
 
-    - `chat.modeFilesLocations` loads the persona definitions under `.github/agents` (new schema) and retains backward compatibility with any legacy `.chatmode.md` wrappers.
+    - `chat.modeFilesLocations` loads the agent persona definitions under `.github/agents/`.
     - `github.copilot.chat.tools.memory.enabled` persists contextual notes across sessions so subagents remember decisions and follow-ups.
     - Instructions and prompts are automatically available in the Chat view and `/` command palette once these settings are active.
 3. **Restart VS Code Insiders** and open the **Agent Sessions** view to confirm the custom agents appear alongside the built-in options. Test a conductor session and verify the handoff buttons or `#runSubagent` commands launch planner, implementer, reviewer, and specialist personas.
@@ -62,7 +61,6 @@ Each agent surfaces consistent handoffs so user-facing workflows remain one clic
 | Path | Purpose |
 | --- | --- |
 | `.github/agents/` | Canonical agent definitions (used by VS Code Insiders handoffs). |
-| `.github/chatmodes/` | Legacy wrappers and compatibility placeholders. Prefer the `.agent.md` files. |
 | `.github/prompts/` | Reusable `/` prompt library scoped per persona and workflow. |
 | `instructions/` | Layered instruction mesh (global, workflow, compliance, language). |
 | `docs/` | Guides, onboarding material, roadmaps, and analysis. |
