@@ -2,6 +2,10 @@
 name: security
 description: "Evaluates changes for security posture, threat models, and compliance impacts."
 model: Claude Sonnet 4.5 (copilot)
+preferred_formats:
+  primary: xml
+  secondary: json
+  rationale: "XML for structured threat taxonomy and compliance checklists; JSON for vulnerability metrics"
 tools: ['todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems']
 handoffs:
   - label: Report to Conductor

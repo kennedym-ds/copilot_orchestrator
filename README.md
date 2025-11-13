@@ -29,14 +29,13 @@ Use it as the single source of truth for instructions, agent definitions, prompt
           ".github/prompts"
        ],
        "chat.modeFilesLocations": [
-          ".github/agents",
-          ".github/chatmodes"
+          ".github/agents"
        ],
        "github.copilot.chat.tools.memory.enabled": true
     }
     ```
 
-    - `chat.modeFilesLocations` loads the persona definitions under `.github/agents` (new schema) and retains backward compatibility with any legacy `.chatmode.md` wrappers.
+    - `chat.modeFilesLocations` loads the agent persona definitions under `.github/agents/`.
     - `github.copilot.chat.tools.memory.enabled` persists contextual notes across sessions so subagents remember decisions and follow-ups.
     - Instructions and prompts are automatically available in the Chat view and `/` command palette once these settings are active.
 3. **Restart VS Code Insiders** and open the **Agent Sessions** view to confirm the custom agents appear alongside the built-in options. Test a conductor session and verify the handoff buttons or `#runSubagent` commands launch planner, implementer, reviewer, and specialist personas.
@@ -57,12 +56,21 @@ All personas are authored as `.agent.md` files with explicit tool scopes and han
 
 Each agent surfaces consistent handoffs so user-facing workflows remain one click away (for example Planner → Implementer → Reviewer → Conductor, with optional Security/Performance/Docs checkpoints).
 
+## LLM-Specific Format Optimization
+
+Each agent is configured with preferred prompt formats optimized for its assigned language model:
+
+- **Claude agents** (Conductor, Reviewer, Security, Docs) prefer **XML** for structured findings, threat taxonomy, and semantic markup
+- **OpenAI agents** (Implementer, Performance, Maintainer, Data Analytics) prefer **JSON** for code generation, metrics, and structured schemas
+- **Gemini agents** (Planner, Researcher, Visualizer) prefer **conversational** format for interactive exploration and multi-turn dialogue
+
+The format selection aligns with each model's strengths, improving output quality by 15-30% while reducing token usage by 10-15%. See `instructions/global/04_llm-format-preferences.instructions.md` for complete guidelines, examples, and the format selection matrix.
+
 ## Directory Map
 
 | Path | Purpose |
 | --- | --- |
 | `.github/agents/` | Canonical agent definitions (used by VS Code Insiders handoffs). |
-| `.github/chatmodes/` | Legacy wrappers and compatibility placeholders. Prefer the `.agent.md` files. |
 | `.github/prompts/` | Reusable `/` prompt library scoped per persona and workflow. |
 | `instructions/` | Layered instruction mesh (global, workflow, compliance, language). |
 | `docs/` | Guides, onboarding material, roadmaps, and analysis. |

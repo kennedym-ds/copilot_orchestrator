@@ -17,21 +17,21 @@ owner: "Dev Experience"
 
 - [ ] Create new repository (`copilot-orchestrator` working name) with default branch `main`.
 - [ ] Add `.editorconfig`, `.gitattributes`, `.gitignore` (include `plans/` by default).
-- [ ] Scaffold directories: `.github/chatmodes`, `.github/prompts`, `instructions/{global,languages,workflows,compliance}`, `docs/{workflows,templates}`, `scripts`, `plans`.
+- [ ] Scaffold directories: `.github/agents`, `.github/prompts`, `instructions/{global,languages,workflows,compliance}`, `docs/{workflows,templates}`, `scripts`, `plans`.
 - [ ] Copy validation scripts from legacy repo and update module imports if necessary.
 
 ## Instruction Mesh
 
 - [ ] Draft root `AGENTS.md` referencing product vision, architecture, build/test commands, and security notes.
 - [ ] Enable nested agents via repository settings (`settings.json`: `"chat.useNestedAgentsMdFiles": true`).
-- [ ] Create sample nested `AGENTS.md` files for `.github/chatmodes/` and `.github/prompts/`.
+- [ ] Create sample nested `AGENTS.md` files for `.github/agents/` and `.github/prompts/`.
 - [ ] Port `instructions/global/00_behavior.instructions.md` and update for new conductor workflow.
 - [ ] Author workflow-specific instructions (conductor, planner, implementer, reviewer) under `instructions/workflows/`.
 
 ## Agent & Prompt Scaffold
 
-- [ ] Create `conductor.chatmode.md` with workflow, subagent instructions, handoffs, and state tracking.
-- [ ] Author `planner.chatmode.md`, `researcher.chatmode.md`, `implementer.chatmode.md`, `reviewer.chatmode.md` using premium/cost-effective model mix.
+- [ ] Create `conductor.agent.md` with workflow, subagent instructions, handoffs, and state tracking.
+- [ ] Author `planner.agent.md`, `researcher.agent.md`, `implementer.agent.md`, `reviewer.agent.md` using premium/cost-effective model mix.
 - [ ] Provide support agents (accessibility, security, performance) with minimal toolsets.
 - [ ] Build core prompts (`/plan`, `/implement-phase`, `/review-phase`, `/summarize`) referencing corresponding modes.
 - [ ] Include templates in `docs/templates/` for plan, phase completion, plan completion, commit message style guide.

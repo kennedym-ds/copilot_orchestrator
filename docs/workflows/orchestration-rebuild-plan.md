@@ -48,7 +48,7 @@ Reimagine the Copilot configuration around a conductor-led, multi-agent system t
 
 | Asset | Observation | Improvement Opportunity |
 | --- | --- | --- |
-| Chat modes (`.github/chatmodes/*.chatmode.md`) | Legacy personas in prior repo lack a unified conductor. | Consolidate into flow controllers, execution subagents, and utility agents with clear scopes. |
+| Agent definitions (`.github/agents/*.agent.md`) | Legacy personas in prior repo lack a unified conductor. | Consolidate into flow controllers, execution subagents, and utility agents with clear scopes. |
 | Prompts (`.github/prompts/**/*.prompt.md`) | Rich library but varied formats and missing references to latest instruction stack. | Standardize front matter, link to AGENTS.md, and align output formats with orchestrated lifecycle. |
 | Instructions (`instructions/**`, `.github`) | Multiple layered files exist but no AGENTS.md yet; repo instructions emphasize Beast Mode patterns. | Introduce root and nested AGENTS.md files, map existing instructions to new hierarchy, and remove duplication. |
 | Scripts (`scripts/*.ps1`) | Validation and metadata helpers exist but not enforced in CI. | Integrate into workflow to ensure every agent change passes validation and token budgets. |
@@ -86,7 +86,7 @@ Reimagine the Copilot configuration around a conductor-led, multi-agent system t
 # Instructions & Context Strategy
 
 1. **Root `AGENTS.md`:** Provide repository overview, build/test matrix, security/compliance requirements, and links to specialized instruction files.
-2. **Nested AGENTS.md:** Place domain-specific variants under `.github/chatmodes/`, `.github/prompts/`, and `scripts/` to give localized guidance.
+2. **Nested AGENTS.md:** Place domain-specific variants under `.github/agents/`, `.github/prompts/`, and `scripts/` to give localized guidance.
 3. **Instruction Files Alignment:**
    - Map existing `instructions/global/*.instructions.md` to the new conductor/subagent expectations.
    - Create `instructions/workflows/conductor.instructions.md` for orchestration policies (pause points, artifact storage).
@@ -112,7 +112,7 @@ Reimagine the Copilot configuration around a conductor-led, multi-agent system t
 | Phase | Focus | Key Deliverables | Owners | Target |
 | --- | --- | --- | --- | --- |
 | 0 | Foundations | Root `AGENTS.md`, enable nested support, align `.github/copilot-instructions.md` | Docs & Platform | Week 1 |
-| 1 | Conductor Skeleton | `conductor.chatmode.md`, plan/phase templates, updated planner subagents | Prompt Guild | Week 2 |
+| 1 | Conductor Skeleton | `conductor.agent.md`, plan/phase templates, updated planner subagents | Prompt Guild | Week 2 |
 | 2 | Execution Agents | `implement-subagent`, `review-subagent`, update TDD modes, add handoffs | Dev Experience | Week 3 |
 | 3 | Prompt & Template Refresh | Standardize prompt metadata, integrate partials, update templates | Prompt Guild | Week 4 |
 | 4 | Automation & CI | Wire validation scripts, add token budget gating, create dashboards | Dev Tools | Week 5 |

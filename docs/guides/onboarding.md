@@ -43,8 +43,7 @@ This guide accelerates new contributors joining the Copilot Orchestrator project
          "chat.promptFiles": true,
        "chat.promptFilesLocations": [".github/prompts"],
        "chat.modeFilesLocations": [
-          ".github/agents",
-          ".github/chatmodes"
+          ".github/agents"
        ],
        "github.copilot.chat.tools.memory.enabled": true
     }
@@ -60,7 +59,7 @@ This guide accelerates new contributors joining the Copilot Orchestrator project
    pwsh -File scripts/token-report.ps1 -Path . -ConfigPath token-thresholds.json
    Invoke-Pester -Path tests
    ```
-6. **Launch Conductor:** Use the `conductor` chat mode (`.github/chatmodes/conductor.chatmode.md`) with a simple task to walkthrough plan → implementation → review, dispatching work via the handoff buttons or explicit `#runSubagent` commands for Planner, Implementer, Reviewer, and support personas.
+6. **Launch Conductor:** Use the `conductor` agent (`.github/agents/conductor.agent.md`) with a simple task to walkthrough plan → implementation → review, dispatching work via the handoff buttons or explicit `#runSubagent` commands for Planner, Implementer, Reviewer, and support personas.
 7. **Capture Notes:** Log questions, risks, or missing guidance in `docs/operations.md` under the backlog table.
 
 ## Agent Sessions & Handoffs

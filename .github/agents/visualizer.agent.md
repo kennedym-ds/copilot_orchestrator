@@ -2,6 +2,10 @@
 name: visualizer
 description: "Designs and reviews user journeys, diagrams, and visual communication artifacts."
 model: GPT-5 (copilot)
+preferred_formats:
+  primary: conversational
+  secondary: json
+  rationale: "Conversational for UX design discussions and journey mapping; JSON for component specifications"
 tools: ['todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes']
 handoffs:
   - label: Report to Conductor

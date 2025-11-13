@@ -24,7 +24,7 @@ Define the target architecture, folder structure, and governance guardrails for 
 | --- | --- | --- |
 | `.github/` | GitHub workflows, issue templates, repo instructions | Include validation workflow invoking `scripts/validate-copilot-assets.ps1`. |
 | `.github/copilot-instructions.md` | Root instructions referencing `AGENTS.md` and critical policies | Keep concise; link to detailed docs. |
-| `.github/chatmodes/` | Core agents (`conductor`, `planner`, `implementer`, `reviewer`, support personas) | Use YAML front matter with `model`, `tools`, `handoffs`, `target`. |
+| `.github/agents/` | Core agents (`conductor`, `planner`, `implementer`, `reviewer`, support personas) | Use YAML front matter with `model`, `tools`, `handoffs`. |
 | `.github/prompts/` | Slash commands and reusable prompts mapped to orchestrated workflows | Group by phase (plan, implement, review, support). |
 | `AGENTS.md` | Primary instruction corpus for all agents | Mirror sample from `docs/templates/agents/root.md`. |
 | `instructions/` | Layered `.instructions.md` files per domain (global, languages, workflows, compliance) | Keep directories shallow and names descriptive. |
@@ -35,7 +35,7 @@ Define the target architecture, folder structure, and governance guardrails for 
 ## Instruction Strategy
 
 1. **Root `AGENTS.md`:** Summarizes product vision, architecture, build/test commands, security obligations, and validation rules.
-2. **Nested Files:** Enable `chat.useNestedAgentsMdFiles` and place AGENTS variants in `.github/chatmodes/`, `.github/prompts/`, and major submodules.
+2. **Nested Files:** Enable `chat.useNestedAgentsMdFiles` and place AGENTS variants in `.github/agents/`, `.github/prompts/`, and major submodules.
 3. **Workflow Instructions:** Create `.instructions.md` for conductor, planning, TDD implementation, code review, security audits, and docs generation.
 4. **Compliance Overlay:** Maintain `instructions/compliance/*.instructions.md` with regulatory requirements referenced in conductor outputs.
 

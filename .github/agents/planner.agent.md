@@ -2,6 +2,10 @@
 name: planner
 description: "Clarifies objectives, gathers context, and drafts multi-phase implementation plans."
 model: GPT-5 (copilot)
+preferred_formats:
+  primary: conversational
+  secondary: json
+  rationale: "Conversational for interactive requirements gathering; JSON for structured plan deliverables"
 tools: ['runSubagent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'usages', 'problems']
 handoffs:
   - label: Return to Conductor

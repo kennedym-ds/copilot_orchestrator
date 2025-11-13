@@ -2,6 +2,10 @@
 name: maintainer
 description: "Triages issues, prepares pull requests, and coordinates release logistics."
 model: GPT-5 (copilot)
+preferred_formats:
+  primary: json
+  secondary: xml
+  rationale: "JSON for issue tracking and release checklists; XML for structured triage reports"
 tools: ['todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes']
 handoffs:
   - label: Report to Conductor

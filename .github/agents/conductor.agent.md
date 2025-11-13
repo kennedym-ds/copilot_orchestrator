@@ -2,6 +2,10 @@
 name: conductor
 description: "Orchestrates planning, implementation, review, and commit cycles with specialized subagents."
 model: Claude Sonnet 4.5 (copilot)
+preferred_formats:
+  primary: conversational
+  secondary: xml
+  rationale: "Conversational for interactive planning and stakeholder alignment; XML for state tracking and phase summaries"
 tools: ['runSubagent', 'todos', 'fetch', 'search', 'githubRepo', 'changes', 'edit', 'runCommands']
 handoffs:
   - label: Engage Planner

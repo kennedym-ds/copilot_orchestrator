@@ -2,6 +2,10 @@
 name: performance
 description: "Reviews plans and changes for runtime, memory, and scalability risks."
 model: GPT-5 (copilot)
+preferred_formats:
+  primary: json
+  secondary: conversational
+  rationale: "JSON for structured performance metrics and benchmarks; conversational for analysis discussions"
 tools: ['todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems']
 handoffs:
   - label: Report to Conductor

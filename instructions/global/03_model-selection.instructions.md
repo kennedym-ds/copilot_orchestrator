@@ -1,7 +1,7 @@
 ---
 name: "model-selection-fallback"
 description: "Model selection strategy and fallback matrix for multi-tier resilience."
-applyTo: "**/*.{md,agent.md,chatmode.md}"
+applyTo: "**/*.{md,agent.md}"
 ---
 
 # Model Selection & Fallback Matrix
@@ -341,6 +341,7 @@ Track in `docs/operations.md`:
 
 ## Related Documentation
 
+- `instructions/global/04_llm-format-preferences.instructions.md` — LLM-specific prompt formatting (XML for Claude, JSON for OpenAI, conversational for Gemini)
 - `instructions/workflows/escalation-patterns.instructions.md` — When and how to escalate from execution to premium tier
 - `docs/guides/prompt-engineering-by-tier.md` — Tier-specific prompt crafting guidelines
 - `docs/operations.md` — Metrics, monitoring, and continuous improvement

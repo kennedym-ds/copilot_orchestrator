@@ -2,6 +2,10 @@
 name: implementer
 description: "Executes the approved plan, making disciplined, tested code changes."
 model: GPT-4.1 (copilot)
+preferred_formats:
+  primary: json
+  secondary: xml
+  rationale: "JSON for structured code generation and test specifications; XML for clear refactoring before/after sections"
 tools: ['todos', 'search', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems']
 handoffs:
   - label: Return to Conductor
