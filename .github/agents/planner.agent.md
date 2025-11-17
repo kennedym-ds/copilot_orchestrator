@@ -40,6 +40,9 @@ Adhere to `instructions/workflows/planner.instructions.md`.
 
 - TL;DR summary including scope boundaries and success metrics.
 - **Diagrams** (when applicable): Architecture, workflow, or state machine diagrams using Mermaid syntax.
+  - **Required for**: Architecture changes, multi-phase workflows, state machines, data pipelines
+  - **Reference**: `docs/examples/mermaid-diagram-patterns.md` for templates and best practices
+  - Include multiple diagram types when they clarify different aspects (architecture + workflow + state)
 - Phased breakdown with objectives, target files/functions, tests, and numbered steps (tests first, then implementation, then validation).
 - Risks, mitigations, and compliance checkpoints.
 - Open questions and decisions requiring human input.

@@ -108,7 +108,28 @@ All agents must honor the global instructions in `instructions/global/*.instruct
 3. Capture rollout notes and approvals in `docs/CHANGELOG.md` and `docs/operations.md`.
 4. For major changes, attach sample Agent Sessions exports demonstrating the conductor workflow.
 
-If any guideline conflicts with immediate customer needs, escalate via the Conductor plan’s open questions rather than bypassing the guardrails.
+If any guideline conflicts with immediate customer needs, escalate via the Conductor plan's open questions rather than bypassing the guardrails.
+
+---
+
+## Community Resources
+
+Leverage proven patterns from the GitHub Copilot community:
+
+- **[Awesome Copilot](https://github.com/github/awesome-copilot)** - Curated collection of custom agents, prompts, and instructions
+  - [Custom Agents](https://github.com/github/awesome-copilot/tree/main/agents) - Reference implementations for specialized personas
+  - [Reusable Prompts](https://github.com/github/awesome-copilot/tree/main/prompts) - Battle-tested prompt templates
+  - [Instructions](https://github.com/github/awesome-copilot/tree/main/instructions) - Framework-specific and language-specific guidelines
+- **Pattern Libraries**:
+  - [instructions.instructions.md](https://github.com/github/awesome-copilot/blob/main/instructions/instructions.instructions.md) - Meta-guidelines for creating instruction files
+  - [prompt.instructions.md](https://github.com/github/awesome-copilot/blob/main/instructions/prompt.instructions.md) - Best practices for prompt file structure
+  - [agent.instructions.md](https://github.com/github/awesome-copilot/blob/main/instructions/agent.instructions.md) - Custom agent development patterns
+
+**Integration Guidelines**:
+- Review awesome-copilot patterns before creating new agents or prompts
+- Adapt community patterns to match our conductor workflow and TDD requirements
+- Contribute successful patterns back to the community when appropriate
+- Reference specific awesome-copilot examples in conductor handoffs when suggesting tools
 
 ---
 

@@ -158,6 +158,36 @@ if ($promptFiles.Count -eq 0) {
     }
 }
 
+# 5. Validate plan documents for Mermaid diagrams
+$plansRoot = Join-Path $RepoRoot 'plans'
+$planFiles = @(Get-ChildItem -Path $plansRoot -Filter '*.md' -File -ErrorAction SilentlyContinue | Where-Object { $_.Name -match '^(?!README).*-plan\.md$|^(?!README).*-phase-\d+\.md$' })
+
+foreach ($plan in $planFiles) {
+    $content = Get-Content -LiteralPath $plan.FullName -Raw
+    $relativePath = $plan.FullName.Replace($RepoRoot + [IO.Path]::DirectorySeparatorChar, '')
+    
+    # Check if this is a complex plan (has multiple phases or architecture keywords)
+    $isComplexPlan = $content -match '(?i)(architecture|component|service|workflow|pipeline|state\s+machine)' -or 
+                     $content -match '(?m)^##?\s*Phase\s+\d+' -and ($content -split '(?m)^##?\s*Phase\s+\d+').Count -gt 3
+    
+    if ($isComplexPlan -and $content -notmatch '```mermaid') {
+        Add-Issue -Collector $issues -File $relativePath -Severity 'Warning' -Message 'Complex plan should include Mermaid diagrams for architecture, workflow, or state visualization. See docs/examples/mermaid-diagram-patterns.md'
+    }
+    
+    # Validate Mermaid syntax if diagrams exist
+    if ($content -match '```mermaid') {
+        $mermaidBlocks = [regex]::Matches($content, '(?s)```mermaid\s*\n(.*?)\n```')
+        foreach ($block in $mermaidBlocks) {
+            $diagramContent = $block.Groups[1].Value
+            
+            # Basic syntax validation
+            if ($diagramContent -notmatch '(flowchart|sequenceDiagram|stateDiagram|graph|classDiagram|erDiagram|gantt)') {
+                Add-Issue -Collector $issues -File $relativePath -Severity 'Warning' -Message 'Mermaid diagram missing diagram type declaration (flowchart, sequenceDiagram, etc.)'
+            }
+        }
+    }
+}
+
 # Present results
 if ($issues.Count -eq 0) {
     Write-Host '✅ All Copilot assets passed validation.' -ForegroundColor Green

@@ -44,6 +44,9 @@ You can register the paths globally in your user `settings.json` (recommended fo
        "C:\\Workspaces\\copilot_orchestrator\\.github\\chatmodes": true
      },
      "github.copilot.chat.tools.memory.enabled": true,
+     "chat.agentSessionsViewLocation": "panel",
+     "chat.emptyState.history.enabled": true,
+     "chat.customAgentInSubagent.enabled": true,
      "github.copilot.chat.reviewSelection.instructions": [
        {
          "file": "C:\\CopilotConfig\\.copilot-review-instructions.md"
@@ -79,6 +82,9 @@ You can register the paths globally in your user `settings.json` (recommended fo
 - Scoped instruction overlays under `instructions/` and `.github/instructions/` (behavior, compliance, language-specific).
 - Prompt libraries for planning, implementation, review, research, and support personas.
 - Chat modes and agent definitions with full handoff buttons (Conductor, Planner, Implementer, Reviewer, Researcher, Maintainer, Security, Performance, Visualizer, Data Analytics, Docs).
+- **Agent Sessions view** in the panel for unified monitoring of local and cloud agent workflows.
+- **Recent chat history** when starting new sessions for quick context switching.
+- **Cross-agent subagents** that allow specialized agents to invoke other agent personas.
 
 ## Optional Enhancements
 - Define tool set collections via `chat.tools.sets` when you create shared tool groups in `.github/toolsets.jsonc`.
@@ -88,9 +94,28 @@ You can register the paths globally in your user `settings.json` (recommended fo
 
 ## Subagent Handoffs in Practice
 - Launch complex work in the Conductor, then delegate using the handoff buttons or explicit `#runSubagent` commands (for example `#runSubagent planner`).
+- **Cross-agent subagents**: With `chat.customAgentInSubagent.enabled`, you can invoke different agent personas from within a subagent:
+  ```
+  Run the researcher agent as a subagent to investigate authentication patterns.
+  Use the security agent in a subagent to threat-model the API design.
+  ```
+- **Monitor all sessions**: Open the Agent Sessions view (Panel → Agent Sessions) to see conductor workflows, delegated cloud agents, and CLI sessions in one place.
 - When delegating manually, include scope, files, and expectations so memory captures the context for follow-up personas.
 - Encourage specialists (Security, Performance, Visualizer, Data Analytics, Docs) to append memory notes summarizing their findings for downstream agents.
 - Clear or update memory entries before starting a new initiative to avoid cross-talk between projects.
+
+## Saving Successful Sessions
+When a conductor session produces a valuable workflow, capture it for reuse:
+
+1. After completing the workflow, type `/savePrompt` in the chat input.
+2. VS Code generates a `.prompt.md` file with placeholders for variable inputs.
+3. Review the generated prompt and save it to `.github/prompts/` for team use.
+4. Document the new prompt in `docs/CHANGELOG.md` and add metadata with `scripts/add-prompt-metadata.ps1`.
+
+Example use cases:
+- Complex refactoring patterns that worked well
+- Multi-phase implementation workflows
+- Effective research + planning + implementation sequences
 
 ## Verification Checklist
 1. Restart VS Code Insiders after saving the settings.
