@@ -188,6 +188,78 @@ foreach ($plan in $planFiles) {
     }
 }
 
+# 6. Validate DS-Star data analysis sessions
+$dataAnalysisRoot = Join-Path $RepoRoot 'plans/data-analysis'
+if (Test-Path -LiteralPath $dataAnalysisRoot) {
+    $dataAnalysisSessions = @(Get-ChildItem -Path $dataAnalysisRoot -Directory -ErrorAction SilentlyContinue)
+    
+    foreach ($session in $dataAnalysisSessions) {
+        $stateFile = Join-Path $session.FullName 'pipeline_state.json'
+        $relativePath = $session.FullName.Replace($RepoRoot + [IO.Path]::DirectorySeparatorChar, '')
+        
+        # Check for required pipeline_state.json
+        if (-not (Test-Path -LiteralPath $stateFile)) {
+            Add-Issue -Collector $issues -File $relativePath -Severity 'Error' -Message 'DS-Star session missing pipeline_state.json (required for resume capability)'
+            continue
+        }
+        
+        try {
+            $state = Get-Content -LiteralPath $stateFile -Raw | ConvertFrom-Json
+            
+            # Check for infinite loops (max 10 rounds)
+            if ($state.current_round -and $state.current_round -gt 10) {
+                Add-Issue -Collector $issues -File "$relativePath/pipeline_state.json" -Severity 'Error' -Message "Session exceeded max refinement rounds: $($state.current_round) (limit: 10)"
+            }
+            
+            # Validate artifact completeness for completed steps
+            if ($state.completed_steps) {
+                foreach ($step in $state.completed_steps) {
+                    $stepDir = Join-Path $session.FullName "steps/$step"
+                    
+                    if (Test-Path -LiteralPath $stepDir) {
+                        # Check for required metadata
+                        $metadataFile = Join-Path $stepDir 'metadata.json'
+                        if (-not (Test-Path -LiteralPath $metadataFile)) {
+                            Add-Issue -Collector $issues -File "$relativePath/steps/$step" -Severity 'Warning' -Message 'Step directory missing metadata.json'
+                        }
+                        
+                        # Check for prompt file
+                        $promptFile = Join-Path $stepDir 'prompt.md'
+                        if (-not (Test-Path -LiteralPath $promptFile)) {
+                            Add-Issue -Collector $issues -File "$relativePath/steps/$step" -Severity 'Warning' -Message 'Step directory missing prompt.md (required for reproducibility)'
+                        }
+                    }
+                }
+            }
+            
+            # Check for final output if status is completed
+            if ($state.status -eq 'completed') {
+                $finalReport = Join-Path $session.FullName 'final_output/analysis-report.md'
+                if (-not (Test-Path -LiteralPath $finalReport)) {
+                    Add-Issue -Collector $issues -File "$relativePath/final_output" -Severity 'Error' -Message 'Completed DS-Star session missing final analysis report'
+                }
+                
+                # Check for final code
+                $finalCode = Join-Path $session.FullName 'final_output/final_analysis.py'
+                if (-not (Test-Path -LiteralPath $finalCode)) {
+                    Add-Issue -Collector $issues -File "$relativePath/final_output" -Severity 'Warning' -Message 'Completed session missing final_analysis.py (recommended for reproducibility)'
+                }
+            }
+            
+            # Validate verification history
+            if ($state.verification_history -and $state.verification_history.Count -gt 0) {
+                $lastVerification = $state.verification_history[-1]
+                if ($state.status -eq 'completed' -and $lastVerification.verdict -ne 'SUFFICIENT') {
+                    Add-Issue -Collector $issues -File "$relativePath/pipeline_state.json" -Severity 'Warning' -Message "Session marked completed but last verification was $($lastVerification.verdict)"
+                }
+            }
+            
+        } catch {
+            Add-Issue -Collector $issues -File "$relativePath/pipeline_state.json" -Severity 'Error' -Message "Invalid JSON format: $($_.Exception.Message)"
+        }
+    }
+}
+
 # Present results
 if ($issues.Count -eq 0) {
     Write-Host '✅ All Copilot assets passed validation.' -ForegroundColor Green
