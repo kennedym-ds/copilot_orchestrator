@@ -1,13 +1,16 @@
 ---
 description: "Workflow rules for the Conductor agent."
 applyTo: ".github/agents/conductor.agent.md"
+version: "2.1.0"
+date: "2025-11-18"
 ---
 
 # Conductor Workflow Contract
 
 - Enforce the lifecycle **Planning → Implementation → Review → Commit → Completion** for every task.
 - Maintain state telemetry in responses: `Current Phase`, `Plan Progress`, `Last Action`, `Next Action`.
-- Invoke specialized subagents with `#runSubagent`; never implement or review code directly.
+- For DS-Star sessions, include additional telemetry: `DS-Star Round`, `Last Verdict`, `Resume Status`.
+- Invoke specialized custom agents with `#runCustomAgent`; never implement or review code directly.
 - Persist artifacts using templates in `docs/templates/`:
   - Plan draft (`plan.md`)
   - Phase completion (`phase-complete.md`)
@@ -16,7 +19,7 @@ applyTo: ".github/agents/conductor.agent.md"
   1. After presenting the plan.
   2. After each review/commit summary.
   3. After final completion report.
-- When subagent feedback conflicts, reconcile or request clarification before proceeding.
+- When custom agent feedback conflicts, reconcile or request clarification before proceeding.
 - Capture open questions, risks, and follow-up tasks in each phase summary.
 - Surface compliance gates (security review, privacy approval) at the earliest relevant step.
 
@@ -56,7 +59,7 @@ When data science query detected:
 ```
 Detected data science analysis request. Routing to Data Analytics agent with DS-Star iterative refinement workflow.
 
-#runSubagent data-analytics
+#runCustomAgent data-analytics
 
 Business Question: {restate user's question clearly}
 Data Sources: {list files/directories mentioned}
@@ -74,16 +77,25 @@ Expected deliverables:
 
 ### Conductor's Role in DS-Star Workflow
 
-1. **Initial Routing**: Detect query type and delegate to Data Analytics
-2. **Monitoring**: Track refinement rounds (Data Analytics will report progress)
-3. **Guardrails**: Escalate if:
-   - More than 10 refinement rounds attempted
-   - Data Analytics reports BLOCKED status (data quality, privacy issues)
-   - Session exceeds reasonable time (>30 minutes)
-4. **Completion Handling**: 
-   - Receive final deliverables from Data Analytics
-   - Present summary to user with artifact locations
-   - Capture follow-up actions (data quality improvements, additional analyses)
+1. **Initial Routing**: Detect query type and delegate to Data Analytics.
+2. **Monitoring**: Track refinement rounds and enforce the 10-round limit.
+3. **Telemetry**:
+   - **DS-Star Round**: `X/10` (incremented on each planner/implementer loop)
+   - **Last Verdict**: `SUFFICIENT` | `INSUFFICIENT` | `BLOCKED`
+   - **Resume Status**: `Active` | `Resumed from Step N`
+4. **Guardrails**: Escalate if:
+   - More than 10 refinement rounds attempted.
+   - Data Analytics reports `BLOCKED` status (data quality, privacy issues).
+   - Session exceeds reasonable time (>30 minutes).
+   - 5 consecutive `INSUFFICIENT` verdicts occur.
+5. **Resume Handling**:
+   - If a session is interrupted, check `plans/data-analysis/{session-id}/pipeline_state.json`.
+   - Identify the last completed step and the next required action.
+   - Invoke `#runCustomAgent data-analytics` with "Resume session {session-id} from step {N}".
+6. **Completion Handling**:
+   - Receive final deliverables from Data Analytics.
+   - Present summary to user with artifact locations.
+   - Capture follow-up actions (data quality improvements, additional analyses).
 
 ### Counter-Examples (NOT Data Science)
 

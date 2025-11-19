@@ -15,7 +15,7 @@ Define the target architecture, folder structure, and governance guardrails for 
 - **Conductor-Centric:** All workflows originate from a Conductor agent that coordinates research, implementation, review, and documentation artifacts.
 - **Instruction Mesh:** `AGENTS.md` files provide the canonical context, with layered `.instructions.md` overrides for language, workflow, and compliance scopes.
 - **Cost-Aware Model Mix:** Reasoning phases use premium models (GPT-5, Claude Sonnet 4.5, Gemini 2.5 Pro, Claude Opus); implementation phases default to efficient models (GPT-5 Mini, Claude Haiku 4.5, GPT-4.1).
-- **Async Subagents:** Planning, research, implementation, and review subagents run via `#runSubagent`, allowing parallel execution and context isolation.
+- **Async Custom Agents:** Planning, research, implementation, and review custom agents run via `#runCustomAgent`, allowing parallel execution and context isolation.
 - **Artifact Trail:** Every phase emits Markdown records (plans, phase completion, final summary) stored under `plans/` to enable auditability and resumability.
 
 ## Repository Layout
@@ -24,7 +24,7 @@ Define the target architecture, folder structure, and governance guardrails for 
 | --- | --- | --- |
 | `.github/` | GitHub workflows, issue templates, repo instructions | Include validation workflow invoking `scripts/validate-copilot-assets.ps1`. |
 | `.github/copilot-instructions.md` | Root instructions referencing `AGENTS.md` and critical policies | Keep concise; link to detailed docs. |
-| `.github/chatmodes/` | Core agents (`conductor`, `planner`, `implementer`, `reviewer`, support personas) | Use YAML front matter with `model`, `tools`, `handoffs`, `target`. |
+| `.github/agents/` | Core agents (`conductor`, `planner`, `implementer`, `reviewer`, support personas) | Use YAML front matter with `model`, `tools`, `handoffs`, `target`. |
 | `.github/prompts/` | Slash commands and reusable prompts mapped to orchestrated workflows | Group by phase (plan, implement, review, support). |
 | `AGENTS.md` | Primary instruction corpus for all agents | Mirror sample from `docs/templates/agents/root.md`. |
 | `instructions/` | Layered `.instructions.md` files per domain (global, languages, workflows, compliance) | Keep directories shallow and names descriptive. |
@@ -35,7 +35,7 @@ Define the target architecture, folder structure, and governance guardrails for 
 ## Instruction Strategy
 
 1. **Root `AGENTS.md`:** Summarizes product vision, architecture, build/test commands, security obligations, and validation rules.
-2. **Nested Files:** Enable `chat.useNestedAgentsMdFiles` and place AGENTS variants in `.github/chatmodes/`, `.github/prompts/`, and major submodules.
+2. **Nested Files:** Enable `chat.useNestedAgentsMdFiles` and place AGENTS variants in `.github/agents/`, `.github/prompts/`, and major submodules.
 3. **Workflow Instructions:** Create `.instructions.md` for conductor, planning, TDD implementation, code review, security audits, and docs generation.
 4. **Compliance Overlay:** Maintain `instructions/compliance/*.instructions.md` with regulatory requirements referenced in conductor outputs.
 
@@ -43,7 +43,7 @@ Define the target architecture, folder structure, and governance guardrails for 
 
 | Agent | Description | Default Model | Key Tools | Handoffs |
 | --- | --- | --- | --- | --- |
-| `conductor` | Orchestrates plan → implement → review → commit → completion | Claude Sonnet 4.5 | `runSubagent`, `todos`, `fetch`, `search`, `githubRepo`, `edit`, `changes`, `runCommands` | Planner, Implementer, Reviewer, Support |
+| `conductor` | Orchestrates plan → implement → review → commit → completion | Claude Sonnet 4.5 | `runCustomAgent`, `todos`, `fetch`, `search`, `githubRepo`, `edit`, `changes`, `runCommands` | Planner, Implementer, Reviewer, Support |
 | `planner` | Drafts plans from research findings and user clarifications | GPT-5 | `todos`, `fetch`, `search`, `readFile` | Handoff to Conductor (Phase Kickoff) |
 | `researcher` | Deep research, context gathering, option analysis | Gemini 2.5 Pro | `search`, `fetch`, `githubRepo`, `readFile`, `usages`, `problems` | Returns findings to Conductor/Planner |
 | `implementer` | Executes TDD implementation per phase | GPT-5 Mini | `edit`, `runCommands`, `search`, `todos`, `changes`, `problems` | Handoff to Reviewer |
@@ -63,7 +63,7 @@ Define the target architecture, folder structure, and governance guardrails for 
 - `docs/workflows/new-workspace-setup-checklist.md` (operational steps).
 - `docs/templates/` containing reusable templates (AGENTS root, nested AGENTS, plan style guide, phase completion guide).
 - `docs/CHANGELOG.md` documenting milestones.
-- Architecture diagram (Mermaid) illustrating conductor/subagent flow.
+- Architecture diagram (Mermaid) illustrating conductor/custom agent flow.
 
 ## Security & Compliance
 

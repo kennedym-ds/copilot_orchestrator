@@ -69,7 +69,7 @@ $markdownFiles = Get-ChildItem -Path $resolvedRoot -Recurse -File -Include *.md,
 
 foreach ($file in $markdownFiles) {
     $relative = $file.FullName.Replace($resolvedRoot + [IO.Path]::DirectorySeparatorChar, '')
-    $lines = Get-Content -LiteralPath $file.FullName
+    $lines = @(Get-Content -LiteralPath $file.FullName)
 
     for ($i = 0; $i -lt $lines.Count; $i++) {
         $line = $lines[$i]

@@ -1,0 +1,14 @@
+{
+  "step_id": "007_reviewer_signoff",
+  "run_id": "run-007a",
+  "timestamp": "2025-11-15T10:04:51Z",
+  "reviewer_model": "gpt-5.1-reviewer",
+  "verdict": "SUFFICIENT",
+  "gap_summary": "Cohort acceleration quantified with chi-square + CI",
+  "next_action": "Finalize docs and publish",
+  "router_directive": "ROUTE_DOCS",
+  "attachments": [
+    "steps/006_implementer_refine/churn_by_cohort_band.csv",
+    "final_output/analysis-report.md"
+  ]
+}

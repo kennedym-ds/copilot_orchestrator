@@ -7,7 +7,7 @@ status: draft
 
 # Copilot Orchestrator
 
-This repository is the centrally managed Copilot instruction pack used by VS Code Insiders across multiple workspaces. It ships a complete multi-agent workflow (conductor → planner → implementer → reviewer → completion) with handoffs, context-isolated subagents, and support personas for security, performance, and documentation.
+This repository is the centrally managed Copilot instruction pack used by VS Code Insiders across multiple workspaces. It ships a complete multi-agent workflow (conductor → planner → implementer → reviewer → completion) with handoffs, context-isolated custom agents, and support personas for security, performance, and documentation.
 
 Use it as the single source of truth for instructions, agent definitions, prompts, and validation tooling. Point your VS Code settings at this repo and every workspace inherits the same guardrails, tool permissions, and lifecycle handoffs.
 
@@ -37,9 +37,9 @@ Use it as the single source of truth for instructions, agent definitions, prompt
     ```
 
     - `chat.modeFilesLocations` loads the persona definitions under `.github/agents` (new schema) and retains backward compatibility with any legacy `.chatmode.md` wrappers.
-    - `github.copilot.chat.tools.memory.enabled` persists contextual notes across sessions so subagents remember decisions and follow-ups.
+    - `github.copilot.chat.tools.memory.enabled` persists contextual notes across sessions so custom agents remember decisions and follow-ups.
     - Instructions and prompts are automatically available in the Chat view and `/` command palette once these settings are active.
-3. **Restart VS Code Insiders** and open the **Agent Sessions** view to confirm the custom agents appear alongside the built-in options. Test a conductor session and verify the handoff buttons or `#runSubagent` commands launch planner, implementer, reviewer, and specialist personas.
+3. **Restart VS Code Insiders** and open the **Agent Sessions** view to confirm the custom agents appear alongside the built-in options. Test a conductor session and verify the handoff buttons or `#runCustomAgent` commands launch planner, implementer, reviewer, and specialist personas.
 
 Detailed environment notes live in `docs/guides/vscode-copilot-configuration.md` and `docs/guides/onboarding.md`.
 
@@ -47,7 +47,7 @@ Detailed environment notes live in `docs/guides/vscode-copilot-configuration.md`
 
 All personas are authored as `.agent.md` files with explicit tool scopes and handoffs:
 
-- **Conductor** — orchestrates the entire lifecycle, enforces pause points, and delegates via `#runSubagent`.
+- **Conductor** — orchestrates the entire lifecycle, enforces pause points, and delegates via `#runCustomAgent`.
 - **Planner** — performs deep research, drafts multi-phase plans, and cites every external source.
 - **Implementer** — executes phases with TDD discipline and comprehensive validation logs.
 - **Reviewer** — delivers severity-tagged findings and guards quality, security, and compliance.

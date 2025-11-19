@@ -11,7 +11,7 @@ Welcome, agent. This repository is the **greenfield conductor workspace** for Gi
 - Build a conductor-led workflow that progresses every task through **Planning → Implementation → Review → Commit → Completion**.
 - Persist artifacts for each stage under `plans/` (plan drafts, phase summaries, completion report).
 - Maintain strict pause points after plan creation and after each review to keep the human in control.
-- Use **context-isolated subagents** (via `#runSubagent`) for research-heavy or parallelizable work.
+- Use **context-isolated custom agents** (via `#runCustomAgent`) for research-heavy or parallelizable work.
 
 Supporting documentation:
 
@@ -52,7 +52,7 @@ All agents must honor the global instructions in `instructions/global/*.instruct
 ### Conductor
 
 - Maintain state (`Current Phase`, `Plan Progress`, `Last Action`, `Next Action`) in responses.
-- Invoke specialized subagents with `#runSubagent`; do not implement code directly.
+- Invoke specialized custom agents with `#runCustomAgent`; do not implement code directly.
 - Enforce mandatory pause points and write artifacts using templates in `docs/templates/`.
 
 ### Planner & Researcher

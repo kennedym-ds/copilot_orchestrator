@@ -1,0 +1,1 @@
+Placeholder for churn visualization (bar chart data exported from matplotlib).

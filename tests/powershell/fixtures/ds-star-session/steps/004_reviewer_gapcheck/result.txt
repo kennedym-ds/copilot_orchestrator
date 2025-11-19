@@ -1,0 +1,10 @@
+Verdict: INSUFFICIENT – Baseline churn deltas lack activity-band context.
+
+```TODO-reviewer
+Verdict: INSUFFICIENT – Missing cohort confidence intervals
+- [severity:high] No confidence intervals or statistical tests attached (`steps/003_implementer_baseline/churn_by_cohort.csv`)
+- [severity:medium] Need segmentation by activity_band to validate "steepest acceleration" claim (`pipeline_state.json.plan[1]`)
+- [severity:medium] Router directive requires planner to add Step 2 focusing on cohorts + activity bands
+next_action: Request planner for next step with statistical rigor
+router_directive: ROUTE_PLANNER
+```

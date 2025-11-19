@@ -74,6 +74,19 @@ status: draft
 - Fine-tune cost-efficient models on successful patterns if data available.
 - Adjust fallback chains based on empirical reliability and performance data.
 
+### DS-Star Operations
+
+**Policies:**
+- **Max Rounds:** 10 per session. Escalation required if exceeded.
+- **Timeout:** 30 minutes per session.
+- **Resume SLA:** All interrupted sessions must be resumable via `pipeline_state.json`.
+- **Data Privacy:** No PII in `plans/data-analysis/`. Use placeholder data for reproduction.
+
+**Monitoring:**
+- **Completion Rate:** Target ≥80% `SUFFICIENT` verdicts.
+- **Average Rounds:** Target ≤3 for simple, ≤6 for complex queries.
+- **Artifact Compliance:** 100% of sessions must pass `validate-copilot-assets.ps1` (Section 6).
+
 ## Incident Response
 
 - Classify incidents (operational, policy, security).

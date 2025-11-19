@@ -1,0 +1,8 @@
+Created `steps/006_implementer_refine/churn_by_cohort_band.csv` with chi-square stats and 95% confidence intervals.
+Segments with largest acceleration: Q4-2024 Low activity (31% churn, +18 pp) and Q4-2024 Dormant (44% churn, +15 pp).
+
+```TODO-implementer
+- [x] Added activity-band segmentation and Wilson confidence intervals
+- [x] Attached chi-square statistics for significant cohorts
+- [ ] Await reviewer verdict before drafting docs
+```

@@ -1,0 +1,22 @@
+{
+  "step_id": "001_analyzer_customers",
+  "role": "analyzer",
+  "inputs": [
+    "data/customers.csv"
+  ],
+  "outputs": [
+    "steps/001_analyzer_customers/result.txt",
+    "data_descriptions/customers.csv.summary.md"
+  ],
+  "verdict": "N/A",
+  "timestamp": "2025-11-15T09:47:03Z",
+  "next_action": "Provide sequential plan seed",
+  "run_id": "run-001",
+  "reviewer_model": "N/A",
+  "gap_summary": "",
+  "router_directive": "ROUTE_PLANNER",
+  "attachments": [
+    "steps/001_analyzer_customers/result.txt"
+  ],
+  "truncation_note": ""
+}

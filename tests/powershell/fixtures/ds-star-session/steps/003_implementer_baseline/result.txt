@@ -1,0 +1,8 @@
+Saved cohort churn deltas to `steps/003_implementer_baseline/churn_by_cohort.csv`.
+Top movers: Q4-2024 (+4.2%), Q3-2024 (+1.1%).
+
+```TODO-implementer
+- [x] Computed churn deltas per cohort
+- [ ] Add activity-band segmentation + stats (pending planner Step 2)
+- [ ] Validate statistical significance before final verdict
+```

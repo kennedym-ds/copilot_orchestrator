@@ -1,0 +1,22 @@
+{
+  "step_id": "005_planner_next",
+  "role": "planner",
+  "inputs": [
+    "steps/004_reviewer_gapcheck/verdict.md",
+    "pipeline_state.json"
+  ],
+  "outputs": [
+    "steps/005_planner_next/result.txt"
+  ],
+  "verdict": "N/A",
+  "timestamp": "2025-11-15T10:00:02Z",
+  "next_action": "Route implementer for Step 2",
+  "run_id": "run-005",
+  "reviewer_model": "N/A",
+  "gap_summary": "",
+  "router_directive": "ROUTE_IMPLEMENTER",
+  "attachments": [
+    "steps/005_planner_next/result.txt"
+  ],
+  "truncation_note": ""
+}

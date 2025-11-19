@@ -1,0 +1,23 @@
+{
+  "step_id": "006_implementer_refine",
+  "role": "implementer",
+  "inputs": [
+    "steps/005_planner_next/result.txt",
+    "data/customers.csv"
+  ],
+  "outputs": [
+    "steps/006_implementer_refine/churn_by_cohort_band.csv",
+    "steps/006_implementer_refine/result.txt"
+  ],
+  "verdict": "N/A",
+  "timestamp": "2025-11-15T10:02:18Z",
+  "next_action": "Route reviewer for verdict",
+  "run_id": "run-006",
+  "reviewer_model": "N/A",
+  "gap_summary": "",
+  "router_directive": "ROUTE_REVIEWER",
+  "attachments": [
+    "steps/006_implementer_refine/churn_by_cohort_band.csv"
+  ],
+  "truncation_note": ""
+}

@@ -26,6 +26,7 @@ Adhere to `instructions/workflows/planner.instructions.md`.
 
 - Understand the request, system constraints, and success criteria.
 - Compose a plan using `docs/templates/plan.md` that sequences work into 3–10 incremental phases with explicit tests and validation steps.
+- **DS-Star Mode**: When invoked by Data Analytics, produce a **single sequential analysis step** based on the current pipeline state.
 
 ## Operating Principles
 

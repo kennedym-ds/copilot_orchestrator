@@ -34,6 +34,26 @@ All notable changes will be documented here following [Keep a Changelog](https:/
 - Scoped global behavior, security, and compliance instructions to targeted file globs to minimize unnecessary context loading.
 - Python language guardrails (`instructions/languages/python.instructions.md`) grounded in the Zen of Python and modern tooling expectations.
 - VS Code Copilot configuration guide documenting required settings for custom modes, prompts, and instruction meshes.
+- Dedicated `plan-ds-star-step` planner prompt for sequential DS-Star routing, plus metadata hooks for telemetry-aware step generation.
+- DS-Star regression fixture (`tests/powershell/fixtures/ds-star-session/`) with pipeline state, step metadata, and verdict logs so analytics/tests can run without touching production artifacts.
+- Pester coverage invoking `scripts/analyze-sessions.ps1` against the fixture to ensure dashboards render DS-Star metrics, resume readiness, and verdict mix text end-to-end.
+
+### Changed
+- Conductor workflow instructions and agent definition now enforce DS-Star telemetry payloads, guardrail escalation thresholds, and resume procedures, ensuring routing decisions are documented and auditable.
+- DS-Star workflow guide includes a conductor-facing decision matrix, troubleshooting tips, and onboarding cross-links so contributors can quickly reference routing expectations.
+- Operations playbook adds DS-Star monitoring policies (round cap audits, runtime SLA tracking, resume integrity checks).
+- Planner workflow instructions and agent definition now document DS-Star sequential mode (single-step output, truncation handling, `pipeline_state.json` context), and a dedicated DS-Star planner prompt plus guidance in `prompt-engineering-by-tier.md` illustrates the new pattern.
+- DS-Star artifact governance updates: refreshed data analytics workflow instructions + agent, reviewer verdict rubric alignment, and the new `plans/data-analysis/README.md` to anchor artifact metadata.
+- README and onboarding guide highlight DS-Star detection heuristics, telemetry guardrails, and resume steps while pointing contributors to `plans/data-analysis/README.md` and the new planner prompt.
+- DS-Star verdict chain + severity alignment (2025-11-18): expanded
+  `plans/data-analysis/README.md` metadata schema, updated
+  `.github/agents/data-analytics.agent.md`, `.github/agents/reviewer.agent.md`,
+  and the reviewer/data-analytics workflow instructions to enforce
+  `verdict.md` / `verdict.json` / `verdict_log.ndjson` mirrors plus
+  `[severity:high|medium|low]` TODO fences, with entries captured in
+  `docs/CHANGELOG.md` and `INSTRUCTION_CHANGELOG.md`.
+- `scripts/analyze-sessions.ps1` now accepts `-DSStarPath`, produces a console+markdown DS-Star telemetry section (completion rate, average rounds/steps/duration, verdict mix, resume readiness), and powers the regenerated `docs/dashboards/workflow-metrics.md`.
+- `docs/guides/sample-agent-session.md` and `docs/workflows/ds-star-integration.md` describe the new DS-Star fixture, analytics workflow, and test coverage so contributors can replay the sequential loop end-to-end.
 
 ### Removed
 - Retired the Billy Butcher reviewer persona and associated legacy chat mode assets to maintain a professional review posture.

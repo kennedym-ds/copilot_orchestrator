@@ -1,0 +1,23 @@
+{
+  "step_id": "003_implementer_baseline",
+  "role": "implementer",
+  "inputs": [
+    "steps/002_planner_init/result.txt",
+    "data/customers.csv"
+  ],
+  "outputs": [
+    "steps/003_implementer_baseline/churn_by_cohort.csv",
+    "steps/003_implementer_baseline/result.txt"
+  ],
+  "verdict": "N/A",
+  "timestamp": "2025-11-15T09:53:07Z",
+  "next_action": "Request reviewer verdict",
+  "run_id": "run-003",
+  "reviewer_model": "N/A",
+  "gap_summary": "",
+  "router_directive": "ROUTE_REVIEWER",
+  "attachments": [
+    "steps/003_implementer_baseline/churn_by_cohort.csv"
+  ],
+  "truncation_note": ""
+}

@@ -1,0 +1,8 @@
+Docs summary drafted at `final_output/analysis-report.md` and reproducibility instructions appended.
+
+```TODO-docs
+- [x] Executive summary with top churn acceleration cohorts
+- [x] Methodology referencing DS-Star steps 1-2
+- [x] Re-run instructions for final_analysis.py
+- [ ] Await conductor approval for delivery
+```

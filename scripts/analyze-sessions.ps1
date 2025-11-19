@@ -12,6 +12,7 @@
     - Phase duration and bottlenecks
     - Review outcomes and quality trends
     - Common failure patterns
+    - DS-Star adoption, refinement rounds, and verdict telemetry
 
 .PARAMETER SessionsPath
     Path to directory containing session metadata JSON files.
@@ -28,6 +29,10 @@
 .PARAMETER EndDate
     End date for analysis window (ISO 8601 format).
     Default: Today
+
+.PARAMETER DSStarPath
+    Path to DS-Star session directories (pipeline_state.json files).
+    Default: ./plans/data-analysis
 
 .PARAMETER Format
     Output format: Markdown, JSON, or CSV.
@@ -60,6 +65,9 @@ param(
     
     [Parameter()]
     [datetime]$EndDate = (Get-Date),
+    
+    [Parameter()]
+    [string]$DSStarPath = "./plans/data-analysis",
     
     [Parameter()]
     [ValidateSet('Markdown', 'JSON', 'CSV')]
@@ -102,6 +110,41 @@ $script:SessionMetadata = @{
         Total = @()
     }
     FailurePatterns = @{}
+}
+
+$script:DsStarMetrics = @{
+    Sessions = [System.Collections.Generic.List[object]]::new()
+    Summary = @{
+        TotalSessions = 0
+        CompletedSessions = 0
+        InProgressSessions = 0
+        BlockedSessions = 0
+        ResumeReadySessions = 0
+        AvgRounds = 0.0
+        AvgDurationMinutes = 0.0
+        AvgStepsPerSession = 0.0
+        Verdicts = @{
+            SUFFICIENT = 0
+            INSUFFICIENT = 0
+            BLOCKED = 0
+        }
+    }
+    SourcePath = $null
+}
+
+$script:SupportsJsonDepthParameter = (Get-Command -Name ConvertFrom-Json).Parameters.ContainsKey('Depth')
+
+function ConvertFrom-JsonSafe {
+    param(
+        [string]$Json,
+        [int]$Depth = 10
+    )
+
+    if ($script:SupportsJsonDepthParameter) {
+        return $Json | ConvertFrom-Json -Depth $Depth
+    }
+
+    return $Json | ConvertFrom-Json
 }
 
 function Get-SessionFiles {
@@ -230,6 +273,141 @@ function Update-Metrics {
     }
 }
 
+function Get-DsStarSessions {
+    <#
+    .SYNOPSIS
+        Collects DS-Star session telemetry from pipeline_state.json files.
+    #>
+    param(
+        [string]$Path
+    )
+
+    $collection = [System.Collections.Generic.List[object]]::new()
+
+    if (-not (Test-Path -LiteralPath $Path)) {
+        return $collection
+    }
+
+    $directories = Get-ChildItem -Path $Path -Directory -ErrorAction SilentlyContinue
+    foreach ($directory in $directories) {
+        $stateFile = Join-Path $directory.FullName 'pipeline_state.json'
+        if (-not (Test-Path -LiteralPath $stateFile)) {
+            continue
+        }
+
+        try {
+            $stateJson = Get-Content -LiteralPath $stateFile -Raw
+            $state = ConvertFrom-JsonSafe -Json $stateJson -Depth 50
+        }
+        catch {
+            Write-Warning "Failed to parse DS-Star pipeline state for $($directory.Name): $_"
+            continue
+        }
+
+        $rounds = $null
+        if ($state.current_round) {
+            $rounds = [int]$state.current_round
+        }
+        elseif ($state.round_counter) {
+            $rounds = [int]$state.round_counter
+        }
+        elseif ($state.verification_history) {
+            $rounds = [int]$state.verification_history.Count
+        }
+
+        $steps = if ($state.completed_steps) { [int]$state.completed_steps.Count } else { 0 }
+
+        $duration = $null
+        if ($state.duration_minutes) {
+            $duration = [double]$state.duration_minutes
+        }
+        elseif ($state.completed_at -and $state.created_at) {
+            try {
+                $duration = (([datetime]$state.completed_at) - ([datetime]$state.created_at)).TotalMinutes
+            }
+            catch {
+                $duration = $null
+            }
+        }
+
+        $lastVerdict = $null
+        if ($state.verification_history -and $state.verification_history.Count -gt 0) {
+            $lastVerdict = $state.verification_history[-1].verdict
+        }
+        elseif ($state.active_verdict) {
+            $lastVerdict = $state.active_verdict
+        }
+
+        $resumeReady = $false
+        if ($state.status -eq 'in-progress' -and $state.current_step -and $state.plan -and $state.plan.Count -gt 0) {
+            $resumeReady = $true
+        }
+
+        $collection.Add([PSCustomObject]@{
+                SessionId       = if ($state.session_id) { $state.session_id } else { $directory.Name }
+                Directory       = $directory.FullName
+                Status          = if ($state.status) { $state.status } else { 'unknown' }
+                Rounds          = $rounds
+                Steps           = $steps
+                DurationMinutes = $duration
+                LastVerdict     = $lastVerdict
+                ResumeReady     = $resumeReady
+                LastWriteTime   = $directory.LastWriteTime
+            }) | Out-Null
+    }
+
+    return $collection
+}
+
+function Update-DsStarMetricsSummary {
+    <#
+    .SYNOPSIS
+        Aggregates DS-Star telemetry into summary stats.
+    #>
+    param(
+        [System.Collections.Generic.List[object]]$Sessions,
+        [string]$SourcePath
+    )
+
+    $script:DsStarMetrics.SourcePath = $SourcePath
+    $script:DsStarMetrics.Sessions = $Sessions
+    $summary = $script:DsStarMetrics.Summary
+
+    $summary.TotalSessions = $Sessions.Count
+    $summary.CompletedSessions = ($Sessions | Where-Object { $_.Status -eq 'completed' }).Count
+    $summary.InProgressSessions = ($Sessions | Where-Object { $_.Status -eq 'in-progress' }).Count
+    $summary.BlockedSessions = ($Sessions | Where-Object { $_.Status -eq 'blocked' }).Count
+    $summary.ResumeReadySessions = ($Sessions | Where-Object { $_.ResumeReady }).Count
+
+    $roundSamples = $Sessions | Where-Object { $_.Rounds -ne $null } | Select-Object -ExpandProperty Rounds
+    if ($roundSamples) {
+        $summary.AvgRounds = [math]::Round((($roundSamples | Measure-Object -Average).Average), 1)
+    }
+    else {
+        $summary.AvgRounds = 0.0
+    }
+
+    $durationSamples = $Sessions | Where-Object { $_.DurationMinutes -ne $null } | Select-Object -ExpandProperty DurationMinutes
+    if ($durationSamples) {
+        $summary.AvgDurationMinutes = [math]::Round((($durationSamples | Measure-Object -Average).Average), 1)
+    }
+    else {
+        $summary.AvgDurationMinutes = 0.0
+    }
+
+    $stepSamples = $Sessions | Where-Object { $_.Steps -gt 0 } | Select-Object -ExpandProperty Steps
+    if ($stepSamples) {
+        $summary.AvgStepsPerSession = [math]::Round((($stepSamples | Measure-Object -Average).Average), 1)
+    }
+    else {
+        $summary.AvgStepsPerSession = 0.0
+    }
+
+    $summary.Verdicts.SUFFICIENT = ($Sessions | Where-Object { $_.LastVerdict -eq 'SUFFICIENT' }).Count
+    $summary.Verdicts.INSUFFICIENT = ($Sessions | Where-Object { $_.LastVerdict -eq 'INSUFFICIENT' }).Count
+    $summary.Verdicts.BLOCKED = ($Sessions | Where-Object { $_.LastVerdict -eq 'BLOCKED' }).Count
+}
+
 function Format-MarkdownReport {
     <#
     .SYNOPSIS
@@ -338,6 +516,10 @@ $mermaidChart
 
 ---
 
+$(Get-DsStarMarkdownSection)
+
+---
+
 ## Insights & Recommendations
 
 $insights
@@ -350,6 +532,95 @@ $insights
 "@
     
     return $report
+}
+
+function Get-DsStarMarkdownSection {
+    <#
+    .SYNOPSIS
+        Builds the DS-Star metrics section for the Markdown dashboard.
+    #>
+
+    $summary = $script:DsStarMetrics.Summary
+    $sourcePath = if ($script:DsStarMetrics.SourcePath) { $script:DsStarMetrics.SourcePath } else { $DSStarPath }
+
+    if ($summary.TotalSessions -eq 0) {
+        return @"
+## DS-Star Workflow Metrics
+
+_No DS-Star sessions detected in ``$sourcePath`` during this reporting window. Add data science sessions under `plans/data-analysis/` to populate adoption metrics._
+"@
+    }
+
+    $completionRate = [math]::Round((($summary.CompletedSessions / [math]::Max($summary.TotalSessions, 1)) * 100), 1)
+    $resumeRate = if ($summary.InProgressSessions -gt 0) {
+        [math]::Round((($summary.ResumeReadySessions / $summary.InProgressSessions) * 100), 1)
+    } else { 0 }
+
+    $avgRounds = [math]::Round($summary.AvgRounds, 1)
+    $avgDuration = [math]::Round($summary.AvgDurationMinutes, 1)
+    $avgSteps = [math]::Round($summary.AvgStepsPerSession, 1)
+
+    $verdicts = $summary.Verdicts
+    $latestSessions = $script:DsStarMetrics.Sessions | Sort-Object -Property LastWriteTime -Descending | Select-Object -First 3
+    $latestLines = ($latestSessions | ForEach-Object {
+            $roundDisplay = if ($_.Rounds -ne $null) { $_.Rounds } else { 'n/a' }
+            $durationDisplay = if ($_.DurationMinutes -ne $null) { "{0:N1} min" -f [double]$_.DurationMinutes } else { 'n/a' }
+            $verdictDisplay = if ([string]::IsNullOrWhiteSpace($_.LastVerdict)) { 'n/a' } else { $_.LastVerdict }
+            "- ``$($_.SessionId)`` - $($_.Status) (Rounds: $roundDisplay, Verdict: $verdictDisplay, Duration: $durationDisplay)"
+        }) -join "`n"
+
+    return @"
+## DS-Star Workflow Metrics
+
+| Metric | Value |
+|--------|-------|
+| Sessions Analyzed | $($summary.TotalSessions) |
+| Completion Rate | $completionRate% |
+| Avg Rounds | $avgRounds |
+| Avg Duration (min) | $avgDuration |
+| Avg Steps per Session | $avgSteps |
+| In Progress | $($summary.InProgressSessions) |
+| Resume-Ready In-Progress Sessions | $($summary.ResumeReadySessions) ($resumeRate%) |
+
+### Verdict Mix
+
+| Verdict | Count |
+|---------|-------|
+| SUFFICIENT | $($verdicts.SUFFICIENT) |
+| INSUFFICIENT | $($verdicts.INSUFFICIENT) |
+| BLOCKED | $($verdicts.BLOCKED) |
+
+### Latest Session Highlights
+$latestLines
+
+_Data source:_ ``$sourcePath``
+"@
+}
+
+function Write-DsStarConsoleSummary {
+    <#
+    .SYNOPSIS
+        Emits DS-Star metrics recap to the console output.
+    #>
+
+    $summary = $script:DsStarMetrics.Summary
+    Write-Host "`nDS-Star Analytics:" -ForegroundColor Cyan
+
+    if ($summary.TotalSessions -eq 0) {
+        $sourcePath = if ($script:DsStarMetrics.SourcePath) { $script:DsStarMetrics.SourcePath } else { $DSStarPath }
+        Write-Host "  No DS-Star sessions detected in $sourcePath." -ForegroundColor Gray
+        return
+    }
+
+    $completionRate = [math]::Round((($summary.CompletedSessions / [math]::Max($summary.TotalSessions, 1)) * 100), 1)
+    $avgRounds = [math]::Round($summary.AvgRounds, 1)
+    $avgDuration = [math]::Round($summary.AvgDurationMinutes, 1)
+    $verdicts = $summary.Verdicts
+
+    Write-Host "  Sessions: $($summary.TotalSessions) (Completed: $($summary.CompletedSessions), In Progress: $($summary.InProgressSessions), Blocked: $($summary.BlockedSessions))" -ForegroundColor Gray
+    Write-Host "  Completion Rate: $completionRate% | Resume-Ready In-Progress: $($summary.ResumeReadySessions)" -ForegroundColor Gray
+    Write-Host "  Avg Rounds: $avgRounds | Avg Duration: $avgDuration min" -ForegroundColor Gray
+    Write-Host "  Verdict Mix (S/I/B): $($verdicts.SUFFICIENT)/$($verdicts.INSUFFICIENT)/$($verdicts.BLOCKED)" -ForegroundColor Gray
 }
 
 function Format-JsonReport {
@@ -383,6 +654,19 @@ foreach ($file in $sessionFiles) {
     }
 }
 
+$resolvedDsStarPath = $DSStarPath
+try {
+    if (Test-Path -LiteralPath $DSStarPath) {
+        $resolvedDsStarPath = (Resolve-Path -LiteralPath $DSStarPath).ProviderPath
+    }
+}
+catch {
+    $resolvedDsStarPath = $DSStarPath
+}
+
+$dsStarSessions = Get-DsStarSessions -Path $resolvedDsStarPath
+Update-DsStarMetricsSummary -Sessions $dsStarSessions -SourcePath $resolvedDsStarPath
+
 # Ensure output directory exists
 if (-not (Test-Path $OutputPath)) {
     New-Item -ItemType Directory -Path $OutputPath -Force | Out-Null
@@ -410,3 +694,5 @@ if (($script:SessionMetadata.ModelUsage.Premium + $script:SessionMetadata.ModelU
     $premiumPct = [math]::Round(($script:SessionMetadata.ModelUsage.Premium / ($script:SessionMetadata.ModelUsage.Premium + $script:SessionMetadata.ModelUsage.Efficient)) * 100, 1)
     Write-Host "  Premium Usage: $premiumPct% (target: ≤20%)" -ForegroundColor $(if ($premiumPct -le 20) { 'Green' } elseif ($premiumPct -le 25) { 'Yellow' } else { 'Red' })
 }
+
+Write-DsStarConsoleSummary

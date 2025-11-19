@@ -1,8 +1,14 @@
 ---
 name: conductor
 description: "Orchestrates planning, implementation, review, and commit cycles with specialized subagents."
+target: vscode
 model: Claude Sonnet 4.5 (copilot)
-tools: ['runSubagent', 'todos', 'fetch', 'search', 'githubRepo', 'changes', 'edit', 'runCommands']
+tools: 
+  - todos
+  - fetch
+  - search
+  - githubRepo
+  - changes
 handoffs:
   - label: Engage Planner
     agent: planner
@@ -54,12 +60,18 @@ Follow the guardrails in `instructions/workflows/conductor.instructions.md` and 
   - When all phases finish, compile the final report using `docs/templates/plan-complete.md`.
   - Surface follow-up tasks, risks, and recommendations, engaging support personas (security, performance, documentation) for outstanding reviews.
 
+4. **DS-Star Data Science Workflow** (Triggered by data science queries)
+   - Delegate to `data-analytics` custom agent immediately.
+   - Monitor `DS-Star Round` and `Last Verdict` in every response.
+   - Enforce the 10-round limit and 30-minute timeout.
+   - If interrupted, use `pipeline_state.json` to resume from the last successful step.
+
 ## State Tracking
 
 Every response must include:
 
-- **Current Phase:** Planning / Implementation / Review / Complete
-- **Plan Progress:** `{completed} of {total}` phases
+- **Current Phase:** Planning / Implementation / Review / Complete / DS-Star Analysis
+- **Plan Progress:** `{completed} of {total}` phases (or `Round {N}/10` for DS-Star)
 - **Last Action:** {Summary of most recent step}
 - **Next Action:** {Immediate recommended step}
 

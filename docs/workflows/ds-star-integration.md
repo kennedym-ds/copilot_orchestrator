@@ -428,6 +428,28 @@ User Query → Conductor (detects data science pattern)
 
 **Impact**: Users can simply ask data science questions to `@conductor` without explicitly requesting DS-Star workflow. The conductor intelligently routes based on query patterns.
 
+### Routing Decision Matrix
+
+| User Request | Route To | Reason |
+|--------------|----------|--------|
+| "Analyze customer churn in Q4 data" | Data Analytics (DS-Star) | Statistical analysis question |
+| "Build a churn prediction API" | Standard Workflow | Building a system |
+| "What drives sales in different regions?" | Data Analytics (DS-Star) | Open-ended analytical question |
+| "Fix bug in sales dashboard" | Standard Workflow | Code fix |
+| "Explore correlations in transaction data" | Data Analytics (DS-Star) | Exploratory analysis |
+| "Add new metric to dashboard" | Standard Workflow | Feature development |
+| "Why did conversions drop last month?" | Data Analytics (DS-Star) | Root cause analysis |
+| "Refactor ETL pipeline code" | Standard Workflow | Code refactoring |
+
+### Troubleshooting
+
+| Issue | Symptom | Resolution |
+|-------|---------|------------|
+| **Infinite Loop** | `DS-Star Round` > 10 | Conductor stops session. Check `pipeline_state.json` for repeating verdicts. Manually guide next step. |
+| **Missing Artifacts** | Reviewer complains of "No metadata" | Ensure Data Analytics agent is using `v2.1.0` instructions. Run `validate-copilot-assets.ps1`. |
+| **Resume Failure** | "Cannot find pipeline_state.json" | Verify session ID in `plans/data-analysis/`. If missing, restart analysis. |
+| **BLOCKED Verdict** | Analysis halts early | Check `verdict.md` for specific blocker (e.g., "PII detected"). Escalate to Security agent. |
+
 ### Planner Enhancements
 
 **Sequential Mode** (new capability):
@@ -592,34 +614,32 @@ foreach ($session in $dataAnalysisSessions) {
 
 ### Analytics Script Enhancement
 
-**Addition to `scripts/analyze-sessions.ps1`**:
+`scripts/analyze-sessions.ps1` now ships with a DS-Star aware telemetry pipeline:
+
+- New `-DSStarPath` parameter lets you point the analytics run at fixture data or sandbox sessions without copying files into `plans/data-analysis/`.
+- DS-Star adoption metrics (completion rate, average rounds/steps/duration, verdict mix, resume-ready in-progress sessions) render in both the console summary and a dedicated section inside `docs/dashboards/workflow-metrics.md`.
+- Latest session highlights are auto-generated from `pipeline_state.json` timestamps so conductors can inspect recent verdicts at a glance.
+- When no DS-Star sessions exist, the script prints prescriptive guidance instead of silently emitting blanks.
 
 ```powershell
-# DS-Star Session Metrics
-$dsStarSessions = Get-ChildItem -Path "plans/data-analysis" -Directory | ForEach-Object {
-    $state = Get-Content "$($_.FullName)\pipeline_state.json" -ErrorAction SilentlyContinue | ConvertFrom-Json
-    if ($state) {
-        [PSCustomObject]@{
-            SessionID = $_.Name
-            Status = $state.status
-            Rounds = $state.current_round
-            Steps = $state.completed_steps.Count
-            Duration = if ($state.completed_at) {
-                ([datetime]$state.completed_at - [datetime]$state.created_at).TotalMinutes
-            } else { $null }
-            FinalVerdict = $state.verification_history[-1].verdict
-        }
-    }
-}
+$dsStarSessions = Get-DsStarSessions -Path $resolvedDsStarPath
+Update-DsStarMetricsSummary -Sessions $dsStarSessions -SourcePath $resolvedDsStarPath
 
-# Summary stats
-$completedSessions = $dsStarSessions | Where-Object { $_.Status -eq "completed" }
-Write-Host "`nDS-Star Session Analytics:"
-Write-Host "  Total Sessions: $($dsStarSessions.Count)"
-Write-Host "  Completed: $($completedSessions.Count)"
-Write-Host "  Avg Rounds: $([math]::Round(($completedSessions | Measure-Object -Property Rounds -Average).Average, 1))"
-Write-Host "  Avg Duration: $([math]::Round(($completedSessions | Measure-Object -Property Duration -Average).Average, 1)) min"
+Write-DsStarConsoleSummary
+
+$report = @"
+...
+---
+$(Get-DsStarMarkdownSection)
+---
+"@
 ```
+
+### Regression Fixture & Tests
+
+- `tests/powershell/fixtures/ds-star-session/` contains a complete DS-Star run (steps, metadata, verdict logs, final output). Copy it under `plans/data-analysis/` to simulate a resume scenario or to demo router logic.
+- `tests/powershell/ValidationScripts.Tests.ps1` now copies that fixture into `$TestDrive`, runs `scripts/analyze-sessions.ps1`, and asserts that the regenerated dashboard includes the DS-Star section with resume-readiness terminology.
+- `docs/dashboards/workflow-metrics.md` is regenerated via the script so documentation reflects the richer telemetry (including DS-Star verdict mix and latest-session bullets).
 
 ---
 

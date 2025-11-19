@@ -1,0 +1,7 @@
+Sequential Step 1: Load `customers.csv`, calculate churn rate per cohort, and rank the steepest movers vs the prior quarter.
+
+```TODO-planner
+- [x] Step 1: Baseline churn by cohort compared to prior quarter
+- [ ] Step 2: Slice by activity band + demographics
+- [ ] Step 3: Quantify statistical significance + draft narrative
+```
