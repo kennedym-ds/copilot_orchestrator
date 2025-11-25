@@ -1,10 +1,14 @@
 ---
 name: researcher
 description: "Performs targeted research, evidence gathering, and knowledge synthesis."
-target: vscode
+argument-hint: "Ask about technologies, patterns, or gather evidence from docs and repos"
 model: Gemini 2.5 Pro (copilot)
 mcp-servers:
-  - research-server
+  research:
+    type: stdio
+    command: python
+    args: ["scripts/mcp/research_server.py"]
+    tools: ["web-search"]
 tools: 
   - todos
   - fetch

@@ -18,6 +18,79 @@ Each entry should include:
 
 ## Changes
 
+### 2025-11-25 - Awesome-Copilot Pattern Adoption
+
+#### v1.0.0 - Agent Frontmatter Standardization
+**File:** `.github/agents/*.agent.md` (all 12 agents)
+**Type:** Modified
+**Description:** Adopted awesome-copilot patterns across all agent definitions:
+- Added `argument-hint` field for improved discoverability
+- Removed deprecated `target` field (was `target: vscode` or `target: github-copilot`)
+- Standardized model names to allowlist format (e.g., `GPT-5 (copilot)`)
+- Added Core Capabilities, Response Style, and Example Interaction Patterns sections to conductor, planner, and implementer agents
+**Expected Impact:**
+- Quality: + (better agent discoverability and documentation)
+- Cost: Neutral
+- Speed: + (users find correct agent faster via argument-hint)
+**Rollback:** Revert all agent files to commit prior to this change.
+**Metrics:** Track agent invocation accuracy (correct agent selected first try).
+
+#### v1.0.0 - MCP Server Integration
+**File:** `.github/agents/{researcher,design,data-analytics}.agent.md`
+**Type:** Modified
+**Description:** Added proper `mcp-servers` blocks with stdio type configuration for design_server.py and research_server.py integration.
+**Expected Impact:**
+- Quality: + (enables MCP tool access for research and design workflows)
+- Cost: Neutral
+- Speed: + (automated research via DuckDuckGo, design token lookup)
+**Rollback:** Remove mcp-servers blocks from affected agents.
+**Metrics:** Track MCP tool invocation success rate.
+
+#### v1.0.0 - Collections System
+**File:** `.github/collections/*.collection.yaml` (3 new files)
+**Type:** Added
+**Description:** Created orchestrator-core, data-science, and support-personas collections grouping related agents and instructions per awesome-copilot patterns.
+**Expected Impact:**
+- Quality: + (logical grouping aids discovery)
+- Cost: Neutral
+- Speed: + (collections pre-load relevant context)
+**Rollback:** Delete `.github/collections/` directory.
+**Metrics:** N/A (infrastructure change).
+
+### 2025-11-25 - Model Governance Updates
+
+#### v1.1.0 - Ultra-Premium Tier Governance
+**File:** `instructions/global/03_model-selection.instructions.md`
+**Type:** Modified
+**Description:** Added Claude Opus 4.5 ultra-premium tier with:
+- <5% invocation target
+- Explicit justification requirements
+- Updated fallback chains to reference Claude Opus 4.5 with governance constraints
+- Scenario matrix for when Opus is appropriate (architecture, security, compliance)
+**Expected Impact:**
+- Quality: + (clear guidance prevents Opus misuse)
+- Cost: + (prevents budget overruns from casual Opus usage)
+- Speed: Neutral
+**Rollback:** Revert model-selection instructions to prior version.
+**Metrics:** Track Opus invocation percentage and justification quality.
+
+### 2025-11-25 - Validation Enhancements
+
+#### v1.1.0 - Agent Validation Script
+**File:** `scripts/validate-copilot-assets.ps1`
+**Type:** Modified
+**Description:** Extended validation to check:
+- `argument-hint` field presence (warning if missing)
+- Model names against allowlist (error if invalid)
+- `mcp-servers` object format (error if array format used)
+- Deprecated `target` field presence (warning)
+**Expected Impact:**
+- Quality: + (catches configuration errors before commit)
+- Cost: Neutral
+- Speed: + (faster feedback on agent definition issues)
+**Rollback:** Revert script to prior version.
+**Metrics:** Track validation error/warning counts over time.
+
 ### 2025-11-18 - Instruction Governance & Linting
 
 #### v1.1.0 - Conductor Workflow Instructions

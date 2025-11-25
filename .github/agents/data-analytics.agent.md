@@ -1,7 +1,14 @@
 ---
 name: data-analytics
 description: "Assesses data models, pipelines, and reporting for accuracy and insight quality using DS-Star iterative refinement."
+argument-hint: "Describe your data question for iterative DS-Star analysis workflow"
 model: GPT-5 (copilot)
+mcp-servers:
+  research:
+    type: stdio
+    command: python
+    args: ["scripts/mcp/research_server.py"]
+    tools: ["web-search"]
 tools: ['todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'runSubagent']
 handoffs:
   - label: Report to Conductor

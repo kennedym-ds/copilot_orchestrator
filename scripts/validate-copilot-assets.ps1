@@ -108,6 +108,16 @@ if ($instructionFiles.Count -eq 0) {
 $agentFiles = @()
 $agentFiles += Get-ChildItem -Path (Join-Path $RepoRoot '.github/agents') -Filter '*.agent.md' -File -ErrorAction SilentlyContinue
 
+# Define valid model names (from awesome-copilot patterns)
+$validModels = @(
+    'Claude Sonnet 4.5 (copilot)',
+    'Claude Opus 4.5 (copilot)',
+    'Claude Haiku 4.5 (copilot)',
+    'GPT-5 (copilot)',
+    'GPT-5 Mini (copilot)',
+    'Gemini 2.5 Pro (copilot)'
+)
+
 foreach ($agent in $agentFiles) {
     $frontMatter = Get-FrontMatter -FilePath $agent.FullName
     $relativePath = $agent.FullName.Replace($RepoRoot + [IO.Path]::DirectorySeparatorChar, '')
@@ -117,9 +127,40 @@ foreach ($agent in $agentFiles) {
         continue
     }
 
+    # Core required keys
     $missing = @(Test-YamlKeyPresence -FrontMatter $frontMatter -RequiredKeys @('name', 'description', 'model', 'tools'))
     if ($missing.Length -gt 0) {
         Add-Issue -Collector $issues -File $relativePath -Severity 'Error' -Message "Missing required front matter keys: $([string]::Join(', ', $missing))."
+    }
+
+    # Validate argument-hint presence (awesome-copilot pattern)
+    if ($frontMatter -notmatch 'argument-hint:') {
+        Add-Issue -Collector $issues -File $relativePath -Severity 'Warning' -Message 'Missing argument-hint field. Add for improved discoverability (awesome-copilot pattern).'
+    }
+
+    # Validate model is from allowed list
+    if ($frontMatter -match '(?m)^model:\s*[''"]?([^''"\r\n]+)[''"]?') {
+        $modelName = $Matches[1].Trim()
+        if ($validModels -notcontains $modelName) {
+            Add-Issue -Collector $issues -File $relativePath -Severity 'Error' -Message "Invalid model: '$modelName'. Valid models: $([string]::Join(', ', $validModels))."
+        }
+    }
+
+    # Validate mcp-servers format if present
+    if ($frontMatter -match 'mcp-servers:') {
+        # Check for proper object format (not array format)
+        if ($frontMatter -match 'mcp-servers:\s*\[') {
+            Add-Issue -Collector $issues -File $relativePath -Severity 'Error' -Message 'mcp-servers should use object format, not array format. See awesome-copilot patterns.'
+        }
+        # Check for proper nested structure with type, command, args
+        if ($frontMatter -match 'mcp-servers:' -and $frontMatter -notmatch 'type:\s*(stdio|http)') {
+            Add-Issue -Collector $issues -File $relativePath -Severity 'Warning' -Message 'mcp-servers block should include type: stdio|http for each server.'
+        }
+    }
+
+    # Warn about deprecated target field
+    if ($frontMatter -match 'target:') {
+        Add-Issue -Collector $issues -File $relativePath -Severity 'Warning' -Message 'Deprecated target field found. Remove per awesome-copilot patterns.'
     }
 
     if ($frontMatter -notmatch "tools:\s*\[" -and $frontMatter -notmatch "(?s)tools:\s*\n") {

@@ -26,6 +26,26 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 | Security | Claude Sonnet 4.5 | Threat modeling, compliance | 200K tokens | Premium |
 | Performance | GPT-5 | Profiling analysis, optimization | 128K tokens | Premium |
 
+### Ultra-Premium Tier (Claude Opus 4.5)
+
+**Target allocation:** &lt;5% of total invocations (reserved for critical decisions)
+**Use cases:** Complex architectural decisions, security-critical reviews, multi-system integrations
+
+| Scenario | When to Use Claude Opus 4.5 | Cost Impact |
+|----------|----------------------------|-------------|
+| Architectural Decisions | Multi-service redesign, breaking changes across >10 files | ~3x premium |
+| Security Reviews | Authentication/authorization changes, cryptographic implementations | ~3x premium |
+| Compliance Reviews | Privacy impact assessments, regulatory requirement mapping | ~3x premium |
+| Complex Research | Cross-domain synthesis requiring deep reasoning | ~3x premium |
+| Escalation Fallback | When all other premium models fail or produce low-quality output | ~3x premium |
+
+**Governance rules for Claude Opus 4.5:**
+- Require explicit Conductor approval before invocation
+- Document justification in phase summary with specific complexity trigger
+- Track usage in `docs/operations.md` metrics section
+- Consider splitting task into smaller phases before escalating to Opus
+- Prefer GPT-5 or Claude Sonnet 4.5 for routine premium tasks
+
 **Premium model characteristics:**
 - Advanced reasoning and planning capabilities
 - Larger context windows (128K - 2M tokens)
@@ -82,13 +102,14 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 **Fallback sequence:**
 1. GPT-5 (comparable reasoning, different architecture)
 2. Gemini 2.5 Pro (massive context window, strong synthesis)
-3. Claude Opus (highest capability, highest cost — reserve for critical decisions)
+3. Claude Opus 4.5 (highest capability, highest cost — reserve for critical decisions)
 
 **Decision logic:**
 - Fallback 1 for most orchestration tasks
 - Fallback 2 when context size is critical (>128K tokens)
-- Fallback 3 only for critical security, compliance, or architectural decisions
+- Fallback 3 only for critical security, compliance, or architectural decisions (requires justification)
 - If all unavailable, pause workflow and notify user
+- Track Opus usage in metrics; alert if exceeds 5% of conductor invocations
 
 #### Planner (Premium Tier)
 
@@ -96,24 +117,24 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 **Fallback sequence:**
 1. Claude Sonnet 4.5 (strong planning, lower context)
 2. Gemini 2.5 Pro (research-heavy planning)
-3. Claude Opus (complex multi-phase planning)
+3. Claude Opus 4.5 (complex multi-phase planning requiring deep reasoning)
 
 **Decision logic:**
 - Fallback 1 for standard planning tasks
 - Fallback 2 when extensive research required
-- Fallback 3 for critical architecture decisions
+- Fallback 3 for critical architecture decisions (requires justification and Conductor approval)
 - Avoid downgrading to execution tier for planning
 
 #### Researcher (Premium Tier)
 
 **Primary:** Gemini 2.5 Pro
 **Fallback sequence:**
-1. Claude Opus (excellent synthesis, smaller context)
+1. Claude Opus 4.5 (excellent synthesis, smaller context)
 2. GPT-5 (strong research, good web integration)
 3. Claude Sonnet 4.5 (adequate research, most cost-effective premium)
 
 **Decision logic:**
-- Fallback 1 when context size <200K tokens
+- Fallback 1 when context size <200K tokens and deep reasoning required
 - Fallback 2 for balanced research tasks
 - Fallback 3 when budget constraints exist
 - Never downgrade to execution tier for research
@@ -123,12 +144,12 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 **Primary:** Claude Sonnet 4.5
 **Fallback sequence:**
 1. GPT-5 (strong code understanding)
-2. Claude Opus (highest scrutiny for critical reviews)
+2. Claude Opus 4.5 (highest scrutiny for critical reviews)
 3. Gemini 2.5 Pro (when context size is large)
 
 **Decision logic:**
 - Fallback 1 for most code reviews
-- Fallback 2 for security-critical or compliance reviews
+- Fallback 2 for security-critical or compliance reviews (requires justification)
 - Fallback 3 for reviews spanning many files
 - Document model used in review report for audit trail
 
@@ -149,15 +170,16 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 **Primary:** Claude Sonnet 4.5
 **Fallback sequence:**
-1. Claude Opus (highest capability when available)
+1. Claude Opus 4.5 (highest capability when available)
 2. GPT-5 (good threat modeling)
 3. **No further fallback** — security reviews require premium capability
 
 **Decision logic:**
-- Fallback 1 when higher reasoning or larger context is required
+- Fallback 1 when higher reasoning, larger context, or cryptographic review required
 - Fallback 2 for specific threat scenarios when Anthropic models are unavailable
 - If both unavailable, defer security review until primary restored
 - Never downgrade security to execution tier
+- Document Opus usage with security justification
 
 #### Performance (Premium Tier)
 

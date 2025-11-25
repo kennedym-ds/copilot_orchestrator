@@ -37,6 +37,12 @@ All notable changes will be documented here following [Keep a Changelog](https:/
 - Dedicated `plan-ds-star-step` planner prompt for sequential DS-Star routing, plus metadata hooks for telemetry-aware step generation.
 - DS-Star regression fixture (`tests/powershell/fixtures/ds-star-session/`) with pipeline state, step metadata, and verdict logs so analytics/tests can run without touching production artifacts.
 - Pester coverage invoking `scripts/analyze-sessions.ps1` against the fixture to ensure dashboards render DS-Star metrics, resume readiness, and verdict mix text end-to-end.
+- Frontmatter standardization across all 12 agent definitions (added `argument-hint`, removed deprecated `target` field).
+- Integrated MCP servers (design_server, research_server) with stdio definitions in design, researcher, data-analytics agents.
+- Introduced collections system (`orchestrator-core`, `data-science`, `support-personas`) grouping agents and workflow instructions.
+- Documentation enhancements for conductor, planner, implementer agents (Core Capabilities, Response Style, Example Interaction Patterns sections).
+- Ultra-premium tier governance for Claude Opus 4.5 (usage thresholds, justification rules) added to model selection instructions.
+- Enhanced validation script (`validate-copilot-assets.ps1`) with awesome-copilot pattern checks (argument-hint presence, mcp-servers format, model allowlist, deprecated field warnings).
 
 ### Changed
 - Conductor workflow instructions and agent definition now enforce DS-Star telemetry payloads, guardrail escalation thresholds, and resume procedures, ensuring routing decisions are documented and auditable.
@@ -54,6 +60,8 @@ All notable changes will be documented here following [Keep a Changelog](https:/
   `docs/CHANGELOG.md` and `INSTRUCTION_CHANGELOG.md`.
 - `scripts/analyze-sessions.ps1` now accepts `-DSStarPath`, produces a console+markdown DS-Star telemetry section (completion rate, average rounds/steps/duration, verdict mix, resume readiness), and powers the regenerated `docs/dashboards/workflow-metrics.md`.
 - `docs/guides/sample-agent-session.md` and `docs/workflows/ds-star-integration.md` describe the new DS-Star fixture, analytics workflow, and test coverage so contributors can replay the sequential loop end-to-end.
+- Updated model fallback chains to explicitly include Claude Opus 4.5 with governance constraints (<5% invocation target, justification logging).
+- Strengthened validation to enforce allowed model list and warn on missing discoverability metadata.
 
 ### Removed
 - Retired the Billy Butcher reviewer persona and associated legacy chat mode assets to maintain a professional review posture.

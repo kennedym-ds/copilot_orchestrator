@@ -1,0 +1,60 @@
+# Orchestrator Core Workflow Collection
+# Essential agents for conductor-led multi-phase development
+
+name: "Orchestrator Core Workflow"
+description: "Essential agents for conductor-led multi-phase development following Planning → Implementation → Review → Completion lifecycle."
+version: "1.0.0"
+tags:
+  - workflow
+  - orchestration
+  - core
+
+items:
+  - type: agent
+    path: "../agents/conductor.agent.md"
+    name: "Conductor"
+    description: "Lifecycle orchestrator that coordinates planning, implementation, review, and commit cycles."
+    role: primary
+    
+  - type: agent
+    path: "../agents/planner.agent.md"
+    name: "Planner"
+    description: "Strategy author that clarifies objectives, gathers context, and drafts multi-phase plans."
+    role: planning
+    
+  - type: agent
+    path: "../agents/implementer.agent.md"
+    name: "Implementer"
+    description: "Build specialist that executes approved plans with TDD discipline."
+    role: execution
+    
+  - type: agent
+    path: "../agents/reviewer.agent.md"
+    name: "Reviewer"
+    description: "Quality gatekeeper that audits changes for correctness, quality, and policy compliance."
+    role: review
+    
+  - type: instruction
+    path: "../../instructions/workflows/conductor.instructions.md"
+    name: "Conductor Workflow Instructions"
+    description: "Detailed guidelines for conductor orchestration patterns and handoff protocols."
+    
+  - type: instruction
+    path: "../../instructions/workflows/implementer.instructions.md"
+    name: "Implementer Workflow Instructions"
+    description: "TDD workflow and execution rules for implementation phases."
+    
+  - type: instruction
+    path: "../../instructions/workflows/reviewer.instructions.md"
+    name: "Reviewer Workflow Instructions"
+    description: "Review focus areas, severity tagging, and verdict protocols."
+
+usage:
+  description: |
+    This collection provides the foundational workflow for multi-phase development.
+    Start with the Conductor agent to orchestrate work through the lifecycle.
+  quick_start:
+    - "Invoke @conductor with your feature request or bug description"
+    - "Review the generated plan and approve to proceed"
+    - "Conductor will delegate to Planner → Implementer → Reviewer automatically"
+    - "Each phase produces artifacts under plans/ directory"

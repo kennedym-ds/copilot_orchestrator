@@ -1,6 +1,7 @@
 ---
 name: maintainer
 description: "Triages issues, prepares pull requests, and coordinates release logistics."
+argument-hint: "Triage issues, prepare releases, or coordinate PR logistics"
 model: GPT-5 (copilot)
 tools: ['todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes']
 handoffs:

@@ -1,0 +1,55 @@
+# Data Science Collection
+# Specialized agents for DS-Star iterative data analysis workflows
+
+name: "Data Science Workflow"
+description: "Agents specialized for DS-Star iterative data analysis, featuring automatic file analysis, sequential planning, verification loops, and artifact persistence."
+version: "1.0.0"
+tags:
+  - data-science
+  - analytics
+  - ds-star
+
+items:
+  - type: agent
+    path: "../agents/data-analytics.agent.md"
+    name: "Data Analytics"
+    description: "Insights steward that assesses data models, pipelines, and reporting using DS-Star iterative refinement."
+    role: primary
+    
+  - type: agent
+    path: "../agents/researcher.agent.md"
+    name: "Researcher"
+    description: "Insight scout for targeted research, evidence gathering, and knowledge synthesis with MCP-powered web search."
+    role: research
+    
+  - type: agent
+    path: "../agents/implementer.agent.md"
+    name: "Implementer"
+    description: "Code generator for Python/SQL analysis scripts in DS-Star pipeline."
+    role: execution
+    
+  - type: agent
+    path: "../agents/reviewer.agent.md"
+    name: "Reviewer"
+    description: "Verifier for DS-Star steps evaluating Completeness, Correctness, Statistical Rigor, and Clarity."
+    role: verification
+    
+  - type: instruction
+    path: "../../instructions/workflows/data-analytics.instructions.md"
+    name: "Data Analytics Instructions"
+    description: "DS-Star workflow phases, artifact governance, TODO fence conventions, and pipeline state management."
+
+usage:
+  description: |
+    This collection enables iterative data analysis with built-in verification loops.
+    The DS-Star workflow automatically refines analysis until verification passes.
+  quick_start:
+    - "Invoke @data-analytics with your business question"
+    - "Agent analyzes data files and generates initial plan"
+    - "Implementer generates code, Reviewer verifies each step"
+    - "Loop continues (max 10 rounds) until SUFFICIENT verdict"
+    - "Final deliverable includes methodology, visualizations, and recommendations"
+  ds_star_phases:
+    - "Phase 1: Automatic Data Analysis"
+    - "Phase 2: Iterative Planning & Verification"
+    - "Phase 3: Finalization & Documentation"

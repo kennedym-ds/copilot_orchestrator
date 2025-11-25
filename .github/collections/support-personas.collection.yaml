@@ -1,0 +1,86 @@
+# Support Personas Collection
+# Specialist agents for security, performance, documentation, and maintenance
+
+name: "Support Personas"
+description: "Specialist agents that provide targeted expertise for security reviews, performance analysis, documentation, visual design, and maintenance workflows."
+version: "1.0.0"
+tags:
+  - support
+  - specialists
+  - cross-cutting
+
+items:
+  - type: agent
+    path: "../agents/security.agent.md"
+    name: "Security"
+    description: "Risk sentinel that evaluates changes for security posture, threat models, and compliance impacts."
+    role: security
+    expertise:
+      - threat-modeling
+      - compliance
+      - privacy
+      
+  - type: agent
+    path: "../agents/performance.agent.md"
+    name: "Performance"
+    description: "Efficiency analyst that reviews plans and changes for runtime, memory, and scalability risks."
+    role: performance
+    expertise:
+      - profiling
+      - optimization
+      - cost-analysis
+      
+  - type: agent
+    path: "../agents/docs.agent.md"
+    name: "Documentation"
+    description: "Knowledge curator that generates and reviews documentation, onboarding materials, and knowledge artifacts."
+    role: documentation
+    expertise:
+      - technical-writing
+      - onboarding
+      - knowledge-management
+      
+  - type: agent
+    path: "../agents/visualizer.agent.md"
+    name: "Visualizer"
+    description: "Experience designer that reviews user journeys, wireframes, accessibility, and creates diagrams."
+    role: ux
+    expertise:
+      - accessibility
+      - diagrams
+      - user-flows
+      
+  - type: agent
+    path: "../agents/maintainer.agent.md"
+    name: "Maintainer"
+    description: "Workflow steward that triages issues, prepares pull requests, and coordinates release logistics."
+    role: maintenance
+    expertise:
+      - issue-triage
+      - release-management
+      - pr-review
+      
+  - type: agent
+    path: "../agents/design.agent.md"
+    name: "Design"
+    description: "Design system expert with MCP-powered brand palette and component library access."
+    role: design
+    expertise:
+      - brand-colors
+      - components
+      - contrast-checking
+
+usage:
+  description: |
+    These specialist agents are invoked by the Conductor or other agents when 
+    cross-cutting concerns arise. They provide advisory output and recommendations.
+  invocation_patterns:
+    security: "Invoke when changes touch authentication, authorization, data protection, or supply-chain."
+    performance: "Invoke when changes affect throughput, latency, resource utilization, or scalability."
+    docs: "Invoke when documentation, onboarding, or knowledge artifacts need creation or updates."
+    visualizer: "Invoke for UI reviews, accessibility audits, or diagram creation."
+    maintainer: "Invoke for issue triage, release coordination, or PR preparation."
+    design: "Invoke for brand color queries, component lookups, or contrast validation."
+  escalation_note: |
+    Support personas do not edit files directly. They provide findings with 
+    severity tags and recommend handoffs to Implementer or escalation to Conductor.
