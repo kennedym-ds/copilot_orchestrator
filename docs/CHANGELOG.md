@@ -62,6 +62,8 @@ All notable changes will be documented here following [Keep a Changelog](https:/
 - `docs/guides/sample-agent-session.md` and `docs/workflows/ds-star-integration.md` describe the new DS-Star fixture, analytics workflow, and test coverage so contributors can replay the sequential loop end-to-end.
 - Updated model fallback chains to explicitly include Claude Opus 4.5 with governance constraints (<5% invocation target, justification logging).
 - Strengthened validation to enforce allowed model list and warn on missing discoverability metadata.
+- Added `runSubagent` tool to all agent definitions to enable autonomous delegation.
+- Added `observability`, `deployment`, and `red-team` support personas to `.github/agents/` and registered them in `AGENTS.md` and `support-personas.collection.yaml`.
 
 ### Removed
 - Retired the Billy Butcher reviewer persona and associated legacy chat mode assets to maintain a professional review posture.

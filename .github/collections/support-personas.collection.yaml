@@ -70,6 +70,36 @@ items:
       - components
       - contrast-checking
 
+  - type: agent
+    path: "../agents/observability.agent.md"
+    name: "Observability"
+    description: "Telemetry analyst that monitors session logs, token usage, and cost metrics."
+    role: observability
+    expertise:
+      - telemetry
+      - cost-analysis
+      - metrics
+
+  - type: agent
+    path: "../agents/deployment.agent.md"
+    name: "Deployment"
+    description: "Release manager that oversees CI/CD pipelines and environment configuration."
+    role: deployment
+    expertise:
+      - ci-cd
+      - release-management
+      - infrastructure
+
+  - type: agent
+    path: "../agents/red-team.agent.md"
+    name: "Red Team"
+    description: "Adversarial tester that challenges assumptions and identifies edge cases."
+    role: red-team
+    expertise:
+      - adversarial-testing
+      - edge-cases
+      - resilience
+
 usage:
   description: |
     These specialist agents are invoked by the Conductor or other agents when 
@@ -81,6 +111,9 @@ usage:
     visualizer: "Invoke for UI reviews, accessibility audits, or diagram creation."
     maintainer: "Invoke for issue triage, release coordination, or PR preparation."
     design: "Invoke for brand color queries, component lookups, or contrast validation."
+    observability: "Invoke for telemetry analysis, token budget checks, or cost reporting."
+    deployment: "Invoke for CI/CD pipeline reviews, release planning, or environment config."
+    red-team: "Invoke for adversarial testing, edge case analysis, or resilience checks."
   escalation_note: |
     Support personas do not edit files directly. They provide findings with 
     severity tags and recommend handoffs to Implementer or escalation to Conductor.

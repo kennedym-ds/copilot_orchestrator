@@ -80,6 +80,9 @@ All agents must honor the global instructions in `instructions/global/*.instruct
 - Visualizer (`visualizer.agent.md`): UX, accessibility, and diagram support.
 - Data Analytics (`data-analytics.agent.md`): data quality, metrics, and analytics governance.
 - Documentation (`docs.agent.md`): onboarding guides, knowledge base, validation runbooks.
+- Observability (`observability.agent.md`): telemetry analysis, token usage tracking, and cost reporting.
+- Deployment (`deployment.agent.md`): CI/CD pipeline management, release readiness, and infrastructure planning.
+- Red Team (`red-team.agent.md`): adversarial testing, edge case identification, and resilience challenges.
 - Keep tool access minimal and scoped to each specialty. Escalate to these agents through conductor handoffs when risks emerge.
 - Return actionable recommendations (severity-tagged findings, mitigations, approvals) to the Conductor for follow-up.
 
