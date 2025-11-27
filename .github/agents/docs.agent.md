@@ -3,7 +3,7 @@ name: docs
 description: "Generates and reviews documentation, onboarding materials, and knowledge artifacts."
 argument-hint: "Request documentation updates, onboarding materials, or knowledge artifacts"
 model: Claude Haiku 4.5 (copilot)
-tools: ['todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch']
+tools: ['runSubagent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'problems', 'edit', 'runCommands']
 handoffs:
   - label: Report to Conductor
     agent: conductor

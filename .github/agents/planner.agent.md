@@ -3,7 +3,7 @@ name: planner
 description: "Clarifies objectives, gathers context, and drafts multi-phase implementation plans."
 argument-hint: "Describe what you want to build and I'll create a phased implementation plan"
 model: GPT-5 (copilot)
-tools: ['runSubagent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'usages', 'problems']
+tools: ['runSubagent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'usages', 'problems', 'edit', 'runCommands', 'fileSearch']
 handoffs:
   - label: Return to Conductor
     agent: conductor

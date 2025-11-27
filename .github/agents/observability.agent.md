@@ -3,7 +3,7 @@ name: observability
 description: "Analyzes session telemetry, token usage, and workflow metrics."
 argument-hint: "Analyze session logs, check token budget, or review cost metrics"
 model: GPT-5 (copilot)
-tools: ['todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'runSubagent']
+tools: ['runSubagent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems']
 handoffs:
   - label: Report to Conductor
     agent: conductor

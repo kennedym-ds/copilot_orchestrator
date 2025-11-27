@@ -10,6 +10,7 @@ mcp-servers:
     args: ["scripts/mcp/research_server.py"]
     tools: ["web-search"]
 tools: 
+  - runSubagent
   - todos
   - fetch
   - search
@@ -17,6 +18,9 @@ tools:
   - readFile
   - usages
   - problems
+  - edit
+  - runCommands
+  - fileSearch
 handoffs:
   - label: Return Findings
     agent: conductor

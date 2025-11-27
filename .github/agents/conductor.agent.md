@@ -4,11 +4,17 @@ description: "Orchestrates planning, implementation, review, and commit cycles w
 argument-hint: "Describe your feature request or bug to orchestrate a multi-phase implementation"
 model: Claude Sonnet 4.5 (copilot)
 tools: 
+  - runSubagent
   - todos
   - fetch
   - search
   - githubRepo
   - changes
+  - edit
+  - runCommands
+  - readFile
+  - fileSearch
+  - problems
 handoffs:
   - label: Engage Planner
     agent: planner
