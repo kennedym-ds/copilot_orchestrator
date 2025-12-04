@@ -19,6 +19,7 @@ All notable changes will be documented here following [Keep a Changelog](https:/
   - Accessibility agent: Added `accessibility.agent.md` covering WCAG 2.2, ARIA implementation, and a11y best practices.
   - Beast Mode pattern: Added `beast-mode.agent.md` for transparent extended reasoning with visible thinking and systematic task management.
   - Observability integrations: Enhanced `observability.agent.md` with Dynatrace, PagerDuty, Elasticsearch, Prometheus, and Azure Monitor integration patterns.
+  - Enhanced session analytics: Expanded `analyze-sessions.ps1` with agent action telemetry (by agent/tool), security findings tracking, and detailed model usage breakdown (per StepSecurity recommendations).
 - Initial repository scaffold, planning documents (`orchestration-rebuild-plan`, `new-workspace-blueprint`, `new-workspace-setup-checklist`).
 - Base directory structure for chat modes, prompts, instructions, docs, scripts, and plans.
 - Conductor, Planner, Implementer, Researcher, and Reviewer agent definitions with workflow overlays.
