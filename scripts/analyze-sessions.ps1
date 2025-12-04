@@ -110,6 +110,23 @@ $script:SessionMetadata = @{
         Total = @()
     }
     FailurePatterns = @{}
+    # Enhanced telemetry per StepSecurity recommendations
+    AgentActions = @{
+        ByAgent = @{}
+        ByTool = @{}
+        TotalActions = 0
+    }
+    SecurityFindings = @{
+        Blocker = 0
+        High = 0
+        Medium = 0
+        Low = 0
+        Total = 0
+    }
+    ModelBreakdown = @{
+        ByModel = @{}
+        ByAgent = @{}
+    }
 }
 
 $script:DsStarMetrics = @{
@@ -269,6 +286,59 @@ function Update-Metrics {
         }
         else {
             $script:SessionMetadata.FailurePatterns[$reason] = 1
+        }
+    }
+
+    # Track agent actions (per StepSecurity recommendations)
+    if ($Session.agentActions) {
+        foreach ($action in $Session.agentActions) {
+            $script:SessionMetadata.AgentActions.TotalActions++
+            
+            # Track by agent
+            $agentName = if ($action.agent) { $action.agent } else { 'unknown' }
+            if (-not $script:SessionMetadata.AgentActions.ByAgent.ContainsKey($agentName)) {
+                $script:SessionMetadata.AgentActions.ByAgent[$agentName] = 0
+            }
+            $script:SessionMetadata.AgentActions.ByAgent[$agentName]++
+            
+            # Track by tool
+            $toolName = if ($action.tool) { $action.tool } else { 'unknown' }
+            if (-not $script:SessionMetadata.AgentActions.ByTool.ContainsKey($toolName)) {
+                $script:SessionMetadata.AgentActions.ByTool[$toolName] = 0
+            }
+            $script:SessionMetadata.AgentActions.ByTool[$toolName]++
+        }
+    }
+
+    # Track security findings
+    if ($Session.securityFindings) {
+        foreach ($finding in $Session.securityFindings) {
+            $script:SessionMetadata.SecurityFindings.Total++
+            switch ($finding.severity) {
+                'blocker' { $script:SessionMetadata.SecurityFindings.Blocker++ }
+                'high' { $script:SessionMetadata.SecurityFindings.High++ }
+                'medium' { $script:SessionMetadata.SecurityFindings.Medium++ }
+                'low' { $script:SessionMetadata.SecurityFindings.Low++ }
+            }
+        }
+    }
+
+    # Track model breakdown by model name and agent
+    if ($Session.modelUsage) {
+        foreach ($usage in $Session.modelUsage) {
+            $modelName = if ($usage.model) { $usage.model } else { 'unknown' }
+            if (-not $script:SessionMetadata.ModelBreakdown.ByModel.ContainsKey($modelName)) {
+                $script:SessionMetadata.ModelBreakdown.ByModel[$modelName] = @{ calls = 0; cost = 0.0 }
+            }
+            $script:SessionMetadata.ModelBreakdown.ByModel[$modelName].calls++
+            $script:SessionMetadata.ModelBreakdown.ByModel[$modelName].cost += ($usage.cost -as [double])
+            
+            $agentName = if ($usage.agent) { $usage.agent } else { 'unknown' }
+            if (-not $script:SessionMetadata.ModelBreakdown.ByAgent.ContainsKey($agentName)) {
+                $script:SessionMetadata.ModelBreakdown.ByAgent[$agentName] = @{ calls = 0; cost = 0.0 }
+            }
+            $script:SessionMetadata.ModelBreakdown.ByAgent[$agentName].calls++
+            $script:SessionMetadata.ModelBreakdown.ByAgent[$agentName].cost += ($usage.cost -as [double])
         }
     }
 }
@@ -500,6 +570,20 @@ $mermaidChart
 
 **Status:** $(if (($script:SessionMetadata.ModelUsage.Premium + $script:SessionMetadata.ModelUsage.Efficient) -gt 0 -and (($script:SessionMetadata.ModelUsage.Premium / ($script:SessionMetadata.ModelUsage.Premium + $script:SessionMetadata.ModelUsage.Efficient)) * 100) -le 25) { '✅ Within target (≤25%)' } else { '⚠️ Above target (>25%)' })
 
+$(Get-ModelBreakdownSection)
+
+---
+
+## Agent Action Telemetry
+
+$(Get-AgentActionSection)
+
+---
+
+## Security Findings
+
+$(Get-SecurityFindingsSection)
+
 ---
 
 ## Quality Metrics
@@ -511,7 +595,7 @@ $mermaidChart
 | Needs Revision | $($script:SessionMetadata.Reviews.NeedsRevision) | $(if ($script:SessionMetadata.Reviews.TotalReviews -gt 0) { [math]::Round(($script:SessionMetadata.Reviews.NeedsRevision / $script:SessionMetadata.Reviews.TotalReviews) * 100, 1) } else { 0 })% |
 | Failed | $($script:SessionMetadata.Reviews.Failed) | $(if ($script:SessionMetadata.Reviews.TotalReviews -gt 0) { [math]::Round(($script:SessionMetadata.Reviews.Failed / $script:SessionMetadata.Reviews.TotalReviews) * 100, 1) } else { 0 })% |
 
-**Target:** ≥90% approval rate  
+**Target:** ≥90% approval rate
 **Status:** $(if ($script:SessionMetadata.Reviews.TotalReviews -gt 0 -and (($script:SessionMetadata.Reviews.Approved / $script:SessionMetadata.Reviews.TotalReviews) * 100) -ge 90) { '✅ Meeting target' } elseif ($script:SessionMetadata.Reviews.TotalReviews -gt 0) { '⚠️ Below target' } else { 'ℹ️ No data' })
 
 ---
@@ -526,12 +610,111 @@ $insights
 
 ---
 
-**Dashboard Status:** Active  
-**Next Update:** Run ``scripts/analyze-sessions.ps1`` as needed  
+**Dashboard Status:** Active
+**Next Update:** Run ``scripts/analyze-sessions.ps1`` as needed
 **Data Source:** ``$SessionsPath``
 "@
-    
+
     return $report
+}
+
+function Get-ModelBreakdownSection {
+    <#
+    .SYNOPSIS
+        Generates model usage breakdown by model name and agent.
+    #>
+
+    $breakdown = $script:SessionMetadata.ModelBreakdown
+
+    if ($breakdown.ByModel.Count -eq 0) {
+        return "_No detailed model usage data available._"
+    }
+
+    $modelLines = $breakdown.ByModel.GetEnumerator() | ForEach-Object {
+        "| $($_.Key) | $($_.Value.calls) | `$$($_.Value.cost.ToString('F2'))` |"
+    }
+
+    $agentLines = $breakdown.ByAgent.GetEnumerator() | ForEach-Object {
+        "| $($_.Key) | $($_.Value.calls) | `$$($_.Value.cost.ToString('F2'))` |"
+    }
+
+    return @"
+### By Model
+
+| Model | Calls | Cost |
+|-------|-------|------|
+$($modelLines -join "`n")
+
+### By Agent
+
+| Agent | Calls | Cost |
+|-------|-------|------|
+$($agentLines -join "`n")
+"@
+}
+
+function Get-AgentActionSection {
+    <#
+    .SYNOPSIS
+        Generates agent action telemetry section.
+    #>
+
+    $actions = $script:SessionMetadata.AgentActions
+
+    if ($actions.TotalActions -eq 0) {
+        return "_No agent action data available. Enable action logging in session metadata to track tool usage and agent activity._"
+    }
+
+    $agentLines = $actions.ByAgent.GetEnumerator() | Sort-Object -Property Value -Descending | ForEach-Object {
+        $pct = [math]::Round(($_.Value / $actions.TotalActions) * 100, 1)
+        "| $($_.Key) | $($_.Value) | $pct% |"
+    }
+
+    $toolLines = $actions.ByTool.GetEnumerator() | Sort-Object -Property Value -Descending | Select-Object -First 10 | ForEach-Object {
+        $pct = [math]::Round(($_.Value / $actions.TotalActions) * 100, 1)
+        "| $($_.Key) | $($_.Value) | $pct% |"
+    }
+
+    return @"
+**Total Actions Logged:** $($actions.TotalActions)
+
+### Actions by Agent
+
+| Agent | Actions | Share |
+|-------|---------|-------|
+$($agentLines -join "`n")
+
+### Top Tools Used
+
+| Tool | Usage | Share |
+|------|-------|-------|
+$($toolLines -join "`n")
+"@
+}
+
+function Get-SecurityFindingsSection {
+    <#
+    .SYNOPSIS
+        Generates security findings summary section.
+    #>
+
+    $findings = $script:SessionMetadata.SecurityFindings
+
+    if ($findings.Total -eq 0) {
+        return "_No security findings logged. This is expected for sessions without security reviews._"
+    }
+
+    return @"
+| Severity | Count | Percentage |
+|----------|-------|------------|
+| Blocker | $($findings.Blocker) | $(if ($findings.Total -gt 0) { [math]::Round(($findings.Blocker / $findings.Total) * 100, 1) } else { 0 })% |
+| High | $($findings.High) | $(if ($findings.Total -gt 0) { [math]::Round(($findings.High / $findings.Total) * 100, 1) } else { 0 })% |
+| Medium | $($findings.Medium) | $(if ($findings.Total -gt 0) { [math]::Round(($findings.Medium / $findings.Total) * 100, 1) } else { 0 })% |
+| Low | $($findings.Low) | $(if ($findings.Total -gt 0) { [math]::Round(($findings.Low / $findings.Total) * 100, 1) } else { 0 })% |
+| **Total** | **$($findings.Total)** | **100%** |
+
+**Security Status:** $(if ($findings.Blocker -gt 0) { '🚫 Blockers present - require resolution' } elseif ($findings.High -gt 0) { '⚠️ High-severity findings present' } else { '✅ No critical security issues' })
+"@
 }
 
 function Get-DsStarMarkdownSection {

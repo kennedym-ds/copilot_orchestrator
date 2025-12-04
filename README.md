@@ -47,13 +47,25 @@ Detailed environment notes live in `docs/guides/vscode-copilot-configuration.md`
 
 All personas are authored as `.agent.md` files with explicit tool scopes and handoffs:
 
+### Core Workflow Agents
 - **Conductor** — orchestrates the entire lifecycle, enforces pause points, and delegates via `#runCustomAgent`.
 - **Planner** — performs deep research, drafts multi-phase plans, and cites every external source.
 - **Implementer** — executes phases with TDD discipline and comprehensive validation logs.
 - **Reviewer** — delivers severity-tagged findings and guards quality, security, and compliance.
 - **Researcher** — gathers context with recursive fetches and option analysis.
 - **Maintainer** — triages issues, packages pull requests, and keeps validation artifacts current.
-- **Security**, **Performance**, **Visualizer**, **Data Analytics**, **Docs** — specialist personas for targeted follow-ups and release readiness.
+
+### Specialist Personas
+- **Security**, **Performance**, **Visualizer**, **Data Analytics**, **Docs** — targeted follow-ups and release readiness.
+- **Accessibility** — WCAG compliance auditing, ARIA implementation review, and a11y best practices.
+- **Observability** — telemetry analysis, cost reporting, and platform integrations (Dynatrace, PagerDuty, Elasticsearch).
+
+### IaC Specialists
+- **Terraform** — infrastructure-as-code planning, drift detection, and module development.
+- **Bicep** — Azure IaC implementation, ARM migration, and Azure policy compliance.
+
+### Advanced Patterns
+- **Beast Mode** — transparent extended reasoning with visible thinking and systematic task management.
 
 Each agent surfaces consistent handoffs so user-facing workflows remain one click away (for example Planner → Implementer → Reviewer → Conductor, with optional Security/Performance/Docs checkpoints).
 

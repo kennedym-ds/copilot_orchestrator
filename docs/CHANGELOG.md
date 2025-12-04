@@ -1,7 +1,7 @@
 ---
 title: "Copilot Orchestrator Changelog"
 version: "0.1.0"
-lastUpdated: "2025-11-10"
+lastUpdated: "2025-12-04"
 status: draft
 ---
 
@@ -12,6 +12,14 @@ All notable changes will be documented here following [Keep a Changelog](https:/
 ## [Unreleased]
 
 ### Added
+- **SOTA Architecture Gaps Closure** (2025-12-04):
+  - IaC agent coverage: Added `terraform.agent.md` and `bicep.agent.md` with plan/implement split patterns for drift detection, compliance, and modularization.
+  - Language coverage expansion: Added `powershell.instructions.md`, `typescript.instructions.md`, `terraform.instructions.md`, and `bicep.instructions.md`.
+  - MCP server patterns: Added `python-mcp-server.instructions.md` with comprehensive tool, resource, and prompt implementation guidance.
+  - Accessibility agent: Added `accessibility.agent.md` covering WCAG 2.2, ARIA implementation, and a11y best practices.
+  - Beast Mode pattern: Added `beast-mode.agent.md` for transparent extended reasoning with visible thinking and systematic task management.
+  - Observability integrations: Enhanced `observability.agent.md` with Dynatrace, PagerDuty, Elasticsearch, Prometheus, and Azure Monitor integration patterns.
+  - Enhanced session analytics: Expanded `analyze-sessions.ps1` with agent action telemetry (by agent/tool), security findings tracking, and detailed model usage breakdown (per StepSecurity recommendations).
 - Initial repository scaffold, planning documents (`orchestration-rebuild-plan`, `new-workspace-blueprint`, `new-workspace-setup-checklist`).
 - Base directory structure for chat modes, prompts, instructions, docs, scripts, and plans.
 - Conductor, Planner, Implementer, Researcher, and Reviewer agent definitions with workflow overlays.

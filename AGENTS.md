@@ -78,13 +78,23 @@ All agents must honor the global instructions in `instructions/global/*.instruct
 - Security (`security.agent.md`): threat modeling, privacy, compliance reviews.
 - Performance (`performance.agent.md`): runtime, memory, and cost analysis.
 - Visualizer (`visualizer.agent.md`): UX, accessibility, and diagram support.
+- Accessibility (`accessibility.agent.md`): WCAG compliance, ARIA implementation, and a11y best practices.
 - Data Analytics (`data-analytics.agent.md`): data quality, metrics, and analytics governance.
 - Documentation (`docs.agent.md`): onboarding guides, knowledge base, validation runbooks.
-- Observability (`observability.agent.md`): telemetry analysis, token usage tracking, and cost reporting.
+- Observability (`observability.agent.md`): telemetry analysis, token usage tracking, cost reporting, and platform integrations (Dynatrace, PagerDuty, Elasticsearch).
 - Deployment (`deployment.agent.md`): CI/CD pipeline management, release readiness, and infrastructure planning.
 - Red Team (`red-team.agent.md`): adversarial testing, edge case identification, and resilience challenges.
 - Keep tool access minimal and scoped to each specialty. Escalate to these agents through conductor handoffs when risks emerge.
 - Return actionable recommendations (severity-tagged findings, mitigations, approvals) to the Conductor for follow-up.
+
+### IaC Specialists
+
+- Terraform (`terraform.agent.md`): Infrastructure-as-Code planning, drift detection, compliance, and module development for multi-cloud environments.
+- Bicep (`bicep.agent.md`): Azure IaC implementation, ARM template migration, and Azure policy compliance.
+
+### Advanced Patterns
+
+- Beast Mode (`beast-mode.agent.md`): Transparent extended reasoning with visible thinking, systematic task management, and comprehensive tool usage for complex problems.
 
 ---
 
