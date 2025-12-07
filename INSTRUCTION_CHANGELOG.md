@@ -31,7 +31,7 @@ Each entry should include:
 - Improved overall structure and readability for better Copilot coding agent comprehension
 **Expected Impact:**
 - Quality: ++ (clearer guidance for Copilot coding agent, better adherence to project conventions)
-- Cost: Neutral (improved efficiency may reduce token usage through clearer instructions)
+- Cost: Neutral to slightly positive (improved efficiency reduces iteration cycles, potentially lowering token usage)
 - Speed: + (Copilot can find relevant information faster, reduce clarification questions)
 **Rollback:** Revert `.github/copilot-instructions.md` to previous version (103 lines vs 167 lines)
 **Metrics:**

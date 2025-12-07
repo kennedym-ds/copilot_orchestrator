@@ -56,7 +56,11 @@ When an issue is assigned to `@copilot`, the cloud coding agent should:
 
 1. **Read this file and `AGENTS.md`** to understand the conductor workflow, validation contracts, and escalation guardrails.
 2. **Adhere to the lifecycle sequence** (planning → implementation → review → completion) and use the appropriate persona prompts under `.github/prompts/`.
-3. **Run the validation suite** before opening a pull request (see Build, Test, and Validation section above).
+3. **Run the validation suite** before opening a pull request. See the "Build, Test, and Validation" section for commands:
+   - Validate Copilot assets: `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
+   - Check prompt metadata: `pwsh -File scripts/add-prompt-metadata.ps1 -RepositoryRoot . -CheckOnly`
+   - Run linter: `pwsh -File scripts/run-lint.ps1 -RepositoryRoot .`
+   - Run smoke tests: `pwsh -File scripts/run-smoke-tests.ps1 -RepositoryRoot .`
 4. **Update `docs/CHANGELOG.md`** and attach validation output to the PR description whenever instructions, prompts, or agent definitions change.
 5. **Persist lifecycle artifacts** (plans, phase summaries, completion reports) using the templates in `docs/templates/`.
 
@@ -158,7 +162,7 @@ Always capture open questions and escalate blockers via the conductor before pro
 1. Add prompt file to `.github/prompts/` with appropriate subdirectory
 2. Include metadata using `add-prompt-metadata.ps1`
 3. Validate with `pwsh -File scripts/add-prompt-metadata.ps1 -RepositoryRoot . -CheckOnly`
-4. Test the prompt in VS Code Insiders with the `/` command palette
+4. Test the prompt in VS Code Insiders: Open the Chat view, type `/` to see the command palette, select your new prompt, and verify it loads with correct parameters and behavior
 
 **Troubleshooting validation failures:**
 - Lint warnings: Address trailing whitespace and line length issues
