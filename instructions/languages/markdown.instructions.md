@@ -68,7 +68,7 @@ applyTo: "**/*.md,**/*.markdown"
   multiple times:
   ```markdown
   [link text][reference]
-  
+
   [reference]: https://example.com
   ```
 - Use relative paths for internal documentation links.
@@ -138,7 +138,7 @@ sequenceDiagram
     participant User
     participant API
     participant Database
-    
+
     User->>API: Request data
     API->>Database: Query
     Database-->>API: Results
@@ -258,7 +258,7 @@ pie title Distribution
   notes:
   ```markdown
   > **Note:** This is an important note.
-  
+
   > **Warning:** Be careful with this operation.
   ```
 - Keep blockquotes concise and use them purposefully.
