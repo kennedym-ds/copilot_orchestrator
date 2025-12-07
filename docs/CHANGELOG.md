@@ -12,6 +12,12 @@ All notable changes will be documented here following [Keep a Changelog](https:/
 ## [Unreleased]
 
 ### Added
+- **Enhanced Copilot Instructions** (2025-12-06):
+  - Added comprehensive "Technology Stack" section to `.github/copilot-instructions.md` documenting primary languages, configuration formats, testing frameworks, and platform support.
+  - Added "Project Conventions" section covering file naming standards, documentation requirements, commit message format, line length limits, and whitespace rules.
+  - Added "Build, Test, and Validation" section with consolidated testing commands and validation requirements.
+  - Added "Common Tasks and Workflows" section with step-by-step guides for adding custom agents, updating instructions, creating prompts, and troubleshooting validation failures.
+  - Improved structure and readability to align with GitHub Copilot coding agent best practices.
 - **SOTA Architecture Gaps Closure** (2025-12-04):
   - IaC agent coverage: Added `terraform.agent.md` and `bicep.agent.md` with plan/implement split patterns for drift detection, compliance, and modularization.
   - Language coverage expansion: Added `powershell.instructions.md`, `typescript.instructions.md`, `terraform.instructions.md`, and `bicep.instructions.md`.

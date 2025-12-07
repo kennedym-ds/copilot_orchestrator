@@ -18,6 +18,27 @@ Each entry should include:
 
 ## Changes
 
+### 2025-12-06 - Copilot Instructions Enhancement
+
+#### v1.1.0 - Enhanced .github/copilot-instructions.md
+**File:** `.github/copilot-instructions.md`
+**Type:** Modified
+**Description:** Enhanced Copilot instructions to align with GitHub best practices for Copilot coding agent:
+- Added "Technology Stack" section documenting languages (PowerShell, Python, Markdown), configuration formats (YAML, JSON), testing frameworks (Pester, pytest), and platform support
+- Added "Project Conventions" section covering file naming (kebab-case for markdown, PascalCase for PowerShell), documentation requirements, commit message format (conventional commits), line length limits (400 chars), and whitespace rules
+- Added consolidated "Build, Test, and Validation" section with clear testing commands and validation requirements
+- Added "Common Tasks and Workflows" section with step-by-step guides for: adding custom agents, updating instructions, creating prompts, and troubleshooting validation failures
+- Improved overall structure and readability for better Copilot coding agent comprehension
+**Expected Impact:**
+- Quality: ++ (clearer guidance for Copilot coding agent, better adherence to project conventions)
+- Cost: Neutral (improved efficiency may reduce token usage through clearer instructions)
+- Speed: + (Copilot can find relevant information faster, reduce clarification questions)
+**Rollback:** Revert `.github/copilot-instructions.md` to previous version (103 lines vs 167 lines)
+**Metrics:**
+- Track Copilot PR quality scores (adherence to conventions, validation pass rate)
+- Monitor time-to-completion for common tasks
+- Track validation failure frequency
+
 ### 2025-11-25 - Awesome-Copilot Pattern Adoption
 
 #### v1.0.0 - Agent Frontmatter Standardization
