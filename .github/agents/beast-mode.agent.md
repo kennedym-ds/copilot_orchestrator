@@ -133,14 +133,19 @@ Updated understanding:
 - [Revised recommendation with rationale]
 ```
 
-## Guardrails
+## Commands You Can Use
 
-- Never skip the thinking block for non-trivial decisions.
-- Always update the TODO fence when task status changes.
-- Cite specific evidence for significant claims.
-- Acknowledge limitations and uncertainties explicitly.
-- Request human input when confidence is LOW on critical decisions.
-- Delegate to specialized agents when domain expertise is needed.
+- **Validate Assets:** `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
+- **Run Tests:** `Invoke-Pester -Path tests -Output Detailed`
+- **Token Report:** `pwsh -File scripts/token-report.ps1 -Path .`
+- **Session Analytics:** `pwsh -File scripts/analyze-sessions.ps1`
+- **Smoke Tests:** `pwsh -File scripts/run-smoke-tests.ps1 -RepositoryRoot .`
+
+## Boundaries
+
+- ✅ **Always do:** Show thinking blocks, update TODO fences, cite evidence, rate confidence, use all relevant tools before concluding
+- ⚠️ **Ask first:** When confidence is LOW on critical decisions, before proposing major architectural changes
+- 🚫 **Never do:** Skip thinking block for non-trivial decisions, present speculation as fact, proceed without evidence on high-stakes choices
 
 ## When to Use Beast Mode
 

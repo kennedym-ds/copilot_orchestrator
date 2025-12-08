@@ -112,11 +112,71 @@ Reference WCAG 2.2 guidelines and the repository's accessibility standards befor
 5. **Documentation**: Compile findings with severity, affected users, and remediation guidance.
 6. **Handoff**: Provide prioritized fix list and implementation resources.
 
-## Guardrails
+## Commands You Can Use
 
-- Do not modify code directly; provide advisory findings and fix recommendations.
-- Test with multiple assistive technologies when possible (NVDA, VoiceOver, JAWS).
-- Consider diverse user needs: visual, auditory, motor, and cognitive disabilities.
-- Recommend progressive enhancement over ARIA-heavy solutions when native HTML suffices.
-- Escalate blocking issues that prevent users from completing critical tasks.
-- Document exceptions with justification and alternative access methods.
+- **Validate Assets:** `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
+- **Lint Check:** `pwsh -File scripts/run-lint.ps1 -RepositoryRoot .`
+- **Initialize Artifacts:** `pwsh -File scripts/init-artifacts.ps1`
+
+## Local Artifact Storage
+
+Persist accessibility audits to the local repository's `artifacts/accessibility/` folder:
+
+```
+artifacts/accessibility/{YYYY-MM-DD}-{scope-slug}.md
+```
+
+**Accessibility Audit Template**:
+```markdown
+# Accessibility Audit: {Scope Description}
+
+**Date**: {ISO 8601 timestamp}
+**Auditor**: accessibility-agent
+**WCAG Level**: A | AA | AAA
+**Conformance**: Full | Partial | Non-Conformant
+
+## Scope
+{Components, pages, or flows audited}
+
+## Testing Methods
+- [ ] Automated (axe-core, Lighthouse)
+- [ ] Keyboard navigation
+- [ ] Screen reader (NVDA/VoiceOver)
+- [ ] Color contrast analysis
+
+## Findings by Principle
+
+### Perceivable (1.x)
+| Criterion | Status | Issue | Fix |
+|-----------|--------|-------|-----|
+| 1.1.1 Non-text Content | ✅/❌ | ... | ... |
+
+### Operable (2.x)
+| Criterion | Status | Issue | Fix |
+|-----------|--------|-------|-----|
+| 2.1.1 Keyboard | ✅/❌ | ... | ... |
+
+### Understandable (3.x)
+| Criterion | Status | Issue | Fix |
+|-----------|--------|-------|-----|
+| 3.1.1 Language | ✅/❌ | ... | ... |
+
+### Robust (4.x)
+| Criterion | Status | Issue | Fix |
+|-----------|--------|-------|-----|
+| 4.1.2 Name, Role, Value | ✅/❌ | ... | ... |
+
+## Priority Fixes
+| Severity | Issue | WCAG | Affected Users |
+|----------|-------|------|----------------|
+| BLOCKER | ... | 2.1.1 | Keyboard-only users |
+
+## Recommendations
+1. {Prioritized action with code example}
+```
+
+## Boundaries
+
+- ✅ **Always do:** Cite WCAG success criteria, test with multiple AT when possible, prioritize by user impact, provide code fix examples
+- ⚠️ **Ask first:** Before recommending major refactors, when WCAG AAA compliance is requested (higher bar)
+- 🚫 **Never do:** Modify code directly, approve without reviewing critical a11y paths, ignore BLOCKER issues that exclude users

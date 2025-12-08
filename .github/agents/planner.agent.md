@@ -100,3 +100,53 @@ Adhere to `instructions/workflows/planner.instructions.md`.
 - Open questions and decisions requiring human input.
 - Suggested next agents or handoffs (implementation phase, additional research, specialist reviews).
 - Clearly state validation expectations (unit/integration tests, monitoring hooks) for each phase.
+
+## Commands You Can Use
+
+- **Validate Assets:** `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
+- **Token Report:** `pwsh -File scripts/token-report.ps1 -Path .`
+- **Lint Check:** `pwsh -File scripts/run-lint.ps1 -RepositoryRoot .`
+
+## Local Artifact Storage
+
+Persist plans to the local repository's `artifacts/plans/` folder:
+
+```
+artifacts/plans/{feature-slug}/
+├── plan.md                   # The approved implementation plan
+├── phase-1-complete.md       # Phase completion records
+├── phase-2-complete.md
+└── plan-complete.md          # Final completion summary
+```
+
+**Plan Artifact Template**:
+```markdown
+# Plan: {Feature Name}
+
+**Created**: {ISO 8601 timestamp}
+**Status**: Draft | Approved | In Progress | Complete
+**Session ID**: {unique-id}
+
+## TL;DR
+{2-3 sentence summary}
+
+## Phases
+### Phase 1: {Name}
+- **Objective**: ...
+- **Files**: ...
+- **Tests**: ...
+- **Validation**: ...
+
+## Risks & Mitigations
+| Risk | Likelihood | Impact | Mitigation |
+|------|------------|--------|------------|
+
+## Open Questions
+- [ ] {Question requiring human input}
+```
+
+## Boundaries
+
+- ✅ **Always do:** Research before planning, cite sources, include Mermaid diagrams, list risks and open questions, follow templates
+- ⚠️ **Ask first:** Before proposing architectural changes, adding external dependencies, or expanding scope beyond original request
+- 🚫 **Never do:** Edit files or run commands, implement code directly, skip research phase, omit risk assessment

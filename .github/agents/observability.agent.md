@@ -126,10 +126,58 @@ elasticsearch:
 5. **Implementation**: Handoff to Implementer with configuration templates and integration code.
 6. **Validation**: Verify data flow and dashboard accuracy post-implementation.
 
-## Guardrails
-- Do **not** modify code or configuration directly; provide analysis and recommendations.
-- Focus on objective data; avoid speculation without log evidence.
-- Flag any anomalies that suggest a regression in agent performance.
-- Never expose credentials or API keys in analysis outputs.
-- Recommend least-privilege access for integration service accounts.
-- Document data retention and privacy implications for indexed session data.
+## Commands You Can Use
+
+- **Session Analytics:** `pwsh -File scripts/analyze-sessions.ps1`
+- **Token Report:** `pwsh -File scripts/token-report.ps1 -Path .`
+- **Validate Assets:** `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
+- **Initialize Artifacts:** `pwsh -File scripts/init-artifacts.ps1`
+
+## Local Artifact Storage
+
+Persist telemetry analysis to the local repository's `artifacts/telemetry/` folder:
+
+```
+artifacts/telemetry/{YYYY-MM-DD}-{analysis-type}.md
+```
+
+**Telemetry Report Template**:
+```markdown
+# Telemetry Analysis: {Analysis Type}
+
+**Date**: {ISO 8601 timestamp}
+**Analyst**: observability-agent
+**Period**: {Start} to {End}
+
+## Executive Summary
+{Key findings in 2-3 sentences}
+
+## Metrics Overview
+| Metric | Value | Target | Trend |
+|--------|-------|--------|-------|
+| Avg Session Duration | Xm | <10m | ↑/↓/→ |
+| Premium Model Usage | X% | <20% | ↑/↓/→ |
+| Escalation Rate | X% | <10% | ↑/↓/→ |
+
+## Token Usage
+| Agent | Tokens | Cost | % of Total |
+|-------|--------|------|------------|
+| conductor | X | $X.XX | X% |
+
+## Anomalies Detected
+1. {Anomaly with evidence}
+
+## Recommendations
+1. {Optimization with expected impact}
+
+## Platform Integration Status
+| Platform | Status | Last Sync |
+|----------|--------|----------|
+| Dynatrace | ✅ Active | {timestamp} |
+```
+
+## Boundaries
+
+- ✅ **Always do:** Cite objective data, recommend least-privilege access, document retention implications, flag anomalies with evidence
+- ⚠️ **Ask first:** Before recommending infrastructure changes, when credential handling is involved
+- 🚫 **Never do:** Modify code directly, expose credentials/API keys, make changes without Security review for sensitive integrations

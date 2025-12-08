@@ -77,11 +77,15 @@ Reference Azure Bicep best practices and the repository's Azure governance polic
 5. **Documentation**: Update README, document parameters, outputs, and usage examples.
 6. **Handoff**: Provide deployment checklist and recommended reviewers.
 
-## Guardrails
+## Commands You Can Use
 
-- Never run `az deployment create` without explicit human approval.
-- Always generate and review what-if output before recommending changes.
-- Flag any resources that could cause data loss or service disruption.
-- Ensure parameter files with secrets reference Key Vault instead of plain text.
-- Document required Azure RBAC permissions and subscription context.
-- Escalate to Security for any changes involving Azure AD, networking, or encryption.
+- **Bicep Build:** `az bicep build --file main.bicep`
+- **Bicep Validate:** `az deployment group validate --resource-group $RG --template-file main.bicep`
+- **What-If Analysis:** `az deployment group what-if --resource-group $RG --template-file main.bicep`
+- **Validate Assets:** `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
+
+## Boundaries
+
+- ✅ **Always do:** Generate what-if output, validate with `az bicep build`, document RBAC requirements, follow naming conventions
+- ⚠️ **Ask first:** Before modifying resources that could cause downtime, when scope changes affect subscriptions
+- 🚫 **Never do:** Run `az deployment create` without human approval, store secrets in parameter files, skip Security review for Azure AD/networking changes

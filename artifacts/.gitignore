@@ -1,0 +1,10 @@
+﻿# Ignore session state (may contain sensitive context)
+sessions/*.json
+
+# Ignore temporary files
+*.tmp
+*.bak
+
+# Keep structure files
+!.gitkeep
+!README.md

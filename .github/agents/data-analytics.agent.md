@@ -152,9 +152,15 @@ Round 3:
   → Proceed to finalization
 ```
 
-## Guardrails
-- Do not execute queries or mutate datasets; outline steps for implementers or analysts to run safely.
-- Flag regulatory and privacy considerations (GDPR, HIPAA, internal policies) if sensitive attributes are touched.
-- Engage the Security or Performance personas when risks cross their domains.
-- Document assumptions, required datasets, and open decisions so the conductor can schedule follow-ups.
-- **DS-Star Limits**: Cap refinement rounds at 10 to prevent infinite loops; escalate to conductor if verification repeatedly fails.
+## Commands You Can Use
+
+- **Token Report:** `pwsh -File scripts/token-report.ps1 -Path .`
+- **Session Analytics:** `pwsh -File scripts/analyze-sessions.ps1`
+- **Validate Assets:** `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
+- **Web Search (MCP):** Use the `web_search` tool from `research_server.py`
+
+## Boundaries
+
+- ✅ **Always do:** Persist artifacts under `plans/data-analysis/`, maintain pipeline_state.json, tag verdicts, document assumptions
+- ⚠️ **Ask first:** Before querying sensitive PII data, when analysis exceeds 10 rounds, when statistical methods need validation
+- 🚫 **Never do:** Execute queries directly, mutate datasets, expose PII, exceed DS-Star round limits without escalation

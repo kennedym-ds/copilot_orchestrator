@@ -1,100 +1,113 @@
 # Copilot Orchestrator — Agent Playbook
 
-Welcome, agent. This repository is the **greenfield conductor workspace** for GitHub Copilot. It implements the multi-agent orchestration pattern described in `docs/workflows/orchestration-rebuild-plan.md` and should be treated as the source of truth for future personas, prompts, and validation tooling.
+This repository implements a multi-agent orchestration pattern for GitHub Copilot. It provides the source of truth for agent definitions, prompts, instructions, and validation tooling.
 
-> **Status:** Inception phase. Follow the guardrails below and log gaps in `docs/operations.md`.
+> **Status:** Stable. Follow the guardrails below and log issues in `docs/operations.md`.
 
 ---
 
 ## Mission & Architecture
 
-- Build a conductor-led workflow that progresses every task through **Planning → Implementation → Review → Commit → Completion**.
-- Persist artifacts for each stage under `plans/` (plan drafts, phase summaries, completion report).
-- Maintain strict pause points after plan creation and after each review to keep the human in control.
-- Use **context-isolated custom agents** (via `#runCustomAgent`) for research-heavy or parallelizable work.
+- Progress tasks through a structured lifecycle: **Planning → Implementation → Review → Completion**
+- Persist artifacts locally in the `artifacts/` folder of each consuming repository
+- Maintain pause points after plan creation and after each review for human approval
+- Use context-isolated subagents via `#runSubagent` for specialized work
 
-Supporting documentation:
+### Supporting Documentation
 
 | Document | Purpose |
-| --- | --- |
-| `docs/workflows/orchestration-rebuild-plan.md` | End-to-end strategy, success metrics, roadmap. |
-| `docs/workflows/new-workspace-blueprint.md` | Repository layout, model allocation, automation guardrails. |
-| `docs/workflows/new-workspace-setup-checklist.md` | Operational checklist for bootstrapping and migration. |
-| `docs/operations.md` | Monitoring cadence, backlog, and incident process. |
-| `docs/templates/` | Standardized plan/phase/summary templates (populate before first conductor run). |
+|----------|---------|
+| `docs/workflows/orchestration-rebuild-plan.md` | Strategy, success metrics, roadmap |
+| `docs/workflows/new-workspace-blueprint.md` | Repository layout, model allocation |
+| `docs/guides/central-deployment.md` | Org-level deployment with local artifacts |
+| `docs/operations.md` | Monitoring, backlog, incident process |
+| `docs/templates/` | Plan, phase, and completion templates |
 
 ---
 
 ## Development Environment
 
 | Task | Command |
-| --- | --- |
-| Install dependencies | _None yet — prompt the team before adding packages._ |
-| Validation suite | `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .` |
-| Prompt metadata check | `pwsh -File scripts/add-prompt-metadata.ps1 -RepositoryRoot . -CheckOnly` |
+|------|---------|
+| Validate assets | `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .` |
+| Check prompt metadata | `pwsh -File scripts/add-prompt-metadata.ps1 -RepositoryRoot . -CheckOnly` |
 | Token budget report | `pwsh -File scripts/token-report.ps1 -Path .` |
-| PowerShell regression tests | `Invoke-Pester -Path tests -Output Detailed` |
-| **Session analytics** | **`pwsh -File scripts/analyze-sessions.ps1`** |
-| **View metrics dashboard** | **`docs/dashboards/workflow-metrics.md`** |
+| Run linting | `pwsh -File scripts/run-lint.ps1 -RepositoryRoot .` |
+| Run smoke tests | `pwsh -File scripts/run-smoke-tests.ps1 -RepositoryRoot .` |
+| Initialize artifacts | `pwsh -File scripts/init-artifacts.ps1` |
+| Session analytics | `pwsh -File scripts/analyze-sessions.ps1` |
+| Pester tests | `Invoke-Pester -Path tests -Output Detailed` |
 
-**Shell expectations**
-
-- Default shell: Windows PowerShell 5.1. Prefer `;` when chaining commands.
-- Use PowerShell cmdlets (`Get-ChildItem`, `Set-Content`, etc.) over aliases for reproducibility.
-- Document any new scripts or tooling requirements in `docs/operations.md` and update this table.
+**Shell**: Windows PowerShell 5.1. Use `;` when chaining commands. Prefer cmdlets over aliases.
 
 ---
 
-## Workflow Guardrails
+## Agent Roster (22 Agents)
 
-All agents must honor the global instructions in `instructions/global/*.instructions.md` plus the workflow-specific overlays in `instructions/workflows/`.
+### Core Workflow
 
-### Conductor
-
-- Maintain state (`Current Phase`, `Plan Progress`, `Last Action`, `Next Action`) in responses.
-- Invoke specialized custom agents with `#runCustomAgent`; do not implement code directly.
-- Enforce mandatory pause points and write artifacts using templates in `docs/templates/`.
-
-### Planner & Researcher
-
-- Use premium reasoning models (GPT-5, Claude Sonnet 4.5, Gemini 2.5 Pro).
-- Perform live research for every external reference via `fetch_webpage` and capture findings, options, assumptions, and open questions.
-- Produce plans aligned with `docs/templates/plan.md` (including Mermaid diagrams when applicable) and avoid implementation actions.
-
-### Implementer
-
-- Follow strict TDD: failing tests → minimal code → passing tests → refactor.
-- Default to cost-optimized models (GPT-5 Mini, Claude Haiku 4.5). Escalate to premium only if necessary.
-- Run targeted tests first, then the relevant suites, recording results in the phase summary.
-
-### Reviewer
-
-- Review only, never apply fixes. Return status (`APPROVED`, `NEEDS_REVISION`, `FAILED`) with severity-tagged findings.
-- Confirm tests were executed and recommend additional coverage when gaps appear.
+| Agent | File | Purpose |
+|-------|------|---------|
+| Conductor | `conductor.agent.md` | Lifecycle orchestration, pause points, delegation |
+| Planner | `planner.agent.md` | Multi-phase planning, research, risk analysis |
+| Implementer | `implementer.agent.md` | TDD execution, validation logging |
+| Reviewer | `reviewer.agent.md` | Severity-tagged findings, quality gates |
+| Researcher | `researcher.agent.md` | Context gathering, source citation |
+| Maintainer | `maintainer.agent.md` | Issue triage, release coordination |
 
 ### Support Personas
 
-- Maintainer (`maintainer.agent.md`): issue triage, release readiness, and validation compliance.
-- Security (`security.agent.md`): threat modeling, privacy, compliance reviews.
-- Performance (`performance.agent.md`): runtime, memory, and cost analysis.
-- Visualizer (`visualizer.agent.md`): UX, accessibility, and diagram support.
-- Accessibility (`accessibility.agent.md`): WCAG compliance, ARIA implementation, and a11y best practices.
-- Data Analytics (`data-analytics.agent.md`): data quality, metrics, and analytics governance.
-- Documentation (`docs.agent.md`): onboarding guides, knowledge base, validation runbooks.
-- Observability (`observability.agent.md`): telemetry analysis, token usage tracking, cost reporting, and platform integrations (Dynatrace, PagerDuty, Elasticsearch).
-- Deployment (`deployment.agent.md`): CI/CD pipeline management, release readiness, and infrastructure planning.
-- Red Team (`red-team.agent.md`): adversarial testing, edge case identification, and resilience challenges.
-- Keep tool access minimal and scoped to each specialty. Escalate to these agents through conductor handoffs when risks emerge.
-- Return actionable recommendations (severity-tagged findings, mitigations, approvals) to the Conductor for follow-up.
+| Agent | File | Purpose |
+|-------|------|---------|
+| Security | `security.agent.md` | Threat modeling, compliance review |
+| Performance | `performance.agent.md` | Runtime, memory, cost analysis |
+| Accessibility | `accessibility.agent.md` | WCAG compliance, ARIA review |
+| Docs | `docs.agent.md` | Documentation, onboarding materials |
+| Observability | `observability.agent.md` | Telemetry, platform integrations |
+| Visualizer | `visualizer.agent.md` | UX review, diagrams |
+| Data Analytics | `data-analytics.agent.md` | DS-Star workflow, data quality |
+| Deployment | `deployment.agent.md` | CI/CD review, release readiness |
+| Red Team | `red-team.agent.md` | Adversarial testing, edge cases |
 
-### IaC Specialists
+### Specialists
 
-- Terraform (`terraform.agent.md`): Infrastructure-as-Code planning, drift detection, compliance, and module development for multi-cloud environments.
-- Bicep (`bicep.agent.md`): Azure IaC implementation, ARM template migration, and Azure policy compliance.
+| Agent | File | Purpose |
+|-------|------|---------|
+| Test | `test.agent.md` | TDD test writing, coverage analysis |
+| Lint | `lint.agent.md` | Code style enforcement |
+| GitHub Ops | `github-ops.agent.md` | Issue/PR/workflow management |
+| Terraform | `terraform.agent.md` | Multi-cloud IaC planning |
+| Bicep | `bicep.agent.md` | Azure IaC implementation |
+| Design | `design.agent.md` | Architecture design |
+| Beast Mode | `beast-mode.agent.md` | Extended reasoning, visible thinking |
 
-### Advanced Patterns
+---
 
-- Beast Mode (`beast-mode.agent.md`): Transparent extended reasoning with visible thinking, systematic task management, and comprehensive tool usage for complex problems.
+## Local Artifact Storage
+
+Agents persist session outputs to a local `artifacts/` folder in each consuming repository:
+
+```
+artifacts/
+├── plans/          # Planner, Implementer, Conductor
+├── reviews/        # Reviewer
+├── research/       # Researcher
+├── security/       # Security
+├── sessions/       # Session state (JSON)
+├── performance/    # Performance
+├── docs/           # Docs
+├── releases/       # Maintainer
+├── telemetry/      # Observability
+├── deployments/    # Deployment
+├── red-team/       # Red Team
+├── accessibility/  # Accessibility
+├── tests/          # Test
+└── ux/             # Visualizer
+```
+
+Initialize with: `pwsh -File scripts/init-artifacts.ps1`
+
+See `docs/guides/central-deployment.md` for org-level deployment patterns.
 
 ---
 

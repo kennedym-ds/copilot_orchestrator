@@ -1,15 +1,44 @@
 ---
 title: "Copilot Orchestrator Changelog"
-version: "0.1.0"
-lastUpdated: "2025-12-04"
-status: draft
+version: "0.4.0"
+lastUpdated: "2025-12-08"
+status: stable
 ---
 
 # Changelog
 
-All notable changes will be documented here following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
+All notable changes are documented here following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
 
-## [Unreleased]
+## [0.4.0] - 2025-12-08
+
+### Added
+- **Local Artifact Storage**: All 15 artifact-producing agents now persist outputs to local `artifacts/` folder
+  - New script: `scripts/init-artifacts.ps1` creates standardized folder structure
+  - 14 artifact folders: plans, reviews, research, security, sessions, performance, docs, releases, telemetry, deployments, red-team, accessibility, tests, ux
+  - Each agent includes artifact template in its definition
+- **Central Deployment Guide**: `docs/guides/central-deployment.md` documents org-level deployment with local artifacts
+- **New Agents**:
+  - `test.agent.md`: TDD test writing, coverage analysis, Pester framework
+  - `lint.agent.md`: Code style enforcement, formatting fixes
+  - `github-ops.agent.md`: Issue/PR/workflow management via GitHub CLI
+- **Agent Enhancements**:
+  - All 22 agents updated with "Commands You Can Use" sections
+  - All agents include three-tier boundaries (Always do / Ask first / Never do)
+  - Conductor includes "Project Knowledge" section with tech stack and file structure
+- **GitHub CLI Integration**: `docs/guides/copilot-cli-usage.md` documents CLI/chat integration patterns
+
+### Changed
+- Updated all agent handoffs to use `#runSubagent` syntax
+- Standardized agent tool lists to include `runSubagent`, `edit`, `runCommands`
+- Revised README.md with cleaner structure and accurate agent roster
+- Updated AGENTS.md with complete agent roster table and artifact storage documentation
+- Refreshed docs/README.md as documentation index
+
+### Fixed
+- Corrected `init-artifacts.ps1` Join-Path syntax for PowerShell 5.1 compatibility
+- Removed duplicate Security entry from central-deployment.md artifact table
+
+## [0.3.0] - 2025-12-04
 
 ### Added
 - **SOTA Architecture Gaps Closure** (2025-12-04):

@@ -1,78 +1,118 @@
 ---
 title: "Copilot Orchestrator Onboarding Guide"
-version: "0.2.0"
-lastUpdated: "2025-11-10"
-status: draft
+version: "0.3.0"
+lastUpdated: "2025-12-08"
+status: stable
 ---
 
 ## Overview
-This guide accelerates new contributors joining the Copilot Orchestrator project. It explains required tooling, key documents, validation commands, and example artifacts so teammates can navigate the conductor workflow confidently.
 
-## Audience & Goals
-- **Audience:** Engineers, content designers, and operator personas participating in the multi-agent orchestration workflow.
-- **Goals:** Establish repository context, demonstrate conductor lifecycle artifacts, and highlight validation/CI expectations.
+This guide provides setup instructions for contributors joining the Copilot Orchestrator project. It covers tooling requirements, key documents, validation commands, and the conductor workflow.
 
 ## Prerequisites
-- Windows PowerShell 5.1 (default in the workspace) with execution policy permitting local scripts.
-- Familiarity with the global guardrails in `instructions/global/*.instructions.md` and workflow overlays in `instructions/workflows/`.
-- Access to VS Code Insiders with Agent Sessions enabled.
-- Optional but recommended: familiarity with `docs/workflows/orchestration-rebuild-plan.md` and `AGENTS.md`.
 
-## Core Artifacts
-| Asset | Location | Purpose |
-| --- | --- | --- |
-| Root instructions | `AGENTS.md` | Source-of-truth for roles, tooling, and validation expectations. |
-| Validation scripts | `scripts/*.ps1` | Automated checks for instructions, prompts, token budgets, and now covered by Pester tests. |
-| Prompt library | `.github/prompts/` | Personas-specific prompts used by the conductor, subagents, and support reviewers. |
-| Support personas | `.github/agents/{maintainer,security,performance,visualizer,data-analytics,docs}.agent.md` | Specialists covering triage, security, performance, UX, analytics, and documentation follow-ups. |
-| Plan templates | `docs/templates/` | Structures for plan, phase summary, and completion artifacts. |
-| Sample plans | `plans/samples/` | Filled examples demonstrating the conductor deliverables. |
-| Operations backlog | `docs/operations.md` | Tracks outstanding tasks, owners, and status. |
+- Windows PowerShell 5.1 with execution policy permitting local scripts
+- VS Code with GitHub Copilot extension
+- Familiarity with the repository structure in `AGENTS.md`
 
-## Getting Started Steps
-1. **Review Guidance:** Read `AGENTS.md`, relevant workflow instructions, and this onboarding guide.
-2. **Configure VS Code:** Enable the following settings (user or workspace) to load nested instructions, chat agents, and prompts (see `docs/guides/vscode-copilot-configuration.md` for details):
-   ```json
-    {
-       "chat.useAgentsMdFile": true,
-       "chat.useNestedAgentsMdFiles": true,
-       "chat.instructionsFilesLocations": [
-            "instructions",
-            ".github/instructions"
-         ],
-         "chat.promptFiles": true,
-       "chat.promptFilesLocations": [".github/prompts"],
-       "chat.modeFilesLocations": [
-          ".github/agents",
-          ".github/chatmodes"
-       ],
-       "github.copilot.chat.tools.memory.enabled": true
-    }
-   ```
-3. **Explore Samples:** Open files under `plans/samples/` to see completed plan, phase, and completion artifacts.
-4. **Enable Memory Notes:** Open the Chat sidebar, locate **Chat History & Memory**, and pin any project context that downstream subagents should inherit before starting work.
-5. **Validate Local Clone:**
-   ```
-   pwsh -File scripts/run-lint.ps1
-   pwsh -File scripts/run-smoke-tests.ps1
-   pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .
-   pwsh -File scripts/add-prompt-metadata.ps1 -RepositoryRoot . -CheckOnly
-   pwsh -File scripts/token-report.ps1 -Path . -ConfigPath token-thresholds.json
-   Invoke-Pester -Path tests
-   ```
-6. **Launch Conductor:** Use the `conductor` chat mode (`.github/chatmodes/conductor.chatmode.md`) with a simple task to walkthrough plan → implementation → review, dispatching work via the handoff buttons or explicit `#runSubagent` commands for Planner, Implementer, Reviewer, and support personas.
-7. **Capture Notes:** Log questions, risks, or missing guidance in `docs/operations.md` under the backlog table.
+## Core Resources
 
-## Agent Sessions & Handoffs
-- Open the **Agent Sessions** view in VS Code Insiders to monitor conductor, subagent, and support persona activity. Each lifecycle response includes `Current Phase`, `Plan Progress`, `Last Action`, and `Next Action` telemetry.
-- Use handoff buttons (Planner → Implementer → Reviewer → Support) or `#runSubagent` commands instead of switching modes manually; the prefilled prompts preserve context and enforce pause points.
-- When reviewing transcripts, confirm that plans, phase summaries, and completion reports are persisted under `plans/` and that support personas captured follow-up tasks.
-- If handoff buttons are missing, re-run the validation scripts above and confirm the chat/agent settings remain enabled.
+| Resource | Location | Purpose |
+|----------|----------|---------|
+| Agent playbook | `AGENTS.md` | Agent roster, commands, workflow guardrails |
+| Validation scripts | `scripts/*.ps1` | Asset validation, linting, token reporting |
+| Agent definitions | `.github/agents/` | 22 agent definitions with tool scopes and handoffs |
+| Prompt library | `.github/prompts/` | Reusable prompts for each workflow phase |
+| Plan templates | `docs/templates/` | Standard structures for plans and phase summaries |
+| Sample artifacts | `plans/samples/` | Completed examples of conductor deliverables |
 
-## Sample Agent Session
-A walkthrough transcript is provided at `docs/guides/sample-agent-session.md`. It showcases the conductor engaging planner, implementer, and reviewer subagents, plus the resulting artifacts in `plans/samples/`.
+## Setup Steps
 
-## Next Steps & Feedback
-- Pair with a maintainer for your first conductor-run task.
-- Submit PRs updating documentation or prompts alongside validation outputs.
-- Share feedback via the repository issues list or add notes to `docs/operations.md`.
+### 1. Review Documentation
+
+Read `AGENTS.md` and this onboarding guide to understand the conductor workflow and agent responsibilities.
+
+### 2. Configure VS Code
+
+Add these settings to your user or workspace `settings.json`:
+
+```json
+{
+   "chat.useAgentsMdFile": true,
+   "chat.useNestedAgentsMdFiles": true,
+   "chat.instructionsFilesLocations": [
+      "instructions",
+      ".github/instructions"
+   ],
+   "chat.promptFiles": true,
+   "chat.promptFilesLocations": [".github/prompts"],
+   "chat.modeFilesLocations": [".github/agents", ".github/chatmodes"],
+   "github.copilot.chat.tools.memory.enabled": true
+}
+```
+
+See `docs/guides/vscode-copilot-configuration.md` for detailed configuration notes.
+
+### 3. Validate Installation
+
+Run the validation suite to confirm your environment is configured correctly:
+
+```powershell
+pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .
+pwsh -File scripts/add-prompt-metadata.ps1 -RepositoryRoot . -CheckOnly
+pwsh -File scripts/run-lint.ps1 -RepositoryRoot .
+pwsh -File scripts/run-smoke-tests.ps1 -RepositoryRoot .
+pwsh -File scripts/token-report.ps1 -Path .
+Invoke-Pester -Path tests -Output Detailed
+```
+
+### 4. Initialize Artifacts Folder
+
+Create the local artifacts folder structure for session outputs:
+
+```powershell
+pwsh -File scripts/init-artifacts.ps1
+```
+
+This creates folders for plans, reviews, research, security audits, and session state.
+
+### 5. Start a Conductor Session
+
+1. Open VS Code and select the **conductor** agent from the chat panel
+2. Describe a task to begin the planning phase
+3. Review the generated plan and approve to proceed
+4. Follow handoffs through implementation and review phases
+5. Artifacts are saved to `artifacts/` as each phase completes
+
+## Workflow Overview
+
+The conductor progresses tasks through a structured lifecycle:
+
+```
+Planning → Implementation → Review → Completion
+```
+
+Each phase produces artifacts in the local `artifacts/` folder:
+
+| Phase | Artifact Location |
+|-------|------------------|
+| Planning | `artifacts/plans/{feature}/plan.md` |
+| Implementation | `artifacts/plans/{feature}/phase-N-complete.md` |
+| Review | `artifacts/reviews/{date}-{feature}.md` |
+| Completion | `artifacts/plans/{feature}/plan-complete.md` |
+
+## Agent Handoffs
+
+The conductor delegates to specialized agents via handoff buttons or `#runSubagent` commands:
+
+- **Planner**: Research and multi-phase plan creation
+- **Implementer**: TDD execution and validation
+- **Reviewer**: Code review with severity-tagged findings
+- **Support personas**: Security, Performance, Accessibility, Docs as needed
+
+## Next Steps
+
+1. Review sample artifacts in `plans/samples/`
+2. Try a simple task with the conductor to see the full workflow
+3. Log questions or feedback in `docs/operations.md`
+4. For issues, check the validation output and consult the troubleshooting section in `docs/quick-reference.md`

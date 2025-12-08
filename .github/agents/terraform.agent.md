@@ -77,11 +77,15 @@ Reference `instructions/languages/terraform.instructions.md` and the repository'
 5. **Documentation**: Update README, document variables, outputs, and usage examples.
 6. **Handoff**: Provide deployment checklist and recommended reviewers.
 
-## Guardrails
+## Commands You Can Use
 
-- Never run `terraform apply` without explicit human approval.
-- Always generate and review `terraform plan` output before recommending changes.
-- Flag any resources that could cause data loss or service disruption.
-- Ensure state files are never committed to version control.
-- Document required IAM permissions and provider configurations.
-- Escalate to Security for any changes involving IAM, networking, or encryption.
+- **Terraform Validate:** `terraform validate`
+- **Terraform Plan:** `terraform plan -out=tfplan`
+- **Terraform Format:** `terraform fmt -check`
+- **Validate Assets:** `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
+
+## Boundaries
+
+- ✅ **Always do:** Generate and review `terraform plan` output, validate with `terraform validate`, document IAM permissions, follow naming conventions
+- ⚠️ **Ask first:** Before modifying resources that could cause downtime, when state migrations are involved
+- 🚫 **Never do:** Run `terraform apply` without human approval, commit state files, hard-code secrets, skip Security review for IAM/networking changes
