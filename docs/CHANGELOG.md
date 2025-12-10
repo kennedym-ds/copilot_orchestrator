@@ -1,13 +1,26 @@
 ---
 title: "Copilot Orchestrator Changelog"
-version: "0.4.0"
-lastUpdated: "2025-12-08"
+version: "0.4.1"
+lastUpdated: "2025-12-10"
 status: stable
 ---
 
 # Changelog
 
 All notable changes are documented here following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
+
+## [0.4.1] - 2025-12-10
+
+### Changed
+- **VS Code 1.107 Compatibility Update**:
+  - Updated minimum VS Code version requirement from 1.101 to 1.107 in `docs/guides/vscode-copilot-configuration.md`
+  - Added VS Code 1.107 compatibility note documenting verified features (unified Agent Sessions, context-isolated subagents, enhanced MCP server support)
+  - Updated README.md with version requirement and link to detailed configuration guide
+  - Document version incremented to 0.4.1 with stable status
+
+### Added
+- **Research Artifact**: Created `artifacts/research/vscode-1-107-copilot-features.md` documenting VS Code 1.107 GitHub Copilot features and compatibility analysis
+- **Implementation Plan**: Created `artifacts/plans/vscode-1-107-updates/plan.md` tracking update phases and validation steps
 
 ## [0.4.0] - 2025-12-08
 

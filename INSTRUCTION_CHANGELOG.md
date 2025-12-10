@@ -18,6 +18,34 @@ Each entry should include:
 
 ## Changes
 
+### 2025-12-10 - VS Code 1.107 Compatibility Update
+
+#### v0.4.1 - Documentation Version Updates
+**File:** `docs/guides/vscode-copilot-configuration.md`, `README.md`, `docs/CHANGELOG.md`
+**Type:** Modified
+**Description:** Updated documentation to reflect VS Code 1.107 compatibility:
+- Updated minimum VS Code version from 1.101 to 1.107
+- Added compatibility note documenting verified features (unified Agent Sessions, context-isolated subagents, enhanced MCP support)
+- Updated document versions and timestamps
+- Added requirement note to README.md Quick Start section
+**Expected Impact:**
+- Quality: + (accurate version requirements prevent compatibility issues)
+- Cost: Neutral
+- Speed: Neutral
+**Rollback:** Revert docs to version 0.4.0 references (1.101 minimum).
+**Metrics:** Track user reported compatibility issues with VS Code 1.107+.
+
+#### v0.4.1 - Research Artifacts
+**File:** `artifacts/research/vscode-1-107-copilot-features.md`, `artifacts/plans/vscode-1-107-updates/plan.md`
+**Type:** Added
+**Description:** Created research and planning artifacts documenting VS Code 1.107 feature analysis and update implementation plan. Conservative approach taken due to network access limitations for release notes.
+**Expected Impact:**
+- Quality: + (documented rationale for changes)
+- Cost: Neutral
+- Speed: + (clear implementation plan)
+**Rollback:** Remove artifacts if findings invalidated.
+**Metrics:** Track accuracy of compatibility assumptions vs actual v1.107 behavior.
+
 ### 2025-11-25 - Awesome-Copilot Pattern Adoption
 
 #### v1.0.0 - Agent Frontmatter Standardization

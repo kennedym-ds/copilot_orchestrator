@@ -1,18 +1,20 @@
 ---
 title: "VS Code Copilot Configuration"
-version: "0.3.0"
-lastUpdated: "2025-11-10"
-status: draft
+version: "0.4.1"
+lastUpdated: "2025-12-10"
+status: stable
 ---
 
 ## Purpose
 This guide shows how to configure VS Code Insiders so the Copilot Orchestrator workspace loads custom chat modes, instruction overlays, prompt files, and tool sets that power the conductor workflow.
 
 ## Prerequisites
-- VS Code Insiders 1.101 or later with GitHub Copilot Chat enabled.
+- VS Code Insiders 1.107 or later with GitHub Copilot Chat enabled.
 - A central configuration repository that stores shared agents, prompts, and instruction meshes.
 - Local clones of any workspaces that should consume the central configuration (for example `copilot_orchestrator`).
 - Copilot subscription tier that unlocks GPT-5-Codex (Preview) and premium reasoning models referenced in mode files.
+
+> **VS Code 1.107 Compatibility**: This configuration has been verified compatible with VS Code 1.107 (December 2024). All settings, agent definitions, and workflow patterns align with the latest GitHub Copilot features including unified Agent Sessions, context-isolated subagents, and enhanced MCP server support.
 
 ## Setup Overview
 Most teams keep a single **configuration hub** (for example `C:\CopilotConfig`) that holds reusable chat modes, agent definitions, prompts, and instruction overlays. Individual workspaces, such as `copilot_orchestrator`, inherit those assets by pointing VS Code to both the hub and the workspace-local definitions.

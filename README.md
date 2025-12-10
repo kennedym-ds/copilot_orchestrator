@@ -21,6 +21,8 @@ Use this repository as a shared configuration source across workspaces. Configur
 
 ## Quick Start
 
+> **Requirements**: VS Code Insiders 1.107+ with GitHub Copilot Chat enabled. See [VS Code Copilot Configuration](docs/guides/vscode-copilot-configuration.md) for detailed setup.
+
 ### 1. Configure VS Code
 
 Add these settings to your user or workspace `settings.json`:
