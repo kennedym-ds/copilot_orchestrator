@@ -3,6 +3,7 @@ name: beast-mode
 description: "Transparent extended reasoning mode with visible thinking, systematic task management, and comprehensive tool usage."
 argument-hint: "Engage for complex problems requiring visible step-by-step reasoning and thorough analysis"
 model: Claude Sonnet 4.5 (copilot)
+infer: true
 tools: ['runSubagent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
 handoffs:
   - label: Report to Conductor

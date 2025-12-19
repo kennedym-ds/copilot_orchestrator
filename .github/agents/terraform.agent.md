@@ -3,6 +3,7 @@ name: terraform
 description: "Plans and implements Terraform infrastructure-as-code with drift detection, compliance, and modularization support."
 argument-hint: "Describe Terraform changes, drift detection, or IaC planning tasks"
 model: GPT-5 (copilot)
+infer: true
 tools: ['runSubagent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
 handoffs:
   - label: Report to Conductor

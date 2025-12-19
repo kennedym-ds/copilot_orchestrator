@@ -3,6 +3,7 @@ name: design
 description: "A design system expert that queries brand colors, components, and validates accessibility."
 argument-hint: "Ask about brand colors, components, or check color contrast"
 model: GPT-5 (copilot)
+infer: true
 mcp-servers:
   design:
     type: stdio

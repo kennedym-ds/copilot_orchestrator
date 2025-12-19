@@ -54,7 +54,15 @@ pwsh -File scripts/token-report.ps1 -Path . -ConfigPath token-thresholds.json
     "chat.instructionsFilesLocations": ["instructions", ".github/instructions"],
     "chat.promptFilesLocations": [".github/prompts"],
     "chat.modeFilesLocations": [".github/agents", ".github/chatmodes"],
-    "github.copilot.chat.tools.memory.enabled": true
+    "github.copilot.chat.tools.memory.enabled": true,
+    "chat.customAgentInSubagent.enabled": true,
+    "github.copilot.chat.customAgents.showOrganizationAndEnterpriseAgents": true,
+    "github.copilot.chat.cli.customAgents.enabled": true,
+    "chat.useClaudeSkills": true,
+    "chat.agent.thinkingStyle": "collapsed",
+    "chat.agent.thinking.collapsedTools": true,
+    "chat.viewSessions.enabled": true,
+    "chat.viewSessions.orientation": "auto"
 }
 ```
 

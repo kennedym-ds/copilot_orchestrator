@@ -3,6 +3,7 @@ name: security
 description: "Evaluates changes for security posture, threat models, and compliance impacts."
 argument-hint: "Request security review of changes, threat modeling, or compliance check"
 model: Claude Sonnet 4.5 (copilot)
+infer: true
 tools: ['runSubagent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'usages', 'edit', 'runCommands']
 handoffs:
   - label: Report to Conductor

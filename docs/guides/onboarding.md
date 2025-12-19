@@ -110,6 +110,89 @@ The conductor delegates to specialized agents via handoff buttons or `#runSubage
 - **Reviewer**: Code review with severity-tagged findings
 - **Support personas**: Security, Performance, Accessibility, Docs as needed
 
+## Configuring Language Models
+
+**VS Code 1.107+**: Configure which language models are available to agents and which tools auto-approve.
+
+### Access the Language Models Editor
+
+1. Open Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`)
+2. Run: **Chat: Manage Language Models**
+3. The Language Models editor opens with:
+   - **Model Visibility Toggles**: Show/hide models in agent dropdowns
+   - **Provider Management**: Enable/disable model providers
+   - **Tool Auto-Approval**: Configure which tools run without confirmation
+
+### Model Visibility
+
+Control which models appear in the model picker for chat sessions:
+
+- **Claude Sonnet 4.5**: Premium reasoning and planning (recommended for Conductor, Planner, Reviewer)
+- **GPT-5**: Balanced cost/performance (recommended for Implementer, Docs, Test)
+- **GPT-5 Mini**: Fast execution tasks (recommended for routine operations)
+- **Gemini 2.5 Pro**: Multi-modal analysis (recommended for Visualizer, Accessibility)
+
+**Best Practice**: Show only the models appropriate for your workflow to avoid confusion.
+
+### Provider Configuration
+
+Enable/disable model providers:
+- **GitHub Copilot**: All default models
+- **Custom Providers**: Configure via extensions or VS Code settings
+
+### Tool Auto-Approval Settings
+
+> ⚠️ **Security**: Only auto-approve tools you fully trust. See [Tool Approval Policy](../../instructions/compliance/tool-approval-policy.instructions.md).
+
+**Safe to Auto-Approve**:
+- `readFile` - Read workspace files
+- `search` - Search for code
+- `semanticSearch` - AI-powered code search
+- `listFiles` - List directory contents
+
+**Require Manual Approval**:
+- `runCommands` - Execute terminal commands
+- `editFile` - Modify files
+- `runTask` - Run VS Code tasks
+- `createFile` - Create new files
+
+**How to Configure**:
+1. Open Language Models editor (Chat: Manage Language Models)
+2. Scroll to "Tool Permissions" section
+3. Toggle checkboxes for each tool
+4. Changes save automatically
+
+### Recommended Configuration for This Project
+
+```json
+{
+  "chat.models.enabledProviders": ["copilot"],
+  "chat.tools.eligibleForAutoApproval": [
+    "readFile",
+    "search",
+    "semanticSearch",
+    "listFiles",
+    "codeSearch",
+    "fileSearch"
+  ]
+}
+```
+
+This configuration:
+- Uses GitHub Copilot models exclusively
+- Auto-approves read-only tools for faster sessions
+- Requires confirmation for write/execute operations
+
+### Verification
+
+After configuring models:
+1. Open a new Copilot chat session
+2. Check the model dropdown - only enabled models should appear
+3. Try a tool invocation (e.g., ask to read a file)
+4. Auto-approved tools execute immediately, others prompt for confirmation
+
+For advanced configuration, see [VS Code Copilot Configuration Guide](vscode-copilot-configuration.md).
+
 ## Next Steps
 
 1. Review sample artifacts in `plans/samples/`

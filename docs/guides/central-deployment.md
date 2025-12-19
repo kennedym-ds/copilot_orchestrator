@@ -1,5 +1,7 @@
 # Central Deployment Guide
 
+> **Updated for VS Code 1.107**: Now supports native organization-level agent sharing without manual repository setup.
+
 This guide explains how to deploy the Copilot Orchestrator agents centrally at the organization level while having agents create local `artifacts/` folders in each consuming repository.
 
 ## Architecture Overview
@@ -31,7 +33,99 @@ This guide explains how to deploy the Copilot Orchestrator agents centrally at t
 └─────────────────┘  └─────────────────┘  └─────────────────┘
 ```
 
-## Setup Instructions
+## Deployment Methods
+
+VS Code 1.107+ offers **two deployment methods**:
+
+### Method 1: Native Organization Sharing (Recommended - VS Code 1.107+)
+
+**Pros:**
+- Zero configuration in consuming repositories
+- Agents automatically available to all org members
+- Updates propagate instantly
+- No manual synchronization needed
+
+**Cons:**
+- Requires VS Code 1.107 or later
+- Currently experimental (will be GA soon)
+- Requires GitHub organization Copilot subscription
+
+**Setup:** See [Method 1 Instructions](#method-1-native-organization-sharing) below.
+
+### Method 2: GitHub Repository Sharing (Legacy)
+
+**Pros:**
+- Works with all VS Code versions
+- More control over distribution
+- Can version agents separately
+
+**Cons:**
+- Requires manual repository setup
+- Users must clone/sync agent files
+- Updates require repository pulls
+
+**Setup:** See [Method 2 Instructions](#method-2-github-repository-sharing) below.
+
+---
+
+## Method 1: Native Organization Sharing
+
+> **Requirements:** VS Code 1.107+, GitHub organization with Copilot
+
+### 1. Enable Organization Agent Sharing
+
+Organization administrators configure this at the GitHub organization level:
+
+1. Navigate to `https://github.com/organizations/YOUR_ORG/settings/copilot`
+2. Enable **"Custom Agents"** feature
+3. Upload your agent definitions to the organization
+
+**GitHub CLI method:**
+
+```bash
+# Upload agents to your org (requires org admin access)
+gh api /orgs/YOUR_ORG/copilot/agents \
+  -F name=conductor \
+  -F description="Orchestrates multi-phase workflows" \
+  -F definition=@.github/agents/conductor.agent.md
+
+# Repeat for all 22 agents
+```
+
+### 2. Users Enable Organization Agents
+
+Each developer adds to their VS Code `settings.json`:
+
+```json
+{
+  "github.copilot.chat.customAgents.showOrganizationAndEnterpriseAgents": true,
+  "chat.customAgentInSubagent.enabled": true
+}
+```
+
+### 3. Agents Automatically Available
+
+- All 22 agents appear in the Agents dropdown
+- No repository-specific setup required
+- Updates pushed at org level propagate instantly
+- Users can still define personal agents locally
+
+### 4. Initialize Artifacts (Per Repository)
+
+Agents will auto-create `artifacts/` folders, but you can pre-initialize:
+
+```powershell
+# Option A: Download and run init script
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/YOUR_ORG/.github-private/main/scripts/init-artifacts.ps1" -OutFile "init-artifacts.ps1"
+pwsh -File init-artifacts.ps1
+
+# Option B: Use this repository's script directly
+pwsh -File path/to/copilot_orchestrator/scripts/init-artifacts.ps1
+```
+
+---
+
+## Method 2: GitHub Repository Sharing
 
 ### 1. Create Organization-Level Agent Repository
 
@@ -92,13 +186,34 @@ mkdir -p scripts
 cp scripts/init-artifacts.ps1 scripts/
 ```
 
-### 4. Consuming Repository Setup
+### For Method 1 (Native Organization Sharing)
 
-In each repository that will use the central agents, you have two options:
+```json
+{
+  "chat.useAgentsMdFile": true,
+  "chat.useNestedAgentsMdFiles": true,
+  "github.copilot.chat.customAgents.showOrganizationAndEnterpriseAgents": true,
+  "chat.customAgentInSubagent.enabled": true,
+  "github.copilot.chat.cli.customAgents.enabled": true,
+  "chat.useClaudeSkills": true,
+  "chat.agent.thinkingStyle": "collapsed",
+  "chat.agent.thinking.collapsedTools": true,
+  "chat.viewSessions.enabled": true,
+  "chat.viewSessions.orientation": "auto",
+  "github.copilot.chat.tools.memory.enabled": true
+}
+```
 
-#### Option A: Automatic Initialization (Recommended)
+### For Method 2 (GitHub Repository Sharing)
 
-The agents are configured to automatically create the `artifacts/` folder when they start working. No setup required in consuming repos.
+```json
+{
+  "chat.useAgentsMdFile": true,
+  "chat.useNestedAgentsMdFiles": true,
+  "github.copilot.chat.tools.memory.enabled": true,
+  "chat.customAgentInSubagent.enabled": true,
+  "chat.agent.thinkingStyle": "collapsed",
+  "chat.agent.thinking.collapsedToolseate the `artifacts/` folder when they start working. No setup required in consuming repos.
 
 #### Option B: Pre-Initialize
 
@@ -173,18 +288,96 @@ When an agent (conductor, planner, reviewer, etc.) is invoked in any repository:
 The `.gitignore` in `artifacts/` excludes session state files (which may contain sensitive context) but preserves:
 
 - Plans and phase completions
-- Review verdicts
-- Research briefs
-- Security audits
+- RComparison Matrix
 
-This allows teams to:
-- Track implementation history in version control
-- Share knowledge across team members
-- Maintain audit trails for compliance
+| Feature | Method 1 (Native) | Method 2 (GitHub Repo) |
+|---------|-------------------|------------------------|
+| **VS Code Version** | 1.107+ required | Any version |
+| **Setup Complexity** | Low (org admin only) | Medium (per-repo) |
+| **User Configuration** | 1 setting | Manual clone/sync |
+| **Update Propagation** | Instant | Manual pull required |
+| **Access Control** | Org-level | Repository-based |
+| **Offline Support** | No | Yes (if cloned) |
+| **Custom Per-Repo** | Yes (local overrides) | Yes |
+| **Background Agents** | ✅ Supported | ⚠️ Requires extra setup |
+| **Claude Skills** | ✅ Supported | ❌ Not available |
 
-## VS Code Configuration
+## Troubleshooting
 
-Users consuming org-level agents should configure VS Code:
+### Method 1: Organization Agents Not Appearing
+
+1. Verify VS Code version is 1.107+
+2. Check `github.copilot.chat.customAgents.showOrganizationAndEnterpriseAgents` is `true`
+3. Confirm your GitHub user is in the organization
+4. Verify organization has Copilot subscription
+5. Restart VS Code after enabling the setting
+
+### Method 2:ecurity audits
+
+This allows tPaths
+
+### From Local to Method 1 (Native Organization)
+
+1. **Organization Admin**: Upload agents to org-level Copilot settings
+2. **Developers**: Enable `showOrganizationAndEnterpriseAgents` in VS Code
+3. **Cleanup**: Optionally remove local `.github/agents/` folder
+4. **Preserve**: Keep `artifacts/` local (session data stays in repositories)
+
+### From Local to Method 2 (GitHub Repository)
+
+1. Move definitions to org-level `.github-private/agents/`
+2. Delete local `.github/agents/` folder
+3. Keep `artifacts/` local (don't centralize session data)
+4. Update any repo-specific instructions as needed
+
+### From Method 2 to Method 1
+
+1. **Organization Admin**: Upload agents from `.github-private/agents/` to org Copilot settings
+2. **Developers**: Enable `showOrganizationAndEnterpriseAgents` setting
+3. **Deprecate**: Archive `.github-private` repository (keep for reference)
+4. **Verify**: Confirm all agents appear in dropdown before removing local copies
+
+## Best Practices
+
+### Agent Versioning
+
+- **Method 1**: Track changes in a version control system before uploading to org
+- **Method 2**: Use Git tags and releases in `.github-private` repository
+- Both: Document breaking changes in agent instruction updates
+
+### Hybrid Deployment
+
+You can combine both methods:
+
+- **Organization Agents (Method 1)**: Core 22-agent roster for all teams
+- **Repository Agents (Local)**: Project-specific customizations
+
+Local agents take precedence, allowing teams to:
+- Override organization agents for specific projects
+- Test agent updates before org-wide rollout
+- Customize descriptions for domain-specific terminology
+
+### Rollout Strategy
+
+For large organizations migrating to Method 1:
+
+1. **Pilot** (Week 1-2): Test with 5-10 early adopters
+2. **Feedback** (Week 3): Gather insights, refine agent descriptions
+3. **Staged** (Week 4-6): Roll out by team/department
+4. **General** (Week 7+): Enable for all organization members
+5. **Monitor**: Track usage metrics via `docs/guides/session-analytics.md`
+
+## Resources
+
+- [VS Code 1.107 Release Notes](https://code.visualstudio.com/updates/v1_107)
+- [Background Agents with Worktrees](background-agents-worktrees.md)
+- [Session Analytics Guide](session-analytics.md)
+- [Onboarding Guide](onboarding.md)
+
+---
+
+**Updated**: December 2025 (VS Code 1.107)  
+**Method 1 Status**: Experimental (GA expected Q1 2026)VS Code:
 
 ```json
 {

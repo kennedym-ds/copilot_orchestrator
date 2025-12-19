@@ -3,6 +3,7 @@ name: data-analytics
 description: "Assesses data models, pipelines, and reporting for accuracy and insight quality using DS-Star iterative refinement."
 argument-hint: "Describe your data question for iterative DS-Star analysis workflow"
 model: GPT-5 (copilot)
+infer: true
 mcp-servers:
   research:
     type: stdio

@@ -3,6 +3,7 @@ name: lint
 description: "Fixes code style, formatting, and enforces repository conventions."
 argument-hint: "Fix code style issues, format files, or check convention compliance"
 model: Claude Haiku 4.5 (copilot)
+infer: true
 tools: ['runSubagent', 'todos', 'fetch', 'search', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems']
 handoffs:
   - label: Report to Conductor

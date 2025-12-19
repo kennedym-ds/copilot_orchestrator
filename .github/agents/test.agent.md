@@ -3,6 +3,7 @@ name: test
 description: "Writes comprehensive unit and integration tests following TDD principles."
 argument-hint: "Specify code to test, coverage gaps to fill, or test patterns to implement"
 model: GPT-5 (copilot)
+infer: true
 tools: ['runSubagent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
 handoffs:
   - label: Report to Conductor
