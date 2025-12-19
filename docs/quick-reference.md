@@ -1,7 +1,7 @@
 ---
 title: "Copilot Orchestrator Quick Reference"
-version: "0.4.0"
-lastUpdated: "2025-12-08"
+version: "0.5.0"
+lastUpdated: "2025-12-19"
 status: stable
 ---
 
@@ -51,7 +51,14 @@ Invoke-Pester -Path tests -Output Detailed
   "chat.promptFiles": true,
   "chat.promptFilesLocations": [".github/prompts"],
   "chat.modeFilesLocations": [".github/agents", ".github/chatmodes"],
-  "github.copilot.chat.tools.memory.enabled": true
+  "github.copilot.chat.tools.memory.enabled": true,
+  "chat.customAgentInSubagent.enabled": true,
+  "github.copilot.chat.customAgents.showOrganizationAndEnterpriseAgents": true,
+  "github.copilot.chat.cli.customAgents.enabled": true,
+  "chat.useClaudeSkills": true,
+  "chat.agent.thinkingStyle": "collapsed",
+  "chat.agent.thinking.collapsedTools": true,
+  "git.enableWorktrees": true
 }
 ```
 
@@ -159,8 +166,8 @@ artifacts/
 | `README.md` | Project overview |
 | `AGENTS.md` | Agent playbook |
 | `docs/guides/onboarding.md` | Setup guide |
-| `docs/guides/central-deployment.md` | Org-level deployment |
-| `docs/operations.md` | Monitoring and backlog |
+| `docs/guides/central-deployment.md` | Org-level deployment || `docs/guides/background-agents-worktrees.md` | Git worktrees for parallel execution |
+| `docs/guides/claude-skills-migration.md` | Prompt to skill migration || `docs/operations.md` | Monitoring and backlog |
 
 ---
 

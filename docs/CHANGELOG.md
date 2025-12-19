@@ -1,13 +1,48 @@
 ---
 title: "Copilot Orchestrator Changelog"
-version: "0.4.0"
-lastUpdated: "2025-12-08"
+version: "0.5.0"
+lastUpdated: "2025-12-19"
 status: stable
 ---
 
 # Changelog
 
 All notable changes are documented here following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
+
+## [0.5.0] - 2025-12-19
+
+### Added
+- **VS Code 1.107 Feature Integration**:
+  - `infer` metadata added to all 22 agent definitions for automatic agent routing
+  - Organization-level agent sharing support (experimental)
+  - Background agents with Git worktrees for parallel phase execution
+  - Claude Skills compatibility for cross-platform skill reuse
+  - Enhanced fetch tool for JavaScript-rendered content
+  - Collapsible thinking/tools UI for cleaner sessions
+  - CLI custom agents support
+- **New Documentation**:
+  - `docs/guides/background-agents-worktrees.md`: Comprehensive guide for parallel execution with Git worktrees
+  - `docs/guides/claude-skills-migration.md`: Complete migration guide for converting prompts to Claude skills format
+  - `instructions/compliance/tool-approval-policy.instructions.md`: Enterprise security policy for tool auto-approval
+  - `USER-SETTINGS-GUIDE.md`: Quick reference for personal VS Code settings
+- **Enhanced Documentation**:
+  - `docs/guides/central-deployment.md`: Added Method 1 (Native Organization Sharing) vs Method 2 comparison, migration paths, rollout strategy
+  - `docs/guides/onboarding.md`: Added Language Models editor configuration section
+  - `.github/agents/researcher.agent.md`: Enhanced with VS Code 1.107 dynamic fetch and ignored file search capabilities
+- **Configuration Updates**:
+  - `.vscode/settings.json`: Added 8 new VS Code 1.107 settings plus Git worktree support
+  - `.github/copilot-instructions.md`: Updated with all new experimental settings
+
+### Changed
+- All 22 agents now include `infer` metadata (false for Conductor to prevent loops, true for 21 specialists)
+- Updated all documentation versions from 0.4.0 to 0.5.0
+- Standardized VS Code settings blocks across all guides
+- Researcher agent instructions updated for enhanced fetch and ignored file search
+
+### Security
+- Added comprehensive tool auto-approval policy with risk classification, threat model, and compliance checkpoints
+- Documented safe vs risky tools for auto-approval configuration
+- Added incident response procedures for malicious tool use detection
 
 ## [0.4.0] - 2025-12-08
 

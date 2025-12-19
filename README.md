@@ -1,7 +1,7 @@
 ---
 title: "Copilot Orchestrator"
-version: "0.4.0"
-lastUpdated: "2025-12-08"
+version: "0.5.0"
+lastUpdated: "2025-12-19"
 status: stable
 ---
 
@@ -18,6 +18,8 @@ Use this repository as a shared configuration source across workspaces. Configur
 - **Local artifact persistence**: Session outputs stored in consuming repositories via `artifacts/` folder
 - **Validation tooling**: PowerShell scripts for asset validation, token budgeting, and linting
 - **Central deployment support**: Deploy agents at org level while storing artifacts locally per repository
+- **VS Code 1.107+ features**: Automatic agent routing, background agents with worktrees, Claude skills compatibility
+- **Organization sharing**: Native org-level agent distribution (experimental)
 
 ## Quick Start
 
@@ -36,7 +38,14 @@ Add these settings to your user or workspace `settings.json`:
    "chat.promptFiles": true,
    "chat.promptFilesLocations": [".github/prompts"],
    "chat.modeFilesLocations": [".github/agents", ".github/chatmodes"],
-   "github.copilot.chat.tools.memory.enabled": true
+   "github.copilot.chat.tools.memory.enabled": true,
+   "chat.customAgentInSubagent.enabled": true,
+   "github.copilot.chat.customAgents.showOrganizationAndEnterpriseAgents": true,
+   "github.copilot.chat.cli.customAgents.enabled": true,
+   "chat.useClaudeSkills": true,
+   "chat.agent.thinkingStyle": "collapsed",
+   "chat.agent.thinking.collapsedTools": true,
+   "git.enableWorktrees": true
 }
 ```
 
@@ -137,6 +146,8 @@ Invoke-Pester -Path tests -Output Detailed
 | [docs/guides/onboarding.md](docs/guides/onboarding.md) | New contributor guide |
 | [docs/guides/central-deployment.md](docs/guides/central-deployment.md) | Org-level deployment with local artifacts |
 | [docs/guides/vscode-copilot-configuration.md](docs/guides/vscode-copilot-configuration.md) | VS Code settings reference |
+| [docs/guides/background-agents-worktrees.md](docs/guides/background-agents-worktrees.md) | Parallel execution with Git worktrees |
+| [docs/guides/claude-skills-migration.md](docs/guides/claude-skills-migration.md) | Migrating prompts to Claude skills |
 | [docs/operations.md](docs/operations.md) | Monitoring, metrics, and backlog |
 | [docs/CHANGELOG.md](docs/CHANGELOG.md) | Version history |
 

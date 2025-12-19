@@ -19,8 +19,8 @@ This repository implements a multi-agent orchestration pattern for GitHub Copilo
 |----------|---------|
 | `docs/workflows/orchestration-rebuild-plan.md` | Strategy, success metrics, roadmap |
 | `docs/workflows/new-workspace-blueprint.md` | Repository layout, model allocation |
-| `docs/guides/central-deployment.md` | Org-level deployment with local artifacts |
-| `docs/operations.md` | Monitoring, backlog, incident process |
+| `docs/guides/central-deployment.md` | Org-level deployment with local artifacts || `docs/guides/background-agents-worktrees.md` | Parallel execution with Git worktrees |
+| `docs/guides/claude-skills-migration.md` | Converting prompts to Claude skills || `docs/operations.md` | Monitoring, backlog, incident process |
 | `docs/templates/` | Plan, phase, and completion templates |
 
 ---
