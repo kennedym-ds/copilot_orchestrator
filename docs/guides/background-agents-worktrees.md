@@ -1,6 +1,6 @@
 # Background Agents with Git Worktrees
 
-> **Feature:** VS Code 1.107+ | **Settings:** `github.copilot.chat.cli.customAgents.enabled`
+> **Feature:** VS Code 1.108+ | **Background Agents:** `github.copilot.chat.cli.customAgents.enabled` | **Worktrees UI (Experimental):** `scm.repositories.explorer`, `scm.repositories.selectionMode`
 
 ## Overview
 
@@ -61,6 +61,144 @@ When the agent completes:
 3. **Or Merge**: Use Git to merge the worktree branch into your main branch
 4. **Clean Up**: VS Code automatically removes the worktree when you close the session
 
+## VS Code 1.108: Enhanced Worktrees UI (Experimental)
+
+### Overview
+
+VS Code 1.108 introduces a dedicated **Worktrees node** in the Source Control Repositories view, providing visual management of all repository worktrees directly in the UI.
+
+### Enable the Worktrees UI
+
+Add to your VS Code settings:
+
+```json
+{
+  "scm.repositories.explorer": true,
+  "scm.repositories.selectionMode": "multiple"
+}
+```
+
+**Note:** These are experimental settings as of VS Code 1.108.
+
+### Features
+
+#### Worktrees Node
+
+The **Source Control** view now includes a dedicated Worktrees section showing:
+
+- **List of all worktrees** for the current repository
+- **Worktree path** and associated branch name
+- **Active indicator** for the current worktree
+- **Inline actions** for quick access
+
+#### Quick Actions
+
+**Inline Actions** (visible on hover):
+- **Open in New Window** - Launch the worktree in a separate VS Code window
+- **Open in Current Window** - Switch to the worktree in the current window
+
+**Context Menu** (right-click on worktree):
+- **Open in New Window**
+- **Open in Current Window**
+- **Delete Worktree** - Remove the worktree and clean up files
+- **Copy Path** - Copy the worktree path to clipboard
+
+### Workflow with Background Agents
+
+#### 1. Launch Background Agent
+
+```markdown
+1. Start background agent session in Chat
+2. Choose "Run in Git Worktree"
+3. VS Code creates worktree automatically
+```
+
+#### 2. Monitor in Worktrees UI
+
+```markdown
+1. Open Source Control view (Ctrl+Shift+G)
+2. Expand "Repositories" section
+3. Expand "Worktrees" node
+4. See your background agent worktree listed
+```
+
+#### 3. Review Agent Work
+
+```markdown
+1. Right-click the worktree in the list
+2. Select "Open in New Window"
+3. Review changes without leaving main workspace
+4. Check test results and validation
+```
+
+#### 4. Manage Multiple Worktrees
+
+```markdown
+Worktrees Node
+├── main (active) - C:\Projects\my-repo
+├── phase-4-auth - C:\Projects\my-repo-phase-4
+│   └── Actions: Open New Window | Delete
+└── phase-5-api - C:\Projects\my-repo-phase-5
+    └── Actions: Open New Window | Delete
+```
+
+### Benefits of the Worktrees UI
+
+✅ **Visual Discovery** - See all worktrees at a glance without command-line tools
+
+✅ **One-Click Access** - Open worktrees instantly from the UI
+
+✅ **Safe Cleanup** - Delete worktrees with confirmation prompts
+
+✅ **Context Awareness** - UI shows which worktree is currently active
+
+✅ **Background Agent Integration** - Worktrees created by background agents appear automatically
+
+### Keyboard Navigation
+
+With VS Code 1.108, the Worktrees view supports full keyboard access:
+
+- **Tab** - Navigate between worktrees
+- **Enter** - Open worktree in new window
+- **Context Menu Key** - Show context menu
+- **Delete** - Remove selected worktree (with confirmation)
+
+### Example: Parallel Implementation with UI
+
+**Scenario:** Implementing Phases 4 and 5 in parallel
+
+```markdown
+**Main Workspace**
+├── Source Control view shows:
+│   ├── Worktrees
+│   │   ├── main (active) ← Current work: Documentation
+│   │   ├── implementer/phase-4-auth ← Background agent running
+│   │   └── implementer/phase-5-api ← Background agent running
+
+**Actions:**
+1. Right-click "implementer/phase-4-auth"
+2. Select "Open in New Window"
+3. Review auth implementation progress
+4. Keep main window on documentation
+```
+
+### Migration Path
+
+**Legacy Workflow (Command Line):**
+```powershell
+git worktree list
+code ../my-repo-phase-4
+```
+
+**New Workflow (VS Code 1.108 UI):**
+```markdown
+1. Open Source Control view
+2. Expand Worktrees node
+3. Click "Open in New Window" on desired worktree
+```
+
+**Best of Both:** The UI complements command-line workflows—use whichever fits your task.
+
 ## Use Cases
 
 ### Parallel Phase Implementation
@@ -120,9 +258,19 @@ Main Workspace: Docs Agent
 └─ Updating security docs
 ```
 
-## Worktree Management Commands
+## Worktree Management
 
-### List Active Worktrees
+### Visual Management (VS Code 1.108+)
+
+**Preferred Method:** Use the Worktrees node in Source Control view
+
+1. Open Source Control (Ctrl+Shift+G)
+2. Expand "Repositories" → "Worktrees"
+3. Use inline actions and context menu
+
+### Command Line (All Versions)
+
+**List Active Worktrees:**
 
 ```powershell
 git worktree list
@@ -294,5 +442,17 @@ git worktree remove ../my-repo-worktree-123
 
 ---
 
-**Updated**: December 2025 (VS Code 1.107)  
+**Updated**: January 2026 (VS Code 1.108)  
+**Version**: 1.1.0  
 **Maintainer**: Copilot Orchestrator Team
+
+## Changelog
+
+### v1.1.0 (January 2026)
+- Added VS Code 1.108 Worktrees UI documentation
+- Documented experimental Source Control Repositories view settings
+- Added keyboard navigation guide
+- Enhanced workflow examples with UI integration
+
+### v1.0.0 (December 2025)
+- Initial documentation for background agents with worktrees

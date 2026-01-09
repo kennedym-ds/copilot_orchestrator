@@ -1,13 +1,73 @@
 ---
 title: "Copilot Orchestrator Changelog"
-version: "0.5.0"
-lastUpdated: "2025-12-19"
+version: "0.6.0"
+lastUpdated: "2026-01-09"
 status: stable
 ---
 
 # Changelog
 
 All notable changes are documented here following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
+
+## [0.6.0] - 2026-01-09
+
+### Added
+- **VS Code 1.108 Feature Integration**:
+  - Terminal custom glyphs (~800 GPU-accelerated): Box drawing (U+2500-U+257F), block elements (U+2580-U+259F), Braille patterns (U+2800-U+28FF), Powerline symbols (U+E0A0-U+E0D4), progress indicators (U+EE00-U+EE0B), Git branch symbols (U+F5D0-U+F60D)
+  - Terminal auto-approve settings: `chat.tools.terminal.enableAutoApprove`, `autoApproveWorkspaceNpmScripts`, `preventShellHistory`
+  - Enhanced Agent Sessions UI: Keyboard navigation (↑↓ arrows, Enter, Delete, Space), session grouping (by state/age), multi-session archiving (Shift+Click, Ctrl+Click), changed files and PR display, Quick Open integration (`agent <name>`), session persistence control (`chat.viewRestorePreviousSession: false`)
+  - Enhanced Worktrees UI: Source Control Repositories view, Worktrees node, settings (`scm.repositories.explorer`, `scm.repositories.selectionMode`), keyboard navigation, inline actions
+  - Agent Skills (experimental): On-demand loading via `.github/skills/` directory structure with `SKILL.md` files
+- **New Documentation**:
+  - `instructions/global/terminal-formatting.instructions.md`: Canonical glyph set, 6 formatting patterns, agent-specific guidelines, accessibility requirements (800+ lines)
+  - `docs/guides/terminal-formatting-guide.md`: User-facing guide with examples, reference tables, troubleshooting (900+ lines)
+  - `docs/guides/agent-skills-pilot.md`: Comprehensive evaluation guide with 5 metrics, 3 phases, 5 test scenarios, decision criteria (680+ lines)
+  - `.github/skills/orchestrator-terminal-style/SKILL.md`: Terminal formatting skill for on-demand loading (500+ lines)
+  - `.github/skills/worktrees-ops/SKILL.md`: Git worktrees operations skill (450+ lines)
+  - `.github/skills/validation-scripts/SKILL.md`: PowerShell validation script usage skill (530+ lines)
+- **Enhanced Documentation**:
+  - `docs/guides/vscode-copilot-configuration.md`: Added Terminal Auto-Approve section (200+ lines), Agent Sessions UI section (300+ lines), updated to v0.6.0
+  - `docs/guides/background-agents-worktrees.md`: Added VS Code 1.108 Worktrees UI section (150+ lines), updated to v1.1.0
+  - `.github/copilot-instructions.md`: Updated VS Code Settings section with all 1.108 features, expanded VS Code 1.108 Updates notes
+  - `AGENTS.md`: Added Agent Sessions Integration section with workflow best practices
+- **Configuration Updates**:
+  - Replaced deprecated `chat.viewSessions.orientation: "auto"` with `"sideBySide"`
+  - Added `chat.useAgentSkills: false` (experimental, disabled by default)
+  - Added terminal auto-approve settings: `enableAutoApprove`, `autoApproveWorkspaceNpmScripts`, `preventShellHistory`
+  - Added `chat.viewRestorePreviousSession: false` to prevent context leakage between projects
+  - Added worktrees settings: `scm.repositories.explorer`, `scm.repositories.selectionMode`
+
+### Changed
+- Terminal formatting: All agents now use GPU-accelerated glyphs with mandatory text pairing for accessibility
+- Agent Sessions: Default to side-by-side orientation with grouping enabled
+- Session persistence: Default to empty chat on startup (prevents cross-project context leakage)
+- Worktrees integration: Enhanced with VS Code 1.108 native UI support
+- Documentation versions: Updated from 0.5.0 to 0.6.0 across configuration guide
+
+### Security
+- **Terminal Auto-Approve**: Conservative allow-list (Git read-only, ripgrep with restrictions, sed with pattern checks, PowerShell Out-String)
+- **NPM Scripts**: Workspace Trust dependency for auto-approval, optional disable for untrusted repos
+- **Shell History**: Exclusion enabled by default to prevent credential leakage
+- **Agent Skills**: Experimental feature disabled by default, requires explicit opt-in
+- **Security Review**: LOW risk assessment with adequate safeguards (Workspace Trust gating, conservative allow-lists, denial transparency)
+
+### Accessibility
+- **WCAG 2.1 Level AA Compliance**: Glyph-text pairing mandatory (e.g., `✓ PASS`, `✗ FAIL`, `⚠ WARN`)
+- **Screen Reader Support**: ASCII fallback patterns for non-rendering environments
+- **Keyboard Navigation**: Complete Agent Sessions keyboard-only operation (arrows, Enter, Delete, Space)
+- **Color Contrast**: ANSI colors supplemented with textual indicators
+- **Accessibility Review**: Strong foundation with recommendations for color contrast validation and screen reader walkthrough
+
+### Experimental
+- **Agent Skills** (`chat.useAgentSkills: false` by default): On-demand loading of domain-specific knowledge
+- **Pilot Skills**: orchestrator-terminal-style, worktrees-ops, validation-scripts
+- **Evaluation Guide**: 2-4 week pilot framework with 5 metrics, Go/No-Go decision criteria
+- **Future Expansion**: 8 candidate skills identified for Phase C (conductor-lifecycle, security-review, performance-analysis, TDD, accessibility-WCAG, documentation-style, git-operations, observability-telemetry)
+
+### Operations
+- **Token Budget:** Corrected validation to use per-file limits (10k tokens) instead of misleading total. 1 file over limit: `copilot-subagents-briefing.md` (19,161 tokens, +91.6%).
+- **Rationale:** Agents load specific files per-context, not all files simultaneously.
+- **Action:** Split large research document into smaller focused docs, establish 8k soft limit for new documentation.
 
 ## [0.5.0] - 2025-12-19
 

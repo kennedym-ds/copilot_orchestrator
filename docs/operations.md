@@ -1,8 +1,8 @@
 ---
 title: "Operations & Continuous Improvement Plan"
-version: "0.2.0"
-lastUpdated: "2025-11-08"
-status: draft
+version: "0.3.0"
+lastUpdated: "2026-01-09"
+status: active
 ---
 
 # Operations Playbook
@@ -10,8 +10,40 @@ status: draft
 ## Monitoring
 
 - **Weekly** – review Conductor transcripts for adherence to pause points and instruction compliance.
-- **Monthly** – run validation scripts, prune unused prompts/chat modes, refresh AGENTS/md overlays.
+- **Monthly** – run validation scripts, prune unused prompts/chat modes, refresh AGENTS.md overlays.
 - **Quarterly** – host retrospectives to assess model allocations, cost usage, and workflow effectiveness.
+
+### Token Budget Status
+
+**Last Updated:** 2026-01-09  
+**Current Status:** ⚠️ 1 FILE OVER LIMIT
+
+**Per-File Token Limit:** 10,000 tokens (primary enforcement)  
+**Rationale:** Agents load specific files per-context, not all files at once.
+
+**Current Violations:**
+- `docs/research/copilot-subagents-briefing.md`: 19,161 tokens (+91.6% over limit)
+
+**Informational Totals** (not enforced, since files load independently):
+```
+Total:        193,063 tokens
+Instructions:  57,469 tokens (18 files)
+Docs:         101,585 tokens
+Agents:        29,957 tokens (22 files)
+Prompts:        4,052 tokens (35 files)
+```
+
+**Action Items:**
+1. **Immediate:** Split `copilot-subagents-briefing.md` into smaller research documents
+2. **Short-term:** Monitor per-file token sizes in validation pipeline
+3. **Medium-term:** Enable Agent Skills pilot to evaluate on-demand loading benefits
+4. **Long-term:** Establish 8k token soft limit for new documentation
+
+**Agent Skills Pilot Timeline:**
+- Phase A (Week 1-2): Baseline measurement with always-on instructions
+- Phase B (Week 3-4): Pilot with Agent Skills enabled
+- Phase C (Week 5): Analysis and Go/No-Go decision
+- See: `docs/guides/agent-skills-pilot.md`
 
 ## Metrics
 

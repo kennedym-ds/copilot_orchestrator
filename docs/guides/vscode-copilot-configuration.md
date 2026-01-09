@@ -1,15 +1,15 @@
 ---
 title: "VS Code Copilot Configuration"
-version: "0.5.0"
-lastUpdated: "2025-12-19"
+version: "0.6.0"
+lastUpdated: "2026-01-09"
 status: stable
 ---
 
 ## Purpose
-This guide shows how to configure VS Code Insiders so the Copilot Orchestrator workspace loads custom chat modes, instruction overlays, prompt files, and tool sets that power the conductor workflow.
+This guide shows how to configure VS Code so the Copilot Orchestrator workspace loads custom chat modes, instruction overlays, prompt files, and tool sets that power the conductor workflow.
 
 ## Prerequisites
-- VS Code 1.107 or later (stable channel now supports all features).
+- VS Code 1.108 or later (stable channel supports all features including Agent Skills, enhanced terminal glyphs, and improved session management).
 - A central configuration repository that stores shared agents, prompts, and instruction meshes.
 - Local clones of any workspaces that should consume the central configuration (for example `copilot_orchestrator`).
 - GitHub Copilot subscription (Individual, Business, or Enterprise).
@@ -47,6 +47,13 @@ You can register the paths globally in your user `settings.json` (recommended fo
      "chat.agentSessionsViewLocation": "panel",
      "chat.emptyState.history.enabled": true,
      "chat.customAgentInSubagent.enabled": true,
+     "chat.viewSessions.enabled": true,
+     "chat.viewSessions.orientation": "sideBySide",
+     "chat.viewRestorePreviousSession": false,
+     "chat.useAgentSkills": false,
+     "chat.tools.terminal.enableAutoApprove": true,
+     "chat.tools.terminal.autoApproveWorkspaceNpmScripts": true,
+     "chat.tools.terminal.preventShellHistory": true,
      "github.copilot.chat.reviewSelection.instructions": [
        {
          "file": "C:\\CopilotConfig\\.copilot-review-instructions.md"
@@ -85,6 +92,441 @@ You can register the paths globally in your user `settings.json` (recommended fo
 - **Agent Sessions view** in the panel for unified monitoring of local and cloud agent workflows.
 - **Recent chat history** when starting new sessions for quick context switching.
 - **Cross-agent custom agents** that allow specialized agents to invoke other agent personas.
+
+## VS Code 1.108 Features
+
+### Agent Skills (Experimental)
+**Setting:** `chat.useAgentSkills` (default: `false`)
+
+Agent Skills enable on-demand loading of domain-specific knowledge from `.github/skills/` folders. Each skill is a directory containing a `SKILL.md` file that defines behavior, scripts, and resources. VS Code loads skills progressively when relevant to your request.
+
+**Status:** Experimental. See Phase 6 of our integration plan for pilot program details.
+
+### Enhanced Terminal Features
+**Settings:**
+- `chat.tools.terminal.enableAutoApprove` — Auto-approve safe commands like `git ls-files`, `rg`, `sed`, `Out-String`
+- `chat.tools.terminal.autoApproveWorkspaceNpmScripts` — Auto-approve npm/pnpm/yarn scripts from `package.json`
+- `chat.tools.terminal.preventShellHistory` — Exclude agent commands from shell history (default: `true`)
+
+**Custom Glyphs:** VS Code 1.108 adds ~800 GPU-accelerated terminal glyphs including powerline symbols, progress indicators, git branch symbols, and braille patterns. No custom fonts required.
+
+### Agent Sessions Improvements
+**Settings:**
+- `chat.viewSessions.orientation` — Use `"sideBySide"` (the `"auto"` option has been deprecated)
+- `chat.viewRestorePreviousSession` — Controls whether previous chat is restored on startup (default: `false` for empty chat)
+
+**New Features:**
+- Keyboard access for archive, read state, and open actions
+- Session grouping by state and age when viewing side-by-side
+- Changed files and associated PRs displayed per session
+- Multi-session archiving support
+- Quick access via "agent " in Quick Open (Ctrl+P)
+
+### Terminal IntelliSense
+Now requires **Ctrl+Space** to trigger by default (previously showed automatically while typing). This reduces interruptions for terminal power users while keeping the feature accessible.
+
+## Terminal Auto-Approve (VS Code 1.108)
+
+### Overview
+
+VS Code 1.108 introduces intelligent auto-approval of safe terminal commands, reducing prompts while maintaining security. When agents or users run known-safe commands, VS Code executes them immediately rather than requesting approval.
+
+### Auto-Approved Commands
+
+When `chat.tools.terminal.enableAutoApprove` is enabled (default: `true`), these commands execute without prompts:
+
+#### Git Commands
+- `git ls-files` — List tracked files
+- `git --no-pager <safe_subcommand>` — Read-only Git operations (status, log, diff, show, branch, tag)
+- `git -C <dir> <safe_subcommand>` — Git operations in specific directory
+
+#### Search and Text Tools
+- `rg` (ripgrep) — Excludes dangerous flags like `--pre` and `--hostname-bin`
+- `sed` — Text stream editing (with safety restrictions on dangerous patterns)
+
+#### PowerShell Output
+- `Out-String` — Convert objects to strings for display
+
+### NPM Scripts Auto-Approve
+
+**Setting:** `chat.tools.terminal.autoApproveWorkspaceNpmScripts` (default: `true`)
+
+Scripts defined in `package.json` are auto-approved when run through npm, pnpm, or yarn:
+
+```json
+{
+  "scripts": {
+    "build": "tsc",           // ✓ Auto-approved
+    "test": "jest",           // ✓ Auto-approved
+    "lint": "eslint ."        // ✓ Auto-approved
+  }
+}
+```
+
+**Rationale:** Workspace Trust is already required for agents. Since agents cannot edit `package.json` (protected file), scripts are trusted.
+
+**To disable:** Set `chat.tools.terminal.autoApproveWorkspaceNpmScripts: false`
+
+### Shell History Exclusion
+
+**Setting:** `chat.tools.terminal.preventShellHistory` (default: `true`)
+
+Agent-run commands are excluded from your shell history by default. This keeps your history clean and focused on your manual commands.
+
+**How it works:**
+- **Bash/Zsh:** Sets `HISTCONTROL=ignorespace` and prefixes commands with a space
+- **PowerShell:** Uses `-NoProfile` execution where appropriate
+- **Fish:** Uses Fish-specific history control
+
+**To include in history:** Set `chat.tools.terminal.preventShellHistory: false`
+
+### Denial Transparency
+
+When a command is denied by auto-approve rules, VS Code displays a clear informational message explaining why:
+
+```
+❌ Command denied by auto-approve rules
+Command: rm -rf /
+Reason: Dangerous file deletion detected
+Action: Review command and run manually if needed
+```
+
+This transparency helps you understand security decisions and adjust your workflow.
+
+### Validation Scripts and Auto-Approve
+
+Our PowerShell validation scripts work seamlessly with auto-approve:
+
+#### Auto-Approved Scripts
+These scripts use only safe, read-only operations:
+
+```powershell
+# ✓ Auto-approved - read-only operations
+.\scripts\validate-copilot-assets.ps1 -RepositoryRoot .
+.\scripts\run-lint.ps1 -RepositoryRoot .
+.\scripts\run-smoke-tests.ps1 -RepositoryRoot .
+.\scripts\token-report.ps1 -Path .
+
+# ✓ Auto-approved - Git read operations
+git ls-files
+git status
+git diff
+```
+
+#### Requires Approval
+Scripts that modify files or system state require explicit approval:
+
+```powershell
+# ⚠ Requires approval - modifies files
+.\scripts\add-prompt-metadata.ps1 -RepositoryRoot .
+
+# ⚠ Requires approval - creates artifacts
+.\scripts\init-artifacts.ps1
+```
+
+### Security Best Practices
+
+#### ✅ DO:
+- Leave `enableAutoApprove` enabled for better workflow
+- Review denial messages to understand security boundaries
+- Use validation scripts frequently (they're auto-approved)
+- Trust workspace npm scripts in your `package.json`
+
+#### ⚠️ CONSIDER:
+- Disable auto-approve in highly restricted environments
+- Set `autoApproveWorkspaceNpmScripts: false` for untrusted repositories
+- Review auto-approve logs periodically
+
+#### ❌ DON'T:
+- Override denial decisions without understanding the risk
+- Disable `preventShellHistory` unless you need command history
+- Assume all commands are auto-approved (check denial messages)
+
+### Example Workflow
+
+**Scenario:** Running conductor workflow validation
+
+```powershell
+# Agent runs validation (auto-approved ✓)
+.\scripts\validate-copilot-assets.ps1 -RepositoryRoot .
+# ✓ Executed immediately - no prompt
+
+# Agent checks Git status (auto-approved ✓)
+git status
+# ✓ Executed immediately - no prompt
+
+# Agent wants to modify metadata (requires approval ⚠)
+.\scripts\add-prompt-metadata.ps1 -RepositoryRoot .
+# ⚠ Prompt shown: "Allow this script to modify files?"
+```
+
+### Troubleshooting
+
+**Issue:** Commands still prompting despite auto-approve enabled
+
+**Solutions:**
+1. Verify setting: `"chat.tools.terminal.enableAutoApprove": true`
+2. Restart VS Code after changing settings
+3. Check command matches safe patterns (see list above)
+4. Review denial message for specific reason
+
+**Issue:** NPM scripts not auto-approved
+
+**Solutions:**
+1. Verify setting: `"chat.tools.terminal.autoApproveWorkspaceNpmScripts": true`
+2. Ensure scripts are in `package.json` (not run via `npx` or global packages)
+3. Check Workspace Trust is enabled
+
+**Issue:** Commands appearing in shell history
+
+**Solutions:**
+1. Verify setting: `"chat.tools.terminal.preventShellHistory": true`
+2. Ensure shell integration is enabled and working
+3. Check terminal type supports history control (bash, zsh, pwsh, fish)
+
+### Related Settings
+
+```json
+{
+  "chat.tools.terminal.enableAutoApprove": true,
+  "chat.tools.terminal.autoApproveWorkspaceNpmScripts": true,
+  "chat.tools.terminal.preventShellHistory": true,
+  "terminal.integrated.shellIntegration.enabled": true
+}
+```
+
+## Agent Sessions UI (VS Code 1.108)
+
+### Overview
+
+VS Code 1.108 introduces powerful Agent Sessions management features that make it easier to track, organize, and archive conductor workflows. The enhanced UI provides keyboard navigation, intelligent grouping, and multi-session operations.
+
+### Keyboard Navigation
+
+Navigate and manage sessions entirely from the keyboard:
+
+#### Navigation Keys
+- **↑/↓ (Arrow Keys)** — Move between sessions in the list
+- **Enter** — Open selected session in editor
+- **Delete** — Archive selected session
+- **Space** — Toggle read/unread state
+
+#### Multi-Selection
+- **Shift+Click** — Select range of sessions
+- **Ctrl+Click (Cmd+Click on Mac)** — Add/remove individual sessions from selection
+
+#### Batch Operations
+Once multiple sessions are selected:
+- **Delete** — Archive all selected sessions at once
+- **Space** — Mark all selected sessions as read/unread
+
+**Example Workflow:**
+```
+1. Click first completed session
+2. Shift+Click last completed session
+3. Press Delete → All selected sessions archived
+```
+
+### Session Grouping
+
+When `chat.viewSessions.orientation` is set to `"sideBySide"`, sessions are automatically grouped for better organization:
+
+#### Group by State
+- **Active** — Currently in-progress conductor workflows
+- **Unread** — Completed sessions not yet reviewed
+- **Read** — Reviewed sessions ready for archiving
+- **Archived** — Historical sessions for reference
+
+#### Group by Age
+- **Today** — Sessions from the current day
+- **Yesterday** — Sessions from the previous day
+- **This Week** — Sessions from the current week
+- **This Month** — Sessions from the current month
+- **Older** — Historical sessions beyond current month
+
+**Toggle Grouping:**
+Use the grouping dropdown in the Agent Sessions view header to switch between State, Age, or None.
+
+### Changed Files and PRs
+
+Each session now displays associated context:
+
+#### Changed Files Indicator
+- Sessions show the number of files modified during the workflow
+- Click the files indicator to expand and see the full list
+- Each file is clickable to open in the editor
+
+**Example:**
+```
+🎯 conductor — VS Code 1.108 Integration
+   📁 7 files changed
+      ├── vscode-copilot-configuration.md
+      ├── copilot-instructions.md
+      ├── terminal-formatting.instructions.md
+      └── ...
+```
+
+#### Pull Request Links
+- Sessions that resulted in commits show linked PRs
+- Click PR number to open in default browser
+- Status badge shows PR state (Open, Merged, Closed)
+
+**Example:**
+```
+🎯 conductor — OAuth2 Implementation
+   📁 12 files changed
+   🔀 PR #247 (Merged)
+```
+
+### Quick Open Integration
+
+Access Agent Sessions directly from Quick Open (Ctrl+P / Cmd+P):
+
+**Syntax:** `agent <session_name>`
+
+**Examples:**
+```
+agent oauth          → Find sessions about OAuth
+agent Phase 3        → Find Phase 3 sessions
+agent conductor      → Filter conductor workflows
+```
+
+**Workflow:**
+1. Press Ctrl+P (Cmd+P on Mac)
+2. Type `agent ` (with space)
+3. Type search terms
+4. Press Enter to open selected session
+
+### Session Persistence
+
+**Setting:** `chat.viewRestorePreviousSession` (default: `false`)
+
+Controls whether VS Code restores the last active session on startup.
+
+#### Recommended: `false` (Default)
+- **Start Fresh:** Each VS Code launch begins with an empty chat
+- **Prevents Context Leakage:** Avoids accidental continuation of previous work
+- **Clean State:** Ensures conductor starts with clear phase tracking
+
+**Use Case:** Multi-project environments where sessions should not cross boundaries
+
+#### Optional: `true`
+- **Continue Where You Left Off:** Restores the last active session
+- **Useful for:** Single long-running tasks interrupted by restarts
+- **Caution:** May lead to context confusion if switching between projects
+
+**Configuration:**
+```json
+{
+  "chat.viewRestorePreviousSession": false  // Recommended for conductor workflows
+}
+```
+
+### Session Organization Best Practices
+
+#### During Planning
+- Start each conductor task in a new session
+- Use descriptive initial prompts ("Implement OAuth2 authentication")
+- VS Code uses this as the session title
+
+#### During Implementation
+- Mark sessions as unread when needing follow-up
+- Use changed files indicator to verify phase scope
+- Group by State to see active vs completed workflows
+
+#### After Completion
+- Review phase-complete.md artifacts
+- Mark session as read (Space key)
+- Archive when work is committed (Delete key)
+- Link PR in session notes for traceability
+
+#### Batch Cleanup
+- Weekly: Shift+Click range of old sessions → Delete
+- Monthly: Archive all Read sessions from previous month
+- Before major release: Archive all completed feature sessions
+
+### Workflow Integration
+
+#### Conductor Lifecycle
+Agent Sessions integrate seamlessly with conductor pause points:
+
+```mermaid
+flowchart LR
+    A[New Session] --> B[Planning Phase]
+    B --> C[Session: Unread]
+    C --> D[Implementation]
+    D --> E[Review]
+    E --> F[Session: Read]
+    F --> G[Archive]
+```
+
+**At Each Phase:**
+1. **Planning** — Session starts, conductor delegates to Planner
+2. **Pause** — User reviews plan, session marked Unread
+3. **Implementation** — User approves, session continues with Implementer
+4. **Review** — Reviewer validates changes, session marked Read
+5. **Completion** — Phase-complete.md created, session ready to archive
+
+#### Multi-Phase Projects
+For projects with 5-7 phases (like VS Code integrations):
+
+- **Keep session active** through all phases
+- Use phase-complete.md artifacts as checkpoints
+- Changed files indicator shows cumulative scope
+- Archive only after plan-complete.md and final validation
+
+#### Parallel Workflows
+When running multiple conductor tasks simultaneously:
+
+- Group by State to see all Active sessions
+- Use session titles to differentiate ("Feature A", "Bug Fix B")
+- Archive completed sessions to reduce clutter
+- Link related PRs in session notes
+
+### Troubleshooting
+
+**Issue:** Sessions not grouping by state or age
+
+**Solutions:**
+1. Verify setting: `"chat.viewSessions.orientation": "sideBySide"`
+2. Restart VS Code after changing orientation
+3. Check Agent Sessions view is in Panel (not Sidebar)
+4. Use grouping dropdown to select desired grouping mode
+
+**Issue:** Changed files not showing for session
+
+**Solutions:**
+1. Ensure session includes tool calls that modified files
+2. Check files were saved during the session
+3. Verify workspace is a Git repository (changed files tracked via Git)
+4. Refresh Agent Sessions view (reload icon)
+
+**Issue:** Keyboard shortcuts not working
+
+**Solutions:**
+1. Ensure Agent Sessions view has focus (click in the view)
+2. Check for keybinding conflicts (File → Preferences → Keyboard Shortcuts)
+3. Verify VS Code version is 1.108 or later
+4. Try restarting VS Code
+
+**Issue:** Previous session restoring on startup
+
+**Solutions:**
+1. Set `"chat.viewRestorePreviousSession": false`
+2. Restart VS Code after changing setting
+3. Manually archive unwanted session
+4. Start new session with clear prompt
+
+### Related Settings
+
+```json
+{
+  "chat.viewSessions.enabled": true,
+  "chat.viewSessions.orientation": "sideBySide",
+  "chat.viewRestorePreviousSession": false,
+  "chat.agentSessionsViewLocation": "panel"
+}
+```
 
 ## Optional Enhancements
 - Define tool set collections via `chat.tools.sets` when you create shared tool groups in `.github/toolsets.jsonc`.

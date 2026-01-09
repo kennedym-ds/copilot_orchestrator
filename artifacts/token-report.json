@@ -3,22 +3,22 @@
     "summary":  [
                     {
                         "Category":  "instructions",
-                        "Tokens":  13757
+                        "Tokens":  57469
                     },
                     {
                         "Category":  "agents",
-                        "Tokens":  11111
+                        "Tokens":  29957
                     },
                     {
                         "Category":  "prompts",
-                        "Tokens":  3574
+                        "Tokens":  4052
                     },
                     {
                         "Category":  "docs",
-                        "Tokens":  73209
+                        "Tokens":  101641
                     }
                 ],
-    "totalTokens":  101651,
+    "totalTokens":  193119,
     "files":  [
                   {
                       "File":  "instructions\\compliance\\documentation.instructions.md",
@@ -33,6 +33,13 @@
                       "Tokens":  157,
                       "Words":  78,
                       "Chars":  625
+                  },
+                  {
+                      "File":  "instructions\\compliance\\tool-approval-policy.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  3144,
+                      "Words":  1630,
+                      "Chars":  12575
                   },
                   {
                       "File":  "instructions\\global\\00_behavior.instructions.md",
@@ -58,9 +65,100 @@
                   {
                       "File":  "instructions\\global\\03_model-selection.instructions.md",
                       "Category":  "instructions",
-                      "Tokens":  3119,
-                      "Words":  1685,
-                      "Chars":  12473
+                      "Tokens":  3503,
+                      "Words":  1890,
+                      "Chars":  14012
+                  },
+                  {
+                      "File":  "instructions\\global\\terminal-formatting.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  3059,
+                      "Words":  1510,
+                      "Chars":  12235
+                  },
+                  {
+                      "File":  "instructions\\languages\\bicep.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  998,
+                      "Words":  517,
+                      "Chars":  3990
+                  },
+                  {
+                      "File":  "instructions\\languages\\c.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  2507,
+                      "Words":  1421,
+                      "Chars":  10027
+                  },
+                  {
+                      "File":  "instructions\\languages\\cpp.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  2357,
+                      "Words":  1290,
+                      "Chars":  9427
+                  },
+                  {
+                      "File":  "instructions\\languages\\csharp.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  2102,
+                      "Words":  1109,
+                      "Chars":  8407
+                  },
+                  {
+                      "File":  "instructions\\languages\\go.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  2152,
+                      "Words":  1208,
+                      "Chars":  8607
+                  },
+                  {
+                      "File":  "instructions\\languages\\java.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  1952,
+                      "Words":  1027,
+                      "Chars":  7808
+                  },
+                  {
+                      "File":  "instructions\\languages\\javascript.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  1379,
+                      "Words":  750,
+                      "Chars":  5513
+                  },
+                  {
+                      "File":  "instructions\\languages\\kotlin.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  3008,
+                      "Words":  1681,
+                      "Chars":  12031
+                  },
+                  {
+                      "File":  "instructions\\languages\\markdown.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  2460,
+                      "Words":  1375,
+                      "Chars":  9837
+                  },
+                  {
+                      "File":  "instructions\\languages\\php.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  2657,
+                      "Words":  1506,
+                      "Chars":  10626
+                  },
+                  {
+                      "File":  "instructions\\languages\\powershell.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  1068,
+                      "Words":  548,
+                      "Chars":  4269
+                  },
+                  {
+                      "File":  "instructions\\languages\\python-mcp-server.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  1467,
+                      "Words":  620,
+                      "Chars":  5867
                   },
                   {
                       "File":  "instructions\\languages\\python.instructions.md",
@@ -70,18 +168,60 @@
                       "Chars":  4866
                   },
                   {
+                      "File":  "instructions\\languages\\ruby.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  2284,
+                      "Words":  1278,
+                      "Chars":  9136
+                  },
+                  {
+                      "File":  "instructions\\languages\\rust.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  2377,
+                      "Words":  1336,
+                      "Chars":  9505
+                  },
+                  {
+                      "File":  "instructions\\languages\\sql.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  2961,
+                      "Words":  1733,
+                      "Chars":  11844
+                  },
+                  {
+                      "File":  "instructions\\languages\\swift.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  2899,
+                      "Words":  1671,
+                      "Chars":  11595
+                  },
+                  {
+                      "File":  "instructions\\languages\\terraform.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  952,
+                      "Words":  507,
+                      "Chars":  3805
+                  },
+                  {
+                      "File":  "instructions\\languages\\typescript.instructions.md",
+                      "Category":  "instructions",
+                      "Tokens":  1098,
+                      "Words":  605,
+                      "Chars":  4390
+                  },
+                  {
                       "File":  "instructions\\workflows\\conductor.instructions.md",
                       "Category":  "instructions",
-                      "Tokens":  1232,
-                      "Words":  649,
-                      "Chars":  4928
+                      "Tokens":  1412,
+                      "Words":  735,
+                      "Chars":  5647
                   },
                   {
                       "File":  "instructions\\workflows\\data-analytics.instructions.md",
                       "Category":  "instructions",
-                      "Tokens":  2309,
-                      "Words":  1077,
-                      "Chars":  9234
+                      "Tokens":  2316,
+                      "Words":  1079,
+                      "Chars":  9263
                   },
                   {
                       "File":  "instructions\\workflows\\escalation-patterns.instructions.md",
@@ -107,9 +247,9 @@
                   {
                       "File":  "instructions\\workflows\\planner.instructions.md",
                       "Category":  "instructions",
-                      "Tokens":  353,
-                      "Words":  181,
-                      "Chars":  1410
+                      "Tokens":  613,
+                      "Words":  317,
+                      "Chars":  2451
                   },
                   {
                       "File":  "instructions\\workflows\\researcher.instructions.md",
@@ -133,95 +273,158 @@
                       "Chars":  1205
                   },
                   {
+                      "File":  ".github\\agents\\accessibility.agent.md",
+                      "Category":  "agents",
+                      "Tokens":  1929,
+                      "Words":  1022,
+                      "Chars":  7714
+                  },
+                  {
+                      "File":  ".github\\agents\\beast-mode.agent.md",
+                      "Category":  "agents",
+                      "Tokens":  1580,
+                      "Words":  827,
+                      "Chars":  6318
+                  },
+                  {
+                      "File":  ".github\\agents\\bicep.agent.md",
+                      "Category":  "agents",
+                      "Tokens":  1177,
+                      "Words":  597,
+                      "Chars":  4705
+                  },
+                  {
                       "File":  ".github\\agents\\conductor.agent.md",
                       "Category":  "agents",
-                      "Tokens":  774,
-                      "Words":  385,
-                      "Chars":  3096
+                      "Tokens":  2223,
+                      "Words":  1099,
+                      "Chars":  8889
                   },
                   {
                       "File":  ".github\\agents\\data-analytics.agent.md",
                       "Category":  "agents",
-                      "Tokens":  2734,
-                      "Words":  1286,
-                      "Chars":  10933
+                      "Tokens":  2849,
+                      "Words":  1322,
+                      "Chars":  11393
+                  },
+                  {
+                      "File":  ".github\\agents\\deployment.agent.md",
+                      "Category":  "agents",
+                      "Tokens":  932,
+                      "Words":  476,
+                      "Chars":  3728
+                  },
+                  {
+                      "File":  ".github\\agents\\design.agent.md",
+                      "Category":  "agents",
+                      "Tokens":  649,
+                      "Words":  333,
+                      "Chars":  2595
                   },
                   {
                       "File":  ".github\\agents\\docs.agent.md",
                       "Category":  "agents",
-                      "Tokens":  655,
-                      "Words":  332,
-                      "Chars":  2620
+                      "Tokens":  1035,
+                      "Words":  510,
+                      "Chars":  4140
+                  },
+                  {
+                      "File":  ".github\\agents\\github-ops.agent.md",
+                      "Category":  "agents",
+                      "Tokens":  1310,
+                      "Words":  748,
+                      "Chars":  5239
                   },
                   {
                       "File":  ".github\\agents\\implementer.agent.md",
                       "Category":  "agents",
-                      "Tokens":  686,
-                      "Words":  356,
-                      "Chars":  2744
+                      "Tokens":  1716,
+                      "Words":  906,
+                      "Chars":  6861
+                  },
+                  {
+                      "File":  ".github\\agents\\lint.agent.md",
+                      "Category":  "agents",
+                      "Tokens":  674,
+                      "Words":  368,
+                      "Chars":  2696
                   },
                   {
                       "File":  ".github\\agents\\maintainer.agent.md",
                       "Category":  "agents",
-                      "Tokens":  654,
-                      "Words":  327,
-                      "Chars":  2616
+                      "Tokens":  1064,
+                      "Words":  545,
+                      "Chars":  4254
+                  },
+                  {
+                      "File":  ".github\\agents\\observability.agent.md",
+                      "Category":  "agents",
+                      "Tokens":  1888,
+                      "Words":  893,
+                      "Chars":  7552
                   },
                   {
                       "File":  ".github\\agents\\performance.agent.md",
                       "Category":  "agents",
-                      "Tokens":  672,
-                      "Words":  330,
-                      "Chars":  2685
+                      "Tokens":  1057,
+                      "Words":  515,
+                      "Chars":  4227
                   },
                   {
                       "File":  ".github\\agents\\planner.agent.md",
                       "Category":  "agents",
-                      "Tokens":  677,
-                      "Words":  335,
-                      "Chars":  2706
+                      "Tokens":  1717,
+                      "Words":  872,
+                      "Chars":  6867
+                  },
+                  {
+                      "File":  ".github\\agents\\red-team.agent.md",
+                      "Category":  "agents",
+                      "Tokens":  914,
+                      "Words":  451,
+                      "Chars":  3654
                   },
                   {
                       "File":  ".github\\agents\\researcher.agent.md",
                       "Category":  "agents",
-                      "Tokens":  494,
-                      "Words":  241,
-                      "Chars":  1974
+                      "Tokens":  1517,
+                      "Words":  768,
+                      "Chars":  6068
                   },
                   {
                       "File":  ".github\\agents\\reviewer.agent.md",
                       "Category":  "agents",
-                      "Tokens":  1027,
-                      "Words":  479,
-                      "Chars":  4108
+                      "Tokens":  1328,
+                      "Words":  622,
+                      "Chars":  5309
                   },
                   {
                       "File":  ".github\\agents\\security.agent.md",
                       "Category":  "agents",
-                      "Tokens":  660,
-                      "Words":  329,
-                      "Chars":  2638
+                      "Tokens":  1024,
+                      "Words":  510,
+                      "Chars":  4096
+                  },
+                  {
+                      "File":  ".github\\agents\\terraform.agent.md",
+                      "Category":  "agents",
+                      "Tokens":  1149,
+                      "Words":  558,
+                      "Chars":  4596
+                  },
+                  {
+                      "File":  ".github\\agents\\test.agent.md",
+                      "Category":  "agents",
+                      "Tokens":  1108,
+                      "Words":  627,
+                      "Chars":  4432
                   },
                   {
                       "File":  ".github\\agents\\visualizer.agent.md",
                       "Category":  "agents",
-                      "Tokens":  689,
-                      "Words":  351,
-                      "Chars":  2754
-                  },
-                  {
-                      "File":  ".github\\chatmodes\\conductor.chatmode.md",
-                      "Category":  "agents",
-                      "Tokens":  782,
-                      "Words":  390,
-                      "Chars":  3125
-                  },
-                  {
-                      "File":  ".github\\chatmodes\\planner.chatmode.md",
-                      "Category":  "agents",
-                      "Tokens":  607,
-                      "Words":  309,
-                      "Chars":  2428
+                      "Tokens":  1117,
+                      "Words":  572,
+                      "Chars":  4465
                   },
                   {
                       "File":  ".github\\prompts\\implementation\\execute-phase.prompt.md",
@@ -229,6 +432,13 @@
                       "Tokens":  473,
                       "Words":  267,
                       "Chars":  1890
+                  },
+                  {
+                      "File":  ".github\\prompts\\planning\\ds-star-step.prompt.md",
+                      "Category":  "prompts",
+                      "Tokens":  478,
+                      "Words":  244,
+                      "Chars":  1909
                   },
                   {
                       "File":  ".github\\prompts\\planning\\multi-phase-plan.prompt.md",
@@ -275,30 +485,30 @@
                   {
                       "File":  "docs\\CHANGELOG.md",
                       "Category":  "docs",
-                      "Tokens":  1518,
-                      "Words":  661,
-                      "Chars":  6071
+                      "Tokens":  4460,
+                      "Words":  1987,
+                      "Chars":  17839
                   },
                   {
                       "File":  "docs\\operations.md",
                       "Category":  "docs",
-                      "Tokens":  1763,
-                      "Words":  980,
-                      "Chars":  7051
+                      "Tokens":  2217,
+                      "Words":  1202,
+                      "Chars":  8868
                   },
                   {
                       "File":  "docs\\quick-reference.md",
                       "Category":  "docs",
-                      "Tokens":  2738,
-                      "Words":  1210,
-                      "Chars":  10952
+                      "Tokens":  1295,
+                      "Words":  640,
+                      "Chars":  5178
                   },
                   {
                       "File":  "docs\\README.md",
                       "Category":  "docs",
-                      "Tokens":  517,
-                      "Words":  262,
-                      "Chars":  2066
+                      "Tokens":  690,
+                      "Words":  236,
+                      "Chars":  2757
                   },
                   {
                       "File":  "docs\\repository-analysis.md",
@@ -310,9 +520,9 @@
                   {
                       "File":  "docs\\dashboards\\workflow-metrics.md",
                       "Category":  "docs",
-                      "Tokens":  503,
-                      "Words":  314,
-                      "Chars":  2012
+                      "Tokens":  682,
+                      "Words":  439,
+                      "Chars":  2726
                   },
                   {
                       "File":  "docs\\examples\\mermaid-diagram-patterns.md",
@@ -322,11 +532,46 @@
                       "Chars":  12013
                   },
                   {
+                      "File":  "docs\\guides\\agent-skills-pilot.md",
+                      "Category":  "docs",
+                      "Tokens":  5066,
+                      "Words":  2434,
+                      "Chars":  20264
+                  },
+                  {
+                      "File":  "docs\\guides\\background-agents-worktrees.md",
+                      "Category":  "docs",
+                      "Tokens":  3187,
+                      "Words":  1690,
+                      "Chars":  12748
+                  },
+                  {
+                      "File":  "docs\\guides\\central-deployment.md",
+                      "Category":  "docs",
+                      "Tokens":  4006,
+                      "Words":  1689,
+                      "Chars":  16021
+                  },
+                  {
+                      "File":  "docs\\guides\\claude-skills-migration.md",
+                      "Category":  "docs",
+                      "Tokens":  3160,
+                      "Words":  1597,
+                      "Chars":  12639
+                  },
+                  {
+                      "File":  "docs\\guides\\copilot-cli-usage.md",
+                      "Category":  "docs",
+                      "Tokens":  1487,
+                      "Words":  770,
+                      "Chars":  5947
+                  },
+                  {
                       "File":  "docs\\guides\\onboarding.md",
                       "Category":  "docs",
-                      "Tokens":  1298,
-                      "Words":  609,
-                      "Chars":  5191
+                      "Tokens":  1748,
+                      "Words":  849,
+                      "Chars":  6990
                   },
                   {
                       "File":  "docs\\guides\\prompt-engineering-by-tier.md",
@@ -350,11 +595,18 @@
                       "Chars":  7373
                   },
                   {
+                      "File":  "docs\\guides\\terminal-formatting-guide.md",
+                      "Category":  "docs",
+                      "Tokens":  3895,
+                      "Words":  2078,
+                      "Chars":  15580
+                  },
+                  {
                       "File":  "docs\\guides\\vscode-copilot-configuration.md",
                       "Category":  "docs",
-                      "Tokens":  2057,
-                      "Words":  947,
-                      "Chars":  8227
+                      "Tokens":  5936,
+                      "Words":  2897,
+                      "Chars":  23742
                   },
                   {
                       "File":  "docs\\posts\\orchestrator-launch-promo.md",
@@ -369,6 +621,13 @@
                       "Tokens":  19161,
                       "Words":  8539,
                       "Chars":  76643
+                  },
+                  {
+                      "File":  "docs\\research\\mcp-design-pilot-brief.md",
+                      "Category":  "docs",
+                      "Tokens":  1030,
+                      "Words":  548,
+                      "Chars":  4118
                   },
                   {
                       "File":  "docs\\research\\sota-agent-design-review-2025.md",
@@ -429,16 +688,16 @@
                   {
                       "File":  "docs\\workflows\\ds-star-integration.md",
                       "Category":  "docs",
-                      "Tokens":  6609,
-                      "Words":  2904,
-                      "Chars":  26435
+                      "Tokens":  6554,
+                      "Words":  2945,
+                      "Chars":  26216
                   },
                   {
                       "File":  "docs\\workflows\\new-workspace-blueprint.md",
                       "Category":  "docs",
-                      "Tokens":  1590,
-                      "Words":  809,
-                      "Chars":  6360
+                      "Tokens":  1593,
+                      "Words":  812,
+                      "Chars":  6372
                   },
                   {
                       "File":  "docs\\workflows\\new-workspace-setup-checklist.md",
@@ -450,16 +709,25 @@
                   {
                       "File":  "docs\\workflows\\orchestration-rebuild-plan.md",
                       "Category":  "docs",
-                      "Tokens":  2805,
-                      "Words":  1489,
-                      "Chars":  11218
+                      "Tokens":  2824,
+                      "Words":  1503,
+                      "Chars":  11296
                   }
               ],
-    "generatedAt":  "2025-11-18T15:01:58.0743458+00:00",
+    "fileBreaches":  [
+                         {
+                             "File":  "docs\\research\\copilot-subagents-briefing.md",
+                             "Category":  "docs",
+                             "Tokens":  19161,
+                             "Limit":  10000
+                         }
+                     ],
+    "generatedAt":  "2026-01-09T11:22:48.7869201+00:00",
     "thresholds":  {
                        "total":  150000,
                        "categories":  {
 
-                                      }
+                                      },
+                       "maxFileSize":  10000
                    }
 }

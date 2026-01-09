@@ -1,10 +1,12 @@
 {
-  "totalThreshold": 120000,
+  "totalThreshold": 500000,
   "failOnThreshold": true,
+  "maxFileTokens": 10000,
   "categoryThresholds": {
-    "instructions": 40000,
-    "agents": 60000,
-    "prompts": 50000,
-    "docs": 80000
-  }
+    "instructions": 100000,
+    "agents": 100000,
+    "prompts": 100000,
+    "docs": 200000
+  },
+  "_comment": "Primary enforcement is maxFileTokens (10k per file). Total/category thresholds are informational only. Per-context loading means agents never load all files at once."
 }

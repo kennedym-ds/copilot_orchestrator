@@ -150,34 +150,68 @@ foreach ($total in $totals) {
     }
 }
 
+# Check per-file token limits
+$fileBreaches = @()
+$maxFileTokens = if ($config -and $config.maxFileTokens) { [int]$config.maxFileTokens } else { 10000 }
+
+foreach ($record in $records) {
+    if ($record.Tokens -gt $maxFileTokens) {
+        $fileBreaches += [PSCustomObject]@{
+            File     = $record.File
+            Category = $record.Category
+            Tokens   = $record.Tokens
+            Limit    = $maxFileTokens
+        }
+    }
+}
+
 Write-Host "Token budget summary for $TargetPath" -ForegroundColor Cyan
 $totals | Sort-Object -Property Category | ForEach-Object {
     Write-Host ("  {0,-15} {1,8}" -f $_.Category, $_.Tokens)
 }
-Write-Host ("  {0,-15} {1,8}" -f 'total', $totalTokens)
+Write-Host ("  {0,-15} {1,8}" -f 'total', $totalTokens) -ForegroundColor DarkGray
+Write-Host "  (Note: Total is informational; per-file limits are enforced)" -ForegroundColor DarkGray
+Write-Host ""
+
+if ($fileBreaches.Count -gt 0) {
+    Write-Warning ("Found {0} file(s) exceeding per-file token limit of {1}:" -f $fileBreaches.Count, $maxFileTokens)
+    foreach ($breach in $fileBreaches | Sort-Object -Property Tokens -Descending) {
+        $overage = $breach.Tokens - $breach.Limit
+        $pct = [math]::Round(($overage / $breach.Limit) * 100, 1)
+        Write-Warning ("  {0} ({1}): {2} tokens (+{3} / +{4}%)" -f $breach.File, $breach.Category, $breach.Tokens, $overage, $pct)
+    }
+    Write-Host ""
+}
+
+# Show top 5 largest files for awareness
+Write-Host "Largest files by token count:" -ForegroundColor Cyan
+$records | Sort-Object -Property Tokens -Descending | Select-Object -First 5 | ForEach-Object {
+    $status = if ($_.Tokens -gt $maxFileTokens) { "WARN" } else { "OK" }
+    Write-Host ("  [{0}] {1,-50} {2,6} tokens" -f $status, $_.File, $_.Tokens)
+}
+Write-Host ""
 
 if ($totalTokens -gt $effectiveThreshold) {
-    Write-Warning ("Total token count {0} exceeds threshold {1}." -f $totalTokens, $effectiveThreshold)
+    Write-Host "INFO: Total token count $totalTokens exceeds informational threshold $effectiveThreshold." -ForegroundColor DarkGray
+    Write-Host "      (Per-file limits are the primary enforcement mechanism)" -ForegroundColor DarkGray
 }
 
 foreach ($breach in $categoryBreaches) {
-    Write-Warning ("Category '{0}' exceeds threshold {1} with {2} tokens." -f $breach.Category, $breach.Limit, $breach.Tokens)
-}
-
-if ($effectiveFailOnThreshold -and $categoryBreaches.Count -gt 0) {
-    Write-Host "Category token counts exceeded configured thresholds." -ForegroundColor Red
+    Write-Warning ("Category '{0}' total exceeds threshold {1} with {2} tokens (informational only)." -f $breach.Category, $breach.Limit, $breach.Tokens)
 }
 
 if ($OutputPath) {
     $output = [PSCustomObject]@{
-        root        = $TargetPath
-        summary     = $totals
-        totalTokens = $totalTokens
-        files       = $records
-        generatedAt = (Get-Date).ToString('o')
-        thresholds  = [PSCustomObject]@{
-            total      = $effectiveThreshold
-            categories = $effectiveCategoryThresholds
+        root         = $TargetPath
+        summary      = $totals
+        totalTokens  = $totalTokens
+        files        = $records
+        fileBreaches = $fileBreaches
+        generatedAt  = (Get-Date).ToString('o')
+        thresholds   = [PSCustomObject]@{
+            total       = $effectiveThreshold
+            categories  = $effectiveCategoryThresholds
+            maxFileSize = $maxFileTokens
         }
     }
 
@@ -186,13 +220,13 @@ if ($OutputPath) {
     Write-Host "Wrote token report to $OutputPath" -ForegroundColor Green
 }
 
-if ($effectiveFailOnThreshold -and $totalTokens -gt $effectiveThreshold) {
-    Write-Host "Token count $totalTokens exceeds threshold $effectiveThreshold." -ForegroundColor Red
+if ($effectiveFailOnThreshold -and $fileBreaches.Count -gt 0) {
+    Write-Host "Per-file token limit exceeded. See warnings above." -ForegroundColor Red
     exit 1
 }
 
 if ($effectiveFailOnThreshold -and $categoryBreaches.Count -gt 0) {
-    exit 1
+    Write-Host "Category token counts exceeded (informational)." -ForegroundColor Yellow
 }
 
 exit 0

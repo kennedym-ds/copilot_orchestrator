@@ -42,6 +42,31 @@ This repository implements a multi-agent orchestration pattern for GitHub Copilo
 
 ---
 
+## Agent Sessions Integration
+
+VS Code 1.108 introduces enhanced Agent Sessions UI with features that improve conductor workflow management:
+
+### Key Features
+- **Keyboard Navigation**: Navigate sessions with arrow keys, archive with Delete, toggle read state with Space
+- **Session Grouping**: Organize by state (Active, Unread, Read, Archived) or age (Today, Yesterday, This Week, etc.)
+- **Multi-Session Operations**: Shift+Click/Ctrl+Click for batch archiving and state changes
+- **Changed Files Display**: See all files modified during each conductor workflow
+- **PR Integration**: View linked pull requests and their status directly in session list
+- **Quick Open**: Access sessions via `agent <name>` in Quick Open (Ctrl+P)
+
+### Workflow Best Practices
+- Start each conductor task in a new session with a descriptive prompt
+- Keep session active through all phases (Planning → Implementation → Review)
+- Mark session as Read after reviewing phase-complete.md artifacts
+- Archive session after plan-complete.md and final validation
+- Use session grouping (by State) to track multiple parallel workflows
+- Set `chat.viewRestorePreviousSession: false` to prevent context leakage between projects
+
+### Documentation
+See [docs/guides/vscode-copilot-configuration.md](docs/guides/vscode-copilot-configuration.md) for complete Agent Sessions UI guide including keyboard shortcuts, grouping modes, troubleshooting, and conductor integration patterns.
+
+---
+
 ## Agent Roster (22 Agents)
 
 ### Core Workflow

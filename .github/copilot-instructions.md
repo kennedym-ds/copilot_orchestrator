@@ -59,12 +59,24 @@ pwsh -File scripts/token-report.ps1 -Path . -ConfigPath token-thresholds.json
     "github.copilot.chat.customAgents.showOrganizationAndEnterpriseAgents": true,
     "github.copilot.chat.cli.customAgents.enabled": true,
     "chat.useClaudeSkills": true,
+    "chat.useAgentSkills": false,
     "chat.agent.thinkingStyle": "collapsed",
     "chat.agent.thinking.collapsedTools": true,
     "chat.viewSessions.enabled": true,
-    "chat.viewSessions.orientation": "auto"
+    "chat.viewSessions.orientation": "sideBySide",
+    "chat.viewRestorePreviousSession": false,
+    "chat.tools.terminal.enableAutoApprove": true,
+    "chat.tools.terminal.autoApproveWorkspaceNpmScripts": true,
+    "chat.tools.terminal.preventShellHistory": true
 }
 ```
+
+**VS Code 1.108 Updates:**
+- **Agent Sessions UI**: Keyboard navigation (↑↓ arrows, Enter, Delete, Space), session grouping (by state/age), multi-session archiving (Shift+Click, Ctrl+Click), changed files and PR display per session, Quick Open integration (`agent <name>`)
+- **Session Persistence**: Added `chat.viewRestorePreviousSession` (default: `false`) to start with empty chat and prevent context leakage between tasks
+- **Orientation**: Replaced deprecated `"auto"` with `"sideBySide"` for `chat.viewSessions.orientation` — enables session grouping features
+- **Agent Skills**: Added `chat.useAgentSkills` (experimental, off by default; see Phase 6 pilot for on-demand loading evaluation)
+- **Terminal Auto-Approve**: Added `enableAutoApprove`, `autoApproveWorkspaceNpmScripts`, `preventShellHistory` for safer command execution with reduced prompts
 
 ## Artifact Storage
 
