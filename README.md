@@ -38,7 +38,6 @@ Add these settings to your user or workspace `settings.json`:
    "chat.askQuestions.enabled": true,
    "chat.instructionsFilesLocations": { "instructions": true, ".github/instructions": true },
    "chat.promptFilesLocations": { ".github/prompts": true },
-   "chat.modeFilesLocations": { ".github/agents": true, ".github/chatmodes": true },
    "chat.agentFilesLocations": { ".github/agents": true },
    "chat.agentSkillsLocations": { ".github/skills": true },
    "github.copilot.chat.copilotMemory.enabled": true,
@@ -54,7 +53,7 @@ Add these settings to your user or workspace `settings.json`:
    "github.copilot.chat.anthropic.thinking.budgetTokens": 10000,
    "chat.viewSessions.enabled": true,
    "chat.viewSessions.orientation": "sideBySide",
-   "chat.viewRestorePreviousSession": false,
+   "chat.restoreLastPanelSession": false,
    "chat.agentsControl.enabled": true,
    "git.enableWorktrees": true,
    "git.worktreeIncludeFiles": [".env.local", "token-thresholds.json"]

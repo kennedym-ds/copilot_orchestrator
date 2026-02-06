@@ -84,7 +84,7 @@ VS Code 1.109 builds on the Agent Sessions UI introduced in 1.108, adding multi-
 - Mark session as Read after reviewing phase-complete.md artifacts
 - Archive session after plan-complete.md and final validation
 - Use session grouping (by State) to track multiple parallel workflows
-- Set `chat.viewRestorePreviousSession: false` to prevent context leakage between projects
+- Set `chat.restoreLastPanelSession: false` to prevent context leakage between projects
 
 ### Documentation
 See [docs/guides/vscode-copilot-configuration.md](docs/guides/vscode-copilot-configuration.md) for complete Agent Sessions UI guide including keyboard shortcuts, grouping modes, troubleshooting, and conductor integration patterns.

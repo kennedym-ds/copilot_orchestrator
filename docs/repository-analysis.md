@@ -408,7 +408,7 @@ Conductor (orchestrator)
   "chat.useAgentsMdFile": true,
   "chat.useNestedAgentsMdFiles": true,
   "chat.promptFiles": true,
-  "chat.modeFilesLocations": [".github/chatmodes"],
+  "chat.agentFilesLocations": { ".github/agents": true },
   "chat.promptFilesLocations": [".github/prompts"]
 }
 ```
@@ -944,7 +944,7 @@ pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot . -FailOnWarning
     ".github/instructions"
   ],
   "chat.promptFiles": true,
-  "chat.modeFilesLocations": [".github/chatmodes"],
+  "chat.agentFilesLocations": { ".github/agents": true },
   "chat.promptFilesLocations": [".github/prompts"]
 }
 ```

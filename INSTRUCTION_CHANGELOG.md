@@ -18,6 +18,22 @@ Each entry should include:
 
 ## Changes
 
+### 2026-02-06 - Deprecated Settings Cleanup
+
+#### v2.0.1 - Remove Deprecated VS Code Settings
+**File:** `.github/copilot-instructions.md`, `README.md`, `AGENTS.md`, `docs/guides/vscode-copilot-configuration.md`, `docs/guides/onboarding.md`, `docs/quick-reference.md`, `docs/repository-analysis.md`
+**Type:** Modified
+**Description:** Removed deprecated VS Code settings and converted paths to tilde notation across all documentation:
+- Removed `chat.modeFilesLocations` (deprecated; superseded by `chat.agentFilesLocations` since VS Code 1.106)
+- Renamed `chat.viewRestorePreviousSession` → `chat.restoreLastPanelSession` (renamed in VS Code 1.108)
+- Converted absolute Windows paths (`C:\\Users\\...`) to tilde notation (`~/...`) in user-level settings examples for portability
+**Expected Impact:**
+- Quality: + (no more deprecation warnings in VS Code, settings resolve correctly across machines)
+- Cost: Neutral
+- Speed: Neutral
+**Rollback:** Restore previous setting names from git history. Tilde paths can be reverted to absolute paths if needed.
+**Metrics:** Verify agents load in new VS Code windows via Chat → Diagnostics.
+
 ### 2026-02-06 - VS Code 1.109 Integration
 
 #### v2.0.0 - Model Tier Overhaul

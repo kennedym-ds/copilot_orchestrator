@@ -34,24 +34,54 @@ Read `AGENTS.md` and this onboarding guide to understand the conductor workflow 
 
 ### 2. Configure VS Code
 
-Add these settings to your user or workspace `settings.json`:
+VS Code settings control where agents, skills, instructions, and prompts are discovered. Choose the right scope:
+
+- **Workspace-level** (`.vscode/settings.json`): Agents available only when this repo is open
+- **User-level** (`Ctrl+Shift+P` → "Open User Settings (JSON)"): Agents available in **every** VS Code window
+
+#### Workspace Settings (Minimum)
+
+Add to `.vscode/settings.json` in this repo (or your user settings):
 
 ```json
 {
    "chat.useAgentsMdFile": true,
    "chat.useNestedAgentsMdFiles": true,
-   "chat.instructionsFilesLocations": [
-      "instructions",
-      ".github/instructions"
-   ],
-   "chat.promptFiles": true,
-   "chat.promptFilesLocations": [".github/prompts"],
-   "chat.modeFilesLocations": [".github/agents", ".github/chatmodes"],
+   "chat.instructionsFilesLocations": {
+      "instructions": true,
+      ".github/instructions": true
+   },
+   "chat.promptFilesLocations": { ".github/prompts": true },
+   "chat.agentFilesLocations": { ".github/agents": true },
+   "chat.agentSkillsLocations": { ".github/skills": true },
    "github.copilot.chat.copilotMemory.enabled": true
 }
 ```
 
-See `docs/guides/vscode-copilot-configuration.md` for detailed configuration notes.
+#### Global Agent Availability (Recommended)
+
+To use orchestrator agents in **any** VS Code window, add these to your **user** `settings.json` with tilde paths:
+
+```json
+{
+   "chat.agentFilesLocations": {
+      "~/OneDrive/Documents/Projects/copilot_orchestrator/.github/agents": true
+   },
+   "chat.agentSkillsLocations": {
+      "~/OneDrive/Documents/Projects/copilot_orchestrator/.github/skills": true
+   },
+   "chat.instructionsFilesLocations": {
+      "~/OneDrive/Documents/Projects/copilot_orchestrator/instructions": true
+   },
+   "chat.promptFilesLocations": {
+      "~/OneDrive/Documents/Projects/copilot_orchestrator/.github/prompts": true
+   }
+}
+```
+
+> **Note:** Use `~` (tilde) instead of absolute paths like `C:\\Users\\...`. VS Code expands `~` to your home directory. Adjust the path after `~` to match your local clone location.
+
+See `docs/guides/vscode-copilot-configuration.md` for the complete settings reference, troubleshooting, and feature explanations.
 
 ### 3. Validate Installation
 

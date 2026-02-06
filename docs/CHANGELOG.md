@@ -1,13 +1,22 @@
 ---
 title: "Copilot Orchestrator Changelog"
-version: "0.6.0"
-lastUpdated: "2026-01-09"
+version: "0.6.1"
+lastUpdated: "2026-02-06"
 status: stable
 ---
 
 # Changelog
 
 All notable changes are documented here following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
+
+## [0.6.1] - 2026-02-06
+
+### Changed
+- **Deprecated Settings Cleanup**:
+  - Removed `chat.modeFilesLocations` from all documentation (deprecated; superseded by `chat.agentFilesLocations` since VS Code 1.106)
+  - Renamed `chat.viewRestorePreviousSession` → `chat.restoreLastPanelSession` across all docs (renamed in VS Code 1.108)
+  - Converted absolute Windows paths to tilde (`~`) notation in user-level settings examples for cross-machine portability
+  - Updated files: `.github/copilot-instructions.md`, `README.md`, `AGENTS.md`, `docs/guides/vscode-copilot-configuration.md`, `docs/guides/onboarding.md`, `docs/quick-reference.md`, `docs/repository-analysis.md`
 
 ## [0.6.0] - 2026-01-09
 

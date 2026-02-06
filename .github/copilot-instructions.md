@@ -53,7 +53,6 @@ pwsh -File scripts/token-report.ps1 -Path . -ConfigPath token-thresholds.json
     "chat.useNestedAgentsMdFiles": true,
     "chat.instructionsFilesLocations": ["instructions", ".github/instructions"],
     "chat.promptFilesLocations": [".github/prompts"],
-    "chat.modeFilesLocations": [".github/agents", ".github/chatmodes"],
     "chat.agentFilesLocations": { ".github/agents": true },
     "chat.agentSkillsLocations": { ".github/skills": true },
     "chat.useAgentSkills": true,
@@ -76,7 +75,7 @@ pwsh -File scripts/token-report.ps1 -Path . -ConfigPath token-thresholds.json
     "github.copilot.chat.advanced.workspace.codeSearchExternalIngest.enabled": true,
     "chat.viewSessions.enabled": true,
     "chat.viewSessions.orientation": "sideBySide",
-    "chat.viewRestorePreviousSession": false,
+    "chat.restoreLastPanelSession": false,
     "chat.agentsControl.enabled": true,
     "chat.agentsControl.clickBehavior": "cycle",
     "workbench.startupEditor": "agentSessionsWelcomePage",
@@ -90,6 +89,10 @@ pwsh -File scripts/token-report.ps1 -Path . -ConfigPath token-thresholds.json
     "git.worktreeIncludeFiles": [".env.local", "token-thresholds.json"]
 }
 ```
+
+> **Global access:** To use agents in any VS Code window, add the `*FilesLocations` settings to your **user** `settings.json` with tilde paths (e.g., `"~/Projects/copilot_orchestrator/.github/agents": true`). See `docs/guides/vscode-copilot-configuration.md` for full setup.
+>
+> **Deprecated settings:** `chat.modeFilesLocations` has been removed (use `chat.agentFilesLocations`). `chat.viewRestorePreviousSession` was renamed to `chat.restoreLastPanelSession` in 1.108.
 
 **VS Code 1.109 Updates:**
 - **Agent Skills GA**: `chat.useAgentSkills` now `true` by default; skills in `.github/skills/` load automatically. Configure paths with `chat.agentSkillsLocations`.
@@ -113,7 +116,7 @@ pwsh -File scripts/token-report.ps1 -Path . -ConfigPath token-thresholds.json
 
 **VS Code 1.108 Updates:**
 - **Agent Sessions UI**: Keyboard navigation (↑↓ arrows, Enter, Delete, Space), session grouping (by state/age), multi-session archiving (Shift+Click, Ctrl+Click), changed files and PR display per session, Quick Open integration (`agent <name>`)
-- **Session Persistence**: Added `chat.viewRestorePreviousSession` (default: `false`) to start with empty chat and prevent context leakage between tasks
+- **Session Persistence**: `chat.restoreLastPanelSession` (default: `false`) starts with empty chat and prevents context leakage between tasks (renamed from `chat.viewRestorePreviousSession` in 1.108)
 - **Orientation**: Replaced deprecated `"auto"` with `"sideBySide"` for `chat.viewSessions.orientation` — enables session grouping features
 - **Agent Skills**: `chat.useAgentSkills` is now GA and enabled by default (was experimental in 1.108; see Phase 6 pilot for on-demand loading evaluation)
 - **Terminal Auto-Approve**: Added `enableAutoApprove`, `autoApproveWorkspaceNpmScripts`, `preventShellHistory` for safer command execution with reduced prompts

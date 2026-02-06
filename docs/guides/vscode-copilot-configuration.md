@@ -6,94 +6,107 @@ status: stable
 ---
 
 ## Purpose
-This guide shows how to configure VS Code so the Copilot Orchestrator workspace loads custom chat modes, instruction overlays, prompt files, and tool sets that power the conductor workflow.
+This guide shows how to configure VS Code so the Copilot Orchestrator agents, skills, instructions, and prompts are available in your workspace — and optionally in **every VS Code window** you open.
 
 ## Prerequisites
 - VS Code 1.109 or later (stable channel supports all features including Agent Skills GA, parallel subagents, agent status indicator, and Claude Agent sessions).
-- A central configuration repository that stores shared agents, prompts, and instruction meshes.
-- Local clones of any workspaces that should consume the central configuration (for example `copilot_orchestrator`).
+- Local clone of the `copilot_orchestrator` repository.
 - GitHub Copilot subscription (Individual, Business, or Enterprise).
 
-## Setup Overview
-Most teams keep a single **configuration hub** (for example `C:\CopilotConfig`) that holds reusable chat modes, agent definitions, prompts, and instruction overlays. Individual workspaces, such as `copilot_orchestrator`, inherit those assets by pointing VS Code to both the hub and the workspace-local definitions.
+## Understanding Settings Scope
 
-You can register the paths globally in your user `settings.json` (recommended for shared devices) and optionally add a minimal `.vscode/settings.json` in the workspace if you need repository-specific overrides.
+VS Code settings exist at two levels, and choosing the right one determines where your agents are available:
 
-## Step-by-Step Configuration
-1. Clone the central configuration repository and note its absolute path (replace `C:\CopilotConfig` below with your location).
-2. Clone any workspace repositories that rely on those assets (for example `C:\Workspaces\copilot_orchestrator`).
-3. Open VS Code Insiders and update your user `settings.json` with the following block:
+| Scope | File Location | When to Use |
+|-------|--------------|-------------|
+| **User (global)** | `Ctrl+Shift+P` → "Open User Settings (JSON)" | Agents available in **every** VS Code window |
+| **Workspace** | `.vscode/settings.json` in the repo | Agents available only when **this repo is open** |
+
+**Key insight:** Agents defined via workspace-relative paths (e.g., `.github/agents`) only load when that workspace is open. To make agents available globally (in any window, even without this repo open), use **user-level settings with tilde paths**.
+
+### Tilde Path Notation
+
+User-level settings require paths that resolve regardless of workspace. Use `~` (tilde) notation instead of absolute Windows paths:
+
+| Pattern | Example |
+|---------|---------|
+| **Tilde (recommended)** | `~/OneDrive/Documents/Projects/copilot_orchestrator/.github/agents` |
+| **Absolute (avoid)** | `C:\\Users\\Micha\\OneDrive\\Documents\\Projects\\copilot_orchestrator\\.github\\agents` |
+
+VS Code expands `~` to your user home directory (`%USERPROFILE%` on Windows, `$HOME` on macOS/Linux). Tilde paths are portable across machines and avoid issues with backslash escaping.
+
+> **OneDrive users:** If your files are cloud-only (on-demand), agents may fail to load. Right-click the `.github` folder in File Explorer → **Always keep on this device**.
+
+## Setup: User-Level Settings (Global Agents)
+
+Use this configuration to make all 22 orchestrator agents available in **any VS Code window**, even when the copilot_orchestrator repo is not open.
+
+1. Open **User Settings (JSON)**: `Ctrl+Shift+P` → "Preferences: Open User Settings (JSON)"
+2. Add the following settings (adjust the tilde path to match your repo location):
 
    ```json
    {
      "chat.useAgentsMdFile": true,
      "chat.useNestedAgentsMdFiles": true,
-     "chat.promptFiles": true,
-     "chat.instructionsFilesLocations": {
-       "C:\\CopilotConfig\\instructions": true,
-       "C:\\Workspaces\\copilot_orchestrator\\instructions": true,
-       "C:\\Workspaces\\copilot_orchestrator\\.github\\instructions": true
-     },
-     "chat.promptFilesLocations": {
-       "C:\\CopilotConfig\\prompts": true,
-       "C:\\Workspaces\\copilot_orchestrator\\.github\\prompts": true
-     },
-     "chat.modeFilesLocations": {
-       "C:\\CopilotConfig\\chatmode": true,
-       "C:\\Workspaces\\copilot_orchestrator\\.github\\agents": true,
-       "C:\\Workspaces\\copilot_orchestrator\\.github\\chatmodes": true
-     },
-     "chat.customAgentInSubagent.enabled": true,
-     "chat.viewSessions.enabled": true,
-     "chat.viewSessions.orientation": "sideBySide",
-     "chat.viewRestorePreviousSession": false,
-     "chat.tools.terminal.enableAutoApprove": true,
-     "chat.tools.terminal.autoApproveWorkspaceNpmScripts": true,
-     "chat.tools.terminal.preventShellHistory": true,
 
-     // VS Code 1.109 settings
      "chat.agentFilesLocations": {
-       "C:\\CopilotConfig\\agents": true,
-       "C:\\Workspaces\\copilot_orchestrator\\.github\\agents": true
+       "~/OneDrive/Documents/Projects/copilot_orchestrator/.github/agents": true
      },
      "chat.agentSkillsLocations": {
-       "C:\\CopilotConfig\\skills": true,
-       "C:\\Workspaces\\copilot_orchestrator\\.github\\skills": true
+       "~/OneDrive/Documents/Projects/copilot_orchestrator/.github/skills": true
      },
+     "chat.instructionsFilesLocations": {
+       "~/OneDrive/Documents/Projects/copilot_orchestrator/instructions": true
+     },
+     "chat.promptFilesLocations": {
+       "~/OneDrive/Documents/Projects/copilot_orchestrator/.github/prompts": true
+     },
+
      "chat.useAgentSkills": true,
-     "chat.useClaudeSkills": true,
      "chat.agentCustomizationSkill.enabled": true,
+     "chat.customAgentInSubagent.enabled": true,
+     "chat.askQuestions.enabled": true,
+     "github.copilot.chat.copilotMemory.enabled": true,
      "github.copilot.chat.searchSubagent.enabled": true,
      "github.copilot.chat.organizationInstructions.enabled": true,
+     "github.copilot.chat.customAgents.showOrganizationAndEnterpriseAgents": true,
+     "github.copilot.chat.cli.customAgents.enabled": true,
+     "github.copilot.chat.implementAgent.model": "Codex 5.2 (copilot)",
+     "github.copilot.chat.advanced.workspace.codeSearchExternalIngest.enabled": true,
+
      "chat.thinking.style": "collapsed",
      "chat.agent.thinking.collapsedTools": true,
      "chat.agent.thinking.terminalTools": true,
      "chat.tools.autoExpandFailures": true,
-     "chat.askQuestions.enabled": true,
      "github.copilot.chat.anthropic.thinking.budgetTokens": 10000,
      "github.copilot.chat.anthropic.toolSearchTool.enabled": true,
      "github.copilot.chat.anthropic.contextEditing.enabled": true,
-     "github.copilot.chat.copilotMemory.enabled": true,
-     "github.copilot.chat.advanced.workspace.codeSearchExternalIngest.enabled": true,
+
+     "chat.viewSessions.enabled": true,
+     "chat.viewSessions.orientation": "sideBySide",
+     "chat.restoreLastPanelSession": false,
      "chat.agentsControl.enabled": true,
      "chat.agentsControl.clickBehavior": "cycle",
      "workbench.startupEditor": "agentSessionsWelcomePage",
-     "github.copilot.chat.implementAgent.model": "Codex 5.2 (copilot)",
+
+     "chat.tools.terminal.enableAutoApprove": true,
+     "chat.tools.terminal.autoApproveWorkspaceNpmScripts": true,
+     "chat.tools.terminal.preventShellHistory": true,
      "terminal.integrated.enableKittyKeyboardProtocol": true,
      "workbench.browser.openLocalhostLinks": true,
      "simpleBrowser.useIntegratedBrowser": true,
-     "git.worktreeIncludeFiles": [".env.local", "token-thresholds.json"],
-     "github.copilot.chat.reviewSelection.instructions": [
-       {
-         "file": "C:\\CopilotConfig\\.copilot-review-instructions.md"
-       }
-     ]
+     "git.worktreeIncludeFiles": [".env.local", "token-thresholds.json"]
    }
    ```
 
-   VS Code silently skips any paths that are missing, making it safe to reuse this block across machines where only a subset of repositories exists.
+3. Reload VS Code: `Ctrl+Shift+P` → "Developer: Reload Window"
+4. Verify agents loaded: Right-click in Chat → **Diagnostics** — all 22 agents should appear
 
-4. (Optional) Create `.vscode/settings.json` inside `copilot_orchestrator` if you want repository-specific additions. Include only the paths that live inside the workspace so the file remains portable:
+> VS Code silently skips any tilde paths that don't resolve to existing directories, making it safe to reuse this block across machines.
+
+## Setup: Workspace-Level Settings (Repo-Scoped)
+
+Use this when you only need agents available while the copilot_orchestrator repo is open. Create `.vscode/settings.json` in the repo root:
 
    ```json
    {
@@ -101,13 +114,8 @@ You can register the paths globally in your user `settings.json` (recommended fo
        "instructions": true,
        ".github/instructions": true
      },
-     "chat.promptFiles": true,
      "chat.promptFilesLocations": {
        ".github/prompts": true
-     },
-     "chat.modeFilesLocations": {
-       ".github/agents": true,
-       ".github/chatmodes": true
      },
      "chat.agentFilesLocations": {
        ".github/agents": true
@@ -121,14 +129,20 @@ You can register the paths globally in your user `settings.json` (recommended fo
    }
    ```
 
-## What the Settings Unlock
-- `AGENTS.md` plus nested variants for persona and workflow rules.
-- Scoped instruction overlays under `instructions/` and `.github/instructions/` (behavior, compliance, language-specific).
-- Prompt libraries for planning, implementation, review, research, and support personas.
-- Chat modes and agent definitions with full handoff buttons (Conductor, Planner, Implementer, Reviewer, Researcher, Maintainer, Security, Performance, Visualizer, Data Analytics, Docs).
-- **Agent Sessions view** in the panel for unified monitoring of local and cloud agent workflows.
-- **Recent chat history** when starting new sessions for quick context switching.
-- **Cross-agent custom agents** that allow specialized agents to invoke other agent personas.
+Workspace settings layer on top of user settings. If you have user-level global paths, workspace-level relative paths will also be merged in.
+
+## Troubleshooting Agent Availability
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| Agents missing in new window | Paths are workspace-relative only | Add user-level settings with tilde paths (see above) |
+| Agents missing despite user settings | OneDrive files are cloud-only | Right-click folder → "Always keep on this device" |
+| Agents missing after VS Code update | Settings renamed | Check for deprecated settings (see below) |
+| Some agents load, others don't | Workspace trust not granted | Accept trust prompt for the external path |
+| `chat.modeFilesLocations` warning | Setting is deprecated | Remove it; use `chat.agentFilesLocations` instead |
+| `chat.viewRestorePreviousSession` warning | Setting renamed in 1.108 | Replace with `chat.restoreLastPanelSession` |
+
+**Diagnostics:** Right-click in Chat panel → **Diagnostics** to see all loaded agents, prompts, instructions, and skills with their resolved paths.
 
 ## VS Code 1.109 Features
 
@@ -269,7 +283,7 @@ Agent Skills enable on-demand loading of domain-specific knowledge from `.github
 ### Agent Sessions Improvements
 **Settings:**
 - `chat.viewSessions.orientation` — Use `"sideBySide"` (the `"auto"` option has been deprecated)
-- `chat.viewRestorePreviousSession` — Controls whether previous chat is restored on startup (default: `false` for empty chat)
+- `chat.restoreLastPanelSession` — Controls whether previous chat is restored on startup (default: `false` for empty chat)
 
 **New Features:**
 - Keyboard access for archive, read state, and open actions
@@ -555,7 +569,7 @@ agent conductor      → Filter conductor workflows
 
 ### Session Persistence
 
-**Setting:** `chat.viewRestorePreviousSession` (default: `false`)
+**Setting:** `chat.restoreLastPanelSession` (default: `false`)
 
 Controls whether VS Code restores the last active session on startup.
 
@@ -574,7 +588,7 @@ Controls whether VS Code restores the last active session on startup.
 **Configuration:**
 ```json
 {
-  "chat.viewRestorePreviousSession": false  // Recommended for conductor workflows
+  "chat.restoreLastPanelSession": false  // Recommended for conductor workflows
 }
 ```
 
@@ -668,7 +682,7 @@ When running multiple conductor tasks simultaneously:
 **Issue:** Previous session restoring on startup
 
 **Solutions:**
-1. Set `"chat.viewRestorePreviousSession": false`
+1. Set `"chat.restoreLastPanelSession": false`
 2. Restart VS Code after changing setting
 3. Manually archive unwanted session
 4. Start new session with clear prompt
@@ -679,7 +693,7 @@ When running multiple conductor tasks simultaneously:
 {
   "chat.viewSessions.enabled": true,
   "chat.viewSessions.orientation": "sideBySide",
-  "chat.viewRestorePreviousSession": false
+  "chat.restoreLastPanelSession": false
 }
 ```
 
