@@ -18,6 +18,89 @@ Each entry should include:
 
 ## Changes
 
+### 2026-02-06 - VS Code 1.109 Integration
+
+#### v2.0.0 - Model Tier Overhaul
+**File:** `.github/agents/*.agent.md` (all 22 agents)
+**Type:** Modified
+**Description:** Replaced all single-model assignments with model fallback arrays (1.109 feature). Updated model tiers:
+- Premium (~20%): Claude Opus 4.6, Codex 5.2 → conductor, planner, reviewer, security, beast-mode, researcher
+- Execution (~70%): Claude Sonnet 4.5, Gemini 3 Pro, Codex 5.2 → implementer, test, red-team, performance, data-analytics, accessibility, observability, visualizer, deployment, github-ops, maintainer, terraform, bicep, design
+- Routine (~10%): Claude Haiku 4.5, Gemini 3 Flash → docs, lint
+
+Added `agent` tool to all 22 agents for 1.109 subagent discovery. Added `askQuestions` tool to conductor, planner, and beast-mode agents.
+**Expected Impact:**
+- Quality: ++ (model fallbacks prevent service interruptions, premium models for critical tasks)
+- Cost: Neutral (same volume, better allocation)
+- Speed: + (automatic failover avoids manual retry)
+**Rollback:** Revert all agent files to commit prior to this change. Replace model arrays with single model strings.
+**Metrics:** Track model fallback frequency, cost per agent tier, session completion rate.
+
+#### v2.0.0 - Agent Frontmatter Enhancements (1.109)
+**File:** `.github/agents/conductor.agent.md`
+**Type:** Modified
+**Description:** Added `agents` allowlist to conductor for controlled subagent delegation (all 21 other agents). This restricts which agents the conductor can invoke via `#runSubagent`.
+**Expected Impact:**
+- Quality: + (prevents accidental delegation to wrong agents)
+- Cost: Neutral
+- Speed: Neutral
+**Rollback:** Remove `agents:` line from conductor frontmatter.
+**Metrics:** Track delegation accuracy.
+
+#### v2.0.0 - Settings Configuration (1.109)
+**File:** `.vscode/settings.json`
+**Type:** Modified (full rewrite from 1.108 format)
+**Description:** Comprehensive update to workspace settings for VS Code 1.109:
+- Replaced `github.copilot.chat.tools.memory.enabled` → `github.copilot.chat.copilotMemory.enabled`
+- Renamed `chat.agent.thinkingStyle` → `chat.thinking.style`
+- Added: `chat.agentFilesLocations`, `chat.agentSkillsLocations`, `chat.useAgentSkills` (GA), `chat.agentCustomizationSkill.enabled`
+- Added: `chat.agent.thinking.terminalTools`, `chat.tools.autoExpandFailures`, `chat.askQuestions.enabled`
+- Added: Anthropic enhancements (thinking budget, tool search, context editing)
+- Added: `chat.agentsControl.enabled`, `chat.agentsControl.clickBehavior`, `workbench.startupEditor: "agentSessionsWelcomePage"`
+- Added: `github.copilot.chat.searchSubagent.enabled`, `github.copilot.chat.organizationInstructions.enabled`
+- Added: `github.copilot.chat.implementAgent.model: "Codex 5.2 (copilot)"`
+- Added: `workbench.browser.openLocalhostLinks`, `simpleBrowser.useIntegratedBrowser`
+- Added: `terminal.integrated.enableKittyKeyboardProtocol`, `git.worktreeIncludeFiles`
+**Expected Impact:**
+- Quality: ++ (unlocks all 1.109 features)
+- Cost: Neutral
+- Speed: ++ (parallel subagents, search subagent, auto-expand failures)
+**Rollback:** Restore `.vscode/settings.json` from commit prior to this change.
+**Metrics:** Track feature adoption, session metrics, model usage distribution.
+
+#### v2.0.0 - copilot-instructions.md (1.109)
+**File:** `.github/copilot-instructions.md`
+**Type:** Modified
+**Description:** Updated VS Code Settings block with all 1.109 settings. Added VS Code 1.109 Updates section documenting 18 new features. Updated Model Allocation table (3 tiers: Premium/Execution/Routine replacing Premium/Execution/Ultra-Premium).
+**Expected Impact:**
+- Quality: + (agents see correct settings documentation)
+- Cost: Neutral
+- Speed: Neutral
+**Rollback:** Revert to previous settings block and remove 1.109 Updates section.
+**Metrics:** Track agent behavior consistency.
+
+#### v2.0.0 - AGENTS.md (1.109)
+**File:** `AGENTS.md`
+**Type:** Modified
+**Description:** Updated Agent Sessions Integration section for VS Code 1.109 (was 1.108-only). Added subsections: VS Code 1.109 Agent Customization, VS Code 1.109 Agent Extensibility. Documents parallel subagents, session type picker, agent status indicator, Claude Agent preview, MCP Apps.
+**Expected Impact:**
+- Quality: + (comprehensive developer documentation)
+- Cost: Neutral
+- Speed: Neutral
+**Rollback:** Revert AGENTS.md to previous version.
+**Metrics:** Track onboarding time for new contributors.
+
+#### v2.0.0 - vscode-copilot-configuration.md (1.109)
+**File:** `docs/guides/vscode-copilot-configuration.md`
+**Type:** Modified
+**Description:** Bumped version 0.6.0 → 0.7.0. Updated prerequisites to VS Code 1.109. Added comprehensive VS Code 1.109 Features section (17 subsections). Updated user settings.json examples with all new settings. Updated workspace-local settings example.
+**Expected Impact:**
+- Quality: ++ (complete configuration guide for 1.109)
+- Cost: Neutral
+- Speed: + (faster setup for new environments)
+**Rollback:** Revert to version 0.6.0.
+**Metrics:** Track setup success rate, configuration issue tickets.
+
 ### 2025-11-25 - Awesome-Copilot Pattern Adoption
 
 #### v1.0.0 - Agent Frontmatter Standardization

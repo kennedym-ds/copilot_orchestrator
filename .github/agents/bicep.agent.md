@@ -2,9 +2,9 @@
 name: bicep
 description: "Plans and implements Azure Bicep infrastructure-as-code with ARM template compatibility and Azure governance support."
 argument-hint: "Describe Azure Bicep changes, ARM migrations, or Azure IaC planning tasks"
-model: GPT-5 (copilot)
+model: ['Claude Sonnet 4.5 (copilot)', 'Gemini 3 Pro (copilot)']
 infer: true
-tools: ['runSubagent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
 handoffs:
   - label: Report to Conductor
     agent: conductor

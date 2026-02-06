@@ -1,3 +1,8 @@
+---
+name: accessibility-wcag
+description: "WCAG 2.1 Level AA compliance patterns for semantic HTML, ARIA, keyboard navigation, and screen reader compatibility. Use for accessibility audits, ARIA reviews, and POUR principle validation."
+---
+
 # Accessibility & WCAG Compliance
 
 Provides WCAG 2.1 Level AA compliance patterns for accessible web development including semantic HTML, ARIA implementation, keyboard navigation, and screen reader compatibility.

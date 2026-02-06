@@ -1,10 +1,15 @@
+---
+name: orchestrator-terminal-style
+description: "Terminal formatting patterns using VS Code 1.109 GPU-accelerated glyphs for conductor workflows, validation scripts, and agent output. Use for status indicators, progress bars, and formatted terminal displays."
+---
+
 # Orchestrator Terminal Style
 
-Provides terminal formatting patterns using VS Code 1.108's enhanced glyph support for conductor workflows, validation scripts, and agent output.
+Provides terminal formatting patterns using VS Code 1.109's enhanced glyph support for conductor workflows, validation scripts, and agent output.
 
 ## Description
 
-This skill teaches agents how to format terminal output with the ~800 GPU-accelerated glyphs available in VS Code 1.108, including status indicators, box drawing, progress bars, and Git symbols. It covers the canonical glyph set, formatting patterns, accessibility requirements, and fallback strategies for conductor workflows.
+This skill teaches agents how to format terminal output with the ~800 GPU-accelerated glyphs available in VS Code 1.109, including status indicators, box drawing, progress bars, and Git symbols. It covers the canonical glyph set, formatting patterns, accessibility requirements, and fallback strategies for conductor workflows.
 
 ## When to Use
 
@@ -174,7 +179,7 @@ Write-Host "$ESC[33m⚠ Warning$ESC[0m"  # Yellow
 
 ### Example 1: Conductor Phase Progress
 ```powershell
-Write-Host "`n┌─ VS Code 1.108 Integration ─────────┐"
+Write-Host "`n┌─ VS Code 1.109 Integration ─────────┐"
 Write-Host "│ ✓ Phase 1: Settings & Docs Update  │"
 Write-Host "│ ✓ Phase 2: Worktrees Docs Refresh  │"
 Write-Host "│ ✓ Phase 3: Terminal Glyphs Style   │"
@@ -273,4 +278,4 @@ Write-Host "⚠ Yellow" -ForegroundColor Yellow
 
 - Full glyph reference: [docs/guides/terminal-formatting-guide.md](../../../docs/guides/terminal-formatting-guide.md)
 - Agent instructions: [instructions/global/terminal-formatting.instructions.md](../../../instructions/global/terminal-formatting.instructions.md)
-- VS Code 1.108 terminal features: [docs/guides/vscode-copilot-configuration.md](../../../docs/guides/vscode-copilot-configuration.md)
+- VS Code 1.109 terminal features: [docs/guides/vscode-copilot-configuration.md](../../../docs/guides/vscode-copilot-configuration.md)

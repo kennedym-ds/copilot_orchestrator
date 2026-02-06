@@ -1,7 +1,7 @@
 ---
 title: "Copilot Orchestrator"
-version: "0.5.0"
-lastUpdated: "2025-12-19"
+version: "2.0.0"
+lastUpdated: "2026-01-24"
 status: stable
 ---
 
@@ -18,8 +18,8 @@ Use this repository as a shared configuration source across workspaces. Configur
 - **Local artifact persistence**: Session outputs stored in consuming repositories via `artifacts/` folder
 - **Validation tooling**: PowerShell scripts for asset validation, token budgeting, and linting
 - **Central deployment support**: Deploy agents at org level while storing artifacts locally per repository
-- **VS Code 1.107+ features**: Automatic agent routing, background agents with worktrees, Claude skills compatibility
-- **Organization sharing**: Native org-level agent distribution (experimental)
+- **VS Code 1.109+ features**: Agent Skills GA, multi-model fallback, thinking tokens, askQuestions, subagents, Copilot Memory
+- **Organization sharing**: Native org-level agent distribution
 
 ## Quick Start
 
@@ -31,21 +31,33 @@ Add these settings to your user or workspace `settings.json`:
 {
    "chat.useAgentsMdFile": true,
    "chat.useNestedAgentsMdFiles": true,
-   "chat.instructionsFilesLocations": [
-      "instructions",
-      ".github/instructions"
-   ],
-   "chat.promptFiles": true,
-   "chat.promptFilesLocations": [".github/prompts"],
-   "chat.modeFilesLocations": [".github/agents", ".github/chatmodes"],
-   "github.copilot.chat.tools.memory.enabled": true,
+   "chat.useAgentSkills": true,
+   "chat.useClaudeSkills": true,
+   "chat.agentCustomizationSkill.enabled": true,
    "chat.customAgentInSubagent.enabled": true,
+   "chat.askQuestions.enabled": true,
+   "chat.instructionsFilesLocations": { "instructions": true, ".github/instructions": true },
+   "chat.promptFilesLocations": { ".github/prompts": true },
+   "chat.modeFilesLocations": { ".github/agents": true, ".github/chatmodes": true },
+   "chat.agentFilesLocations": { ".github/agents": true },
+   "chat.agentSkillsLocations": { ".github/skills": true },
+   "github.copilot.chat.copilotMemory.enabled": true,
+   "github.copilot.chat.searchSubagent.enabled": true,
+   "github.copilot.chat.organizationInstructions.enabled": true,
    "github.copilot.chat.customAgents.showOrganizationAndEnterpriseAgents": true,
    "github.copilot.chat.cli.customAgents.enabled": true,
-   "chat.useClaudeSkills": true,
-   "chat.agent.thinkingStyle": "collapsed",
+   "github.copilot.chat.implementAgent.model": "Codex 5.2 (copilot)",
+   "chat.thinking.style": "collapsed",
    "chat.agent.thinking.collapsedTools": true,
-   "git.enableWorktrees": true
+   "chat.agent.thinking.terminalTools": true,
+   "chat.tools.autoExpandFailures": true,
+   "github.copilot.chat.anthropic.thinking.budgetTokens": 10000,
+   "chat.viewSessions.enabled": true,
+   "chat.viewSessions.orientation": "sideBySide",
+   "chat.viewRestorePreviousSession": false,
+   "chat.agentsControl.enabled": true,
+   "git.enableWorktrees": true,
+   "git.worktreeIncludeFiles": [".env.local", "token-thresholds.json"]
 }
 ```
 
@@ -69,12 +81,12 @@ This creates the local `artifacts/` folder structure for session persistence.
 
 | Agent | Purpose | Model |
 |-------|---------|-------|
-| Conductor | Orchestrates lifecycle, enforces pause points, delegates to subagents | Claude Sonnet 4.5 |
-| Planner | Drafts multi-phase plans with research and risk analysis | GPT-5 |
-| Implementer | Executes phases using TDD methodology | GPT-5 Mini |
-| Reviewer | Provides severity-tagged code review findings | Claude Sonnet 4.5 |
-| Researcher | Gathers context from documentation and external sources | Gemini 2.5 Pro |
-| Maintainer | Triages issues, coordinates releases, manages PR logistics | GPT-5 |
+| Conductor | Orchestrates lifecycle, enforces pause points, delegates to subagents | Claude Opus 4.6 |
+| Planner | Drafts multi-phase plans with research and risk analysis | Claude Opus 4.6 |
+| Implementer | Executes phases using TDD methodology | Codex 5.2 |
+| Reviewer | Provides severity-tagged code review findings | Claude Opus 4.6 |
+| Researcher | Gathers context from documentation and external sources | Claude Opus 4.6 |
+| Maintainer | Triages issues, coordinates releases, manages PR logistics | Claude Sonnet 4.5 |
 
 ### Support Personas
 

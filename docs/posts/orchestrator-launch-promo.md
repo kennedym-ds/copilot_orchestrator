@@ -45,13 +45,13 @@ flowchart TD
 - **Maintainer persona** keeps the backlog tidy, verifies validation output, and packages pull requests for humans.
 - **Visualizer persona** critiques UX flows, accessibility guardrails, and diagrams before they reach customers.
 - **Data Analytics persona** audits metrics, dashboards, and ETL logic so decisions stay trustworthy.
-- **Memory-enabled handoffs** keep subagents aligned by toggling `"github.copilot.chat.tools.memory.enabled": true` and capturing decisions the conductor can replay.
+- **Memory-enabled handoffs** keep subagents aligned by toggling `"github.copilot.chat.copilotMemory.enabled": true` and capturing decisions the conductor can replay.
 - **Instruction mesh** blends global, workflow, compliance, and language overlays to guide every agent response.
 - **Validation suite** bundles lint, smoke, metadata, and token-budget checks into reusable PowerShell scripts.
 
 ## Getting Started in 3 Steps
 1. **Clone the repo** somewhere accessible on every device (for example `C:\Copilot\copilot_orchestrator`).
-2. **Apply the shared settings** from `docs/guides/vscode-copilot-configuration.md`, making sure `"github.copilot.chat.tools.memory.enabled": true` sits alongside the chat mode paths so context persists.
+2. **Apply the shared settings** from `docs/guides/vscode-copilot-configuration.md`, making sure `"github.copilot.chat.copilotMemory.enabled": true` sits alongside the chat mode paths so context persists.
 3. **Launch a Conductor session** and run a sample task—delegate with the handoff buttons or an explicit `#runSubagent planner` call, then watch the implementer ship with tests-first discipline and the reviewer close the loop.
 
 ## Call to Action

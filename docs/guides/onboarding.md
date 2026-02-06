@@ -47,7 +47,7 @@ Add these settings to your user or workspace `settings.json`:
    "chat.promptFiles": true,
    "chat.promptFilesLocations": [".github/prompts"],
    "chat.modeFilesLocations": [".github/agents", ".github/chatmodes"],
-   "github.copilot.chat.tools.memory.enabled": true
+   "github.copilot.chat.copilotMemory.enabled": true
 }
 ```
 
@@ -112,7 +112,7 @@ The conductor delegates to specialized agents via handoff buttons or `#runSubage
 
 ## Configuring Language Models
 
-**VS Code 1.107+**: Configure which language models are available to agents and which tools auto-approve.
+**VS Code 1.109+**: Configure which language models are available to agents and which tools auto-approve.
 
 ### Access the Language Models Editor
 
@@ -128,9 +128,9 @@ The conductor delegates to specialized agents via handoff buttons or `#runSubage
 Control which models appear in the model picker for chat sessions:
 
 - **Claude Sonnet 4.5**: Premium reasoning and planning (recommended for Conductor, Planner, Reviewer)
-- **GPT-5**: Balanced cost/performance (recommended for Implementer, Docs, Test)
-- **GPT-5 Mini**: Fast execution tasks (recommended for routine operations)
-- **Gemini 2.5 Pro**: Multi-modal analysis (recommended for Visualizer, Accessibility)
+- **Codex 5.2**: Balanced cost/performance (recommended for Implementer, Docs, Test)
+- **Claude Haiku 4.5**: Fast execution tasks (recommended for routine operations)
+- **Gemini 3 Pro**: Multi-modal analysis (recommended for Visualizer, Accessibility)
 
 **Best Practice**: Show only the models appropriate for your workflow to avoid confusion.
 

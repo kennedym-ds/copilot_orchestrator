@@ -1,6 +1,6 @@
 # Background Agents with Git Worktrees
 
-> **Feature:** VS Code 1.108+ | **Background Agents:** `github.copilot.chat.cli.customAgents.enabled` | **Worktrees UI (Experimental):** `scm.repositories.explorer`, `scm.repositories.selectionMode`
+> **Feature:** VS Code 1.109+ | **Background Agents:** `github.copilot.chat.cli.customAgents.enabled` | **Worktrees UI (Experimental):** `scm.repositories.explorer`, `scm.repositories.selectionMode`
 
 ## Overview
 
@@ -61,11 +61,11 @@ When the agent completes:
 3. **Or Merge**: Use Git to merge the worktree branch into your main branch
 4. **Clean Up**: VS Code automatically removes the worktree when you close the session
 
-## VS Code 1.108: Enhanced Worktrees UI (Experimental)
+## VS Code 1.109: Enhanced Worktrees UI (Experimental)
 
 ### Overview
 
-VS Code 1.108 introduces a dedicated **Worktrees node** in the Source Control Repositories view, providing visual management of all repository worktrees directly in the UI.
+VS Code 1.109 introduces a dedicated **Worktrees node** in the Source Control Repositories view, providing visual management of all repository worktrees directly in the UI.
 
 ### Enable the Worktrees UI
 
@@ -78,7 +78,7 @@ Add to your VS Code settings:
 }
 ```
 
-**Note:** These are experimental settings as of VS Code 1.108.
+**Note:** These are experimental settings as of VS Code 1.109.
 
 ### Features
 
@@ -156,7 +156,7 @@ Worktrees Node
 
 ### Keyboard Navigation
 
-With VS Code 1.108, the Worktrees view supports full keyboard access:
+With VS Code 1.109, the Worktrees view supports full keyboard access:
 
 - **Tab** - Navigate between worktrees
 - **Enter** - Open worktree in new window
@@ -190,7 +190,7 @@ git worktree list
 code ../my-repo-phase-4
 ```
 
-**New Workflow (VS Code 1.108 UI):**
+**New Workflow (VS Code 1.109 UI):**
 ```markdown
 1. Open Source Control view
 2. Expand Worktrees node
@@ -260,7 +260,7 @@ Main Workspace: Docs Agent
 
 ## Worktree Management
 
-### Visual Management (VS Code 1.108+)
+### Visual Management (VS Code 1.109+)
 
 **Preferred Method:** Use the Worktrees node in Source Control view
 
@@ -442,14 +442,14 @@ git worktree remove ../my-repo-worktree-123
 
 ---
 
-**Updated**: January 2026 (VS Code 1.108)  
+**Updated**: January 2026 (VS Code 1.109)  
 **Version**: 1.1.0  
 **Maintainer**: Copilot Orchestrator Team
 
 ## Changelog
 
 ### v1.1.0 (January 2026)
-- Added VS Code 1.108 Worktrees UI documentation
+- Added VS Code 1.109 Worktrees UI documentation
 - Documented experimental Source Control Repositories view settings
 - Added keyboard navigation guide
 - Enhanced workflow examples with UI integration

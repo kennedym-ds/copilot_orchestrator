@@ -2,7 +2,7 @@
 name: design
 description: "A design system expert that queries brand colors, components, and validates accessibility."
 argument-hint: "Ask about brand colors, components, or check color contrast"
-model: GPT-5 (copilot)
+model: ['Claude Sonnet 4.5 (copilot)', 'Gemini 3 Pro (copilot)']
 infer: true
 mcp-servers:
   design:
@@ -10,7 +10,7 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/design_server.py"]
     tools: ["get_brand_palette", "search_components", "check_contrast"]
-tools: ['runSubagent', 'todos', 'fetch', 'search', 'readFile', 'fileSearch', 'edit', 'runCommands', 'problems']
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'readFile', 'fileSearch', 'edit', 'runCommands', 'problems']
 handoffs:
   - label: Report to Conductor
     agent: conductor

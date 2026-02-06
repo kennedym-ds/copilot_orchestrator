@@ -1,6 +1,6 @@
 ---
 title: "Terminal Formatting Instructions"
-description: "Standard formatting patterns for agent terminal output using VS Code 1.108's GPU-accelerated custom glyphs. Defines canonical symbol sets, accessibility requirements, and formatting patterns for all agents."
+description: "Standard formatting patterns for agent terminal output using VS Code 1.109's GPU-accelerated custom glyphs. Defines canonical symbol sets, accessibility requirements, and formatting patterns for all agents."
 version: "1.0.0"
 created: "2026-01-09"
 status: stable
@@ -12,7 +12,7 @@ priority: medium
 
 ## Purpose
 
-This instruction file defines standard formatting patterns for agent terminal output using VS Code 1.108's ~800 GPU-accelerated custom glyphs. These glyphs render perfectly without custom fonts and scale with line height and letter spacing.
+This instruction file defines standard formatting patterns for agent terminal output using VS Code 1.109's ~800 GPU-accelerated custom glyphs. These glyphs render perfectly without custom fonts and scale with line height and letter spacing.
 
 ## When to Apply
 
@@ -55,7 +55,7 @@ Apply these formatting guidelines when agents produce:
 
 ### Progress Indicators
 
-VS Code 1.108 includes Private Use Area glyphs (U+EE00-U+EE0B) for progress visualization.
+VS Code 1.109 includes Private Use Area glyphs (U+EE00-U+EE0B) for progress visualization.
 
 **ASCII Fallback Pattern:**
 ```
@@ -337,7 +337,7 @@ Agents should detect terminal capabilities and adjust output accordingly:
 
 ```powershell
 # PowerShell example
-$supportsGlyphs = $true  # Assume VS Code 1.108+ integrated terminal
+$supportsGlyphs = $true  # Assume VS Code 1.109+ integrated terminal
 if ($env:TERM -eq "dumb") {
     $supportsGlyphs = $false  # Fallback to ASCII
 }
@@ -357,12 +357,12 @@ Before finalizing formatting:
 ### Planner Agent Output
 
 ```
-Implementation Plan: VS Code 1.108 Integration
+Implementation Plan: VS Code 1.109 Integration
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Phase Breakdown:
 ├── Phase 1: Settings & Documentation
-│   ├── Objective: Update settings for VS Code 1.108
+│   ├── Objective: Update settings for VS Code 1.109
 │   ├── Status: ✓ Complete [OK]
 │   └── Duration: 2 hours
 ├── Phase 2: Worktrees UI Documentation
@@ -383,7 +383,7 @@ Success Criteria:
 ### Researcher Agent Output
 
 ```
-Research Findings: Terminal Glyphs in VS Code 1.108
+Research Findings: Terminal Glyphs in VS Code 1.109
 ─────────────────────────────────────────────────
 
 Key Discoveries:
@@ -397,13 +397,13 @@ Key Discoveries:
 └── ℹ Accessibility considerations documented [INFO]
 
 Sources:
-  1. VS Code 1.108 Release Notes
+  1. VS Code 1.109 Release Notes
   2. Terminal Glyph Rendering Documentation
 ```
 
 ## Version History
 
-- **1.0.0** (2026-01-09): Initial terminal formatting instructions for VS Code 1.108 integration
+- **1.0.0** (2026-01-09): Initial terminal formatting instructions for VS Code 1.109 integration
 
 ## Related Instructions
 
@@ -413,7 +413,7 @@ Sources:
 
 ## References
 
-- VS Code 1.108 Release Notes: https://code.visualstudio.com/updates/v1_108
+- VS Code 1.109 Release Notes: https://code.visualstudio.com/updates/v1_109
 - Unicode Box Drawing: https://en.wikipedia.org/wiki/Box-drawing_character
 - Unicode Block Elements: https://en.wikipedia.org/wiki/Block_Elements
 - ANSI Escape Codes: https://en.wikipedia.org/wiki/ANSI_escape_code

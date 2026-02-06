@@ -1,10 +1,15 @@
+---
+name: worktrees-ops
+description: "Git worktrees operations for parallel conductor workflows, enabling multiple agent sessions on different branches simultaneously. Use for creating, managing, and cleaning up worktrees with VS Code 1.109."
+---
+
 # Worktrees Operations
 
 Provides Git worktrees operations for parallel conductor workflows, enabling multiple agent sessions to work on different branches simultaneously without context conflicts.
 
 ## Description
 
-This skill teaches agents how to create, manage, and clean up Git worktrees using the enhanced Worktrees UI in VS Code 1.108. It covers worktree creation strategies, branch management, conductor workflow integration, and cleanup procedures for safe parallel execution.
+This skill teaches agents how to create, manage, and clean up Git worktrees using the enhanced Worktrees UI in VS Code 1.109. It covers worktree creation strategies, branch management, conductor workflow integration, and cleanup procedures for safe parallel execution.
 
 ## When to Use
 
@@ -47,7 +52,7 @@ A worktree is an additional working copy of your repository that can be checked 
 - Background agents in isolated environments
 - Clean separation of conductor phases
 
-### VS Code 1.108 Worktrees UI
+### VS Code 1.109 Worktrees UI
 
 **Source Control Repositories View:**
 - Enable with `scm.repositories.explorer: true`
@@ -349,7 +354,7 @@ code ..\copilot-orchestrator-skills
 
 ### Example 2: Review PR While Implementing
 ```powershell
-# Active work on VS Code 1.108 integration
+# Active work on VS Code 1.109 integration
 cd C:\Projects\copilot_orchestrator
 
 # PR arrives for urgent review
@@ -402,5 +407,5 @@ git worktree list
 ## References
 
 - Worktrees guide: [docs/guides/background-agents-worktrees.md](../../../docs/guides/background-agents-worktrees.md)
-- VS Code 1.108 Worktrees UI: [docs/guides/vscode-copilot-configuration.md](../../../docs/guides/vscode-copilot-configuration.md)
+- VS Code 1.109 Worktrees UI: [docs/guides/vscode-copilot-configuration.md](../../../docs/guides/vscode-copilot-configuration.md)
 - Git worktrees documentation: https://git-scm.com/docs/git-worktree

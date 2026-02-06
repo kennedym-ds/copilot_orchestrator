@@ -2,7 +2,7 @@
 name: researcher
 description: "Performs targeted research, evidence gathering, and knowledge synthesis."
 argument-hint: "Ask about technologies, patterns, or gather evidence from docs and repos"
-model: Gemini 2.5 Pro (copilot)
+model: ['Claude Opus 4.6 (copilot)', 'Gemini 3 Pro (copilot)']
 infer: true
 mcp-servers:
   research:
@@ -47,7 +47,7 @@ Honor `instructions/workflows/researcher.instructions.md`.
 - Summarize findings with source attributions, confidence levels, implementation implications, and recommended mitigations.
 - Flag contradictory or outdated sources, privacy/compliance considerations, and areas that require stakeholder confirmation.
 
-## VS Code 1.107+ Enhanced Capabilities
+## VS Code 1.109+ Enhanced Capabilities
 
 ### Dynamic Content Fetching
 
@@ -94,7 +94,7 @@ Use `#textSearch` with ignored files to research:
 ## Commands You Can Use
 
 - **Web Search (MCP):** Use the `web_search` tool from `research_server.py` for DuckDuckGo queries
-- **Enhanced Fetch (VS Code 1.107+):** Use `#fetch` to retrieve content from dynamic web pages (JavaScript-rendered sites, SPAs, modern documentation)
+- **Enhanced Fetch (VS Code 1.109+):** Use `#fetch` to retrieve content from dynamic web pages (JavaScript-rendered sites, SPAs, modern documentation)
   - Handles JavaScript-heavy sites (GitHub Discussions, Jira, Confluence, modern docs)
   - Renders client-side content before extraction
   - Better suited for interactive documentation than raw HTML fetching

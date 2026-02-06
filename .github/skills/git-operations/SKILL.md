@@ -1,3 +1,8 @@
+---
+name: git-operations
+description: "Git workflow patterns for conventional commits, branching strategies, PR workflows, merge strategies, and conflict resolution. Use for version control operations and repository management."
+---
+
 # Git Operations & Best Practices
 
 Provides Git workflow patterns for commit messages, branching strategies, pull request workflows, and repository management best practices.

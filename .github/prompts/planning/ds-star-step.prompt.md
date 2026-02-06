@@ -1,7 +1,7 @@
 ---
 name: ds-star-step
 description: "Generates a single sequential analysis step for DS-Star workflows."
-model: GPT-5 (copilot)
+model: Claude Sonnet 4.5 (copilot)
 agent: planner
 tools: ['readFile', 'fetch', 'search']
 ---

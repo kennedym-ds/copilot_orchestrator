@@ -1,3 +1,8 @@
+---
+name: conductor-lifecycle
+description: "Conductor workflow patterns for multi-phase orchestration including planning, implementation, review cycles, pause points, and handoffs. Use for lifecycle management, delegation, and state tracking."
+---
+
 # Conductor Lifecycle Management
 
 Provides conductor workflow patterns for multi-phase orchestration including planning, implementation, review cycles, pause points, and handoffs.

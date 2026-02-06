@@ -1,3 +1,8 @@
+---
+name: observability-telemetry
+description: "Observability patterns for metrics, logging, tracing, monitoring, and platform integrations like OpenTelemetry, Prometheus, Grafana, and Datadog. Use for instrumentation, alerting, and telemetry analysis."
+---
+
 # Observability & Telemetry
 
 Provides observability patterns for metrics, logging, tracing, monitoring, and platform integrations (OpenTelemetry, Prometheus, Grafana, Datadog).

@@ -14,12 +14,12 @@ This guide provides tier-specific prompt crafting strategies to maximize effecti
 ## Architecture Context
 
 **Planning/Review Tier (20% of invocations):**
-- Models: GPT-5, Claude Sonnet 4.5, Claude Opus, Gemini 2.5 Pro
+- Models: Claude Opus 4.6, Claude Sonnet 4.5, Codex 5.2, Gemini 3 Pro
 - Strengths: Advanced reasoning, ambiguity handling, synthesis, creative problem-solving
 - Use cases: Research, planning, architecture decisions, code review
 
 **Execution Tier (80% of invocations):**
-- Models: GPT-4.1, Claude Haiku 4.5, GPT-5 Mini
+- Models: Codex 5.2, Claude Sonnet 4.5, Gemini 3 Pro, Claude Haiku 4.5
 - Strengths: Structured execution, code generation, pattern following, efficiency
 - Use cases: Implementation, testing, refactoring, documentation updates
 
@@ -448,7 +448,7 @@ Implement JWT authentication following this workflow:
 
 ## Model-Specific Nuances
 
-### GPT-5 (Planning Tier)
+### Claude Opus 4.6 (Planning Tier)
 
 **Strengths:**
 - Strategic planning and architecture
@@ -460,7 +460,7 @@ Implement JWT authentication following this workflow:
 - Ask for multiple phases with pause points
 - Encourage identification of open questions
 
-### Claude Sonnet 4.5 / Opus (Planning Tier)
+### Claude Sonnet 4.5 (Planning/Execution Tier)
 
 **Strengths:**
 - Code understanding and refactoring
@@ -472,7 +472,7 @@ Implement JWT authentication following this workflow:
 - Request detailed reasoning for recommendations
 - Leverage for complex code reviews and threat modeling
 
-### Gemini 2.5 Pro (Planning Tier)
+### Gemini 3 Pro (Planning/Execution Tier)
 
 **Strengths:**
 - Massive context window (2M tokens)
@@ -484,7 +484,7 @@ Implement JWT authentication following this workflow:
 - Request synthesis of diverse information
 - Leverage for cross-repository analysis
 
-### GPT-4.1 (Execution Tier)
+### Codex 5.2 (Execution Tier)
 
 **Strengths:**
 - Code generation and completion

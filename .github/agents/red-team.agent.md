@@ -2,9 +2,10 @@
 name: red-team
 description: "Adversarial tester that challenges assumptions and identifies edge cases."
 argument-hint: "Stress test the plan, find loopholes, or simulate bad actor behavior"
-model: Claude Sonnet 4.5 (copilot)
+model: ['Claude Sonnet 4.5 (copilot)', 'Codex 5.2 (copilot)']
 infer: true
-tools: ['runSubagent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
+user-invokable: false
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
 handoffs:
   - label: Report to Conductor
     agent: conductor

@@ -2,10 +2,12 @@
 name: conductor
 description: "Orchestrates planning, implementation, review, and commit cycles with specialized subagents."
 argument-hint: "Describe your feature request or bug to orchestrate a multi-phase implementation"
-model: Claude Sonnet 4.5 (copilot)
+model: ['Claude Opus 4.6 (copilot)', 'Codex 5.2 (copilot)']
 infer: false
+agents: ['planner', 'implementer', 'reviewer', 'researcher', 'maintainer', 'security', 'performance', 'accessibility', 'docs', 'observability', 'visualizer', 'data-analytics', 'deployment', 'red-team', 'test', 'lint', 'github-ops', 'terraform', 'bicep', 'design', 'beast-mode']
 tools: 
   - runSubagent
+  - agent
   - todos
   - fetch
   - search
@@ -16,6 +18,7 @@ tools:
   - readFile
   - fileSearch
   - problems
+  - askQuestions
 handoffs:
   - label: Engage Planner
     agent: planner

@@ -8,7 +8,7 @@ audience: ["developers", "users"]
 
 # Terminal Formatting Guide
 
-> **Feature:** VS Code 1.108+ GPU-Accelerated Terminal Glyphs
+> **Feature:** VS Code 1.109+ GPU-Accelerated Terminal Glyphs
 
 ## Overview
 
@@ -18,7 +18,7 @@ This guide shows you how to use these glyphs effectively in your terminal output
 
 ## What Are Terminal Glyphs?
 
-Terminal glyphs are special Unicode characters that VS Code renders directly using its GPU-accelerated renderer. They include:
+Terminal glyphs are special Unicode characters that VS Code 1.109+ renders directly using its GPU-accelerated renderer. They include:
 
 - **Box Drawing** - Lines, corners, and junctions for structure
 - **Block Elements** - Solid and shaded blocks for progress bars
@@ -29,7 +29,7 @@ Terminal glyphs are special Unicode characters that VS Code renders directly usi
 
 ## Benefits
 
-✅ **No Font Configuration Required** - Works out of the box in VS Code 1.108+
+✅ **No Font Configuration Required** - Works out of the box in VS Code 1.109+
 
 ✅ **Perfect Scaling** - Glyphs scale with line height and letter spacing
 
@@ -376,10 +376,10 @@ While glyphs work without special fonts, these fonts provide excellent overall t
 
 ### Glyphs Appear as Boxes or Question Marks
 
-**Cause:** Not using VS Code 1.108+ or GPU acceleration disabled
+**Cause:** Not using VS Code 1.109+ or GPU acceleration disabled
 
 **Solution:**
-1. Update to VS Code 1.108 or later
+1. Update to VS Code 1.109 or later
 2. Enable GPU acceleration: `"terminal.integrated.gpuAcceleration": "on"`
 3. Restart VS Code
 
@@ -509,5 +509,5 @@ Have suggestions for improving terminal formatting? Open an issue in the reposit
 ---
 
 **Version:** 1.0.0  
-**Created:** January 2026 (VS Code 1.108)  
+**Created:** January 2026 (VS Code 1.109)  
 **Maintainer:** Copilot Orchestrator Team

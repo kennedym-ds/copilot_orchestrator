@@ -7,7 +7,7 @@ status: experimental
 
 # Agent Skills Pilot Evaluation Guide
 
-This guide provides a structured approach to evaluating the Agent Skills experimental feature in VS Code 1.108, comparing on-demand loading versus always-on agents and instructions.
+This guide provides a structured approach to evaluating the Agent Skills experimental feature in VS Code 1.109, comparing on-demand loading versus always-on agents and instructions.
 
 ## Executive Summary
 
@@ -46,7 +46,7 @@ This guide provides a structured approach to evaluating the Agent Skills experim
 - **Loading Accuracy:** Risk of missing relevant skills or loading irrelevant ones
 - **Complexity:** Maintaining both SKILL.md and entry point definitions
 - **Performance:** Overhead of context detection and dynamic loading
-- **Compatibility:** Not all teams using VS Code 1.108+
+- **Compatibility:** Not all teams using VS Code 1.109+
 
 ## Pilot Skills
 
@@ -245,7 +245,7 @@ Create test scenarios for each skill:
 **Objective:** Enable Agent Skills and measure impact.
 
 **Actions:**
-1. Enable Agent Skills:
+1. Verify Agent Skills enabled (default in VS Code 1.109):
    ```json
    {
      "chat.useAgentSkills": true
@@ -469,7 +469,7 @@ Metrics partially meet criteria:
 
 If pilot shows negative results:
 
-1. **Disable Agent Skills:**
+2. **Disable Agent Skills (if needed for rollback):**
    ```json
    {
      "chat.useAgentSkills": false
@@ -573,7 +573,7 @@ Links to related documentation
   - Session analytics: `.\scripts\analyze-sessions.ps1`
   - Token report: `.\scripts\token-report.ps1 -Path .`
 
-- **VS Code 1.108:**
+- **VS Code 1.109:**
   - [VS Code Copilot Configuration](../../docs/guides/vscode-copilot-configuration.md)
   - [Agent Sessions Integration](../../AGENTS.md#agent-sessions-integration)
 

@@ -7,18 +7,18 @@ applyTo: ".github/agents/implementer.agent.md,.github/agents/conductor.agent.md"
 
 ## Overview
 
-This document defines triggers and patterns for escalating from cost-efficient models (GPT-5 Mini, Claude Haiku 4.5, GPT-4.1) to premium reasoning models (GPT-5, Claude Sonnet 4.5, Claude Opus, Gemini 2.5 Pro) during implementation phases. Escalation preserves cost efficiency while ensuring quality recovery when complexity exceeds the capabilities of execution-tier models.
+This document defines triggers and patterns for escalating from cost-efficient models (Claude Sonnet 4.5, Gemini 3 Pro, Codex 5.2) to premium reasoning models (Claude Opus 4.6, Codex 5.2, Claude Sonnet 4.5) during implementation phases. Escalation preserves cost efficiency while ensuring quality recovery when complexity exceeds the capabilities of execution-tier models.
 
 ## Cost-Tier Architecture
 
 **Execution Tier (80% of invocations):**
-- Default models: GPT-5 Mini, Claude Haiku 4.5, GPT-4.1
+- Default models: Claude Sonnet 4.5, Gemini 3 Pro, Codex 5.2
 - Optimized for: Structured implementation, test execution, routine refactoring
 - Tool access: `edit`, `runCommands`, `search`, `todos`, `changes`, `problems`
 - No access to: `fetch`, `githubRepo` (prevents context bloat)
 
 **Planning/Review Tier (20% of invocations):**
-- Premium models: GPT-5, Claude Sonnet 4.5, Claude Opus, Gemini 2.5 Pro
+- Premium models: Claude Opus 4.6, Codex 5.2, Claude Sonnet 4.5
 - Optimized for: Research, architecture decisions, ambiguity resolution, code review
 - Full tool access including `fetch`, `search`, `githubRepo`, `usages`
 
@@ -177,7 +177,7 @@ When Implementer approaches context limits:
    - Preserve continuity without token bloat
 
 3. **Premium model escalation:**
-   - Larger context windows (GPT-5: 128K, Claude Opus: 200K, Gemini 2.5 Pro: 2M)
+   - Larger context windows (Codex 5.2: 200K, Claude Opus 4.6: 200K, Gemini 3 Pro: 200K)
    - Better summarization capabilities
    - Use for complex integrations or refactorings
 

@@ -47,18 +47,33 @@ Invoke-Pester -Path tests -Output Detailed
 {
   "chat.useAgentsMdFile": true,
   "chat.useNestedAgentsMdFiles": true,
-  "chat.instructionsFilesLocations": ["instructions", ".github/instructions"],
-  "chat.promptFiles": true,
-  "chat.promptFilesLocations": [".github/prompts"],
-  "chat.modeFilesLocations": [".github/agents", ".github/chatmodes"],
-  "github.copilot.chat.tools.memory.enabled": true,
+  "chat.useAgentSkills": true,
+  "chat.useClaudeSkills": true,
+  "chat.agentCustomizationSkill.enabled": true,
   "chat.customAgentInSubagent.enabled": true,
+  "chat.askQuestions.enabled": true,
+  "chat.instructionsFilesLocations": { "instructions": true, ".github/instructions": true },
+  "chat.promptFilesLocations": { ".github/prompts": true },
+  "chat.modeFilesLocations": { ".github/agents": true, ".github/chatmodes": true },
+  "chat.agentFilesLocations": { ".github/agents": true },
+  "chat.agentSkillsLocations": { ".github/skills": true },
+  "github.copilot.chat.copilotMemory.enabled": true,
+  "github.copilot.chat.searchSubagent.enabled": true,
+  "github.copilot.chat.organizationInstructions.enabled": true,
   "github.copilot.chat.customAgents.showOrganizationAndEnterpriseAgents": true,
   "github.copilot.chat.cli.customAgents.enabled": true,
-  "chat.useClaudeSkills": true,
-  "chat.agent.thinkingStyle": "collapsed",
+  "github.copilot.chat.implementAgent.model": "Codex 5.2 (copilot)",
+  "chat.thinking.style": "collapsed",
   "chat.agent.thinking.collapsedTools": true,
-  "git.enableWorktrees": true
+  "chat.agent.thinking.terminalTools": true,
+  "chat.tools.autoExpandFailures": true,
+  "github.copilot.chat.anthropic.thinking.budgetTokens": 10000,
+  "chat.viewSessions.enabled": true,
+  "chat.viewSessions.orientation": "sideBySide",
+  "chat.viewRestorePreviousSession": false,
+  "chat.agentsControl.enabled": true,
+  "git.enableWorktrees": true,
+  "git.worktreeIncludeFiles": [".env.local", "token-thresholds.json"]
 }
 ```
 
@@ -70,12 +85,12 @@ Invoke-Pester -Path tests -Output Detailed
 
 | Agent | Model | Purpose |
 |-------|-------|---------|
-| conductor | Claude Sonnet 4.5 | Lifecycle orchestration |
-| planner | GPT-5 | Multi-phase planning |
-| implementer | GPT-5 Mini | TDD execution |
-| reviewer | Claude Sonnet 4.5 | Code review |
-| researcher | Gemini 2.5 Pro | Context gathering |
-| maintainer | GPT-5 | Issue triage, releases |
+| conductor | Claude Opus 4.6 | Lifecycle orchestration |
+| planner | Claude Opus 4.6 | Multi-phase planning |
+| implementer | Codex 5.2 | TDD execution |
+| reviewer | Claude Opus 4.6 | Code review |
+| researcher | Claude Opus 4.6 | Context gathering |
+| maintainer | Claude Sonnet 4.5 | Issue triage, releases |
 
 ### Support Personas
 

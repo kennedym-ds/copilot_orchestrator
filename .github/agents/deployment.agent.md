@@ -2,9 +2,9 @@
 name: deployment
 description: "Manages CI/CD pipelines, release artifacts, and environment configuration."
 argument-hint: "Review deployment scripts, check release readiness, or plan infrastructure changes"
-model: GPT-5 (copilot)
+model: ['Claude Sonnet 4.5 (copilot)', 'Gemini 3 Pro (copilot)']
 infer: true
-tools: ['runSubagent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems']
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems']
 handoffs:
   - label: Report to Conductor
     agent: conductor

@@ -2,9 +2,9 @@
 name: reviewer
 description: "Audits changes for correctness, quality, and policy compliance before handoff."
 argument-hint: "Provide changes to review for correctness, quality, and policy compliance"
-model: Claude Sonnet 4.5 (copilot)
+model: ['Claude Opus 4.6 (copilot)', 'Codex 5.2 (copilot)']
 infer: true
-tools: ['runSubagent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'usages', 'edit', 'runCommands']
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'usages', 'edit', 'runCommands']
 handoffs:
   - label: Report to Conductor
     agent: conductor

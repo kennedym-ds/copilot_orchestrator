@@ -1,6 +1,6 @@
 # Central Deployment Guide
 
-> **Updated for VS Code 1.107**: Now supports native organization-level agent sharing without manual repository setup.
+> **Updated for VS Code 1.109**: Now supports native organization-level agent sharing without manual repository setup.
 
 This guide explains how to deploy the Copilot Orchestrator agents centrally at the organization level while having agents create local `artifacts/` folders in each consuming repository.
 
@@ -35,9 +35,9 @@ This guide explains how to deploy the Copilot Orchestrator agents centrally at t
 
 ## Deployment Methods
 
-VS Code 1.107+ offers **two deployment methods**:
+VS Code 1.109+ offers **two deployment methods**:
 
-### Method 1: Native Organization Sharing (Recommended - VS Code 1.107+)
+### Method 1: Native Organization Sharing (Recommended - VS Code 1.109+)
 
 **Pros:**
 - Zero configuration in consuming repositories
@@ -70,7 +70,7 @@ VS Code 1.107+ offers **two deployment methods**:
 
 ## Method 1: Native Organization Sharing
 
-> **Requirements:** VS Code 1.107+, GitHub organization with Copilot
+> **Requirements:** VS Code 1.109+, GitHub organization with Copilot
 
 ### 1. Enable Organization Agent Sharing
 
@@ -196,11 +196,11 @@ cp scripts/init-artifacts.ps1 scripts/
   "chat.customAgentInSubagent.enabled": true,
   "github.copilot.chat.cli.customAgents.enabled": true,
   "chat.useClaudeSkills": true,
-  "chat.agent.thinkingStyle": "collapsed",
+  "chat.thinking.style": "collapsed",
   "chat.agent.thinking.collapsedTools": true,
   "chat.viewSessions.enabled": true,
-  "chat.viewSessions.orientation": "auto",
-  "github.copilot.chat.tools.memory.enabled": true
+  "chat.viewSessions.orientation": "sideBySide",
+  "github.copilot.chat.copilotMemory.enabled": true
 }
 ```
 
@@ -210,9 +210,9 @@ cp scripts/init-artifacts.ps1 scripts/
 {
   "chat.useAgentsMdFile": true,
   "chat.useNestedAgentsMdFiles": true,
-  "github.copilot.chat.tools.memory.enabled": true,
+  "github.copilot.chat.copilotMemory.enabled": true,
   "chat.customAgentInSubagent.enabled": true,
-  "chat.agent.thinkingStyle": "collapsed",
+  "chat.thinking.style": "collapsed",
   "chat.agent.thinking.collapsedToolseate the `artifacts/` folder when they start working. No setup required in consuming repos.
 
 #### Option B: Pre-Initialize
@@ -292,7 +292,7 @@ The `.gitignore` in `artifacts/` excludes session state files (which may contain
 
 | Feature | Method 1 (Native) | Method 2 (GitHub Repo) |
 |---------|-------------------|------------------------|
-| **VS Code Version** | 1.107+ required | Any version |
+| **VS Code Version** | 1.109+ required | Any version |
 | **Setup Complexity** | Low (org admin only) | Medium (per-repo) |
 | **User Configuration** | 1 setting | Manual clone/sync |
 | **Update Propagation** | Instant | Manual pull required |
@@ -306,7 +306,7 @@ The `.gitignore` in `artifacts/` excludes session state files (which may contain
 
 ### Method 1: Organization Agents Not Appearing
 
-1. Verify VS Code version is 1.107+
+1. Verify VS Code version is 1.109+
 2. Check `github.copilot.chat.customAgents.showOrganizationAndEnterpriseAgents` is `true`
 3. Confirm your GitHub user is in the organization
 4. Verify organization has Copilot subscription
@@ -369,21 +369,21 @@ For large organizations migrating to Method 1:
 
 ## Resources
 
-- [VS Code 1.107 Release Notes](https://code.visualstudio.com/updates/v1_107)
+- [VS Code 1.109 Release Notes](https://code.visualstudio.com/updates/v1_109)
 - [Background Agents with Worktrees](background-agents-worktrees.md)
 - [Session Analytics Guide](session-analytics.md)
 - [Onboarding Guide](onboarding.md)
 
 ---
 
-**Updated**: December 2025 (VS Code 1.107)  
+**Updated**: January 2026 (VS Code 1.109)  
 **Method 1 Status**: Experimental (GA expected Q1 2026)VS Code:
 
 ```json
 {
     "chat.useAgentsMdFile": true,
     "chat.useNestedAgentsMdFiles": true,
-    "github.copilot.chat.tools.memory.enabled": true
+    "github.copilot.chat.copilotMemory.enabled": true
 }
 ```
 

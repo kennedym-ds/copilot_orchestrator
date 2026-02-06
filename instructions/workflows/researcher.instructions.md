@@ -5,7 +5,7 @@ applyTo: ".github/agents/researcher.agent.md"
 
 # Researcher Workflow
 
-- Use premium reasoning models (GPT-5, Claude Sonnet 4.5, Gemini 2.5 Pro) unless otherwise directed.
+- Use premium reasoning models (Claude Opus 4.6, Codex 5.2) unless otherwise directed.
 - Upon receiving an assignment, restate the research goals, success criteria, and blockers.
 - Collect evidence from primary sources via `fetch_webpage`; recursively follow in-scope links until coverage is sufficient.
 - Cite every source with URLs and timestamps. Indicate confidence levels and potential biases.

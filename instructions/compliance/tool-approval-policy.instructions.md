@@ -5,12 +5,12 @@ applyTo: all-agents
 applicability: all-agents
 version: "1.0.0"
 lastUpdated: "2025-12-19"
-requires: VS Code 1.107+
+requires: VS Code 1.109+
 ---
 
 # Tool Auto-Approval Policy
 
-> **Feature:** VS Code 1.107+ | **Setting:** `chat.tools.eligibleForAutoApproval`
+> **Feature:** VS Code 1.109+ | **Setting:** `chat.tools.eligibleForAutoApproval`
 
 ## Overview
 
@@ -57,7 +57,7 @@ These tools make changes but are generally reversible:
 - ❌ Block: Modifying configuration files, CI/CD workflows, security-sensitive code
 - ❌ Block: Creating files outside approved directories
 
-**Implementation Note**: VS Code 1.107 does not support path-based conditional auto-approval. If you cannot monitor sessions actively, default to requiring manual approval for all file writes.
+**Implementation Note**: VS Code 1.109 does not support path-based conditional auto-approval. If you cannot monitor sessions actively, default to requiring manual approval for all file writes.
 
 ### High Risk (Always Require Approval)
 
@@ -258,7 +258,7 @@ If malicious tool use is detected:
 
 ## Configuration Management
 
-### Organization-Level Settings (VS Code 1.107+)
+### Organization-Level Settings (VS Code 1.109+)
 
 For organization-wide deployments, configure auto-approval centrally:
 
@@ -355,7 +355,7 @@ pwsh -File scripts/analyze-sessions.ps1 -StartDate (Get-Date).AddDays(-7)
 
 ## Resources
 
-- [VS Code 1.107 Release Notes](https://code.visualstudio.com/updates/v1_107) - Language Models editor documentation
+- [VS Code 1.109 Release Notes](https://code.visualstudio.com/updates/v1_109) - Language Models editor documentation
 - [GitHub Copilot Trust Center](https://resources.github.com/copilot-trust-center/) - Security and privacy
 - [OWASP LLM Top 10](https://owasp.org/www-project-top-10-for-large-language-model-applications/) - LLM security risks
 - `docs/guides/session-analytics.md` - Session monitoring and analytics
@@ -371,4 +371,4 @@ pwsh -File scripts/analyze-sessions.ps1 -StartDate (Get-Date).AddDays(-7)
 ---
 
 **Version History**:
-- **1.0.0** (2025-12-19): Initial policy for VS Code 1.107 tool auto-approval feature
+- **1.0.0** (2025-12-19): Initial policy for VS Code 1.109 tool auto-approval feature

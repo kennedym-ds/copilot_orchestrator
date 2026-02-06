@@ -16,7 +16,7 @@ This initiative consolidates instructions, prompts, and chat modes into an exten
 
 - **Single Source of Truth:** Introduce an `AGENTS.md`-centered instruction mesh with layered `.instructions.md` overrides so every agent shares consistent context.
 - **Lifecycle Orchestration:** Deploy a `Conductor` agent that sequences plan → implement → review → commit cycles, persists artifacts, and enforces pause points.
-- **Model Utilization Strategy:** Align personas with high-reasoning models (GPT-5, Claude Sonnet 4.5, Gemini 2.5 Pro, Claude Opus) for planning/analysis and cost-efficient models (GPT-5 Mini, Claude Haiku 4.5, GPT-4.1) for execution.
+- **Model Utilization Strategy:** Align personas with high-reasoning models (Claude Opus 4.6, Codex 5.2, Claude Sonnet 4.5, Gemini 3 Pro) for planning/analysis and cost-efficient models (Claude Haiku 4.5, Gemini 3 Flash, Codex 5.2) for execution.
 - **Async Custom Agent Execution:** Leverage `#runCustomAgent` to invoke planning, research, implementation, and review agents in parallel, reducing wall-clock time for complex work.
 - **Guided Handoffs:** Adopt VS Code handoffs to make every phase transition explicit and auditable inside the Agent Sessions view.
 
@@ -66,17 +66,17 @@ This initiative consolidates instructions, prompts, and chat modes into an exten
   - Persist plan files to `plans/<task>.md`, phase summaries to `plans/<task>-phase-<n>.md`, and completion reports.
   - Maintain status telemetry (Current Phase, Plan Progress, Last Action, Next Action) for display in responses and Agent Sessions.
   - Enforce mandatory stop points after plan presentation, post-review/pre-commit, and after final summary.
-- **Model:** Default to Claude Sonnet 4.5 or GPT-5 for reasoning; allow overrides via front matter.
+- **Model:** Default to Claude Sonnet 4.5 or Claude Opus 4.6 for reasoning; allow overrides via front matter.
 - **Tools:** `runCustomAgent`, `todos`, `fetch`, `search`, `githubRepo`, `edit` (restricted), `changes`, `runCommands` when necessary.
 
 ## Specialized Custom Agents
 
 | Persona | Primary Models | Scope | Tooling | Notes |
 | --- | --- | --- | --- | --- |
-| Planning Researcher | Gemini 2.5 Pro, GPT-5, Claude Sonnet 4.5 | Deep code/document research, summarization, option analysis | `search`, `fetch`, `githubRepo`, `readFile`, `usages`, `problems` | Must stop at findings; no plans or edits. |
-| Planner (Plan Drafting) | GPT-5 | Drafts plan artifacts using plan template, asks clarification, tracks TODO list | `todos`, `readFile`, `fetch`, `search` (read-only) | Returns plan markdown without executing work. |
-| Implementer (TDD) | GPT-5 Mini, Claude Haiku 4.5, GPT-4.1 | Executes per-phase work using strict TDD, minimal commits per step | `edit`, `runCommands`, `search`, `todos`, `problems`, `changes` | Auto-runs targeted tests → full suite; escalates critical decisions. |
-| Reviewer | Claude Sonnet 4.5, GPT-5 | Reviews diffs, ensures tests, flags issues with severity tags | `changes`, `search`, `usages`, `problems` | Returns structured review (`APPROVED/NEEDS_REVISION/FAILED`). |
+| Planning Researcher | Claude Opus 4.6, Gemini 3 Pro, Claude Sonnet 4.5 | Deep code/document research, summarization, option analysis | `search`, `fetch`, `githubRepo`, `readFile`, `usages`, `problems` | Must stop at findings; no plans or edits. |
+| Planner (Plan Drafting) | Claude Opus 4.6 | Drafts plan artifacts using plan template, asks clarification, tracks TODO list | `todos`, `readFile`, `fetch`, `search` (read-only) | Returns plan markdown without executing work. |
+| Implementer (TDD) | Claude Haiku 4.5, Gemini 3 Flash, Codex 5.2 | Executes per-phase work using strict TDD, minimal commits per step | `edit`, `runCommands`, `search`, `todos`, `problems`, `changes` | Auto-runs targeted tests → full suite; escalates critical decisions. |
+| Reviewer | Claude Sonnet 4.5, Claude Opus 4.6 | Reviews diffs, ensures tests, flags issues with severity tags | `changes`, `search`, `usages`, `problems` | Returns structured review (`APPROVED/NEEDS_REVISION/FAILED`). |
 | Support Agents | Model varies | Accessibility, security, performance, docs | Tools tailored per specialty | Integrate as optional custom agents triggered by Conductor or handoffs. |
 
 ## Handoffs & Agent Sessions

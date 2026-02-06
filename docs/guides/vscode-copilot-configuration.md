@@ -1,7 +1,7 @@
 ---
 title: "VS Code Copilot Configuration"
-version: "0.6.0"
-lastUpdated: "2026-01-09"
+version: "0.7.0"
+lastUpdated: "2026-02-06"
 status: stable
 ---
 
@@ -9,7 +9,7 @@ status: stable
 This guide shows how to configure VS Code so the Copilot Orchestrator workspace loads custom chat modes, instruction overlays, prompt files, and tool sets that power the conductor workflow.
 
 ## Prerequisites
-- VS Code 1.108 or later (stable channel supports all features including Agent Skills, enhanced terminal glyphs, and improved session management).
+- VS Code 1.109 or later (stable channel supports all features including Agent Skills GA, parallel subagents, agent status indicator, and Claude Agent sessions).
 - A central configuration repository that stores shared agents, prompts, and instruction meshes.
 - Local clones of any workspaces that should consume the central configuration (for example `copilot_orchestrator`).
 - GitHub Copilot subscription (Individual, Business, or Enterprise).
@@ -43,17 +43,46 @@ You can register the paths globally in your user `settings.json` (recommended fo
        "C:\\Workspaces\\copilot_orchestrator\\.github\\agents": true,
        "C:\\Workspaces\\copilot_orchestrator\\.github\\chatmodes": true
      },
-     "github.copilot.chat.tools.memory.enabled": true,
-     "chat.agentSessionsViewLocation": "panel",
-     "chat.emptyState.history.enabled": true,
      "chat.customAgentInSubagent.enabled": true,
      "chat.viewSessions.enabled": true,
      "chat.viewSessions.orientation": "sideBySide",
      "chat.viewRestorePreviousSession": false,
-     "chat.useAgentSkills": false,
      "chat.tools.terminal.enableAutoApprove": true,
      "chat.tools.terminal.autoApproveWorkspaceNpmScripts": true,
      "chat.tools.terminal.preventShellHistory": true,
+
+     // VS Code 1.109 settings
+     "chat.agentFilesLocations": {
+       "C:\\CopilotConfig\\agents": true,
+       "C:\\Workspaces\\copilot_orchestrator\\.github\\agents": true
+     },
+     "chat.agentSkillsLocations": {
+       "C:\\CopilotConfig\\skills": true,
+       "C:\\Workspaces\\copilot_orchestrator\\.github\\skills": true
+     },
+     "chat.useAgentSkills": true,
+     "chat.useClaudeSkills": true,
+     "chat.agentCustomizationSkill.enabled": true,
+     "github.copilot.chat.searchSubagent.enabled": true,
+     "github.copilot.chat.organizationInstructions.enabled": true,
+     "chat.thinking.style": "collapsed",
+     "chat.agent.thinking.collapsedTools": true,
+     "chat.agent.thinking.terminalTools": true,
+     "chat.tools.autoExpandFailures": true,
+     "chat.askQuestions.enabled": true,
+     "github.copilot.chat.anthropic.thinking.budgetTokens": 10000,
+     "github.copilot.chat.anthropic.toolSearchTool.enabled": true,
+     "github.copilot.chat.anthropic.contextEditing.enabled": true,
+     "github.copilot.chat.copilotMemory.enabled": true,
+     "github.copilot.chat.advanced.workspace.codeSearchExternalIngest.enabled": true,
+     "chat.agentsControl.enabled": true,
+     "chat.agentsControl.clickBehavior": "cycle",
+     "workbench.startupEditor": "agentSessionsWelcomePage",
+     "github.copilot.chat.implementAgent.model": "Codex 5.2 (copilot)",
+     "terminal.integrated.enableKittyKeyboardProtocol": true,
+     "workbench.browser.openLocalhostLinks": true,
+     "simpleBrowser.useIntegratedBrowser": true,
+     "git.worktreeIncludeFiles": [".env.local", "token-thresholds.json"],
      "github.copilot.chat.reviewSelection.instructions": [
        {
          "file": "C:\\CopilotConfig\\.copilot-review-instructions.md"
@@ -68,19 +97,27 @@ You can register the paths globally in your user `settings.json` (recommended fo
 
    ```json
    {
-     "chat.instructionsFilesLocations": [
-       "instructions",
-       ".github/instructions"
-     ],
+     "chat.instructionsFilesLocations": {
+       "instructions": true,
+       ".github/instructions": true
+     },
      "chat.promptFiles": true,
-     "chat.promptFilesLocations": [
-       ".github/prompts"
-     ],
-     "chat.modeFilesLocations": [
-       ".github/agents",
-       ".github/chatmodes"
-     ],
-     "github.copilot.chat.tools.memory.enabled": true
+     "chat.promptFilesLocations": {
+       ".github/prompts": true
+     },
+     "chat.modeFilesLocations": {
+       ".github/agents": true,
+       ".github/chatmodes": true
+     },
+     "chat.agentFilesLocations": {
+       ".github/agents": true
+     },
+     "chat.agentSkillsLocations": {
+       ".github/skills": true
+     },
+     "chat.useAgentSkills": true,
+     "chat.agentCustomizationSkill.enabled": true,
+     "github.copilot.chat.copilotMemory.enabled": true
    }
    ```
 
@@ -93,10 +130,129 @@ You can register the paths globally in your user `settings.json` (recommended fo
 - **Recent chat history** when starting new sessions for quick context switching.
 - **Cross-agent custom agents** that allow specialized agents to invoke other agent personas.
 
+## VS Code 1.109 Features
+
+### Agent Skills (GA)
+**Setting:** `chat.useAgentSkills` (default: `true` — now GA)
+
+Agent Skills are now generally available in VS Code 1.109. Skills in `.github/skills/` load automatically when relevant. Configure search paths with `chat.agentSkillsLocations`. The built-in Agent Customization Skill (`chat.agentCustomizationSkill.enabled`) teaches the AI about creating agents, instructions, prompts, and skills.
+
+### Multiple Model Fallbacks
+Agent frontmatter now accepts `model` as an array. The first available model is used, providing automatic fallback:
+
+```yaml
+model: ['Claude Opus 4.6 (copilot)', 'Codex 5.2 (copilot)']
+```
+
+All 22 agents in this repo now use model fallback arrays for resilience.
+
+### Agent Invocation Control
+New frontmatter attributes for fine-grained control:
+
+- **`user-invokable: false`** — Prevents direct user invocation (internal-only agents)
+- **`disable-model-invocation: true`** — Prevents AI-initiated invocation
+- **`agents: [list]`** — Subagent allowlist restricting which agents can be delegated to
+
+### Handoff Model Parameters
+Handoffs can now specify a `model` parameter for per-handoff model selection:
+
+```yaml
+handoffs:
+  - label: Deep Analysis
+    agent: beast-mode
+    model: Claude Opus 4.6 (copilot)
+    prompt: Perform extended reasoning analysis.
+```
+
+### Thinking & Reasoning Enhancements
+
+| Setting | Value | Description |
+|---------|-------|-------------|
+| `chat.thinking.style` | `"collapsed"` | Renamed from `chat.agent.thinkingStyle` |
+| `chat.agent.thinking.terminalTools` | `true` | Shows reasoning interleaved with terminal tool calls |
+| `chat.tools.autoExpandFailures` | `true` | Auto-expands failed tool calls for diagnosis |
+
+### Anthropic Model Enhancements
+Three new settings optimize Claude model performance:
+
+- **`github.copilot.chat.anthropic.thinking.budgetTokens`** (`10000`) — Budget for interleaved thinking via Messages API
+- **`github.copilot.chat.anthropic.toolSearchTool.enabled`** (`true`) — Helps Claude discover relevant tools from larger pools
+- **`github.copilot.chat.anthropic.contextEditing.enabled`** (`true`) — Clears old tool results/thinking to maintain more useful context
+
+### Ask Questions Tool
+**Setting:** `chat.askQuestions.enabled` (default: `true`)
+
+Agents can now ask clarifying questions instead of making assumptions. This is especially useful for the Planner and Conductor agents during the discovery phase. The `askQuestions` tool has been added to conductor, planner, and beast-mode agents.
+
+### Agent Sessions Enhancements
+
+| Setting | Value | Description |
+|---------|-------|-------------|
+| `chat.agentsControl.enabled` | `true` | Agent status indicator in command center |
+| `chat.agentsControl.clickBehavior` | `"cycle"` | Cycle chat view states on click |
+| `workbench.startupEditor` | `"agentSessionsWelcomePage"` | Surfaces recent sessions on startup |
+
+**New Features:**
+- **Session Type Picker**: Switch between local, background, cloud, and Claude Agent sessions
+- **Agent Status Indicator**: Command center badge showing in-progress, unread, and attention-needed sessions
+- **Parallel Subagents**: Independent subtasks run in parallel across multiple subagents
+
+### Search Subagent
+**Setting:** `github.copilot.chat.searchSubagent.enabled` (`true`)
+
+Iterative code search runs in an isolated context window, preventing search operations from consuming the main conversation context.
+
+### Copilot Memory (Preview)
+**Setting:** `github.copilot.chat.copilotMemory.enabled` (`true`)
+
+Replaces the legacy `github.copilot.chat.tools.memory.enabled`. Stores and recalls information across sessions for persistent agent context.
+
+### Organization Instructions
+**Setting:** `github.copilot.chat.organizationInstructions.enabled` (`true`)
+
+Auto-applies org-level custom instructions, enabling consistent behavior across all repositories in your GitHub organization.
+
+### External Indexing
+**Setting:** `github.copilot.chat.advanced.workspace.codeSearchExternalIngest.enabled` (`true`)
+
+Enables remote indexing for non-GitHub workspaces, making code search fast even for local-only repositories.
+
+### Integrated Browser (Preview)
+
+| Setting | Value | Description |
+|---------|-------|-------------|
+| `workbench.browser.openLocalhostLinks` | `true` | Opens localhost URLs in integrated browser |
+| `simpleBrowser.useIntegratedBrowser` | `true` | Uses new integrated browser with DevTools |
+
+### Plan Agent
+**Setting:** `github.copilot.chat.implementAgent.model` (`"Codex 5.2 (copilot)"`)
+
+The `/plan` command provides a 4-phase workflow (Discovery → Alignment → Design → Refinement) with integrated `askQuestions`. The `implementAgent.model` setting controls which model is used for the implementation step.
+
+### Claude Agent (Preview)
+New session type using Anthropic's agent SDK. Available from the session type picker alongside local, background, and cloud agent sessions.
+
+### MCP Apps
+Interactive UI from MCP servers rendered directly in chat, enabling rich tool interactions.
+
+### Chat Diagnostics
+Right-click in Chat → Diagnostics to see all loaded agents, prompts, instructions, and skills. Useful for debugging configuration issues.
+
+### `/init` Command
+Auto-generates workspace instruction files based on codebase analysis — accelerates onboarding for new repositories.
+
+### Other New Settings
+
+| Setting | Value | Description |
+|---------|-------|-------------|
+| `terminal.integrated.enableKittyKeyboardProtocol` | `true` | Better key handling (shift+enter in agentic CLIs) |
+| `git.worktreeIncludeFiles` | array | Copies specified files to worktrees for background agents |
+| `inlineChat.affordance` | `true` | Inline chat affordance in editor |
+
 ## VS Code 1.108 Features
 
 ### Agent Skills (Experimental)
-**Setting:** `chat.useAgentSkills` (default: `false`)
+**Setting:** `chat.useAgentSkills` (default: `false` in 1.108, now `true` in 1.109)
 
 Agent Skills enable on-demand loading of domain-specific knowledge from `.github/skills/` folders. Each skill is a directory containing a `SKILL.md` file that defines behavior, scripts, and resources. VS Code loads skills progressively when relevant to your request.
 
@@ -523,8 +679,7 @@ When running multiple conductor tasks simultaneously:
 {
   "chat.viewSessions.enabled": true,
   "chat.viewSessions.orientation": "sideBySide",
-  "chat.viewRestorePreviousSession": false,
-  "chat.agentSessionsViewLocation": "panel"
+  "chat.viewRestorePreviousSession": false
 }
 ```
 

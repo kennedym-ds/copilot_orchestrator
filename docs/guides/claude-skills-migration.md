@@ -1,10 +1,10 @@
 # Claude Skills Migration Guide
 
-> **Feature:** VS Code 1.107+ | **Setting:** `chat.useClaudeSkills: true`
+> **Feature:** VS Code 1.109+ | **Setting:** `chat.useClaudeSkills: true`
 
 ## Overview
 
-VS Code 1.107 can now reuse [Claude Code](https://code.claude.com) skills alongside custom agents. Skills are on-demand capabilities that agents load when needed, similar to plugins or extensions. They come with supporting files like scripts and templates.
+VS Code 1.109 can now reuse [Claude Code](https://code.claude.com) skills alongside custom agents. Skills are on-demand capabilities that agents load when needed, similar to plugins or extensions. They come with supporting files like scripts and templates.
 
 This guide shows how to migrate your existing prompt templates and instruction files to Claude skills format, enabling reuse across both VS Code and Claude Code environments.
 
@@ -513,7 +513,7 @@ Or let agents discover skills automatically when `infer: true` is set.
 ## Resources
 
 - [Claude Code Skills Documentation](https://code.claude.com/docs/en/skills)
-- [VS Code 1.107 Release Notes](https://code.visualstudio.com/updates/v1_107)
+- [VS Code 1.109 Release Notes](https://code.visualstudio.com/updates/v1_109)
 - [Copilot Orchestrator Prompt Templates](../../.github/prompts/)
 
 ## Examples in This Repository
@@ -528,5 +528,5 @@ These prompts are good candidates for skill migration:
 
 ---
 
-**Updated**: December 2025 (VS Code 1.107)  
+**Updated**: January 2026 (VS Code 1.109)  
 **Status**: Experimental → GA expected Q1 2026

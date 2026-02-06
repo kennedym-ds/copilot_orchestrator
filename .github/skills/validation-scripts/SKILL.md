@@ -1,3 +1,8 @@
+---
+name: validation-scripts
+description: "PowerShell 5.1 validation script operations including asset validation, lint checking, smoke tests, and token budget reporting. Use for pre-PR validation and conductor pause point checks."
+---
+
 # Validation Scripts
 
 Provides PowerShell 5.1 validation script operations for conductor workflows, including asset validation, lint checking, smoke tests, and token budget reporting.

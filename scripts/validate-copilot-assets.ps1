@@ -108,14 +108,14 @@ if ($instructionFiles.Count -eq 0) {
 $agentFiles = @()
 $agentFiles += Get-ChildItem -Path (Join-Path $RepoRoot '.github/agents') -Filter '*.agent.md' -File -ErrorAction SilentlyContinue
 
-# Define valid model names (from awesome-copilot patterns)
+# Define valid model names (updated for VS Code 1.109 — model arrays supported)
 $validModels = @(
+    'Claude Opus 4.6 (copilot)',
     'Claude Sonnet 4.5 (copilot)',
-    'Claude Opus 4.5 (copilot)',
     'Claude Haiku 4.5 (copilot)',
-    'GPT-5 (copilot)',
-    'GPT-5 Mini (copilot)',
-    'Gemini 2.5 Pro (copilot)'
+    'Codex 5.2 (copilot)',
+    'Gemini 3 Pro (copilot)',
+    'Gemini 3 Flash (copilot)'
 )
 
 foreach ($agent in $agentFiles) {
@@ -138,8 +138,17 @@ foreach ($agent in $agentFiles) {
         Add-Issue -Collector $issues -File $relativePath -Severity 'Warning' -Message 'Missing argument-hint field. Add for improved discoverability (awesome-copilot pattern).'
     }
 
-    # Validate model is from allowed list
-    if ($frontMatter -match '(?m)^model:\s*[''"]?([^''"\r\n]+)[''"]?') {
+    # Validate model is from allowed list (supports single value or array format)
+    if ($frontMatter -match "(?m)^model:\s*\[([^\]]+)\]") {
+        # Array format: model: ['Model A (copilot)', 'Model B (copilot)']
+        $modelList = $Matches[1] -split ',\s*' | ForEach-Object { $_.Trim().Trim("'").Trim('"') }
+        foreach ($m in $modelList) {
+            if ($validModels -notcontains $m) {
+                Add-Issue -Collector $issues -File $relativePath -Severity 'Error' -Message "Invalid model in array: '$m'. Valid models: $([string]::Join(', ', $validModels))."
+            }
+        }
+    } elseif ($frontMatter -match "(?m)^model:\s*['""]?([^'""\r\n\[]+)['""]?") {
+        # Single value format: model: Model A (copilot)
         $modelName = $Matches[1].Trim()
         if ($validModels -notcontains $modelName) {
             Add-Issue -Collector $issues -File $relativePath -Severity 'Error' -Message "Invalid model: '$modelName'. Valid models: $([string]::Join(', ', $validModels))."

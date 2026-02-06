@@ -1,3 +1,8 @@
+---
+name: documentation-style
+description: "Documentation patterns for Markdown formatting, structure, voice/tone, and technical writing best practices. Use for user guides, API docs, code comments, and content reviews."
+---
+
 # Documentation Style & Standards
 
 Provides documentation patterns for Markdown formatting, structure, voice/tone, and technical writing best practices across user guides, API docs, and code comments.

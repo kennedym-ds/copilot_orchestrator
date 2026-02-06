@@ -8,65 +8,69 @@ applyTo: "**/*.{md,agent.md,chatmode.md}"
 
 ## Overview
 
-This document defines the model selection strategy for the Copilot Orchestrator multi-agent system and provides fallback chains to ensure resilience when primary models are unavailable. The strategy balances cost efficiency (execution tier) with reasoning capability (planning/review tier) while maintaining quality through process design.
+This document defines the model selection strategy for the Copilot Orchestrator multi-agent system and provides fallback chains to ensure resilience when primary models are unavailable. The strategy uses a three-tier approach: Premium for deep reasoning, Execution for implementation work, and Routine for lightweight tasks.
 
 ## Model Allocation Strategy
 
-### Planning/Review Tier (Premium Models)
+### Premium Tier (~20% of invocations)
 
-**Target allocation:** 20% of total invocations
-**Use cases:** Research, architecture decisions, ambiguity resolution, code review, threat modeling
+**Use cases:** Research, architecture decisions, ambiguity resolution, code review, threat modeling, orchestration
 
-| Agent | Primary Model | Reasoning Capability | Context Window | Cost Tier |
-|-------|---------------|---------------------|----------------|-----------|
-| Conductor | Claude Sonnet 4.5 | Advanced reasoning, orchestration | 200K tokens | Premium |
-| Planner | GPT-5 | Strategic planning, option analysis | 128K tokens | Premium |
-| Researcher | Gemini 2.5 Pro | Research synthesis, web integration | 2M tokens | Premium |
-| Reviewer | Claude Sonnet 4.5 | Code review, pattern recognition | 200K tokens | Premium |
-| Security | Claude Sonnet 4.5 | Threat modeling, compliance | 200K tokens | Premium |
-| Performance | GPT-5 | Profiling analysis, optimization | 128K tokens | Premium |
-
-### Ultra-Premium Tier (Claude Opus 4.5)
-
-**Target allocation:** &lt;5% of total invocations (reserved for critical decisions)
-**Use cases:** Complex architectural decisions, security-critical reviews, multi-system integrations
-
-| Scenario | When to Use Claude Opus 4.5 | Cost Impact |
-|----------|----------------------------|-------------|
-| Architectural Decisions | Multi-service redesign, breaking changes across >10 files | ~3x premium |
-| Security Reviews | Authentication/authorization changes, cryptographic implementations | ~3x premium |
-| Compliance Reviews | Privacy impact assessments, regulatory requirement mapping | ~3x premium |
-| Complex Research | Cross-domain synthesis requiring deep reasoning | ~3x premium |
-| Escalation Fallback | When all other premium models fail or produce low-quality output | ~3x premium |
-
-**Governance rules for Claude Opus 4.5:**
-- Require explicit Conductor approval before invocation
-- Document justification in phase summary with specific complexity trigger
-- Track usage in `docs/operations.md` metrics section
-- Consider splitting task into smaller phases before escalating to Opus
-- Prefer GPT-5 or Claude Sonnet 4.5 for routine premium tasks
+| Agent | Primary Model | Fallback Model | Context Window | Cost Tier |
+|-------|---------------|----------------|----------------|-----------|
+| Conductor | Claude Opus 4.6 | Codex 5.2 | 200K tokens | Premium |
+| Planner | Claude Opus 4.6 | Codex 5.2 | 200K tokens | Premium |
+| Reviewer | Claude Opus 4.6 | Codex 5.2 | 200K tokens | Premium |
+| Security | Claude Opus 4.6 | Codex 5.2 | 200K tokens | Premium |
+| Beast Mode | Claude Opus 4.6 | Codex 5.2 | 200K tokens | Premium |
+| Researcher | Claude Opus 4.6 | Codex 5.2 | 200K tokens | Premium |
 
 **Premium model characteristics:**
 - Advanced reasoning and planning capabilities
-- Larger context windows (128K - 2M tokens)
-- Better synthesis of complex information
+- Extended thinking with visible chain-of-thought
+- Deep synthesis of complex, multi-domain information
 - Higher cost per request (baseline = 1.0x)
 
-### Execution Tier (Cost-Efficient Models)
+### Execution Tier (~70% of invocations)
 
-**Target allocation:** 80% of total invocations
-**Use cases:** Structured implementation, test execution, routine refactoring
+**Use cases:** Implementation, testing, analysis, routine refactoring, support tasks
 
-| Agent | Primary Model | Execution Capability | Context Window | Cost Tier |
-|-------|---------------|---------------------|----------------|-----------|
-| Implementer | GPT-4.1 | Code generation, TDD workflows | 128K tokens | Efficient |
-| Docs | Claude Haiku 4.5 | Documentation writing | 200K tokens | Efficient |
+| Agent | Primary Model | Fallback Model | Context Window | Cost Tier |
+|-------|---------------|----------------|----------------|-----------|
+| Implementer | Codex 5.2 | Claude Sonnet 4.5 | 200K tokens | Execution |
+| Test | Codex 5.2 | Claude Sonnet 4.5 | 200K tokens | Execution |
+| Red Team | Claude Sonnet 4.5 | Codex 5.2 | 200K tokens | Execution |
+| Performance | Claude Sonnet 4.5 | Gemini 3 Pro | 200K tokens | Execution |
+| Data Analytics | Claude Sonnet 4.5 | Gemini 3 Pro | 200K tokens | Execution |
+| Accessibility | Claude Sonnet 4.5 | Gemini 3 Pro | 200K tokens | Execution |
+| Observability | Claude Sonnet 4.5 | Gemini 3 Pro | 200K tokens | Execution |
+| Visualizer | Claude Sonnet 4.5 | Gemini 3 Pro | 200K tokens | Execution |
+| Deployment | Claude Sonnet 4.5 | Gemini 3 Pro | 200K tokens | Execution |
+| GitHub Ops | Claude Sonnet 4.5 | Gemini 3 Pro | 200K tokens | Execution |
+| Maintainer | Claude Sonnet 4.5 | Gemini 3 Pro | 200K tokens | Execution |
+| Terraform | Claude Sonnet 4.5 | Gemini 3 Pro | 200K tokens | Execution |
+| Bicep | Claude Sonnet 4.5 | Gemini 3 Pro | 200K tokens | Execution |
+| Design | Claude Sonnet 4.5 | Gemini 3 Pro | 200K tokens | Execution |
 
-**Cost-efficient model characteristics:**
+**Execution model characteristics:**
+- Strong code generation, testing, and analysis
+- Good balance of reasoning capability and cost
+- Multiple architecture options for resilience
+- Cost per request (~0.3x - 0.5x premium)
+
+### Routine Tier (~10% of invocations)
+
+**Use cases:** Documentation, linting, template-based generation, formatting
+
+| Agent | Primary Model | Fallback Model | Context Window | Cost Tier |
+|-------|---------------|----------------|----------------|-----------|
+| Docs | Claude Haiku 4.5 | Gemini 3 Flash | 200K tokens | Routine |
+| Lint | Gemini 3 Flash | Claude Haiku 4.5 | 200K tokens | Routine |
+
+**Routine model characteristics:**
 - Optimized for structured, well-defined tasks
-- Strong code generation and test execution
-- Adequate context windows (128K - 200K tokens)
-- Significantly lower cost per request (~0.15x - 0.30x premium models)
+- Fast response times for interactive workflows
+- Lowest cost per request (~0.1x premium)
 
 **Expected cost reduction:** 60-75% vs. all-premium approach
 
@@ -80,120 +84,63 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 4. **Context overflow** — Input exceeds model's context window
 5. **Performance degradation** — Response time exceeds acceptable threshold
 
-### Fallback Chains by Agent
+### Fallback Chains by Tier
 
-#### Implementer (Execution Tier)
+#### Premium Tier Agents (Conductor, Planner, Reviewer, Security, Beast Mode, Researcher)
 
-**Primary:** GPT-4.1
+**Primary:** Claude Opus 4.6
 **Fallback sequence:**
-1. Claude Haiku 4.5 (similar cost, different architecture)
-2. GPT-5 Mini (lower cost, still capable for structured tasks)
-3. **Escalate to Conductor** (may invoke premium model if complexity requires)
+1. Codex 5.2 (strong reasoning, code-native architecture)
+2. Claude Sonnet 4.5 (good reasoning at lower cost)
+3. **Pause workflow** — Premium tasks should never downgrade to routine tier
 
 **Decision logic:**
 - Try Fallback 1 immediately on primary failure
-- If Fallback 1 unavailable, try Fallback 2
-- If both fallbacks unavailable OR task fails twice, escalate to Conductor
-- Conductor determines if premium model needed or if phase should be deferred
+- Fallback 2 for non-critical premium tasks when both primary and Fallback 1 unavailable
+- Pause and notify user if all premium options exhausted
+- Document model switch in phase summary
 
-#### Conductor (Premium Tier)
+#### Code Execution Agents (Implementer, Test)
+
+**Primary:** Codex 5.2
+**Fallback sequence:**
+1. Claude Sonnet 4.5 (strong code generation, different architecture)
+2. Gemini 3 Pro (capable execution alternative)
+3. **Escalate to Conductor** if task complexity requires premium reasoning
+
+**Decision logic:**
+- Try Fallback 1 immediately on primary failure
+- Fallback 2 when Anthropic models unavailable
+- Escalate if implementation task reveals unexpected complexity
+
+#### Analysis Agents (Performance, Data Analytics, Accessibility, Observability, Deployment, GitHub Ops, Maintainer, Terraform, Bicep, Design, Visualizer)
 
 **Primary:** Claude Sonnet 4.5
 **Fallback sequence:**
-1. GPT-5 (comparable reasoning, different architecture)
-2. Gemini 2.5 Pro (massive context window, strong synthesis)
-3. Claude Opus 4.5 (highest capability, highest cost — reserve for critical decisions)
+1. Gemini 3 Pro (strong analysis, large context)
+2. Codex 5.2 (capable analysis alternative)
+3. **Escalate to Conductor** if analysis requires premium reasoning
 
 **Decision logic:**
-- Fallback 1 for most orchestration tasks
-- Fallback 2 when context size is critical (>128K tokens)
-- Fallback 3 only for critical security, compliance, or architectural decisions (requires justification)
-- If all unavailable, pause workflow and notify user
-- Track Opus usage in metrics; alert if exceeds 5% of conductor invocations
+- Try Fallback 1 immediately on primary failure
+- Fallback 2 when Google models unavailable
+- Escalate for security-critical or compliance analyses
 
-#### Planner (Premium Tier)
-
-**Primary:** GPT-5
-**Fallback sequence:**
-1. Claude Sonnet 4.5 (strong planning, lower context)
-2. Gemini 2.5 Pro (research-heavy planning)
-3. Claude Opus 4.5 (complex multi-phase planning requiring deep reasoning)
-
-**Decision logic:**
-- Fallback 1 for standard planning tasks
-- Fallback 2 when extensive research required
-- Fallback 3 for critical architecture decisions (requires justification and Conductor approval)
-- Avoid downgrading to execution tier for planning
-
-#### Researcher (Premium Tier)
-
-**Primary:** Gemini 2.5 Pro
-**Fallback sequence:**
-1. Claude Opus 4.5 (excellent synthesis, smaller context)
-2. GPT-5 (strong research, good web integration)
-3. Claude Sonnet 4.5 (adequate research, most cost-effective premium)
-
-**Decision logic:**
-- Fallback 1 when context size <200K tokens and deep reasoning required
-- Fallback 2 for balanced research tasks
-- Fallback 3 when budget constraints exist
-- Never downgrade to execution tier for research
-
-#### Reviewer (Premium Tier)
+#### Adversarial Agent (Red Team)
 
 **Primary:** Claude Sonnet 4.5
 **Fallback sequence:**
-1. GPT-5 (strong code understanding)
-2. Claude Opus 4.5 (highest scrutiny for critical reviews)
-3. Gemini 2.5 Pro (when context size is large)
+1. Codex 5.2 (strong adversarial reasoning)
+2. Gemini 3 Pro (capable alternative)
+3. **Escalate to Conductor** for critical adversarial analysis
 
-**Decision logic:**
-- Fallback 1 for most code reviews
-- Fallback 2 for security-critical or compliance reviews (requires justification)
-- Fallback 3 for reviews spanning many files
-- Document model used in review report for audit trail
+#### Routine Tier Agents (Docs, Lint)
 
-#### Docs (Execution Tier)
-
-**Primary:** Claude Haiku 4.5
+**Primary:** Claude Haiku 4.5 / Gemini 3 Flash
 **Fallback sequence:**
-1. GPT-5 Mini (cost-efficient documentation)
-2. GPT-4.1 (structured writing)
-3. **Escalate to Conductor** if documentation requires research or architecture decisions
-
-**Decision logic:**
-- Try both execution-tier fallbacks before escalating
-- Escalate if documentation gap analysis needed
-- Escalate if architectural diagrams or complex onboarding required
-
-#### Security (Premium Tier)
-
-**Primary:** Claude Sonnet 4.5
-**Fallback sequence:**
-1. Claude Opus 4.5 (highest capability when available)
-2. GPT-5 (good threat modeling)
-3. **No further fallback** — security reviews require premium capability
-
-**Decision logic:**
-- Fallback 1 when higher reasoning, larger context, or cryptographic review required
-- Fallback 2 for specific threat scenarios when Anthropic models are unavailable
-- If both unavailable, defer security review until primary restored
-- Never downgrade security to execution tier
-- Document Opus usage with security justification
-
-#### Performance (Premium Tier)
-
-**Primary:** GPT-5
-**Fallback sequence:**
-1. Gemini 2.5 Pro (good analytical reasoning)
-2. Claude Sonnet 4.5 (cost-effective performance review)
-3. **No further fallback** — performance analysis requires premium capability
-
-**Decision logic:**
-- Fallback 1 for profiling-heavy analysis
-- Fallback 2 for routine performance reviews
-- If unavailable, defer until primary restored
-- Never downgrade performance to execution tier
+1. Cross-swap between Haiku and Flash
+2. Claude Sonnet 4.5 (upgrade to execution tier if both routine models fail)
+3. **Escalate to Conductor** if documentation requires research or complex analysis
 
 ## Fallback Implementation
 
@@ -251,51 +198,58 @@ After primary model restored:
 
 ### When to Prefer Specific Models
 
-**Claude Sonnet 4.5 / Claude Opus:**
-- Refactoring and code restructuring
-- Security and compliance reviews
-- Long-form documentation
-- Nuanced requirement interpretation
+**Claude Opus 4.6:**
+- Complex architectural planning and review
+- Security and compliance reviews requiring deep reasoning
+- Multi-domain synthesis and research
+- Extended thinking tasks with visible chain-of-thought
 
-**GPT-5 / GPT-4.1:**
-- Code generation and test writing
+**Codex 5.2:**
+- Code generation, TDD workflows, and implementation
+- Structured refactoring and test execution
 - API integration and external calls
-- Structured data transformation
-- Step-by-step execution tasks
+- Step-by-step execution with strong code understanding
 
-**Gemini 2.5 Pro:**
-- Research with massive context requirements
+**Claude Sonnet 4.5:**
+- Analysis, profiling, and support tasks
+- Nuanced requirement interpretation
+- Long-form documentation review
+- Balanced reasoning at moderate cost
+
+**Gemini 3 Pro:**
+- Large context analysis (multi-file spans)
 - Cross-repository analysis
-- Large file/log analysis
-- Multi-document synthesis
+- Data processing and multi-document synthesis
+- Research with massive context requirements
 
-**Claude Haiku 4.5 / GPT-5 Mini:**
-- Routine implementation tasks
-- Test execution and validation
-- Documentation updates
+**Claude Haiku 4.5 / Gemini 3 Flash:**
+- Routine documentation and linting
 - Template-based generation
+- Fast interactive tasks
+- Cost-optimized routine work
 
 ### Dynamic Model Selection
 
 Conductor may override default model assignment when:
 
 1. **Task characteristics favor specific model:**
-   - Research-heavy → Gemini 2.5 Pro
-   - Refactoring-heavy → Claude Sonnet 4.5
-   - Code generation-heavy → GPT-5
+   - Research-heavy → Claude Opus 4.6 (deep synthesis)
+   - Implementation-heavy → Codex 5.2 (code-native)
+   - Analysis-heavy → Claude Sonnet 4.5 (balanced reasoning)
+   - Large context → Gemini 3 Pro (large context window)
 
 2. **Context size requirements:**
-   - >128K tokens → Gemini 2.5 Pro or Claude Opus
-   - 64K-128K tokens → GPT-5 or Claude Sonnet 4.5
-   - <64K tokens → Any model appropriate for tier
+   - >200K tokens → Gemini 3 Pro
+   - 100K-200K tokens → Claude Opus 4.6 or Codex 5.2
+   - <100K tokens → Any model appropriate for tier
 
 3. **Budget constraints:**
-   - Cost-sensitive work → Prefer execution tier or cheaper premium models
-   - Critical decisions → Use top-tier premium models regardless of cost
+   - Cost-sensitive work → Prefer execution or routine tier
+   - Critical decisions → Use premium tier regardless of cost
 
 4. **Quality history:**
-   - Model X consistently underperforms on task type Y → Switch to proven alternative
-   - Track success rates by model-task pairs in metrics
+   - Track success rates by model-task pairs
+   - Switch to proven alternatives when patterns emerge
 
 ## Resilience Best Practices
 
@@ -346,18 +300,14 @@ Track in `docs/operations.md`:
 ## Future Enhancements
 
 1. **Automated fallback tuning:**
-   - Machine learning to predict best fallback for task type
    - Dynamic reordering of fallback chains based on success history
+   - Predict best fallback for task type based on historical data
 
-2. **Fine-tuning execution tier:**
-   - Train GPT-5 Mini or Claude Haiku on successful implementation patterns
-   - Reduce need for premium escalation through better base capability
-
-3. **Hybrid approaches:**
+2. **Hybrid approaches:**
    - Use execution tier for draft, premium for review/refinement
    - Split complex tasks across multiple models strategically
 
-4. **Real-time cost optimization:**
+3. **Real-time cost optimization:**
    - Prefer cheaper models when budget threshold approaching
    - Alert before exceeding cost targets
 

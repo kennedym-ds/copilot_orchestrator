@@ -5,7 +5,7 @@ applyTo: ".github/agents/implementer.agent.md"
 
 # Implementer Workflow
 
-- Default to cost-efficient models (GPT-5 Mini, Claude Haiku 4.5, GPT-4.1). Escalate only when reasoning complexity demands it.
+- Default to cost-efficient models (Codex 5.2, Claude Sonnet 4.5). Escalate only when reasoning complexity demands it.
 - Follow strict TDD for every phase:
   1. Write or update failing tests that encode acceptance criteria.
   2. Run targeted tests to confirm they fail.

@@ -1,3 +1,8 @@
+---
+name: performance-analysis
+description: "Performance analysis patterns for runtime complexity, memory usage, cost optimization, and scalability assessment. Use for Big O analysis, profiling, caching strategies, and cloud cost modeling."
+---
+
 # Performance Analysis & Optimization
 
 Provides performance analysis patterns for runtime, memory, cost optimization, and scalability assessment across code changes and architecture decisions.

@@ -107,7 +107,7 @@ The repository implements a **layered instruction system**:
 
 #### Planner (`planner.agent.md`)
 - **Role:** Strategy author
-- **Model:** GPT-5 (premium reasoning)
+- **Model:** Claude Opus 4.6 (premium reasoning)
 - **Responsibilities:**
   - Clarifies objectives and constraints
   - Performs live research with recursive webpage fetching
@@ -118,7 +118,7 @@ The repository implements a **layered instruction system**:
 
 #### Implementer (`implementer.agent.md`)
 - **Role:** Build specialist
-- **Model:** GPT-4.1 (cost-optimized)
+- **Model:** Codex 5.2 (cost-optimized)
 - **Responsibilities:**
   - Executes approved plan phases with TDD discipline
   - Writes failing tests → minimal code → passing tests
@@ -140,7 +140,7 @@ The repository implements a **layered instruction system**:
 
 #### Researcher (`researcher.agent.md`)
 - **Role:** Context gatherer
-- **Model:** Gemini 2.5 Pro (research-optimized)
+- **Model:** Claude Opus 4.6 (research-optimized)
 - **Responsibilities:**
   - Deep research and option analysis
   - Background investigation for blocked tasks
@@ -391,8 +391,8 @@ Conductor (orchestrator)
 
 | Model Tier | Use Cases | Agents |
 |-----------|-----------|---------|
-| **Premium Reasoning** | Planning, complex analysis, quality review | GPT-5, Claude Sonnet 4.5, Gemini 2.5 Pro, Claude Opus |
-| **Cost-Optimized** | Implementation, documentation | GPT-5 Mini, Claude Haiku 4.5, GPT-4.1 |
+| **Premium Reasoning** | Planning, complex analysis, quality review | Claude Opus 4.6, Codex 5.2, Claude Sonnet 4.5, Gemini 3 Pro |
+| **Cost-Optimized** | Implementation, documentation | Claude Haiku 4.5, Gemini 3 Flash, Codex 5.2 |
 
 **Cost Control Features:**
 - Default to efficient models for execution

@@ -44,15 +44,39 @@ This repository implements a multi-agent orchestration pattern for GitHub Copilo
 
 ## Agent Sessions Integration
 
-VS Code 1.108 introduces enhanced Agent Sessions UI with features that improve conductor workflow management:
+VS Code 1.109 builds on the Agent Sessions UI introduced in 1.108, adding multi-environment delegation, parallel subagents, and agent status indicators.
 
-### Key Features
+### Key Features (1.108–1.109)
 - **Keyboard Navigation**: Navigate sessions with arrow keys, archive with Delete, toggle read state with Space
 - **Session Grouping**: Organize by state (Active, Unread, Read, Archived) or age (Today, Yesterday, This Week, etc.)
 - **Multi-Session Operations**: Shift+Click/Ctrl+Click for batch archiving and state changes
 - **Changed Files Display**: See all files modified during each conductor workflow
 - **PR Integration**: View linked pull requests and their status directly in session list
 - **Quick Open**: Access sessions via `agent <name>` in Quick Open (Ctrl+P)
+- **Session Type Picker** (1.109): Switch between local, background, cloud, and Claude Agent sessions from a unified picker
+- **Agent Status Indicator** (1.109): Command center badge showing in-progress, unread, and attention-needed sessions (`chat.agentsControl.enabled`)
+- **Agent Sessions Welcome Page** (1.109): Startup editor surfacing recent sessions (`workbench.startupEditor: "agentSessionsWelcomePage"`)
+- **Parallel Subagents** (1.109): Independent subtasks run in parallel across multiple subagents with full visibility
+
+### VS Code 1.109 Agent Customization
+- **Agent Skills GA**: Skills in `.github/skills/` load automatically; `chat.useAgentSkills` is now `true` by default
+- **Multiple Model Fallbacks**: Agent frontmatter `model` accepts arrays — first available model is used
+- **Invocation Control**: New frontmatter attributes `user-invokable`, `disable-model-invocation`, and `agents` (subagent allowlist)
+- **Handoff Model Parameter**: Specify `model` in handoff definitions for per-handoff model selection
+- **Organization Instructions**: Org-level custom instructions auto-applied (`github.copilot.chat.organizationInstructions.enabled`)
+- **Agent Customization Skill**: Built-in skill teaches AI about creating agents/instructions/prompts/skills
+- **Custom Agent File Locations**: `chat.agentFilesLocations` setting for additional agent search paths
+- **Chat Diagnostics**: Right-click in Chat → Diagnostics to see all loaded agents, prompts, instructions, and skills
+- **`/init` Command**: Auto-generates workspace instructions based on codebase analysis
+- **`/plan` Command**: 4-phase workflow (Discovery → Alignment → Design → Refinement) with ask-questions integration
+
+### VS Code 1.109 Agent Extensibility
+- **Claude Agent (Preview)**: New session type using Anthropic's agent SDK
+- **MCP Apps**: Interactive UI from MCP servers rendered directly in chat
+- **Search Subagent**: Iterative code search in isolated context window (`github.copilot.chat.searchSubagent.enabled`)
+- **Copilot Memory**: Stores and recalls info across sessions (`github.copilot.chat.copilotMemory.enabled`)
+- **External Indexing**: Non-GitHub workspaces remotely indexed for fast code search
+- **Anthropic Enhancements**: Messages API with interleaved thinking, tool search tool, context editing
 
 ### Workflow Best Practices
 - Start each conductor task in a new session with a descriptive prompt

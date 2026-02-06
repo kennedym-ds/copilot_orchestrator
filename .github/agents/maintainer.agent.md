@@ -2,9 +2,9 @@
 name: maintainer
 description: "Triages issues, prepares pull requests, and coordinates release logistics."
 argument-hint: "Triage issues, prepare releases, or coordinate PR logistics"
-model: GPT-5 (copilot)
+model: ['Claude Sonnet 4.5 (copilot)', 'Gemini 3 Pro (copilot)']
 infer: true
-tools: ['runSubagent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'edit', 'runCommands']
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'edit', 'runCommands']
 handoffs:
   - label: Report to Conductor
     agent: conductor

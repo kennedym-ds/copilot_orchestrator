@@ -14,7 +14,7 @@ Define the target architecture, folder structure, and governance guardrails for 
 
 - **Conductor-Centric:** All workflows originate from a Conductor agent that coordinates research, implementation, review, and documentation artifacts.
 - **Instruction Mesh:** `AGENTS.md` files provide the canonical context, with layered `.instructions.md` overrides for language, workflow, and compliance scopes.
-- **Cost-Aware Model Mix:** Reasoning phases use premium models (GPT-5, Claude Sonnet 4.5, Gemini 2.5 Pro, Claude Opus); implementation phases default to efficient models (GPT-5 Mini, Claude Haiku 4.5, GPT-4.1).
+- **Cost-Aware Model Mix:** Reasoning phases use premium models (Claude Opus 4.6, Codex 5.2, Claude Sonnet 4.5, Gemini 3 Pro); implementation phases default to efficient models (Claude Haiku 4.5, Gemini 3 Flash, Codex 5.2).
 - **Async Custom Agents:** Planning, research, implementation, and review custom agents run via `#runCustomAgent`, allowing parallel execution and context isolation.
 - **Artifact Trail:** Every phase emits Markdown records (plans, phase completion, final summary) stored under `plans/` to enable auditability and resumability.
 
@@ -44,9 +44,9 @@ Define the target architecture, folder structure, and governance guardrails for 
 | Agent | Description | Default Model | Key Tools | Handoffs |
 | --- | --- | --- | --- | --- |
 | `conductor` | Orchestrates plan → implement → review → commit → completion | Claude Sonnet 4.5 | `runCustomAgent`, `todos`, `fetch`, `search`, `githubRepo`, `edit`, `changes`, `runCommands` | Planner, Implementer, Reviewer, Support |
-| `planner` | Drafts plans from research findings and user clarifications | GPT-5 | `todos`, `fetch`, `search`, `readFile` | Handoff to Conductor (Phase Kickoff) |
-| `researcher` | Deep research, context gathering, option analysis | Gemini 2.5 Pro | `search`, `fetch`, `githubRepo`, `readFile`, `usages`, `problems` | Returns findings to Conductor/Planner |
-| `implementer` | Executes TDD implementation per phase | GPT-5 Mini | `edit`, `runCommands`, `search`, `todos`, `changes`, `problems` | Handoff to Reviewer |
+| `planner` | Drafts plans from research findings and user clarifications | Claude Opus 4.6 | `todos`, `fetch`, `search`, `readFile` | Handoff to Conductor (Phase Kickoff) |
+| `researcher` | Deep research, context gathering, option analysis | Claude Opus 4.6 | `search`, `fetch`, `githubRepo`, `readFile`, `usages`, `problems` | Returns findings to Conductor/Planner |
+| `implementer` | Executes TDD implementation per phase | Codex 5.2 | `edit`, `runCommands`, `search`, `todos`, `changes`, `problems` | Handoff to Reviewer |
 | `reviewer` | Performs structured code review with severity tagging | Claude Sonnet 4.5 | `changes`, `search`, `usages`, `problems` | Handoff to Conductor for summary |
 | Support Personas | Accessibility, Security, Performance, Docs | Model-appropriate | Minimal toolsets per domain | Optional handoffs from Conductor |
 

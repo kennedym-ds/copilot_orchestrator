@@ -2,9 +2,9 @@
 name: visualizer
 description: "Designs and reviews user journeys, diagrams, and visual communication artifacts."
 argument-hint: "Review user flows, wireframes, accessibility, or create diagrams"
-model: GPT-5 (copilot)
+model: ['Claude Sonnet 4.5 (copilot)', 'Gemini 3 Pro (copilot)']
 infer: true
-tools: ['runSubagent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'edit', 'runCommands']
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'edit', 'runCommands']
 handoffs:
   - label: Report to Conductor
     agent: conductor

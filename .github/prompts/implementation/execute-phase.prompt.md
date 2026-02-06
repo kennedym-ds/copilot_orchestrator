@@ -1,7 +1,7 @@
 ---
 name: implement-phase-tdd
 description: "Implementation prompt guiding the implementer agent through strict TDD for a single plan phase."
-model: GPT-4.1 (copilot)
+model: Codex 5.2 (copilot)
 agent: implementer
 tools:
   - todos

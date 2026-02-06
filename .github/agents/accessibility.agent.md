@@ -2,9 +2,9 @@
 name: accessibility
 description: "Reviews code and designs for WCAG compliance, ARIA implementation, and accessibility best practices."
 argument-hint: "Request accessibility review, WCAG compliance check, or a11y implementation guidance"
-model: GPT-5 (copilot)
+model: ['Claude Sonnet 4.5 (copilot)', 'Gemini 3 Pro (copilot)']
 infer: true
-tools: ['runSubagent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'usages']
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'usages']
 handoffs:
   - label: Report to Conductor
     agent: conductor
