@@ -1,0 +1,51 @@
+name: Validate Copilot Assets
+
+on:
+  pull_request:
+    paths:
+      - '.github/agents/**'
+      - '.github/prompts/**'
+      - '.github/skills/**'
+      - 'instructions/**'
+      - 'scripts/**'
+  push:
+    branches: [main]
+    paths:
+      - '.github/agents/**'
+      - '.github/prompts/**'
+      - '.github/skills/**'
+      - 'instructions/**'
+      - 'scripts/**'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate Assets & Lint
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate copilot assets
+        shell: pwsh
+        run: |
+          $result = & pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .
+          $result | ForEach-Object { Write-Output $_ }
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+
+      - name: Check prompt metadata
+        shell: pwsh
+        run: |
+          $result = & pwsh -File scripts/add-prompt-metadata.ps1 -RepositoryRoot . -CheckOnly
+          $result | ForEach-Object { Write-Output $_ }
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+
+      - name: Run lint check
+        shell: pwsh
+        run: |
+          $result = & pwsh -File scripts/run-lint.ps1 -RepositoryRoot .
+          $result | ForEach-Object { Write-Output $_ }
+          # Lint warnings are non-blocking; only fail on errors
+          if ($LASTEXITCODE -gt 1) { exit 1 }

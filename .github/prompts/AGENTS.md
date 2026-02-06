@@ -13,3 +13,29 @@ This directory hosts prompt templates for orchestrated workflows. Follow these g
   - `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
   - `pwsh -File scripts/token-report.ps1 -Path .`
   Document outcomes in `docs/CHANGELOG.md` and backlog items in `docs/operations.md` if follow-ups are required.
+
+## Prompt Index
+
+### Lifecycle Prompts (Conductor Workflow)
+
+| Prompt | Agent | Purpose |
+|--------|-------|---------|
+| `planning/multi-phase-plan` | planner | Draft multi-phase implementation plans |
+| `planning/ds-star-step` | data-analytics | DS-Star iterative analysis round |
+| `implementation/execute-phase` | implementer | TDD execution of a single plan phase |
+| `research/context-dossier` | researcher | Gather context and evidence |
+| `review/structured-review` | reviewer | Severity-tagged code review checklist |
+| `support/performance-audit` | performance | Runtime/memory/cost analysis |
+| `support/security-review` | security | Threat modeling and compliance check |
+| `support/onboarding-playbook` | docs | Generate onboarding materials |
+
+### Quick-Action Prompts (Any Chat Mode)
+
+| Prompt | Model Tier | Purpose |
+|--------|-----------|---------|
+| `quick/debug-issue` | Execution | Structured debugging: reproduce, isolate, fix, verify |
+| `quick/refactor-code` | Execution | Refactor for clarity and maintainability |
+| `quick/generate-tests` | Execution | Generate unit/integration tests with edge cases |
+| `quick/pr-description` | Routine | Generate PR description from current diff |
+| `quick/commit-message` | Routine | Generate conventional commit message from diff |
+| `quick/quick-review` | Execution | Fast code review without full conductor workflow |
