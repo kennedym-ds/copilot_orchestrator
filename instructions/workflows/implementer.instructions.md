@@ -16,3 +16,10 @@ applyTo: ".github/agents/implementer.agent.md"
 - Limit changes to the scope defined by the Conductor; raise a flag if additional files require modification.
 - Respect existing project patterns, coding standards, and linting rules.
 - If uncertainty arises, present 2–3 options with pros/cons, include the precise `#runSubagent {persona}` command to request specialist support (for example `#runSubagent researcher` or `#runSubagent security`), and wait for Conductor guidance before proceeding.
+
+## Terminal Lifecycle
+
+- Always set a `timeout` value when running terminal commands (use 0 for no timeout).
+- Use `awaitTerminal` to wait for background processes (builds, tests) instead of `sleep` or `echo` patterns.
+- Use `killTerminal` to clean up stale background processes (servers, watchers) before starting new ones.
+- Background terminals start in the workspace directory; non-background terminals persist their working directory across calls.

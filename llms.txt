@@ -1,0 +1,39 @@
+# Copilot Orchestrator
+
+> Multi-agent orchestration system for GitHub Copilot with 22+ specialized agents
+
+## Overview
+
+This repository implements a structured multi-agent orchestration pattern for VS Code GitHub Copilot. It provides agent definitions, reusable prompt templates, layered instructions, Agent Skills, and validation tooling for coordinating complex development workflows.
+
+## Architecture
+
+- **Lifecycle:** Conductor → Planner → Implementer → Reviewer → Completion
+- **Agents:** 22 specialized agents in `.github/agents/` covering planning, implementation, review, security, performance, translation, data analytics, and more
+- **Skills:** 12 Agent Skills in `.github/skills/` providing domain expertise (TDD, security review, performance analysis, etc.)
+- **Instructions:** 37 layered instruction files in `instructions/` (global, workflow, compliance, language-specific)
+- **Prompts:** 19 reusable prompt templates in `.github/prompts/` organized by workflow phase
+- **Model Tiers:** Premium (Claude Opus 4.6, Codex 5.2), Execution (Claude Sonnet 4.5, Gemini 3 Pro), Routine (Claude Haiku 4.5, Gemini 3 Flash)
+
+## Key Files
+
+- `AGENTS.md` — Agent roster, lifecycle, model allocation, safety guardrails
+- `.github/copilot-instructions.md` — Workspace-level Copilot instructions
+- `instructions/global/` — Global behavior, security, quality, model selection rules
+- `instructions/workflows/` — Per-agent workflow contracts
+- `docs/guides/vscode-copilot-configuration.md` — Complete VS Code setup guide
+- `scripts/` — PowerShell 5.1 validation and tooling scripts
+- `docs/templates/` — Plan, phase-complete, and plan-complete templates
+
+## Specialized Workflows
+
+- **Translation System:** 5 agents for cross-language code translation with dependency analysis, pattern mapping, and 6-layer validation
+- **DS-Star:** Iterative data science workflow with round-based progress and verdict tracking
+- **Conductor Orchestration:** Full lifecycle management with mandatory pause points for human approval
+
+## Links
+
+- Documentation: `docs/`
+- Changelog: `docs/CHANGELOG.md`
+- Operations: `docs/operations.md`
+- Onboarding: `docs/guides/onboarding.md`
