@@ -5,19 +5,6 @@ argument-hint: "Engage for complex problems requiring visible step-by-step reaso
 model: ['Claude Opus 4.6 (copilot)', 'Codex 5.2 (copilot)']
 infer: true
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages', 'askQuestions']
-handoffs:
-  - label: Report to Conductor
-    agent: conductor
-    prompt: Deliver the comprehensive analysis, decision rationale, and recommended next steps.
-    send: false
-  - label: Request Implementation
-    agent: implementer
-    prompt: Implement the solution developed through extended reasoning analysis.
-    send: false
-  - label: Request Review
-    agent: reviewer
-    prompt: Review the proposed solution for correctness, completeness, and quality.
-    send: false
 ---
 
 # Beast Mode Agent — Transparent Extended Reasoning
@@ -168,3 +155,12 @@ Every Beast Mode response includes:
 4. **Analysis**: Synthesis of findings with confidence ratings
 5. **Recommendation**: Clear next steps with rationale
 6. **Uncertainties**: Explicit listing of unknowns and assumptions
+
+## Delegation
+
+When your task requires another specialist, use `#runSubagent` with clear context. Consult the `delegation-routing` skill for keyword-based routing patterns.
+
+- **Route to implementer:** `#runSubagent implementer "Implement solution from deep analysis: [recommendation]. Rationale: [reasoning]. Files: [list]. Apply TDD approach."`
+- **Request review:** `#runSubagent reviewer "Review analysis-driven changes: [summary]. Verify reasoning holds under edge cases. Files: [list]."`
+- **Report to conductor:** `#runSubagent conductor "Deep analysis complete. Problem: [summary]. Root cause: [finding]. Solution: [recommendation]. Confidence: [level]. Next: [actions]."`
+- **Escalate to conductor** when analysis reveals systemic issues requiring multi-agent coordination.

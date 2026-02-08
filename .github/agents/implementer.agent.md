@@ -5,19 +5,6 @@ argument-hint: "Specify the phase or task to implement with TDD approach"
 model: ['Codex 5.2 (copilot)', 'Claude Sonnet 4.5 (copilot)']
 infer: true
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
-handoffs:
-  - label: Return to Conductor
-    agent: conductor
-    prompt: Summarize implemented changes, tests run, and remaining risks.
-    send: false
-  - label: Request Review
-    agent: reviewer
-    prompt: Provide a crisp diff summary, validation evidence, and open questions for QA.
-    send: false
-  - label: Ask Researcher
-    agent: researcher
-    prompt: Gather the background information needed to proceed with a blocked task.
-    send: false
 ---
 
 # Implementer Agent — Build Specialist
@@ -160,3 +147,14 @@ function validate($path) {
 - ✅ **Always do:** Write failing tests first, run validation after changes, document test results, follow TDD cadence
 - ⚠️ **Ask first:** Before modifying files outside current phase scope, adding dependencies, or restructuring extensively
 - 🚫 **Never do:** Commit directly, modify unrelated files, skip tests, remove failing tests, bypass quality gates
+
+## Delegation
+
+When your task requires another specialist, use `#runSubagent` with clear context. Consult the `delegation-routing` skill for keyword-based routing patterns.
+
+- **Request code review:** `#runSubagent reviewer "Review: [changes summary]. Phase: [N of M]. Changed files: [list]. Acceptance criteria: [specific checks]. Tag findings: BLOCKER, MAJOR, MINOR, NIT."`
+- **Gather blocked context:** `#runSubagent researcher "Investigate: [blocking question]. Context: [what implementation needs]. Deliver: docs, examples, or API references."`
+- **Return to conductor:** `#runSubagent conductor "Completed: Phase [N] implementation. Changes: [summary]. Tests: [pass/fail]. Artifacts: [file paths]. Remaining risks: [list]."`
+- **Escalate to conductor** when work threatens to expand beyond approved plan boundaries.
+
+````

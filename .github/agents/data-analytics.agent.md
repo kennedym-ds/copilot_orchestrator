@@ -11,23 +11,6 @@ mcp-servers:
     args: ["scripts/mcp/research_server.py"]
     tools: ["web-search"]
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'edit', 'runCommands', 'usages']
-handoffs:
-  - label: Report to Conductor
-    agent: conductor
-    prompt: Share analytics findings, data quality risks, and next steps.
-    send: false
-  - label: Coordinate with Implementer
-    agent: implementer
-    prompt: Apply the data fixes or instrumentation updates summarized above.
-    send: false
-  - label: Partner with Performance
-    agent: performance
-    prompt: Evaluate cost, latency, and scalability impacts of the proposed data changes.
-    send: false
-  - label: Verify with Reviewer
-    agent: reviewer
-    prompt: Verify that this analysis step sufficiently addresses the data question.
-    send: false
 ---
 
 
@@ -165,3 +148,13 @@ Round 3:
 - ✅ **Always do:** Persist artifacts under `plans/data-analysis/`, maintain pipeline_state.json, tag verdicts, document assumptions
 - ⚠️ **Ask first:** Before querying sensitive PII data, when analysis exceeds 10 rounds, when statistical methods need validation
 - 🚫 **Never do:** Execute queries directly, mutate datasets, expose PII, exceed DS-Star round limits without escalation
+
+## Delegation
+
+When your task requires another specialist, use `#runSubagent` with clear context. Consult the `delegation-routing` skill for keyword-based routing patterns.
+
+- **Route data pipeline implementations:** `#runSubagent implementer "Implement data pipeline: [specification]. Files: [list]. Include data validation tests."`
+- **Request performance review:** `#runSubagent performance "Analyze query performance for [data operations]. Check memory usage, runtime complexity, and scaling characteristics."`
+- **Request code review:** `#runSubagent reviewer "Review data analysis code: [files]. Verify statistical methodology, data quality checks, and output correctness."`
+- **Report to conductor:** `#runSubagent conductor "DS-Star analysis complete. Round: [N]/10. Verdict: [SUFFICIENT/PARTIAL/INSUFFICIENT]. Key findings: [summary]. Deliverables: [artifact paths]."`
+- **Escalate to conductor** when analysis reveals data quality issues requiring upstream fixes or scope expansion.

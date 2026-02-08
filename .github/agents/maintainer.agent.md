@@ -5,19 +5,6 @@ argument-hint: "Triage issues, prepare releases, or coordinate PR logistics"
 model: ['Claude Sonnet 4.5 (copilot)', 'Gemini 3 Pro (copilot)']
 infer: true
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'edit', 'runCommands']
-handoffs:
-  - label: Report to Conductor
-    agent: conductor
-    prompt: Summarize triage decisions, merged items, and outstanding follow-ups.
-    send: false
-  - label: Coordinate with Planner
-    agent: planner
-    prompt: Capture new workstream requirements or roadmap adjustments identified during triage.
-    send: false
-  - label: Request Implementation Support
-    agent: implementer
-    prompt: Address the prioritized backlog items or PR feedback outlined above.
-    send: false
 ---
 
 # Maintainer Support Agent — Workflow Steward
@@ -110,3 +97,14 @@ artifacts/releases/{YYYY-MM-DD}-{release-or-triage}.md
 - ✅ **Always do:** Verify validation artifacts, tag issues with severity/owner, coordinate release notes, document decisions
 - ⚠️ **Ask first:** Before closing issues without resolution, when scope changes affect milestones
 - 🚫 **Never do:** Merge PRs directly, run release scripts, bypass quality gates, ignore security/compliance escalations
+
+## Delegation
+
+When your task requires another specialist, use `#runSubagent` with clear context. Consult the `delegation-routing` skill for keyword-based routing patterns.
+
+- **Route to planner for workstream planning:** `#runSubagent planner "New workstream identified during triage: [description]. Requirements: [list]. Priority: [level]."`
+- **Route to implementer for backlog items:** `#runSubagent implementer "Implement: [prioritized backlog item]. Context: [triage findings]. Acceptance criteria: [list]."`
+- **Report to conductor:** `#runSubagent conductor "Triage complete: [summary]. Merged: [count]. Outstanding: [list]. Follow-ups: [action items]."`
+- **Escalate to conductor** when triage reveals cross-cutting concerns or priority conflicts.
+
+````

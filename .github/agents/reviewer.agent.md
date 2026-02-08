@@ -5,15 +5,6 @@ argument-hint: "Provide changes to review for correctness, quality, and policy c
 model: ['Claude Opus 4.6 (copilot)', 'Codex 5.2 (copilot)']
 infer: true
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'usages', 'edit', 'runCommands']
-handoffs:
-  - label: Report to Conductor
-    agent: conductor
-    prompt: Deliver the review verdict, findings, and follow-up recommendations.
-    send: false
-  - label: Request Revisions
-    agent: implementer
-    prompt: Address the review findings noted above, prioritizing blockers and major issues first.
-    send: false
 ---
 
 # Reviewer Agent — Quality Gatekeeper
@@ -110,3 +101,13 @@ artifacts/reviews/{YYYY-MM-DD}-{feature-slug}.md
 - ✅ **Always do:** Examine diffs thoroughly, verify test execution, document findings with severity tags, cite specific files/lines
 - ⚠️ **Ask first:** Before issuing FAILED verdict on ambiguous edge cases, when domain expertise is lacking
 - 🚫 **Never do:** Edit files, run destructive commands, approve without reviewing test evidence, skip security/privacy findings
+
+## Delegation
+
+When your task requires another specialist, use `#runSubagent` with clear context. Consult the `delegation-routing` skill for keyword-based routing patterns.
+
+- **Request revisions:** `#runSubagent implementer "Fix [N] findings from review. Priority: [BLOCKER items first]. Files: [list]. Re-run validation after fixes."`
+- **Report verdict to conductor:** `#runSubagent conductor "Review verdict: [APPROVED/CHANGES_REQUIRED]. Findings: [count by severity]. Blockers: [list]. Recommended next: [action]."`
+- **Escalate to conductor** for BLOCKER findings requiring workflow changes or scope adjustment.
+
+````

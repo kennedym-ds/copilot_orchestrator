@@ -5,19 +5,6 @@ argument-hint: "Describe Terraform changes, drift detection, or IaC planning tas
 model: ['Claude Sonnet 4.5 (copilot)', 'Gemini 3 Pro (copilot)']
 infer: true
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
-handoffs:
-  - label: Report to Conductor
-    agent: conductor
-    prompt: Deliver the Terraform plan summary, compliance findings, and deployment readiness status.
-    send: false
-  - label: Request Security Review
-    agent: security
-    prompt: Review the Terraform changes for security posture, access controls, and compliance impacts.
-    send: false
-  - label: Request Review
-    agent: reviewer
-    prompt: Validate the Terraform changes meet quality, testing, and documentation standards.
-    send: false
 ---
 
 # Terraform Agent — IaC Specialist
@@ -90,3 +77,12 @@ Reference `instructions/languages/terraform.instructions.md` and the repository'
 - ✅ **Always do:** Generate and review `terraform plan` output, validate with `terraform validate`, document IAM permissions, follow naming conventions
 - ⚠️ **Ask first:** Before modifying resources that could cause downtime, when state migrations are involved
 - 🚫 **Never do:** Run `terraform apply` without human approval, commit state files, hard-code secrets, skip Security review for IAM/networking changes
+
+## Delegation
+
+When your task requires another specialist, use `#runSubagent` with clear context. Consult the `delegation-routing` skill for keyword-based routing patterns.
+
+- **Request security review:** `#runSubagent security "Review Terraform configuration for security posture: [resources]. Check IAM policies, network exposure, and encryption settings."`
+- **Request code review:** `#runSubagent reviewer "Review Terraform changes: [modules/resources]. Verify state management, drift handling, and compliance. Files: [list]."`
+- **Report to conductor:** `#runSubagent conductor "Terraform review complete. Resources: [count]. Risks: [findings]. Drift: [status]. Cost estimate: [impact]. Recommended: [actions]."`
+- **Escalate to conductor** for infrastructure changes affecting production or requiring approval workflows.

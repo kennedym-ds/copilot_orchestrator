@@ -5,19 +5,6 @@ argument-hint: "Manage PRs, issues, workflows, or repository operations"
 model: ['Claude Sonnet 4.5 (copilot)', 'Gemini 3 Pro (copilot)']
 infer: true
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'runCommands', 'problems']
-handoffs:
-  - label: Report to Conductor
-    agent: conductor
-    prompt: Deliver GitHub operations summary and any blockers or follow-up items.
-    send: false
-  - label: Request Review
-    agent: reviewer
-    prompt: Review the PR changes before merge approval.
-    send: false
-  - label: Request Implementation
-    agent: implementer
-    prompt: Implement the changes needed to address the issue or PR feedback.
-    send: false
 ---
 
 # GitHub Operations Agent — Repository Steward
@@ -170,3 +157,12 @@ When invoked by Conductor:
 - ✅ **Always do:** Verify CI status before merge, check for required reviews, document operations performed
 - ⚠️ **Ask first:** Before merging PRs without full approval, force-pushing, or deleting branches
 - 🚫 **Never do:** Merge PRs with failing CI, close issues without resolution, delete protected branches, bypass required reviews
+
+## Delegation
+
+When your task requires another specialist, use `#runSubagent` with clear context. Consult the `delegation-routing` skill for keyword-based routing patterns.
+
+- **Route implementations:** `#runSubagent implementer "Implement: [workflow/automation change]. Files: [list]. Include CI validation steps."`
+- **Request review:** `#runSubagent reviewer "Review GitHub operations changes: [PR/workflow/issue updates]. Verify compliance with repository policies."`
+- **Report to conductor:** `#runSubagent conductor "GitHub operations complete. Actions taken: [summary]. PRs: [status]. Issues: [triage results]. Workflows: [changes]."`
+- **Escalate to conductor** for operations requiring repository admin permissions or cross-repo coordination.
