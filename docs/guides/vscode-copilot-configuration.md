@@ -697,14 +697,86 @@ When running multiple conductor tasks simultaneously:
 }
 ```
 
+## Claude Agent Sessions (Preview)
+
+VS Code 1.109 introduces Claude Agent as a new session type, powered by Anthropic's agent SDK. This complements the existing conductor workflow by providing a native Anthropic-hosted agent experience.
+
+### When to Use Each Session Type
+
+| Session Type | Best For | Context | Model |
+|---|---|---|---|
+| **Local (Conductor)** | Multi-phase orchestrated work | Full workspace access, 22 custom agents | Your choice via model picker |
+| **Background** | Long-running implementation | Git worktree isolation, auto-commit | Configured model |
+| **Cloud** | Quick tasks, PR-focused work | GitHub-hosted, repo access | Cloud model selection |
+| **Claude Agent** | Deep reasoning, complex analysis | Anthropic SDK, native Claude tools | Claude models only |
+
+### Configuration
+
+Claude Agent sessions appear automatically in the session type picker when using Anthropic models with your Copilot subscription. No additional configuration is needed beyond having Claude models available.
+
+### Interop with Conductor Workflow
+
+- **Plan locally, implement with Claude Agent**: Use the conductor to create an implementation plan, then hand off to Claude Agent for deep implementation work
+- **Research with Claude Agent, orchestrate locally**: Use Claude Agent for complex research requiring extended thinking, then bring findings back to the conductor
+- **Session type picker**: Switch between session types mid-workflow using the picker in the chat input area
+
+### Limitations (Preview)
+
+- Claude Agent sessions do not load custom agents or instructions from `.github/agents/`
+- Handoffs from conductor to Claude Agent require manual session switching
+- Memory is shared across session types when `copilotMemory` is enabled
+
+## MCP Server Integration
+
+This workspace includes MCP servers configured in `.vscode/mcp.json`:
+
+| Server | Purpose | Used By |
+|---|---|---|
+| `github` | GitHub API operations (issues, PRs, repos) | github-ops agent |
+| `filesystem` | Workspace file operations | All agents |
+| `design-server` | Brand colors, components, contrast checking | design agent |
+| `research-server` | Research and context gathering | researcher agent |
+
+MCP Apps (GA in VS Code 1.109) render interactive UI directly in chat responses. Servers can return rich visualizations like flame graphs, dashboards, and forms.
+
+### Adding New MCP Servers
+
+Add entries to `.vscode/mcp.json` following the existing pattern. For private registries, use the `registryBaseUrl` property (new in 1.109).
+
+## Terminal Lifecycle Tools
+
+VS Code 1.109 introduced new terminal lifecycle tools for better background process management:
+
+| Tool | Purpose | When to Use |
+|---|---|---|
+| `timeout` | Set max execution time for terminal commands | Always — prevents runaway processes |
+| `awaitTerminal` | Wait for a background terminal to complete | When a build/test must finish before next step |
+| `killTerminal` | Terminate a background terminal | Clean up servers, stop stale processes |
+
+### Best Practices
+
+- Always specify a `timeout` value when running terminal commands (0 = no timeout)
+- Use `awaitTerminal` instead of `sleep` or `echo "done"` patterns to wait for background work
+- Use `killTerminal` to stop old server processes before starting new ones
+- Background terminals always start in the workspace directory; non-background terminals persist their working directory
+
+### Terminal Sandboxing
+
+Terminal sandboxing restricts file system and network access for agent-executed commands. **Available on macOS and Linux only** — on Windows, sandbox settings have no effect.
+
+When enabled (`chat.tools.terminal.sandbox.enabled: true`):
+- Commands can only read/write within the workspace folder
+- Network access is blocked by default (configurable per domain)
+- No confirmation dialog since commands run in a controlled environment
+
 ## Optional Enhancements
 - Define tool set collections via `chat.tools.sets` when you create shared tool groups in `.github/toolsets.jsonc`.
 - Control terminal approvals with `chat.tools.terminal.autoApprove` to match your security posture.
 - Sync prompt and instruction files across machines by enabling Settings Sync for “Prompts and Instructions.”
 - Review the **Chat History & Memory** panel to curate notes that custom agents should inherit; with memory enabled, the conductor and `#runCustomAgent` calls can re-use decisions from prior sessions.
 
-## Custom Agent Handoffs in Practice
-- Launch complex work in the Conductor, then delegate using the handoff buttons or explicit `#runCustomAgent` commands (for example `#runCustomAgent planner`).
+## Custom Agent Delegation in Practice
+- Launch complex work in the Conductor — it is the only agent with handoff buttons. All other agents delegate autonomously via `#runSubagent` using the `delegation-routing` skill.
 - **Cross-agent custom agents**: With `chat.customAgentInSubagent.enabled`, you can invoke different agent personas from within a custom agent:
   ```
   Run the researcher agent as a custom agent to investigate authentication patterns.
@@ -732,7 +804,7 @@ Example use cases:
 1. Restart VS Code Insiders after saving the settings.
 2. Open the Chat view and confirm custom modes (Conductor, Planner, Implementer, Reviewer, Researcher, Maintainer, Security, Performance, Visualizer, Data Analytics, Docs) appear in the mode picker.
 3. Type `/` in chat and ensure prompt files from `.github/prompts` are listed.
-4. Select a mode and verify handoff buttons or `#runCustomAgent` invocations appear after responses.
+4. Select the Conductor and verify handoff buttons appear. Other agents should delegate autonomously via `#runSubagent`.
 5. Confirm the memory indicator shows as enabled (gear icon → “Chat > Tools > Memory”) and pin any critical context for the next session.
 6. Run the following commands to confirm instructions and prompts remain valid:
    - `./scripts/run-lint.ps1`

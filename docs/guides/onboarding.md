@@ -131,14 +131,16 @@ Each phase produces artifacts in the local `artifacts/` folder:
 | Review | `artifacts/reviews/{date}-{feature}.md` |
 | Completion | `artifacts/plans/{feature}/plan-complete.md` |
 
-## Agent Handoffs
+## Agent Delegation
 
-The conductor delegates to specialized agents via handoff buttons or `#runSubagent` commands:
+The conductor is the only agent with handoff buttons in the UI. All other agents delegate autonomously via `#runSubagent` using the `delegation-routing` skill for keyword-based routing:
 
 - **Planner**: Research and multi-phase plan creation
 - **Implementer**: TDD execution and validation
 - **Reviewer**: Code review with severity-tagged findings
 - **Support personas**: Security, Performance, Accessibility, Docs as needed
+
+After completing their work, agents return results to the conductor automatically — no manual button clicks required.
 
 ## Configuring Language Models
 

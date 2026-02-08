@@ -13,6 +13,16 @@ This repository implements a multi-agent orchestration pattern for GitHub Copilo
 - Maintain pause points after plan creation and after each review for human approval
 - Use context-isolated subagents via `#runSubagent` for specialized work
 
+### Delegation Model
+
+Agents delegate work autonomously using `#runSubagent` with keyword-based routing patterns defined in the `delegation-routing` skill (`.github/skills/delegation-routing/SKILL.md`).
+
+- **Conductor** is the only agent with UI handoff buttons — it serves as the single user-facing entry point
+- All other agents delegate via `#runSubagent` instructions in their `## Delegation` body section
+- Routing decisions are guided by keyword patterns, model preferences, and invocation guardrails
+- Agents with `user-invokable: false` (security, performance, observability, red-team) are reachable only via `#runSubagent`
+- Translation sub-agents with `disable-model-invocation: true` are invoked only by their designated parent
+
 ### Supporting Documentation
 
 | Document | Purpose |
@@ -117,6 +127,16 @@ See [docs/guides/vscode-copilot-configuration.md](docs/guides/vscode-copilot-con
 | Data Analytics | `data-analytics.agent.md` | DS-Star workflow, data quality |
 | Deployment | `deployment.agent.md` | CI/CD review, release readiness |
 | Red Team | `red-team.agent.md` | Adversarial testing, edge cases |
+
+### Translation Workflow
+
+| Agent | File | Purpose |
+|-------|------|---------|
+| Translation Conductor | `translation-conductor.agent.md` | Full-repo translation orchestration, 6-phase lifecycle |
+| Translator | `translator.agent.md` | File-level code translation with pattern mapping |
+| Translation Analyzer | `translation-analyzer.agent.md` | Dependency graph, manifest, complexity assessment |
+| Translation Validator | `translation-validator.agent.md` | 6-layer validation stack, confidence scoring |
+| Translation Styler | `translation-styler.agent.md` | Target language idioms and conventions |
 
 ### Specialists
 

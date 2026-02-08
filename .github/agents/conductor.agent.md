@@ -47,6 +47,7 @@ handoffs:
   - label: Documentation Update
     agent: docs
     prompt: Draft or revise documentation and onboarding materials based on the latest plan or implementation changes.
+    model: 'Claude Haiku 4.5 (copilot)'
     send: false
   - label: Write Tests
     agent: test
@@ -55,6 +56,7 @@ handoffs:
   - label: Fix Linting
     agent: lint
     prompt: Fix code style and formatting issues in the modified files.
+    model: 'Gemini 3 Flash (copilot)'
     send: false
   - label: Accessibility Audit
     agent: accessibility
@@ -199,6 +201,34 @@ echo "# Local agent artifacts" > artifacts/README.md
 - **Run Smoke Tests:** `pwsh -File scripts/run-smoke-tests.ps1 -RepositoryRoot .`
 - **Lint Check:** `pwsh -File scripts/run-lint.ps1 -RepositoryRoot .`
 - **Session Analytics:** `pwsh -File scripts/analyze-sessions.ps1`
+
+## Delegation
+
+The conductor is the only agent that retains handoff buttons in the UI. All other agents delegate autonomously using `#runSubagent`. Consult the `delegation-routing` skill for the full routing table, keyword triggers, model preferences, and invocation guardrails.
+
+### Autonomous Delegation Patterns
+The conductor uses `#runSubagent` in addition to handoff buttons. Use whichever is appropriate:
+- **Handoff buttons** — for user-visible routing decisions at pause points
+- **`#runSubagent`** — for autonomous delegation within a workflow (e.g., after reviewer approves, automatically launch next phase)
+
+### Quick Reference
+- **Planning:** `#runSubagent planner "Draft plan for [objective]. Constraints: [list]. Success criteria: [list]."`
+- **Implementation:** `#runSubagent implementer "Execute Phase [N]: [objective]. Files: [list]. TDD. Validate with validation scripts."`
+- **Review:** `#runSubagent reviewer "Review Phase [N] changes. Files: [list]. Acceptance criteria: [list]. Tag findings by severity."`
+- **Research:** `#runSubagent researcher "Investigate [topic]. Context: [why needed]. Deliver: evidence with citations."`
+- **Security gate:** `#runSubagent security "Evaluate [scope] for security/compliance risks. Context: [what changed]."`
+- **Performance check:** `#runSubagent performance "Assess [scope] for runtime/memory/scalability. Context: [change description]."`
+- **Documentation:** `#runSubagent docs "Update docs for [feature]. Files: [list]. Include migration notes if applicable."`
+- **Translation workflow:** `#runSubagent translation-conductor "Translate [repo/module] from [source] to [target]. Scope: [files]."`
+
+### Escalation Handling
+When sub-agents escalate back to the conductor, they will include:
+- **Completed work** summary
+- **Findings** with severity tags
+- **Artifacts** created or modified
+- **Next steps** recommendation
+
+Evaluate the escalation and route it to the appropriate next agent or present it to the user at a pause point.
 
 ## Boundaries
 

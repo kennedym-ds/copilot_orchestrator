@@ -52,7 +52,7 @@ flowchart TD
 ## Getting Started in 3 Steps
 1. **Clone the repo** somewhere accessible on every device (for example `C:\Copilot\copilot_orchestrator`).
 2. **Apply the shared settings** from `docs/guides/vscode-copilot-configuration.md`, making sure `"github.copilot.chat.copilotMemory.enabled": true` sits alongside the chat mode paths so context persists.
-3. **Launch a Conductor session** and run a sample task—delegate with the handoff buttons or an explicit `#runSubagent planner` call, then watch the implementer ship with tests-first discipline and the reviewer close the loop.
+3. **Launch a Conductor session** and run a sample task—the conductor delegates via handoff buttons or `#runSubagent`, and all other agents route work autonomously using the `delegation-routing` skill. Watch the implementer ship with tests-first discipline and the reviewer close the loop.
 
 ## Call to Action
 Level up your multi-agent workflows by wiring this repo into your global Copilot configuration today. Invite teammates, share transcripts, and let the orchestrator shoulder the coordination work so you can focus on shipping brilliant features.

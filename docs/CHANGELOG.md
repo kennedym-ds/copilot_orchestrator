@@ -1,13 +1,32 @@
 ---
 title: "Copilot Orchestrator Changelog"
-version: "0.6.1"
-lastUpdated: "2026-02-06"
+version: "0.7.0"
+lastUpdated: "2026-02-08"
 status: stable
 ---
 
 # Changelog
 
 All notable changes are documented here following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
+
+## [0.7.0] - 2026-02-08
+
+### Added
+- **Delegation Routing Skill** (`.github/skills/delegation-routing/SKILL.md`): Comprehensive routing table for all 27 agents with keyword triggers, model preferences, escalation rules, context templates, and invocation guardrails
+- **Autonomous Agent Delegation**: All 26 non-conductor agents now have `## Delegation` body sections with `#runSubagent` routing patterns
+
+### Changed
+- **Agent Frontmatter Cleanup**: Removed `handoffs:` blocks from 26 agents (70 button definitions eliminated). Conductor retains its 11 handoff buttons as the sole user-facing entry point
+- **AGENTS.md**: Added Delegation Model section documenting the conductor-only handoff pattern and `#runSubagent` delegation model
+- **copilot-instructions.md**: Updated Core Workflow section to reflect delegation-routing skill and conductor-only handoffs
+- **conductor-lifecycle skill**: Added cross-reference to delegation-routing skill
+- **Documentation Updates**: Updated onboarding guide, vscode-copilot-configuration guide, launch promo, and repository-analysis to reflect autonomous delegation model
+
+### Preserved
+- All `agents:` allowlists on conductor (21), translation-conductor (13), translator (2)
+- `disable-model-invocation: true` on 4 translation sub-agents
+- `user-invokable: false` on security, performance, observability, red-team
+- All MCP server configurations
 
 ## [0.6.1] - 2026-02-06
 

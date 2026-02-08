@@ -18,7 +18,26 @@ Each entry should include:
 
 ## Changes
 
-### 2026-02-06 - Deprecated Settings Cleanup
+### 2026-02-08 - Autonomous Agent Delegation
+
+#### v2.1.0 - Remove Handoff Buttons, Add Autonomous Delegation
+**File:** `.github/agents/*.agent.md` (26 agents), `.github/skills/delegation-routing/SKILL.md` (new), `AGENTS.md`
+**Type:** Modified (26 files), Added (1 file)
+**Description:** Replaced UI-based handoff buttons with autonomous `#runSubagent` delegation across all 26 non-conductor agents:
+- Removed `handoffs:` frontmatter blocks from 26 agents (70 button definitions eliminated)
+- Added `## Delegation` body section to each agent with `#runSubagent` routing patterns
+- Created `delegation-routing` skill with comprehensive routing table, keyword triggers, model preferences, escalation rules, and invocation guardrails
+- Conductor retains its 11 handoff buttons as the sole user-facing entry point
+- Preserved all `agents:` allowlists, `disable-model-invocation`, `user-invokable` flags, and `mcp-servers` blocks
+- Updated `AGENTS.md` with new Delegation Model section
+**Expected Impact:**
+- Quality: ++ (agents delegate autonomously without user clicking buttons; reduced UI clutter)
+- Cost: Neutral (same delegation volume, different mechanism)
+- Speed: ++ (no user intervention needed for agent-to-agent routing)
+**Rollback:** Restore `handoffs:` blocks from git history. Remove `## Delegation` sections and `delegation-routing` skill.
+**Metrics:** Track autonomous delegation success rate, conductor handoff button usage, session completion time.
+
+### 2026-02-08 - VS Code Best Practices Gap Analysis Implementation
 
 #### v2.0.1 - Remove Deprecated VS Code Settings
 **File:** `.github/copilot-instructions.md`, `README.md`, `AGENTS.md`, `docs/guides/vscode-copilot-configuration.md`, `docs/guides/onboarding.md`, `docs/quick-reference.md`, `docs/repository-analysis.md`

@@ -18,8 +18,9 @@ artifacts/           → Local session outputs (plans, reviews, research, securi
 
 1. Start complex tasks in **Conductor**—it delegates to specialized subagents
 2. Pause points are mandatory after plans and reviews (wait for human approval)
-3. Use handoff buttons to move between agents, not manual switching
-4. Persist outputs to `artifacts/` using templates from `docs/templates/`
+3. Conductor is the only agent with handoff buttons — all other agents delegate autonomously via `#runSubagent`
+4. Agents use the `delegation-routing` skill for keyword-based routing patterns
+5. Persist outputs to `artifacts/` using templates from `docs/templates/`
 
 **State Tracking:** Every conductor response includes Current Phase, Plan Progress, Last Action, Next Action.
 

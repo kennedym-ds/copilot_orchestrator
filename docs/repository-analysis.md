@@ -182,7 +182,7 @@ Conductor (orchestrator)
 
 **Key Features:**
 - Context isolation via `#runSubagent`
-- Explicit handoff buttons prevent mode switching errors
+- Conductor handoff buttons provide user-facing entry point; all other agents delegate autonomously via `#runSubagent`
 - State telemetry in every response (Phase, Progress, Last/Next Actions)
 - Mandatory pause points maintain human control
 
@@ -415,7 +415,7 @@ Conductor (orchestrator)
 
 **Features Used:**
 - Agent Sessions dashboard
-- Handoff buttons with auto-send options
+- Conductor handoff buttons (sole agent with UI buttons); autonomous `#runSubagent` delegation for all others
 - Context-isolated subagents
 - Tool priority rules (prompt → mode → default)
 - Nested instruction file support
@@ -752,7 +752,7 @@ plans/
 
 **Phase 3: Trial Run (Week 3)**
 1. Start with simple task using conductor mode
-2. Follow handoff buttons through lifecycle
+2. Follow conductor handoff buttons or let agents delegate autonomously
 3. Persist artifacts to plans/
 4. Capture feedback in operations.md
 

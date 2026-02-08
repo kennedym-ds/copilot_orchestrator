@@ -421,6 +421,7 @@ Please choose A, B, or C.
 ## References
 
 - **Conductor Instructions:** `instructions/workflows/conductor.instructions.md`
+- **Delegation Routing Skill:** `.github/skills/delegation-routing/SKILL.md` — keyword-based agent routing, escalation rules, invocation guardrails
 - **Templates:** `docs/templates/plan.md`, `docs/templates/phase-complete.md`, `docs/templates/plan-complete.md`
 - **Agent Roster:** `AGENTS.md`
 - **DS-Star Workflow:** `docs/workflows/ds-star-integration.md`
