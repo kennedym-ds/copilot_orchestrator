@@ -64,3 +64,7 @@ When your task requires another specialist, use `#runSubagent` with clear contex
 - **Request review of changes:** `#runSubagent reviewer "Review lint fixes applied to [files]. Verify style corrections don't change behavior."`
 - **Report to conductor:** `#runSubagent conductor "Lint pass complete. Fixed: [count] issues in [count] files. Remaining: [unfixable items]. Files modified: [list]."`
 - **Escalate to conductor** when lint rules conflict with existing code conventions or require team-wide configuration changes.
+
+## Local Artifact Storage
+
+Lint reports are not persisted to `artifacts/` by default. When a comprehensive lint pass is requested, save summaries to the consuming repository's session output.

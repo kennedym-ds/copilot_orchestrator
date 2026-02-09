@@ -21,6 +21,15 @@ tools:
   - edit
   - runCommands
   - fileSearch
+handoffs:
+  - label: Return to Conductor
+    agent: conductor
+    prompt: "Research complete. Findings and citations saved to artifacts/research/. Ready for planning or implementation."
+    send: false
+  - label: Feed into Plan
+    agent: planner
+    prompt: "Research findings ready. Draft a plan incorporating the evidence gathered above."
+    send: false
 ---
 
 # Researcher Agent — Insight Scout

@@ -4,6 +4,15 @@ description: "Audits changes for correctness, quality, and policy compliance bef
 argument-hint: "Provide changes to review for correctness, quality, and policy compliance"
 model: ['Claude Opus 4.6 (copilot)', 'Codex 5.2 (copilot)']
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'usages', 'edit', 'runCommands']
+handoffs:
+  - label: Return to Conductor
+    agent: conductor
+    prompt: "Review complete. Verdict and findings saved to artifacts/reviews/. Ready for next phase or completion."
+    send: false
+  - label: Needs Revision
+    agent: implementer
+    prompt: "Review found issues requiring revision. See findings with severity tags above."
+    send: false
 ---
 
 # Reviewer Agent — Quality Gatekeeper

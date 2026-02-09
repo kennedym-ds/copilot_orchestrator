@@ -4,6 +4,19 @@ description: "Executes the approved plan, making disciplined, tested code change
 argument-hint: "Specify the phase or task to implement with TDD approach"
 model: ['Codex 5.2 (copilot)', 'Claude Sonnet 4.5 (copilot)']
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
+handoffs:
+  - label: Return to Conductor
+    agent: conductor
+    prompt: "Phase implementation complete. Changes validated. Ready for review."
+    send: false
+  - label: Request Review
+    agent: reviewer
+    prompt: "Review the latest implementation changes against the phase objectives."
+    send: false
+  - label: Deepen Research
+    agent: researcher
+    prompt: "Investigate a technical question encountered during implementation."
+    send: false
 ---
 
 # Implementer Agent — Build Specialist

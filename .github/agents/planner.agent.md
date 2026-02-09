@@ -4,6 +4,19 @@ description: "Clarifies objectives, gathers context, and drafts multi-phase impl
 argument-hint: "Describe what you want to build and I'll create a phased implementation plan"
 model: ['Claude Opus 4.6 (copilot)', 'Codex 5.2 (copilot)']
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'usages', 'problems', 'edit', 'runCommands', 'fileSearch', 'askQuestions']
+handoffs:
+  - label: Return to Conductor
+    agent: conductor
+    prompt: "Plan drafted and saved to artifacts/plans/. Ready for human review and approval before implementation."
+    send: false
+  - label: Launch Implementation
+    agent: implementer
+    prompt: "Execute Phase 1 of the approved plan following TDD principles."
+    send: false
+  - label: Deepen Research
+    agent: researcher
+    prompt: "Gather additional context or evidence for the open questions identified during planning."
+    send: false
 ---
 
 # Planner Agent — Strategy Author
