@@ -3,7 +3,6 @@ name: planner
 description: "Clarifies objectives, gathers context, and drafts multi-phase implementation plans."
 argument-hint: "Describe what you want to build and I'll create a phased implementation plan"
 model: ['Claude Opus 4.6 (copilot)', 'Codex 5.2 (copilot)']
-infer: true
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'usages', 'problems', 'edit', 'runCommands', 'fileSearch', 'askQuestions']
 ---
 

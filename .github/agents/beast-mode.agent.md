@@ -3,7 +3,6 @@ name: beast-mode
 description: "Transparent extended reasoning mode with visible thinking, systematic task management, and comprehensive tool usage."
 argument-hint: "Engage for complex problems requiring visible step-by-step reasoning and thorough analysis"
 model: ['Claude Opus 4.6 (copilot)', 'Codex 5.2 (copilot)']
-infer: true
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages', 'askQuestions']
 ---
 

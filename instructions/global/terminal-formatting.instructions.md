@@ -4,7 +4,7 @@ description: "Standard formatting patterns for agent terminal output using VS Co
 version: "1.0.0"
 created: "2026-01-09"
 status: stable
-applyTo: ["all-agents"]
+applyTo: "**"
 priority: medium
 ---
 

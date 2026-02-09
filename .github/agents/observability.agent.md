@@ -3,7 +3,6 @@ name: observability
 description: "Analyzes session telemetry, token usage, workflow metrics, and integrates with observability platforms."
 argument-hint: "Analyze session logs, check token budget, review cost metrics, or configure observability integrations"
 model: ['Claude Sonnet 4.5 (copilot)', 'Gemini 3 Pro (copilot)']
-infer: true
 user-invokable: false
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems']
 ---

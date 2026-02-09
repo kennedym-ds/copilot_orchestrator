@@ -3,7 +3,6 @@ name: translation-styler
 description: "Applies target language idioms, conventions, and best practices to translated code."
 argument-hint: "Provide translated file paths to apply target language idioms and style conventions"
 model: ['Claude Sonnet 4.5 (copilot)', 'Codex 5.2 (copilot)']
-infer: true
 disable-model-invocation: true
 tools:
   - todos

@@ -3,7 +3,6 @@ name: design
 description: "A design system expert that queries brand colors, components, and validates accessibility."
 argument-hint: "Ask about brand colors, components, or check color contrast"
 model: ['Claude Sonnet 4.5 (copilot)', 'Gemini 3 Pro (copilot)']
-infer: true
 mcp-servers:
   design:
     type: stdio

@@ -1,9 +1,8 @@
-﻿---
+---
 name: test
 description: "Writes comprehensive unit and integration tests following TDD principles."
 argument-hint: "Specify code to test, coverage gaps to fill, or test patterns to implement"
 model: ['Codex 5.2 (copilot)', 'Claude Sonnet 4.5 (copilot)']
-infer: true
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
 ---
 
@@ -64,8 +63,8 @@ artifacts/tests/{YYYY-MM-DD}-{test-run-id}.md
 ## Test Results
 | Test | Status | Duration | Notes |
 |------|--------|----------|-------|
-| TestName1 | âœ… Pass | 0.5s | |
-| TestName2 | âŒ Fail | 1.2s | Assertion error |
+| TestName1 | ✅ Pass | 0.5s | |
+| TestName2 | ❌ Fail | 1.2s | Assertion error |
 
 ## Coverage Gaps
 | File | Coverage | Untested Areas |

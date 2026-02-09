@@ -3,7 +3,6 @@ name: maintainer
 description: "Triages issues, prepares pull requests, and coordinates release logistics."
 argument-hint: "Triage issues, prepare releases, or coordinate PR logistics"
 model: ['Claude Sonnet 4.5 (copilot)', 'Gemini 3 Pro (copilot)']
-infer: true
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'edit', 'runCommands']
 ---
 

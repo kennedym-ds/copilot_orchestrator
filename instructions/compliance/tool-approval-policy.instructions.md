@@ -1,7 +1,7 @@
 ﻿---
 type: compliance
 description: "Governs which Copilot tools can execute without user confirmation, balancing developer productivity with enterprise security."
-applyTo: all-agents
+applyTo: "**"
 applicability: all-agents
 version: "1.0.0"
 lastUpdated: "2025-12-19"

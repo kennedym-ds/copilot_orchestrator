@@ -3,7 +3,6 @@ name: translation-validator
 description: "Validates translated code through a 6-layer validation stack and produces per-file confidence scores."
 argument-hint: "Provide translated file paths to validate against the 6-layer stack"
 model: ['Codex 5.2 (copilot)', 'Claude Sonnet 4.5 (copilot)']
-infer: true
 disable-model-invocation: true
 tools:
   - runSubagent

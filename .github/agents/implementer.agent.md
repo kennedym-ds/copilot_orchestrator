@@ -3,7 +3,6 @@ name: implementer
 description: "Executes the approved plan, making disciplined, tested code changes."
 argument-hint: "Specify the phase or task to implement with TDD approach"
 model: ['Codex 5.2 (copilot)', 'Claude Sonnet 4.5 (copilot)']
-infer: true
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
 ---
 

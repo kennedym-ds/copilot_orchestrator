@@ -3,7 +3,6 @@ name: translation-conductor
 description: "Orchestrates full-repository code translation from one language to another through discovery, translation, validation, and documentation phases."
 argument-hint: "Specify source repo, source language, and target language to begin full translation orchestration"
 model: ['Claude Opus 4.6 (copilot)', 'Codex 5.2 (copilot)']
-infer: false
 agents: ['translator', 'translation-validator', 'translation-styler', 'translation-analyzer', 'test', 'reviewer', 'security', 'docs', 'researcher', 'planner', 'implementer', 'lint', 'github-ops']
 tools:
   - runSubagent
