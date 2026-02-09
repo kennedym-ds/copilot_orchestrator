@@ -101,7 +101,7 @@ See [docs/guides/vscode-copilot-configuration.md](docs/guides/vscode-copilot-con
 
 ---
 
-## Agent Roster (22 Agents)
+## Agent Roster (27 Agents)
 
 ### Core Workflow
 

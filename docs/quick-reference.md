@@ -1,7 +1,7 @@
 ---
 title: "Copilot Orchestrator Quick Reference"
-version: "0.5.0"
-lastUpdated: "2025-12-19"
+version: "2.1.0"
+lastUpdated: "2026-02-09"
 status: stable
 ---
 
@@ -52,7 +52,7 @@ Invoke-Pester -Path tests -Output Detailed
   "chat.agentCustomizationSkill.enabled": true,
   "chat.customAgentInSubagent.enabled": true,
   "chat.askQuestions.enabled": true,
-  "chat.instructionsFilesLocations": { "instructions": true, ".github/instructions": true },
+  "chat.instructionsFilesLocations": { "instructions": true },
   "chat.promptFilesLocations": { ".github/prompts": true },
   "chat.agentFilesLocations": { ".github/agents": true },
   "chat.agentSkillsLocations": { ".github/skills": true },
@@ -78,7 +78,7 @@ Invoke-Pester -Path tests -Output Detailed
 
 ---
 
-## Agent Roster (22 Agents)
+## Agent Roster (27 Agents)
 
 ### Core Workflow
 
@@ -116,6 +116,16 @@ Invoke-Pester -Path tests -Output Detailed
 | bicep | Azure IaC |
 | design | Architecture |
 | beast-mode | Extended reasoning |
+
+### Translation Workflow
+
+| Agent | Purpose |
+|-------|--------|
+| translation-conductor | Full-repo translation orchestration |
+| translator | File-level code translation |
+| translation-analyzer | Dependency graph, complexity assessment |
+| translation-validator | 6-layer validation, confidence scoring |
+| translation-styler | Target language idioms |
 
 ---
 
@@ -163,7 +173,7 @@ artifacts/
 
 | Path | Purpose |
 |------|---------|
-| `.github/agents/` | Agent definitions (22 files) |
+| `.github/agents/` | Agent definitions (27 files) |
 | `.github/prompts/` | Reusable prompts |
 | `instructions/` | Layered instruction mesh |
 | `scripts/` | Validation and tooling |

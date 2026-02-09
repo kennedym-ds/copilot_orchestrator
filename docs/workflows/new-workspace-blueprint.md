@@ -8,7 +8,7 @@ owner: "Copilot Guild"
 
 ## Purpose
 
-Define the target architecture, folder structure, and governance guardrails for the new repository that hosts our conductor-led, multi-agent Copilot configuration. This blueprint ensures the workspace launches with world-class defaults for planning, implementation, and review personas.
+Define the target architecture, folder structure, and governance guardrails for the new repository that hosts our conductor-led, multi-agent Copilot configuration. This blueprint ensures the workspace launches with tested defaults for planning, implementation, and review personas.
 
 ## Guiding Principles
 

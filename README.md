@@ -14,7 +14,7 @@ Use this repository as a shared configuration source across workspaces. Configur
 ## Features
 
 - **Multi-phase orchestration**: Structured workflow with mandatory pause points for human review
-- **22 specialized agents**: Core workflow agents plus support personas for security, performance, accessibility, IaC, and more
+- **27 specialized agents**: Core workflow agents plus support personas for security, performance, accessibility, IaC, translation, and more
 - **Local artifact persistence**: Session outputs stored in consuming repositories via `artifacts/` folder
 - **Validation tooling**: PowerShell scripts for asset validation, token budgeting, and linting
 - **Central deployment support**: Deploy agents at org level while storing artifacts locally per repository
@@ -36,7 +36,7 @@ Add these settings to your user or workspace `settings.json`:
    "chat.agentCustomizationSkill.enabled": true,
    "chat.customAgentInSubagent.enabled": true,
    "chat.askQuestions.enabled": true,
-   "chat.instructionsFilesLocations": { "instructions": true, ".github/instructions": true },
+   "chat.instructionsFilesLocations": { "instructions": true },
    "chat.promptFilesLocations": { ".github/prompts": true },
    "chat.agentFilesLocations": { ".github/agents": true },
    "chat.agentSkillsLocations": { ".github/skills": true },
@@ -112,11 +112,21 @@ This creates the local `artifacts/` folder structure for session persistence.
 | Bicep | Azure IaC implementation, ARM template migration |
 | Beast Mode | Extended reasoning with visible thinking for complex problems |
 
+### Translation Workflow Agents
+
+| Agent | Purpose |
+|-------|--------|
+| Translation Conductor | Full-repo translation orchestration, 6-phase lifecycle |
+| Translator | File-level code translation with pattern mapping |
+| Translation Analyzer | Dependency graph, manifest, complexity assessment |
+| Translation Validator | 6-layer validation stack, confidence scoring |
+| Translation Styler | Target language idioms and conventions |
+
 ## Directory Structure
 
 | Path | Purpose |
 |------|---------|
-| `.github/agents/` | Agent definitions (22 `.agent.md` files) |
+| `.github/agents/` | Agent definitions (27 `.agent.md` files) |
 | `.github/prompts/` | Reusable prompt library |
 | `instructions/` | Layered instruction mesh (global, workflow, compliance, language) |
 | `scripts/` | Validation and tooling scripts |

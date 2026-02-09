@@ -29,7 +29,7 @@ status: active
 Total:        193,063 tokens
 Instructions:  57,469 tokens (18 files)
 Docs:         101,585 tokens
-Agents:        29,957 tokens (22 files)
+Agents:        29,957 tokens (27 files)
 Prompts:        4,052 tokens (35 files)
 ```
 
@@ -102,7 +102,7 @@ Prompts:        4,052 tokens (35 files)
 
 **Quarterly Review:**
 - Assess model-task fit data; update default model assignments in agent definitions.
-- Evaluate new model releases (GPT-5.1, Claude Sonnet 5, etc.) for potential inclusion.
+- Evaluate new model releases for potential inclusion.
 - Fine-tune cost-efficient models on successful patterns if data available.
 - Adjust fallback chains based on empirical reliability and performance data.
 

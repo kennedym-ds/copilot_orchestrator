@@ -1,11 +1,11 @@
 # Copilot Orchestrator Workspace Instructions
 
-Multi-agent orchestration system with 22 specialized agents. See `AGENTS.md` for complete agent roster and lifecycle details.
+Multi-agent orchestration system with 27 specialized agents. See `AGENTS.md` for complete agent roster and lifecycle details.
 
 ## Architecture
 
 ```
-.github/agents/      → Agent definitions (conductor, planner, implementer, reviewer, + 18 specialists)
+.github/agents/      → Agent definitions (conductor, planner, implementer, reviewer, + 23 specialists)
 .github/prompts/     → Prompt templates organized by workflow phase
 instructions/        → Layered instructions (global → workflows → compliance → languages)
 scripts/             → PowerShell 5.1 validation and tooling
@@ -52,7 +52,7 @@ pwsh -File scripts/token-report.ps1 -Path . -ConfigPath token-thresholds.json
 {
     "chat.useAgentsMdFile": true,
     "chat.useNestedAgentsMdFiles": true,
-    "chat.instructionsFilesLocations": ["instructions", ".github/instructions"],
+    "chat.instructionsFilesLocations": ["instructions"],
     "chat.promptFilesLocations": [".github/prompts"],
     "chat.agentFilesLocations": { ".github/agents": true },
     "chat.agentSkillsLocations": { ".github/skills": true },
