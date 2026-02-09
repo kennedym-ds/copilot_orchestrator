@@ -239,6 +239,11 @@ git push origin develop
 git branch -d hotfix/payment-processing
 ```
 
+## Bundled References
+
+- [Conventional Commits](references/conventional-commits.md) — Type prefixes, scopes, breaking changes, footer tokens
+- [PR Template](references/pr-template.md) — Standard pull request template with validation checklist
+
 ## References
 
 - **Conventional Commits:** https://www.conventionalcommits.org/

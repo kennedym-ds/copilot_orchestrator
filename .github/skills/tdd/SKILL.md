@@ -222,6 +222,11 @@ app.post('/api/users',
 // âœ… Tests still PASS, code quality improved
 ```
 
+## Bundled References
+
+- [Test Pyramid](references/test-pyramid.md) — Unit/integration/E2E ratios, coverage targets, decision matrix
+- [Coverage Config Examples](references/coverage-config-examples.md) — Jest, pytest, Pester coverage configuration
+
 ## References
 
 - **Testing Frameworks:** Jest, Pytest, Mocha, RSpec

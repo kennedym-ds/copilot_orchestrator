@@ -544,6 +544,10 @@ Write-Host "Exit code: $LASTEXITCODE"
 # 0 = success, 1 = failure
 ```
 
+## Bundled References
+
+- [Example Outputs](references/example-outputs.md) — Expected pass/fail output for all validation scripts
+
 ## References
 
 - Validation script source: [scripts/](../../../scripts/)

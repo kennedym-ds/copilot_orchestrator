@@ -266,3 +266,6 @@ function get_user_by_id(user_id: number): User | undefined {
     return users.find(u => u.id === user_id);
 }
 ```
+## Bundled References
+
+- [Language Equivalence Tables](references/language-equivalence-tables.md) — Python↔TypeScript and PowerShell↔Bash mapping tables

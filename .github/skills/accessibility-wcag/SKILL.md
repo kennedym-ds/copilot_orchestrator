@@ -195,8 +195,13 @@ This skill teaches accessibility agents how to evaluate and implement WCAG 2.1 L
 - `<button>` for keyboard accessibility (WCAG 2.1.1) âœ“
 - Visible focus indicators (WCAG 2.4.7) âœ“
 
+## Bundled References
+
+- [WCAG 2.2 Success Criteria](references/wcag-2.2-success-criteria.md) — Key Level A/AA criteria quick reference
+- [ARIA Patterns](references/aria-patterns.md) — Common patterns, anti-patterns, and code examples
+
 ## References
 
-- **WCAG 2.1:** https://www.w3.org/WAI/WCAG21/quickref/
+- **WCAG 2.2:** https://www.w3.org/WAI/WCAG22/quickref/
 - **ARIA Practices:** https://www.w3.org/WAI/ARIA/apg/
 - **Testing Tools:** axe DevTools, WAVE, Pa11y

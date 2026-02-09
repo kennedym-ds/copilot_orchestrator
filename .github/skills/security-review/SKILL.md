@@ -521,6 +521,11 @@ router.post('/upload', authenticate, uploadLimiter, async (req, res) => {
 
 ```
 
+## Bundled References
+
+- [OWASP Top 10 Checklist](references/owasp-top-10-checklist.md) — Actionable checklist for each OWASP category
+- [STRIDE Threat Model Template](references/stride-threat-model-template.md) — Fill-in template for threat modeling sessions
+
 ## References
 
 - **OWASP Top 10:** https://owasp.org/www-project-top-ten/
