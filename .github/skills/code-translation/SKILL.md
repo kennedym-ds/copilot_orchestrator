@@ -1,6 +1,6 @@
 ﻿---
 name: code-translation
-description: "Code translation patterns for cross-language repository transpilation including dependency ordering, pattern mapping, confidence scoring, and behavioral equivalence validation."
+description: "Code translation patterns for cross-language repository transpilation including dependency ordering, pattern mapping, confidence scoring, and behavioral equivalence validation. Use for converting codebases between languages, transpilation tasks, and translation confidence assessment."
 ---
 
 # Code Translation Patterns
