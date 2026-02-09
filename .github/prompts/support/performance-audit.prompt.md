@@ -1,6 +1,7 @@
 ---
 name: support-performance-audit
 description: "Performance support prompt for evaluating runtime, memory, and cost implications of planned or implemented changes."
+argument-hint: "Specify the module or endpoint to audit for performance"
 model: Claude Sonnet 4.5 (copilot)
 agent: performance
 tools:

@@ -1,6 +1,7 @@
 ---
 name: support-security-review
 description: "Security support prompt for assessing plans or diffs against policy, privacy, and threat-model requirements."
+argument-hint: "Provide the code or feature to assess for security vulnerabilities"
 model: Claude Sonnet 4.5 (copilot)
 agent: security
 tools:

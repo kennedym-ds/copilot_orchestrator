@@ -16,3 +16,22 @@ applyTo: "**"
 - Perform live research for every user-provided URL or external dependency using browser tools; do not rely on stale context or partial summaries.
 - Read sufficient source context (roughly 2,000 surrounding lines) before editing to account for edge cases, cross-cutting concerns, and hidden coupling.
 - Run available tests and validation scripts after each meaningful change, repeat them once fixes land, and document any remaining coverage gaps or flaky suites.
+
+## Examples
+
+**Good** — validates before and after:
+```powershell
+# Run validation before changes
+powershell -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .
+# Make changes...
+# Run validation after changes
+powershell -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .
+powershell -File scripts/run-lint.ps1 -RepositoryRoot .
+```
+
+**Bad** — skips validation:
+```powershell
+# Make changes...
+git add -A; git commit -m "done"
+# (no validation run — bugs may be committed)
+```

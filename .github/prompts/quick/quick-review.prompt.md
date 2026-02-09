@@ -1,6 +1,7 @@
 ---
 name: quick-review
 description: "Fast code review with severity-tagged findings — no conductor workflow needed."
+argument-hint: "Paste code or describe the file to review quickly"
 model: Claude Sonnet 4.5 (copilot)
 agent: agent
 tools:
@@ -10,6 +11,12 @@ tools:
 
 ## Purpose
 Perform a fast code review on the current diff without launching the full conductor → reviewer workflow. Ideal for small changes, self-review, or pre-commit checks.
+
+## Context
+If code is selected in the editor, focus the review on the selection:
+```
+${selection}
+```
 
 ## Instructions
 - Load the current diff using the changes tool.

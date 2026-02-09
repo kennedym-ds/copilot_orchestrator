@@ -1,6 +1,7 @@
 ---
 name: final-report
 description: "Generate the final translation report with per-file and repo-level confidence scores, test coverage, and security findings."
+argument-hint: "Provide the translation session ID for the final report"
 model: Claude Opus 4.6 (copilot)
 agent: translation-conductor
 tools:

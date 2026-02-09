@@ -1,6 +1,7 @@
 ---
 name: implement-phase-tdd
 description: "Implementation prompt guiding the implementer agent through strict TDD for a single plan phase."
+argument-hint: "Specify the phase number and plan reference to implement"
 model: Codex 5.2 (copilot)
 agent: implementer
 tools:

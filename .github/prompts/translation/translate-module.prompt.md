@@ -1,6 +1,7 @@
 ---
 name: translate-module
 description: "Translate a specific module or file from source language to target language following dependency order."
+argument-hint: "Specify source language, target language, and module path"
 model: Claude Sonnet 4.5 (copilot)
 agent: translator
 tools:

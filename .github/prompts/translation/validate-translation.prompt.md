@@ -1,6 +1,7 @@
 ---
 name: validate-translation
 description: "Run the 6-layer validation stack against translated files and produce confidence scores."
+argument-hint: "Provide the source and target files to validate translation"
 model: Claude Sonnet 4.5 (copilot)
 agent: translation-validator
 tools:

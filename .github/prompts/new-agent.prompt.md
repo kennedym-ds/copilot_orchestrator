@@ -1,6 +1,7 @@
 ---
 name: new-agent
 description: "Scaffold a new custom agent definition file following repository patterns."
+argument-hint: "Describe the agents purpose, domain, and responsibilities"
 model: Claude Sonnet 4.5 (copilot)
 agent: agent
 tools:

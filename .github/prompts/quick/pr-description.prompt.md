@@ -1,6 +1,7 @@
 ---
 name: pr-description
 description: "Generate a structured pull request description from the current diff."
+argument-hint: "Describe the PR scope or provide the branch name"
 model: Claude Haiku 4.5 (copilot)
 agent: agent
 tools:

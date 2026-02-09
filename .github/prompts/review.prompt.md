@@ -1,6 +1,7 @@
 ---
 name: review
 description: "Quick code review of the current file or selection with severity-tagged findings."
+argument-hint: "Provide code or changes to review for quality and correctness"
 model: Claude Sonnet 4.5 (copilot)
 agent: agent
 tools:
@@ -12,6 +13,12 @@ tools:
 
 ## Purpose
 Perform a quick code review on the current file or selection without launching the full conductor workflow.
+
+## Context
+If code is selected in the editor, review the selection:
+```
+${selection}
+```
 
 ## Instructions
 - Load the current diff or file using changes/readFile tools.

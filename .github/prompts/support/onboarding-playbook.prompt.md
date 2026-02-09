@@ -1,6 +1,7 @@
 ---
 name: support-onboarding-playbook
 description: "Support prompt that helps documentation specialists craft onboarding guidance and sample artifacts."
+argument-hint: "Describe the repository or project to create an onboarding guide for"
 model: Claude Haiku 4.5 (copilot)
 agent: docs
 tools:

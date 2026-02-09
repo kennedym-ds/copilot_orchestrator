@@ -1,6 +1,7 @@
 ---
 name: debug-issue
 description: "Structured debugging workflow: reproduce, isolate, hypothesize, fix, and verify."
+argument-hint: "Describe the bug or paste the error message to debug"
 model: Claude Sonnet 4.5 (copilot)
 agent: agent
 tools:
@@ -12,6 +13,12 @@ tools:
 
 ## Purpose
 Provide a systematic debugging workflow for isolating and resolving issues in any codebase.
+
+## Context
+If code is selected in the editor, use it as the starting point for debugging:
+```
+${selection}
+```
 
 ## Instructions
 - Start by gathering context: read the error message, stack trace, or user-reported symptom.

@@ -1,6 +1,7 @@
 ---
 name: refactor-code
 description: "Refactor selected code for clarity, maintainability, and adherence to language idioms."
+argument-hint: "Select or describe the code to refactor"
 model: Claude Sonnet 4.5 (copilot)
 agent: agent
 tools:
@@ -12,6 +13,12 @@ tools:
 
 ## Purpose
 Refactor code to improve readability, reduce complexity, and follow language-specific best practices — without changing external behavior.
+
+## Context
+If code is selected in the editor, refactor the selection:
+```
+${selection}
+```
 
 ## Instructions
 - Read the target code and its surrounding context (callers, tests, types).

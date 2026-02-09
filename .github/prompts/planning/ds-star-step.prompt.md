@@ -1,6 +1,7 @@
-﻿---
+---
 name: ds-star-step
 description: "Generates a single sequential analysis step for DS-Star workflows."
+argument-hint: "Describe the data analysis objective for the next step"
 model: Claude Sonnet 4.5 (copilot)
 agent: planner
 tools: ['readFile', 'fetch', 'search']
