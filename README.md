@@ -1,7 +1,7 @@
 ---
 title: "Copilot Orchestrator"
-version: "2.0.0"
-lastUpdated: "2026-01-24"
+version: "2.0.1"
+lastUpdated: "2026-02-09"
 status: stable
 ---
 
@@ -15,6 +15,9 @@ Use this repository as a shared configuration source across workspaces. Configur
 
 - **Multi-phase orchestration**: Structured workflow with mandatory pause points for human review
 - **27 specialized agents**: Core workflow agents plus support personas for security, performance, accessibility, IaC, translation, and more
+- **13 reusable skills**: Domain-specific capabilities (TDD, security review, delegation routing, code translation, and more)
+- **22 prompt templates**: Organized by workflow phase (planning, implementation, review, research, translation)
+- **37 instruction files**: Layered mesh across global, workflow, compliance, and language categories
 - **Local artifact persistence**: Session outputs stored in consuming repositories via `artifacts/` folder
 - **Validation tooling**: PowerShell scripts for asset validation, token budgeting, and linting
 - **Central deployment support**: Deploy agents at org level while storing artifacts locally per repository
@@ -31,31 +34,41 @@ Add these settings to your user or workspace `settings.json`:
 {
    "chat.useAgentsMdFile": true,
    "chat.useNestedAgentsMdFiles": true,
+   "chat.instructionsFilesLocations": ["instructions"],
+   "chat.promptFilesLocations": [".github/prompts"],
+   "chat.agentFilesLocations": { ".github/agents": true },
+   "chat.agentSkillsLocations": { ".github/skills": true },
    "chat.useAgentSkills": true,
    "chat.useClaudeSkills": true,
    "chat.agentCustomizationSkill.enabled": true,
    "chat.customAgentInSubagent.enabled": true,
-   "chat.askQuestions.enabled": true,
-   "chat.instructionsFilesLocations": { "instructions": true },
-   "chat.promptFilesLocations": { ".github/prompts": true },
-   "chat.agentFilesLocations": { ".github/agents": true },
-   "chat.agentSkillsLocations": { ".github/skills": true },
-   "github.copilot.chat.copilotMemory.enabled": true,
    "github.copilot.chat.searchSubagent.enabled": true,
-   "github.copilot.chat.organizationInstructions.enabled": true,
    "github.copilot.chat.customAgents.showOrganizationAndEnterpriseAgents": true,
    "github.copilot.chat.cli.customAgents.enabled": true,
-   "github.copilot.chat.implementAgent.model": "Codex 5.2 (copilot)",
+   "github.copilot.chat.organizationInstructions.enabled": true,
    "chat.thinking.style": "collapsed",
    "chat.agent.thinking.collapsedTools": true,
    "chat.agent.thinking.terminalTools": true,
    "chat.tools.autoExpandFailures": true,
+   "chat.askQuestions.enabled": true,
    "github.copilot.chat.anthropic.thinking.budgetTokens": 10000,
+   "github.copilot.chat.anthropic.toolSearchTool.enabled": true,
+   "github.copilot.chat.anthropic.contextEditing.enabled": true,
+   "github.copilot.chat.copilotMemory.enabled": true,
+   "github.copilot.chat.advanced.workspace.codeSearchExternalIngest.enabled": true,
    "chat.viewSessions.enabled": true,
    "chat.viewSessions.orientation": "sideBySide",
    "chat.restoreLastPanelSession": false,
    "chat.agentsControl.enabled": true,
-   "git.enableWorktrees": true,
+   "chat.agentsControl.clickBehavior": "cycle",
+   "workbench.startupEditor": "agentSessionsWelcomePage",
+   "github.copilot.chat.implementAgent.model": "Codex 5.2 (copilot)",
+   "chat.tools.terminal.enableAutoApprove": true,
+   "chat.tools.terminal.autoApproveWorkspaceNpmScripts": true,
+   "chat.tools.terminal.preventShellHistory": true,
+   "terminal.integrated.enableKittyKeyboardProtocol": true,
+   "workbench.browser.openLocalhostLinks": true,
+   "simpleBrowser.useIntegratedBrowser": true,
    "git.worktreeIncludeFiles": [".env.local", "token-thresholds.json"]
 }
 ```
@@ -128,10 +141,12 @@ This creates the local `artifacts/` folder structure for session persistence.
 | Path | Purpose |
 |------|---------|
 | `.github/agents/` | Agent definitions (27 `.agent.md` files) |
-| `.github/prompts/` | Reusable prompt library |
-| `instructions/` | Layered instruction mesh (global, workflow, compliance, language) |
-| `scripts/` | Validation and tooling scripts |
+| `.github/prompts/` | Reusable prompt library (22 templates across 7 categories) |
+| `.github/skills/` | Reusable agent skills (13 domain-specific capabilities) |
+| `instructions/` | Layered instruction mesh (37 files: global, workflow, compliance, language) |
+| `scripts/` | Validation and tooling scripts (PowerShell 5.1) |
 | `docs/` | Guides, templates, and operational documentation |
+| `data/` | Sample datasets for data analytics workflows |
 | `plans/` | Generated plan artifacts and samples |
 | `artifacts/` | Local session outputs (plans, reviews, research, security audits) |
 
@@ -170,8 +185,11 @@ Invoke-Pester -Path tests -Output Detailed
 | [docs/guides/vscode-copilot-configuration.md](docs/guides/vscode-copilot-configuration.md) | VS Code settings reference |
 | [docs/guides/background-agents-worktrees.md](docs/guides/background-agents-worktrees.md) | Parallel execution with Git worktrees |
 | [docs/guides/claude-skills-migration.md](docs/guides/claude-skills-migration.md) | Migrating prompts to Claude skills |
+| [docs/guides/translation-guide.md](docs/guides/translation-guide.md) | Code translation workflow guide |
+| [docs/guides/agent-skills-pilot.md](docs/guides/agent-skills-pilot.md) | Agent skills pilot evaluation |
 | [docs/operations.md](docs/operations.md) | Monitoring, metrics, and backlog |
 | [docs/CHANGELOG.md](docs/CHANGELOG.md) | Version history |
+| [INSTRUCTION_CHANGELOG.md](INSTRUCTION_CHANGELOG.md) | Instruction file change history |
 
 ## License
 
