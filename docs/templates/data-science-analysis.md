@@ -1,4 +1,4 @@
----
+﻿---
 title: "Data Science Analysis Template (DS-Star Pattern)"
 session_id: "{timestamp}_{random_hash}"
 created_at: "{ISO8601_timestamp}"
@@ -7,7 +7,7 @@ data_files: []
 status: "in-progress"
 ---
 
-# Data Science Analysis — {Short Description}
+# Data Science Analysis â€” {Short Description}
 
 ## Business Question
 
@@ -30,8 +30,8 @@ status: "in-progress"
 
 | File | Format | Rows | Columns | Status |
 |------|--------|------|---------|--------|
-| {filename1} | CSV | {N} | {M} | ✅ Analyzed |
-| {filename2} | JSON | {N} | {M} | ✅ Analyzed |
+| {filename1} | CSV | {N} | {M} | âœ… Analyzed |
+| {filename2} | JSON | {N} | {M} | âœ… Analyzed |
 
 **Summaries**: See `data_descriptions/` directory
 
@@ -88,7 +88,7 @@ status: "in-progress"
 {Key outputs from code execution}
 ```
 
-**Verification**: **SUFFICIENT** ✅
+**Verification**: **SUFFICIENT** âœ…
 - **Reason**: {Reviewer's assessment}
 
 ---
@@ -125,7 +125,7 @@ status: "in-progress"
 
 **Statistical Evidence**:
 - Test: {e.g., Correlation, regression}
-- Metric: {R², coefficient}
+- Metric: {RÂ², coefficient}
 - Significance: {p-value}
 - Conclusion: {interpretation}
 
@@ -190,21 +190,21 @@ status: "in-progress"
 
 ```
 plans/data-analysis/{session_id}/
-├── steps/                     # All intermediate steps
-│   ├── 001_analyzer_*/        # Data file analysis
-│   ├── 002_planner_init/      # Initial plan
-│   ├── 003_implementer/       # Round 1 code + results
-│   ├── 004_reviewer/          # Round 1 verification
-│   └── ...
-├── data_descriptions/         # Auto-generated data summaries
-├── pipeline_state.json        # Session state for resume
-├── final_output/
-│   ├── analysis-report.md     # This document
-│   ├── final_analysis.py      # Final verified code
-│   └── visualizations/        # Charts and diagrams
-└── logs/
-    ├── execution.log          # Code execution logs
-    └── pipeline.log           # Workflow events
+â”œâ”€â”€ steps/                     # All intermediate steps
+â”‚   â”œâ”€â”€ 001_analyzer_*/        # Data file analysis
+â”‚   â”œâ”€â”€ 002_planner_init/      # Initial plan
+â”‚   â”œâ”€â”€ 003_implementer/       # Round 1 code + results
+â”‚   â”œâ”€â”€ 004_reviewer/          # Round 1 verification
+â”‚   â””â”€â”€ ...
+â”œâ”€â”€ data_descriptions/         # Auto-generated data summaries
+â”œâ”€â”€ pipeline_state.json        # Session state for resume
+â”œâ”€â”€ final_output/
+â”‚   â”œâ”€â”€ analysis-report.md     # This document
+â”‚   â”œâ”€â”€ final_analysis.py      # Final verified code
+â”‚   â””â”€â”€ visualizations/        # Charts and diagrams
+â””â”€â”€ logs/
+    â”œâ”€â”€ execution.log          # Code execution logs
+    â””â”€â”€ pipeline.log           # Workflow events
 ```
 
 ---
@@ -232,15 +232,15 @@ plans/data-analysis/{session_id}/
 
 ## Session Metadata
 
-**Session ID**: `{session_id}`  
-**Created**: {ISO8601_timestamp}  
-**Completed**: {ISO8601_timestamp}  
-**Duration**: {X} minutes  
-**Refinement Rounds**: {N}  
-**Total Steps**: {M}  
-**Final Verification**: SUFFICIENT ✅
+**Session ID**: `{session_id}`
+**Created**: {ISO8601_timestamp}
+**Completed**: {ISO8601_timestamp}
+**Duration**: {X} minutes
+**Refinement Rounds**: {N}
+**Total Steps**: {M}
+**Final Verification**: SUFFICIENT âœ…
 
 **Agents Involved**:
-- Conductor → Data Analytics → Planner → Implementer → Reviewer → Docs
+- Conductor â†’ Data Analytics â†’ Planner â†’ Implementer â†’ Reviewer â†’ Docs
 
 **Artifacts Location**: `plans/data-analysis/{session_id}/`

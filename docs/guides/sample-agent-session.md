@@ -51,9 +51,9 @@ The DS-Star flow references the synthetic fixture added in `tests/powershell/fix
 
 ### How to Reproduce Locally
 1. Copy the fixture to a scratch space:
-	```powershell
-	Copy-Item tests/powershell/fixtures/ds-star-session -Destination plans/data-analysis/20251115_094200_dsstar -Recurse
-	```
+   ```powershell
+   Copy-Item tests/powershell/fixtures/ds-star-session -Destination plans/data-analysis/20251115_094200_dsstar -Recurse
+   ```
 2. Run `pwsh -File scripts/analyze-sessions.ps1` to update `docs/dashboards/workflow-metrics.md` with DS-Star metrics (the script now includes a dedicated section and console summary).
 3. Inspect `verdict_log.ndjson` and matching `steps/<step>/verdict.json` pairs to understand escalation patterns (`INSUFFICIENT` → `ROUTE_PLANNER`, `SUFFICIENT` → `ROUTE_DOCS`).
 4. Open `pipeline_state.json` to simulate pause/resume scenarios; each reviewer verdict updates `verification_history` and `active_verdict`.

@@ -1,4 +1,4 @@
----
+﻿---
 name: orchestrator-terminal-style
 description: "Terminal formatting patterns using VS Code 1.109 GPU-accelerated glyphs for conductor workflows, validation scripts, and agent output. Use for status indicators, progress bars, and formatted terminal displays."
 ---
@@ -43,100 +43,100 @@ This skill is relevant when:
 ### Canonical Glyph Set
 
 #### Status Indicators
-- `✓` (U+2713) — Success, passed, approved
-- `✗` (U+2717) — Failure, error, rejected
-- `⚠` (U+26A0) — Warning, caution, attention needed
-- `ℹ` (U+2139) — Information, note, guidance
-- `●` (U+25CF) — Active state, in-progress
-- `○` (U+25CB) — Inactive state, pending
+- `âœ“` (U+2713) â€” Success, passed, approved
+- `âœ—` (U+2717) â€” Failure, error, rejected
+- `âš ` (U+26A0) â€” Warning, caution, attention needed
+- `â„¹` (U+2139) â€” Information, note, guidance
+- `â—` (U+25CF) â€” Active state, in-progress
+- `â—‹` (U+25CB) â€” Inactive state, pending
 
 #### Box Drawing (U+2500-U+257F)
 ```
-┌─┬─┐  ╔═╦═╗  ╭─┬─╮
-├─┼─┤  ╠═╬═╣  ├─┼─┤
-└─┴─┘  ╚═╩═╝  ╰─┴─╯
-│ ─    ║ ═    │ ─
+â”Œâ”€â”¬â”€â”  â•”â•â•¦â•â•—  â•­â”€â”¬â”€â•®
+â”œâ”€â”¼â”€â”¤  â• â•â•¬â•â•£  â”œâ”€â”¼â”€â”¤
+â””â”€â”´â”€â”˜  â•šâ•â•©â•â•  â•°â”€â”´â”€â•¯
+â”‚ â”€    â•‘ â•    â”‚ â”€
 ```
 
 #### Block Elements (U+2580-U+259F)
-- `▁▂▃▄▅▆▇█` — Progress bars (8 levels)
-- `░▒▓█` — Density indicators
+- `â–â–‚â–ƒâ–„â–…â–†â–‡â–ˆ` â€” Progress bars (8 levels)
+- `â–‘â–’â–“â–ˆ` â€” Density indicators
 
 #### Progress Indicators (U+EE00-U+EE0B)
-- ` ` — Spinner frames for loading
+- ` ` â€” Spinner frames for loading
 - Combine with timer for animated progress
 
 #### Git Symbols (U+F5D0-U+F60D)
-- `` (U+E0A0) — Branch indicator
-- `` (U+E0B0) — Powerline separator
+- `` (U+E0A0) â€” Branch indicator
+- `` (U+E0B0) â€” Powerline separator
 
 ### Formatting Patterns
 
 #### 1. Status Summary
 ```powershell
-Write-Host "✓ All Copilot assets passed validation." -ForegroundColor Green
-Write-Host "⚠ 2 warnings found in documentation." -ForegroundColor Yellow
-Write-Host "✗ Build failed with 3 errors." -ForegroundColor Red
-Write-Host "ℹ Use -Verbose flag for detailed output." -ForegroundColor Cyan
+Write-Host "âœ“ All Copilot assets passed validation." -ForegroundColor Green
+Write-Host "âš  2 warnings found in documentation." -ForegroundColor Yellow
+Write-Host "âœ— Build failed with 3 errors." -ForegroundColor Red
+Write-Host "â„¹ Use -Verbose flag for detailed output." -ForegroundColor Cyan
 ```
 
 #### 2. File Operations
 ```powershell
-Write-Host "┌─ Phase 3: Terminal Glyphs Style Guide"
-Write-Host "├── ✓ Created instructions/global/terminal-formatting.instructions.md"
-Write-Host "├── ✓ Created docs/guides/terminal-formatting-guide.md"
-Write-Host "└── ● Validating changes..."
+Write-Host "â”Œâ”€ Phase 3: Terminal Glyphs Style Guide"
+Write-Host "â”œâ”€â”€ âœ“ Created instructions/global/terminal-formatting.instructions.md"
+Write-Host "â”œâ”€â”€ âœ“ Created docs/guides/terminal-formatting-guide.md"
+Write-Host "â””â”€â”€ â— Validating changes..."
 ```
 
 #### 3. Test Results
 ```powershell
-Write-Host "`n═══ Test Results ═══"
-Write-Host "✓ Unit Tests:     42/42 passed"
-Write-Host "✓ Integration:    15/15 passed"
-Write-Host "⚠ E2E Tests:      8/10 passed (2 skipped)"
-Write-Host "═══════════════════════"
+Write-Host "`nâ•â•â• Test Results â•â•â•"
+Write-Host "âœ“ Unit Tests:     42/42 passed"
+Write-Host "âœ“ Integration:    15/15 passed"
+Write-Host "âš  E2E Tests:      8/10 passed (2 skipped)"
+Write-Host "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
 ```
 
 #### 4. Progress Updates
 ```powershell
 $progress = [math]::Floor($completed / $total * 8)
-$bar = "█" * $progress + "░" * (8 - $progress)
+$bar = "â–ˆ" * $progress + "â–‘" * (8 - $progress)
 Write-Host "Progress: [$bar] $completed/$total phases"
 ```
 
 #### 5. Git Operations
 ```powershell
-Write-Host " main → feature-branch" -ForegroundColor Green
+Write-Host " main â†’ feature-branch" -ForegroundColor Green
 Write-Host "  7 files changed, 234 insertions(+), 12 deletions(-)"
 ```
 
 #### 6. Validation Results
 ```powershell
-Write-Host "`n┌─ Validation Summary ───────────────┐"
-Write-Host "│ Asset Validation      ✓ PASS       │"
-Write-Host "│ Lint Check           ✓ PASS       │"
-Write-Host "│ Smoke Tests          ✓ PASS       │"
-Write-Host "│ Token Budget         ℹ REVIEW     │"
-Write-Host "└────────────────────────────────────┘"
+Write-Host "`nâ”Œâ”€ Validation Summary â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”"
+Write-Host "â”‚ Asset Validation      âœ“ PASS       â”‚"
+Write-Host "â”‚ Lint Check           âœ“ PASS       â”‚"
+Write-Host "â”‚ Smoke Tests          âœ“ PASS       â”‚"
+Write-Host "â”‚ Token Budget         â„¹ REVIEW     â”‚"
+Write-Host "â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜"
 ```
 
 ### Accessibility Requirements
 
 **Always pair glyphs with text labels:**
 ```powershell
-# ✓ GOOD — Accessible
-Write-Host "✓ PASS — All assets validated"
+# âœ“ GOOD â€” Accessible
+Write-Host "âœ“ PASS â€” All assets validated"
 
-# ✗ BAD — Screen reader only sees glyph
-Write-Host "✓"
+# âœ— BAD â€” Screen reader only sees glyph
+Write-Host "âœ“"
 ```
 
 **Use ANSI colors for additional context:**
 ```powershell
-Write-Host "✓ Success" -ForegroundColor Green
-Write-Host "✗ Error" -ForegroundColor Red
-Write-Host "⚠ Warning" -ForegroundColor Yellow
-Write-Host "ℹ Info" -ForegroundColor Cyan
+Write-Host "âœ“ Success" -ForegroundColor Green
+Write-Host "âœ— Error" -ForegroundColor Red
+Write-Host "âš  Warning" -ForegroundColor Yellow
+Write-Host "â„¹ Info" -ForegroundColor Cyan
 ```
 
 ### ANSI Color Codes
@@ -148,9 +148,9 @@ DarkGray, Blue, Green, Cyan, Red, Magenta, Yellow, White
 
 # Direct ANSI (for cross-platform scripts)
 $ESC = [char]27
-Write-Host "$ESC[32m✓ Success$ESC[0m"  # Green
-Write-Host "$ESC[31m✗ Error$ESC[0m"    # Red
-Write-Host "$ESC[33m⚠ Warning$ESC[0m"  # Yellow
+Write-Host "$ESC[32mâœ“ Success$ESC[0m"  # Green
+Write-Host "$ESC[31mâœ— Error$ESC[0m"    # Red
+Write-Host "$ESC[33mâš  Warning$ESC[0m"  # Yellow
 ```
 
 ## Agent-Specific Guidelines
@@ -162,16 +162,16 @@ Write-Host "$ESC[33m⚠ Warning$ESC[0m"  # Yellow
 
 ### Implementer
 - Progress bars for test execution
-- File operation trees (├─┼─)
+- File operation trees (â”œâ”€â”¼â”€)
 - Success/failure indicators per test
 
 ### Reviewer
-- Severity indicators: ✗ BLOCKER, ⚠ MAJOR, ℹ MINOR, ● NIT
+- Severity indicators: âœ— BLOCKER, âš  MAJOR, â„¹ MINOR, â— NIT
 - Finding summaries with counts
 - Box-drawn verdict sections
 
 ### Validation Scripts
-- Status summary format: `✓ PASS`, `✗ FAIL`, `⚠ WARN`, `ℹ INFO`
+- Status summary format: `âœ“ PASS`, `âœ— FAIL`, `âš  WARN`, `â„¹ INFO`
 - Tree structure for multi-file validation
 - Total counts in box-drawn table
 
@@ -179,32 +179,32 @@ Write-Host "$ESC[33m⚠ Warning$ESC[0m"  # Yellow
 
 ### Example 1: Conductor Phase Progress
 ```powershell
-Write-Host "`n┌─ VS Code 1.109 Integration ─────────┐"
-Write-Host "│ ✓ Phase 1: Settings & Docs Update  │"
-Write-Host "│ ✓ Phase 2: Worktrees Docs Refresh  │"
-Write-Host "│ ✓ Phase 3: Terminal Glyphs Style   │"
-Write-Host "│ ✓ Phase 4: Terminal Auto-Approve   │"
-Write-Host "│ ● Phase 5: Agent Sessions Updates  │"
-Write-Host "│ ○ Phase 6: Agent Skills Pilot      │"
-Write-Host "│ ○ Phase 7: Rollout & Validation    │"
-Write-Host "└──────────────────────────────────────┘"
-Write-Host "Progress: [█████░░░] 5/7 phases (71%)"
+Write-Host "`nâ”Œâ”€ VS Code 1.109 Integration â”€â”€â”€â”€â”€â”€â”€â”€â”€â”"
+Write-Host "â”‚ âœ“ Phase 1: Settings & Docs Update  â”‚"
+Write-Host "â”‚ âœ“ Phase 2: Worktrees Docs Refresh  â”‚"
+Write-Host "â”‚ âœ“ Phase 3: Terminal Glyphs Style   â”‚"
+Write-Host "â”‚ âœ“ Phase 4: Terminal Auto-Approve   â”‚"
+Write-Host "â”‚ â— Phase 5: Agent Sessions Updates  â”‚"
+Write-Host "â”‚ â—‹ Phase 6: Agent Skills Pilot      â”‚"
+Write-Host "â”‚ â—‹ Phase 7: Rollout & Validation    â”‚"
+Write-Host "â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜"
+Write-Host "Progress: [â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–‘â–‘â–‘] 5/7 phases (71%)"
 ```
 
 ### Example 2: Validation Script Output
 ```powershell
 function Format-ValidationResult {
     param([bool]$Success, [string]$Name, [int]$Warnings = 0)
-    
+
     if ($Success -and $Warnings -eq 0) {
-        Write-Host "✓ PASS" -ForegroundColor Green -NoNewline
-        Write-Host " — $Name"
+        Write-Host "âœ“ PASS" -ForegroundColor Green -NoNewline
+        Write-Host " â€” $Name"
     } elseif ($Success -and $Warnings -gt 0) {
-        Write-Host "⚠ WARN" -ForegroundColor Yellow -NoNewline
-        Write-Host " — $Name ($Warnings warnings)"
+        Write-Host "âš  WARN" -ForegroundColor Yellow -NoNewline
+        Write-Host " â€” $Name ($Warnings warnings)"
     } else {
-        Write-Host "✗ FAIL" -ForegroundColor Red -NoNewline
-        Write-Host " — $Name"
+        Write-Host "âœ— FAIL" -ForegroundColor Red -NoNewline
+        Write-Host " â€” $Name"
     }
 }
 
@@ -216,16 +216,16 @@ Format-ValidationResult -Success $false -Name "Smoke tests"
 
 ### Example 3: Test Results Summary
 ```powershell
-Write-Host "`n╔═══════════════════════════════════╗"
-Write-Host "║   Test Execution Complete        ║"
-Write-Host "╠═══════════════════════════════════╣"
-Write-Host "║ ✓ Unit Tests        127/127     ║"
-Write-Host "║ ✓ Integration       45/45       ║"
-Write-Host "║ ⚠ E2E Tests         23/25       ║"
-Write-Host "║ ─────────────────────────────── ║"
-Write-Host "║ Total:              195/197     ║"
-Write-Host "║ Success Rate:       99.0%       ║"
-Write-Host "╚═══════════════════════════════════╝"
+Write-Host "`nâ•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—"
+Write-Host "â•‘   Test Execution Complete        â•‘"
+Write-Host "â• â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•£"
+Write-Host "â•‘ âœ“ Unit Tests        127/127     â•‘"
+Write-Host "â•‘ âœ“ Integration       45/45       â•‘"
+Write-Host "â•‘ âš  E2E Tests         23/25       â•‘"
+Write-Host "â•‘ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â•‘"
+Write-Host "â•‘ Total:              195/197     â•‘"
+Write-Host "â•‘ Success Rate:       99.0%       â•‘"
+Write-Host "â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
 ```
 
 ## Fallback Strategies
@@ -237,7 +237,7 @@ If terminal doesn't support Unicode:
 $useUnicode = $Host.UI.SupportsVirtualTerminal -or ($env:TERM -match "xterm|vt100")
 
 if ($useUnicode) {
-    Write-Host "✓ Success"
+    Write-Host "âœ“ Success"
 } else {
     Write-Host "[PASS] Success"
 }
@@ -245,12 +245,12 @@ if ($useUnicode) {
 
 ### ASCII Fallback Set
 ```
-✓ → [PASS] or [OK]
-✗ → [FAIL] or [X]
-⚠ → [WARN] or [!]
-ℹ → [INFO] or [i]
-● → [*]
-○ → [ ]
+âœ“ â†’ [PASS] or [OK]
+âœ— â†’ [FAIL] or [X]
+âš  â†’ [WARN] or [!]
+â„¹ â†’ [INFO] or [i]
+â— â†’ [*]
+â—‹ â†’ [ ]
 ```
 
 ## Testing
@@ -258,20 +258,20 @@ if ($useUnicode) {
 Test glyph rendering in your terminal:
 ```powershell
 # Test basic glyphs
-Write-Host "Status: ✓ ✗ ⚠ ℹ ● ○"
+Write-Host "Status: âœ“ âœ— âš  â„¹ â— â—‹"
 
 # Test box drawing
-Write-Host "┌─┬─┐"
-Write-Host "├─┼─┤"
-Write-Host "└─┴─┘"
+Write-Host "â”Œâ”€â”¬â”€â”"
+Write-Host "â”œâ”€â”¼â”€â”¤"
+Write-Host "â””â”€â”´â”€â”˜"
 
 # Test blocks
-Write-Host "Progress: ▁▂▃▄▅▆▇█"
+Write-Host "Progress: â–â–‚â–ƒâ–„â–…â–†â–‡â–ˆ"
 
 # Test colors
-Write-Host "✓ Green" -ForegroundColor Green
-Write-Host "✗ Red" -ForegroundColor Red
-Write-Host "⚠ Yellow" -ForegroundColor Yellow
+Write-Host "âœ“ Green" -ForegroundColor Green
+Write-Host "âœ— Red" -ForegroundColor Red
+Write-Host "âš  Yellow" -ForegroundColor Yellow
 ```
 
 ## References

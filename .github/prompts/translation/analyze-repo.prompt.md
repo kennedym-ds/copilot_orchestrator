@@ -1,7 +1,12 @@
 ---
+name: analyze-repo
 description: "Analyze a source repository and produce a translation manifest with dependency graph, complexity assessment, and framework mappings."
-mode: agent
+model: Claude Sonnet 4.5 (copilot)
 agent: translation-analyzer
+tools:
+  - search
+  - readFile
+  - problems
 ---
 
 # Analyze Repository for Translation

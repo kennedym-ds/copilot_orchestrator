@@ -1,7 +1,13 @@
 ---
+name: translate-module
 description: "Translate a specific module or file from source language to target language following dependency order."
-mode: agent
+model: Claude Sonnet 4.5 (copilot)
 agent: translator
+tools:
+  - search
+  - readFile
+  - edit
+  - runCommands
 ---
 
 # Translate Module

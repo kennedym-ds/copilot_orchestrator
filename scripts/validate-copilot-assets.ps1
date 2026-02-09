@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [Parameter(Mandatory = $false)]
     [string]$RepositoryRoot = (Get-Location).Path,
@@ -108,7 +108,7 @@ if ($instructionFiles.Count -eq 0) {
 $agentFiles = @()
 $agentFiles += Get-ChildItem -Path (Join-Path $RepoRoot '.github/agents') -Filter '*.agent.md' -File -ErrorAction SilentlyContinue
 
-# Define valid model names (updated for VS Code 1.109 — model arrays supported)
+# Define valid model names (updated for VS Code 1.109 â€” model arrays supported)
 $validModels = @(
     'Claude Opus 4.6 (copilot)',
     'Claude Sonnet 4.5 (copilot)',
@@ -215,21 +215,21 @@ $planFiles = @(Get-ChildItem -Path $plansRoot -Filter '*.md' -File -ErrorAction 
 foreach ($plan in $planFiles) {
     $content = Get-Content -LiteralPath $plan.FullName -Raw
     $relativePath = $plan.FullName.Replace($RepoRoot + [IO.Path]::DirectorySeparatorChar, '')
-    
+
     # Check if this is a complex plan (has multiple phases or architecture keywords)
-    $isComplexPlan = $content -match '(?i)(architecture|component|service|workflow|pipeline|state\s+machine)' -or 
+    $isComplexPlan = $content -match '(?i)(architecture|component|service|workflow|pipeline|state\s+machine)' -or
                      $content -match '(?m)^##?\s*Phase\s+\d+' -and ($content -split '(?m)^##?\s*Phase\s+\d+').Count -gt 3
-    
+
     if ($isComplexPlan -and $content -notmatch '```mermaid') {
         Add-Issue -Collector $issues -File $relativePath -Severity 'Warning' -Message 'Complex plan should include Mermaid diagrams for architecture, workflow, or state visualization. See docs/examples/mermaid-diagram-patterns.md'
     }
-    
+
     # Validate Mermaid syntax if diagrams exist
     if ($content -match '```mermaid') {
         $mermaidBlocks = [regex]::Matches($content, '(?s)```mermaid\s*\n(.*?)\n```')
         foreach ($block in $mermaidBlocks) {
             $diagramContent = $block.Groups[1].Value
-            
+
             # Basic syntax validation
             if ($diagramContent -notmatch '(flowchart|sequenceDiagram|stateDiagram|graph|classDiagram|erDiagram|gantt)') {
                 Add-Issue -Collector $issues -File $relativePath -Severity 'Warning' -Message 'Mermaid diagram missing diagram type declaration (flowchart, sequenceDiagram, etc.)'
@@ -242,37 +242,37 @@ foreach ($plan in $planFiles) {
 $dataAnalysisRoot = Join-Path $RepoRoot 'plans/data-analysis'
 if (Test-Path -LiteralPath $dataAnalysisRoot) {
     $dataAnalysisSessions = @(Get-ChildItem -Path $dataAnalysisRoot -Directory -ErrorAction SilentlyContinue)
-    
+
     foreach ($session in $dataAnalysisSessions) {
         $stateFile = Join-Path $session.FullName 'pipeline_state.json'
         $relativePath = $session.FullName.Replace($RepoRoot + [IO.Path]::DirectorySeparatorChar, '')
-        
+
         # Check for required pipeline_state.json
         if (-not (Test-Path -LiteralPath $stateFile)) {
             Add-Issue -Collector $issues -File $relativePath -Severity 'Error' -Message 'DS-Star session missing pipeline_state.json (required for resume capability)'
             continue
         }
-        
+
         try {
             $state = Get-Content -LiteralPath $stateFile -Raw | ConvertFrom-Json
-            
+
             # Check for infinite loops (max 10 rounds)
             if ($state.current_round -and $state.current_round -gt 10) {
                 Add-Issue -Collector $issues -File "$relativePath/pipeline_state.json" -Severity 'Error' -Message "Session exceeded max refinement rounds: $($state.current_round) (limit: 10)"
             }
-            
+
             # Validate artifact completeness for completed steps
             if ($state.completed_steps) {
                 foreach ($step in $state.completed_steps) {
                     $stepDir = Join-Path $session.FullName "steps/$step"
-                    
+
                     if (Test-Path -LiteralPath $stepDir) {
                         # Check for required metadata
                         $metadataFile = Join-Path $stepDir 'metadata.json'
                         if (-not (Test-Path -LiteralPath $metadataFile)) {
                             Add-Issue -Collector $issues -File "$relativePath/steps/$step" -Severity 'Warning' -Message 'Step directory missing metadata.json'
                         }
-                        
+
                         # Check for prompt file
                         $promptFile = Join-Path $stepDir 'prompt.md'
                         if (-not (Test-Path -LiteralPath $promptFile)) {
@@ -281,21 +281,21 @@ if (Test-Path -LiteralPath $dataAnalysisRoot) {
                     }
                 }
             }
-            
+
             # Check for final output if status is completed
             if ($state.status -eq 'completed') {
                 $finalReport = Join-Path $session.FullName 'final_output/analysis-report.md'
                 if (-not (Test-Path -LiteralPath $finalReport)) {
                     Add-Issue -Collector $issues -File "$relativePath/final_output" -Severity 'Error' -Message 'Completed DS-Star session missing final analysis report'
                 }
-                
+
                 # Check for final code
                 $finalCode = Join-Path $session.FullName 'final_output/final_analysis.py'
                 if (-not (Test-Path -LiteralPath $finalCode)) {
                     Add-Issue -Collector $issues -File "$relativePath/final_output" -Severity 'Warning' -Message 'Completed session missing final_analysis.py (recommended for reproducibility)'
                 }
             }
-            
+
             # Validate verification history
             if ($state.verification_history -and $state.verification_history.Count -gt 0) {
                 $lastVerification = $state.verification_history[-1]
@@ -303,7 +303,7 @@ if (Test-Path -LiteralPath $dataAnalysisRoot) {
                     Add-Issue -Collector $issues -File "$relativePath/pipeline_state.json" -Severity 'Warning' -Message "Session marked completed but last verification was $($lastVerification.verdict)"
                 }
             }
-            
+
         } catch {
             Add-Issue -Collector $issues -File "$relativePath/pipeline_state.json" -Severity 'Error' -Message "Invalid JSON format: $($_.Exception.Message)"
         }
@@ -312,7 +312,7 @@ if (Test-Path -LiteralPath $dataAnalysisRoot) {
 
 # Present results
 if ($issues.Count -eq 0) {
-    Write-Host '✅ All Copilot assets passed validation.' -ForegroundColor Green
+    Write-Host 'âœ… All Copilot assets passed validation.' -ForegroundColor Green
     exit 0
 }
 
@@ -320,14 +320,14 @@ $errors = @($issues | Where-Object { $_.Severity -eq 'Error' })
 $warnings = @($issues | Where-Object { $_.Severity -eq 'Warning' })
 
 if ($errors.Count -gt 0) {
-    Write-Host "❌ Found $($errors.Count) error(s):" -ForegroundColor Red
+    Write-Host "âŒ Found $($errors.Count) error(s):" -ForegroundColor Red
     foreach ($errItem in $errors) {
         Write-Host "  [$($errItem.Severity)] $($errItem.File): $($errItem.Message)" -ForegroundColor Red
     }
 }
 
 if ($warnings.Count -gt 0) {
-    Write-Host "⚠️  Found $($warnings.Count) warning(s):" -ForegroundColor Yellow
+    Write-Host "âš ï¸  Found $($warnings.Count) warning(s):" -ForegroundColor Yellow
     foreach ($warnItem in $warnings) {
         Write-Host "  [$($warnItem.Severity)] $($warnItem.File): $($warnItem.Message)" -ForegroundColor Yellow
     }

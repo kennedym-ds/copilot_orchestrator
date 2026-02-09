@@ -1,7 +1,12 @@
 ---
+name: generate-docs
 description: "Generate comprehensive documentation for a translated repository including technical, business, and test documentation."
-mode: agent
+model: Claude Haiku 4.5 (copilot)
 agent: docs
+tools:
+  - search
+  - readFile
+  - edit
 ---
 
 # Generate Translation Documentation

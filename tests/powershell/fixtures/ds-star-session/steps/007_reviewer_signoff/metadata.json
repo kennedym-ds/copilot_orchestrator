@@ -14,7 +14,7 @@
   "timestamp": "2025-11-15T10:04:51Z",
   "next_action": "Route docs for finalization",
   "run_id": "run-007a",
-  "reviewer_model": "gpt-5.1-reviewer",
+  "reviewer_model": "claude-sonnet-4.5-reviewer",
   "gap_summary": "Cohort + activity bands validated with significance metrics",
   "router_directive": "ROUTE_DOCS",
   "attachments": [

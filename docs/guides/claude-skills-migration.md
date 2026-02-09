@@ -1,4 +1,4 @@
-# Claude Skills Migration Guide
+﻿# Claude Skills Migration Guide
 
 > **Feature:** VS Code 1.109+ | **Setting:** `chat.useClaudeSkills: true`
 
@@ -24,12 +24,12 @@ A skill consists of:
 
 ```text
 .claude/skills/skill-name/
-├── SKILL.md              # Required: skill definition
-├── templates/            # Optional: supporting files
-│   ├── template.md
-│   └── schema.json
-└── scripts/              # Optional: automation scripts
-    └── helper.ps1
+â”œâ”€â”€ SKILL.md              # Required: skill definition
+â”œâ”€â”€ templates/            # Optional: supporting files
+â”‚   â”œâ”€â”€ template.md
+â”‚   â””â”€â”€ schema.json
+â””â”€â”€ scripts/              # Optional: automation scripts
+    â””â”€â”€ helper.ps1
 ```
 
 ### SKILL.md Format
@@ -56,7 +56,7 @@ Show concrete usage examples.
 
 ## Migration Examples
 
-### Example 1: TDD Workflow Prompt → Skill
+### Example 1: TDD Workflow Prompt â†’ Skill
 
 **Before** (`.github/prompts/implementation/tdd-workflow.prompt.md`):
 
@@ -154,7 +154,7 @@ Describe "<FeatureName>" {
 }
 ```
 
-### Example 2: Security Review Checklist → Skill
+### Example 2: Security Review Checklist â†’ Skill
 
 **Before** (`.github/prompts/review/security-checklist.prompt.md`):
 
@@ -247,7 +247,7 @@ See `templates/security-findings.md` for reporting format.
 ```
 ```
 
-### Example 3: Mermaid Diagram Patterns → Skill
+### Example 3: Mermaid Diagram Patterns â†’ Skill
 
 **Before** (`docs/examples/mermaid-diagram-patterns.md`):
 
@@ -330,16 +330,16 @@ See `templates/` folder for specific diagram types:
 ### 1. Identify Reusable Knowledge
 
 Good candidates for skills:
-- ✅ Coding patterns used across projects
-- ✅ Review checklists and validation steps
-- ✅ Documentation templates
-- ✅ Troubleshooting procedures
-- ✅ Testing strategies
+- âœ… Coding patterns used across projects
+- âœ… Review checklists and validation steps
+- âœ… Documentation templates
+- âœ… Troubleshooting procedures
+- âœ… Testing strategies
 
 Not suitable for skills:
-- ❌ Project-specific configuration
-- ❌ One-time tasks
-- ❌ Agent personas (use custom agents instead)
+- âŒ Project-specific configuration
+- âŒ One-time tasks
+- âŒ Agent personas (use custom agents instead)
 
 ### 2. Create Skill Structure
 
@@ -528,5 +528,5 @@ These prompts are good candidates for skill migration:
 
 ---
 
-**Updated**: January 2026 (VS Code 1.109)  
-**Status**: Experimental → GA expected Q1 2026
+**Updated**: January 2026 (VS Code 1.109)
+**Status**: Experimental â†’ GA expected Q1 2026

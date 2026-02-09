@@ -1,4 +1,4 @@
----
+﻿---
 name: observability-telemetry
 description: "Observability patterns for metrics, logging, tracing, monitoring, and platform integrations like OpenTelemetry, Prometheus, Grafana, and Datadog. Use for instrumentation, alerting, and telemetry analysis."
 ---
@@ -65,20 +65,20 @@ const httpRequestDuration = new promClient.Histogram({
 // Middleware
 app.use((req, res, next) => {
   const end = httpRequestDuration.startTimer();
-  
+
   res.on('finish', () => {
     httpRequestsTotal.inc({
       method: req.method,
       route: req.route?.path || 'unknown',
       status: res.statusCode
     });
-    
+
     end({
       method: req.method,
       route: req.route?.path || 'unknown'
     });
   });
-  
+
   next();
 });
 ```
@@ -99,10 +99,10 @@ const logger = winston.createLogger({
   ]
 });
 
-// ❌ BAD: Unstructured string
+// âŒ BAD: Unstructured string
 logger.info('User login: john@example.com');
 
-// ✅ GOOD: Structured with context
+// âœ… GOOD: Structured with context
 logger.info('User login successful', {
   user_id: '123',
   email: 'john@example.com',
@@ -144,14 +144,14 @@ const tracer = provider.getTracer('user-service');
 
 app.post('/api/users', async (req, res) => {
   const span = tracer.startSpan('create_user');
-  
+
   try {
     span.setAttribute('user.email', req.body.email);
-    
+
     const user = await db.users.create(req.body);
     span.setAttribute('user.id', user.id);
     span.setStatus({ code: 0 }); // OK
-    
+
     res.json({ user });
   } catch (error) {
     span.recordException(error);
@@ -289,28 +289,28 @@ const tracer = provider.getTracer('api-service');
 app.use((req, res, next) => {
   const span = tracer.startSpan(`${req.method} ${req.path}`);
   const start = Date.now();
-  
+
   // Add trace context to logs
   req.logger = logger.child({
     trace_id: span.spanContext().traceId,
     span_id: span.spanContext().spanId
   });
-  
+
   res.on('finish', () => {
     const duration = (Date.now() - start) / 1000;
-    
+
     // Metrics
     httpRequestsTotal.inc({
       method: req.method,
       route: req.route?.path || 'unknown',
       status: res.statusCode
     });
-    
+
     httpRequestDuration.observe({
       method: req.method,
       route: req.route?.path || 'unknown'
     }, duration);
-    
+
     // Logging
     req.logger.info('Request completed', {
       method: req.method,
@@ -318,13 +318,13 @@ app.use((req, res, next) => {
       status: res.statusCode,
       duration_ms: duration * 1000
     });
-    
+
     // Tracing
     span.setAttribute('http.method', req.method);
     span.setAttribute('http.status_code', res.statusCode);
     span.end();
   });
-  
+
   next();
 });
 ```

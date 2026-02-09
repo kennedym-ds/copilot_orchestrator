@@ -1,3 +1,10 @@
+---
+description: "Workflow rules for the Translation Conductor agent."
+applyTo: ".github/agents/translation-conductor.agent.md"
+version: "1.0.0"
+date: "2026-01-09"
+---
+
 # Translation Conductor — Workflow Instructions
 
 ## Overview

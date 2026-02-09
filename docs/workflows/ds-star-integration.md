@@ -1,4 +1,4 @@
----
+﻿---
 title: "DS-Star Integration for Data Science Workflows"
 date: "2025-11-18"
 status: "active"
@@ -9,7 +9,7 @@ references:
   - "https://github.com/JulesLscx/DS-Star"
 ---
 
-# DS-Star Integration — Iterative Data Science Workflows
+# DS-Star Integration â€” Iterative Data Science Workflows
 
 ## Overview
 
@@ -52,20 +52,20 @@ graph TD
     Planner1 --> Coder1[Coder: Generate Python]
     Coder1 --> Exec1[Execute Code]
     Exec1 --> Verifier[Verifier: Sufficient?]
-    
+
     Verifier -->|SUFFICIENT| Finalyzer[Finalyzer: Format Results]
     Verifier -->|INSUFFICIENT| Router[Router: Add or Fix?]
-    
+
     Router -->|Add Next Step| Planner2[Planner: Next Step]
     Router -->|Fix Step X| Truncate[Truncate Plan to X-1]
-    
+
     Planner2 --> Coder2[Coder: Update Code]
     Truncate --> Coder2
     Coder2 --> Exec2[Execute Code]
     Exec2 --> Verifier
-    
+
     Finalyzer --> Output[Final Report + Artifacts]
-    
+
     style Verifier fill:#ff9,stroke:#333,stroke-width:4px
     style Router fill:#9cf,stroke:#333,stroke-width:4px
     style Analyzer fill:#9f9,stroke:#333,stroke-width:2px
@@ -76,13 +76,13 @@ graph TD
 
 | DS-Star Agent | Copilot Agent | Implementation Status |
 |---------------|---------------|----------------------|
-| **Analyzer** | Data Analytics | ✅ Enhanced with auto-analysis workflow |
-| **Planner** | Planner | ⚠️ Needs sequential mode (currently plans all steps upfront) |
-| **Coder** | Implementer | ✅ Existing TDD workflow compatible |
-| **Verifier** | Reviewer | ✅ Enhanced with SUFFICIENT/INSUFFICIENT/BLOCKED verdicts |
-| **Router** | Conductor | ✅ Enhanced with routing logic |
-| **Debugger** | Implementer | ✅ Covered by TDD loop (failing test → fix → passing test) |
-| **Finalyzer** | Docs | ✅ Enhanced to format data science deliverables |
+| **Analyzer** | Data Analytics | âœ… Enhanced with auto-analysis workflow |
+| **Planner** | Planner | âš ï¸ Needs sequential mode (currently plans all steps upfront) |
+| **Coder** | Implementer | âœ… Existing TDD workflow compatible |
+| **Verifier** | Reviewer | âœ… Enhanced with SUFFICIENT/INSUFFICIENT/BLOCKED verdicts |
+| **Router** | Conductor | âœ… Enhanced with routing logic |
+| **Debugger** | Implementer | âœ… Covered by TDD loop (failing test â†’ fix â†’ passing test) |
+| **Finalyzer** | Docs | âœ… Enhanced to format data science deliverables |
 
 ---
 
@@ -142,7 +142,7 @@ sequenceDiagram
     participant Planner
     participant Implementer
     participant Reviewer
-    
+
     Conductor->>DataAnalytics: Plan first step using data summaries
     DataAnalytics->>Planner: #runSubagent planner
     Planner-->>DataAnalytics: "Load customer data and calculate churn rate"
@@ -224,8 +224,8 @@ elif verification == "BLOCKED":
 4. Feature importance via logistic regression
 
 **Statistical Tests**:
-- Chi-square: Activity level (χ²=247.3, p<0.001), Age group (χ²=12.4, p=0.03)
-- Logistic regression R²: 0.34
+- Chi-square: Activity level (Ï‡Â²=247.3, p<0.001), Age group (Ï‡Â²=12.4, p=0.03)
+- Logistic regression RÂ²: 0.34
 
 ## Results
 [Charts and tables here]
@@ -283,20 +283,20 @@ plans/data-analysis/
       ...
       015_reviewer/
         result.txt                   # "SUFFICIENT"
-    
+
     data_descriptions/
       customers.csv.summary.md       # Auto-generated schema + stats
       transactions.json.summary.md
-    
+
     pipeline_state.json              # Current step, plan history, verification status
-    
+
     final_output/
       analysis-report.md             # Formatted deliverable
       final_analysis.py              # Final verified code
       visualizations/
         churn_by_segment.png
         correlation_matrix.png
-    
+
     logs/
       execution.log                  # All stdout/stderr
       pipeline.log                   # Workflow events
@@ -413,18 +413,18 @@ plans/data-analysis/
 
 **Routing Pattern**:
 ```
-User Query → Conductor (detects data science pattern)
-           ↓
+User Query â†’ Conductor (detects data science pattern)
+           â†“
            Data Analytics (DS-Star workflow enabled)
-           ↓
-           Automatic: Planner → Implementer → Reviewer loop
-           ↓
+           â†“
+           Automatic: Planner â†’ Implementer â†’ Reviewer loop
+           â†“
            Conductor (receives deliverables, presents to user)
 ```
 
-**Key Distinction**: 
-- **Build/modify systems** → Standard Planning → Implementation workflow
-- **Answer questions using data** → DS-Star iterative analysis workflow
+**Key Distinction**:
+- **Build/modify systems** â†’ Standard Planning â†’ Implementation workflow
+- **Answer questions using data** â†’ DS-Star iterative analysis workflow
 
 **Impact**: Users can simply ask data science questions to `@conductor` without explicitly requesting DS-Star workflow. The conductor intelligently routes based on query patterns.
 
@@ -462,10 +462,10 @@ User Query → Conductor (detects data science pattern)
 ```
 Initial Step:
   "Given data summaries and business question, what is the FIRST analysis step?"
-  
+
 Next Step (after INSUFFICIENT):
   "Current plan: [step 1, step 2]. Last result: [output]. What is the NEXT step?"
-  
+
 Fix Step (after routing decision "Step 2 is wrong!"):
   "Truncate plan to [step 1]. Generate corrected step 2."
 ```
@@ -494,7 +494,7 @@ INSUFFICIENT - Missing statistical significance testing for demographic segments
 1. Data Analytics provides analysis step + data context
 2. Implementer generates Python/SQL code
 3. Implementer runs code (captures output)
-4. If execution fails → auto-debug loop (max 3 attempts)
+4. If execution fails â†’ auto-debug loop (max 3 attempts)
 5. Returns code + results to Data Analytics
 6. Data Analytics invokes Reviewer for verification
 
@@ -515,7 +515,7 @@ INSUFFICIENT - Missing statistical significance testing for demographic segments
 4. Reviewer: **SUFFICIENT** (simple aggregation, no deeper insights needed)
 5. Finalyzer: Format results table
 
-**Rounds**: 1  
+**Rounds**: 1
 **Duration**: ~2 minutes
 
 ### Example 2: Moderate Analysis (3 Rounds)
@@ -523,11 +523,11 @@ INSUFFICIENT - Missing statistical significance testing for demographic segments
 **Query**: "What factors drive customer churn in Q4 2024?"
 
 **Workflow**:
-- Round 1: Calculate overall churn → **INSUFFICIENT** (no factors)
-- Round 2: Segment by demographics → **INSUFFICIENT** (no significance)
-- Round 3: Statistical testing → **SUFFICIENT**
+- Round 1: Calculate overall churn â†’ **INSUFFICIENT** (no factors)
+- Round 2: Segment by demographics â†’ **INSUFFICIENT** (no significance)
+- Round 3: Statistical testing â†’ **SUFFICIENT**
 
-**Rounds**: 3  
+**Rounds**: 3
 **Duration**: ~8 minutes
 
 ### Example 3: Complex Analysis (6 Rounds)
@@ -535,14 +535,14 @@ INSUFFICIENT - Missing statistical significance testing for demographic segments
 **Query**: "Build a predictive model for customer lifetime value using transaction history and demographics"
 
 **Workflow**:
-- Round 1: Exploratory data analysis → INSUFFICIENT
-- Round 2: Feature engineering → INSUFFICIENT
-- Round 3: Model training (linear regression) → INSUFFICIENT (low R²)
-- Round 4: **Step 3 is wrong!** Truncate, try random forest → INSUFFICIENT (overfitting)
-- Round 5: Hyperparameter tuning + cross-validation → INSUFFICIENT (need feature importance)
-- Round 6: Add SHAP values for interpretability → **SUFFICIENT**
+- Round 1: Exploratory data analysis â†’ INSUFFICIENT
+- Round 2: Feature engineering â†’ INSUFFICIENT
+- Round 3: Model training (linear regression) â†’ INSUFFICIENT (low RÂ²)
+- Round 4: **Step 3 is wrong!** Truncate, try random forest â†’ INSUFFICIENT (overfitting)
+- Round 5: Hyperparameter tuning + cross-validation â†’ INSUFFICIENT (need feature importance)
+- Round 6: Add SHAP values for interpretability â†’ **SUFFICIENT**
 
-**Rounds**: 6  
+**Rounds**: 6
 **Duration**: ~20 minutes
 
 ---
@@ -554,15 +554,15 @@ INSUFFICIENT - Missing statistical significance testing for demographic segments
 | Metric | Target | How to Measure |
 |--------|--------|----------------|
 | **Adoption** | 10+ DS-Star sessions | Count sessions in `plans/data-analysis/` |
-| **Completion Rate** | ≥80% reach SUFFICIENT | `verification_history` in state files |
-| **Avg Rounds (Easy)** | ≤3 rounds | Questions with single data source |
-| **Avg Rounds (Hard)** | ≤6 rounds | Multi-file or open-ended questions |
+| **Completion Rate** | â‰¥80% reach SUFFICIENT | `verification_history` in state files |
+| **Avg Rounds (Easy)** | â‰¤3 rounds | Questions with single data source |
+| **Avg Rounds (Hard)** | â‰¤6 rounds | Multi-file or open-ended questions |
 | **Resume Success** | 100% resume without errors | Test interruption scenarios |
 | **Artifact Quality** | All sessions have complete artifacts | Validate with `validate-copilot-assets.ps1` |
 
 ### Quality Indicators
 
-- **INSUFFICIENT → SUFFICIENT** progression shows learning
+- **INSUFFICIENT â†’ SUFFICIENT** progression shows learning
 - **No infinite loops** (all sessions terminate within 10 rounds)
 - **Reproducibility**: 100% of sessions can re-run from artifacts
 - **Statistical rigor**: 90%+ of SUFFICIENT verdicts include significance tests when appropriate
@@ -581,19 +581,19 @@ $dataAnalysisSessions = Get-ChildItem -Path "plans/data-analysis" -Directory -Er
 
 foreach ($session in $dataAnalysisSessions) {
     $stateFile = Join-Path $session.FullName "pipeline_state.json"
-    
+
     if (-not (Test-Path $stateFile)) {
         Write-Warning "Missing pipeline_state.json in $($session.Name)"
         continue
     }
-    
+
     $state = Get-Content $stateFile | ConvertFrom-Json
-    
+
     # Check for infinite loops
     if ($state.current_round -gt 10) {
         Write-Warning "Session $($session.Name) exceeded max rounds: $($state.current_round)"
     }
-    
+
     # Validate artifact completeness
     foreach ($step in $state.completed_steps) {
         $stepDir = Join-Path $session.FullName "steps\$step"
@@ -601,7 +601,7 @@ foreach ($session in $dataAnalysisSessions) {
             Write-Warning "Missing metadata.json in step $step"
         }
     }
-    
+
     # Check final output if completed
     if ($state.status -eq "completed") {
         $finalReport = Join-Path $session.FullName "final_output\analysis-report.md"
@@ -671,7 +671,7 @@ $(Get-DsStarMarkdownSection)
 
 ---
 
-**Document Status**: Active  
-**Next Review**: 2025-12-18 (after 4-week pilot)  
-**Owner**: Data Analytics + Conductor teams  
+**Document Status**: Active
+**Next Review**: 2025-12-18 (after 4-week pilot)
+**Owner**: Data Analytics + Conductor teams
 **Feedback**: Capture learnings in `docs/operations.md` and update instruction versions

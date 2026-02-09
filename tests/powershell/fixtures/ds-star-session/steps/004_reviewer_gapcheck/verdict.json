@@ -2,7 +2,7 @@
   "step_id": "004_reviewer_gapcheck",
   "run_id": "run-004a",
   "timestamp": "2025-11-15T09:58:12Z",
-  "reviewer_model": "gpt-5.1-reviewer",
+  "reviewer_model": "claude-sonnet-4.5-reviewer",
   "verdict": "INSUFFICIENT",
   "gap_summary": "Need activity-band segmentation and statistical significance",
   "next_action": "Request planner for refined step",

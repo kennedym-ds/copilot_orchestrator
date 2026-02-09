@@ -1,4 +1,4 @@
-# Session Analytics Guide
+﻿# Session Analytics Guide
 
 ## Overview
 
@@ -61,7 +61,7 @@ Sessions are tracked using JSON metadata files stored in `plans/sessions/`.
 - Total estimated costs
 
 #### 5. Quality Metrics
-- Review pass rate (target: ≥90%)
+- Review pass rate (target: â‰¥90%)
 - Findings by severity (BLOCKER, MAJOR, MINOR, NIT)
 - Rework frequency
 - Test coverage trends
@@ -117,12 +117,12 @@ Tracks escalation frequency and patterns. Monitor for:
 
 ### Model Usage & Cost
 Tracks adherence to 80/20 cost optimization target:
-- **Target**: ≤20% premium model usage
-- **Acceptable**: ≤25% premium model usage
+- **Target**: â‰¤20% premium model usage
+- **Acceptable**: â‰¤25% premium model usage
 - **Review needed**: >25% premium model usage
 
 ### Quality Metrics
-Review outcomes and findings. Target: ≥90% approval rate.
+Review outcomes and findings. Target: â‰¥90% approval rate.
 - **High approval**: Good implementation quality
 - **High revision**: May need better TDD discipline
 - **High failure**: Review escalation patterns
@@ -142,7 +142,7 @@ The dashboard auto-generates recommendations based on:
 - >25% premium: Review escalation triggers
 
 ### Quality Trends
-- ≥90% approval: Meeting quality target
+- â‰¥90% approval: Meeting quality target
 - <90% approval: Process enhancement needed
 
 ## Best Practices
@@ -167,10 +167,10 @@ When updating instructions (see `INSTRUCTION_CHANGELOG.md`):
 
 ### 3. Pattern Recognition
 Look for recurring patterns:
-- Same escalation triggers → Instruction gap
-- Consistent phase bottleneck → Process improvement needed
-- Cost spikes → Review model allocation
-- Quality dips → Additional review gates needed
+- Same escalation triggers â†’ Instruction gap
+- Consistent phase bottleneck â†’ Process improvement needed
+- Cost spikes â†’ Review model allocation
+- Quality dips â†’ Additional review gates needed
 
 ### 4. Continuous Improvement
 Use analytics to drive improvements:
@@ -183,10 +183,10 @@ Use analytics to drive improvements:
 
 | Metric | Target | Acceptable | Review Needed |
 |--------|--------|------------|---------------|
-| Completion Rate | ≥80% | ≥70% | <70% |
-| Review Pass Rate | ≥90% | ≥80% | <80% |
-| Premium Model % | ≤20% | ≤25% | >25% |
-| Escalation Rate | <0.5 per session | <1.0 per session | ≥1.0 per session |
+| Completion Rate | â‰¥80% | â‰¥70% | <70% |
+| Review Pass Rate | â‰¥90% | â‰¥80% | <80% |
+| Premium Model % | â‰¤20% | â‰¤25% | >25% |
+| Escalation Rate | <0.5 per session | <1.0 per session | â‰¥1.0 per session |
 | Avg Phase Duration | Trending down | Stable | Trending up |
 
 ## Troubleshooting
@@ -213,7 +213,7 @@ Use analytics to drive improvements:
 **Issue**: Dashboard insights section is generic
 
 **Solutions**:
-1. Collect more session data (need ≥5 sessions for patterns)
+1. Collect more session data (need â‰¥5 sessions for patterns)
 2. Ensure all optional fields are populated
 3. Add metadata for richer analysis
 
@@ -237,8 +237,8 @@ Planned improvements (see `docs/research/sota-agent-design-review-2025.md`):
 
 ---
 
-**Guide Status:** Active  
-**Version:** 1.0.0  
-**Last Updated:** 2025-11-07  
-**Owner:** Copilot Guild  
+**Guide Status:** Active
+**Version:** 1.0.0
+**Last Updated:** 2025-11-07
+**Owner:** Copilot Guild
 **Feedback:** Submit via docs/operations.md or create issue

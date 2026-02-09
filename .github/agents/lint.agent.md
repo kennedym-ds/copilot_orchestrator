@@ -1,4 +1,4 @@
----
+﻿---
 name: lint
 description: "Fixes code style, formatting, and enforces repository conventions."
 argument-hint: "Fix code style issues, format files, or check convention compliance"

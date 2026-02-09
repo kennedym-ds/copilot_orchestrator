@@ -1,7 +1,13 @@
 ---
+name: validate-translation
 description: "Run the 6-layer validation stack against translated files and produce confidence scores."
-mode: agent
+model: Claude Sonnet 4.5 (copilot)
 agent: translation-validator
+tools:
+  - search
+  - readFile
+  - runCommands
+  - problems
 ---
 
 # Validate Translation

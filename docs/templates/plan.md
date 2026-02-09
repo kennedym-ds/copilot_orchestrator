@@ -1,6 +1,6 @@
-## Plan: {Task Title}
+﻿## Plan: {Task Title}
 
-{Brief TL;DR of the plan (1–3 sentences).}
+{Brief TL;DR of the plan (1â€“3 sentences).}
 
 ### Architecture Overview
 
@@ -10,7 +10,7 @@ flowchart TD
     A[Component A] --> B[Component B]
     B --> C[Component C]
     C --> D[Component D]
-    
+
     style A fill:#e1f5ff
     style B fill:#fff4e1
     style C fill:#ffe1f5
@@ -24,7 +24,7 @@ sequenceDiagram
     participant Frontend
     participant API
     participant Database
-    
+
     User->>Frontend: Initiates Action
     Frontend->>API: Request
     API->>Database: Query
@@ -51,7 +51,7 @@ flowchart LR
     Validate --> Transform[Transformation]
     Transform --> Store[Storage]
     Store --> Output[Output]
-    
+
     Validate -.->|Errors| ErrorLog[Error Log]
     Transform -.->|Metrics| Monitor[Monitoring]
 ```

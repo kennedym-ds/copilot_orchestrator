@@ -63,7 +63,7 @@ pie title Current Phase Distribution
 | Needs Revision | 0 | 0% |
 | Failed | 0 | 0% |
 
-**Target:** â‰¥90% approval rate  
+**Target:** â‰¥90% approval rate
 **Status:** â„¹ï¸ No data
 
 ---
@@ -113,6 +113,6 @@ To start collecting analytics:
 
 ---
 
-**Dashboard Status:** Active  
-**Next Update:** Run `scripts/analyze-sessions.ps1` as needed  
+**Dashboard Status:** Active
+**Next Update:** Run `scripts/analyze-sessions.ps1` as needed
 **Data Source:** `./plans/sessions`

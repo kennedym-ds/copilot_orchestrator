@@ -1,4 +1,4 @@
----
+﻿---
 title: "Operations & Continuous Improvement Plan"
 version: "0.3.0"
 lastUpdated: "2026-01-09"
@@ -9,16 +9,16 @@ status: active
 
 ## Monitoring
 
-- **Weekly** – review Conductor transcripts for adherence to pause points and instruction compliance.
-- **Monthly** – run validation scripts, prune unused prompts/chat modes, refresh AGENTS.md overlays.
-- **Quarterly** – host retrospectives to assess model allocations, cost usage, and workflow effectiveness.
+- **Weekly** â€“ review Conductor transcripts for adherence to pause points and instruction compliance.
+- **Monthly** â€“ run validation scripts, prune unused prompts/chat modes, refresh AGENTS.md overlays.
+- **Quarterly** â€“ host retrospectives to assess model allocations, cost usage, and workflow effectiveness.
 
 ### Token Budget Status
 
-**Last Updated:** 2026-01-09  
-**Current Status:** ⚠️ 1 FILE OVER LIMIT
+**Last Updated:** 2026-01-09
+**Current Status:** âš ï¸ 1 FILE OVER LIMIT
 
-**Per-File Token Limit:** 10,000 tokens (primary enforcement)  
+**Per-File Token Limit:** 10,000 tokens (primary enforcement)
 **Rationale:** Agents load specific files per-context, not all files at once.
 
 **Current Violations:**
@@ -49,44 +49,44 @@ Prompts:        4,052 tokens (35 files)
 
 ### Workflow Effectiveness
 
-- **Adoption rate** — Percentage of work executed via Conductor workflow vs. ad-hoc development.
-- **Validation pass rate** — CI workflow success vs. failures.
-- **Average phase duration** — Planning, implementation, review durations vs. baseline.
-- **Incident count** — Policy/security issues per sprint.
+- **Adoption rate** â€” Percentage of work executed via Conductor workflow vs. ad-hoc development.
+- **Validation pass rate** â€” CI workflow success vs. failures.
+- **Average phase duration** â€” Planning, implementation, review durations vs. baseline.
+- **Incident count** â€” Policy/security issues per sprint.
 
 ### Multi-Tier Model Effectiveness
 
 **Cost Efficiency Metrics:**
-- **Premium vs. execution tier ratio** — Target: 20% premium / 80% execution. Track actual ratio weekly.
-- **Cost per completed phase** — Total model costs divided by phases completed successfully.
-- **Cost per agent type** — Break down costs by Conductor, Planner, Implementer, Reviewer, Researcher, Security, Performance, Docs.
-- **Budget variance** — Actual spend vs. projected spend; alert when >10% over budget.
+- **Premium vs. execution tier ratio** â€” Target: 20% premium / 80% execution. Track actual ratio weekly.
+- **Cost per completed phase** â€” Total model costs divided by phases completed successfully.
+- **Cost per agent type** â€” Break down costs by Conductor, Planner, Implementer, Reviewer, Researcher, Security, Performance, Docs.
+- **Budget variance** â€” Actual spend vs. projected spend; alert when >10% over budget.
 
 **Quality & Escalation Metrics:**
-- **Review rejection rate** — Percentage of phases rejected by Reviewer, broken down by:
+- **Review rejection rate** â€” Percentage of phases rejected by Reviewer, broken down by:
   - Implementer using execution tier (baseline)
   - Implementer after escalation to premium tier (should be lower)
   - Trend over time (should decrease as patterns mature)
-- **Escalation frequency** — Track escalations per phase by trigger type:
+- **Escalation frequency** â€” Track escalations per phase by trigger type:
   - Tier 1 (automatic): Test failures, ambiguity, security, performance
   - Tier 2 (recommended): Architecture changes, API integration, context overflow, cross-cutting concerns
   - Tier 3 (optional): Refactoring opportunities, test coverage gaps, documentation updates
-- **Escalation resolution time** — Mean time from escalation to unblock.
-- **False escalation rate** — Escalations where execution tier could have succeeded (indicates need for better prompting).
+- **Escalation resolution time** â€” Mean time from escalation to unblock.
+- **False escalation rate** â€” Escalations where execution tier could have succeeded (indicates need for better prompting).
 
 **Model Availability & Resilience:**
-- **Primary model uptime** — Availability percentage by model type (Claude Opus 4.6, Codex 5.2, Claude Sonnet 4.5, etc.).
-- **Fallback invocation frequency** — How often fallback models used vs. primary.
-- **Fallback success rate** — Percentage of successful completions when using 1st, 2nd, 3rd fallback.
-- **Mean time to recovery** — When primary model unavailable, how long until restored.
+- **Primary model uptime** â€” Availability percentage by model type (Claude Opus 4.6, Codex 5.2, Claude Sonnet 4.5, etc.).
+- **Fallback invocation frequency** â€” How often fallback models used vs. primary.
+- **Fallback success rate** â€” Percentage of successful completions when using 1st, 2nd, 3rd fallback.
+- **Mean time to recovery** â€” When primary model unavailable, how long until restored.
 
 **Model-Task Fit:**
-- **Success rate by model-task pairs** — Track which models perform best for:
+- **Success rate by model-task pairs** â€” Track which models perform best for:
   - Code generation vs. refactoring vs. test writing
   - Security analysis vs. performance analysis
   - Research vs. planning vs. review
-- **Context window utilization** — Average and peak token usage by agent, identify opportunities for optimization.
-- **Response quality scores** — Manual or automated scoring of output quality (1-5 scale) by model and task type.
+- **Context window utilization** â€” Average and peak token usage by agent, identify opportunities for optimization.
+- **Response quality scores** â€” Manual or automated scoring of output quality (1-5 scale) by model and task type.
 
 ### Data-Driven Model Allocation
 
@@ -115,8 +115,8 @@ Prompts:        4,052 tokens (35 files)
 - **Data Privacy:** No PII in `plans/data-analysis/`. Use placeholder data for reproduction.
 
 **Monitoring:**
-- **Completion Rate:** Target ≥80% `SUFFICIENT` verdicts.
-- **Average Rounds:** Target ≤3 for simple, ≤6 for complex queries.
+- **Completion Rate:** Target â‰¥80% `SUFFICIENT` verdicts.
+- **Average Rounds:** Target â‰¤3 for simple, â‰¤6 for complex queries.
 - **Artifact Compliance:** 100% of sessions must pass `validate-copilot-assets.ps1` (Section 6).
 
 ## Incident Response

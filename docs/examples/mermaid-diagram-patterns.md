@@ -1,4 +1,4 @@
----
+﻿---
 title: "Mermaid Diagram Patterns for Planning"
 version: "1.0.0"
 date: "2025-11-17"
@@ -42,13 +42,13 @@ flowchart TD
     DAL[Data Access Layer]
     DB[(Database)]
     Cache[(Redis Cache)]
-    
+
     UI --> API
     API --> BL
     BL --> DAL
     DAL --> DB
     BL --> Cache
-    
+
     style UI fill:#e1f5ff
     style API fill:#fff4e1
     style BL fill:#ffe1f5
@@ -67,24 +67,24 @@ flowchart TB
         UI[Web UI]
         API[REST API]
     end
-    
+
     subgraph Application
         Auth[Authentication]
         BL[Business Logic]
         Valid[Validation]
     end
-    
+
     subgraph Infrastructure
         Repo[Repositories]
         Cache[Caching]
         Log[Logging]
     end
-    
+
     subgraph Data
         DB[(Database)]
         Queue[Message Queue]
     end
-    
+
     UI --> Auth
     API --> Auth
     Auth --> BL
@@ -93,7 +93,7 @@ flowchart TB
     Repo --> DB
     BL --> Cache
     Application -.-> Log
-    
+
     style Presentation fill:#e1f5ff
     style Application fill:#fff4e1
     style Infrastructure fill:#ffe1f5
@@ -108,35 +108,35 @@ Show service boundaries and communication patterns:
 flowchart LR
     Client[Client Application]
     Gateway[API Gateway]
-    
+
     subgraph Services
         UserSvc[User Service]
         OrderSvc[Order Service]
         PaymentSvc[Payment Service]
         NotifySvc[Notification Service]
     end
-    
+
     subgraph Data
         UserDB[(User DB)]
         OrderDB[(Order DB)]
         PaymentDB[(Payment DB)]
     end
-    
+
     Queue[Message Queue]
-    
+
     Client --> Gateway
     Gateway --> UserSvc
     Gateway --> OrderSvc
     Gateway --> PaymentSvc
-    
+
     UserSvc --> UserDB
     OrderSvc --> OrderDB
     PaymentSvc --> PaymentDB
-    
+
     OrderSvc --> Queue
     PaymentSvc --> Queue
     Queue --> NotifySvc
-    
+
     style Gateway fill:#e1f5ff
     style Services fill:#fff4e1
     style Data fill:#ffe1f5
@@ -157,14 +157,14 @@ sequenceDiagram
     participant Auth
     participant API
     participant Database
-    
+
     User->>Frontend: Login Request
     Frontend->>Auth: Authenticate
     Auth->>Database: Validate Credentials
     Database-->>Auth: User Record
     Auth-->>Frontend: JWT Token
     Frontend-->>User: Login Success
-    
+
     User->>Frontend: Data Request
     Frontend->>API: API Call + Token
     API->>Auth: Validate Token
@@ -195,7 +195,7 @@ flowchart TD
     Store --> Return
     Return --> End([Return Response])
     Error --> End
-    
+
     style Start fill:#e1f5ff
     style End fill:#e1ffe1
     style Error fill:#ffe1e1
@@ -212,15 +212,15 @@ flowchart TD
     Split --> Inventory[Check Inventory]
     Split --> Payment[Process Payment]
     Split --> Shipping[Calculate Shipping]
-    
+
     Inventory --> Sync{All Complete?}
     Payment --> Sync
     Shipping --> Sync
-    
+
     Sync --> Confirm[Confirm Order]
     Confirm --> Notify[Send Notification]
     Notify --> End([Complete])
-    
+
     style Start fill:#e1f5ff
     style End fill:#e1ffe1
     style Sync fill:#fff4e1
@@ -246,12 +246,12 @@ stateDiagram-v2
     InReview --> Cancelled: Reject
     Cancelled --> [*]
     Archived --> [*]
-    
+
     note right of Draft
         Editable state
         Can be saved
     end note
-    
+
     note right of Published
         Read-only
         Publicly visible
@@ -274,7 +274,7 @@ stateDiagram-v2
     Fulfillment --> Shipped: Ship
     Shipped --> Delivered: Confirm
     Delivered --> [*]
-    
+
     Processing --> Cancelled: Timeout
     Cancelled --> [*]
 ```
@@ -292,31 +292,31 @@ flowchart LR
     Source1[(Source DB 1)]
     Source2[(Source DB 2)]
     API[External API]
-    
+
     Extract[Extract]
     Validate[Validate]
     Transform[Transform]
     Enrich[Enrich]
     Load[Load]
-    
+
     Target[(Data Warehouse)]
     Monitor[Monitoring]
     ErrorLog[(Error Log)]
-    
+
     Source1 --> Extract
     Source2 --> Extract
     API --> Extract
-    
+
     Extract --> Validate
     Validate --> Transform
     Transform --> Enrich
     Enrich --> Load
     Load --> Target
-    
+
     Validate -.->|Errors| ErrorLog
     Transform -.->|Metrics| Monitor
     Load -.->|Metrics| Monitor
-    
+
     style Extract fill:#e1f5ff
     style Transform fill:#fff4e1
     style Load fill:#e1ffe1
@@ -332,24 +332,24 @@ flowchart TD
     Producer1[Order Service]
     Producer2[Payment Service]
     Producer3[User Service]
-    
+
     EventBus[Event Bus]
-    
+
     Consumer1[Email Service]
     Consumer2[Analytics Service]
     Consumer3[Audit Service]
     Consumer4[Notification Service]
-    
+
     Producer1 -->|OrderCreated| EventBus
     Producer1 -->|OrderCancelled| EventBus
     Producer2 -->|PaymentProcessed| EventBus
     Producer3 -->|UserRegistered| EventBus
-    
+
     EventBus -->|Subscribe| Consumer1
     EventBus -->|Subscribe| Consumer2
     EventBus -->|Subscribe| Consumer3
     EventBus -->|Subscribe| Consumer4
-    
+
     style EventBus fill:#fff4e1
     style Producer1 fill:#e1f5ff
     style Producer2 fill:#e1f5ff
@@ -385,7 +385,7 @@ flowchart TD
     Refactor -->|No| More
     More -->|Yes| Write
     More -->|No| End([Phase Complete])
-    
+
     style Start fill:#e1f5ff
     style End fill:#e1ffe1
     style Error fill:#ffe1e1
@@ -403,29 +403,29 @@ sequenceDiagram
     participant Rev2 as Reviewer 2
     participant Sec as Security Agent
     participant Perf as Performance Agent
-    
+
     Dev->>CI: Push Changes
     CI->>CI: Run Tests
     CI->>CI: Run Linters
     CI->>CI: Security Scan
     CI-->>Dev: Build Results
-    
+
     Dev->>Rev1: Request Review
     Dev->>Rev2: Request Review
-    
+
     Rev1->>Sec: Security Check
     Sec-->>Rev1: APPROVED
-    
+
     Rev2->>Perf: Performance Check
     Perf-->>Rev2: MINOR Issues
-    
+
     Rev1-->>Dev: APPROVED
     Rev2-->>Dev: NEEDS_REVISION
-    
+
     Dev->>Dev: Address Feedback
     Dev->>Rev2: Re-request Review
     Rev2-->>Dev: APPROVED
-    
+
     Dev->>CI: Merge
 ```
 
@@ -453,7 +453,7 @@ flowchart TD
     Process --> Store[(Database)]
     Store --> Output[Success Response]
     Error --> Output
-    
+
     style Input fill:#e1f5ff
     style Process fill:#fff4e1
     style Store fill:#ffe1f5

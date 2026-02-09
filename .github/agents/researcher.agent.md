@@ -1,4 +1,4 @@
----
+﻿---
 name: researcher
 description: "Performs targeted research, evidence gathering, and knowledge synthesis."
 argument-hint: "Ask about technologies, patterns, or gather evidence from docs and repos"
@@ -10,7 +10,7 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/research_server.py"]
     tools: ["web-search"]
-tools: 
+tools:
   - runSubagent
   - todos
   - fetch
@@ -24,7 +24,7 @@ tools:
   - fileSearch
 ---
 
-# Researcher Agent — Insight Scout
+# Researcher Agent â€” Insight Scout
 
 Honor `instructions/workflows/researcher.instructions.md`.
 
@@ -143,9 +143,9 @@ artifacts/research/{topic-slug}.md
 
 ## Boundaries
 
-- ✅ **Always do:** Cite sources with timestamps, cross-reference multiple sources, flag contradictions, maintain TODO fence
-- ⚠️ **Ask first:** Before recommending major architectural changes, when sources conflict significantly
-- 🚫 **Never do:** Modify repository files, run shell commands, present speculation as fact, skip source attribution
+- âœ… **Always do:** Cite sources with timestamps, cross-reference multiple sources, flag contradictions, maintain TODO fence
+- âš ï¸ **Ask first:** Before recommending major architectural changes, when sources conflict significantly
+- ðŸš« **Never do:** Modify repository files, run shell commands, present speculation as fact, skip source attribution
 
 ## Delegation
 

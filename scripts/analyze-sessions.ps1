@@ -1,11 +1,11 @@
-<#
+﻿<#
 .SYNOPSIS
     Analyzes agent session metadata and generates metrics reports.
 
 .DESCRIPTION
     This script collects and analyzes session data from the Copilot Orchestrator
     to provide insights into workflow performance, cost efficiency, and quality metrics.
-    
+
     It generates reports on:
     - Escalation patterns and frequency
     - Model usage and cost breakdown
@@ -56,19 +56,19 @@
 param(
     [Parameter()]
     [string]$SessionsPath = "./plans/sessions",
-    
+
     [Parameter()]
     [string]$OutputPath = "./docs/dashboards",
-    
+
     [Parameter()]
     [datetime]$StartDate = (Get-Date).AddDays(-30),
-    
+
     [Parameter()]
     [datetime]$EndDate = (Get-Date),
-    
+
     [Parameter()]
     [string]$DSStarPath = "./plans/data-analysis",
-    
+
     [Parameter()]
     [ValidateSet('Markdown', 'JSON', 'CSV')]
     [string]$Format = 'Markdown'
@@ -174,14 +174,14 @@ function Get-SessionFiles {
         [datetime]$Start,
         [datetime]$End
     )
-    
+
     if (-not (Test-Path $Path)) {
         Write-Warning "Sessions path not found: $Path"
         Write-Host "Creating sessions directory for future use..."
         New-Item -ItemType Directory -Path $Path -Force | Out-Null
         return @()
     }
-    
+
     Get-ChildItem -Path $Path -Filter "*.json" -File | Where-Object {
         $_.LastWriteTime -ge $Start -and $_.LastWriteTime -le $End
     }
@@ -195,7 +195,7 @@ function Read-SessionMetadata {
     param(
         [System.IO.FileInfo]$File
     )
-    
+
     try {
         $content = Get-Content -Path $File.FullName -Raw | ConvertFrom-Json
         return $content
@@ -212,16 +212,16 @@ function Update-Metrics {
         Updates aggregated metrics from a session.
     #>
     param($Session)
-    
+
     $script:SessionMetadata.TotalSessions++
-    
+
     # Track session status
     switch ($Session.status) {
         'complete' { $script:SessionMetadata.CompletedSessions++ }
         'failed' { $script:SessionMetadata.FailedSessions++ }
         'in_progress' { $script:SessionMetadata.InProgressSessions++ }
     }
-    
+
     # Track current phase
     if ($Session.currentPhase) {
         $phase = $Session.currentPhase
@@ -229,7 +229,7 @@ function Update-Metrics {
             $script:SessionMetadata.Phases[$phase]++
         }
     }
-    
+
     # Track escalations
     if ($Session.escalations) {
         foreach ($escalation in $Session.escalations) {
@@ -240,7 +240,7 @@ function Update-Metrics {
             $script:SessionMetadata.Escalations.Total++
         }
     }
-    
+
     # Track model usage
     if ($Session.modelUsage) {
         foreach ($usage in $Session.modelUsage) {
@@ -254,7 +254,7 @@ function Update-Metrics {
             }
         }
     }
-    
+
     # Track review outcomes
     if ($Session.reviews) {
         foreach ($review in $Session.reviews) {
@@ -266,7 +266,7 @@ function Update-Metrics {
             }
         }
     }
-    
+
     # Track durations
     if ($Session.phaseDurations) {
         foreach ($duration in $Session.phaseDurations) {
@@ -277,7 +277,7 @@ function Update-Metrics {
             }
         }
     }
-    
+
     # Track failure patterns
     if ($Session.status -eq 'failed' -and $Session.failureReason) {
         $reason = $Session.failureReason
@@ -293,14 +293,14 @@ function Update-Metrics {
     if ($Session.agentActions) {
         foreach ($action in $Session.agentActions) {
             $script:SessionMetadata.AgentActions.TotalActions++
-            
+
             # Track by agent
             $agentName = if ($action.agent) { $action.agent } else { 'unknown' }
             if (-not $script:SessionMetadata.AgentActions.ByAgent.ContainsKey($agentName)) {
                 $script:SessionMetadata.AgentActions.ByAgent[$agentName] = 0
             }
             $script:SessionMetadata.AgentActions.ByAgent[$agentName]++
-            
+
             # Track by tool
             $toolName = if ($action.tool) { $action.tool } else { 'unknown' }
             if (-not $script:SessionMetadata.AgentActions.ByTool.ContainsKey($toolName)) {
@@ -332,7 +332,7 @@ function Update-Metrics {
             }
             $script:SessionMetadata.ModelBreakdown.ByModel[$modelName].calls++
             $script:SessionMetadata.ModelBreakdown.ByModel[$modelName].cost += ($usage.cost -as [double])
-            
+
             $agentName = if ($usage.agent) { $usage.agent } else { 'unknown' }
             if (-not $script:SessionMetadata.ModelBreakdown.ByAgent.ContainsKey($agentName)) {
                 $script:SessionMetadata.ModelBreakdown.ByAgent[$agentName] = @{ calls = 0; cost = 0.0 }
@@ -483,7 +483,7 @@ function Format-MarkdownReport {
     .SYNOPSIS
         Formats metrics as a Markdown dashboard.
     #>
-    
+
     $mermaidChart = @"
 ``````mermaid
 pie title Current Phase Distribution
@@ -493,7 +493,7 @@ pie title Current Phase Distribution
     "Complete" : $($script:SessionMetadata.Phases.Complete)
 ``````
 "@
-    
+
     $noDataMessage = @"
 **No session data available for this period.**
 
@@ -518,9 +518,9 @@ To start collecting analytics:
 - Check docs/operations.md for planned improvements
 - Monitor trends over next reporting period
 "@
-    
+
     $insights = if ($script:SessionMetadata.TotalSessions -eq 0) { $noDataMessage } else { $insightsWithData }
-    
+
     $report = @"
 # Workflow Metrics Dashboard
 
@@ -568,7 +568,7 @@ $mermaidChart
 | **Target Premium Usage** | **20%** |
 | Estimated Total Cost | `$$($script:SessionMetadata.ModelUsage.TotalCost.ToString('F2'))` |
 
-**Status:** $(if (($script:SessionMetadata.ModelUsage.Premium + $script:SessionMetadata.ModelUsage.Efficient) -gt 0 -and (($script:SessionMetadata.ModelUsage.Premium / ($script:SessionMetadata.ModelUsage.Premium + $script:SessionMetadata.ModelUsage.Efficient)) * 100) -le 25) { '✅ Within target (≤25%)' } else { '⚠️ Above target (>25%)' })
+**Status:** $(if (($script:SessionMetadata.ModelUsage.Premium + $script:SessionMetadata.ModelUsage.Efficient) -gt 0 -and (($script:SessionMetadata.ModelUsage.Premium / ($script:SessionMetadata.ModelUsage.Premium + $script:SessionMetadata.ModelUsage.Efficient)) * 100) -le 25) { 'âœ… Within target (â‰¤25%)' } else { 'âš ï¸ Above target (>25%)' })
 
 $(Get-ModelBreakdownSection)
 
@@ -595,8 +595,8 @@ $(Get-SecurityFindingsSection)
 | Needs Revision | $($script:SessionMetadata.Reviews.NeedsRevision) | $(if ($script:SessionMetadata.Reviews.TotalReviews -gt 0) { [math]::Round(($script:SessionMetadata.Reviews.NeedsRevision / $script:SessionMetadata.Reviews.TotalReviews) * 100, 1) } else { 0 })% |
 | Failed | $($script:SessionMetadata.Reviews.Failed) | $(if ($script:SessionMetadata.Reviews.TotalReviews -gt 0) { [math]::Round(($script:SessionMetadata.Reviews.Failed / $script:SessionMetadata.Reviews.TotalReviews) * 100, 1) } else { 0 })% |
 
-**Target:** ≥90% approval rate
-**Status:** $(if ($script:SessionMetadata.Reviews.TotalReviews -gt 0 -and (($script:SessionMetadata.Reviews.Approved / $script:SessionMetadata.Reviews.TotalReviews) * 100) -ge 90) { '✅ Meeting target' } elseif ($script:SessionMetadata.Reviews.TotalReviews -gt 0) { '⚠️ Below target' } else { 'ℹ️ No data' })
+**Target:** â‰¥90% approval rate
+**Status:** $(if ($script:SessionMetadata.Reviews.TotalReviews -gt 0 -and (($script:SessionMetadata.Reviews.Approved / $script:SessionMetadata.Reviews.TotalReviews) * 100) -ge 90) { 'âœ… Meeting target' } elseif ($script:SessionMetadata.Reviews.TotalReviews -gt 0) { 'âš ï¸ Below target' } else { 'â„¹ï¸ No data' })
 
 ---
 
@@ -713,7 +713,7 @@ function Get-SecurityFindingsSection {
 | Low | $($findings.Low) | $(if ($findings.Total -gt 0) { [math]::Round(($findings.Low / $findings.Total) * 100, 1) } else { 0 })% |
 | **Total** | **$($findings.Total)** | **100%** |
 
-**Security Status:** $(if ($findings.Blocker -gt 0) { '🚫 Blockers present - require resolution' } elseif ($findings.High -gt 0) { '⚠️ High-severity findings present' } else { '✅ No critical security issues' })
+**Security Status:** $(if ($findings.Blocker -gt 0) { 'ðŸš« Blockers present - require resolution' } elseif ($findings.High -gt 0) { 'âš ï¸ High-severity findings present' } else { 'âœ… No critical security issues' })
 "@
 }
 
@@ -811,7 +811,7 @@ function Format-JsonReport {
     .SYNOPSIS
         Formats metrics as JSON.
     #>
-    
+
     $report = @{
         reportPeriod = @{
             start = $StartDate.ToString('yyyy-MM-dd')
@@ -820,7 +820,7 @@ function Format-JsonReport {
         }
         metrics = $script:SessionMetadata
     }
-    
+
     return ($report | ConvertTo-Json -Depth 10)
 }
 
@@ -866,7 +866,7 @@ $report = switch ($Format) {
 
 # Save report
 Set-Content -Path $outputFile -Value $report -Encoding UTF8
-Write-Host "`n✅ Report generated: $outputFile" -ForegroundColor Green
+Write-Host "`nâœ… Report generated: $outputFile" -ForegroundColor Green
 
 # Display summary
 Write-Host "`nQuick Summary:" -ForegroundColor Cyan
@@ -875,7 +875,7 @@ Write-Host "  Completed: $($script:SessionMetadata.CompletedSessions)" -Foregrou
 Write-Host "  Failed: $($script:SessionMetadata.FailedSessions)" -ForegroundColor $(if ($script:SessionMetadata.FailedSessions -gt 0) { 'Yellow' } else { 'Gray' })
 if (($script:SessionMetadata.ModelUsage.Premium + $script:SessionMetadata.ModelUsage.Efficient) -gt 0) {
     $premiumPct = [math]::Round(($script:SessionMetadata.ModelUsage.Premium / ($script:SessionMetadata.ModelUsage.Premium + $script:SessionMetadata.ModelUsage.Efficient)) * 100, 1)
-    Write-Host "  Premium Usage: $premiumPct% (target: ≤20%)" -ForegroundColor $(if ($premiumPct -le 20) { 'Green' } elseif ($premiumPct -le 25) { 'Yellow' } else { 'Red' })
+    Write-Host "  Premium Usage: $premiumPct% (target: â‰¤20%)" -ForegroundColor $(if ($premiumPct -le 20) { 'Green' } elseif ($premiumPct -le 25) { 'Yellow' } else { 'Red' })
 }
 
 Write-DsStarConsoleSummary

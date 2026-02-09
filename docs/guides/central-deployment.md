@@ -1,4 +1,4 @@
-# Central Deployment Guide
+﻿# Central Deployment Guide
 
 > **Updated for VS Code 1.109**: Now supports native organization-level agent sharing without manual repository setup.
 
@@ -7,30 +7,30 @@ This guide explains how to deploy the Copilot Orchestrator agents centrally at t
 ## Architecture Overview
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    Organization Level                        │
-│  .github-private repository (or .github)                    │
-│  ┌────────────────────────────────────────────────────────┐ │
-│  │  agents/                                                │ │
-│  │  ├── conductor.agent.md                                │ │
-│  │  ├── planner.agent.md                                  │ │
-│  │  ├── implementer.agent.md                              │ │
-│  │  ├── reviewer.agent.md                                 │ │
-│  │  └── ... (all 22+ agents)                              │ │
-│  └────────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────┘
-                              │
-              ┌───────────────┼───────────────┐
-              ▼               ▼               ▼
-┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
-│   Repo A        │  │   Repo B        │  │   Repo C        │
-│  ┌───────────┐  │  │  ┌───────────┐  │  │  ┌───────────┐  │
-│  │artifacts/ │  │  │  │artifacts/ │  │  │  │artifacts/ │  │
-│  │├── plans/ │  │  │  │├── plans/ │  │  │  │├── plans/ │  │
-│  │├── reviews│  │  │  │├── reviews│  │  │  │├── reviews│  │
-│  │└── ...    │  │  │  │└── ...    │  │  │  │└── ...    │  │
-│  └───────────┘  │  │  └───────────┘  │  │  └───────────┘  │
-└─────────────────┘  └─────────────────┘  └─────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚                    Organization Level                        â”‚
+â”‚  .github-private repository (or .github)                    â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚
+â”‚  â”‚  agents/                                                â”‚ â”‚
+â”‚  â”‚  â”œâ”€â”€ conductor.agent.md                                â”‚ â”‚
+â”‚  â”‚  â”œâ”€â”€ planner.agent.md                                  â”‚ â”‚
+â”‚  â”‚  â”œâ”€â”€ implementer.agent.md                              â”‚ â”‚
+â”‚  â”‚  â”œâ”€â”€ reviewer.agent.md                                 â”‚ â”‚
+â”‚  â”‚  â””â”€â”€ ... (all 22+ agents)                              â”‚ â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                              â”‚
+              â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+              â–¼               â–¼               â–¼
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚   Repo A        â”‚  â”‚   Repo B        â”‚  â”‚   Repo C        â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚  â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚  â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚artifacts/ â”‚  â”‚  â”‚  â”‚artifacts/ â”‚  â”‚  â”‚  â”‚artifacts/ â”‚  â”‚
+â”‚  â”‚â”œâ”€â”€ plans/ â”‚  â”‚  â”‚  â”‚â”œâ”€â”€ plans/ â”‚  â”‚  â”‚  â”‚â”œâ”€â”€ plans/ â”‚  â”‚
+â”‚  â”‚â”œâ”€â”€ reviewsâ”‚  â”‚  â”‚  â”‚â”œâ”€â”€ reviewsâ”‚  â”‚  â”‚  â”‚â”œâ”€â”€ reviewsâ”‚  â”‚
+â”‚  â”‚â””â”€â”€ ...    â”‚  â”‚  â”‚  â”‚â””â”€â”€ ...    â”‚  â”‚  â”‚  â”‚â””â”€â”€ ...    â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚  â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚  â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 ## Deployment Methods
@@ -153,28 +153,28 @@ cp -r .github/agents/* agents/
 The structure should be:
 ```
 .github-private/
-└── agents/
-    ├── conductor.agent.md
-    ├── planner.agent.md
-    ├── implementer.agent.md
-    ├── reviewer.agent.md
-    ├── researcher.agent.md
-    ├── security.agent.md
-    ├── performance.agent.md
-    ├── maintainer.agent.md
-    ├── visualizer.agent.md
-    ├── accessibility.agent.md
-    ├── data-analytics.agent.md
-    ├── docs.agent.md
-    ├── observability.agent.md
-    ├── deployment.agent.md
-    ├── red-team.agent.md
-    ├── terraform.agent.md
-    ├── bicep.agent.md
-    ├── beast-mode.agent.md
-    ├── test.agent.md
-    ├── lint.agent.md
-    └── github-ops.agent.md
+â””â”€â”€ agents/
+    â”œâ”€â”€ conductor.agent.md
+    â”œâ”€â”€ planner.agent.md
+    â”œâ”€â”€ implementer.agent.md
+    â”œâ”€â”€ reviewer.agent.md
+    â”œâ”€â”€ researcher.agent.md
+    â”œâ”€â”€ security.agent.md
+    â”œâ”€â”€ performance.agent.md
+    â”œâ”€â”€ maintainer.agent.md
+    â”œâ”€â”€ visualizer.agent.md
+    â”œâ”€â”€ accessibility.agent.md
+    â”œâ”€â”€ data-analytics.agent.md
+    â”œâ”€â”€ docs.agent.md
+    â”œâ”€â”€ observability.agent.md
+    â”œâ”€â”€ deployment.agent.md
+    â”œâ”€â”€ red-team.agent.md
+    â”œâ”€â”€ terraform.agent.md
+    â”œâ”€â”€ bicep.agent.md
+    â”œâ”€â”€ beast-mode.agent.md
+    â”œâ”€â”€ test.agent.md
+    â”œâ”€â”€ lint.agent.md
+    â””â”€â”€ github-ops.agent.md
 ```
 
 ### 3. Include the Init Script
@@ -243,22 +243,22 @@ When an agent (conductor, planner, reviewer, etc.) is invoked in any repository:
 2. **Initialization**: If missing, creates the standard structure:
    ```
    artifacts/
-   ├── plans/          # Planner, Implementer, Conductor
-   ├── reviews/        # Reviewer
-   ├── research/       # Researcher
-   ├── security/       # Security
-   ├── sessions/       # Conductor (session state)
-   ├── performance/    # Performance
-   ├── docs/           # Docs
-   ├── releases/       # Maintainer
-   ├── telemetry/      # Observability
-   ├── deployments/    # Deployment
-   ├── red-team/       # Red Team
-   ├── accessibility/  # Accessibility
-   ├── tests/          # Test
-   ├── ux/             # Visualizer
-   ├── README.md
-   └── .gitignore
+   â”œâ”€â”€ plans/          # Planner, Implementer, Conductor
+   â”œâ”€â”€ reviews/        # Reviewer
+   â”œâ”€â”€ research/       # Researcher
+   â”œâ”€â”€ security/       # Security
+   â”œâ”€â”€ sessions/       # Conductor (session state)
+   â”œâ”€â”€ performance/    # Performance
+   â”œâ”€â”€ docs/           # Docs
+   â”œâ”€â”€ releases/       # Maintainer
+   â”œâ”€â”€ telemetry/      # Observability
+   â”œâ”€â”€ deployments/    # Deployment
+   â”œâ”€â”€ red-team/       # Red Team
+   â”œâ”€â”€ accessibility/  # Accessibility
+   â”œâ”€â”€ tests/          # Test
+   â”œâ”€â”€ ux/             # Visualizer
+   â”œâ”€â”€ README.md
+   â””â”€â”€ .gitignore
    ```
 3. **Persistence**: All session outputs are written to the local artifacts folder
 4. **Continuity**: Session state in `sessions/` enables resume after interruption
@@ -299,8 +299,8 @@ The `.gitignore` in `artifacts/` excludes session state files (which may contain
 | **Access Control** | Org-level | Repository-based |
 | **Offline Support** | No | Yes (if cloned) |
 | **Custom Per-Repo** | Yes (local overrides) | Yes |
-| **Background Agents** | ✅ Supported | ⚠️ Requires extra setup |
-| **Claude Skills** | ✅ Supported | ❌ Not available |
+| **Background Agents** | âœ… Supported | âš ï¸ Requires extra setup |
+| **Claude Skills** | âœ… Supported | âŒ Not available |
 
 ## Troubleshooting
 
@@ -376,7 +376,7 @@ For large organizations migrating to Method 1:
 
 ---
 
-**Updated**: January 2026 (VS Code 1.109)  
+**Updated**: January 2026 (VS Code 1.109)
 **Method 1 Status**: Experimental (GA expected Q1 2026)VS Code:
 
 ```json

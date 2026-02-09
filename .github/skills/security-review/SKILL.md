@@ -1,4 +1,4 @@
----
+﻿---
 name: security-review
 description: "Security analysis patterns for STRIDE threat modeling, compliance checks (SOC2, GDPR, HIPAA), vulnerability assessment, and secure coding. Use for security reviews at planning, implementation, and review phases."
 ---
@@ -65,7 +65,7 @@ This skill is relevant when:
 1. Identify assets: What needs protection? (user data, API keys, PII, financial data)
 2. Identify entry points: Where can attackers interact? (API endpoints, upload forms, webhooks)
 3. Apply STRIDE: Check each category for potential threats
-4. Rate risks: Likelihood × Impact = Risk Score (1-5 scale)
+4. Rate risks: Likelihood Ã— Impact = Risk Score (1-5 scale)
 5. Recommend mitigations: Prioritize by risk score
 ```
 
@@ -80,7 +80,7 @@ This skill is relevant when:
 
 **Risk Score Formula:**
 ```
-Risk Score = Likelihood (1-5) × Impact (1-5)
+Risk Score = Likelihood (1-5) Ã— Impact (1-5)
 
 20-25: CRITICAL (immediate action required)
 12-19: HIGH (fix before deployment)
@@ -102,13 +102,13 @@ Risk Score = Likelihood (1-5) × Impact (1-5)
 
 **Secure Patterns:**
 ```javascript
-// ❌ BAD: No authentication check
+// âŒ BAD: No authentication check
 app.get('/api/user/:id', (req, res) => {
   const user = db.getUser(req.params.id);
   res.json(user);
 });
 
-// ✅ GOOD: Authentication + authorization
+// âœ… GOOD: Authentication + authorization
 app.get('/api/user/:id', authenticate, (req, res) => {
   if (req.user.id !== req.params.id && !req.user.isAdmin) {
     return res.status(403).json({ error: 'Forbidden' });
@@ -129,18 +129,18 @@ app.get('/api/user/:id', authenticate, (req, res) => {
 
 **Secure Patterns:**
 ```javascript
-// ❌ BAD: SQL injection vulnerability
+// âŒ BAD: SQL injection vulnerability
 const query = `SELECT * FROM users WHERE email = '${req.body.email}'`;
 db.query(query);
 
-// ✅ GOOD: Parameterized query
+// âœ… GOOD: Parameterized query
 const query = 'SELECT * FROM users WHERE email = ?';
 db.query(query, [req.body.email]);
 
-// ❌ BAD: Command injection
+// âŒ BAD: Command injection
 exec(`ping ${req.query.host}`);
 
-// ✅ GOOD: Input validation + safe execution
+// âœ… GOOD: Input validation + safe execution
 if (!/^[\w.-]+$/.test(req.query.host)) {
   return res.status(400).json({ error: 'Invalid host' });
 }
@@ -158,22 +158,22 @@ execFile('ping', ['-c', '4', req.query.host]);
 
 **Secure Patterns:**
 ```javascript
-// ❌ BAD: Plaintext secret
+// âŒ BAD: Plaintext secret
 const apiKey = 'sk_live_abc123';
 
-// ✅ GOOD: Environment variable or secrets manager
+// âœ… GOOD: Environment variable or secrets manager
 const apiKey = process.env.API_KEY;
 
-// ❌ BAD: Weak hashing
+// âŒ BAD: Weak hashing
 const hash = crypto.createHash('md5').update(password).digest('hex');
 
-// ✅ GOOD: Strong hashing with salt
+// âœ… GOOD: Strong hashing with salt
 const hash = await bcrypt.hash(password, 12);
 
-// ❌ BAD: PII in logs
+// âŒ BAD: PII in logs
 logger.info(`User login: ${user.email}, SSN: ${user.ssn}`);
 
-// ✅ GOOD: Sanitized logging
+// âœ… GOOD: Sanitized logging
 logger.info(`User login: ${user.id}`, { email_hash: hash(user.email) });
 ```
 
@@ -248,7 +248,7 @@ logger.info(`User login: ${user.id}`, { email_hash: hash(user.email) });
 - **Impact:** [What can an attacker do]
 - **Location:** [File:line]
 - **Mitigation:** [Specific fix recommendation]
-- **Risk Score:** [Likelihood × Impact]
+- **Risk Score:** [Likelihood Ã— Impact]
 
 ### Compliance Impact
 - SOC 2: [Affects control X, requires audit log update]
@@ -294,13 +294,13 @@ logger.info(`User login: ${user.id}`, { email_hash: hash(user.email) });
 - **Impact:** Token leakage via log aggregation, attacker can impersonate users
 - **Location:** src/auth/auth.js:45
 - **Mitigation:** Remove token logging, log only token ID or hash
-- **Risk Score:** 4 (likelihood) × 4 (impact) = 16 (HIGH)
+- **Risk Score:** 4 (likelihood) Ã— 4 (impact) = 16 (HIGH)
 
 ```javascript
-// ❌ CURRENT (VULNERABLE)
+// âŒ CURRENT (VULNERABLE)
 logger.debug(`Token issued: ${accessToken}`);
 
-// ✅ RECOMMENDED
+// âœ… RECOMMENDED
 logger.debug(`Token issued: ${tokenId}`, { user_id: userId });
 ```
 
@@ -309,13 +309,13 @@ logger.debug(`Token issued: ${tokenId}`, { user_id: userId });
 - **Impact:** Authenticated users can access admin functions (user management, config changes)
 - **Location:** src/api/admin.js:12-34
 - **Mitigation:** Validate 'admin' scope in JWT claims before processing
-- **Risk Score:** 3 (likelihood) × 5 (impact) = 15 (HIGH)
+- **Risk Score:** 3 (likelihood) Ã— 5 (impact) = 15 (HIGH)
 
 ```javascript
-// ❌ CURRENT (VULNERABLE)
+// âŒ CURRENT (VULNERABLE)
 router.post('/admin/users', authenticate, createUser);
 
-// ✅ RECOMMENDED
+// âœ… RECOMMENDED
 router.post('/admin/users', authenticate, requireScope('admin'), createUser);
 
 function requireScope(scope) {
@@ -333,18 +333,18 @@ function requireScope(scope) {
 - **Impact:** Cannot detect credential stuffing or brute force attacks
 - **Location:** src/auth/auth.js (missing)
 - **Mitigation:** Log failed auth attempts with IP, timestamp, reason
-- **Risk Score:** 3 (likelihood) × 3 (impact) = 9 (MEDIUM)
+- **Risk Score:** 3 (likelihood) Ã— 3 (impact) = 9 (MEDIUM)
 
 #### LOW: Refresh Token Rotation Not Implemented
 - **Vulnerability:** Refresh tokens not rotated on use (Auth0 best practice)
 - **Impact:** Longer window for stolen refresh token abuse
 - **Location:** src/auth/auth.js:78
 - **Mitigation:** Enable refresh token rotation in Auth0 dashboard
-- **Risk Score:** 2 (likelihood) × 2 (impact) = 4 (LOW)
+- **Risk Score:** 2 (likelihood) Ã— 2 (impact) = 4 (LOW)
 
 ### Compliance Impact
 - **SOC 2:** Token logging violates Access Control (CC6.1) - must fix for audit
-- **GDPR:** User profile data properly encrypted, consent mechanism present ✓
+- **GDPR:** User profile data properly encrypted, consent mechanism present âœ“
 - **HIPAA:** N/A (no PHI involved)
 
 ### Recommendations
@@ -385,54 +385,54 @@ function requireScope(scope) {
 **Likelihood:** 2/5 (JWT authentication present)
 **Impact:** 4/5 (unauthorized file association)
 **Risk Score:** 8 (MEDIUM)
-**Mitigation:** ✓ JWT validation already implemented
+**Mitigation:** âœ“ JWT validation already implemented
 
 #### Tampering with Data
 **Threat 1:** File content modified after upload
 **Likelihood:** 2/5 (requires server access)
 **Impact:** 5/5 (integrity compromise)
 **Risk Score:** 10 (MEDIUM)
-**Mitigation:** ✓ Integrity check with SHA-256 hash stored
+**Mitigation:** âœ“ Integrity check with SHA-256 hash stored
 
 **Threat 2:** MIME type spoofing (malicious exe as .pdf)
 **Likelihood:** 4/5 (easy to exploit)
 **Impact:** 5/5 (malware execution)
 **Risk Score:** 20 (CRITICAL)
-**Mitigation:** ❌ MISSING - Only checks file extension, not magic bytes
+**Mitigation:** âŒ MISSING - Only checks file extension, not magic bytes
 
 #### Repudiation
 **Threat:** User denies uploading malicious file
 **Likelihood:** 3/5 (if incident occurs)
 **Impact:** 3/5 (legal/compliance issue)
 **Risk Score:** 9 (MEDIUM)
-**Mitigation:** ✓ Audit log records user_id, timestamp, filename, hash
+**Mitigation:** âœ“ Audit log records user_id, timestamp, filename, hash
 
 #### Information Disclosure
 **Threat:** Uploaded files accessible without authorization
 **Likelihood:** 2/5 (depends on storage config)
 **Impact:** 5/5 (data breach)
 **Risk Score:** 10 (MEDIUM)
-**Mitigation:** ❌ PARTIAL - Files stored in S3, but bucket policy not reviewed
+**Mitigation:** âŒ PARTIAL - Files stored in S3, but bucket policy not reviewed
 
 #### Denial of Service
 **Threat 1:** Upload flood (many large files)
 **Likelihood:** 4/5 (no rate limiting)
 **Impact:** 4/5 (storage/cost exhaustion)
 **Risk Score:** 16 (HIGH)
-**Mitigation:** ❌ MISSING - No rate limiting on upload endpoint
+**Mitigation:** âŒ MISSING - No rate limiting on upload endpoint
 
 **Threat 2:** Zip bomb (compressed bomb decompresses to huge size)
 **Likelihood:** 3/5 (if zip files allowed)
 **Impact:** 5/5 (server crash)
 **Risk Score:** 15 (HIGH)
-**Mitigation:** ❌ MISSING - No decompression size validation
+**Mitigation:** âŒ MISSING - No decompression size validation
 
 #### Elevation of Privilege
 **Threat:** Path traversal in filename (../../etc/passwd)
 **Likelihood:** 4/5 (common attack)
 **Impact:** 5/5 (arbitrary file write)
 **Risk Score:** 20 (CRITICAL)
-**Mitigation:** ❌ MISSING - Filename not sanitized
+**Mitigation:** âŒ MISSING - Filename not sanitized
 
 ### Critical Findings
 
@@ -473,22 +473,22 @@ const uploadLimiter = rateLimit({
 
 router.post('/upload', authenticate, uploadLimiter, async (req, res) => {
   const file = req.file;
-  
+
   // 1. Validate magic bytes (MIME type)
   const fileTypeResult = await fileType.fromBuffer(file.buffer);
   const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png'];
-  
+
   if (!fileTypeResult || !allowedTypes.includes(fileTypeResult.mime)) {
     return res.status(400).json({ error: 'Invalid file type' });
   }
-  
+
   // 2. Sanitize filename, use UUID for storage
   const originalName = sanitize(file.originalname);
   const storageKey = `${uuidv4()}.${fileTypeResult.ext}`;
-  
+
   // 3. Calculate integrity hash
   const hash = crypto.createHash('sha256').update(file.buffer).digest('hex');
-  
+
   // 4. Upload to S3 with private ACL
   await s3.putObject({
     Bucket: 'private-uploads',
@@ -502,7 +502,7 @@ router.post('/upload', authenticate, uploadLimiter, async (req, res) => {
       'integrity-hash': hash
     }
   });
-  
+
   // 5. Audit log
   logger.info('File uploaded', {
     user_id: req.user.id,
@@ -511,7 +511,7 @@ router.post('/upload', authenticate, uploadLimiter, async (req, res) => {
     size: file.size,
     hash: hash
   });
-  
+
   res.json({ file_id: storageKey });
 });
 ```

@@ -67,7 +67,7 @@ foreach ($prompt in $promptFiles) {
                 '---',
                 "name: '$title'",
                 "description: 'TODO: add description for $title prompt.'",
-                "model: GPT-5-Codex (Preview)",
+                "model: Codex 5.2 (copilot)",
                 "mode: planner",
                 "tools:",
                 "  - todos",

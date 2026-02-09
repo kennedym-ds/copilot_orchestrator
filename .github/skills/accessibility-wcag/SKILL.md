@@ -1,4 +1,4 @@
----
+﻿---
 name: accessibility-wcag
 description: "WCAG 2.1 Level AA compliance patterns for semantic HTML, ARIA, keyboard navigation, and screen reader compatibility. Use for accessibility audits, ARIA reviews, and POUR principle validation."
 ---
@@ -55,10 +55,10 @@ This skill teaches accessibility agents how to evaluate and implement WCAG 2.1 L
 | Attribute | Purpose | Example |
 |-----------|---------|---------|
 | `role` | Define element purpose | `<div role="navigation">` |
-| `aria-label` | Accessible name | `<button aria-label="Close dialog">×</button>` |
+| `aria-label` | Accessible name | `<button aria-label="Close dialog">Ã—</button>` |
 | `aria-labelledby` | Reference label ID | `<input aria-labelledby="username-label">` |
 | `aria-describedby` | Additional context | `<input aria-describedby="password-hint">` |
-| `aria-hidden` | Hide from screen readers | `<span aria-hidden="true">★</span>` |
+| `aria-hidden` | Hide from screen readers | `<span aria-hidden="true">â˜…</span>` |
 | `aria-live` | Announce dynamic changes | `<div aria-live="polite">` |
 | `aria-expanded` | Collapsible state | `<button aria-expanded="false">` |
 
@@ -90,7 +90,7 @@ This skill teaches accessibility agents how to evaluate and implement WCAG 2.1 L
 
 #### Perceivable
 - [ ] Alt text for images (1.1.1)
-- [ ] Color contrast ≥4.5:1 for text (1.4.3)
+- [ ] Color contrast â‰¥4.5:1 for text (1.4.3)
 - [ ] Semantic HTML structure (1.3.1)
 - [ ] Content not solely conveyed by color (1.4.1)
 
@@ -134,7 +134,7 @@ This skill teaches accessibility agents how to evaluate and implement WCAG 2.1 L
 
 ### Example: Inaccessible Form
 
-**❌ Before (Non-compliant):**
+**âŒ Before (Non-compliant):**
 ```html
 <form>
   <input type="text" placeholder="Username">
@@ -150,14 +150,14 @@ This skill teaches accessibility agents how to evaluate and implement WCAG 2.1 L
 3. Submit not keyboard accessible (WCAG 2.1.1)
 4. No focus indicators
 
-**✅ After (Compliant):**
+**âœ… After (Compliant):**
 ```html
 <form>
   <div>
     <label for="username">Username</label>
-    <input 
-      id="username" 
-      type="text" 
+    <input
+      id="username"
+      type="text"
       aria-describedby="username-error"
       aria-invalid="true"
     >
@@ -165,11 +165,11 @@ This skill teaches accessibility agents how to evaluate and implement WCAG 2.1 L
       Invalid credentials. Please check your username and password.
     </span>
   </div>
-  
+
   <div>
     <label for="password">Password</label>
-    <input 
-      id="password" 
+    <input
+      id="password"
       type="password"
       aria-describedby="password-hint"
     >
@@ -177,7 +177,7 @@ This skill teaches accessibility agents how to evaluate and implement WCAG 2.1 L
       Must be at least 8 characters
     </span>
   </div>
-  
+
   <button type="submit">Submit</button>
 </form>
 
@@ -190,10 +190,10 @@ This skill teaches accessibility agents how to evaluate and implement WCAG 2.1 L
 ```
 
 **Improvements:**
-- Explicit `<label>` elements (WCAG 3.3.2) ✓
-- `aria-invalid` and `aria-describedby` for errors (WCAG 3.3.1) ✓
-- `<button>` for keyboard accessibility (WCAG 2.1.1) ✓
-- Visible focus indicators (WCAG 2.4.7) ✓
+- Explicit `<label>` elements (WCAG 3.3.2) âœ“
+- `aria-invalid` and `aria-describedby` for errors (WCAG 3.3.1) âœ“
+- `<button>` for keyboard accessibility (WCAG 2.1.1) âœ“
+- Visible focus indicators (WCAG 2.4.7) âœ“
 
 ## References
 

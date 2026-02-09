@@ -1,4 +1,4 @@
----
+﻿---
 name: tdd
 description: "TDD patterns for Red-Green-Refactor cycles, unit/integration testing, test doubles, and coverage analysis. Use for writing tests before implementation and validating code changes."
 ---
@@ -56,7 +56,7 @@ class Calculator:
 # calculator.py
 class Calculator:
     """Performs basic arithmetic operations."""
-    
+
     def add(self, a: float, b: float) -> float:
         """Add two numbers and return result."""
         return a + b  # No refactoring needed (already simple)
@@ -94,7 +94,7 @@ class Calculator:
 **Line Coverage:** % of code lines executed during tests
 **Branch Coverage:** % of if/else branches exercised
 **Function Coverage:** % of functions called
-**Target:** ≥80% line coverage, ≥70% branch coverage for new code
+**Target:** â‰¥80% line coverage, â‰¥70% branch coverage for new code
 
 ### TDD Patterns
 
@@ -103,10 +103,10 @@ class Calculator:
 test('user registration creates account', async () => {
   // Arrange: Set up test data and preconditions
   const userData = { email: 'test@example.com', password: 'secret123' };
-  
+
   // Act: Execute the code under test
   const user = await registerUser(userData);
-  
+
   // Assert: Verify expected outcomes
   expect(user.id).toBeDefined();
   expect(user.email).toBe('test@example.com');
@@ -119,11 +119,11 @@ test('user registration creates account', async () => {
 def test_divide():
     # Happy path
     assert divide(10, 2) == 5
-    
+
     # Edge cases
     assert divide(0, 5) == 0  # Zero numerator
     assert divide(7, 3) == 2.333  # Float result
-    
+
     # Error cases
     with pytest.raises(ZeroDivisionError):
         divide(10, 0)  # Division by zero
@@ -153,23 +153,23 @@ describe('POST /api/users', () => {
     const res = await request(app)
       .post('/api/users')
       .send({ name: 'John', email: 'john@test.com' });
-    
+
     expect(res.status).toBe(201);
     expect(res.body.user.name).toBe('John');
     expect(res.body.user.id).toBeDefined();
   });
-  
+
   it('returns 400 for missing email', async () => {
     const res = await request(app)
       .post('/api/users')
       .send({ name: 'John' });
-    
+
     expect(res.status).toBe(400);
     expect(res.body.error).toContain('email');
   });
 });
 
-// ❌ Tests FAIL: /api/users endpoint doesn't exist
+// âŒ Tests FAIL: /api/users endpoint doesn't exist
 ```
 
 **Phase 2: Green (Minimal Implementation)**
@@ -177,16 +177,16 @@ describe('POST /api/users', () => {
 // routes/users.js
 app.post('/api/users', async (req, res) => {
   const { name, email } = req.body;
-  
+
   if (!email) {
     return res.status(400).json({ error: 'email is required' });
   }
-  
+
   const user = await db.users.create({ name, email });
   res.status(201).json({ user });
 });
 
-// ✅ Tests PASS
+// âœ… Tests PASS
 ```
 
 **Phase 3: Refactor (Improve Quality)**
@@ -198,15 +198,15 @@ app.post('/api/users',
   // Validation middleware
   body('email').isEmail().normalizeEmail(),
   body('name').trim().isLength({ min: 1, max: 100 }),
-  
+
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    
+
     const { name, email } = req.body;
-    
+
     try {
       const user = await db.users.create({ name, email });
       res.status(201).json({ user: sanitizeUser(user) });
@@ -219,7 +219,7 @@ app.post('/api/users',
   }
 );
 
-// ✅ Tests still PASS, code quality improved
+// âœ… Tests still PASS, code quality improved
 ```
 
 ## References

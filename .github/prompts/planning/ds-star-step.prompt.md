@@ -1,4 +1,4 @@
----
+﻿---
 name: ds-star-step
 description: "Generates a single sequential analysis step for DS-Star workflows."
 model: Claude Sonnet 4.5 (copilot)
@@ -34,7 +34,7 @@ Your goal is to generate the **next logical analysis step** to answer the user's
 
    ```markdown
    # Step {{next_step_number}}: {Concise Title}
-   
+
    **Objective**: {What question will this step answer?}
    **Data Sources**: {Which files/columns are needed?}
    **Methodology**: {Specific analysis technique, e.g., "Chi-square test", "Time-series decomposition"}

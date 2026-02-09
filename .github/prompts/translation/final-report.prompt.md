@@ -1,7 +1,12 @@
 ---
+name: final-report
 description: "Generate the final translation report with per-file and repo-level confidence scores, test coverage, and security findings."
-mode: agent
+model: Claude Opus 4.6 (copilot)
 agent: translation-conductor
+tools:
+  - search
+  - readFile
+  - changes
 ---
 
 # Final Translation Report

@@ -1,4 +1,4 @@
----
+﻿---
 type: compliance
 description: "Governs which Copilot tools can execute without user confirmation, balancing developer productivity with enterprise security."
 applyTo: all-agents
@@ -30,13 +30,13 @@ These tools are read-only and do not modify system state:
 
 | Tool | Purpose | Risk Level | Auto-Approve |
 |------|---------|------------|--------------|
-| `readFile` | Read workspace files | 🟢 Low | ✅ Yes |
-| `search` | Text search in workspace | 🟢 Low | ✅ Yes |
-| `semanticSearch` | AI-powered code search | 🟢 Low | ✅ Yes |
-| `codeSearch` | Symbol/definition search | 🟢 Low | ✅ Yes |
-| `fileSearch` | Find files by pattern | 🟢 Low | ✅ Yes |
-| `listFiles` | List directory contents | 🟢 Low | ✅ Yes |
-| `getWorkspaceInfo` | Retrieve workspace metadata | 🟢 Low | ✅ Yes |
+| `readFile` | Read workspace files | ðŸŸ¢ Low | âœ… Yes |
+| `search` | Text search in workspace | ðŸŸ¢ Low | âœ… Yes |
+| `semanticSearch` | AI-powered code search | ðŸŸ¢ Low | âœ… Yes |
+| `codeSearch` | Symbol/definition search | ðŸŸ¢ Low | âœ… Yes |
+| `fileSearch` | Find files by pattern | ðŸŸ¢ Low | âœ… Yes |
+| `listFiles` | List directory contents | ðŸŸ¢ Low | âœ… Yes |
+| `getWorkspaceInfo` | Retrieve workspace metadata | ðŸŸ¢ Low | âœ… Yes |
 
 **Rationale**: Read-only operations cannot damage systems or leak data outside the workspace. Auto-approval improves agent responsiveness without meaningful security trade-offs.
 
@@ -46,16 +46,16 @@ These tools make changes but are generally reversible:
 
 | Tool | Purpose | Risk Level | Auto-Approve |
 |------|---------|------------|--------------|
-| `createFile` | Create new files | 🟡 Medium | ⚠️ Conditional |
-| `editFile` | Modify existing files | 🟡 Medium | ⚠️ Conditional |
-| `deleteFile` | Remove files | 🟡 Medium | ❌ No |
-| `renameFile` | Rename/move files | 🟡 Medium | ❌ No |
+| `createFile` | Create new files | ðŸŸ¡ Medium | âš ï¸ Conditional |
+| `editFile` | Modify existing files | ðŸŸ¡ Medium | âš ï¸ Conditional |
+| `deleteFile` | Remove files | ðŸŸ¡ Medium | âŒ No |
+| `renameFile` | Rename/move files | ðŸŸ¡ Medium | âŒ No |
 
 **Conditional Auto-Approval Criteria**:
-- ✅ Allow: Creating files in `artifacts/`, `docs/`, or `tests/` folders
-- ✅ Allow: Editing files explicitly mentioned in approved plan
-- ❌ Block: Modifying configuration files, CI/CD workflows, security-sensitive code
-- ❌ Block: Creating files outside approved directories
+- âœ… Allow: Creating files in `artifacts/`, `docs/`, or `tests/` folders
+- âœ… Allow: Editing files explicitly mentioned in approved plan
+- âŒ Block: Modifying configuration files, CI/CD workflows, security-sensitive code
+- âŒ Block: Creating files outside approved directories
 
 **Implementation Note**: VS Code 1.109 does not support path-based conditional auto-approval. If you cannot monitor sessions actively, default to requiring manual approval for all file writes.
 
@@ -65,11 +65,11 @@ These tools execute code or access external systems:
 
 | Tool | Purpose | Risk Level | Auto-Approve |
 |------|---------|------------|--------------|
-| `runCommands` | Execute shell commands | 🔴 High | ❌ No |
-| `runTask` | Run VS Code tasks | 🔴 High | ❌ No |
-| `fetch` | Access external URLs | 🔴 High | ❌ No |
-| `executeNotebook` | Run Jupyter cells | 🔴 High | ❌ No |
-| `installPackage` | Install dependencies | 🔴 High | ❌ No |
+| `runCommands` | Execute shell commands | ðŸ”´ High | âŒ No |
+| `runTask` | Run VS Code tasks | ðŸ”´ High | âŒ No |
+| `fetch` | Access external URLs | ðŸ”´ High | âŒ No |
+| `executeNotebook` | Run Jupyter cells | ðŸ”´ High | âŒ No |
+| `installPackage` | Install dependencies | ðŸ”´ High | âŒ No |
 
 **Rationale**: These tools can:
 - Execute arbitrary code with user permissions
@@ -97,9 +97,9 @@ These tools execute code or access external systems:
 ```
 
 **Impact**:
-- ✅ All tool invocations require explicit user approval
-- ✅ Maximum protection against prompt injection and data exfiltration
-- ❌ Slower agent sessions (user must confirm each tool use)
+- âœ… All tool invocations require explicit user approval
+- âœ… Maximum protection against prompt injection and data exfiltration
+- âŒ Slower agent sessions (user must confirm each tool use)
 
 **When to Use**: SOC 2, HIPAA, PCI-DSS compliance environments, air-gapped networks, repositories with secrets/PII
 
@@ -122,9 +122,9 @@ These tools execute code or access external systems:
 ```
 
 **Impact**:
-- ✅ Read-only operations auto-approve (faster research/analysis)
-- ✅ Write/execute operations require confirmation
-- ⚠️ Users must review file edits and command executions
+- âœ… Read-only operations auto-approve (faster research/analysis)
+- âœ… Write/execute operations require confirmation
+- âš ï¸ Users must review file edits and command executions
 
 **When to Use**: Private repositories, internal tools, development environments with code review workflows
 
@@ -149,14 +149,14 @@ These tools execute code or access external systems:
 ```
 
 **Impact**:
-- ✅ Agents can read and write files without confirmation
-- ✅ Fastest development experience
-- ❌ Higher risk of unintended changes
-- ⚠️ Commands, package installation, fetch still require approval
+- âœ… Agents can read and write files without confirmation
+- âœ… Fastest development experience
+- âŒ Higher risk of unintended changes
+- âš ï¸ Commands, package installation, fetch still require approval
 
 **When to Use**: Local development only, disposable environments, personal projects, sandboxed containers
 
-**🚫 Never Use**: Production systems, shared repositories, customer data environments
+**ðŸš« Never Use**: Production systems, shared repositories, customer data environments
 
 ## Threat Model
 
@@ -245,16 +245,16 @@ If malicious tool use is detected:
 
 | Agent | Auto-Approve Read | Auto-Approve Write | Auto-Approve Execute | Rationale |
 |-------|-------------------|--------------------|-----------------------|-----------|
-| Conductor | ✅ Yes | ❌ No | ❌ No | Orchestration only, delegates writes |
-| Planner | ✅ Yes | ⚠️ Artifacts only | ❌ No | Creates plans, not code |
-| Implementer | ✅ Yes | ⚠️ Approved phases | ❌ No | TDD edits need review |
-| Reviewer | ✅ Yes | ❌ No | ❌ No | Read-only analysis |
-| Researcher | ✅ Yes | ⚠️ Research briefs | ⚠️ Fetch if allowlist | Needs web access |
-| Security | ✅ Yes | ❌ No | ❌ No | Audit only, no modifications |
-| Deployment | ✅ Yes | ❌ No | ❌ No | Review deploy plans, don't execute |
-| Red Team | ✅ Yes | ❌ No | ❌ No | Adversarial testing, supervised only |
+| Conductor | âœ… Yes | âŒ No | âŒ No | Orchestration only, delegates writes |
+| Planner | âœ… Yes | âš ï¸ Artifacts only | âŒ No | Creates plans, not code |
+| Implementer | âœ… Yes | âš ï¸ Approved phases | âŒ No | TDD edits need review |
+| Reviewer | âœ… Yes | âŒ No | âŒ No | Read-only analysis |
+| Researcher | âœ… Yes | âš ï¸ Research briefs | âš ï¸ Fetch if allowlist | Needs web access |
+| Security | âœ… Yes | âŒ No | âŒ No | Audit only, no modifications |
+| Deployment | âœ… Yes | âŒ No | âŒ No | Review deploy plans, don't execute |
+| Red Team | âœ… Yes | âŒ No | âŒ No | Adversarial testing, supervised only |
 
-**Key**: ✅ Safe to auto-approve | ⚠️ Conditional | ❌ Never auto-approve
+**Key**: âœ… Safe to auto-approve | âš ï¸ Conditional | âŒ Never auto-approve
 
 ## Configuration Management
 
@@ -308,8 +308,8 @@ For organization-wide deployments, configure auto-approval centrally:
 
 Developers can increase restrictions but not decrease them:
 
-- ✅ User can disable auto-approval for tools org allows
-- ❌ User cannot enable auto-approval for tools org blocks
+- âœ… User can disable auto-approval for tools org allows
+- âŒ User cannot enable auto-approval for tools org blocks
 
 ## Testing & Validation
 
@@ -363,9 +363,9 @@ pwsh -File scripts/analyze-sessions.ps1 -StartDate (Get-Date).AddDays(-7)
 
 ## Approval & Review
 
-**Policy Owner**: Security Team  
-**Last Review**: 2025-12-19  
-**Next Review**: 2026-03-19 (quarterly)  
+**Policy Owner**: Security Team
+**Last Review**: 2025-12-19
+**Next Review**: 2026-03-19 (quarterly)
 **Approved By**: [Security Lead Name]
 
 ---
