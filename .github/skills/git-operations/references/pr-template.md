@@ -15,16 +15,16 @@ Standard PR template for the copilot orchestrator repository.
 <!-- Bullet-list the key changes. Group by category if many files changed. -->
 
 ### Agents
-- 
+-
 
 ### Instructions
-- 
+-
 
 ### Scripts
-- 
+-
 
 ### Documentation
-- 
+-
 
 ## Type of Change
 
@@ -48,9 +48,9 @@ Standard PR template for the copilot orchestrator repository.
 
 <!-- Guide reviewers to the most important changes. -->
 
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 ## Breaking Changes
 

@@ -126,7 +126,7 @@ conductor.agent.md                  4521     8000    OK
 planner.agent.md                    3102     6000    OK
 implementer.agent.md                2890     6000    OK
 ...
-TOTAL                              45230            
+TOTAL                              45230
 
 0 files over budget.
 ```

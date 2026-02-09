@@ -39,3 +39,29 @@ This directory hosts prompt templates for orchestrated workflows. Follow these g
 | `quick/pr-description` | Routine | Generate PR description from current diff |
 | `quick/commit-message` | Routine | Generate conventional commit message from diff |
 | `quick/quick-review` | Execution | Fast code review without full conductor workflow |
+
+### Root-Level Prompts
+
+| Prompt | Purpose |
+|--------|---------|
+| `review` | General code review (maps to structured-review) |
+| `new-agent` | Scaffold a new agent definition file |
+| `commit` | Generate conventional commit message |
+
+**Rationale for root placement:** These three prompts are intentionally at the
+root of `.github/prompts/` rather than in subdirectories. They serve as
+high-frequency entry points that VS Code surfaces in the prompt picker without
+navigating subdirectories. The awesome-copilot community uses subdirectories for
+domain grouping but keeps commonly-used prompts accessible at root. `review` and
+`commit` are the two most-invoked prompts; `new-agent` is the primary
+scaffolding prompt for contributors.
+
+### Translation Prompts
+
+| Prompt | Agent | Purpose |
+|--------|-------|---------|
+| `translation/analyze-repo` | translation-analyzer | Dependency graph and manifest |
+| `translation/translate-module` | translator | File-level code translation |
+| `translation/validate-translation` | translation-validator | 6-layer validation stack |
+| `translation/generate-docs` | docs | Translation documentation |
+| `translation/final-report` | translation-conductor | Full translation summary |

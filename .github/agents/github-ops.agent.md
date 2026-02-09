@@ -3,6 +3,12 @@ name: github-ops
 description: "Manages GitHub operations including issues, PRs, workflows, and repository management via the GitHub MCP server."
 argument-hint: "Manage PRs, issues, workflows, or repository operations"
 model: ['Claude Sonnet 4.5 (copilot)', 'Gemini 3 Pro (copilot)']
+mcp-servers:
+  github:
+    type: stdio
+    command: python
+    args: ["scripts/mcp/github_server.py"]
+    tools: ["list_issues", "view_issue", "create_issue", "close_issue", "comment_issue", "list_prs", "view_pr", "pr_checks", "merge_pr", "list_runs", "view_run", "run_failed_logs", "list_releases", "create_release"]
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'runCommands', 'problems']
 ---
 

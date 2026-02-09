@@ -1,13 +1,38 @@
 ---
 title: "Copilot Orchestrator Changelog"
-version: "0.7.0"
-lastUpdated: "2026-02-08"
+version: "0.8.0"
+lastUpdated: "2026-02-09"
 status: stable
 ---
 
 # Changelog
 
 All notable changes are documented here following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
+
+## [0.8.0] - 2026-02-09
+
+### Added
+- **Bundled Skill References** (Phase 4): Added `references/` folders with actionable assets to 6 skills:
+  - `tdd`: test-pyramid.md, coverage-config-examples.md
+  - `security-review`: owasp-top-10-checklist.md, stride-threat-model-template.md
+  - `accessibility-wcag`: wcag-2.2-success-criteria.md, aria-patterns.md
+  - `validation-scripts`: example-outputs.md
+  - `git-operations`: conventional-commits.md, pr-template.md
+  - `code-translation`: language-equivalence-tables.md
+- **GitHub MCP Server** (`scripts/mcp/github_server.py`): 14-tool MCP server for issue, PR, workflow, and release management via `gh` CLI
+- **MCP Integration Guide** (`docs/guides/mcp-integration.md`): Architecture, tool catalog, security considerations, setup instructions
+- **Good/Bad Examples** in 3 global instructions: behavior (response style), quality (error handling), security (secret management)
+- **Expanded Compliance Security** (`instructions/compliance/security.instructions.md`): SOC 2, GDPR, HIPAA frameworks; STRIDE reference; 8-step escalation checklist; audit trail requirements
+- **Prompt `argument-hint`**: All 22 prompts now include `argument-hint` for VS Code 1.109 contextual suggestions
+- **Prompt `${selection}`**: 4 prompts (review, quick-review, debug-issue, refactor-code) use `${selection}` contextual variable
+- **Agent Handoffs** (Phase 2): Added handoffs to planner (3), implementer (3), reviewer (2), researcher (2) for agent-to-agent navigation
+
+### Changed
+- **Agent Frontmatter** (Phase 1): Removed deprecated `infer` field from all 27 agents (VS Code 1.109 uses `user-invokable`/`disable-model-invocation`)
+- **Instruction `applyTo`** (Phase 1): Fixed `terminal-formatting.instructions.md` and `tool-approval-policy.instructions.md` to use `applyTo: "**"` (glob format)
+- **github-ops Agent**: Added `mcp-servers` block pointing to `github_server.py` with 14-tool allowlist
+- **Lint Agent**: Added `## Local Artifact Storage` section
+- **WCAG Reference**: Updated accessibility-wcag skill from WCAG 2.1 to WCAG 2.2 references
 
 ## [0.7.0] - 2026-02-08
 

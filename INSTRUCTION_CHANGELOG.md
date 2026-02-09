@@ -18,6 +18,24 @@ Each entry should include:
 
 ## Changes
 
+### 2026-02-09 - 2026 Best Practices Alignment (5-Phase Plan)
+
+#### v2.2.0 - Frontmatter, Handoffs, Prompts, Skills, MCP Integration
+**File:** `.github/agents/*.agent.md` (27), `.github/prompts/**/*.prompt.md` (22), `.github/skills/*/SKILL.md` (6), `instructions/global/*.instructions.md` (3), `instructions/compliance/security.instructions.md`, `scripts/mcp/github_server.py` (new), `docs/guides/mcp-integration.md` (new)
+**Type:** Modified (60+ files), Added (12 reference files, 1 MCP server, 1 guide)
+**Description:** Five-phase plan to close 10 gaps identified in 2026 best-practices audit against awesome-copilot community standards:
+- Phase 1: Removed deprecated `infer` field from all 27 agents; fixed `applyTo` to glob format in 2 instruction files
+- Phase 2: Added handoffs to planner (3), implementer (3), reviewer (2), researcher (2); added artifact storage to lint agent
+- Phase 3: Added `argument-hint` to all 22 prompts; added `${selection}` to 4 prompts; added Good/Bad examples to 3 global instructions; expanded compliance/security instruction with SOC 2, GDPR, HIPAA, STRIDE, escalation checklist
+- Phase 4: Created `references/` folders with 10 bundled assets across 6 skills (tdd, security-review, accessibility-wcag, validation-scripts, git-operations, code-translation); added Bundled References sections to 6 SKILL.md files
+- Phase 5: Created GitHub MCP server (14 tools) and integrated with github-ops agent; created MCP integration guide; updated changelogs
+**Expected Impact:**
+- Quality: +++ (matches 2026 community standards, complete prompt metadata, comprehensive security instructions)
+- Cost: Neutral (no model tier changes)
+- Speed: + (argument-hint enables faster prompt discovery, handoffs reduce manual routing)
+**Rollback:** Revert commits b69f982, e83b439, da7f707, c1fe320, and the Phase 5 commit. Restore `infer` field, remove handoffs, remove reference files, remove MCP server.
+**Metrics:** Track prompt invocation rates (argument-hint adoption), skill reference usage, MCP tool call volume, validation pass rates
+
 ### 2026-02-08 - Autonomous Agent Delegation
 
 #### v2.1.0 - Remove Handoff Buttons, Add Autonomous Delegation
