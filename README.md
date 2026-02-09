@@ -110,6 +110,7 @@ This creates the local `artifacts/` folder structure for session persistence.
 | Deployment | CI/CD pipeline review, release readiness assessment |
 | Terraform | Infrastructure-as-code planning, drift detection |
 | Bicep | Azure IaC implementation, ARM template migration |
+| Design | Architecture design, brand system queries, component validation |
 | Beast Mode | Extended reasoning with visible thinking for complex problems |
 
 ### Translation Workflow Agents

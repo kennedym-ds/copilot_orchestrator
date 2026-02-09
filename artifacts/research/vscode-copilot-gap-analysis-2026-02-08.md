@@ -58,7 +58,7 @@ The remaining gaps are relatively minor — primarily MCP server integration, Cl
 | 3-tier model allocation | Premium/Execution/Routine documented and enforced | Best Practice |
 | Artifact persistence | 14-folder `artifacts/` structure with templates | Best Practice |
 | Validation scripts | 6 PowerShell scripts for pre-PR validation | Best Practice |
-| Prompt templates | 19 prompt files organized by workflow phase | Best Practice |
+| Prompt templates | 22 prompt files organized by workflow phase | Best Practice |
 | Session analytics | `analyze-sessions.ps1` for workflow metrics | Best Practice |
 
 ### ⚠️ Partial Gaps (6 items)
@@ -67,7 +67,7 @@ The remaining gaps are relatively minor — primarily MCP server integration, Cl
 |---|---|---|---|
 | `disable-model-invocation` | Not used on any agent | Translation sub-agents should only be invoked by their conductor | Medium |
 | Handoff `model` parameter | No handoffs specify model | Could optimize cost by assigning cheaper models to routine handoffs | Medium |
-| Top-level prompt shortcuts | All 19 prompts are in subdirectories | No `/slash-command` at `.github/prompts/` root | Low |
+| Top-level prompt shortcuts | All 22 prompts are in subdirectories | No `/slash-command` at `.github/prompts/` root | Low |
 | MCP server configuration | No `.vscode/mcp.json` | MCP Apps are GA; no external tool integrations | **High** |
 | `llms.txt` | Not present | Emerging community pattern for AI discoverability | Low |
 | `chatLanguageModels.json` | Not present | New 1.109 config for model provider management | Low |

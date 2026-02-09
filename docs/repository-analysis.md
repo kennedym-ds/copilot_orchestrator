@@ -940,10 +940,9 @@ pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot . -FailOnWarning
 {
   "chat.useAgentsMdFile": true,
   "chat.useNestedAgentsMdFiles": true,
-  "chat.instructionsFilesLocations": [
-    "instructions",
-    ".github/instructions"
-  ],
+  "chat.instructionsFilesLocations": {
+    "instructions": true
+  },
   "chat.promptFiles": true,
   "chat.agentFilesLocations": { ".github/agents": true },
   "chat.promptFilesLocations": [".github/prompts"]

@@ -508,7 +508,7 @@ Implement JWT authentication following this workflow:
 - Template-based generation
 - Consistency with existing docs/code
 
-### GPT-5 Mini (Execution Tier)
+### Claude Haiku 4.5 (Routine Tier)
 
 **Strengths:**
 - Cost efficiency

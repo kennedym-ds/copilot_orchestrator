@@ -1,5 +1,5 @@
 ---
-description: "Java implementation guardrails for enterprise-grade application development."
+description: "Java implementation guardrails for application development."
 applyTo: "**/*.java"
 ---
 

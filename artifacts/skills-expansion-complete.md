@@ -5,7 +5,7 @@
 
 ## Summary
 
-Expanded Agent Skills from 3 pilot skills to 11 production-ready skills covering all high-priority and medium-priority domains. All skills validated, under 10k token per-file limit, and ready for on-demand loading via `chat.useAgentSkills: true`.
+Expanded Agent Skills from 3 pilot skills to 11 validated skills covering all high-priority and medium-priority domains. All skills under 10k token per-file limit and ready for on-demand loading via `chat.useAgentSkills: true`.
 
 ## Skill Inventory
 
@@ -199,7 +199,7 @@ Skills are automatically available to agents when enabled. No per-agent configur
 | Performance impact | Profile loading mechanism, optimize skill size |
 | User dissatisfaction | Gather feedback, iterate on skill content |
 
-**If successful:** Declare Agent Skills production-ready, update all agent definitions to reference skills
+**If successful:** Declare Agent Skills validated, update all agent definitions to reference skills
 
 ## Documentation Updates
 

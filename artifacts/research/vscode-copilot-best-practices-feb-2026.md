@@ -604,9 +604,9 @@ Based on INSTRUCTION_CHANGELOG.md and docs/CHANGELOG.md:
 - [x] VS Code 1.108 integration (v0.6.0, 2026-01-09)
 - [x] VS Code 1.109 integration (v2.0.0, 2026-02-06)
 - [x] Model tier overhaul (Claude Opus 4.6, Codex 5.2, Sonnet 4.5, Gemini 3 Pro, Haiku 4.5, Gemini 3 Flash)
-- [x] Model fallback arrays for all 22 agents
-- [x] Agent Skills GA with 12 skills
-- [x] `agent` tool added to all 22 agents
+- [x] Model fallback arrays for all 27 agents
+- [x] Agent Skills GA with 13 skills
+- [x] `agent` tool added to all 27 agents
 - [x] `askQuestions` tool added to conductor, planner, beast-mode
 - [x] All deprecated settings removed
 - [x] Organization instructions setting

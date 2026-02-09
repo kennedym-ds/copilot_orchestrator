@@ -48,8 +48,7 @@ Add to `.vscode/settings.json` in this repo (or your user settings):
    "chat.useAgentsMdFile": true,
    "chat.useNestedAgentsMdFiles": true,
    "chat.instructionsFilesLocations": {
-      "instructions": true,
-      ".github/instructions": true
+      "instructions": true
    },
    "chat.promptFilesLocations": { ".github/prompts": true },
    "chat.agentFilesLocations": { ".github/agents": true },

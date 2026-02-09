@@ -111,8 +111,7 @@ Use this when you only need agents available while the copilot_orchestrator repo
    ```json
    {
      "chat.instructionsFilesLocations": {
-       "instructions": true,
-       ".github/instructions": true
+       "instructions": true
      },
      "chat.promptFilesLocations": {
        ".github/prompts": true
