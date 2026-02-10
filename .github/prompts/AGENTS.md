@@ -25,6 +25,7 @@ This directory hosts prompt templates for orchestrated workflows. Follow these g
 | `implementation/execute-phase` | implementer | TDD execution of a single plan phase |
 | `research/context-dossier` | researcher | Gather context and evidence |
 | `review/structured-review` | reviewer | Severity-tagged code review checklist |
+| `review/trilateral-review` | conductor | Multi-agent consensus review (Reviewer + Red Team + Security) |
 | `support/performance-audit` | performance | Runtime/memory/cost analysis |
 | `support/security-review` | security | Threat modeling and compliance check |
 | `support/onboarding-playbook` | docs | Generate onboarding materials |

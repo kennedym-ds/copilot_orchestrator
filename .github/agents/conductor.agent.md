@@ -65,6 +65,10 @@ handoffs:
     agent: github-ops
     prompt: Execute GitHub operations (issues, PRs, workflows) as needed for this phase.
     send: false
+  - label: Trilateral Review
+    agent: conductor
+    prompt: Run trilateral review on the current artifact — dispatch Reviewer, Red Team, and Security in parallel, then synthesize a consensus score.
+    send: false
 ---
 
 # Conductor Agent — Lifecycle Orchestrator
@@ -75,6 +79,10 @@ Follow the guardrails in `instructions/workflows/conductor.instructions.md` and 
 
 - **Multi-Phase Orchestration**: Coordinate complex tasks through Planning → Implementation → Review → Completion lifecycle
 - **Subagent Delegation**: Route work to specialized agents (Planner, Implementer, Reviewer, Researcher, Support Personas)
+- **Complexity-Based Pre-Routing**: Assess request complexity (INSTANT → ULTRADEEP) before selecting agents and workflow depth. See the `delegation-routing` skill for the cognitive routing table.
+- **Budget Gatekeeper**: Track delegations, premium-tier calls, estimated tokens, and wall-clock time across the session. Enforce soft/hard limits with pause points. See the `budget-gatekeeper` skill.
+- **Trilateral Review**: For ULTRADEEP or ruin-risk tasks, run Reviewer + Red Team + Security in parallel and synthesize a consensus score. See `review/trilateral-review` prompt.
+- **Circuit Breaker**: Halt execution when ruin-risk operations are detected (file deletions, PII handling, production changes). Require explicit user override before proceeding.
 - **State Management**: Track phase progress, verdicts, and handoff context across multi-turn conversations
 - **Pause Point Enforcement**: Maintain mandatory checkpoints after plans and reviews for human approval
 - **DS-Star Routing**: Detect data science queries and delegate to iterative analysis workflow

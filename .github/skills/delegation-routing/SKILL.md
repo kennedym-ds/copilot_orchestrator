@@ -161,6 +161,47 @@ Deliver: Severity-tagged findings with actionable remediation.
 "
 ```
 
+### Complexity-Based Pre-Routing (Cognitive Router)
+
+Before keyword-matching to a specific agent, assess the request's **complexity tier** to determine the appropriate processing depth. This prevents over-engineering simple tasks and under-resourcing complex ones.
+
+#### Complexity Tiers
+
+| Tier | Signal Patterns | Routing Action |
+|------|----------------|----------------|
+| **INSTANT** | Simple lookups, greetings, factual questions, "what is X?" | Conductor answers directly — no subagent delegation needed |
+| **FAST** | Single-file fixes, typo corrections, config changes, "fix this lint error" | Route to a single specialist (lint, implementer) — skip planning |
+| **STANDARD** | Feature implementation, bug investigation, documentation overhaul | Standard lifecycle: Planner → Implementer → Reviewer |
+| **DEEP** | Multi-system architecture, cross-cutting refactor, security audit + performance review | Full lifecycle with support personas (security, performance, red-team) |
+| **ULTRADEEP** | Full-repo translation, compliance overhaul, production incident RCA | Extended reasoning (beast-mode), parallel subagent tracks, mandatory trilateral review |
+
+#### Complexity Signal Detection
+
+**Escalate to DEEP/ULTRADEEP when any of these signals are present:**
+- Request uses synthesis keywords: "synthesize", "compare and contrast", "trace evolution", "root cause"
+- Multiple systems or agent domains are affected (e.g., security + performance + deployment)
+- Contradictory evidence or failed prior attempts exist in session context
+- User explicitly requests deep analysis: "thorough", "comprehensive", "investigate fully"
+- Ruin-risk indicators: destructive operations, PII handling, production environment changes
+
+**Keep at FAST/INSTANT when:**
+- Request matches a calculator pattern, greeting, or simple factual question
+- Single-file scope with clear acceptance criteria
+- Task is routine-tier work (formatting, commit messages, PR descriptions)
+
+#### Pre-Routing Decision Flow
+
+```
+1. Check complexity tier (INSTANT → ULTRADEEP)
+2. If INSTANT → Conductor answers directly, no delegation
+3. If FAST → Skip planning, delegate to single specialist
+4. If STANDARD → Standard lifecycle (plan → implement → review)
+5. If DEEP → Standard lifecycle + engage support personas
+6. If ULTRADEEP → Beast-mode reasoning + parallel tracks + trilateral review
+```
+
+**Integration with keyword routing:** Complexity tier determines the *workflow depth*; keyword matching determines the *target agent*. Apply complexity assessment first, then use the routing table below to select the specific agent.
+
 ### Escalation Rules
 
 **Escalate to conductor** (do NOT delegate directly) when:
@@ -170,11 +211,13 @@ Deliver: Severity-tagged findings with actionable remediation.
 - Routing is ambiguous — multiple agents could handle the task
 - A BLOCKER-severity finding requires workflow changes
 - The current agent's `agents:` allowlist doesn't include the target
+- Complexity tier is ULTRADEEP and requires parallel subagent coordination
 
 **Delegate directly** when:
 - Clear single-agent handoff with matching keyword pattern
 - The target agent is in your `agents:` allowlist (or no allowlist is defined)
 - The work is scoped to one phase or one deliverable
+- Complexity tier is FAST and a single specialist can handle it
 - Return-to-conductor after completing your assigned task
 
 ### Invocation Guardrails
