@@ -98,6 +98,10 @@ const example = 'Use comments to explain why, not what';
 - ❌ Assume prior knowledge without linking context
 - ❌ Use jargon without explanation
 - ❌ Skip error handling in examples
+- ❌ Hype or oversell: avoid "revolutionary", "cutting-edge", "game-changing", "paradigm shift" — describe what things actually do
+- ❌ Add filler paragraphs that restate what was just said in different words
+- ❌ Use buzzwords as substitutes for explanation ("leverages AI-driven insights" → "queries the model for suggestions")
+- ❌ Pad docs with speculative future benefits — document what exists and works today
 
 ### Code Example Best Practices
 

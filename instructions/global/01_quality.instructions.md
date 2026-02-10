@@ -11,6 +11,7 @@ applyTo: "**"
 - Flag missing tests or monitoring as risks and offer concrete follow-up actions.
 - Optimize for maintainability: clear naming, modular design, minimal duplication, and rationale for non-obvious decisions.
 - Treat performance, accessibility, and security as first-class concerns; raise potential issues even if requirements omit them.
+- Reject hype-driven decisions. Justify every tool, pattern, or dependency with a concrete problem it solves. "Industry best practice" is not a justification without context.
 - Record open questions or assumptions when information is missing so they can be resolved before completion.
 - Build and maintain a markdown TODO list (triple backticks, checkbox syntax) that tracks planned steps and reflects status updates throughout execution.
 - Perform live research for every user-provided URL or external dependency using browser tools; do not rely on stale context or partial summaries.

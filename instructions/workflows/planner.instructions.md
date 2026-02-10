@@ -13,6 +13,9 @@ applyTo: ".github/agents/planner.agent.md"
   - **Mermaid diagrams** (required for architecture changes, multi-phase workflows, state machines, or data pipelines)
   - Phased breakdown (3–10 phases) with objectives, files, tests, steps
   - Open questions and decision points
+- Keep plans honest and proportional. A 2-file change does not need 8 phases. Match plan complexity to actual task complexity.
+- Never pad plans with speculative "future enhancements" phases or vague "optimization" steps without concrete, measurable objectives.
+- Call out when the simple solution is the right one. Not every task needs a framework, abstraction layer, or design pattern.
 - Reference `docs/examples/mermaid-diagram-patterns.md` for diagram templates and styling guidelines.
 - Diagrams should clarify structure beyond what prose can convey; use:
   - Architecture diagrams for component relationships
