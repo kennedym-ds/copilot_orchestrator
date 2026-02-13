@@ -40,6 +40,29 @@ pwsh -File scripts/init-artifacts.ps1
 pwsh -File scripts/token-report.ps1 -Path . -ConfigPath token-thresholds.json
 ```
 
+## GitHub Release Publishing Guidance
+
+- Treat release publishing as two separate steps:
+    1. Push commit/tag via git.
+    2. Create GitHub Release object and upload assets via GitHub API/UI/CLI.
+- Do not assume a pushed tag is visible on the Releases page until a release object exists.
+- For publish completion evidence, include:
+    - Release URL
+    - Asset count
+    - Asset names and sizes
+
+### Non-Interactive Fallback (Windows)
+
+If `gh auth` is unavailable but git push/pull works:
+
+1. Refresh PATH from Machine/User in the terminal session.
+2. Read GitHub credential via `git credential fill` for `host=github.com`.
+3. Create/fetch release by tag through GitHub REST API.
+4. Upload installer/artifacts via `uploads.github.com` release-assets endpoint.
+5. Verify URL and assets, then report non-sensitive results only.
+
+Security: never expose token values in chat, logs, artifacts, or files.
+
 ## Task Suitability
 
 **AI-appropriate:** Documentation updates, test authoring (TDD), bug fixes with clear repro steps, prompt/agent updates following patterns, PowerShell script enhancements.

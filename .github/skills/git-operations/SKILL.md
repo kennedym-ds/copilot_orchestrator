@@ -147,6 +147,26 @@ Relates to #456
 
 **Recommendation:** Squash merge for feature branches (cleaner history)
 
+### GitHub Releases: Tags vs Release Objects
+
+- `git push --tags` publishes tags, but does **not** create GitHub Release objects.
+- GitHub Release objects and asset uploads require GitHub API/UI/CLI access.
+
+### Release Publish Fallback (When `gh auth` is unavailable)
+
+Use this when git push/pull works but `gh` authentication cannot be completed:
+
+1. Refresh PATH from Machine/User (Windows) so `gh` is discoverable if installed.
+2. Retrieve credential via `git credential fill` for `host=github.com`.
+3. Use GitHub REST API to create or fetch release by tag:
+  - `POST /repos/{owner}/{repo}/releases`
+  - `GET /repos/{owner}/{repo}/releases/tags/{tag}`
+4. Upload asset via uploads endpoint:
+  - `https://uploads.github.com/repos/{owner}/{repo}/releases/{id}/assets?name={asset}`
+5. Verify release URL and asset count.
+
+**Security guardrails:** never print token values, never persist tokens to files, and report only non-sensitive publish outputs.
+
 ### Conflict Resolution
 
 **Steps:**

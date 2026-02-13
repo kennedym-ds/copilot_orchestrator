@@ -128,6 +128,18 @@ pwsh -File scripts/init-artifacts.ps1
 3. Create release draft with notes
 4. Tag and publish: `gh release create v2.0.0`
 
+### Pattern 3A: Release Publish Fallback (No `gh` Auth)
+**When**: Git push/pull works but `gh auth` is unavailable or interactive login is blocked.
+**GitHub Ops**:
+1. Refresh terminal PATH from Machine/User so `gh` (if installed) is discoverable.
+2. Extract token from Git credential helper using `git credential fill` for `host=github.com`.
+3. Call GitHub REST API to create/fetch release by tag:
+  - `POST /repos/{owner}/{repo}/releases`
+  - `GET /repos/{owner}/{repo}/releases/tags/{tag}`
+4. Upload release asset with uploads endpoint:
+  - `https://uploads.github.com/repos/{owner}/{repo}/releases/{id}/assets?name={asset}`
+5. Verify release URL and asset count before completing handoff.
+
 ### Pattern 4: CI Troubleshooting
 **Request**: "Why did the last workflow fail?"
 **GitHub Ops**:
@@ -162,6 +174,13 @@ When invoked by Conductor:
 - ✅ **Always do:** Verify CI status before merge, check for required reviews, document operations performed
 - ⚠️ **Ask first:** Before merging PRs without full approval, force-pushing, or deleting branches
 - 🚫 **Never do:** Merge PRs with failing CI, close issues without resolution, delete protected branches, bypass required reviews
+
+## Security for Release Operations
+
+- Never print token values in terminal logs, chat responses, or artifacts.
+- Never persist extracted tokens to files.
+- Prefer existing authenticated MCP/CLI/UI flows before credential-helper fallback.
+- After publishing, report only non-sensitive outputs (release URL, asset names/sizes, status).
 
 ## Delegation
 

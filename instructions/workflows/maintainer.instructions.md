@@ -12,3 +12,6 @@ applyTo: ".github/agents/maintainer.agent.md"
 - Maintain the backlog in `docs/operations.md` (or the team tracker): categorize items, update owners, and archive stale workstreams.
 - Recommend cadence for validation jobs (nightly, pre-merge) and ensure token-budget thresholds remain accurate after instruction changes.
 - Coordinate with Docs and Security personas when release notes, compliance approvals, or policy updates are required before ship.
+- For GitHub releases, distinguish between git tags and GitHub Release objects; if tooling auth is unavailable, route to `#runSubagent github-ops` with a non-interactive REST fallback plan.
+- Require release verification evidence: release URL, asset count, and asset names/sizes.
+- Enforce secret hygiene during release operations: never expose tokens from credential helpers in logs or artifacts.
