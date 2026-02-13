@@ -159,15 +159,18 @@ def pr_checks(number: int) -> str:
 
 
 @mcp.tool()
-def merge_pr(number: int, method: str = "squash", delete_branch: bool = True) -> str:
+def merge_pr(number: int, method: str = "squash", delete_branch: bool = False) -> str:
     """
     Merge a pull request after confirming all checks pass.
 
     Args:
         number: The PR number.
         method: Merge method — 'squash', 'merge', or 'rebase'.
-        delete_branch: Whether to delete the branch after merge.
+        delete_branch: Whether to delete the branch after merge (default: False).
     """
+    valid_methods = {'squash', 'merge', 'rebase'}
+    if method not in valid_methods:
+        return f"Error: invalid merge method '{method}'. Must be one of: {', '.join(sorted(valid_methods))}"
     args = ["pr", "merge", str(number), f"--{method}"]
     if delete_branch:
         args.append("--delete-branch")

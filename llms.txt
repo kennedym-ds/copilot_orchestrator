@@ -1,6 +1,6 @@
 # Copilot Orchestrator
 
-> Multi-agent orchestration system for GitHub Copilot with 27 specialized agents
+> Multi-agent orchestration system for GitHub Copilot with 26 specialized agents
 
 ## Overview
 
@@ -9,11 +9,11 @@ This repository implements a structured multi-agent orchestration pattern for VS
 ## Architecture
 
 - **Lifecycle:** Conductor → Planner → Implementer → Reviewer → Completion
-- **Agents:** 27 specialized agents in `.github/agents/` covering planning, implementation, review, security, performance, translation, data analytics, and more
+- **Agents:** 26 specialized agents in `.github/agents/` covering planning, implementation, review, security, performance, translation, and more
 - **Skills:** 13 Agent Skills in `.github/skills/` providing domain expertise (TDD, security review, performance analysis, delegation routing, etc.)
 - **Instructions:** 37 layered instruction files in `instructions/` (global, workflow, compliance, language-specific)
 - **Prompts:** 22 reusable prompt templates in `.github/prompts/` organized by workflow phase
-- **Model Tiers:** Premium (Claude Opus 4.6, Codex 5.2), Execution (Claude Sonnet 4.5, Gemini 3 Pro), Routine (Claude Haiku 4.5, Gemini 3 Flash)
+- **Model Tiers:** Premium (Claude Opus 4.6, Codex 5.2), Execution (GPT-5.3-Codex, Gemini 3 Pro), Routine (Claude Haiku 4.5, Gemini 3 Flash)
 
 ## Key Files
 
@@ -28,7 +28,6 @@ This repository implements a structured multi-agent orchestration pattern for VS
 ## Specialized Workflows
 
 - **Translation System:** 5 agents for cross-language code translation with dependency analysis, pattern mapping, and 6-layer validation
-- **DS-Star:** Iterative data science workflow with round-based progress and verdict tracking
 - **Conductor Orchestration:** Full lifecycle management with mandatory pause points for human approval
 
 ## Links

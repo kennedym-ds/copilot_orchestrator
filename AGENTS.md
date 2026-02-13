@@ -101,7 +101,7 @@ See [docs/guides/vscode-copilot-configuration.md](docs/guides/vscode-copilot-con
 
 ---
 
-## Agent Roster (27 Agents)
+## Agent Roster (26 Agents)
 
 ### Core Workflow
 
@@ -124,7 +124,6 @@ See [docs/guides/vscode-copilot-configuration.md](docs/guides/vscode-copilot-con
 | Docs | `docs.agent.md` | Documentation, onboarding materials |
 | Observability | `observability.agent.md` | Telemetry, platform integrations |
 | Visualizer | `visualizer.agent.md` | UX review, diagrams |
-| Data Analytics | `data-analytics.agent.md` | DS-Star workflow, data quality |
 | Deployment | `deployment.agent.md` | CI/CD review, release readiness |
 | Red Team | `red-team.agent.md` | Adversarial testing, edge cases |
 

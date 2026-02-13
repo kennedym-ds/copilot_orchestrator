@@ -772,7 +772,7 @@ When enabled (`chat.tools.terminal.sandbox.enabled: true`):
 - Define tool set collections via `chat.tools.sets` when you create shared tool groups in `.github/toolsets.jsonc`.
 - Control terminal approvals with `chat.tools.terminal.autoApprove` to match your security posture.
 - Sync prompt and instruction files across machines by enabling Settings Sync for “Prompts and Instructions.”
-- Review the **Chat History & Memory** panel to curate notes that custom agents should inherit; with memory enabled, the conductor and `#runCustomAgent` calls can re-use decisions from prior sessions.
+- Review the **Chat History & Memory** panel to curate notes that custom agents should inherit; with memory enabled, the conductor and `#runSubagent` calls can re-use decisions from prior sessions.
 
 ## Custom Agent Delegation in Practice
 - Launch complex work in the Conductor — it is the only agent with handoff buttons. All other agents delegate autonomously via `#runSubagent` using the `delegation-routing` skill.

@@ -1,1 +1,0 @@
-Review Step 1 outputs (`steps/003_implementer_baseline/churn_by_cohort.csv`) and determine if they sufficiently answer the business question. Enforce SUFFICIENT/INSUFFICIENT/BLOCKED verdict with severity tags.

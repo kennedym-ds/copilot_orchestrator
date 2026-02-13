@@ -158,8 +158,8 @@ After completing their work, agents return results to the conductor automaticall
 
 Control which models appear in the model picker for chat sessions:
 
-- **Claude Sonnet 4.5**: Premium reasoning and planning (recommended for Conductor, Planner, Reviewer)
-- **Codex 5.2**: Balanced cost/performance (recommended for Implementer, Docs, Test)
+- **GPT-5.3-Codex**: Balanced reasoning and execution (recommended for execution-tier agents)
+- **Codex 5.2**: Code-native implementation (recommended for Implementer, Test)
 - **Claude Haiku 4.5**: Fast execution tasks (recommended for routine operations)
 - **Gemini 3 Pro**: Multi-modal analysis (recommended for Visualizer, Accessibility)
 

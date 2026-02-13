@@ -2,7 +2,7 @@
 name: reviewer-structured-checklist
 description: "Review prompt ensuring diffs are evaluated for correctness, tests, compliance, and documentation coverage."
 argument-hint: "Provide the code or changes for a structured severity-tagged review"
-model: Claude Sonnet 4.5 (copilot)
+model: GPT-5.3-Codex (copilot)
 agent: reviewer
 tools:
   - todos

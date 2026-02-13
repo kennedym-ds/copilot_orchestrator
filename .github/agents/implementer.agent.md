@@ -2,7 +2,7 @@
 name: implementer
 description: "Executes the approved plan, making disciplined, tested code changes."
 argument-hint: "Specify the phase or task to implement with TDD approach"
-model: ['Codex 5.2 (copilot)', 'Claude Sonnet 4.5 (copilot)']
+model: ['Codex 5.2 (copilot)', 'GPT-5.3-Codex (copilot)']
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
 handoffs:
   - label: Return to Conductor
@@ -30,7 +30,6 @@ Follow `instructions/workflows/implementer.instructions.md`.
 - **Context Loading**: Read 2,000+ lines of surrounding context to understand dependencies and invariants
 - **Validation Evidence**: Run linters, validation scripts, and test suites with documented results
 - **Scope Discipline**: Pause and escalate when work threatens to expand beyond approved plan boundaries
-- **DS-Star Code Generation**: Produce Python/SQL analysis code for data science pipeline steps
 
 ## Response Style
 

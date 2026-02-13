@@ -7,7 +7,12 @@ Describe "Agent Tooling Requirements" -Tag 'tooling' {
         Test-Path -LiteralPath $agentsPath | Should Be $true
     }
 
-    $agentFiles = Get-ChildItem -Path $agentsPath -Filter '*.agent.md' -File
+    if (-not (Test-Path -LiteralPath $agentsPath)) {
+        Write-Warning "Agents directory not found at $agentsPath — skipping remaining tests."
+        return
+    }
+
+    $agentFiles = Get-ChildItem -Path $agentsPath -Filter '*.agent.md' -File -ErrorAction SilentlyContinue
     It "Found at least one agent file" {
         $agentFiles.Count | Should BeGreaterThan 0
     }

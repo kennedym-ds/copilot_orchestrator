@@ -148,22 +148,12 @@ def build_dependency_graph(source_dir: str, language: str) -> str:
 
 
 def _topological_sort(adjacency: dict) -> list:
-    """Kahn's algorithm for topological sorting with cycle detection."""
+    """Layer-based topological sort with cycle detection."""
     in_degree = {node: 0 for node in adjacency}
     for node, deps in adjacency.items():
         for dep in deps:
             if dep in in_degree:
-                in_degree[dep] = in_degree.get(dep, 0)
-
-    # Calculate in-degrees
-    reverse_adj = {node: [] for node in adjacency}
-    for node, deps in adjacency.items():
-        for dep in deps:
-            if dep in adjacency:
-                if dep not in reverse_adj:
-                    reverse_adj[dep] = []
-                # node depends on dep, so dep has an edge to node
-                pass
+                in_degree[dep] += 1
 
     # Simplified: group by depth
     visited = set()
@@ -457,6 +447,10 @@ def update_module_status(
     Update the status and confidence of a specific module in the translation manifest.
     Status: pending, translating, translated, validating, validated, failed, escalated.
     """
+    valid_statuses = {'pending', 'translating', 'translated', 'validating', 'validated', 'failed', 'escalated'}
+    if status not in valid_statuses:
+        return json.dumps({"error": f"Invalid status: {status}. Must be one of: {', '.join(sorted(valid_statuses))}"})
+
     for module in translation_state["modules"]:
         if module.get("id") == module_id:
             module["status"] = status

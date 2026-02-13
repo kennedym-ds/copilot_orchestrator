@@ -2,7 +2,7 @@
 name: new-agent
 description: "Scaffold a new custom agent definition file following repository patterns."
 argument-hint: "Describe the agents purpose, domain, and responsibilities"
-model: Claude Sonnet 4.5 (copilot)
+model: GPT-5.3-Codex (copilot)
 agent: agent
 tools:
   - readFile
@@ -38,7 +38,7 @@ Create a new `.agent.md` file in `.github/agents/` following the established pat
 
 ### Model Tier Assignment
 - Premium (~20%): Planning, review, research, security → Claude Opus 4.6, Codex 5.2
-- Execution (~70%): Implementation, testing, analysis → Claude Sonnet 4.5, Gemini 3 Pro, Codex 5.2
+- Execution (~70%): Implementation, testing, analysis → GPT-5.3-Codex, Gemini 3 Pro, Codex 5.2
 - Routine (~10%): Docs, linting, formatting → Claude Haiku 4.5, Gemini 3 Flash
 
 ### Invocation Control

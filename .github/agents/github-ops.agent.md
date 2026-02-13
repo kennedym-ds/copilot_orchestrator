@@ -2,7 +2,7 @@
 name: github-ops
 description: "Manages GitHub operations including issues, PRs, workflows, and repository management via the GitHub MCP server."
 argument-hint: "Manage PRs, issues, workflows, or repository operations"
-model: ['Claude Sonnet 4.5 (copilot)', 'Gemini 3 Pro (copilot)']
+model: ['GPT-5.3-Codex (copilot)', 'Gemini 3 Pro (copilot)']
 mcp-servers:
   github:
     type: stdio

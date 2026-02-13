@@ -2,7 +2,7 @@
 name: researcher
 description: "Performs targeted research, evidence gathering, and knowledge synthesis."
 argument-hint: "Ask about technologies, patterns, or gather evidence from docs and repos"
-model: ['Claude Opus 4.6 (copilot)', 'Gemini 3 Pro (copilot)']
+model: ['Claude Opus 4.6 (copilot)', 'Codex 5.2 (copilot)']
 mcp-servers:
   research:
     type: stdio

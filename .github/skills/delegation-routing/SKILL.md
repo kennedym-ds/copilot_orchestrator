@@ -69,20 +69,19 @@ All inter-agent delegation uses `#runSubagent`:
 | **implementer** | "implement", "build", "code", "fix", "apply", "execute", "create" | Execute approved changes, apply fixes, generate code | Codex 5.2 |
 | **reviewer** | "review", "audit", "quality", "check", "verify", "validate" | After implementation, quality gates, diff review, compliance checks | Claude Opus 4.6 |
 | **researcher** | "research", "investigate", "evidence", "compare", "explore", "context" | Gather background info, evaluate alternatives, find documentation | Claude Opus 4.6 |
-| **maintainer** | "triage", "release", "changelog", "version", "PR", "issue management" | Issue triage, release preparation, PR logistics, changelog updates | Claude Sonnet 4.5 |
+| **maintainer** | "triage", "release", "changelog", "version", "PR", "issue management" | Issue triage, release preparation, PR logistics, changelog updates | GPT-5.3-Codex |
 
 #### Support Persona Agents
 
 | Agent | Keyword Triggers | When to Delegate | Model Preference | Restriction |
 |-------|-----------------|------------------|------------------|-------------|
 | **security** | "threat", "vulnerability", "compliance", "STRIDE", "credentials", "auth" | Security review, threat modeling, compliance checkpoint | Claude Opus 4.6 | `user-invokable: false` — subagent-only |
-| **performance** | "latency", "memory", "profiling", "scalability", "Big O", "cost" | Runtime analysis, memory profiling, cost modeling | Claude Sonnet 4.5 | `user-invokable: false` — subagent-only |
-| **accessibility** | "WCAG", "ARIA", "a11y", "screen reader", "keyboard navigation", "contrast" | Accessibility audit, WCAG compliance, ARIA review | Claude Sonnet 4.5 | — |
+| **performance** | "latency", "memory", "profiling", "scalability", "Big O", "cost" | Runtime analysis, memory profiling, cost modeling | GPT-5.3-Codex | `user-invokable: false` — subagent-only |
+| **accessibility** | "WCAG", "ARIA", "a11y", "screen reader", "keyboard navigation", "contrast" | Accessibility audit, WCAG compliance, ARIA review | GPT-5.3-Codex | — |
 | **docs** | "documentation", "onboarding", "guide", "README", "tutorial", "knowledge" | Documentation drafts, onboarding materials, template creation | Claude Haiku 4.5 | — |
-| **observability** | "metrics", "logging", "tracing", "telemetry", "monitoring", "dashboard" | Instrumentation review, platform integration, metrics analysis | Claude Sonnet 4.5 | `user-invokable: false` — subagent-only |
-| **visualizer** | "UX", "diagram", "wireframe", "user flow", "visual", "Mermaid" | UX review, diagram creation, visual hierarchy feedback | Claude Sonnet 4.5 | — |
-| **data-analytics** | "analyze data", "correlation", "churn", "predict", "forecast", "DS-Star" | Data analysis, statistical testing, ML model evaluation | Claude Sonnet 4.5 | — |
-| **deployment** | "CI/CD", "pipeline", "deploy", "release readiness", "environment", "infrastructure" | Deployment review, pipeline validation, release runbooks | Claude Sonnet 4.5 | — |
+| **observability** | "metrics", "logging", "tracing", "telemetry", "monitoring", "dashboard" | Instrumentation review, platform integration, metrics analysis | GPT-5.3-Codex | `user-invokable: false` — subagent-only |
+| **visualizer** | "UX", "diagram", "wireframe", "user flow", "visual", "Mermaid" | UX review, diagram creation, visual hierarchy feedback | GPT-5.3-Codex | — |
+| **deployment** | "CI/CD", "pipeline", "deploy", "release readiness", "environment", "infrastructure" | Deployment review, pipeline validation, release runbooks | GPT-5.3-Codex | — |
 | **red-team** | "adversarial", "exploit", "edge case", "stress test", "loophole", "bad actor" | Adversarial testing, assumption challenging, attack surface analysis | Claude Opus 4.6 | `user-invokable: false` — subagent-only |
 
 #### Translation Workflow Agents
@@ -91,9 +90,9 @@ All inter-agent delegation uses `#runSubagent`:
 |-------|-----------------|------------------|------------------|-------------|
 | **translation-conductor** | "translate repo", "full translation", "codebase translation", "language migration" | Full-repo translation orchestration (6-phase lifecycle) | Claude Opus 4.6 | Only invoked by conductor |
 | **translator** | "translate file", "convert code", "port module" | Single-file code translation with pattern mapping | Claude Opus 4.6 | `disable-model-invocation: true` |
-| **translation-analyzer** | "dependency graph", "manifest", "translation analysis", "source discovery" | Source repo analysis, dependency DAG, complexity assessment | Claude Sonnet 4.5 | `disable-model-invocation: true` |
+| **translation-analyzer** | "dependency graph", "manifest", "translation analysis", "source discovery" | Source repo analysis, dependency DAG, complexity assessment | GPT-5.3-Codex | `disable-model-invocation: true` |
 | **translation-validator** | "validate translation", "confidence score", "equivalence check" | 6-layer validation stack, confidence scoring | Codex 5.2 | `disable-model-invocation: true` |
-| **translation-styler** | "idioms", "conventions", "target style", "idiomatic code" | Target language idiom application, convention enforcement | Claude Sonnet 4.5 | `disable-model-invocation: true` |
+| **translation-styler** | "idioms", "conventions", "target style", "idiomatic code" | Target language idiom application, convention enforcement | GPT-5.3-Codex | `disable-model-invocation: true` |
 
 #### Specialist Agents
 
@@ -101,10 +100,10 @@ All inter-agent delegation uses `#runSubagent`:
 |-------|-----------------|------------------|------------------|
 | **test** | "unit test", "integration test", "coverage", "TDD", "Pester", "test suite" | Test creation, coverage analysis, Red-Green-Refactor cycles | Codex 5.2 |
 | **lint** | "format", "style fix", "lint", "whitespace", "naming convention" | Code formatting, style enforcement, auto-fixes | Gemini 3 Flash |
-| **github-ops** | "issue", "pull request", "workflow", "GitHub Actions", "branch", "repository" | GitHub operations, PR management, workflow automation | Claude Sonnet 4.5 |
-| **terraform** | "Terraform", "multi-cloud", "IaC", "drift detection", "HCL" | Infrastructure-as-code planning, drift detection | Claude Sonnet 4.5 |
-| **bicep** | "Azure", "Bicep", "ARM template", "Azure IaC" | Azure infrastructure implementation, ARM compatibility | Claude Sonnet 4.5 |
-| **design** | "design system", "brand colors", "components", "design tokens" | Design system queries, component search, contrast validation | Claude Sonnet 4.5 |
+| **github-ops** | "issue", "pull request", "workflow", "GitHub Actions", "branch", "repository" | GitHub operations, PR management, workflow automation | GPT-5.3-Codex |
+| **terraform** | "Terraform", "multi-cloud", "IaC", "drift detection", "HCL" | Infrastructure-as-code planning, drift detection | GPT-5.3-Codex |
+| **bicep** | "Azure", "Bicep", "ARM template", "Azure IaC" | Azure infrastructure implementation, ARM compatibility | GPT-5.3-Codex |
+| **design** | "design system", "brand colors", "components", "design tokens" | Design system queries, component search, contrast validation | GPT-5.3-Codex |
 | **beast-mode** | "deep analysis", "complex reasoning", "step-by-step", "thorough investigation" | Extended reasoning with visible thinking, complex problem solving | Claude Opus 4.6 |
 
 ### Delegation Templates
@@ -260,7 +259,7 @@ When delegating to these agents, note their preferred models for cost efficiency
 | docs | Claude Haiku 4.5 | Documentation tasks are routine-tier |
 | lint | Gemini 3 Flash | Formatting is routine-tier |
 | translation-validator | Codex 5.2 | Code validation benefits from code-specialized model |
-| translation-styler | Claude Sonnet 4.5 | Style application needs execution-tier reasoning |
+| translation-styler | GPT-5.3-Codex | Style application needs execution-tier reasoning |
 
 These preferences are encoded in the agent's own `model:` frontmatter and will be applied automatically by the platform. Mentioning the model in your delegation prompt is not required — the agent will use its configured model.
 

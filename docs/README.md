@@ -31,7 +31,8 @@ This directory contains guides, templates, and operational documentation for the
 | [workflows/orchestration-rebuild-plan.md](workflows/orchestration-rebuild-plan.md) | Strategic roadmap and success metrics |
 | [workflows/new-workspace-blueprint.md](workflows/new-workspace-blueprint.md) | Repository architecture reference |
 | [workflows/new-workspace-setup-checklist.md](workflows/new-workspace-setup-checklist.md) | Setup checklist for new workspaces |
-| [workflows/agent-instruction-gap-analysis.md](workflows/agent-instruction-gap-analysis.md) | Coverage assessment || [workflows/ds-star-integration.md](workflows/ds-star-integration.md) | DS-Star data science workflow integration |
+| [workflows/agent-instruction-gap-analysis.md](workflows/agent-instruction-gap-analysis.md) | Coverage assessment |
+
 ## Templates
 
 | Template | Purpose |
@@ -39,7 +40,7 @@ This directory contains guides, templates, and operational documentation for the
 | [templates/plan.md](templates/plan.md) | Implementation plan structure |
 | [templates/phase-complete.md](templates/phase-complete.md) | Phase completion checklist |
 | [templates/plan-complete.md](templates/plan-complete.md) | Final completion report |
-| [templates/agents-root.md](templates/agents-root.md) | AGENTS.md template || [templates/data-science-analysis.md](templates/data-science-analysis.md) | DS-Star analysis deliverable template |
+| [templates/agents-root.md](templates/agents-root.md) | AGENTS.md template |
 | [templates/translation-report.md](templates/translation-report.md) | Translation validation report template |
 ## Operations
 

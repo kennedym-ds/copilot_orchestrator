@@ -522,7 +522,6 @@ These prompts are good candidates for skill migration:
 
 | Current Prompt | Suggested Skill Name | Description |
 |----------------|----------------------|-------------|
-| `planning/ds-star-step.prompt.md` | `ds-star-planning` | Sequential data analysis step planning |
 | `implementation/phase-execution.prompt.md` | `phase-execution` | Multi-phase implementation workflow |
 | `review/multi-perspective.prompt.md` | `multi-perspective-review` | Standard + adversarial code review |
 

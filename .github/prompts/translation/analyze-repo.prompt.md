@@ -2,7 +2,7 @@
 name: analyze-repo
 description: "Analyze a source repository and produce a translation manifest with dependency graph, complexity assessment, and framework mappings."
 argument-hint: "Specify the repository path to analyze for translation"
-model: Claude Sonnet 4.5 (copilot)
+model: GPT-5.3-Codex (copilot)
 agent: translation-analyzer
 tools:
   - search

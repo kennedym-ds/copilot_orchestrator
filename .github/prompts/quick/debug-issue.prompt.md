@@ -2,7 +2,7 @@
 name: debug-issue
 description: "Structured debugging workflow: reproduce, isolate, hypothesize, fix, and verify."
 argument-hint: "Describe the bug or paste the error message to debug"
-model: Claude Sonnet 4.5 (copilot)
+model: GPT-5.3-Codex (copilot)
 agent: agent
 tools:
   - search

@@ -1,7 +1,0 @@
-Sequential Step 2: Recompute churn deltas grouped by `cohort` + `activity_band`, run chi-square test vs prior quarter, and capture 95% CI per segment.
-
-```TODO-planner
-- [x] Step 1: Baseline churn by cohort
-- [x] Step 2: Segment by activity band + chi-square significance
-- [ ] Step 3: Author narrative + doc outline
-```

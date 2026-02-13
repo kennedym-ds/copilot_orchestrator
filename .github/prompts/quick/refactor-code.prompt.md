@@ -2,7 +2,7 @@
 name: refactor-code
 description: "Refactor selected code for clarity, maintainability, and adherence to language idioms."
 argument-hint: "Select or describe the code to refactor"
-model: Claude Sonnet 4.5 (copilot)
+model: GPT-5.3-Codex (copilot)
 agent: agent
 tools:
   - search

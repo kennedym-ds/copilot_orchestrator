@@ -1,11 +1,11 @@
 import subprocess
 import json
 import sys
-import os
+from pathlib import Path
 
 # Configuration
-PYTHON_EXE = r"C:\Users\Micha\AppData\Local\Programs\Python\Python313\python.exe"
-SERVER_SCRIPT = r"c:\Users\Micha\OneDrive\Documents\Projects\copilot_orchestrator\scripts\mcp\design_server.py"
+PYTHON_EXE = sys.executable
+SERVER_SCRIPT = str(Path(__file__).parent / "mcp" / "design_server.py")
 
 def test_handshake():
     print(f"Launching server: {PYTHON_EXE} {SERVER_SCRIPT}")

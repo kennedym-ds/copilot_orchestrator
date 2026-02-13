@@ -14,12 +14,12 @@ This guide provides tier-specific prompt crafting strategies to maximize effecti
 ## Architecture Context
 
 **Planning/Review Tier (20% of invocations):**
-- Models: Claude Opus 4.6, Claude Sonnet 4.5, Codex 5.2, Gemini 3 Pro
+- Models: Claude Opus 4.6, GPT-5.3-Codex, Codex 5.2, Gemini 3 Pro
 - Strengths: Advanced reasoning, ambiguity handling, synthesis, creative problem-solving
 - Use cases: Research, planning, architecture decisions, code review
 
 **Execution Tier (80% of invocations):**
-- Models: Codex 5.2, Claude Sonnet 4.5, Gemini 3 Pro, Claude Haiku 4.5
+- Models: Codex 5.2, GPT-5.3-Codex, Gemini 3 Pro, Claude Haiku 4.5
 - Strengths: Structured execution, code generation, pattern following, efficiency
 - Use cases: Implementation, testing, refactoring, documentation updates
 
@@ -460,7 +460,7 @@ Implement JWT authentication following this workflow:
 - Ask for multiple phases with pause points
 - Encourage identification of open questions
 
-### Claude Sonnet 4.5 (Planning/Execution Tier)
+### GPT-5.3-Codex (Execution Tier)
 
 **Strengths:**
 - Code understanding and refactoring

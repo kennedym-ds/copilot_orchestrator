@@ -2,7 +2,7 @@
 name: test
 description: "Writes comprehensive unit and integration tests following TDD principles."
 argument-hint: "Specify code to test, coverage gaps to fill, or test patterns to implement"
-model: ['Codex 5.2 (copilot)', 'Claude Sonnet 4.5 (copilot)']
+model: ['Codex 5.2 (copilot)', 'GPT-5.3-Codex (copilot)']
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
 ---
 

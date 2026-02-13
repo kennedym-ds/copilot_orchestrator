@@ -37,20 +37,20 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 | Agent | Primary Model | Fallback Model | Context Window | Cost Tier |
 |-------|---------------|----------------|----------------|-----------|
-| Implementer | Codex 5.2 | Claude Sonnet 4.5 | 200K tokens | Execution |
-| Test | Codex 5.2 | Claude Sonnet 4.5 | 200K tokens | Execution |
-| Red Team | Claude Sonnet 4.5 | Codex 5.2 | 200K tokens | Execution |
-| Performance | Claude Sonnet 4.5 | Gemini 3 Pro | 200K tokens | Execution |
-| Data Analytics | Claude Sonnet 4.5 | Gemini 3 Pro | 200K tokens | Execution |
-| Accessibility | Claude Sonnet 4.5 | Gemini 3 Pro | 200K tokens | Execution |
-| Observability | Claude Sonnet 4.5 | Gemini 3 Pro | 200K tokens | Execution |
-| Visualizer | Claude Sonnet 4.5 | Gemini 3 Pro | 200K tokens | Execution |
-| Deployment | Claude Sonnet 4.5 | Gemini 3 Pro | 200K tokens | Execution |
-| GitHub Ops | Claude Sonnet 4.5 | Gemini 3 Pro | 200K tokens | Execution |
-| Maintainer | Claude Sonnet 4.5 | Gemini 3 Pro | 200K tokens | Execution |
-| Terraform | Claude Sonnet 4.5 | Gemini 3 Pro | 200K tokens | Execution |
-| Bicep | Claude Sonnet 4.5 | Gemini 3 Pro | 200K tokens | Execution |
-| Design | Claude Sonnet 4.5 | Gemini 3 Pro | 200K tokens | Execution |
+| Implementer | Codex 5.2 | GPT-5.3-Codex | 200K tokens | Execution |
+| Test | Codex 5.2 | GPT-5.3-Codex | 200K tokens | Execution |
+| Red Team | GPT-5.3-Codex | Codex 5.2 | 200K tokens | Execution |
+| Performance | GPT-5.3-Codex | Gemini 3 Pro | 200K tokens | Execution |
+| Data Analytics | GPT-5.3-Codex | Gemini 3 Pro | 200K tokens | Execution |
+| Accessibility | GPT-5.3-Codex | Gemini 3 Pro | 200K tokens | Execution |
+| Observability | GPT-5.3-Codex | Gemini 3 Pro | 200K tokens | Execution |
+| Visualizer | GPT-5.3-Codex | Gemini 3 Pro | 200K tokens | Execution |
+| Deployment | GPT-5.3-Codex | Gemini 3 Pro | 200K tokens | Execution |
+| GitHub Ops | GPT-5.3-Codex | Gemini 3 Pro | 200K tokens | Execution |
+| Maintainer | GPT-5.3-Codex | Gemini 3 Pro | 200K tokens | Execution |
+| Terraform | GPT-5.3-Codex | Gemini 3 Pro | 200K tokens | Execution |
+| Bicep | GPT-5.3-Codex | Gemini 3 Pro | 200K tokens | Execution |
+| Design | GPT-5.3-Codex | Gemini 3 Pro | 200K tokens | Execution |
 
 **Execution model characteristics:**
 - Strong code generation, testing, and analysis
@@ -91,7 +91,7 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 **Primary:** Claude Opus 4.6
 **Fallback sequence:**
 1. Codex 5.2 (strong reasoning, code-native architecture)
-2. Claude Sonnet 4.5 (good reasoning at lower cost)
+2. GPT-5.3-Codex (good reasoning at lower cost)
 3. **Pause workflow** — Premium tasks should never downgrade to routine tier
 
 **Decision logic:**
@@ -104,7 +104,7 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 **Primary:** Codex 5.2
 **Fallback sequence:**
-1. Claude Sonnet 4.5 (strong code generation, different architecture)
+1. GPT-5.3-Codex (strong code generation, different architecture)
 2. Gemini 3 Pro (capable execution alternative)
 3. **Escalate to Conductor** if task complexity requires premium reasoning
 
@@ -115,7 +115,7 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 #### Analysis Agents (Performance, Data Analytics, Accessibility, Observability, Deployment, GitHub Ops, Maintainer, Terraform, Bicep, Design, Visualizer)
 
-**Primary:** Claude Sonnet 4.5
+**Primary:** GPT-5.3-Codex
 **Fallback sequence:**
 1. Gemini 3 Pro (strong analysis, large context)
 2. Codex 5.2 (capable analysis alternative)
@@ -128,7 +128,7 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 #### Adversarial Agent (Red Team)
 
-**Primary:** Claude Sonnet 4.5
+**Primary:** GPT-5.3-Codex
 **Fallback sequence:**
 1. Codex 5.2 (strong adversarial reasoning)
 2. Gemini 3 Pro (capable alternative)
@@ -139,7 +139,7 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 **Primary:** Claude Haiku 4.5 / Gemini 3 Flash
 **Fallback sequence:**
 1. Cross-swap between Haiku and Flash
-2. Claude Sonnet 4.5 (upgrade to execution tier if both routine models fail)
+2. GPT-5.3-Codex (upgrade to execution tier if both routine models fail)
 3. **Escalate to Conductor** if documentation requires research or complex analysis
 
 ## Fallback Implementation
@@ -210,7 +210,7 @@ After primary model restored:
 - API integration and external calls
 - Step-by-step execution with strong code understanding
 
-**Claude Sonnet 4.5:**
+**GPT-5.3-Codex:**
 - Analysis, profiling, and support tasks
 - Nuanced requirement interpretation
 - Long-form documentation review
@@ -235,7 +235,7 @@ Conductor may override default model assignment when:
 1. **Task characteristics favor specific model:**
    - Research-heavy → Claude Opus 4.6 (deep synthesis)
    - Implementation-heavy → Codex 5.2 (code-native)
-   - Analysis-heavy → Claude Sonnet 4.5 (balanced reasoning)
+   - Analysis-heavy → GPT-5.3-Codex (balanced reasoning)
    - Large context → Gemini 3 Pro (large context window)
 
 2. **Context size requirements:**

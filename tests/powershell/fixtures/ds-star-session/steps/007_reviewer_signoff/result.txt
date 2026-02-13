@@ -1,9 +1,0 @@
-Verdict: SUFFICIENT – Cohort + activity-band analysis is statistically sound.
-
-```TODO-reviewer
-Verdict: SUFFICIENT – Cohort acceleration quantified with chi-square + CI
-- [severity:low] Docs agent should highlight engagement recommendation referencing `final_output/analysis-report.md`
-- [severity:low] Maintain dataset checksum in deliverable appendix
-next_action: Finalize docs and publish
-router_directive: ROUTE_DOCS
-```

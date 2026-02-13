@@ -502,7 +502,7 @@ If pilot shows negative results:
 3. **validation-scripts** â€” PowerShell validation tooling
 
 ### Expanded Skills (Implemented)
-4. **conductor-lifecycle** â€” Phase management, pause points, handoffs, DS-Star routing
+4. **conductor-lifecycle** — Phase management, pause points, handoffs
 5. **security-review** â€” STRIDE threat modeling, compliance (SOC2/GDPR/HIPAA)
 6. **performance-analysis** â€” Big O complexity, database optimization, cloud cost
 7. **tdd** â€” Test-Driven Development, Red-Green-Refactor, test doubles

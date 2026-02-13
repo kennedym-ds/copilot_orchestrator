@@ -68,7 +68,7 @@ foreach ($prompt in $promptFiles) {
                 "name: '$title'",
                 "description: 'TODO: add description for $title prompt.'",
                 "model: Codex 5.2 (copilot)",
-                "mode: planner",
+                "agent: planner",
                 "tools:",
                 "  - todos",
                 "  - readFile",
@@ -92,7 +92,8 @@ foreach ($prompt in $promptFiles) {
         }
     }
 
-    $frontMatter = [string]::Join("`n", ($frontMatterBlock | Select-Object -Skip 1 | Select-Object -SkipLast 1))
+    $inner = $frontMatterBlock[1..($frontMatterBlock.Count - 2)]
+    $frontMatter = [string]::Join("`n", $inner)
     foreach ($key in $requiredKeys) {
         if ($frontMatter -notmatch ("(?m)^" + [regex]::Escape($key) + ":")) {
             $missingMetadata += [PSCustomObject]@{ File = $relativePath; Missing = $key }

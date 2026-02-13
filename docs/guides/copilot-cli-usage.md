@@ -56,7 +56,6 @@ copilot --agent=conductor --prompt "Plan a new feature for agent handoffs"
 |-------|---------|----------|
 | Terraform | `--agent=terraform` | Infrastructure as Code (multi-cloud) |
 | Bicep | `--agent=bicep` | Azure IaC |
-| Data Analytics | `--agent=data-analytics` | DS-Star iterative analysis |
 | Observability | `--agent=observability` | Telemetry and metrics |
 | Red Team | `--agent=red-team` | Adversarial testing |
 | Beast Mode | `--agent=beast-mode` | Extended reasoning with visible thinking |
@@ -90,12 +89,6 @@ copilot --agent=test --prompt "Identify coverage gaps in tests/powershell/ and w
 
 # Fix style issues
 copilot --agent=lint --prompt "Run lint checks and fix formatting issues in scripts/"
-```
-
-### Data Analysis (DS-Star Workflow)
-
-```bash
-copilot --agent=data-analytics --prompt "Analyze agent session logs to identify patterns in escalation frequency"
 ```
 
 ### Accessibility Audit

@@ -78,7 +78,7 @@ Invoke-Pester -Path tests -Output Detailed
 
 ---
 
-## Agent Roster (27 Agents)
+## Agent Roster (26 Agents)
 
 ### Core Workflow
 
@@ -89,7 +89,7 @@ Invoke-Pester -Path tests -Output Detailed
 | implementer | Codex 5.2 | TDD execution |
 | reviewer | Claude Opus 4.6 | Code review |
 | researcher | Claude Opus 4.6 | Context gathering |
-| maintainer | Claude Sonnet 4.5 | Issue triage, releases |
+| maintainer | GPT-5.3-Codex | Issue triage, releases |
 
 ### Support Personas
 
@@ -101,7 +101,6 @@ Invoke-Pester -Path tests -Output Detailed
 | docs | Documentation |
 | observability | Telemetry, integrations |
 | visualizer | UX review, diagrams |
-| data-analytics | DS-Star workflow |
 | deployment | CI/CD review |
 | red-team | Adversarial testing |
 

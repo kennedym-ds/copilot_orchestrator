@@ -75,7 +75,7 @@ Prompts:        4,052 tokens (35 files)
 - **False escalation rate** â€” Escalations where execution tier could have succeeded (indicates need for better prompting).
 
 **Model Availability & Resilience:**
-- **Primary model uptime** â€” Availability percentage by model type (Claude Opus 4.6, Codex 5.2, Claude Sonnet 4.5, etc.).
+- **Primary model uptime** — Availability percentage by model type (Claude Opus 4.6, Codex 5.2, GPT-5.3-Codex, etc.).
 - **Fallback invocation frequency** â€” How often fallback models used vs. primary.
 - **Fallback success rate** â€” Percentage of successful completions when using 1st, 2nd, 3rd fallback.
 - **Mean time to recovery** â€” When primary model unavailable, how long until restored.
@@ -106,18 +106,6 @@ Prompts:        4,052 tokens (35 files)
 - Fine-tune cost-efficient models on successful patterns if data available.
 - Adjust fallback chains based on empirical reliability and performance data.
 
-### DS-Star Operations
-
-**Policies:**
-- **Max Rounds:** 10 per session. Escalation required if exceeded.
-- **Timeout:** 30 minutes per session.
-- **Resume SLA:** All interrupted sessions must be resumable via `pipeline_state.json`.
-- **Data Privacy:** No PII in `plans/data-analysis/`. Use placeholder data for reproduction.
-
-**Monitoring:**
-- **Completion Rate:** Target â‰¥80% `SUFFICIENT` verdicts.
-- **Average Rounds:** Target â‰¤3 for simple, â‰¤6 for complex queries.
-- **Artifact Compliance:** 100% of sessions must pass `validate-copilot-assets.ps1` (Section 6).
 
 ## Incident Response
 

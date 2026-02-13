@@ -2,7 +2,7 @@
 name: translation-styler
 description: "Applies target language idioms, conventions, and best practices to translated code."
 argument-hint: "Provide translated file paths to apply target language idioms and style conventions"
-model: ['Claude Sonnet 4.5 (copilot)', 'Codex 5.2 (copilot)']
+model: ['GPT-5.3-Codex (copilot)', 'Codex 5.2 (copilot)']
 disable-model-invocation: true
 tools:
   - todos

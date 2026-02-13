@@ -96,7 +96,7 @@ The repository implements a **layered instruction system**:
 
 #### Conductor (`conductor.agent.md`)
 - **Role:** Lifecycle orchestrator
-- **Model:** Claude Sonnet 4.5 (premium reasoning)
+- **Model:** Claude Opus 4.6 (premium reasoning)
 - **Responsibilities:**
   - Manages Planning → Implementation → Review → Commit → Completion workflow
   - Invokes subagents via `#runSubagent`
@@ -130,7 +130,7 @@ The repository implements a **layered instruction system**:
 
 #### Reviewer (`reviewer.agent.md`)
 - **Role:** Quality gatekeeper
-- **Model:** Claude Sonnet 4.5 (premium reasoning)
+- **Model:** Claude Opus 4.6 (premium reasoning)
 - **Responsibilities:**
   - Validates implementation against approved plan
   - Examines diffs for correctness, quality, policy compliance
@@ -153,13 +153,13 @@ The repository implements a **layered instruction system**:
 
 #### Security (`security.agent.md`)
 - **Focus:** Threat modeling, compliance, privacy
-- **Model:** Claude Sonnet 4.5
+- **Model:** Claude Opus 4.6
 - **Workflow:** STRIDE analysis, severity tagging, mitigation recommendations
 - **Verdicts:** APPROVED, NEEDS_MITIGATION, FAILED
 
 #### Performance (`performance.agent.md`)
 - **Focus:** Runtime, memory, cost optimization
-- **Model:** Claude Sonnet 4.5
+- **Model:** GPT-5.3-Codex
 - **Analysis:** Throughput, latency, resource usage
 - **Deliverables:** Baseline metrics, bottleneck identification, optimization roadmap
 
@@ -392,7 +392,7 @@ Conductor (orchestrator)
 
 | Model Tier | Use Cases | Agents |
 |-----------|-----------|---------|
-| **Premium Reasoning** | Planning, complex analysis, quality review | Claude Opus 4.6, Codex 5.2, Claude Sonnet 4.5, Gemini 3 Pro |
+| **Premium Reasoning** | Planning, complex analysis, quality review | Claude Opus 4.6, Codex 5.2, GPT-5.3-Codex, Gemini 3 Pro |
 | **Cost-Optimized** | Implementation, documentation | Claude Haiku 4.5, Gemini 3 Flash, Codex 5.2 |
 
 **Cost Control Features:**

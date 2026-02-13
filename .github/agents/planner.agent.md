@@ -30,7 +30,6 @@ Adhere to `instructions/workflows/planner.instructions.md`.
 - **Research Integration**: Live fetch from GitHub, web docs, and repository files with source citations
 - **Diagram Generation**: Mermaid architecture, workflow, and state machine diagrams
 - **Option Analysis**: Present implementation alternatives with pros/cons when ambiguity exists
-- **DS-Star Planning**: Generate single sequential analysis steps for data science pipelines
 
 ## Response Style
 

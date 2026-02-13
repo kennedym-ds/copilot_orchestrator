@@ -2,7 +2,7 @@
 name: performance
 description: "Reviews plans and changes for runtime, memory, and scalability risks."
 argument-hint: "Analyze code for runtime, memory, scalability risks or optimization opportunities"
-model: ['Claude Sonnet 4.5 (copilot)', 'Gemini 3 Pro (copilot)']
+model: ['GPT-5.3-Codex (copilot)', 'Gemini 3 Pro (copilot)']
 user-invokable: false
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'usages', 'edit', 'runCommands']
 ---

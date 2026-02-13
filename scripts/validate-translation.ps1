@@ -24,8 +24,8 @@ Set-StrictMode -Version 2.0
 $ErrorActionPreference = 'Stop'
 
 # --- Resolve paths ---
-$root = Resolve-Path $RepositoryRoot
-$translationDir = Join-Path $root 'artifacts' 'plans' 'translation'
+$root = (Resolve-Path -LiteralPath $RepositoryRoot).ProviderPath
+$translationDir = Join-Path (Join-Path (Join-Path $root 'artifacts') 'plans') 'translation'
 
 if (-not $ManifestPath) {
     $ManifestPath = Join-Path $translationDir 'manifest.json'

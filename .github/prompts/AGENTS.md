@@ -21,7 +21,6 @@ This directory hosts prompt templates for orchestrated workflows. Follow these g
 | Prompt | Agent | Purpose |
 |--------|-------|---------|
 | `planning/multi-phase-plan` | planner | Draft multi-phase implementation plans |
-| `planning/ds-star-step` | data-analytics | DS-Star iterative analysis round |
 | `implementation/execute-phase` | implementer | TDD execution of a single plan phase |
 | `research/context-dossier` | researcher | Gather context and evidence |
 | `review/structured-review` | reviewer | Severity-tagged code review checklist |

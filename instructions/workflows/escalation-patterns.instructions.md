@@ -7,18 +7,18 @@ applyTo: ".github/agents/implementer.agent.md,.github/agents/conductor.agent.md"
 
 ## Overview
 
-This document defines triggers and patterns for escalating from cost-efficient models (Claude Sonnet 4.5, Gemini 3 Pro, Codex 5.2) to premium reasoning models (Claude Opus 4.6, Codex 5.2, Claude Sonnet 4.5) during implementation phases. Escalation preserves cost efficiency while ensuring quality recovery when complexity exceeds the capabilities of execution-tier models.
+This document defines triggers and patterns for escalating from cost-efficient models (GPT-5.3-Codex, Gemini 3 Pro, Codex 5.2) to premium reasoning models (Claude Opus 4.6, Codex 5.2, GPT-5.3-Codex) during implementation phases. Escalation preserves cost efficiency while ensuring quality recovery when complexity exceeds the capabilities of execution-tier models.
 
 ## Cost-Tier Architecture
 
 **Execution Tier (80% of invocations):**
-- Default models: Claude Sonnet 4.5, Gemini 3 Pro, Codex 5.2
+- Default models: GPT-5.3-Codex, Gemini 3 Pro, Codex 5.2
 - Optimized for: Structured implementation, test execution, routine refactoring
 - Tool access: `edit`, `runCommands`, `search`, `todos`, `changes`, `problems`
 - No access to: `fetch`, `githubRepo` (prevents context bloat)
 
 **Planning/Review Tier (20% of invocations):**
-- Premium models: Claude Opus 4.6, Codex 5.2, Claude Sonnet 4.5
+- Premium models: Claude Opus 4.6, Codex 5.2, GPT-5.3-Codex
 - Optimized for: Research, architecture decisions, ambiguity resolution, code review
 - Full tool access including `fetch`, `search`, `githubRepo`, `usages`
 
