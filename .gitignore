@@ -4,6 +4,9 @@ plans/
 # VS Code
 .vscode/
 
+# Virtual environment
+.venv/
+
 # Local configuration files
 *.local
 
