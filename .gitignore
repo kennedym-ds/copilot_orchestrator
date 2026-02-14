@@ -3,3 +3,9 @@ plans/
 
 # VS Code
 .vscode/
+
+# Local configuration files
+*.local
+
+# Artifacts
+artifacts/
