@@ -1,0 +1,63 @@
+name: Bug report
+description: Report a reproducible problem in repository behavior, scripts, docs, or workflows.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve `copilot_orchestrator`.
+        Please provide enough detail to reproduce the issue.
+
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      description: One-line description of the bug.
+      placeholder: "Validation script fails on clean repository"
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: Provide exact steps and expected vs actual behavior.
+      placeholder: |
+        1. Run ...
+        2. Open ...
+        3. Observe ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, shell, and tool versions.
+      placeholder: |
+        OS: Windows 11
+        Shell: PowerShell 5.1
+        VS Code: 1.109
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or output
+      description: Paste relevant output. Redact secrets/tokens.
+      render: shell
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-submit checks
+      options:
+        - label: I searched existing issues.
+          required: true
+        - label: I ran relevant validation commands (PowerShell 5.1), for example `powershell -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`.
+          required: false
+        - label: I confirm no secrets are included.
+          required: true

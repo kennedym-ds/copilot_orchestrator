@@ -1,0 +1,60 @@
+name: Feature request
+description: Propose an improvement to agents, prompts, instructions, scripts, or docs.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Proposals are easier to review when they are specific, scoped, and linked to repository goals.
+
+  - type: input
+    id: problem
+    attributes:
+      label: Problem statement
+      description: What problem are you trying to solve?
+      placeholder: "Contributors lack a clear shortcut for..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the change and where it should live.
+      placeholder: |
+        Add/update files:
+        - path/to/file
+        Behavior:
+        - ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What other options did you evaluate?
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Validation and impact
+      description: Mention validation scripts and likely docs/changelog updates.
+      placeholder: |
+        Validation:
+        - powershell -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .
+        - powershell -File scripts/run-lint.ps1 -RepositoryRoot .
+        Docs updates:
+        - docs/CHANGELOG.md (if notable)
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-submit checks
+      options:
+        - label: I searched existing issues and plans for duplicates.
+          required: true
+        - label: This request is scoped to a concrete, actionable change.
+          required: true

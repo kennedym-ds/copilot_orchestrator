@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Quick reference and contributor docs
+    url: https://github.com/kennedym-ds/copilot_orchestrator/blob/main/docs/quick-reference.md
+    about: Start here for commands, validation workflow, and repository guidance before opening an issue.
