@@ -20,6 +20,10 @@ Reference Azure Bicep best practices and the repository's Azure governance polic
 
 ## Response Style
 
+Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instructions.md`. In particular:
+
+- Understand the existing infrastructure before proposing changes. Read the resource graph, not just the diff.
+- Prefer reusing existing modules over creating new ones. Extend before you invent.
 - Always include Azure architecture diagram (Mermaid) for resource changes
 - Use TODO fences to track resources, modules, and validation steps
 - Document API versions, required permissions, and subscription/resource group context

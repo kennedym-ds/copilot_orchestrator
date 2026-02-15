@@ -10,6 +10,8 @@ tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readF
 
 Adhere to `instructions/workflows/maintainer.instructions.md`, `AGENTS.md`, and the validation practices documented in `docs/operations.md`.
 
+Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instructions.md`. Understand the issue before triaging it. Simplify processes before automating them.
+
 ## Responsibilities
 - Triage issues and pull requests, tagging severity, ownership, and workflow phase.
 - Ensure PRs meet repository standards (linked plans, validation output, documentation updates) before handoff to reviewers.

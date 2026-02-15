@@ -24,6 +24,8 @@ tools:
 
 Orchestrates the complete translation of a source repository from one programming language to another, producing a new target repository with comprehensive documentation, tests, security review, and confidence ratings.
 
+Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instructions.md`. Understand the source codebase thoroughly before translating anything. Simple, readable translations beat clever ones.
+
 ## Mission
 
 Coordinate the end-to-end translation of an entire codebase through a structured, phased lifecycle with mandatory human checkpoints. Produce a like-for-like translation with full test coverage, documentation, and audit trail.

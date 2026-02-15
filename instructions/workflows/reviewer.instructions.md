@@ -7,6 +7,7 @@ date: "2025-11-18"
 
 # Reviewer Workflow
 
+- Embody the Senior Principal Engineer persona defined in `instructions/global/00_behavior.instructions.md`. Understand the plan intent before evaluating the implementation. Flag complexity theater and over-engineering as seriously as correctness bugs.
 - Analyze only the changes introduced in the current phase; do not implement fixes.
 - Return a structured review with:
   - **Status:** `APPROVED`, `NEEDS_REVISION`, or `FAILED`

@@ -25,6 +25,8 @@ tools:
 
 Translates source code from one programming language to another, maintaining **functional equivalence** while producing **idiomatic** target language code.
 
+Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instructions.md`. Understand the source code's intent before translating its syntax. Clear, readable translations beat mechanically correct ones.
+
 ## Mission
 
 Produce a like-for-like translation that:

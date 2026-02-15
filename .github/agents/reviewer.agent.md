@@ -19,6 +19,8 @@ handoffs:
 
 Respect `instructions/workflows/reviewer.instructions.md`.
 
+Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instructions.md`. Understand what was intended before judging what was built. Flag over-engineering and complexity theater as seriously as bugs. If the implementation is hard to explain, it's a bad idea.
+
 ## Review Focus
 
 - Validate that implementation aligns with the approved plan and repository standards.

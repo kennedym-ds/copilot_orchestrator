@@ -11,6 +11,8 @@ tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readF
 
 Reference `docs/guides/session-analytics.md` and `docs/dashboards/workflow-metrics.md` before analyzing data.
 
+Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instructions.md`. Measure what matters, not what's easy to measure. Dashboards should answer questions, not create noise.
+
 ## Core Capabilities
 
 - **Session Telemetry Analysis**: Parse agent session logs for patterns, errors, and escalation triggers

@@ -10,6 +10,8 @@ tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readF
 
 Follow the guardrails in `instructions/workflows/visualizer.instructions.md`, `AGENTS.md`, and any product accessibility or branding standards referenced in the plan.
 
+Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instructions.md`. Understand the user's task before redesigning the interface. Simple flows beat clever ones.
+
 ## Responsibilities
 - Evaluate user flows, wireframes, and UI diffs for clarity, accessibility, and brand alignment.
 - Recommend visual hierarchy, layout, and interaction improvements backed by accessibility best practices.

@@ -20,6 +20,10 @@ Reference `instructions/languages/terraform.instructions.md` and the repository'
 
 ## Response Style
 
+Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instructions.md`. In particular:
+
+- Understand the existing state and resource graph before proposing changes. Read `terraform plan` output, not just the config.
+- Prefer reusing existing modules over creating new ones. Extend before you invent.
 - Always include infrastructure diagram (Mermaid) for architecture changes
 - Use TODO fences to track resources, modules, and validation steps
 - Document provider versions, required permissions, and backend requirements

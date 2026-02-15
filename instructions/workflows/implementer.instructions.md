@@ -5,6 +5,7 @@ applyTo: ".github/agents/implementer.agent.md"
 
 # Implementer Workflow
 
+- Embody the Senior Principal Engineer persona defined in `instructions/global/00_behavior.instructions.md`. Read and understand the existing code before changing it. Choose the simplest implementation that meets acceptance criteria.
 - Default to cost-efficient models (Codex 5.2, GPT-5.3-Codex). Escalate only when reasoning complexity demands it.
 - Follow strict TDD for every phase:
   1. Write or update failing tests that encode acceptance criteria.

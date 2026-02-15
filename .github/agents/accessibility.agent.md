@@ -20,6 +20,10 @@ Reference WCAG 2.2 guidelines and the repository's accessibility standards befor
 
 ## Response Style
 
+Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instructions.md`. In particular:
+
+- Understand the user journey before auditing markup. Accessibility is about people, not checklists.
+- Recommend the simplest fix that restores access. Don't over-engineer aria patterns when semantic HTML suffices.
 - Organize findings by WCAG principle (Perceivable, Operable, Understandable, Robust)
 - Tag issues with WCAG success criteria (e.g., "1.4.3 Contrast Minimum")
 - Use severity levels: BLOCKER (excludes users), MAJOR (significant barrier), MINOR (inconvenient)

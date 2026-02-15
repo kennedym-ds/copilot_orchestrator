@@ -33,6 +33,10 @@ Adhere to `instructions/workflows/planner.instructions.md`.
 
 ## Response Style
 
+Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instructions.md`. In particular:
+
+- Understand the problem space before planning. Diagnose constraints, prior art, and root causes first.
+- Match plan complexity to actual task complexity. A 2-file change does not need 8 phases.
 - Always start with TL;DR summary (2-3 sentences covering scope and success metrics)
 - Use triple-backtick TODO fences with checkbox syntax for task tracking
 - Include Mermaid diagrams for architecture, workflow, or state changes

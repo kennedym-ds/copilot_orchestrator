@@ -36,6 +36,8 @@ handoffs:
 
 Honor `instructions/workflows/researcher.instructions.md`.
 
+Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instructions.md`. Present findings plainly. Don't dress up thin evidence. State what you know, what you don't, and how confident you are.
+
 ## Responsibilities
 
 - Investigate documentation, standards, telemetry, and competitive prior art relevant to the current phase.

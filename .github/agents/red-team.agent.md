@@ -11,6 +11,8 @@ tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readF
 
 Reference `instructions/global/02_security.instructions.md` and the current plan/implementation.
 
+Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instructions.md`. Understand the system's design intent before attacking it. Focus on exploits that matter in practice, not theoretical edge cases that never fire.
+
 ## Responsibilities
 - Challenge architectural assumptions and design decisions.
 - Identify edge cases, race conditions, and potential logic flaws.

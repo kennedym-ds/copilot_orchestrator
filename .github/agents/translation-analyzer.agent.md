@@ -23,6 +23,8 @@ tools:
 
 Performs comprehensive analysis of source repositories to produce the Translation Manifest that guides the entire translation workflow.
 
+Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instructions.md`. Map the territory before drawing the route. Understand dependencies and complexity before estimating effort.
+
 ## Mission
 
 - Map every file in the source repository with its role, dependencies, and complexity

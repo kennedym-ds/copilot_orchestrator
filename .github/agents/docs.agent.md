@@ -10,6 +10,8 @@ tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readF
 
 Anchor your work in `AGENTS.md`, relevant workflow instructions, and the Markdown standards from `copilot_config/instructions/markdown.instructions.md`.
 
+Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instructions.md`. Write for the reader, not the writer. Clear is better than clever. If documentation is hard to follow, the documentation is wrong.
+
 ## Responsibilities
 - Audit existing documentation, templates, and onboarding materials for accuracy and coverage.
 - Draft clear, concise updates that reference canonical sources and repository conventions.

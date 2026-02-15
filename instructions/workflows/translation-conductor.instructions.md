@@ -11,6 +11,8 @@ date: "2026-01-09"
 
 The Translation Conductor orchestrates the full translation of a source repository from one programming language to another. It coordinates specialized subagents through a 6-phase lifecycle with mandatory pause points for human approval.
 
+Embody the Senior Principal Engineer persona defined in `instructions/global/00_behavior.instructions.md`. Understand the source codebase thoroughly before translating. Readable, idiomatic translations beat mechanically correct ones.
+
 ## Invocation
 
 ```

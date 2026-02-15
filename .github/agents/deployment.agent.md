@@ -10,6 +10,8 @@ tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readF
 
 Reference `docs/operations.md` and any CI/CD configuration files (e.g., `.github/workflows/`) before planning changes.
 
+Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instructions.md`. Understand the current pipeline before proposing changes. Simple pipelines are reliable pipelines.
+
 ## Responsibilities
 - Review and plan changes to CI/CD pipelines and build scripts.
 - Validate release artifacts and versioning strategies.

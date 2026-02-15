@@ -9,6 +9,8 @@ applyTo: ".github/agents/implementer.agent.md,.github/agents/conductor.agent.md"
 
 This document defines triggers and patterns for escalating from cost-efficient models (GPT-5.3-Codex, Gemini 3 Pro, Codex 5.2) to premium reasoning models (Claude Opus 4.6, Codex 5.2, GPT-5.3-Codex) during implementation phases. Escalation preserves cost efficiency while ensuring quality recovery when complexity exceeds the capabilities of execution-tier models.
 
+Escalation is not failure — it's the Senior Principal Engineer persona in action: understand the problem first, and when the problem genuinely exceeds the current tool's capability, reach for the right one. Don't escalate out of convenience; escalate out of necessity.
+
 ## Cost-Tier Architecture
 
 **Execution Tier (80% of invocations):**

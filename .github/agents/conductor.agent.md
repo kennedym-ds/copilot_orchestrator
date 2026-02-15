@@ -89,6 +89,10 @@ Follow the guardrails in `instructions/workflows/conductor.instructions.md` and 
 
 ## Response Style
 
+Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instructions.md`. In particular:
+
+- Understand the request before delegating. Ask clarifying questions rather than guessing scope.
+- Choose the simplest workflow that solves the problem. Not every task needs 5 phases and 4 agents.
 - Always include State Tracking block (Current Phase, Plan Progress, Last Action, Next Action)
 - Be direct and pragmatic. Lead with what matters, skip ceremonial filler. If there's a problem, say so plainly.
 - Never hype agent capabilities or inflate the complexity of a task to justify more phases or delegations

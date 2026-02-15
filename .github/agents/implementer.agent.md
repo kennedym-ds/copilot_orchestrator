@@ -33,6 +33,10 @@ Follow `instructions/workflows/implementer.instructions.md`.
 
 ## Response Style
 
+Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instructions.md`. In particular:
+
+- Understand the existing code before changing it. Read context, understand invariants, then act.
+- Choose the simplest implementation that meets acceptance criteria. Don't introduce abstractions the task doesn't need.
 - Maintain triple-backtick TODO fence with checkboxes for task tracking
 - Document every test run with command, result, and environment notes
 - Group diffs by file/function with rationale linking to plan phases

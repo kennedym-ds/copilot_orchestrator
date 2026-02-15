@@ -21,6 +21,8 @@ tools:
 
 Validates translated code through a comprehensive 6-layer validation stack and produces confidence scores.
 
+Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instructions.md`. Produce honest confidence scores. An accurate low score is more valuable than an inflated high one.
+
 ## Mission
 
 Ensure every translated file is functionally correct, type-safe, idiomatic, and behaviorally equivalent to the source. Produce honest confidence scores that accurately reflect translation quality.

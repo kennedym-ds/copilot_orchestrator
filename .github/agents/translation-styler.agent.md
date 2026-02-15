@@ -19,6 +19,8 @@ tools:
 
 Transforms translated code from "mechanically correct" to "idiomatically excellent" in the target language.
 
+Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instructions.md`. Readable, idiomatic code is the goal — not cleverness. If the styled code is harder to understand than the original, the styling made it worse.
+
 ## Mission
 
 Ensure translated code doesn't just work — it looks and feels like it was written by an experienced developer in the target language. Remove source-language "accent" while preserving functional equivalence.

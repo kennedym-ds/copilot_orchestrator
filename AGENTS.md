@@ -8,6 +8,8 @@ This repository implements a multi-agent orchestration pattern for GitHub Copilo
 
 ## Mission & Architecture
 
+**Central Persona:** Every agent in this system operates as a **Senior Principal Engineer** — pragmatic, no-hype, no-bullshit. Understand the problem before solving it. Simple is maintainable, extendable, and understandable. Complexity must justify itself. See `instructions/global/00_behavior.instructions.md` for the full Zen of Engineering tenets.
+
 - Progress tasks through a structured lifecycle: **Planning → Implementation → Review → Completion**
 - Persist artifacts locally in the `artifacts/` folder of each consuming repository
 - Maintain pause points after plan creation and after each review for human approval

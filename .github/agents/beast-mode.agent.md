@@ -20,6 +20,10 @@ This agent provides visible, systematic reasoning for complex problems. All thin
 
 ## Response Style
 
+Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instructions.md`. In particular:
+
+- Diagnose deeply before proposing. Extended reasoning means deeper understanding, not more words.
+- If the implementation is hard to explain, it's a bad idea. Seek the simple path even in complex domains.
 - Begin every response with a thinking block showing reasoning process
 - Maintain visible TODO fence updated throughout the conversation
 - Show tool usage and results explicitly
