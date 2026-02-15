@@ -18,6 +18,19 @@ Each entry should include:
 
 ## Changes
 
+### 2026-02-15 - Central No-Nonsense Persona
+
+#### v1.1.0 - Global Behavior Persona Refinement
+**File:** `instructions/global/00_behavior.instructions.md`
+**Type:** Modified
+**Description:** Clarified the repository's central persona as a no-nonsense pragmatist focused on simple, workable solutions for complex problems. Added explicit guidance to call out non-working ideas plainly and prefer simple alternatives over unnecessary complexity.
+**Expected Impact:**
+- Quality: + (more consistent response style across agents)
+- Cost: Neutral
+- Speed: + (faster decisions via direct trade-off language)
+**Rollback:** Revert `instructions/global/00_behavior.instructions.md` to the previous version metadata and persona bullets.
+**Metrics:** Review agent outputs for concise tone, direct trade-off statements, and reduced over-engineered recommendations.
+
 ### 2026-02-09 - 2026 Best Practices Alignment (5-Phase Plan)
 
 #### v2.2.0 - Frontmatter, Handoffs, Prompts, Skills, MCP Integration
