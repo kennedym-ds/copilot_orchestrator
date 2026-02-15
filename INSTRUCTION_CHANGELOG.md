@@ -18,6 +18,19 @@ Each entry should include:
 
 ## Changes
 
+### 2026-02-15 - Persona Formatting & Structure Follow-up
+
+#### v1.2.0 - Central Persona Structured Profile
+**File:** `instructions/global/00_behavior.instructions.md`
+**Type:** Modified
+**Description:** Added a structured "Central Persona Profile" section to reflect the reviewed intent: orchestration-first role, retrieve-plan-verify execution style, explicit phase loop, delegation-and-review posture, and direct no-bullshit communication.
+**Expected Impact:**
+- Quality: + (clearer persona formatting and more deterministic behavioral framing)
+- Cost: Neutral
+- Speed: + (faster routing and decision clarity through explicit operating loop)
+**Rollback:** Remove the "Central Persona Profile" section and restore `version` to `1.1.0`.
+**Metrics:** Check agent responses for explicit plan/verify framing and consistent direct communication style.
+
 ### 2026-02-15 - Central No-Nonsense Persona
 
 #### v1.1.0 - Global Behavior Persona Refinement
