@@ -1,11 +1,16 @@
 # Generated plan artifacts
 plans/
 
-# VS Code
+# VS Code (allow mcp.json for workspace MCP config)
 .vscode/
+!.vscode/mcp.json
 
 # Virtual environment
 .venv/
+
+# Python bytecode
+__pycache__/
+*.pyc
 
 # Local configuration files
 *.local
