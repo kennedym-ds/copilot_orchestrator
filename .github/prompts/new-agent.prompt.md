@@ -37,9 +37,9 @@ Create a new `.agent.md` file in `.github/agents/` following the established pat
 - Boundaries section (always do / ask first / never do)
 
 ### Model Tier Assignment
-- Premium (~20%): Planning, review, research, security → Claude Opus 4.6, Codex 5.2
-- Execution (~70%): Implementation, testing, analysis → GPT-5.3-Codex, Gemini 3 Pro, Codex 5.2
-- Routine (~10%): Docs, linting, formatting → Claude Haiku 4.5, Gemini 3 Flash
+- Premium (~20%): Planning, review, research, security → Claude Opus 4.6, Claude Sonnet 4.6
+- Execution (~70%): Implementation, testing, analysis → GPT-5.3-Codex, Claude Sonnet 4.6
+- Routine (~10%): Docs, linting, formatting → Claude Sonnet 4.6
 
 ### Invocation Control
 - Add `user-invokable: false` for subagent-only agents

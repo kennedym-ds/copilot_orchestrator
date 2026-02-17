@@ -14,7 +14,7 @@ Define the target architecture, folder structure, and governance guardrails for 
 
 - **Conductor-Centric:** All workflows originate from a Conductor agent that coordinates research, implementation, review, and documentation artifacts.
 - **Instruction Mesh:** `AGENTS.md` files provide the canonical context, with layered `.instructions.md` overrides for language, workflow, and compliance scopes.
-- **Cost-Aware Model Mix:** Reasoning phases use premium models (Claude Opus 4.6, Codex 5.2); execution phases use GPT-5.3-Codex, Gemini 3 Pro; routine tasks use Claude Haiku 4.5, Gemini 3 Flash.
+- **Cost-Aware Model Mix:** Reasoning phases use premium models (Claude Opus 4.6, Claude Sonnet 4.6); execution phases use GPT-5.3-Codex, Claude Sonnet 4.6; routine tasks use Claude Sonnet 4.6.
 - **Async Custom Agents:** Planning, research, implementation, and review custom agents run via `#runSubagent`, allowing parallel execution and context isolation.
 - **Artifact Trail:** Every phase emits Markdown records (plans, phase completion, final summary) stored under `plans/` to enable auditability and resumability.
 
@@ -46,7 +46,7 @@ Define the target architecture, folder structure, and governance guardrails for 
 | `conductor` | Orchestrates plan → implement → review → commit → completion | Claude Opus 4.6 | `runSubagent`, `todos`, `fetch`, `search`, `githubRepo`, `edit`, `changes`, `runCommands` | Planner, Implementer, Reviewer, Support |
 | `planner` | Drafts plans from research findings and user clarifications | Claude Opus 4.6 | `todos`, `fetch`, `search`, `readFile` | Handoff to Conductor (Phase Kickoff) |
 | `researcher` | Deep research, context gathering, option analysis | Claude Opus 4.6 | `search`, `fetch`, `githubRepo`, `readFile`, `usages`, `problems` | Returns findings to Conductor/Planner |
-| `implementer` | Executes TDD implementation per phase | Codex 5.2 | `edit`, `runCommands`, `search`, `todos`, `changes`, `problems` | Handoff to Reviewer |
+| `implementer` | Executes TDD implementation per phase | Claude Sonnet 4.6 | `edit`, `runCommands`, `search`, `todos`, `changes`, `problems` | Handoff to Reviewer |
 | `reviewer` | Performs structured code review with severity tagging | Claude Opus 4.6 | `changes`, `search`, `usages`, `problems` | Handoff to Conductor for summary |
 | Support Personas | Accessibility, Security, Performance, Docs | Model-appropriate | Minimal toolsets per domain | Optional handoffs from Conductor |
 

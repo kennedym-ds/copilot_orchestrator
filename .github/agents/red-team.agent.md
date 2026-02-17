@@ -2,7 +2,7 @@
 name: red-team
 description: "Adversarial tester that challenges assumptions and identifies edge cases."
 argument-hint: "Stress test the plan, find loopholes, or simulate bad actor behavior"
-model: ['GPT-5.3-Codex (copilot)', 'Codex 5.2 (copilot)']
+model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
 user-invokable: false
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
 ---

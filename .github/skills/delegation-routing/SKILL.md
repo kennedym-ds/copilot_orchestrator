@@ -66,7 +66,7 @@ All inter-agent delegation uses `#runSubagent`:
 |-------|-----------------|------------------|------------------|
 | **conductor** | "orchestrate", "coordinate", "multi-phase", "lifecycle" | Escalate scope changes, ambiguous routing, multi-agent coordination | Claude Opus 4.6 |
 | **planner** | "plan", "scope", "phases", "strategy", "breakdown", "estimate" | Need structured multi-phase plan, risk analysis, option evaluation | Claude Opus 4.6 |
-| **implementer** | "implement", "build", "code", "fix", "apply", "execute", "create" | Execute approved changes, apply fixes, generate code | Codex 5.2 |
+| **implementer** | "implement", "build", "code", "fix", "apply", "execute", "create" | Execute approved changes, apply fixes, generate code | Claude Sonnet 4.6 |
 | **reviewer** | "review", "audit", "quality", "check", "verify", "validate" | After implementation, quality gates, diff review, compliance checks | Claude Opus 4.6 |
 | **researcher** | "research", "investigate", "evidence", "compare", "explore", "context" | Gather background info, evaluate alternatives, find documentation | Claude Opus 4.6 |
 | **maintainer** | "triage", "release", "changelog", "version", "PR", "issue management" | Issue triage, release preparation, PR logistics, changelog updates | GPT-5.3-Codex |
@@ -78,7 +78,7 @@ All inter-agent delegation uses `#runSubagent`:
 | **security** | "threat", "vulnerability", "compliance", "STRIDE", "credentials", "auth" | Security review, threat modeling, compliance checkpoint | Claude Opus 4.6 | `user-invokable: false` — subagent-only |
 | **performance** | "latency", "memory", "profiling", "scalability", "Big O", "cost" | Runtime analysis, memory profiling, cost modeling | GPT-5.3-Codex | `user-invokable: false` — subagent-only |
 | **accessibility** | "WCAG", "ARIA", "a11y", "screen reader", "keyboard navigation", "contrast" | Accessibility audit, WCAG compliance, ARIA review | GPT-5.3-Codex | — |
-| **docs** | "documentation", "onboarding", "guide", "README", "tutorial", "knowledge" | Documentation drafts, onboarding materials, template creation | Claude Haiku 4.5 | — |
+| **docs** | "documentation", "onboarding", "guide", "README", "tutorial", "knowledge" | Documentation drafts, onboarding materials, template creation | Claude Sonnet 4.6 | — |
 | **observability** | "metrics", "logging", "tracing", "telemetry", "monitoring", "dashboard" | Instrumentation review, platform integration, metrics analysis | GPT-5.3-Codex | `user-invokable: false` — subagent-only |
 | **visualizer** | "UX", "diagram", "wireframe", "user flow", "visual", "Mermaid" | UX review, diagram creation, visual hierarchy feedback | GPT-5.3-Codex | — |
 | **deployment** | "CI/CD", "pipeline", "deploy", "release readiness", "environment", "infrastructure" | Deployment review, pipeline validation, release runbooks | GPT-5.3-Codex | — |
@@ -91,15 +91,15 @@ All inter-agent delegation uses `#runSubagent`:
 | **translation-conductor** | "translate repo", "full translation", "codebase translation", "language migration" | Full-repo translation orchestration (6-phase lifecycle) | Claude Opus 4.6 | Only invoked by conductor |
 | **translator** | "translate file", "convert code", "port module" | Single-file code translation with pattern mapping | Claude Opus 4.6 | `disable-model-invocation: true` |
 | **translation-analyzer** | "dependency graph", "manifest", "translation analysis", "source discovery" | Source repo analysis, dependency DAG, complexity assessment | GPT-5.3-Codex | `disable-model-invocation: true` |
-| **translation-validator** | "validate translation", "confidence score", "equivalence check" | 6-layer validation stack, confidence scoring | Codex 5.2 | `disable-model-invocation: true` |
+| **translation-validator** | "validate translation", "confidence score", "equivalence check" | 6-layer validation stack, confidence scoring | Claude Sonnet 4.6 | `disable-model-invocation: true` |
 | **translation-styler** | "idioms", "conventions", "target style", "idiomatic code" | Target language idiom application, convention enforcement | GPT-5.3-Codex | `disable-model-invocation: true` |
 
 #### Specialist Agents
 
 | Agent | Keyword Triggers | When to Delegate | Model Preference |
 |-------|-----------------|------------------|------------------|
-| **test** | "unit test", "integration test", "coverage", "TDD", "Pester", "test suite" | Test creation, coverage analysis, Red-Green-Refactor cycles | Codex 5.2 |
-| **lint** | "format", "style fix", "lint", "whitespace", "naming convention" | Code formatting, style enforcement, auto-fixes | Gemini 3 Flash |
+| **test** | "unit test", "integration test", "coverage", "TDD", "Pester", "test suite" | Test creation, coverage analysis, Red-Green-Refactor cycles | Claude Sonnet 4.6 |
+| **lint** | "format", "style fix", "lint", "whitespace", "naming convention" | Code formatting, style enforcement, auto-fixes | Claude Sonnet 4.6 |
 | **github-ops** | "issue", "pull request", "workflow", "GitHub Actions", "branch", "repository" | GitHub operations, PR management, workflow automation | GPT-5.3-Codex |
 | **terraform** | "Terraform", "multi-cloud", "IaC", "drift detection", "HCL" | Infrastructure-as-code planning, drift detection | GPT-5.3-Codex |
 | **bicep** | "Azure", "Bicep", "ARM template", "Azure IaC" | Azure infrastructure implementation, ARM compatibility | GPT-5.3-Codex |
@@ -256,9 +256,9 @@ When delegating to these agents, note their preferred models for cost efficiency
 
 | Target Agent | Preferred Model | Rationale |
 |--------------|----------------|-----------|
-| docs | Claude Haiku 4.5 | Documentation tasks are routine-tier |
-| lint | Gemini 3 Flash | Formatting is routine-tier |
-| translation-validator | Codex 5.2 | Code validation benefits from code-specialized model |
+| docs | Claude Sonnet 4.6 | Documentation tasks are routine-tier |
+| lint | Claude Sonnet 4.6 | Formatting is routine-tier |
+| translation-validator | Claude Sonnet 4.6 | Code validation benefits from versatile model |
 | translation-styler | GPT-5.3-Codex | Style application needs execution-tier reasoning |
 
 These preferences are encoded in the agent's own `model:` frontmatter and will be applied automatically by the platform. Mentioning the model in your delegation prompt is not required — the agent will use its configured model.

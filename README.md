@@ -62,7 +62,7 @@ Add these settings to your user or workspace `settings.json`:
    "chat.agentsControl.enabled": true,
    "chat.agentsControl.clickBehavior": "cycle",
    "workbench.startupEditor": "agentSessionsWelcomePage",
-   "github.copilot.chat.implementAgent.model": "Codex 5.2 (copilot)",
+   "github.copilot.chat.implementAgent.model": "Claude Sonnet 4.6 (copilot)",
    "chat.tools.terminal.enableAutoApprove": true,
    "chat.tools.terminal.autoApproveWorkspaceNpmScripts": true,
    "chat.tools.terminal.preventShellHistory": true,
@@ -95,7 +95,7 @@ This creates the local `artifacts/` folder structure for session persistence.
 |-------|---------|-------|
 | Conductor | Orchestrates lifecycle, enforces pause points, delegates to subagents | Claude Opus 4.6 |
 | Planner | Drafts multi-phase plans with research and risk analysis | Claude Opus 4.6 |
-| Implementer | Executes phases using TDD methodology | Codex 5.2 |
+| Implementer | Executes phases using TDD methodology | Claude Sonnet 4.6 |
 | Reviewer | Provides severity-tagged code review findings | Claude Opus 4.6 |
 | Researcher | Gathers context from documentation and external sources | Claude Opus 4.6 |
 | Maintainer | Triages issues, coordinates releases, manages PR logistics | GPT-5.3-Codex |

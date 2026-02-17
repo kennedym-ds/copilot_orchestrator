@@ -71,7 +71,7 @@ Use this configuration to make all 22 orchestrator agents available in **any VS 
      "github.copilot.chat.organizationInstructions.enabled": true,
      "github.copilot.chat.customAgents.showOrganizationAndEnterpriseAgents": true,
      "github.copilot.chat.cli.customAgents.enabled": true,
-     "github.copilot.chat.implementAgent.model": "Codex 5.2 (copilot)",
+     "github.copilot.chat.implementAgent.model": "Claude Sonnet 4.6 (copilot)",
      "github.copilot.chat.advanced.workspace.codeSearchExternalIngest.enabled": true,
 
      "chat.thinking.style": "collapsed",
@@ -154,7 +154,7 @@ Agent Skills are now generally available in VS Code 1.109. Skills in `.github/sk
 Agent frontmatter now accepts `model` as an array. The first available model is used, providing automatic fallback:
 
 ```yaml
-model: ['Claude Opus 4.6 (copilot)', 'Codex 5.2 (copilot)']
+model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
 ```
 
 All 27 agents in this repo now use model fallback arrays for resilience.
@@ -238,7 +238,7 @@ Enables remote indexing for non-GitHub workspaces, making code search fast even 
 | `simpleBrowser.useIntegratedBrowser` | `true` | Uses new integrated browser with DevTools |
 
 ### Plan Agent
-**Setting:** `github.copilot.chat.implementAgent.model` (`"Codex 5.2 (copilot)"`)
+**Setting:** `github.copilot.chat.implementAgent.model` (`"Claude Sonnet 4.6 (copilot)"`)
 
 The `/plan` command provides a 4-phase workflow (Discovery → Alignment → Design → Refinement) with integrated `askQuestions`. The `implementAgent.model` setting controls which model is used for the implementation step.
 

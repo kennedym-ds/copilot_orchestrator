@@ -108,7 +108,7 @@ Security: never expose token values in chat, logs, artifacts, or files.
     "chat.agentsControl.enabled": true,
     "chat.agentsControl.clickBehavior": "cycle",
     "workbench.startupEditor": "agentSessionsWelcomePage",
-    "github.copilot.chat.implementAgent.model": "Codex 5.2 (copilot)",
+    "github.copilot.chat.implementAgent.model": "Claude Sonnet 4.6 (copilot)",
     "chat.tools.terminal.enableAutoApprove": true,
     "chat.tools.terminal.autoApproveWorkspaceNpmScripts": true,
     "chat.tools.terminal.preventShellHistory": true,
@@ -179,8 +179,8 @@ Agents use a tiered model strategy to balance cost and capability:
 
 | Tier | Allocation | Models | Use Cases |
 |------|------------|--------|-----------|
-| Premium | ~20% | Claude Opus 4.6, Codex 5.2 | Planning, review, research, security, orchestration |
-| Execution | ~70% | GPT-5.3-Codex, Gemini 3 Pro, Codex 5.2 | Implementation, testing, analysis, support |
+| Premium | ~20% | Claude Opus 4.6, Claude Sonnet 4.6 | Planning, research, security, orchestration |
+| Execution | ~70% | GPT-5.3-Codex, Claude Sonnet 4.6 | Implementation, testing, review, analysis, support |
 | Routine | ~10% | Claude Haiku 4.5, Gemini 3 Flash | Documentation, linting, routine tasks |
 
 See `instructions/global/03_model-selection.instructions.md` for fallback chains and governance rules.

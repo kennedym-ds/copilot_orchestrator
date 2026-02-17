@@ -119,7 +119,7 @@ The repository implements a **layered instruction system**:
 
 #### Implementer (`implementer.agent.md`)
 - **Role:** Build specialist
-- **Model:** Codex 5.2 (cost-optimized)
+- **Model:** Claude Sonnet 4.6 (cost-optimized)
 - **Responsibilities:**
   - Executes approved plan phases with TDD discipline
   - Writes failing tests → minimal code → passing tests
@@ -165,7 +165,7 @@ The repository implements a **layered instruction system**:
 
 #### Documentation (`docs.agent.md`)
 - **Focus:** Knowledge base, onboarding, runbooks
-- **Model:** Claude Haiku 4.5
+- **Model:** Claude Sonnet 4.6
 - **Responsibilities:** Draft/revise documentation, ensure clarity and completeness
 
 ### 2.3 Agent Interaction Model
@@ -392,8 +392,8 @@ Conductor (orchestrator)
 
 | Model Tier | Use Cases | Agents |
 |-----------|-----------|---------|
-| **Premium Reasoning** | Planning, complex analysis, quality review | Claude Opus 4.6, Codex 5.2, GPT-5.3-Codex, Gemini 3 Pro |
-| **Cost-Optimized** | Implementation, documentation | Claude Haiku 4.5, Gemini 3 Flash, Codex 5.2 |
+| **Premium Reasoning** | Planning, complex analysis, quality review | Claude Opus 4.6, Claude Sonnet 4.6, GPT-5.3-Codex |
+| **Cost-Optimized** | Implementation, documentation | Claude Sonnet 4.6, GPT-5.3-Codex |
 
 **Cost Control Features:**
 - Default to efficient models for execution

@@ -2,7 +2,7 @@
 name: security
 description: "Evaluates changes for security posture, threat models, and compliance impacts."
 argument-hint: "Request security review of changes, threat modeling, or compliance check"
-model: ['Claude Opus 4.6 (copilot)', 'Codex 5.2 (copilot)']
+model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
 user-invokable: false
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'usages', 'edit', 'runCommands']
 ---

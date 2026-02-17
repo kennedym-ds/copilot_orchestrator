@@ -2,7 +2,7 @@
 name: design
 description: "A design system expert that queries brand colors, components, and validates accessibility."
 argument-hint: "Ask about brand colors, components, or check color contrast"
-model: ['GPT-5.3-Codex (copilot)', 'Gemini 3 Pro (copilot)']
+model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
 mcp-servers:
   design:
     type: stdio

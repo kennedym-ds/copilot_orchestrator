@@ -2,7 +2,7 @@
 name: terraform
 description: "Plans and implements Terraform infrastructure-as-code with drift detection, compliance, and modularization support."
 argument-hint: "Describe Terraform changes, drift detection, or IaC planning tasks"
-model: ['GPT-5.3-Codex (copilot)', 'Gemini 3 Pro (copilot)']
+model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
 ---
 

@@ -77,9 +77,9 @@ Each entry should include:
 **File:** `.github/agents/*.agent.md` (all 22 agents)
 **Type:** Modified
 **Description:** Replaced all single-model assignments with model fallback arrays (1.109 feature). Updated model tiers:
-- Premium (~20%): Claude Opus 4.6, Codex 5.2 â†’ conductor, planner, reviewer, security, beast-mode, researcher
-- Execution (~70%): Claude Sonnet 4.5, Gemini 3 Pro, Codex 5.2 â†’ implementer, test, red-team, performance, data-analytics, accessibility, observability, visualizer, deployment, github-ops, maintainer, terraform, bicep, design
-- Routine (~10%): Claude Haiku 4.5, Gemini 3 Flash â†’ docs, lint
+- Premium (~20%): Claude Opus 4.6, Claude Sonnet 4.6 → conductor, planner, reviewer, security, beast-mode, researcher
+- Execution (~70%): Claude Sonnet 4.6, GPT-5.3-Codex → implementer, test, red-team, performance, data-analytics, accessibility, observability, visualizer, deployment, github-ops, maintainer, terraform, bicep, design
+- Routine (~10%): Claude Sonnet 4.6 → docs, lint
 
 Added `agent` tool to all 22 agents for 1.109 subagent discovery. Added `askQuestions` tool to conductor, planner, and beast-mode agents.
 **Expected Impact:**
@@ -111,7 +111,7 @@ Added `agent` tool to all 22 agents for 1.109 subagent discovery. Added `askQues
 - Added: Anthropic enhancements (thinking budget, tool search, context editing)
 - Added: `chat.agentsControl.enabled`, `chat.agentsControl.clickBehavior`, `workbench.startupEditor: "agentSessionsWelcomePage"`
 - Added: `github.copilot.chat.searchSubagent.enabled`, `github.copilot.chat.organizationInstructions.enabled`
-- Added: `github.copilot.chat.implementAgent.model: "Codex 5.2 (copilot)"`
+- Added: `github.copilot.chat.implementAgent.model: "Claude Sonnet 4.6 (copilot)"`
 - Added: `workbench.browser.openLocalhostLinks`, `simpleBrowser.useIntegratedBrowser`
 - Added: `terminal.integrated.enableKittyKeyboardProtocol`, `git.worktreeIncludeFiles`
 **Expected Impact:**

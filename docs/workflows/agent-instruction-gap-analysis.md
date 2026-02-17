@@ -48,7 +48,7 @@ This document compares the current Copilot Orchestrator workspace with the lates
 - VS Code Insiders features (handoffs, nested `AGENTS.md`) remain in preview and may change; track updates via release notes.
 - Prompt/tool schema still experimental; validation scripts should be updated once official schema stabilizes.
 - Additional personas increase maintenance overhead; maintain ownership assignments in `docs/operations.md`.
-- Premium models (Claude Opus 4.6, Codex 5.2) require budget confirmation before widescale adoption.
+- Premium models (Claude Opus 4.6, Claude Sonnet 4.6) require budget confirmation before widescale adoption.
 
 ## Immediate Next Actions
 - Keep `docs/operations.md` backlog in sync with new automation and persona follow-ups.

@@ -14,12 +14,12 @@ This guide provides tier-specific prompt crafting strategies to maximize effecti
 ## Architecture Context
 
 **Planning/Review Tier (20% of invocations):**
-- Models: Claude Opus 4.6, GPT-5.3-Codex, Codex 5.2, Gemini 3 Pro
+- Models: Claude Opus 4.6, Claude Sonnet 4.6, GPT-5.3-Codex
 - Strengths: Advanced reasoning, ambiguity handling, synthesis, creative problem-solving
 - Use cases: Research, planning, architecture decisions, code review
 
 **Execution Tier (80% of invocations):**
-- Models: Codex 5.2, GPT-5.3-Codex, Gemini 3 Pro, Claude Haiku 4.5
+- Models: Claude Sonnet 4.6, GPT-5.3-Codex
 - Strengths: Structured execution, code generation, pattern following, efficiency
 - Use cases: Implementation, testing, refactoring, documentation updates
 
@@ -472,52 +472,20 @@ Implement JWT authentication following this workflow:
 - Request detailed reasoning for recommendations
 - Leverage for complex code reviews and threat modeling
 
-### Gemini 3 Pro (Planning/Execution Tier)
+### Claude Sonnet 4.6 (Execution Tier)
 
 **Strengths:**
-- Massive context window (2M tokens)
-- Research synthesis across many sources
-- Multi-document analysis
+- Versatile code generation and completion
+- Strong structured execution and pattern following
+- Documentation writing and structured refactoring
+- Research synthesis and multi-document analysis
+- Cost-efficient for routine implementation tasks
 
 **Prompting tips:**
-- Use for research requiring broad context
-- Request synthesis of diverse information
-- Leverage for cross-repository analysis
-
-### Codex 5.2 (Execution Tier)
-
-**Strengths:**
-- Code generation and completion
-- Test writing
-- Following structured instructions
-
-**Prompting tips:**
-- Provide step-by-step workflows
-- Reference existing patterns explicitly
-- Include validation checkpoints
-
-### Claude Haiku 4.5 (Execution Tier)
-
-**Strengths:**
-- Documentation writing
-- Structured refactoring
-- Routine implementation tasks
-
-**Prompting tips:**
-- Clear acceptance criteria
-- Template-based generation
-- Consistency with existing docs/code
-
-### Claude Haiku 4.5 (Routine Tier)
-
-**Strengths:**
-- Cost efficiency
-- Adequate for structured tasks
-- Fast response times
-
-**Prompting tips:**
-- Very explicit instructions
-- Minimal ambiguity
+- Provide step-by-step workflows with validation checkpoints
+- Reference existing patterns explicitly for consistency
+- Use clear acceptance criteria and template-based generation
+- Leverage for both execution and lightweight planning tasks
 - Clear validation steps
 
 ## Continuous Improvement

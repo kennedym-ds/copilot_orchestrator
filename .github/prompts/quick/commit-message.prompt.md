@@ -2,7 +2,7 @@
 name: commit-message
 description: "Generate a conventional commit message from the current diff."
 argument-hint: "Describe the staged changes for a commit message"
-model: Claude Haiku 4.5 (copilot)
+model: Claude Sonnet 4.6 (copilot)
 agent: agent
 tools:
   - changes

@@ -2,7 +2,7 @@
 name: translation-analyzer
 description: "Analyzes source repositories to build dependency graphs, translation manifests, and complexity assessments for code translation."
 argument-hint: "Provide source repository path to analyze for translation readiness"
-model: ['Claude Opus 4.6 (copilot)', 'Gemini 3 Pro (copilot)']
+model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
 disable-model-invocation: true
 tools:
   - runSubagent

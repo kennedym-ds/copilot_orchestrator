@@ -2,7 +2,7 @@
 name: translator
 description: "Translates source code files from one programming language to another, maintaining functional equivalence and following target language idioms."
 argument-hint: "Provide source file path, source language, and target language to translate"
-model: ['Claude Opus 4.6 (copilot)', 'Codex 5.2 (copilot)']
+model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
 disable-model-invocation: true
 agents: ['translation-validator', 'translation-styler']
 tools:

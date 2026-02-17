@@ -159,9 +159,7 @@ After completing their work, agents return results to the conductor automaticall
 Control which models appear in the model picker for chat sessions:
 
 - **GPT-5.3-Codex**: Balanced reasoning and execution (recommended for execution-tier agents)
-- **Codex 5.2**: Code-native implementation (recommended for Implementer, Test)
-- **Claude Haiku 4.5**: Fast execution tasks (recommended for routine operations)
-- **Gemini 3 Pro**: Multi-modal analysis (recommended for Visualizer, Accessibility)
+- **Claude Sonnet 4.6**: Versatile implementation and analysis (recommended for Implementer, Test, and routine tasks)
 
 **Best Practice**: Show only the models appropriate for your workflow to avoid confusion.
 

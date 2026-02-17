@@ -61,7 +61,7 @@ Invoke-Pester -Path tests -Output Detailed
   "github.copilot.chat.organizationInstructions.enabled": true,
   "github.copilot.chat.customAgents.showOrganizationAndEnterpriseAgents": true,
   "github.copilot.chat.cli.customAgents.enabled": true,
-  "github.copilot.chat.implementAgent.model": "Codex 5.2 (copilot)",
+  "github.copilot.chat.implementAgent.model": "Claude Sonnet 4.6 (copilot)",
   "chat.thinking.style": "collapsed",
   "chat.agent.thinking.collapsedTools": true,
   "chat.agent.thinking.terminalTools": true,
@@ -86,7 +86,7 @@ Invoke-Pester -Path tests -Output Detailed
 |-------|-------|---------|
 | conductor | Claude Opus 4.6 | Lifecycle orchestration |
 | planner | Claude Opus 4.6 | Multi-phase planning |
-| implementer | Codex 5.2 | TDD execution |
+| implementer | Claude Sonnet 4.6 | TDD execution |
 | reviewer | Claude Opus 4.6 | Code review |
 | researcher | Claude Opus 4.6 | Context gathering |
 | maintainer | GPT-5.3-Codex | Issue triage, releases |

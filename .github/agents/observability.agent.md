@@ -2,7 +2,7 @@
 name: observability
 description: "Analyzes session telemetry, token usage, workflow metrics, and integrates with observability platforms."
 argument-hint: "Analyze session logs, check token budget, review cost metrics, or configure observability integrations"
-model: ['GPT-5.3-Codex (copilot)', 'Gemini 3 Pro (copilot)']
+model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
 user-invokable: false
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems']
 ---

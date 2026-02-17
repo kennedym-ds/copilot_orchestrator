@@ -2,7 +2,7 @@
 name: deployment
 description: "Manages CI/CD pipelines, release artifacts, and environment configuration."
 argument-hint: "Review deployment scripts, check release readiness, or plan infrastructure changes"
-model: ['GPT-5.3-Codex (copilot)', 'Gemini 3 Pro (copilot)']
+model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems']
 ---
 

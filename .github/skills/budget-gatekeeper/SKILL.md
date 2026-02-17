@@ -55,9 +55,9 @@ Each delegation carries a cost weight based on the target agent's model tier:
 
 | Tier | Weight | Agents | Monthly Budget Target |
 |------|--------|--------|----------------------|
-| Premium (Opus 4.6, Codex 5.2) | 3x | conductor, planner, reviewer, researcher, red-team, beast-mode, security, translator, translation-conductor | ≤20% of total delegations |
-| Execution (GPT-5.3-Codex, Gemini 3 Pro, Codex 5.2) | 1x | implementer, maintainer, performance, accessibility, observability, visualizer, data-analytics, deployment, github-ops, terraform, bicep, design, test, translation-analyzer, translation-validator, translation-styler | ~70% of total delegations |
-| Routine (Haiku 4.5, Gemini 3 Flash) | 0.3x | docs, lint | ~10% of total delegations |
+| Premium (Opus 4.6, Sonnet 4.6) | 3x | conductor, planner, reviewer, researcher, red-team, beast-mode, security, translator, translation-conductor | ≤20% of total delegations |
+| Execution (GPT-5.3-Codex, Sonnet 4.6) | 1x | implementer, maintainer, performance, accessibility, observability, visualizer, data-analytics, deployment, github-ops, terraform, bicep, design, test, translation-analyzer, translation-validator, translation-styler | ~70% of total delegations |
+| Routine (Sonnet 4.6) | 0.3x | docs, lint | ~10% of total delegations |
 
 ### Budget State Tracking
 

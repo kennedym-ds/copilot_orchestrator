@@ -6,7 +6,7 @@ microsoft_alias: "micha"
 featured_image: "https://example.com/images/copilot-orchestrator-hero.png"
 categories: ["ai-tooling", "developer-experience"]
 tags: ["copilot", "multi-agent", "workflow", "vs-code"]
-ai_note: "Drafted collaboratively with GitHub Copilot (Codex 5.2)."
+ai_note: "Drafted collaboratively with GitHub Copilot (Claude Sonnet 4.6)."
 summary: "Discover how the Copilot Orchestrator turns complex coding projects into a guided, multi-agent experience complete with specialist handoffs."
 post_date: "2025-11-10"
 ---

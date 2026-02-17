@@ -75,7 +75,7 @@ Prompts:        4,052 tokens (35 files)
 - **False escalation rate** â€” Escalations where execution tier could have succeeded (indicates need for better prompting).
 
 **Model Availability & Resilience:**
-- **Primary model uptime** — Availability percentage by model type (Claude Opus 4.6, Codex 5.2, GPT-5.3-Codex, etc.).
+- **Primary model uptime** — Availability percentage by model type (Claude Opus 4.6, Claude Sonnet 4.6, GPT-5.3-Codex, etc.).
 - **Fallback invocation frequency** â€” How often fallback models used vs. primary.
 - **Fallback success rate** â€” Percentage of successful completions when using 1st, 2nd, 3rd fallback.
 - **Mean time to recovery** â€” When primary model unavailable, how long until restored.

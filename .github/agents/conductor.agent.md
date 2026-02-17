@@ -2,7 +2,7 @@
 name: conductor
 description: "Orchestrates planning, implementation, review, and commit cycles with specialized subagents."
 argument-hint: "Describe your feature request or bug to orchestrate a multi-phase implementation"
-model: ['Claude Opus 4.6 (copilot)', 'Codex 5.2 (copilot)']
+model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
 agents: ['planner', 'implementer', 'reviewer', 'researcher', 'maintainer', 'security', 'performance', 'accessibility', 'docs', 'observability', 'visualizer', 'deployment', 'red-team', 'test', 'lint', 'github-ops', 'terraform', 'bicep', 'design', 'beast-mode', 'translation-conductor']
 tools:
   - runSubagent
@@ -46,7 +46,7 @@ handoffs:
   - label: Documentation Update
     agent: docs
     prompt: Draft or revise documentation and onboarding materials based on the latest plan or implementation changes.
-    model: 'Claude Haiku 4.5 (copilot)'
+    model: 'Claude Sonnet 4.6 (copilot)'
     send: false
   - label: Write Tests
     agent: test
@@ -55,7 +55,7 @@ handoffs:
   - label: Fix Linting
     agent: lint
     prompt: Fix code style and formatting issues in the modified files.
-    model: 'Gemini 3 Flash (copilot)'
+    model: 'Claude Sonnet 4.6 (copilot)'
     send: false
   - label: Accessibility Audit
     agent: accessibility

@@ -175,9 +175,7 @@ Sessions analyzed: 42
 Model Usage:
   Claude Opus 4.6:   18% (target: ≤20%)  ✅
   GPT-5.3-Codex:     52%
-  Gemini 3 Pro:       15%
-  Claude Haiku 4.5:    8%
-  Gemini 3 Flash:      7%
+  Claude Sonnet 4.6:  30%
 
 Quality Metrics:
   Review approval rate: 92% (target: ≥90%)  ✅
