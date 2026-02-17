@@ -3,6 +3,10 @@ name: deployment
 description: "Manages CI/CD pipelines, release artifacts, and environment configuration."
 argument-hint: "Review deployment scripts, check release readiness, or plan infrastructure changes"
 model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
+mcp-servers:
+  github:
+    type: http
+    url: "https://api.githubcopilot.com/mcp/"
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems']
 ---
 

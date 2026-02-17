@@ -4,6 +4,10 @@ description: "Evaluates changes for security posture, threat models, and complia
 argument-hint: "Request security review of changes, threat modeling, or compliance check"
 model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
 user-invokable: false
+mcp-servers:
+  github:
+    type: http
+    url: "https://api.githubcopilot.com/mcp/"
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'usages', 'edit', 'runCommands']
 ---
 

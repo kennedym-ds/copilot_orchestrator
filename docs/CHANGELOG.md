@@ -1,13 +1,31 @@
 ---
 title: "Copilot Orchestrator Changelog"
-version: "0.8.0"
-lastUpdated: "2026-02-09"
+version: "0.9.0"
+lastUpdated: "2026-02-17"
 status: stable
 ---
 
 # Changelog
 
 All notable changes are documented here following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
+
+## [0.9.0] - 2026-02-17
+
+### Added
+- **Validation MCP Server** (`scripts/mcp/validation_server.py`): Wraps 5 PowerShell validation scripts as MCP tools, exposes 6 resources (templates, instructions) and 3 prompts (validate-and-report, tdd-cycle, severity-review)
+- **Analytics MCP Server** (`scripts/mcp/analytics_server.py`): 5 tools for session/artifact queries, 4 resources (routing table, agent roster, thresholds, operations), 2 prompts (workflow-analysis, cost-optimization)
+- **Bleeding-Edge Demo Server** (`scripts/mcp/demo_bleeding_edge.py`): Showcases 6 MCP protocol features from the 2025-11-25 revision — elicitation, tool annotations, progress reporting, structured output, resource annotations, and logging
+- **MCP Unit Tests**: `test_validation_server.py` (14 tests) and `test_analytics_server.py` (10 tests)
+- **Remote GitHub MCP**: `github-ops`, `maintainer`, `security`, `deployment` agents now use GitHub's hosted MCP server (`https://api.githubcopilot.com/mcp/`) — OAuth-authenticated, no PAT management
+
+### Changed
+- **Workspace MCP Config** (`.vscode/mcp.json`): Replaced old `mcpServers` format with new `servers` format; 8 servers registered (1 HTTP remote, 7 stdio local); all paths use `${workspaceFolder}` for portability; venv interpreter for reliable `mcp` imports
+- **MCP Agent Coverage**: 14 of 26 agents now have `mcp-servers:` frontmatter (was 3)
+- **github-ops Agent**: Migrated from local `github_server.py` (stdio) to remote GitHub MCP (HTTP)
+- **Agent MCP Wiring**: Added scoped tool allowlists to conductor, implementer, reviewer, test, lint, observability, translation-conductor
+- **MCP Integration Guide** (`docs/guides/mcp-integration.md`): Rewritten to cover HTTP transport, workspace config, resource annotations, prompts, validation/analytics servers, agent-to-MCP mapping
+- **Python MCP Instructions** (`instructions/languages/python-mcp-server.instructions.md`): Updated from low-level `Server` class to `FastMCP` high-level API matching actual server implementations
+- **Model Allocation**: Updated model tiers — Premium (Opus 4.6, Sonnet 4.6), Execution (GPT-5.3-Codex, Sonnet 4.6), Routine (Haiku 4.5, Gemini 3 Flash)
 
 ## [0.8.0] - 2026-02-09
 

@@ -5,10 +5,8 @@ argument-hint: "Manage PRs, issues, workflows, or repository operations"
 model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
 mcp-servers:
   github:
-    type: stdio
-    command: python
-    args: ["scripts/mcp/github_server.py"]
-    tools: ["list_issues", "view_issue", "create_issue", "close_issue", "comment_issue", "list_prs", "view_pr", "pr_checks", "merge_pr", "list_runs", "view_run", "run_failed_logs", "list_releases", "create_release"]
+    type: http
+    url: "https://api.githubcopilot.com/mcp/"
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'runCommands', 'problems']
 ---
 

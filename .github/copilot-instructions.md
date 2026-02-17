@@ -11,6 +11,8 @@ Multi-agent orchestration system with 26 specialized agents. See `AGENTS.md` for
 .github/prompts/     → Prompt templates organized by workflow phase
 instructions/        → Layered instructions (global → workflows → compliance → languages)
 scripts/             → PowerShell 5.1 validation and tooling
+scripts/mcp/         → MCP servers (8 servers: validation, analytics, github, research, design, translation, demo)
+.vscode/mcp.json     → Workspace MCP server configuration (auto-discovered by VS Code)
 artifacts/           → Local session outputs (plans, reviews, research, security)
 ```
 
@@ -204,3 +206,5 @@ For data analysis queries, the Conductor routes to the **Data Analytics** agent 
 - `docs/templates/` — Plan, phase-complete, and plan-complete templates
 - `docs/operations.md` — Backlog and incident tracking
 - `INSTRUCTION_CHANGELOG.md` — Instruction change history
+- `docs/guides/mcp-integration.md` — MCP server setup, agent mapping, protocol features
+- `.vscode/mcp.json` — Workspace MCP configuration (8 servers)

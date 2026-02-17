@@ -3,6 +3,12 @@ name: implementer
 description: "Executes the approved plan, making disciplined, tested code changes."
 argument-hint: "Specify the phase or task to implement with TDD approach"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.3-Codex (copilot)']
+mcp-servers:
+  validation:
+    type: stdio
+    command: python
+    args: ["scripts/mcp/validation_server.py"]
+    tools: ["validate_assets", "run_lint", "run_smoke_tests"]
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
 handoffs:
   - label: Return to Conductor

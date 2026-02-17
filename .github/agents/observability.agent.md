@@ -4,6 +4,17 @@ description: "Analyzes session telemetry, token usage, workflow metrics, and int
 argument-hint: "Analyze session logs, check token budget, review cost metrics, or configure observability integrations"
 model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
 user-invokable: false
+mcp-servers:
+  analytics:
+    type: stdio
+    command: python
+    args: ["scripts/mcp/analytics_server.py"]
+    tools: ["list_sessions", "get_session", "get_metrics", "list_artifacts"]
+  validation:
+    type: stdio
+    command: python
+    args: ["scripts/mcp/validation_server.py"]
+    tools: ["token_report"]
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems']
 ---
 

@@ -18,6 +18,28 @@ Each entry should include:
 
 ## Changes
 
+### 2026-02-17 - MCP Expansion and Protocol Modernization
+
+#### v2.3.0 - MCP Server Expansion, Remote GitHub MCP, Protocol 2025-11-25 Features
+**File:** `.vscode/mcp.json`, `scripts/mcp/validation_server.py` (new), `scripts/mcp/analytics_server.py` (new), `scripts/mcp/demo_bleeding_edge.py` (new), `tests/mcp/test_validation_server.py` (new), `tests/mcp/test_analytics_server.py` (new), `.github/agents/*.agent.md` (11 modified), `docs/guides/mcp-integration.md`, `instructions/languages/python-mcp-server.instructions.md`
+**Type:** Added (5 new files), Modified (14 files)
+**Description:** Expanded MCP infrastructure from 3 agents to 14, added 2 new servers, migrated GitHub integration to remote HTTP, and updated MCP instructions to match the FastMCP API used in all servers:
+- Created validation MCP server: 5 tools wrapping PowerShell scripts, 6 resources (templates, instructions), 3 prompts
+- Created analytics MCP server: 5 tools for session/artifact queries, 4 resources (routing table, roster, thresholds, operations), 2 prompts
+- Created bleeding-edge demo server: elicitation, tool annotations, progress, structured output, resource annotations, logging
+- Migrated github-ops, maintainer, security, deployment to remote GitHub MCP (`https://api.githubcopilot.com/mcp/`)
+- Added scoped MCP tool allowlists to conductor, implementer, reviewer, test, lint, observability, translation-conductor
+- Updated `.vscode/mcp.json` from old `mcpServers` to `servers` format with venv interpreter
+- Updated `python-mcp-server.instructions.md` from low-level `Server` to `FastMCP` API
+- Rewrote MCP integration guide with HTTP transport, resources, prompts, agent mapping
+- Added 24 unit tests across 2 test files
+**Expected Impact:**
+- Quality: ++ (structured validation results, queryable artifacts, principled tool scoping)
+- Cost: Neutral (servers idle at ~0% CPU; spawn only when agent activates)
+- Speed: + (agents access validation and analytics without reading raw files)
+**Rollback:** Remove new server files, revert `.vscode/mcp.json` and agent frontmatter changes, restore old MCP guide.
+**Metrics:** Track MCP tool call volume per server, agent activation patterns, validation pass rate via MCP vs CLI
+
 ### 2026-02-09 - 2026 Best Practices Alignment (5-Phase Plan)
 
 #### v2.2.0 - Frontmatter, Handoffs, Prompts, Skills, MCP Integration

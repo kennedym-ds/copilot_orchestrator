@@ -85,6 +85,11 @@ VS Code 1.109 builds on the Agent Sessions UI introduced in 1.108, adding multi-
 ### VS Code 1.109 Agent Extensibility
 - **Claude Agent (Preview)**: New session type using Anthropic's agent SDK
 - **MCP Apps**: Interactive UI from MCP servers rendered directly in chat
+- **MCP Resources & Prompts**: Servers expose queryable context (resources) and reusable templates (prompts) via `@mcp.resource()` and `@mcp.prompt()` decorators
+- **MCP Tool Annotations**: Tools carry behavioral hints (`readOnlyHint`, `destructiveHint`, `idempotentHint`) for auto-approval and risk display
+- **MCP Elicitation**: Servers can pause execution and present forms to the user via `ctx.elicit()`
+- **MCP Progress Reporting**: Tools report live progress via `ctx.report_progress()` — VS Code shows a progress bar
+- **Remote MCP (HTTP)**: Servers can run as hosted HTTP endpoints with OAuth authentication (e.g., `https://api.githubcopilot.com/mcp/`)
 - **Search Subagent**: Iterative code search in isolated context window (`github.copilot.chat.searchSubagent.enabled`)
 - **Copilot Memory**: Stores and recalls info across sessions (`github.copilot.chat.copilotMemory.enabled`)
 - **External Indexing**: Non-GitHub workspaces remotely indexed for fast code search

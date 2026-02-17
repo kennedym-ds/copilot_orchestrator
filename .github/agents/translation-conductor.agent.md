@@ -4,6 +4,12 @@ description: "Orchestrates full-repository code translation from one language to
 argument-hint: "Specify source repo, source language, and target language to begin full translation orchestration"
 model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
 agents: ['translator', 'translation-validator', 'translation-styler', 'translation-analyzer', 'test', 'reviewer', 'security', 'docs', 'researcher', 'planner', 'implementer', 'lint', 'github-ops']
+mcp-servers:
+  translation:
+    type: stdio
+    command: python
+    args: ["scripts/mcp/translation_server.py"]
+    tools: ["analyze_imports", "build_dependency_graph", "translate_file", "validate_translation", "calculate_confidence", "calculate_repo_confidence", "get_translation_status", "update_module_status", "suggest_target_dependencies"]
 tools:
   - runSubagent
   - agent

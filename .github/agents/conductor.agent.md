@@ -4,6 +4,17 @@ description: "Orchestrates planning, implementation, review, and commit cycles w
 argument-hint: "Describe your feature request or bug to orchestrate a multi-phase implementation"
 model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
 agents: ['planner', 'implementer', 'reviewer', 'researcher', 'maintainer', 'security', 'performance', 'accessibility', 'docs', 'observability', 'visualizer', 'deployment', 'red-team', 'test', 'lint', 'github-ops', 'terraform', 'bicep', 'design', 'beast-mode', 'translation-conductor']
+mcp-servers:
+  validation:
+    type: stdio
+    command: python
+    args: ["scripts/mcp/validation_server.py"]
+    tools: ["validate_assets", "token_report"]
+  analytics:
+    type: stdio
+    command: python
+    args: ["scripts/mcp/analytics_server.py"]
+    tools: ["list_sessions", "get_session", "list_artifacts"]
 tools:
   - runSubagent
   - agent

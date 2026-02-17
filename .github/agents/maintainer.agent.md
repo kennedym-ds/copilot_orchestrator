@@ -3,6 +3,10 @@ name: maintainer
 description: "Triages issues, prepares pull requests, and coordinates release logistics."
 argument-hint: "Triage issues, prepare releases, or coordinate PR logistics"
 model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
+mcp-servers:
+  github:
+    type: http
+    url: "https://api.githubcopilot.com/mcp/"
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'edit', 'runCommands']
 ---
 

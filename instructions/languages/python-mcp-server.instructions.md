@@ -1,186 +1,258 @@
 ---
-description: "Python MCP (Model Context Protocol) server implementation patterns."
+description: "Python MCP (Model Context Protocol) server implementation patterns using FastMCP."
 applyTo: "**/mcp/**/*.py,**/*mcp*.py"
 ---
 
 ## Overview
 
-This instruction file provides guardrails for implementing MCP (Model Context
-Protocol) servers in Python. MCP servers expose tools, resources, and prompts
-to AI assistants through a standardized protocol.
+Guardrails for implementing MCP servers in Python using the FastMCP high-level
+API. MCP servers expose tools, resources, and prompts to AI assistants through
+a standardized protocol (JSON-RPC 2.0 over stdio or HTTP).
+
+All servers in this repository use `mcp.server.fastmcp.FastMCP`. Do not use
+the low-level `mcp.server.Server` class unless you need custom protocol
+handling.
 
 ## Guiding Principles
 
-- Design tools with clear, focused responsibilities. Each tool should perform
-  one well-defined operation.
-- Make tool inputs and outputs explicit. Use structured schemas for parameters
-  and return values.
-- Handle errors gracefully. Return informative error messages that help the
-  AI assistant understand what went wrong.
-- Keep server state minimal. Prefer stateless operations when possible.
+- One tool, one job. Each tool performs a single operation.
+- Explicit inputs and outputs. Use type annotations and docstrings.
+- Graceful errors. Return informative messages the AI can act on.
+- Minimal state. Prefer stateless operations.
 
 ## Server Setup
 
 ```python
-from mcp.server import Server
-from mcp.server.stdio import stdio_server
-import asyncio
+from mcp.server.fastmcp import FastMCP
 
-# Create server instance with descriptive name
-server = Server("my-mcp-server")
+mcp = FastMCP("my-server-name")
 
-async def main():
-    async with stdio_server() as (read_stream, write_stream):
-        await server.run(read_stream, write_stream)
+# Register tools, resources, and prompts via decorators (see below)
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    mcp.run()
+```
+
+Register in `.vscode/mcp.json`:
+```json
+{
+  "servers": {
+    "myServer": {
+      "type": "stdio",
+      "command": "${workspaceFolder}/.venv/Scripts/python.exe",
+      "args": ["${workspaceFolder}/scripts/mcp/my_server.py"]
+    }
+  }
+}
 ```
 
 ## Tool Implementation
 
-- Use the `@server.tool()` decorator to register tools.
-- Provide clear descriptions for tools and their parameters.
-- Use Pydantic models or dataclasses for structured input validation.
-- Return structured responses with consistent formatting.
+Use the `@mcp.tool()` decorator. FastMCP derives the JSON schema from
+type annotations and the docstring.
 
 ```python
-from mcp.types import Tool, TextContent
+import json
 
-@server.list_tools()
-async def list_tools() -> list[Tool]:
-    return [
-        Tool(
-            name="search_codebase",
-            description="Search for patterns in the codebase",
-            inputSchema={
-                "type": "object",
-                "properties": {
-                    "query": {"type": "string", "description": "Search pattern"},
-                    "file_type": {"type": "string", "description": "File extension filter"}
-                },
-                "required": ["query"]
-            }
-        )
-    ]
+@mcp.tool()
+def search_codebase(query: str, file_type: str = "") -> str:
+    """Search for patterns in the codebase.
 
-@server.call_tool()
-async def call_tool(name: str, arguments: dict) -> list[TextContent]:
-    if name == "search_codebase":
-        results = await perform_search(arguments["query"], arguments.get("file_type"))
-        return [TextContent(type="text", text=format_results(results))]
-    raise ValueError(f"Unknown tool: {name}")
+    Args:
+        query: Search pattern (regex supported).
+        file_type: File extension filter (e.g., ".py").
+    """
+    results = perform_search(query, file_type)
+    return json.dumps({"matches": results, "count": len(results)})
+```
+
+### Tool Annotations (MCP 2025-11-25)
+
+Annotations tell VS Code about a tool's behavior for auto-approval and
+risk display:
+
+```python
+from mcp.types import ToolAnnotations
+
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,       # No side effects — auto-approve eligible
+        destructiveHint=False,   # Does not delete or overwrite data
+        idempotentHint=True,     # Same input → same output
+        openWorldHint=False,     # No network or external access
+    ),
+)
+def list_agents() -> str:
+    """List all agent files."""
+    ...
+```
+
+### Async Tools with Context
+
+Use `Context` for progress reporting, logging, and elicitation:
+
+```python
+from mcp.server.fastmcp import Context
+
+@mcp.tool()
+async def scan_files(folder: str, ctx: Context) -> str:
+    """Scan files with progress reporting."""
+    files = list(Path(folder).rglob("*.md"))
+    for i, f in enumerate(files):
+        await ctx.report_progress(progress=i, total=len(files), message=f.name)
+        # process file...
+    await ctx.log("info", f"Scanned {len(files)} files")
+    return json.dumps({"scanned": len(files)})
+```
+
+### Structured Output
+
+Return a Pydantic model instead of a string when the AI needs typed data:
+
+```python
+from pydantic import BaseModel
+
+class ScanResult(BaseModel):
+    files_scanned: int
+    total_lines: int
+
+@mcp.tool(structured_output=True)
+def scan_structured() -> ScanResult:
+    """Returns typed data instead of a string."""
+    return ScanResult(files_scanned=42, total_lines=1500)
 ```
 
 ## Resource Implementation
 
-- Expose resources for data that the AI assistant may need to read.
-- Use URI schemes that clearly identify resource types.
-- Implement proper pagination for large datasets.
+Resources expose data the AI can query without reading files.
 
 ```python
-from mcp.types import Resource
+@mcp.resource("config://settings")
+def get_settings() -> str:
+    """Current configuration values."""
+    return json.dumps(get_current_settings())
+```
 
-@server.list_resources()
-async def list_resources() -> list[Resource]:
-    return [
-        Resource(
-            uri="config://settings",
-            name="Application Settings",
-            description="Current configuration values",
-            mimeType="application/json"
-        )
-    ]
+### Resource Annotations
 
-@server.read_resource()
-async def read_resource(uri: str) -> str:
-    if uri == "config://settings":
-        return json.dumps(get_current_settings())
-    raise ValueError(f"Unknown resource: {uri}")
+Control visibility with audience and priority:
+
+```python
+from mcp.types import Annotations
+
+@mcp.resource(
+    "docs://architecture",
+    annotations=Annotations(
+        audience=["user"],       # Show in UI, not just fed to model
+        priority=1.0,            # High priority (0.0–1.0)
+    ),
+)
+def get_architecture() -> str:
+    """Architecture overview diagram."""
+    return "..."
 ```
 
 ## Prompt Templates
 
-- Define prompt templates for common operations.
-- Include clear instructions and context in prompt descriptions.
-- Use parameter placeholders for dynamic content.
+Prompts appear in VS Code's prompt picker (`/mcp.server-name.prompt-name`):
 
 ```python
-from mcp.types import Prompt, PromptMessage
+@mcp.prompt("analyze-code")
+def analyze_code_prompt(file_path: str) -> str:
+    """Analyze code for quality and security issues."""
+    return f"Review {file_path} for correctness, security, and style issues."
+```
 
-@server.list_prompts()
-async def list_prompts() -> list[Prompt]:
-    return [
-        Prompt(
-            name="analyze_code",
-            description="Analyze code for quality and security issues",
-            arguments=[
-                {"name": "file_path", "description": "Path to analyze", "required": True}
-            ]
-        )
-    ]
+## Elicitation
 
-@server.get_prompt()
-async def get_prompt(name: str, arguments: dict) -> list[PromptMessage]:
-    if name == "analyze_code":
-        code = read_file(arguments["file_path"])
-        return [
-            PromptMessage(role="user", content=f"Analyze this code:\n\n{code}")
-        ]
-    raise ValueError(f"Unknown prompt: {name}")
+Servers can ask the user questions mid-execution:
+
+```python
+from pydantic import BaseModel, Field
+
+class Confirmation(BaseModel):
+    environment: str = Field(json_schema_extra={"enum": ["staging", "production"]})
+    reason: str = ""
+
+@mcp.tool()
+async def deploy(service: str, ctx: Context) -> str:
+    """Deploy with user confirmation."""
+    result = await ctx.elicit(
+        message=f"Confirm deployment for {service}:",
+        schema=Confirmation,
+    )
+    if result.action == "cancel":
+        return json.dumps({"status": "cancelled"})
+    return json.dumps({"deployed": service, "env": result.data.environment})
 ```
 
 ## Error Handling
 
-- Return structured error responses that the AI assistant can interpret.
-- Log errors with sufficient context for debugging.
-- Never expose sensitive information in error messages.
+Return structured errors the AI can interpret. Never expose secrets.
 
 ```python
 import logging
 
 logger = logging.getLogger(__name__)
 
-@server.call_tool()
-async def call_tool(name: str, arguments: dict) -> list[TextContent]:
+@mcp.tool()
+def risky_operation(path: str) -> str:
+    """Operation that might fail."""
     try:
-        # Tool implementation
-        pass
-    except ValidationError as e:
-        logger.warning(f"Validation error in {name}: {e}")
-        return [TextContent(type="text", text=f"Invalid input: {e.message}")]
+        result = do_work(path)
+        return json.dumps({"success": True, "result": result})
+    except FileNotFoundError:
+        return json.dumps({"success": False, "error": f"File not found: {path}"})
     except Exception as e:
-        logger.error(f"Error in {name}: {e}", exc_info=True)
-        return [TextContent(type="text", text=f"Operation failed: {type(e).__name__}")]
+        logger.error(f"risky_operation failed: {e}", exc_info=True)
+        return json.dumps({"success": False, "error": str(e)})
 ```
 
 ## Testing
 
-- Write unit tests for each tool, resource, and prompt handler.
-- Test error handling paths explicitly.
-- Use async test fixtures for testing async handlers.
+Mock FastMCP so tests run without `mcp[cli]` installed:
 
 ```python
-import pytest
+import unittest
+from unittest.mock import MagicMock
 
-@pytest.mark.asyncio
-async def test_search_tool():
-    result = await call_tool("search_codebase", {"query": "def main"})
-    assert len(result) == 1
-    assert "main" in result[0].text
+# Mock before import
+mock_fastmcp = MagicMock()
+sys.modules["mcp"] = MagicMock()
+sys.modules["mcp.server"] = MagicMock()
+sys.modules["mcp.server.fastmcp"] = mock_fastmcp
+
+def passthrough(*args, **kwargs):
+    def decorator(func): return func
+    return decorator
+
+mock_instance = MagicMock()
+mock_instance.tool.side_effect = passthrough
+mock_instance.resource.side_effect = passthrough
+mock_instance.prompt.side_effect = passthrough
+mock_fastmcp.FastMCP.return_value = mock_instance
+
+import scripts.mcp.my_server as server
+
+class TestMyServer(unittest.TestCase):
+    def test_my_tool(self):
+        result = json.loads(server.my_tool("input"))
+        self.assertTrue(result["success"])
 ```
 
 ## Security Considerations
 
 - Validate all input parameters before processing.
-- Sanitize file paths to prevent directory traversal attacks.
+- Sanitize file paths to prevent directory traversal.
 - Limit resource access to intended directories.
 - Never execute arbitrary code from tool inputs.
-- Log tool invocations for audit purposes.
+- Use `${workspaceFolder}/.venv/Scripts/python.exe` in `.vscode/mcp.json`
+  to ensure the correct environment.
+- Use `tools:` allowlists in agent frontmatter to scope access.
 
 ## Performance Guidance
 
 - Use async I/O for file and network operations.
-- Implement timeouts for long-running operations.
-- Cache expensive computations when appropriate.
-- Stream large responses instead of loading entirely into memory.
+- Set timeouts for subprocess calls (`subprocess.run(timeout=120)`).
+- Truncate large outputs to avoid blowing up context windows.
+- Servers idle at ~0% CPU when waiting for input — no polling overhead.

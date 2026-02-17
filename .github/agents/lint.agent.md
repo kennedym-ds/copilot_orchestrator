@@ -3,6 +3,12 @@ name: lint
 description: "Fixes code style, formatting, and enforces repository conventions."
 argument-hint: "Fix code style issues, format files, or check convention compliance"
 model: ['Claude Haiku 4.5 (copilot)', 'Gemini 3 Flash (copilot)']
+mcp-servers:
+  validation:
+    type: stdio
+    command: python
+    args: ["scripts/mcp/validation_server.py"]
+    tools: ["run_lint", "check_metadata"]
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems']
 ---
 
