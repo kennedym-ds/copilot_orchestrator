@@ -114,6 +114,7 @@ $validModels = @(
     'Claude Sonnet 4.6 (copilot)',
     'Claude Haiku 4.5 (copilot)',
     'GPT-5.3-Codex (copilot)',
+    'Gemini 3.1 Pro (Preview) (copilot)',
     'Gemini 3 Flash (copilot)'
 )
 

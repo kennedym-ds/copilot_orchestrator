@@ -177,13 +177,15 @@ Run `init-artifacts.ps1` to create the structure.
 
 ## Model Allocation
 
-Agents use a tiered model strategy to balance cost and capability:
+Agents use a five-tier model strategy to balance cost and capability:
 
 | Tier | Allocation | Models | Use Cases |
 |------|------------|--------|-----------|
-| Premium | ~20% | Claude Opus 4.6, Claude Sonnet 4.6 | Planning, research, security, orchestration |
-| Execution | ~70% | GPT-5.3-Codex, Claude Sonnet 4.6 | Implementation, testing, review, analysis, support |
-| Routine | ~10% | Claude Haiku 4.5, Gemini 3 Flash | Documentation, linting, routine tasks |
+| Orchestration | ~15% | Claude Opus 4.6, Claude Sonnet 4.6 | Planning, coordination, extended reasoning |
+| Security | ~10% | Claude Opus 4.6, Claude Sonnet 4.6 | Threat modeling, adversarial testing, compliance |
+| Research | ~10% | Gemini 3.1 Pro (Preview), Claude Opus 4.6 | Context gathering, evidence synthesis, analysis |
+| Coding | ~50% | GPT-5.3-Codex, Claude Sonnet 4.6 | Implementation, testing, review, IaC, support |
+| Documentation | ~15% | Claude Sonnet 4.6, Claude Haiku 4.5 | Docs, linting, UX review, design artifacts |
 
 See `instructions/global/03_model-selection.instructions.md` for fallback chains and governance rules.
 

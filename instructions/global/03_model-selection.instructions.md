@@ -87,60 +87,69 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 ### Fallback Chains by Tier
 
-#### Premium Tier Agents (Conductor, Planner, Security, Beast Mode, Researcher)
+#### Orchestration Tier Agents (Conductor, Planner, Beast Mode, Translation Conductor)
 
 **Primary:** Claude Opus 4.6
 **Fallback sequence:**
 1. Claude Sonnet 4.6 (strong reasoning, versatile architecture)
 2. GPT-5.3-Codex (good reasoning at lower cost)
-3. **Pause workflow** — Premium tasks should never downgrade to routine tier
+3. **Pause workflow** — Orchestration tasks should never downgrade to routine tier
 
 **Decision logic:**
 - Try Fallback 1 immediately on primary failure
-- Fallback 2 for non-critical premium tasks when both primary and Fallback 1 unavailable
-- Pause and notify user if all premium options exhausted
+- Fallback 2 for non-critical orchestration tasks when both primary and Fallback 1 unavailable
+- Pause and notify user if all orchestration options exhausted
 - Document model switch in phase summary
 
-#### Code Execution Agents (Reviewer, Implementer, Test, Translator)
+#### Security Tier Agents (Security, Red Team)
 
-**Primary:** GPT-5.3-Codex or Claude Sonnet 4.6 (varies by agent)
+**Primary:** Claude Opus 4.6
 **Fallback sequence:**
-1. Claude Sonnet 4.6 / GPT-5.3-Codex (cross-fallback)
+1. Claude Sonnet 4.6 (strong adversarial and compliance reasoning)
+2. **Pause workflow** — Security reviews must never downgrade below Sonnet
+
+**Decision logic:**
+- Try Fallback 1 immediately on primary failure
+- Pause and notify user if both Opus and Sonnet unavailable
+- Security-critical tasks should never proceed on lower-tier models
+
+#### Research Tier Agents (Researcher, Translation Analyzer)
+
+**Primary:** Gemini 3.1 Pro (Preview)
+**Fallback sequence:**
+1. Claude Opus 4.6 (deep research and synthesis)
+2. Claude Haiku 4.5 (lightweight research for simple queries)
+3. **Escalate to Conductor** if research requires extended analysis
+
+**Decision logic:**
+- Try Fallback 1 immediately on primary failure
+- Fallback 2 only for simple, well-scoped research tasks
+- Escalate for multi-domain synthesis when both primary and Opus unavailable
+
+#### Coding Tier Agents (Implementer, Reviewer, Test, Translator, Translation Validator, Translation Styler, Performance, Data Analytics, Accessibility, Observability, Deployment, GitHub Ops, Maintainer, Terraform, Bicep)
+
+**Primary:** GPT-5.3-Codex
+**Fallback sequence:**
+1. Claude Sonnet 4.6 (strong code generation and analysis)
 2. **Escalate to Conductor** if task complexity requires premium reasoning
 
 **Decision logic:**
 - Try Fallback 1 immediately on primary failure
-- Fallback 2 when Anthropic models unavailable
 - Escalate if implementation task reveals unexpected complexity
+- Document model switch in phase summary
 
-#### Analysis Agents (Performance, Data Analytics, Accessibility, Observability, Deployment, GitHub Ops, Maintainer, Terraform, Bicep, Design, Visualizer)
+#### Documentation Tier Agents (Docs, Lint, Visualizer, Design)
 
-**Primary:** GPT-5.3-Codex
+**Primary:** Claude Sonnet 4.6
 **Fallback sequence:**
-1. Claude Sonnet 4.6 (strong analysis, large context)
-2. Claude Sonnet 4.6 (capable analysis alternative)
-3. **Escalate to Conductor** if analysis requires premium reasoning
+1. Claude Haiku 4.5 (fast, cost-effective for structured tasks)
+2. Gemini 3 Flash (lightweight fallback for formatting and templating)
+3. **Escalate to Conductor** if documentation requires research or complex analysis
 
 **Decision logic:**
 - Try Fallback 1 immediately on primary failure
-- Fallback 2 when Google models unavailable
-- Escalate for security-critical or compliance analyses
-
-#### Adversarial Agent (Red Team)
-
-**Primary:** GPT-5.3-Codex
-**Fallback sequence:**
-1. Claude Sonnet 4.6 (strong adversarial reasoning)
-2. Claude Sonnet 4.6 (capable alternative)
-3. **Escalate to Conductor** for critical adversarial analysis
-
-#### Routine Tier Agents (Docs, Lint)
-
-**Primary:** Claude Haiku 4.5
-**Fallback sequence:**
-1. Gemini 3 Flash (fast, lightweight alternative)
-2. Claude Sonnet 4.6 (upgrade to execution tier if both routine models fail)
-3. **Escalate to Conductor** if documentation requires research or complex analysis
+- Fallback 2 for simple formatting and template-based tasks
+- Escalate when content requires deep analysis or research capabilities
 
 ## Fallback Implementation
 
@@ -224,9 +233,15 @@ After primary model restored:
 - Code style enforcement and linting
 - Low-cost routine tasks (0.33x multiplier)
 
+**Gemini 3.1 Pro (Preview):**
+- Large context window optimized for document analysis and research
+- Strong evidence synthesis and multi-source citation
+- Technology evaluation and dependency analysis
+- Cost per request (~0.4x premium)
+
 **Gemini 3 Flash:**
 - Fast, lightweight coding assistance
-- Budget fallback for routine tasks (0.33x multiplier)
+- Budget fallback for documentation and formatting tasks (0.1x multiplier)
 - Quick syntax and formatting questions
 
 ### Dynamic Model Selection
@@ -234,10 +249,11 @@ After primary model restored:
 Conductor may override default model assignment when:
 
 1. **Task characteristics favor specific model:**
-   - Research-heavy → Claude Opus 4.6 (deep synthesis)
-   - Implementation-heavy → Claude Sonnet 4.6 (versatile)
-   - Analysis-heavy → GPT-5.3-Codex (balanced reasoning)
-   - Large context → Claude Sonnet 4.6 (large context window)
+   - Research-heavy → Gemini 3.1 Pro (Preview) (large context, evidence synthesis)
+   - Implementation-heavy → GPT-5.3-Codex (code generation)
+   - Documentation-heavy → Claude Sonnet 4.6 (writing quality)
+   - Security/adversarial → Claude Opus 4.6 (deep reasoning)
+   - Large context → Gemini 3.1 Pro (Preview) or Claude Opus 4.6
 
 2. **Context size requirements:**
    - >200K tokens → Claude Opus 4.6

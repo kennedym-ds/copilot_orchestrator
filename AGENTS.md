@@ -240,7 +240,7 @@ Leverage proven patterns from the GitHub Copilot community:
 - Track workflow metrics with `scripts/analyze-sessions.ps1`
 - Monitor: escalation patterns, model usage/cost, quality metrics, phase durations
 - View dashboard: `docs/dashboards/workflow-metrics.md`
-- Targets: ≤20% premium model usage, ≥90% review approval rate
+- Targets: ≤25% Opus-tier usage (orchestration + security), ≥90% review approval rate
 
 **Instruction Evolution** (see `INSTRUCTION_CHANGELOG.md`):
 - All instruction files include version metadata

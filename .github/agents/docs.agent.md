@@ -2,7 +2,7 @@
 name: docs
 description: "Generates and reviews documentation, onboarding materials, and knowledge artifacts."
 argument-hint: "Request documentation updates, onboarding materials, or knowledge artifacts"
-model: ['Claude Haiku 4.5 (copilot)', 'Gemini 3 Flash (copilot)']
+model: ['Claude Sonnet 4.6 (copilot)', 'Claude Haiku 4.5 (copilot)']
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'problems', 'edit', 'runCommands']
 ---
 

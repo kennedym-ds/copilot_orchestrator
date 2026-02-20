@@ -33,12 +33,12 @@ This directory hosts prompt templates for orchestrated workflows. Follow these g
 
 | Prompt | Model Tier | Purpose |
 |--------|-----------|---------|
-| `quick/debug-issue` | Execution | Structured debugging: reproduce, isolate, fix, verify |
-| `quick/refactor-code` | Execution | Refactor for clarity and maintainability |
-| `quick/generate-tests` | Execution | Generate unit/integration tests with edge cases |
-| `quick/pr-description` | Routine | Generate PR description from current diff |
-| `quick/commit-message` | Routine | Generate conventional commit message from diff |
-| `quick/quick-review` | Execution | Fast code review without full conductor workflow |
+| `quick/debug-issue` | Coding | Structured debugging: reproduce, isolate, fix, verify |
+| `quick/refactor-code` | Coding | Refactor for clarity and maintainability |
+| `quick/generate-tests` | Coding | Generate unit/integration tests with edge cases |
+| `quick/pr-description` | Documentation | Generate PR description from current diff |
+| `quick/commit-message` | Documentation | Generate conventional commit message from diff |
+| `quick/quick-review` | Coding | Fast code review without full conductor workflow |
 
 ### Root-Level Prompts
 
