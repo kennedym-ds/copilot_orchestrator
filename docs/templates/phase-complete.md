@@ -17,5 +17,8 @@
 **Review Status**
 - {APPROVED / NEEDS_REVISION / FAILED}
 
+**Decisions Made**
+- DEC-{NNN}: {Decision title} — {1-sentence rationale} (see `artifacts/decisions/DEC-{NNN}.md`)
+
 **Recommended Next Steps**
 - {Action}

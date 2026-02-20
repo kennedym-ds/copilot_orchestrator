@@ -183,6 +183,23 @@ When Implementer approaches context limits:
    - Better summarization capabilities
    - Use for complex integrations or refactorings
 
+### Proactive Memory Management
+
+1. **Memory budget (session start):**
+   - Read `artifacts/artifact-index.md` + `artifacts/memory/activeContext.md` (target: under 10K tokens combined)
+   - If index exceeds 10K tokens, read only the sections relevant to the current task
+   - Never bulk-read all artifacts into context
+
+2. **Artifact compaction:**
+   - Run `powershell -File scripts/cleanup-artifacts.ps1 -DryRun` periodically to preview lifecycle actions
+   - Seasonal artifacts approaching TTL get auto-compacted to `.compact.md` summaries
+   - Prefer reading `.compact.md` over full artifacts when only a summary is needed
+
+3. **Decision-first reading:**
+   - When resuming work, read `artifacts/decisions/` ADRs before diving into code
+   - Decisions encode the "why" that prevents re-debating settled choices
+   - Skip decisions tagged `superseded-by` -- follow the chain to the current one
+
 ## Metrics & Monitoring
 
 Track escalation effectiveness in `docs/operations.md`:

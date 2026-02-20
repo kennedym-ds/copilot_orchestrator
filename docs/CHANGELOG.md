@@ -9,6 +9,31 @@ status: stable
 
 All notable changes are documented here following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
 
+## [0.10.0] - 2026-02-20
+
+### Added
+- **Memory Management System**: Three-tier artifact retention (permanent/seasonal/ephemeral) with rolloff and compaction
+- **Cleanup Script** (`scripts/cleanup-artifacts.ps1`): Scans YAML frontmatter, enforces TTL-based archival/deletion, auto-compacts at 75% TTL, regenerates `artifact-index.md`
+- **Memory Management Skill** (`.github/skills/memory-management/SKILL.md`): Teaches agents memory hygiene, decision recording, retention tiers, session read-back/write-back
+- **Decision (ADR) Template** (`docs/templates/decision.md`): Structured template with YAML frontmatter for architectural decisions
+- **Compact Template** (`docs/templates/compact.md`): Summary template for compacted artifacts
+- **Active Context** (`artifacts/memory/activeContext.md`): Session write-back file for Conductor
+- **Artifact Index** (`artifacts/artifact-index.md`): Auto-generated inventory of all active artifacts
+- **Memory Management Guide** (`docs/guides/memory-management.md`): End-to-end guide covering retention, cleanup, ADRs, and Copilot Memory hygiene
+- **New artifact folders**: `artifacts/decisions/`, `artifacts/memory/`, `artifacts/.archive/`
+
+### Changed
+- **Conductor Agent**: Added session read-back protocol (reads `artifact-index.md` + `activeContext.md` at start), write-back at pause points, decision naming, cleanup command
+- **Reviewer Agent**: Added decision extraction step — creates ADRs for architectural decisions after reviews
+- **Behavior Instructions** (`00_behavior.instructions.md`): Added Memory Hygiene section with Copilot Memory store/skip/refresh rules
+- **Escalation Patterns** (`escalation-patterns.instructions.md`): Added Proactive Memory Management section (memory budget, compaction, decision-first reading)
+- **Init Script** (`scripts/init-artifacts.ps1`): Creates `decisions/`, `memory/`, `.archive/` subfolders
+- **Artifacts README**: Added retention tiers table, 3 new folders, expanded naming conventions
+- **Plan Template**: Added "Decisions Made" section
+- **Phase Complete Template**: Added "Decisions Made" section
+- **AGENTS.md**: Documented memory lifecycle, retention tiers, cleanup command, folder structure
+- **Quick Reference**: Added cleanup command, updated artifact folder listing
+
 ## [0.9.0] - 2026-02-17
 
 ### Added

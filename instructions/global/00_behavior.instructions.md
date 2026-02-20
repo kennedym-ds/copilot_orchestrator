@@ -93,3 +93,28 @@ with zero infrastructure. Add the abstraction when you actually have multiple co
 We should implement an event-driven architecture with a message broker to decouple
 the notification service from the order processing pipeline, enabling future scalability.
 ```
+
+## Memory Hygiene
+
+### Copilot Memory — Store vs. Skip
+
+**Store** facts that are:
+- Durable conventions unlikely to change (naming patterns, shell commands, model tiers)
+- Not discoverable from a limited code sample (e.g., "use `powershell` not `pwsh` on this machine")
+- Actionable for future tasks (build commands, test patterns, architectural constraints)
+- Independent of any in-flight work (will remain valid if current branch is abandoned)
+
+**Skip** facts that are:
+- Obvious from reading the code (function signatures, import paths)
+- Transient (current branch name, today's bug count, session-specific context)
+- Duplicated in existing instructions or AGENTS.md
+- Secrets, tokens, or PII
+
+**Refresh** — if you use a stored memory and verify it's still accurate, re-store it to extend its retention.
+
+### Artifact Decisions
+
+When a meaningful decision is made during planning, implementation, or review:
+1. Record it as an ADR in `artifacts/decisions/` using `docs/templates/decision.md`
+2. Set retention tier based on impact: `permanent` for architecture, `seasonal` for tactical
+3. Reference the DEC-ID in the plan or review artifact

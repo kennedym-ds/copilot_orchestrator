@@ -197,8 +197,26 @@ artifacts/
 │   └── {date}-{scope}.md
 ├── sessions/                 # Session state for resume
 │   └── {session-id}.json
+├── decisions/                # Architectural Decision Records (ADRs)
+│   └── DEC-{NNN}-{slug}.md
+├── memory/                   # Active context and session memory
+│   └── activeContext.md
+├── artifact-index.md         # Auto-generated index (read at session start)
 └── .gitignore               # Exclude sensitive/temp files
 ```
+
+### Session Memory Read-Back
+
+At the start of every session, read these files (if they exist) to restore context:
+
+1. **`artifacts/artifact-index.md`** -- Inventory of all active artifacts, decisions, and their retention status
+2. **`artifacts/memory/activeContext.md`** -- Current focus, recent decisions, open questions, active plan
+
+At the end of every session (or at major pause points), update `artifacts/memory/activeContext.md` with:
+- Current focus and phase
+- Last 3-5 decisions made (with DEC-IDs)
+- Open questions carried forward
+- Active plan name and progress
 
 **Initialization**: On first task in a repo, create `artifacts/` if missing:
 ```bash
@@ -208,6 +226,7 @@ echo "# Local agent artifacts" > artifacts/README.md
 
 **Artifact Naming**: Use ISO 8601 dates and descriptive slugs:
 - Plans: `artifacts/plans/{feature-slug}/plan.md`
+- Decisions: `artifacts/decisions/DEC-{NNN}-{slug}.md`
 - Reviews: `artifacts/reviews/{YYYY-MM-DD}-{feature-slug}.md`
 - Sessions: `artifacts/sessions/{session-id}.json`
 
@@ -218,6 +237,7 @@ echo "# Local agent artifacts" > artifacts/README.md
 - **Check Prompt Metadata:** `pwsh -File scripts/add-prompt-metadata.ps1 -RepositoryRoot . -CheckOnly`
 - **Token Budget Report:** `pwsh -File scripts/token-report.ps1 -Path .`
 - **Run Smoke Tests:** `pwsh -File scripts/run-smoke-tests.ps1 -RepositoryRoot .`
+- **Artifact Cleanup:** `powershell -File scripts/cleanup-artifacts.ps1 -DryRun` (preview rolloff/compaction)
 - **Lint Check:** `pwsh -File scripts/run-lint.ps1 -RepositoryRoot .`
 - **Session Analytics:** `pwsh -File scripts/analyze-sessions.ps1`
 

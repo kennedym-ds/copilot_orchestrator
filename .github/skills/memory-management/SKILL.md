@@ -1,0 +1,171 @@
+---
+name: memory-management
+description: "Memory lifecycle patterns for artifact retention, decision recording, context compaction, and Copilot Memory hygiene. Use for session context management, ADR creation, and rolloff strategies."
+---
+
+# Memory Management
+
+Teaches agents how to manage institutional memory across sessions -- recording decisions, maintaining context, compacting artifacts, and using Copilot Memory effectively.
+
+## Description
+
+This skill covers the full memory lifecycle: what to remember, where to store it, when to compact or forget it, and how to read it back efficiently. It bridges three memory layers: Copilot Memory (cross-session facts), artifact storage (structured documents), and session context (active working memory).
+
+## When to Use
+
+- Starting a new session (read-back phase)
+- Making architectural or design decisions
+- Completing a plan phase or review cycle
+- Running artifact cleanup or compaction
+- Storing or refreshing Copilot Memory facts
+- Context window approaching capacity
+
+## Entry Points
+
+**Trigger Phrases:** "record this decision", "what did we decide", "clean up artifacts", "memory budget", "active context"
+
+**Context Patterns:** Session start, plan approval, review completion, phase transitions, context overflow
+
+## Core Knowledge
+
+### Three Memory Layers
+
+| Layer | Scope | TTL | Owner | Read Pattern |
+|-------|-------|-----|-------|--------------|
+| **Copilot Memory** | Cross-session facts | Until replaced/forgotten | All agents | Auto-injected at session start |
+| **Artifact Storage** | Structured documents | Tier-based (14d/90d/forever) | Producing agent | Read via artifact-index.md |
+| **Session Context** | Current working state | Session only | Conductor | activeContext.md |
+
+### Retention Tiers
+
+| Tier | Default TTL | Rolloff Action | Examples |
+|------|-------------|----------------|----------|
+| **Permanent** | Never | Never archived | ADRs, compliance audits, architecture decisions |
+| **Seasonal** | 90 days | Compact at 75% TTL, archive at 100% | Plans, research briefs, reviews |
+| **Ephemeral** | 14 days | Delete at 100% TTL | Session logs, activeContext.md, debug traces |
+
+Set tier via YAML frontmatter:
+```yaml
+---
+retention: seasonal
+ttl-days: 90
+---
+```
+
+### Decision Recording
+
+When to create an ADR:
+- Architecture pattern chosen (e.g., "use event-driven over polling")
+- Technology selection (e.g., "chose PostgreSQL over DynamoDB")
+- Convention established (e.g., "all agents use model fallback arrays")
+- Trade-off resolved (e.g., "accepted eventual consistency for performance")
+
+When NOT to create an ADR:
+- Code-level implementation detail (function names, import paths)
+- Bug fix with no design implications
+- Formatting or style change
+
+Template: `docs/templates/decision.md`
+Storage: `artifacts/decisions/DEC-{NNN}-{slug}.md`
+
+### Session Read-Back Protocol
+
+At session start, the Conductor reads:
+1. `artifacts/artifact-index.md` -- inventory of all active artifacts
+2. `artifacts/memory/activeContext.md` -- current focus, recent decisions, open questions
+
+Budget: Combined read-back should stay under 10K tokens. If the index is large, read only sections relevant to the current task.
+
+### Session Write-Back Protocol
+
+At session end or major pause points, update `artifacts/memory/activeContext.md`:
+```markdown
+## Current Focus
+{What we're working on}
+
+## Recent Decisions
+- DEC-042: Chose hybrid rolloff strategy
+- DEC-043: Set 10K token memory budget
+
+## Open Questions
+- Should cleanup run automatically on session start?
+
+## Active Plan
+memory-management / Phase 4 of 5
+```
+
+### Artifact Compaction
+
+When artifacts approach 75% of their TTL, the cleanup script generates a `.compact.md` stub:
+- Contains key findings (max 5 bullets), decisions made, outcome summary
+- Links to the full artifact for deep dives
+- Agents should prefer reading `.compact.md` over full artifacts when only a summary is needed
+
+Run compaction: `powershell -File scripts/cleanup-artifacts.ps1`
+Preview only: `powershell -File scripts/cleanup-artifacts.ps1 -DryRun`
+
+### Copilot Memory Rules
+
+**Store** when the fact is:
+- A durable convention (naming patterns, shell commands, model tiers)
+- Not discoverable from limited code (e.g., "use `powershell` not `pwsh`")
+- Actionable for future tasks (build commands, test patterns)
+- Independent of in-flight work
+
+**Skip** when the fact is:
+- Obvious from reading the code
+- Transient (branch names, session IDs)
+- Already in instructions or AGENTS.md
+- Contains secrets or PII
+
+**Refresh** -- re-store a memory you use and verify, to extend its retention.
+
+### Context Window Discipline
+
+1. **Never bulk-read artifacts** -- use the index to identify what's relevant, then read selectively
+2. **Prefer compacted versions** -- `.compact.md` over full artifacts for summaries
+3. **Progressive disclosure** -- start with index, drill into specific artifacts as needed
+4. **Phase splitting** -- when context grows, split work into smaller phases with artifact handoffs
+5. **Decision-first reading** -- read ADRs before code to avoid re-debating settled choices
+
+## Implementation Patterns
+
+### Pattern: New Decision
+
+```
+1. Identify the decision point during planning/review
+2. Create ADR: artifacts/decisions/DEC-{NNN}-{slug}.md
+3. Set retention: permanent (architecture) or seasonal (tactical)
+4. Reference DEC-ID in the plan/review artifact
+5. Update activeContext.md with the decision summary
+6. Store in Copilot Memory if it's a durable convention
+```
+
+### Pattern: Session Resume
+
+```
+1. Read artifacts/artifact-index.md (scan for relevant sections)
+2. Read artifacts/memory/activeContext.md (full)
+3. Check Copilot Memory for relevant stored facts
+4. Identify current phase and pending work
+5. Proceed with implementation
+```
+
+### Pattern: Artifact Cleanup
+
+```
+1. Run: powershell -File scripts/cleanup-artifacts.ps1 -DryRun
+2. Review proposed actions (archive, delete, compact)
+3. Run without -DryRun to execute
+4. Verify artifact-index.md was regenerated
+5. Spot-check any .compact.md stubs and refine summaries
+```
+
+## Boundaries
+
+- Agents MUST set `retention` and `ttl-days` frontmatter on new artifacts
+- Agents MUST NOT bulk-read all artifacts into context
+- Agents SHOULD prefer `.compact.md` over full artifacts for non-current work
+- Conductor MUST read-back activeContext.md at session start
+- Conductor MUST write-back activeContext.md at session end
+- Only `scripts/cleanup-artifacts.ps1` moves files to `.archive/` -- never move manually

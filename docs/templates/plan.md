@@ -68,6 +68,9 @@ flowchart LR
 
 2. ...
 
+**Decisions Made**
+- DEC-{NNN}: {Decision title} — {1-sentence rationale} (see `artifacts/decisions/DEC-{NNN}.md`)
+
 **Open Questions**
 1. {Question}
 2. {Question}

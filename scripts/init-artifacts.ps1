@@ -48,7 +48,10 @@ $subfolders = @(
     "red-team",
     "accessibility",
     "tests",
-    "ux"
+    "ux",
+    "decisions",
+    "memory",
+    ".archive"
 )
 
 # Create main artifacts folder

@@ -18,6 +18,27 @@ Each entry should include:
 
 ## Changes
 
+### 2026-02-20 - Memory Management System
+
+#### v2.4.0 - Artifact Retention, Decision Records, Compaction, Memory Skill
+**File:** `instructions/global/00_behavior.instructions.md`, `instructions/workflows/escalation-patterns.instructions.md`, `.github/agents/conductor.agent.md`, `.github/agents/reviewer.agent.md`, `.github/skills/memory-management/SKILL.md` (new), `scripts/cleanup-artifacts.ps1` (new), `scripts/init-artifacts.ps1`, `docs/templates/decision.md` (new), `docs/templates/compact.md` (new), `docs/templates/plan.md`, `docs/templates/phase-complete.md`, `artifacts/README.md`, `AGENTS.md`
+**Type:** Added (5 new files), Modified (8 files)
+**Description:** Implemented a three-tier memory lifecycle to solve institutional amnesia — agents now record decisions, maintain session context, and compact/archive artifacts based on retention policies:
+- Added Memory Hygiene section to `00_behavior.instructions.md` with Copilot Memory store/skip/refresh rules
+- Added Proactive Memory Management to `escalation-patterns.instructions.md` (memory budget, compaction guidance, decision-first reading)
+- Added session read-back/write-back protocol to Conductor (reads `artifact-index.md` + `activeContext.md` at start, writes at end)
+- Added decision extraction step to Reviewer (creates ADRs after reviews with architectural implications)
+- Created `memory-management` skill teaching all agents retention tiers, ADR patterns, compaction, and context discipline
+- Created `cleanup-artifacts.ps1` for TTL-based rolloff, auto-compaction at 75%, and index regeneration
+- Added `decisions/`, `memory/`, `.archive/` to init script and artifact structure
+- Added "Decisions Made" section to plan and phase-complete templates
+**Expected Impact:**
+- Quality: ++ (decisions persist across sessions, context restored on resume, reduced re-debating)
+- Cost: + (compaction reduces context window usage, targeted reads replace bulk loading)
+- Speed: + (session read-back eliminates manual context gathering)
+**Rollback:** Remove new files (`cleanup-artifacts.ps1`, `SKILL.md`, templates), revert added sections in conductor, reviewer, behavior, and escalation instructions. Delete `artifacts/decisions/`, `artifacts/memory/`, `artifacts/.archive/`.
+**Metrics:** Track decision count per month, session read-back token usage, compaction frequency, cleanup script run cadence
+
 ### 2026-02-17 - MCP Expansion and Protocol Modernization
 
 #### v2.3.0 - MCP Server Expansion, Remote GitHub MCP, Protocol 2025-11-25 Features

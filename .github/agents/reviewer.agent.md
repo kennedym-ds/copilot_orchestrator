@@ -112,6 +112,17 @@ artifacts/reviews/{YYYY-MM-DD}-{feature-slug}.md
 - [ ] {Action item}
 ```
 
+### Decision Extraction
+
+After each review, extract any architectural decisions made during the review cycle into ADRs:
+
+1. Identify decisions from the review that affect architecture, patterns, or conventions
+2. For each decision, create an ADR in `artifacts/decisions/DEC-{NNN}-{slug}.md` using the template in `docs/templates/decision.md`
+3. Set `retention: permanent` for architectural decisions, `retention: seasonal` for tactical choices
+4. Reference the ADR in the review artifact's findings section
+
+**Skip extraction** when the review contains only code-level fixes with no architectural implications.
+
 ## Boundaries
 
 - ✅ **Always do:** Examine diffs thoroughly, verify test execution, document findings with severity tags, cite specific files/lines

@@ -32,6 +32,12 @@ pwsh -File scripts/token-report.ps1 -Path .
 # Initialize artifacts folder
 pwsh -File scripts/init-artifacts.ps1
 
+# Artifact cleanup (preview)
+powershell -File scripts/cleanup-artifacts.ps1 -DryRun
+
+# Artifact cleanup (execute)
+powershell -File scripts/cleanup-artifacts.ps1
+
 # Session analytics
 pwsh -File scripts/analyze-sessions.ps1
 
@@ -145,7 +151,11 @@ artifacts/
 ├── red-team/       # Adversarial analysis
 ├── accessibility/  # WCAG audits
 ├── tests/          # Test reports
-└── ux/             # UX reviews
+├── ux/             # UX reviews
+├── decisions/      # Architectural Decision Records
+├── memory/         # Active context (session write-back)
+├── artifact-index.md  # Auto-generated inventory
+└── .archive/       # Rolled-off artifacts past TTL
 ```
 
 ---
@@ -190,7 +200,8 @@ artifacts/
 | `AGENTS.md` | Agent playbook |
 | `docs/guides/onboarding.md` | Setup guide |
 | `docs/guides/central-deployment.md` | Org-level deployment || `docs/guides/background-agents-worktrees.md` | Git worktrees for parallel execution |
-| `docs/guides/claude-skills-migration.md` | Prompt to skill migration || `docs/operations.md` | Monitoring and backlog |
+| `docs/guides/claude-skills-migration.md` | Prompt to skill migration || `docs/guides/memory-management.md` | Memory lifecycle, cleanup, ADRs |
+| `docs/operations.md` | Monitoring and backlog |
 
 ---
 

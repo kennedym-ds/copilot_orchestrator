@@ -177,10 +177,30 @@ artifacts/
 ├── red-team/       # Red Team
 ├── accessibility/  # Accessibility
 ├── tests/          # Test
-└── ux/             # Visualizer
+├── ux/             # Visualizer
+├── decisions/      # Architectural Decision Records (ADRs)
+├── memory/         # Active context and session memory
+├── artifact-index.md  # Auto-generated inventory
+└── .archive/       # Rolled-off artifacts past TTL
 ```
 
 Initialize with: `pwsh -File scripts/init-artifacts.ps1`
+
+### Memory Lifecycle
+
+Artifacts follow a three-tier retention model managed by `scripts/cleanup-artifacts.ps1`:
+
+| Tier | Default TTL | Action at TTL | Examples |
+|------|-------------|---------------|----------|
+| **Permanent** | Never | Never archived | ADRs, compliance audits |
+| **Seasonal** | 90 days | Compact at 75%, archive at 100% | Plans, research, reviews |
+| **Ephemeral** | 14 days | Delete at 100% | Session logs, activeContext.md |
+
+Set retention via YAML frontmatter (`retention:`, `ttl-days:`). See the `memory-management` skill for full details.
+
+**Session read-back:** Conductor reads `artifact-index.md` + `memory/activeContext.md` at session start.
+**Session write-back:** Conductor updates `memory/activeContext.md` at pause points and session end.
+**Cleanup:** `powershell -File scripts/cleanup-artifacts.ps1 -DryRun` to preview, without `-DryRun` to execute.
 
 See `docs/guides/central-deployment.md` for org-level deployment patterns.
 
