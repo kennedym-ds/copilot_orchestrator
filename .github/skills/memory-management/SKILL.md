@@ -36,6 +36,21 @@ This skill covers the full memory lifecycle: what to remember, where to store it
 | **Artifact Storage** | Structured documents | Tier-based (14d/90d/forever) | Producing agent | Read via artifact-index.md |
 | **Session Context** | Current working state | Session only | Conductor | activeContext.md |
 
+### Memory Routing: Centralized vs. Per-Repo
+
+The system operates on two physical tiers:
+
+- **Copilot Memory** = centralized. Cross-repo, auto-injected into every session. Stores durable facts that help in any repo.
+- **`artifacts/`** = per-repo. Each consuming repository has its own isolated artifacts folder. Never shared across repos.
+
+**Routing decision tree:**
+1. Would this help in a different repo? -> Copilot Memory
+2. Does it need rationale and alternatives? -> ADR in `artifacts/decisions/`
+3. Tied to current work in this repo? -> `artifacts/` (appropriate subfolder)
+4. Irrelevant next week? -> `activeContext.md` or skip
+
+**Cross-repo pattern:** When a convention applies everywhere, store a short fact in Copilot Memory (centralized) AND record the full ADR in the originating repo's `artifacts/decisions/` (per-repo). The memory propagates automatically; the ADR preserves the reasoning.
+
 ### Retention Tiers
 
 | Tier | Default TTL | Rolloff Action | Examples |

@@ -23,6 +23,63 @@ The orchestrator uses three memory layers to avoid "institutional amnesia" — t
 
 ---
 
+## Memory Routing: Centralized vs. Per-Repo
+
+The system has two physical tiers. Understanding which tier owns a fact prevents duplication and ensures the right information is available in the right context.
+
+```
+┌──────────────────────────────────────────────────────────┐
+│          Centralized (Copilot Memory)            │
+│  Cross-repo, cross-session, auto-injected        │
+│  Org conventions, shell quirks, model tiers       │
+└──────────────────────────────────────────────────────────┘
+              │ Available in ALL repos
+    ┌─────────┼───────────────────┐
+    ▼                    ▼                    ▼
+┌───────────────┐ ┌───────────────┐ ┌───────────────┐
+│   Repo A      │ │   Repo B      │ │   Repo C      │
+│  artifacts/   │ │  artifacts/   │ │  artifacts/   │
+│  decisions/   │ │  decisions/   │ │  decisions/   │
+│  memory/      │ │  memory/      │ │  memory/      │
+└───────────────┘ └───────────────┘ └───────────────┘
+  Per-repo artifacts (isolated, never shared)
+```
+
+### Routing Rules
+
+| Fact Type | Store In | Why |
+|-----------|----------|-----|
+| OS/shell quirks (e.g., `powershell` not `pwsh`) | Copilot Memory | Applies to all repos on this machine |
+| Model tiers and fallback conventions | Copilot Memory | Org-wide standard, rarely changes |
+| Agent frontmatter patterns | Copilot Memory | Org-wide convention |
+| Verified build/test commands for a repo | Copilot Memory | Repo-specific but durable, useful cross-session |
+| Architecture decisions for a repo | `artifacts/decisions/` | Needs full rationale, alternatives, consequences |
+| Current plan progress | `artifacts/memory/activeContext.md` | Repo-specific, overwritten each session |
+| Research findings for a feature | `artifacts/research/` | Repo-specific, seasonal retention |
+| Review verdicts and findings | `artifacts/reviews/` | Repo-specific, tied to code changes |
+| Session-specific debug context | `artifacts/sessions/` | Ephemeral, repo-scoped |
+
+### Decision Rule
+
+When deciding where to store a fact, ask:
+
+1. **Would this help in a different repo?** -> Copilot Memory
+2. **Does it need rationale and alternatives?** -> ADR in `artifacts/decisions/`
+3. **Is it tied to current work in this repo?** -> `artifacts/` (appropriate subfolder)
+4. **Will it be irrelevant next week?** -> `activeContext.md` or skip entirely
+
+### Cross-Repo Consistency
+
+Copilot Memory is the glue. When a convention is established in one repo and should apply everywhere:
+
+1. Record the decision as an ADR in the originating repo's `artifacts/decisions/`
+2. Store the convention as a Copilot Memory fact (short, actionable)
+3. The memory is auto-injected everywhere -- no need to copy artifacts between repos
+
+Existing Copilot Memory facts (visible in `repository_memories` at session start) already serve as the centralized store. Each repo's `artifacts/` folder is fully isolated -- agents never read another repo's artifacts.
+
+---
+
 ## Quick Start
 
 ### 1. Initialize Artifacts
