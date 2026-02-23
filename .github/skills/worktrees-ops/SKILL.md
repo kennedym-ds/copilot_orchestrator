@@ -224,7 +224,7 @@ code ..\background-analysis
 
 **Workflow:**
 - Main window: Continue active development
-- Worktree window: Data Analytics agent runs DS-Star workflow
+- Worktree window: Researcher + Implementer agents run DS-Star analysis workflow
 - No resource contention
 - Background results committed to separate branch
 

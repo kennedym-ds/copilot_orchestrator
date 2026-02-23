@@ -35,7 +35,7 @@ The repository implements the **GitHub Copilot Orchestra pattern**, a multi-agen
 ```
 copilot_orchestrator/
 ├── .github/
-│   ├── agents/              # 9 agent definitions (conductor, lifecycle, support)
+│   ├── agents/              # 27 agent definitions (conductor, lifecycle, support, specialists, translation)
 │   ├── chatmodes/           # 3 chat mode configurations
 │   ├── prompts/             # 7 specialized prompts across 4 categories
 │   ├── workflows/ci/        # CI validation workflow
@@ -865,7 +865,7 @@ The Copilot Orchestrator repository represents a **mature, well-architected foun
 
 ### 16.2 Key Achievements
 
-✅ Comprehensive agent ecosystem (9 specialized agents)
+✅ Comprehensive agent ecosystem (27 specialized agents)
 ✅ Robust validation toolkit (5 scripts, CI integration)
 ✅ Rich documentation (12+ guides, templates, workflows)
 ✅ Excellent token budget utilization (21% of threshold)

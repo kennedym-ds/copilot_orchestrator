@@ -84,7 +84,7 @@ Invoke-Pester -Path tests -Output Detailed
 
 ---
 
-## Agent Roster (26 Agents)
+## Agent Roster (27 Agents)
 
 ### Core Workflow
 
@@ -121,6 +121,7 @@ Invoke-Pester -Path tests -Output Detailed
 | bicep | Azure IaC |
 | design | Architecture |
 | beast-mode | Extended reasoning |
+| rubber-duck | Socratic problem-solving |
 
 ### Translation Workflow
 

@@ -143,13 +143,16 @@ When all phases complete:
 
 **Pattern:**
 ```markdown
-1. Detect DS-Star query → immediate handoff:
-   #runSubagent data-analytics "Analyze [data question]. Dataset: [path]. Success criteria: [business objective]."
-2. Monitor round progress (max 10 rounds, 30-min timeout)
-3. Track verdict per round: INSUFFICIENT | PARTIAL | SUFFICIENT
-4. On SUFFICIENT → documentation handoff:
+1. Detect DS-Star query → research handoff:
+   #runSubagent researcher "Gather context on [data question]. Dataset: [path]. Identify schema, data quality, relevant features."
+2. Plan the analysis approach:
+   #runSubagent planner "Design iterative analysis plan for [objective]. Include methodology, success criteria, rounds."
+3. Implementation rounds (max 10 rounds, 30-min timeout):
+   #runSubagent implementer "Execute analysis round [N]. Objective: [step]. Dataset: [path]. TDD approach."
+4. Track verdict per round: INSUFFICIENT | PARTIAL | SUFFICIENT
+5. On SUFFICIENT → documentation handoff:
    #runSubagent docs "Create data analysis report from pipeline_state.json"
-5. Surface methodology, findings, recommendations
+6. Surface methodology, findings, recommendations
 ```
 
 **State Tracking:**
@@ -244,7 +247,7 @@ artifacts/
 | `security` | Security review | "Review [changes] for threat model, compliance impacts." |
 | `performance` | Performance analysis | "Analyze [changes] for runtime, memory, cost implications." |
 | `docs` | Documentation | "Generate user guide for [feature]. Include: setup, usage, troubleshooting." |
-| `data-analytics` | Data science query | "Analyze [data question]. Dataset: [path]. Iterative DS-Star workflow." |
+| `rubber-duck` | Problem-solving | "User is stuck on [problem]. Help them think through it via Socratic questioning." |
 
 ## Examples
 
@@ -349,11 +352,13 @@ Detected data science query. Delegating to DS-Star workflow.
 **Current Phase:** DS-Star Analysis
 **Plan Progress:** Round 0/10
 **Last Action:** Identified data analysis request
-**Next Action:** Delegate to data-analytics agent
+**Next Action:** Delegate to researcher agent
 
-#runSubagent data-analytics "Analyze customer churn factors using DS-Star iterative workflow. Objective: Identify key drivers of customer retention and provide actionable recommendations. Dataset: data/customers.csv. Success criteria: Statistical significance p<0.05, actionable insights for retention team, model accuracy >75% if predictive modeling used."
+#runSubagent researcher "Gather context on customer churn data. Dataset: data/customers.csv. Identify schema, data quality, relevant features for retention analysis."
 
-[Data-analytics agent executes rounds 1-5, verdict progression: INSUFFICIENT → PARTIAL → PARTIAL → SUFFICIENT]
+[Researcher gathers context, then planner designs analysis approach...]
+
+#runSubagent implementer "Execute DS-Star analysis round 1. Analyze customer churn factors. Objective: Identify key drivers of customer retention. Dataset: data/customers.csv. Success criteria: Statistical significance p<0.05, actionable insights."
 
 DS-Star analysis complete after 4 rounds (verdict: SUFFICIENT).
 

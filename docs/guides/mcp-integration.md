@@ -25,7 +25,7 @@ Servers run as either:
 | validation | `scripts/mcp/validation_server.py` | stdio | conductor, implementer, reviewer, test, lint, observability | 5 tools + 6 resources + 3 prompts | PowerShell validation wrappers |
 | analytics | `scripts/mcp/analytics_server.py` | stdio | conductor, observability | 5 tools + 4 resources + 2 prompts | Session and artifact analytics |
 
-**Coverage:** 14 of 26 agents have MCP capability.
+**Coverage:** 14 of 27 agents have MCP capability.
 
 ## Workspace Configuration (`.vscode/mcp.json`)
 

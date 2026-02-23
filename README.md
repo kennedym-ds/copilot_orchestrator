@@ -14,7 +14,7 @@ Use this repository as a shared configuration source across workspaces. Configur
 ## Features
 
 - **Multi-phase orchestration**: Structured workflow with mandatory pause points for human review
-- **26 specialized agents**: Core workflow agents plus support personas for security, performance, accessibility, IaC, translation, and more
+- **27 specialized agents**: Core workflow agents plus support personas for security, performance, accessibility, IaC, translation, and more
 - **13 reusable skills**: Domain-specific capabilities (TDD, security review, delegation routing, code translation, and more)
 - **22 prompt templates**: Organized by workflow phase (planning, implementation, review, research, translation)
 - **37 instruction files**: Layered mesh across global, workflow, compliance, and language categories
@@ -124,6 +124,7 @@ This creates the local `artifacts/` folder structure for session persistence.
 | Bicep | Azure IaC implementation, ARM template migration |
 | Design | Architecture design, brand system queries, component validation |
 | Beast Mode | Extended reasoning with visible thinking for complex problems |
+| Rubber Duck | Socratic problem-solving, guided debugging |
 
 ### Translation Workflow Agents
 
@@ -139,7 +140,7 @@ This creates the local `artifacts/` folder structure for session persistence.
 
 | Path | Purpose |
 |------|---------|
-| `.github/agents/` | Agent definitions (26 `.agent.md` files) |
+| `.github/agents/` | Agent definitions (27 `.agent.md` files) |
 | `.github/prompts/` | Reusable prompt library (22 templates across 7 categories) |
 | `.github/skills/` | Reusable agent skills (13 domain-specific capabilities) |
 | `instructions/` | Layered instruction mesh (37 files: global, workflow, compliance, language) |

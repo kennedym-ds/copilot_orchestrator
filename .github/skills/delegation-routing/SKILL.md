@@ -105,6 +105,7 @@ All inter-agent delegation uses `#runSubagent`:
 | **bicep** | "Azure", "Bicep", "ARM template", "Azure IaC" | Azure infrastructure implementation, ARM compatibility | GPT-5.3-Codex |
 | **design** | "design system", "brand colors", "components", "design tokens" | Design system queries, component search, contrast validation | GPT-5.3-Codex |
 | **beast-mode** | "deep analysis", "complex reasoning", "step-by-step", "thorough investigation" | Extended reasoning with visible thinking, complex problem solving | Claude Opus 4.6 |
+| **rubber-duck** | "stuck", "confused", "think through", "debug thinking", "rubber duck", "talk it out", "help me understand" | Socratic problem-solving, guided debugging via probing questions | Claude Sonnet 4.6 |
 
 ### Delegation Templates
 
@@ -237,7 +238,7 @@ These agents cannot be autonomously invoked by another model. They must be expli
 
 #### `agents:` Allowlists
 Some agents have explicit allowlists restricting which subagents they can invoke:
-- **conductor** — can invoke 21 agents (all except translation sub-agents directly)
+- **conductor** — can invoke 22 agents (all except translation sub-agents directly)
 - **translation-conductor** — can invoke 13 agents (translation workflow + core workflow)
 - **translator** — can invoke only `translation-validator` and `translation-styler`
 

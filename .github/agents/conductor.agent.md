@@ -3,7 +3,7 @@ name: conductor
 description: "Orchestrates planning, implementation, review, and commit cycles with specialized subagents."
 argument-hint: "Describe your feature request or bug to orchestrate a multi-phase implementation"
 model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
-agents: ['planner', 'implementer', 'reviewer', 'researcher', 'maintainer', 'security', 'performance', 'accessibility', 'docs', 'observability', 'visualizer', 'deployment', 'red-team', 'test', 'lint', 'github-ops', 'terraform', 'bicep', 'design', 'beast-mode', 'translation-conductor']
+agents: ['planner', 'implementer', 'reviewer', 'researcher', 'maintainer', 'security', 'performance', 'accessibility', 'docs', 'observability', 'visualizer', 'deployment', 'red-team', 'test', 'lint', 'github-ops', 'terraform', 'bicep', 'design', 'beast-mode', 'rubber-duck', 'translation-conductor']
 mcp-servers:
   validation:
     type: stdio

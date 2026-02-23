@@ -45,7 +45,7 @@ All notable changes are documented here following [Keep a Changelog](https://kee
 
 ### Changed
 - **Workspace MCP Config** (`.vscode/mcp.json`): Replaced old `mcpServers` format with new `servers` format; 8 servers registered (1 HTTP remote, 7 stdio local); all paths use `${workspaceFolder}` for portability; venv interpreter for reliable `mcp` imports
-- **MCP Agent Coverage**: 14 of 26 agents now have `mcp-servers:` frontmatter (was 3)
+- **MCP Agent Coverage**: 14 of 27 agents now have `mcp-servers:` frontmatter (was 3)
 - **github-ops Agent**: Migrated from local `github_server.py` (stdio) to remote GitHub MCP (HTTP)
 - **Agent MCP Wiring**: Added scoped tool allowlists to conductor, implementer, reviewer, test, lint, observability, translation-conductor
 - **MCP Integration Guide** (`docs/guides/mcp-integration.md`): Rewritten to cover HTTP transport, workspace config, resource annotations, prompts, validation/analytics servers, agent-to-MCP mapping

@@ -783,7 +783,7 @@ When enabled (`chat.tools.terminal.sandbox.enabled: true`):
   ```
 - **Monitor all sessions**: Open the Agent Sessions view (Panel → Agent Sessions) to see conductor workflows, delegated cloud agents, and CLI sessions in one place.
 - When delegating manually, include scope, files, and expectations so memory captures the context for follow-up personas.
-- Encourage specialists (Security, Performance, Visualizer, Data Analytics, Docs) to append memory notes summarizing their findings for downstream agents.
+- Encourage specialists (Security, Performance, Visualizer, Docs) to append memory notes summarizing their findings for downstream agents.
 - Clear or update memory entries before starting a new initiative to avoid cross-talk between projects.
 
 ## Saving Successful Sessions
@@ -801,7 +801,7 @@ Example use cases:
 
 ## Verification Checklist
 1. Restart VS Code Insiders after saving the settings.
-2. Open the Chat view and confirm custom modes (Conductor, Planner, Implementer, Reviewer, Researcher, Maintainer, Security, Performance, Visualizer, Data Analytics, Docs) appear in the mode picker.
+2. Open the Chat view and confirm agents (Conductor, Planner, Implementer, Reviewer, Researcher, Maintainer, Security, Performance, Accessibility, Docs, Observability, Visualizer, Deployment, Red Team, Test, Lint, GitHub Ops, Terraform, Bicep, Design, Beast Mode, Rubber Duck) appear in the agent picker.
 3. Type `/` in chat and ensure prompt files from `.github/prompts` are listed.
 4. Select the Conductor and verify handoff buttons appear. Other agents should delegate autonomously via `#runSubagent`.
 5. Confirm the memory indicator shows as enabled (gear icon → “Chat > Tools > Memory”) and pin any critical context for the next session.

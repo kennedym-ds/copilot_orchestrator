@@ -42,7 +42,7 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 | Translator | GPT-5.3-Codex | Claude Sonnet 4.6 | 200K tokens | Execution |
 | Red Team | GPT-5.3-Codex | Claude Sonnet 4.6 | 200K tokens | Execution |
 | Performance | GPT-5.3-Codex | Claude Sonnet 4.6 | 200K tokens | Execution |
-| Data Analytics | GPT-5.3-Codex | Claude Sonnet 4.6 | 200K tokens | Execution |
+| Rubber Duck | Claude Sonnet 4.6 | Claude Haiku 4.5 | 200K tokens | Routine |
 | Accessibility | GPT-5.3-Codex | Claude Sonnet 4.6 | 200K tokens | Execution |
 | Observability | GPT-5.3-Codex | Claude Sonnet 4.6 | 200K tokens | Execution |
 | Visualizer | GPT-5.3-Codex | Claude Sonnet 4.6 | 200K tokens | Execution |
@@ -126,7 +126,7 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 - Fallback 2 only for simple, well-scoped research tasks
 - Escalate for multi-domain synthesis when both primary and Opus unavailable
 
-#### Coding Tier Agents (Implementer, Reviewer, Test, Translator, Translation Validator, Translation Styler, Performance, Data Analytics, Accessibility, Observability, Deployment, GitHub Ops, Maintainer, Terraform, Bicep)
+#### Coding Tier Agents (Implementer, Reviewer, Test, Translator, Translation Validator, Translation Styler, Performance, Accessibility, Observability, Deployment, GitHub Ops, Maintainer, Terraform, Bicep)
 
 **Primary:** GPT-5.3-Codex
 **Fallback sequence:**
@@ -138,7 +138,7 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 - Escalate if implementation task reveals unexpected complexity
 - Document model switch in phase summary
 
-#### Documentation Tier Agents (Docs, Lint, Visualizer, Design)
+#### Documentation Tier Agents (Docs, Lint, Visualizer, Design, Rubber Duck)
 
 **Primary:** Claude Sonnet 4.6
 **Fallback sequence:**

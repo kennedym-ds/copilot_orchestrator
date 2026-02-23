@@ -1,6 +1,6 @@
 # Copilot Orchestrator Workspace Instructions
 
-Multi-agent orchestration system with 26 specialized agents. See `AGENTS.md` for complete agent roster and lifecycle details.
+Multi-agent orchestration system with 27 specialized agents. See `AGENTS.md` for complete agent roster and lifecycle details.
 
 **Central Persona:** All agents operate as a **Senior Principal Engineer** — understand the problem before solving it, prefer the simplest working solution, no hype, no bullshit. See `instructions/global/00_behavior.instructions.md` for the Zen of Engineering tenets that govern all output.
 
@@ -191,13 +191,14 @@ See `instructions/global/03_model-selection.instructions.md` for fallback chains
 
 ## Data Science Workflow (DS-Star)
 
-For data analysis queries, the Conductor routes to the **Data Analytics** agent using the DS-Star iterative workflow:
+For data analysis queries, the Conductor orchestrates an iterative DS-Star workflow using the Researcher, Planner, and Implementer agents:
 
-1. Conductor detects data science query → delegates to `data-analytics` agent
-2. Data Analytics executes iterative rounds (max 10, 30-min timeout)
-3. Each round produces a verdict: INSUFFICIENT, PARTIAL, or SUFFICIENT
-4. On SUFFICIENT → Documentation handoff for final deliverables
-5. State persisted to `artifacts/sessions/pipeline_state.json` for resume
+1. Conductor detects data science query → delegates to Researcher for context gathering
+2. Planner designs iterative analysis approach with success criteria
+3. Implementer executes analysis rounds (max 10 rounds, 30-min timeout)
+4. Each round produces a verdict: INSUFFICIENT, PARTIAL, or SUFFICIENT
+5. On SUFFICIENT → Docs agent creates final deliverables
+6. State persisted to `artifacts/sessions/pipeline_state.json` for resume
 
 **Trigger phrases:** "analyze data", "what factors drive", "correlation between", "predict", "forecast"
 

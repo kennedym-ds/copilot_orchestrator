@@ -241,6 +241,6 @@ plans/data-analysis/{session_id}/
 **Final Verification**: SUFFICIENT âœ…
 
 **Agents Involved**:
-- Conductor â†’ Data Analytics â†’ Planner â†’ Implementer â†’ Reviewer â†’ Docs
+- Conductor â†’ Researcher â†’ Planner â†’ Implementer â†’ Reviewer â†’ Docs
 
 **Artifacts Location**: `plans/data-analysis/{session_id}/`

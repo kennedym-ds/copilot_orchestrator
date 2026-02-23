@@ -10,7 +10,7 @@ Provides runtime budget enforcement patterns for conductor workflows, tracking m
 
 ## Description
 
-This skill teaches the conductor and delegating agents how to monitor and enforce session budgets in real time. Inspired by Athena's BudgetGatekeeper pattern, it adapts the concept to our multi-agent orchestration model — where the "cost" is distributed across 26 specialized agents using a 3-tier model allocation.
+This skill teaches the conductor and delegating agents how to monitor and enforce session budgets in real time. Inspired by Athena's BudgetGatekeeper pattern, it adapts the concept to our multi-agent orchestration model — where the "cost" is distributed across 27 specialized agents using a 3-tier model allocation.
 
 Unlike our existing `token-thresholds.json` (which enforces file-level token limits at validation time), this skill provides **runtime session-level enforcement** during active conductor workflows.
 
@@ -56,8 +56,8 @@ Each delegation carries a cost weight based on the target agent's model tier:
 | Tier | Weight | Agents | Monthly Budget Target |
 |------|--------|--------|----------------------|
 | Premium (Opus 4.6, Sonnet 4.6) | 3x | conductor, planner, reviewer, researcher, red-team, beast-mode, security, translator, translation-conductor | ≤20% of total delegations |
-| Execution (GPT-5.3-Codex, Sonnet 4.6) | 1x | implementer, maintainer, performance, accessibility, observability, visualizer, data-analytics, deployment, github-ops, terraform, bicep, design, test, translation-analyzer, translation-validator, translation-styler | ~70% of total delegations |
-| Routine (Sonnet 4.6) | 0.3x | docs, lint | ~10% of total delegations |
+| Execution (GPT-5.3-Codex, Sonnet 4.6) | 1x | implementer, maintainer, performance, accessibility, observability, visualizer, deployment, github-ops, terraform, bicep, design, test, translation-analyzer, translation-validator, translation-styler | ~70% of total delegations |
+| Routine (Sonnet 4.6) | 0.3x | docs, lint, rubber-duck | ~10% of total delegations |
 
 ### Budget State Tracking
 

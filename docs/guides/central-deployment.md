@@ -159,22 +159,28 @@ The structure should be:
     â”œâ”€â”€ implementer.agent.md
     â”œâ”€â”€ reviewer.agent.md
     â”œâ”€â”€ researcher.agent.md
+    â”œâ”€â”€ maintainer.agent.md
     â”œâ”€â”€ security.agent.md
     â”œâ”€â”€ performance.agent.md
-    â”œâ”€â”€ maintainer.agent.md
-    â”œâ”€â”€ visualizer.agent.md
     â”œâ”€â”€ accessibility.agent.md
-    â”œâ”€â”€ data-analytics.agent.md
     â”œâ”€â”€ docs.agent.md
     â”œâ”€â”€ observability.agent.md
+    â”œâ”€â”€ visualizer.agent.md
     â”œâ”€â”€ deployment.agent.md
     â”œâ”€â”€ red-team.agent.md
-    â”œâ”€â”€ terraform.agent.md
-    â”œâ”€â”€ bicep.agent.md
-    â”œâ”€â”€ beast-mode.agent.md
     â”œâ”€â”€ test.agent.md
     â”œâ”€â”€ lint.agent.md
-    â””â”€â”€ github-ops.agent.md
+    â”œâ”€â”€ github-ops.agent.md
+    â”œâ”€â”€ terraform.agent.md
+    â”œâ”€â”€ bicep.agent.md
+    â”œâ”€â”€ design.agent.md
+    â”œâ”€â”€ beast-mode.agent.md
+    â”œâ”€â”€ rubber-duck.agent.md
+    â”œâ”€â”€ translation-conductor.agent.md
+    â”œâ”€â”€ translator.agent.md
+    â”œâ”€â”€ translation-analyzer.agent.md
+    â”œâ”€â”€ translation-validator.agent.md
+    â””â”€â”€ translation-styler.agent.md
 ```
 
 ### 3. Include the Init Script
@@ -349,7 +355,7 @@ This allows tPaths
 
 You can combine both methods:
 
-- **Organization Agents (Method 1)**: Core 22-agent roster for all teams
+- **Organization Agents (Method 1)**: Core 27-agent roster for all teams
 - **Repository Agents (Local)**: Project-specific customizations
 
 Local agents take precedence, allowing teams to:
