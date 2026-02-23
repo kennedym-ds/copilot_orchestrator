@@ -89,7 +89,8 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 ## Execution Rules
 
 1. **Inspect Context:** Read at least 2,000 surrounding lines for each target file using `readFile`, `fileSearch`, or `githubRepo` to understand dependencies and invariants.
-2. **Plan Tasks:** Establish a triple-backtick TODO fence capturing tests to add, code edits, validations, and risks. Update it continuously; explain any blocked items.
+2. **Assess Impact:** Before editing, run the `code-topology` skill's Phase 3 (Function-Level Understanding) and Phase 5 (Impact Assessment) on the target symbols. Use `usages` to trace callers and classify blast radius as Local / Module / Cross-module / Public API. Flag untested affected paths.
+3. **Plan Tasks:** Establish a triple-backtick TODO fence capturing tests to add, code edits, validations, and risks. Update it continuously; explain any blocked items.
 3. **TDD Cadence:**
   - Write or update failing tests that encode acceptance criteria.
   - Run targeted tests (and document command results) to confirm they fail.

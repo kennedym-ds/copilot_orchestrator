@@ -9,6 +9,19 @@ status: stable
 
 All notable changes are documented here following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
 
+## [0.11.0] - 2026-02-23
+
+### Added
+- **Code Topology Skill** (`.github/skills/code-topology/SKILL.md`): 5-phase structural code understanding protocol — landscape survey, dependency mapping, function-level tracing, data-flow analysis, and impact assessment. Teaches agents to reason about codebase architecture using existing tools (`usages`, `search`, `readFile`, directory listing) instead of ad hoc file reading.
+- **Code Topology Research** (`artifacts/research/code-topology-agent-understanding-2026.md`): In-depth research brief on code topology concepts (CBFDAE framework, Golden Mesh, call graphs, ASTs, data-flow analysis) and their applicability to agent code understanding.
+
+### Changed
+- **Planner Agent**: Added structural analysis step — runs Phase 1-2 topology survey for multi-file features to ground plans in actual code structure
+- **Implementer Agent**: Added impact assessment step (new Execution Rule #2) — runs Phase 3+5 topology before edits to trace callers, classify blast radius, and flag untested paths
+- **Reviewer Agent**: Added structural impact check (new Workflow step #4) — verifies blast radius is accounted for in diffs using `usages`-based topology tracing
+- **Researcher Agent**: Added codebase analysis pattern — uses Phase 1-2 topology for structured codebase overviews instead of ad hoc browsing
+- **Delegation Routing Skill**: Added "code topology", "codebase overview", "architecture map", "impact analysis", "blast radius" to routing keyword triggers; added code-topology skill reference
+
 ## [0.10.0] - 2026-02-20
 
 ### Added

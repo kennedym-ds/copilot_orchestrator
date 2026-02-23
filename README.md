@@ -142,7 +142,7 @@ This creates the local `artifacts/` folder structure for session persistence.
 |------|---------|
 | `.github/agents/` | Agent definitions (27 `.agent.md` files) |
 | `.github/prompts/` | Reusable prompt library (22 templates across 7 categories) |
-| `.github/skills/` | Reusable agent skills (13 domain-specific capabilities) |
+| `.github/skills/` | Reusable agent skills (16 domain-specific capabilities) |
 | `instructions/` | Layered instruction mesh (37 files: global, workflow, compliance, language) |
 | `scripts/` | Validation and tooling scripts (PowerShell 5.1) |
 | `docs/` | Guides, templates, and operational documentation |

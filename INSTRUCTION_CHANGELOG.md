@@ -18,6 +18,23 @@ Each entry should include:
 
 ## Changes
 
+### 2026-02-23 - Code Topology Skill
+
+#### v2.5.0 - Structural Code Understanding Protocol
+**File:** `.github/skills/code-topology/SKILL.md` (new), `.github/agents/planner.agent.md`, `.github/agents/implementer.agent.md`, `.github/agents/reviewer.agent.md`, `.github/agents/researcher.agent.md`, `.github/skills/delegation-routing/SKILL.md`
+**Type:** Added (1 new skill), Modified (5 files)
+**Description:** Agents previously relied on ad hoc file reading (the "read 2,000 lines" heuristic) with no structured methodology for understanding code architecture. This change introduces a 5-phase protocol that systematizes structural code understanding:
+- Phase 1: Landscape Survey — directory structure, module classification, entry point identification
+- Phase 2: Dependency Mapping — import analysis, adjacency lists, hub detection, circular dependency flagging
+- Phase 3: Function-Level Understanding — call chain tracing via `usages`, complexity assessment
+- Phase 4: Data Flow Tracing — source-to-sink analysis, event pattern detection, error propagation mapping
+- Phase 5: Impact Assessment — blast radius classification, test coverage gaps, confidence rating
+
+Generalizes patterns proven in the translation system (translation-analyzer's dependency DAG) to all agents. Updated planner (Phase 1-2), implementer (Phase 3+5), reviewer (Phase 5), and researcher (Phase 1-2) with specific topology integration points.
+**Expected Impact:** Quality: Higher — plans grounded in actual structure, reviews catch structural regressions. Cost: Slight increase in tokens per task (topology analysis). Speed: Faster for complex tasks (directed reads vs. brute-force).
+**Rollback Plan:** Remove code-topology skill references from agent files; delete `.github/skills/code-topology/` directory.
+**Metrics:** Track: % of plans that include structural analysis, % of reviews that assess blast radius, reduction in "unexpected side effect" bugs.
+
 ### 2026-02-20 - Memory Management System
 
 #### v2.4.0 - Artifact Retention, Decision Records, Compaction, Memory Skill

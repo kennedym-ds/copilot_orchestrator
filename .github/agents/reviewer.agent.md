@@ -52,7 +52,11 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
   before diving into diffs.
 3. Load at least 2,000 surrounding lines for each touched file to evaluate
   integration concerns and side effects.
-4. Maintain a `TODO-reviewer` fence capturing review checkpoints (correctness,
+4. **Structural Impact Check**: For changes touching >1 file, run the `code-topology`
+  skill's Phase 5 (Impact Assessment) — use `usages` on changed symbols to verify
+  blast radius is accounted for in the diff. Flag any affected callers or downstream
+  modules not covered by the change or its tests.
+5. Maintain a `TODO-reviewer` fence capturing review checkpoints (correctness,
   tests, docs, security, performance, compliance); prefix every bullet with
   `[severity:high]`, `[severity:medium]`, or `[severity:low]`, cite the
   authoritative file path (`steps/00X_*`, `verdict.md`, `pipeline_state.json`,

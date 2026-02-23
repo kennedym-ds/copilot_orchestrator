@@ -65,10 +65,10 @@ All inter-agent delegation uses `#runSubagent`:
 | Agent | Keyword Triggers | When to Delegate | Model Preference |
 |-------|-----------------|------------------|------------------|
 | **conductor** | "orchestrate", "coordinate", "multi-phase", "lifecycle" | Escalate scope changes, ambiguous routing, multi-agent coordination | Claude Opus 4.6 |
-| **planner** | "plan", "scope", "phases", "strategy", "breakdown", "estimate" | Need structured multi-phase plan, risk analysis, option evaluation | Claude Opus 4.6 |
+| **planner** | "plan", "scope", "phases", "strategy", "breakdown", "estimate", "impact analysis", "blast radius" | Need structured multi-phase plan, risk analysis, option evaluation, impact assessment | Claude Opus 4.6 |
 | **implementer** | "implement", "build", "code", "fix", "apply", "execute", "create" | Execute approved changes, apply fixes, generate code | Claude Sonnet 4.6 |
 | **reviewer** | "review", "audit", "quality", "check", "verify", "validate" | After implementation, quality gates, diff review, compliance checks | Claude Opus 4.6 |
-| **researcher** | "research", "investigate", "evidence", "compare", "explore", "context" | Gather background info, evaluate alternatives, find documentation | Claude Opus 4.6 |
+| **researcher** | "research", "investigate", "evidence", "compare", "explore", "context", "code topology", "codebase overview", "architecture map" | Gather background info, evaluate alternatives, find documentation, structural codebase analysis | Claude Opus 4.6 |
 | **maintainer** | "triage", "release", "changelog", "version", "PR", "issue management" | Issue triage, release preparation, PR logistics, changelog updates | GPT-5.3-Codex |
 
 #### Support Persona Agents
@@ -314,6 +314,7 @@ Next steps: Security agent should review token rotation procedures.
 
 - **Conductor Agent**: `.github/agents/conductor.agent.md` — retains handoff buttons as user entry point
 - **Conductor Lifecycle Skill**: `.github/skills/conductor-lifecycle/SKILL.md` — phase orchestration patterns
+- **Code Topology Skill**: `.github/skills/code-topology/SKILL.md` — structural code understanding protocol
 - **Agent Roster**: `AGENTS.md` — full agent list with capabilities and model allocations
 - **Model Selection**: `instructions/global/03_model-selection.instructions.md` — tier definitions and fallback chains
 - **Validation Scripts**: `scripts/validate-copilot-assets.ps1`, `scripts/run-lint.ps1`

@@ -45,6 +45,7 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 - Leverage `#textSearch` with `includeIgnoredFiles` to search dependencies, build outputs, and vendor folders when investigating library usage or third-party code.
 - Recursively follow in-scope references, capturing timestamps for each citation.
 - When inspecting repository code, open at least 2,000 surrounding lines to understand conventions, invariants, and cross-file coupling.
+- **Codebase Analysis**: When researching a codebase's architecture, use the `code-topology` skill's Phase 1 (Landscape Survey) and Phase 2 (Dependency Mapping) to produce a structured overview — module boundaries, entry points, dependency direction, and structural risks — rather than ad hoc file browsing.
 - Summarize findings with source attributions, confidence levels, implementation implications, and recommended mitigations.
 - Flag contradictory or outdated sources, privacy/compliance considerations, and areas that require stakeholder confirmation.
 
