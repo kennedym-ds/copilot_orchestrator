@@ -49,8 +49,13 @@ Agents delegate work autonomously using `#runSubagent` with keyword-based routin
 | Initialize artifacts | `pwsh -File scripts/init-artifacts.ps1` |
 | Session analytics | `pwsh -File scripts/analyze-sessions.ps1` |
 | Pester tests | `Invoke-Pester -Path tests -Output Detailed` |
+| Setup Claude Code | `pwsh -File scripts/setup-claude-code.ps1 -Mode Project -TargetPath .` |
+| Setup VS / CLI | `pwsh -File scripts/setup-vs-cli.ps1 -Strategy Symlink -TargetPath .` |
+| Setup Antigravity | `pwsh -File scripts/setup-antigravity.ps1 -Mode Project -TargetPath .` |
 
 **Shell**: Windows PowerShell 5.1. Use `;` when chaining commands. Prefer cmdlets over aliases.
+
+**Cross-Platform**: For macOS/Linux, use the `.sh` equivalents: `setup-claude-code.sh`, `setup-vs-cli.sh`, `setup-antigravity.sh`. See `docs/guides/multi-platform-setup.md`.
 
 ---
 

@@ -1,13 +1,44 @@
 ---
 title: "Copilot Orchestrator Changelog"
-version: "0.9.0"
-lastUpdated: "2026-02-17"
+version: "0.13.0"
+lastUpdated: "2026-07-28"
 status: stable
 ---
 
 # Changelog
 
 All notable changes are documented here following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
+
+## [0.13.0] - 2026-07-28
+
+### Added
+- **Antigravity IDE Setup Scripts**: Cross-platform scripts for exporting orchestrator agents/skills to Google DeepMind's Antigravity IDE
+  - `scripts/setup-antigravity.ps1` -- PowerShell script transforming VS Code agents to Antigravity `.agent/` format (2 modes: Project, User)
+  - `scripts/setup-antigravity.sh` -- Bash equivalent for macOS/Linux
+  - Converts 27 agents, 16 skills, 22 prompts-to-workflows, instructions-to-rules, and MCP configuration
+  - Generates slash-command workflows from prompt templates with `$ARGUMENTS` support
+  - Maps models (Opus/Sonnet/Haiku/Gemini) and tools (Read/Grep/Glob/Bash/Edit/Write) to Antigravity equivalents
+- **Multi-Platform Setup Guide v1.1**: Updated guide now covers five platforms (VS Code, Visual Studio, Claude Code, Antigravity, Copilot CLI)
+
+### Changed
+- Updated `docs/guides/multi-platform-setup.md` with Antigravity IDE section, format mapping tables, troubleshooting
+- Updated `scripts/AGENTS.md` with Antigravity setup script documentation
+
+## [0.12.0] - 2026-07-28
+
+### Added
+- **Multi-Platform Setup Scripts**: Cross-platform scripts for using orchestrator agents/skills in Claude Code, Visual Studio, and Copilot CLI
+  - `scripts/setup-claude-code.ps1` — PowerShell script transforming VS Code agents to Claude Code format (3 modes: Project, User, Plugin)
+  - `scripts/setup-claude-code.sh` — Bash equivalent for macOS/Linux
+  - `scripts/setup-vs-cli.ps1` — PowerShell script for Visual Studio and Copilot CLI setup (Symlink, Copy, Reference strategies)
+  - `scripts/setup-vs-cli.sh` — Bash equivalent for macOS/Linux
+- **Multi-Platform Setup Guide** (`docs/guides/multi-platform-setup.md`): Comprehensive guide covering all four platforms (VS Code, Claude Code, Visual Studio, Copilot CLI) with cross-platform instructions for Windows, macOS, and Linux
+- **Claude Code Plugin Support**: Plugin mode creates a distributable `.claude-plugin/` package with manifest, transformed agents, skills, and MCP configuration
+- **Agent Format Transformation**: Automated model mapping (VS Code model names → Claude Code aliases), tool mapping (VS Code tools → Claude Code tools), and frontmatter conversion
+- **Instruction → Rules Conversion**: Converts `instructions/` hierarchy to `.claude/rules/` with language-specific `paths` frontmatter for scoped rules
+
+### Changed
+- Updated `scripts/AGENTS.md` with documentation for new setup scripts
 
 ## [0.11.0] - 2026-02-23
 
