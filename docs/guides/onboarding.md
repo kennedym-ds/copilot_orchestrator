@@ -222,6 +222,17 @@ After configuring models:
 
 For advanced configuration, see [VS Code Copilot Configuration Guide](vscode-copilot-configuration.md).
 
+## Other Platforms
+
+The orchestrator agents work beyond VS Code. Dedicated onboarding guides are available for each platform:
+
+- [Claude Code Onboarding](claude-code-onboarding.md) — Setup, model/tool mapping, project/user/plugin modes
+- [Antigravity IDE Onboarding](antigravity-onboarding.md) — Setup, workflows (slash commands), project/user modes
+- [Visual Studio Onboarding](visual-studio-onboarding.md) — Symlink/copy/reference strategies, validation
+- [Copilot CLI Onboarding](copilot-cli-onboarding.md) — Interactive, one-off, chaining, and CI/CD patterns
+
+See [Multi-Platform Setup Reference](multi-platform-setup.md) for the full technical comparison across all platforms.
+
 ## Next Steps
 
 1. Review sample artifacts in `plans/samples/`

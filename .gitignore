@@ -15,5 +15,11 @@ __pycache__/
 # Local configuration files
 *.local
 
+# Script test/review temp output (setup-claude-code, setup-vs-cli, setup-antigravity)
+*claude_setup_review*
+*claude_setup_test*
+*vs_cli_setup_test*
+*antigravity_setup_test*
+
 # Artifacts
 artifacts/

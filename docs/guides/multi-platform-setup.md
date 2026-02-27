@@ -355,6 +355,15 @@ See [copilot-cli-usage.md](copilot-cli-usage.md) for the complete CLI guide.
 
 ## Related Guides
 
+### Per-Platform Onboarding
+
+- [Claude Code Onboarding](claude-code-onboarding.md) — Quick start, model/tool mapping, project/user/plugin modes
+- [Antigravity IDE Onboarding](antigravity-onboarding.md) — Quick start, workflows, project/user modes
+- [Visual Studio Onboarding](visual-studio-onboarding.md) — Quick start, distribution strategies, validation
+- [Copilot CLI Onboarding](copilot-cli-onboarding.md) — Quick start, interactive/one-off/chaining/CI patterns
+
+### Reference
+
 - [VS Code Configuration](vscode-copilot-configuration.md) — Full VS Code settings reference
 - [Claude Skills Migration](claude-skills-migration.md) — Converting prompts to skills format
 - [Copilot CLI Usage](copilot-cli-usage.md) — Complete CLI agent guide
