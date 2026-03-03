@@ -4,6 +4,11 @@ description: "Plans and implements Terraform infrastructure-as-code with drift d
 argument-hint: "Describe Terraform changes, drift detection, or IaC planning tasks"
 model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
+handoffs:
+  - label: Return to Conductor
+    agent: conductor
+    prompt: "Terraform task complete. IaC plan and validation results delivered."
+    send: false
 ---
 
 # Terraform Agent — IaC Specialist

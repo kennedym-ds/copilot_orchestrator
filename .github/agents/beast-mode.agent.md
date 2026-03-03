@@ -4,6 +4,11 @@ description: "Transparent extended reasoning mode with visible thinking, systema
 argument-hint: "Engage for complex problems requiring visible step-by-step reasoning and thorough analysis"
 model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages', 'askQuestions']
+handoffs:
+  - label: Return to Conductor
+    agent: conductor
+    prompt: "Deep analysis complete. Findings and recommendations delivered. Ready for next action."
+    send: false
 ---
 
 # Beast Mode Agent — Transparent Extended Reasoning

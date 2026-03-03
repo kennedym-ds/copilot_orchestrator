@@ -8,6 +8,11 @@ mcp-servers:
     type: http
     url: "https://api.githubcopilot.com/mcp/"
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'edit', 'runCommands']
+handoffs:
+  - label: Return to Conductor
+    agent: conductor
+    prompt: "Maintainer task complete. Triage results and release coordination delivered. Ready for next action."
+    send: false
 ---
 
 # Maintainer Support Agent — Workflow Steward

@@ -4,6 +4,11 @@ description: "Plans and implements Azure Bicep infrastructure-as-code with ARM t
 argument-hint: "Describe Azure Bicep changes, ARM migrations, or Azure IaC planning tasks"
 model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
+handoffs:
+  - label: Return to Conductor
+    agent: conductor
+    prompt: "Bicep task complete. Azure IaC plan and validation results delivered."
+    send: false
 ---
 
 # Bicep Agent — Azure IaC Specialist

@@ -10,6 +10,11 @@ mcp-servers:
     args: ["scripts/mcp/validation_server.py"]
     tools: ["validate_assets", "run_smoke_tests"]
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
+handoffs:
+  - label: Return to Conductor
+    agent: conductor
+    prompt: "Test task complete. Test results and coverage analysis delivered. Ready for next phase."
+    send: false
 ---
 
 # Test Agent  Quality Engineer

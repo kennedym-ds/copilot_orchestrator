@@ -5,6 +5,11 @@ argument-hint: "Stress test the plan, find loopholes, or simulate bad actor beha
 model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
 user-invokable: false
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
+handoffs:
+  - label: Return to Conductor
+    agent: conductor
+    prompt: "Adversarial analysis complete. Edge cases and vulnerability findings delivered."
+    send: false
 ---
 
 # Red Team Support Agent — Adversarial Tester

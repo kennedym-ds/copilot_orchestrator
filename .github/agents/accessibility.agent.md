@@ -4,6 +4,11 @@ description: "Reviews code and designs for WCAG compliance, ARIA implementation,
 argument-hint: "Request accessibility review, WCAG compliance check, or a11y implementation guidance"
 model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'usages']
+handoffs:
+  - label: Return to Conductor
+    agent: conductor
+    prompt: "Accessibility audit complete. WCAG findings and remediation guidance delivered."
+    send: false
 ---
 
 # Accessibility Agent — A11y Advocate

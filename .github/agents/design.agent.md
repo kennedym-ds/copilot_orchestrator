@@ -10,6 +10,11 @@ mcp-servers:
     args: ["scripts/mcp/design_server.py"]
     tools: ["get_brand_palette", "search_components", "check_contrast"]
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'readFile', 'fileSearch', 'edit', 'runCommands', 'problems']
+handoffs:
+  - label: Return to Conductor
+    agent: conductor
+    prompt: "Design review complete. Design system recommendations delivered."
+    send: false
 ---
 
 # Design Support Agent — Design System Expert

@@ -4,6 +4,11 @@ description: "Designs and reviews user journeys, diagrams, and visual communicat
 argument-hint: "Review user flows, wireframes, accessibility, or create diagrams"
 model: ['Claude Sonnet 4.6 (copilot)', 'Claude Haiku 4.5 (copilot)']
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'edit', 'runCommands']
+handoffs:
+  - label: Return to Conductor
+    agent: conductor
+    prompt: "UX review complete. Visual design findings and recommendations delivered."
+    send: false
 ---
 
 # Visualizer Support Agent — Experience Designer

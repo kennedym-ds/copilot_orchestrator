@@ -4,6 +4,11 @@ description: "Generates and reviews documentation, onboarding materials, and kno
 argument-hint: "Request documentation updates, onboarding materials, or knowledge artifacts"
 model: ['Claude Sonnet 4.6 (copilot)', 'Claude Haiku 4.5 (copilot)']
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'problems', 'edit', 'runCommands']
+handoffs:
+  - label: Return to Conductor
+    agent: conductor
+    prompt: "Documentation task complete. Updated docs saved to artifacts/docs/. Ready for review."
+    send: false
 ---
 
 # Documentation Support Agent — Knowledge Curator

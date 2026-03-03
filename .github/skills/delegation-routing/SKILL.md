@@ -310,6 +310,42 @@ Next steps: Security agent should review token rotation procedures.
 "
 ```
 
+## Agent → Skill Mapping
+
+When delegating to a sub-agent, load the relevant skills to ensure the agent follows established patterns. This table maps each agent to the skills it should reference.
+
+| Agent | Primary Skills | Load When |
+|-------|---------------|-----------|
+| conductor | conductor-lifecycle, delegation-routing, memory-management | Always (orchestration core) |
+| planner | documentation-style | Plan authoring, Mermaid diagrams |
+| implementer | git-operations | Commit workflows, branch operations |
+| reviewer | performance-analysis | Performance-relevant reviews |
+| researcher | documentation-style | Brief formatting, citation structure |
+| maintainer | git-operations, memory-management | Release ops, artifact triage |
+| security | — | Standalone threat analysis |
+| performance | performance-analysis | Always (core competency) |
+| accessibility | — | Standalone WCAG analysis |
+| docs | documentation-style | Always (core competency) |
+| observability | performance-analysis, orchestrator-terminal-style | Metrics display, terminal output |
+| visualizer | orchestrator-terminal-style | Diagram authoring, terminal formatting |
+| deployment | git-operations | Release pipelines, tag management |
+| red-team | — | Adversarial testing (standalone) |
+| test | — | Test authoring (standalone) |
+| lint | — | Style enforcement (standalone) |
+| github-ops | git-operations | PR/issue management, branch ops |
+| terraform | — | IaC planning (standalone) |
+| bicep | — | Azure IaC (standalone) |
+| design | — | Design system queries (standalone) |
+| beast-mode | memory-management | Extended sessions, context management |
+| rubber-duck | — | Conversational only (no skills needed) |
+| translation-conductor | conductor-lifecycle | Translation orchestration lifecycle |
+| translator | — | File-level translation |
+| translation-analyzer | — | Dependency graph analysis |
+| translation-validator | — | Validation stack execution |
+| translation-styler | — | Idiom enforcement |
+
+**Usage pattern**: When routing via `#runSubagent`, the receiving agent should load listed skills before beginning work. Skills marked "—" operate with built-in instructions only.
+
 ## References
 
 - **Conductor Agent**: `.github/agents/conductor.agent.md` — retains handoff buttons as user entry point

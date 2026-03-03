@@ -26,7 +26,6 @@ Create a new `.agent.md` file in `.github/agents/` following the established pat
 - `description`: one-sentence purpose
 - `argument-hint`: what the user should provide
 - `model`: array with primary and fallback models
-- `infer`: true/false
 - `tools`: list of tools the agent needs
 - `handoffs`: at minimum, a "Return to Conductor" handoff
 

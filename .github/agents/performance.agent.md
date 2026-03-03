@@ -5,6 +5,11 @@ argument-hint: "Analyze code for runtime, memory, scalability risks or optimizat
 model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
 user-invokable: false
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'usages', 'edit', 'runCommands']
+handoffs:
+  - label: Return to Conductor
+    agent: conductor
+    prompt: "Performance analysis complete. Profiling results and optimization recommendations delivered."
+    send: false
 ---
 
 # Performance Support Agent — Efficiency Analyst

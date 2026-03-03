@@ -16,6 +16,11 @@ mcp-servers:
     args: ["scripts/mcp/validation_server.py"]
     tools: ["token_report"]
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems']
+handoffs:
+  - label: Return to Conductor
+    agent: conductor
+    prompt: "Observability analysis complete. Metrics and telemetry findings delivered."
+    send: false
 ---
 
 # Observability Support Agent — Telemetry Analyst

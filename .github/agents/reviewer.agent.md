@@ -3,13 +3,14 @@ name: reviewer
 description: "Audits changes for correctness, quality, and policy compliance before handoff."
 argument-hint: "Provide changes to review for correctness, quality, and policy compliance"
 model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
+agents: ['conductor', 'implementer']
 mcp-servers:
   validation:
     type: stdio
     command: python
     args: ["scripts/mcp/validation_server.py"]
     tools: ["validate_assets", "run_smoke_tests", "token_report"]
-tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'usages', 'edit', 'runCommands']
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'usages', 'runCommands']
 handoffs:
   - label: Return to Conductor
     agent: conductor

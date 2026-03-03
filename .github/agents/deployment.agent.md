@@ -8,6 +8,11 @@ mcp-servers:
     type: http
     url: "https://api.githubcopilot.com/mcp/"
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems']
+handoffs:
+  - label: Return to Conductor
+    agent: conductor
+    prompt: "Deployment review complete. Pipeline analysis and release readiness assessment delivered."
+    send: false
 ---
 
 # Deployment Support Agent — Release Manager

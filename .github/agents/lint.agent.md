@@ -10,6 +10,11 @@ mcp-servers:
     args: ["scripts/mcp/validation_server.py"]
     tools: ["run_lint", "check_metadata"]
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems']
+handoffs:
+  - label: Return to Conductor
+    agent: conductor
+    prompt: "Lint pass complete. Style fixes applied and validated."
+    send: false
 ---
 
 # Lint Agent  Style Enforcer

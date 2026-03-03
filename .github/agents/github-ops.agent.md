@@ -8,6 +8,11 @@ mcp-servers:
     type: http
     url: "https://api.githubcopilot.com/mcp/"
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'runCommands', 'problems']
+handoffs:
+  - label: Return to Conductor
+    agent: conductor
+    prompt: "GitHub operations complete. Issue/PR management results delivered."
+    send: false
 ---
 
 # GitHub Operations Agent — Repository Steward
