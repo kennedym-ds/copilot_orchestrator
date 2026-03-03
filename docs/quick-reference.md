@@ -84,7 +84,7 @@ Invoke-Pester -Path tests -Output Detailed
 
 ---
 
-## Agent Roster (27 Agents)
+## Agent Roster (28 Agents)
 
 ### Core Workflow
 
@@ -96,6 +96,7 @@ Invoke-Pester -Path tests -Output Detailed
 | reviewer | Claude Opus 4.6 | Code review |
 | researcher | Claude Opus 4.6 | Context gathering |
 | maintainer | GPT-5.3-Codex | Issue triage, releases |
+| spec | Claude Opus 4.6 | Project specification |
 
 ### Support Personas
 
@@ -183,7 +184,7 @@ artifacts/
 
 | Path | Purpose |
 |------|---------|
-| `.github/agents/` | Agent definitions (27 files) |
+| `.github/agents/` | Agent definitions (28 files) |
 | `.github/prompts/` | Reusable prompts |
 | `instructions/` | Layered instruction mesh |
 | `scripts/` | Validation and tooling |

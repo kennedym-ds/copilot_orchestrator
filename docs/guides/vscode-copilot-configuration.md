@@ -100,7 +100,7 @@ Use this configuration to make all 22 orchestrator agents available in **any VS 
    ```
 
 3. Reload VS Code: `Ctrl+Shift+P` → "Developer: Reload Window"
-4. Verify agents loaded: Right-click in Chat → **Diagnostics** — all 27 agents should appear
+4. Verify agents loaded: Right-click in Chat → **Diagnostics** — all 28 agents should appear
 
 > VS Code silently skips any tilde paths that don't resolve to existing directories, making it safe to reuse this block across machines.
 
@@ -157,7 +157,7 @@ Agent frontmatter now accepts `model` as an array. The first available model is 
 model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
 ```
 
-All 27 agents in this repo now use model fallback arrays for resilience.
+All 28 agents in this repo now use model fallback arrays for resilience.
 
 ### Agent Invocation Control
 New frontmatter attributes for fine-grained control:

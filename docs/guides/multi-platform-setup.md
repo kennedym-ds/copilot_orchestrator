@@ -5,7 +5,7 @@
 
 ## Overview
 
-The Copilot Orchestrator's 27 agents and 16 skills can be used across five platforms:
+The Copilot Orchestrator's 28 agents and 16 skills can be used across five platforms:
 
 | Platform | Agent Format | Setup Script | OS Support |
 |----------|-------------|-------------|------------|

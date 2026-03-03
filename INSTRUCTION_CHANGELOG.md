@@ -18,6 +18,22 @@ Each entry should include:
 
 ## Changes
 
+### 2026-02-26 - Spec Agent & Documentation Sync
+
+#### v3.1.0 - Project Specification Agent
+**File:** `.github/agents/spec.agent.md` (new), `.github/skills/spec-development/SKILL.md` (new), `docs/templates/spec.md` (new), `instructions/workflows/spec.instructions.md` (new), `.claude/rules/workflows/spec.instructions.md` (new), `.github/agents/conductor.agent.md`, `.github/skills/delegation-routing/SKILL.md`, `AGENTS.md`, `.github/copilot-instructions.md`, `.claude/CLAUDE.md`, + ~25 documentation files
+**Type:** Added (5 new files), Modified (~30 files)
+**Description:** Added a dedicated Spec agent for structured project specification and requirements elicitation before planning:
+- New premium-tier agent (Claude Opus 4.6 / Sonnet 4.6) with 3 complexity tiers (LIGHTWEIGHT, STANDARD, COMPREHENSIVE)
+- New `spec-development` skill with requirements ID conventions (REQ-F/NF/S/D/I-NNN), acceptance criteria patterns (Given/When/Then), and spec→plan handoff protocol
+- New 14-section spec template with Mermaid diagram support, quality summary footer, and section status tracking
+- Conductor lifecycle extended: Spec → Planning → Implementation → Review → Completion
+- Conductor agents allowlist updated to include `spec` (now 23 agents)
+- All documentation updated from "27 agents" to "28 agents" across ~25 files (guides, skills, scripts, README, llms.txt)
+**Expected Impact:** Quality: Higher — specs catch ambiguity and scope creep before planning. Cost: Slight increase for spec phase (premium tier). Speed: Faster overall — fewer mid-implementation pivots.
+**Rollback Plan:** Remove spec agent file, skill, template, and instruction. Revert conductor allowlist. Revert "28" back to "27" in docs.
+**Metrics:** Track: % of tasks that use spec phase, reduction in mid-plan scope changes, spec-to-plan conversion rate.
+
 ### 2026-02-23 - Code Topology Skill
 
 #### v2.5.0 - Structural Code Understanding Protocol

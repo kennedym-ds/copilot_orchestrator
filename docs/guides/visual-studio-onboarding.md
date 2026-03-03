@@ -7,7 +7,7 @@ status: stable
 
 # Visual Studio Onboarding
 
-Get the Copilot Orchestrator's 27 agents running in Visual Studio in under 5 minutes.
+Get the Copilot Orchestrator's 28 agents running in Visual Studio in under 5 minutes.
 
 ## Prerequisites
 
@@ -133,7 +133,7 @@ Use agents directly in Copilot Chat:
 
 ### Available agents
 
-All 27 agents from the orchestrator are available:
+All 28 agents from the orchestrator are available:
 
 | Category | Agents |
 |----------|--------|

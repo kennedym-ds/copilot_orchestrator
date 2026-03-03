@@ -70,6 +70,7 @@ All inter-agent delegation uses `#runSubagent`:
 | **reviewer** | "review", "audit", "quality", "check", "verify", "validate" | After implementation, quality gates, diff review, compliance checks | Claude Opus 4.6 |
 | **researcher** | "research", "investigate", "evidence", "compare", "explore", "context", "code topology", "codebase overview", "architecture map" | Gather background info, evaluate alternatives, find documentation, structural codebase analysis | Claude Opus 4.6 |
 | **maintainer** | "triage", "release", "changelog", "version", "PR", "issue management" | Issue triage, release preparation, PR logistics, changelog updates | GPT-5.3-Codex |
+| **spec** | "spec", "specification", "requirements", "scope", "project brief", "acceptance criteria" | Comprehensive project specification, requirements elicitation, scope definition | Claude Opus 4.6 |
 
 #### Support Persona Agents
 
@@ -238,7 +239,7 @@ These agents cannot be autonomously invoked by another model. They must be expli
 
 #### `agents:` Allowlists
 Some agents have explicit allowlists restricting which subagents they can invoke:
-- **conductor** — can invoke 22 agents (all except translation sub-agents directly)
+- **conductor** — can invoke 23 agents (all except translation sub-agents directly)
 - **translation-conductor** — can invoke 13 agents (translation workflow + core workflow)
 - **translator** — can invoke only `translation-validator` and `translation-styler`
 
@@ -338,6 +339,7 @@ When delegating to a sub-agent, load the relevant skills to ensure the agent fol
 | design | — | Design system queries (standalone) |
 | beast-mode | memory-management | Extended sessions, context management |
 | rubber-duck | — | Conversational only (no skills needed) |
+| spec | spec-development, documentation-style | Requirements elicitation, spec authoring |
 | translation-conductor | conductor-lifecycle | Translation orchestration lifecycle |
 | translator | — | File-level translation |
 | translation-analyzer | — | Dependency graph analysis |

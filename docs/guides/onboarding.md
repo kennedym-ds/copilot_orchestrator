@@ -21,7 +21,7 @@ This guide provides setup instructions for contributors joining the Copilot Orch
 |----------|----------|---------|
 | Agent playbook | `AGENTS.md` | Agent roster, commands, workflow guardrails |
 | Validation scripts | `scripts/*.ps1` | Asset validation, linting, token reporting |
-| Agent definitions | `.github/agents/` | 27 agent definitions with tool scopes and delegation patterns |
+| Agent definitions | `.github/agents/` | 28 agent definitions with tool scopes and delegation patterns |
 | Prompt library | `.github/prompts/` | Reusable prompts for each workflow phase |
 | Plan templates | `docs/templates/` | Standard structures for plans and phase summaries |
 | Sample artifacts | `plans/samples/` | Completed examples of conductor deliverables |

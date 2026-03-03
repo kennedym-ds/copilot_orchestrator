@@ -1,4 +1,4 @@
-﻿# Central Deployment Guide
+# Central Deployment Guide
 
 > **Updated for VS Code 1.109**: Now supports native organization-level agent sharing without manual repository setup.
 
@@ -7,30 +7,30 @@ This guide explains how to deploy the Copilot Orchestrator agents centrally at t
 ## Architecture Overview
 
 ```
-â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚                    Organization Level                        â”‚
-â”‚  .github-private repository (or .github)                    â”‚
-â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚
-â”‚  â”‚  agents/                                                â”‚ â”‚
-â”‚  â”‚  â”œâ”€â”€ conductor.agent.md                                â”‚ â”‚
-â”‚  â”‚  â”œâ”€â”€ planner.agent.md                                  â”‚ â”‚
-â”‚  â”‚  â”œâ”€â”€ implementer.agent.md                              â”‚ â”‚
-â”‚  â”‚  â”œâ”€â”€ reviewer.agent.md                                 â”‚ â”‚
-â”‚  â”‚  â””â”€â”€ ... (all 27 agents)                              â”‚ â”‚
-â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚
-â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
-                              â”‚
-              â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-              â–¼               â–¼               â–¼
-â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚   Repo A        â”‚  â”‚   Repo B        â”‚  â”‚   Repo C        â”‚
-â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚  â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚  â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
-â”‚  â”‚artifacts/ â”‚  â”‚  â”‚  â”‚artifacts/ â”‚  â”‚  â”‚  â”‚artifacts/ â”‚  â”‚
-â”‚  â”‚â”œâ”€â”€ plans/ â”‚  â”‚  â”‚  â”‚â”œâ”€â”€ plans/ â”‚  â”‚  â”‚  â”‚â”œâ”€â”€ plans/ â”‚  â”‚
-â”‚  â”‚â”œâ”€â”€ reviewsâ”‚  â”‚  â”‚  â”‚â”œâ”€â”€ reviewsâ”‚  â”‚  â”‚  â”‚â”œâ”€â”€ reviewsâ”‚  â”‚
-â”‚  â”‚â””â”€â”€ ...    â”‚  â”‚  â”‚  â”‚â””â”€â”€ ...    â”‚  â”‚  â”‚  â”‚â””â”€â”€ ...    â”‚  â”‚
-â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚  â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚  â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
-â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+┌─────────────────────────────────────────────────────────────┐
+│                    Organization Level                        │
+│  .github-private repository (or .github)                    │
+│  ┌────────────────────────────────────────────────────────┐ │
+│  │  agents/                                                │ │
+│  │  ├── conductor.agent.md                                │ │
+│  │  ├── planner.agent.md                                  │ │
+│  │  ├── implementer.agent.md                              │ │
+│  │  ├── reviewer.agent.md                                 │ │
+│  │  └── ... (all 28 agents)                              │ │
+│  └────────────────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────┘
+                              │
+              ┌───────────────┼───────────────┐
+              ▼               ▼               ▼
+┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
+│   Repo A        │  │   Repo B        │  │   Repo C        │
+│  ┌───────────┐  │  │  ┌───────────┐  │  │  ┌───────────┐  │
+│  │artifacts/ │  │  │  │artifacts/ │  │  │  │artifacts/ │  │
+│  │├── plans/ │  │  │  │├── plans/ │  │  │  │├── plans/ │  │
+│  │├── reviews│  │  │  │├── reviews│  │  │  │├── reviews│  │
+│  │└── ...    │  │  │  │└── ...    │  │  │  │└── ...    │  │
+│  └───────────┘  │  │  └───────────┘  │  │  └───────────┘  │
+└─────────────────┘  └─────────────────┘  └─────────────────┘
 ```
 
 ## Deployment Methods
@@ -89,7 +89,7 @@ gh api /orgs/YOUR_ORG/copilot/agents \
   -F description="Orchestrates multi-phase workflows" \
   -F definition=@.github/agents/conductor.agent.md
 
-# Repeat for all 27 agents
+# Repeat for all 28 agents
 ```
 
 ### 2. Users Enable Organization Agents
@@ -105,7 +105,7 @@ Each developer adds to their VS Code `settings.json`:
 
 ### 3. Agents Automatically Available
 
-- All 27 agents appear in the Agents dropdown
+- All 28 agents appear in the Agents dropdown
 - No repository-specific setup required
 - Updates pushed at org level propagate instantly
 - Users can still define personal agents locally
@@ -153,34 +153,34 @@ cp -r .github/agents/* agents/
 The structure should be:
 ```
 .github-private/
-â””â”€â”€ agents/
-    â”œâ”€â”€ conductor.agent.md
-    â”œâ”€â”€ planner.agent.md
-    â”œâ”€â”€ implementer.agent.md
-    â”œâ”€â”€ reviewer.agent.md
-    â”œâ”€â”€ researcher.agent.md
-    â”œâ”€â”€ maintainer.agent.md
-    â”œâ”€â”€ security.agent.md
-    â”œâ”€â”€ performance.agent.md
-    â”œâ”€â”€ accessibility.agent.md
-    â”œâ”€â”€ docs.agent.md
-    â”œâ”€â”€ observability.agent.md
-    â”œâ”€â”€ visualizer.agent.md
-    â”œâ”€â”€ deployment.agent.md
-    â”œâ”€â”€ red-team.agent.md
-    â”œâ”€â”€ test.agent.md
-    â”œâ”€â”€ lint.agent.md
-    â”œâ”€â”€ github-ops.agent.md
-    â”œâ”€â”€ terraform.agent.md
-    â”œâ”€â”€ bicep.agent.md
-    â”œâ”€â”€ design.agent.md
-    â”œâ”€â”€ beast-mode.agent.md
-    â”œâ”€â”€ rubber-duck.agent.md
-    â”œâ”€â”€ translation-conductor.agent.md
-    â”œâ”€â”€ translator.agent.md
-    â”œâ”€â”€ translation-analyzer.agent.md
-    â”œâ”€â”€ translation-validator.agent.md
-    â””â”€â”€ translation-styler.agent.md
+└── agents/
+    ├── conductor.agent.md
+    ├── planner.agent.md
+    ├── implementer.agent.md
+    ├── reviewer.agent.md
+    ├── researcher.agent.md
+    ├── maintainer.agent.md
+    ├── security.agent.md
+    ├── performance.agent.md
+    ├── accessibility.agent.md
+    ├── docs.agent.md
+    ├── observability.agent.md
+    ├── visualizer.agent.md
+    ├── deployment.agent.md
+    ├── red-team.agent.md
+    ├── test.agent.md
+    ├── lint.agent.md
+    ├── github-ops.agent.md
+    ├── terraform.agent.md
+    ├── bicep.agent.md
+    ├── design.agent.md
+    ├── beast-mode.agent.md
+    ├── rubber-duck.agent.md
+    ├── translation-conductor.agent.md
+    ├── translator.agent.md
+    ├── translation-analyzer.agent.md
+    ├── translation-validator.agent.md
+    └── translation-styler.agent.md
 ```
 
 ### 3. Include the Init Script
@@ -249,22 +249,22 @@ When an agent (conductor, planner, reviewer, etc.) is invoked in any repository:
 2. **Initialization**: If missing, creates the standard structure:
    ```
    artifacts/
-   â”œâ”€â”€ plans/          # Planner, Implementer, Conductor
-   â”œâ”€â”€ reviews/        # Reviewer
-   â”œâ”€â”€ research/       # Researcher
-   â”œâ”€â”€ security/       # Security
-   â”œâ”€â”€ sessions/       # Conductor (session state)
-   â”œâ”€â”€ performance/    # Performance
-   â”œâ”€â”€ docs/           # Docs
-   â”œâ”€â”€ releases/       # Maintainer
-   â”œâ”€â”€ telemetry/      # Observability
-   â”œâ”€â”€ deployments/    # Deployment
-   â”œâ”€â”€ red-team/       # Red Team
-   â”œâ”€â”€ accessibility/  # Accessibility
-   â”œâ”€â”€ tests/          # Test
-   â”œâ”€â”€ ux/             # Visualizer
-   â”œâ”€â”€ README.md
-   â””â”€â”€ .gitignore
+   ├── plans/          # Planner, Implementer, Conductor
+   ├── reviews/        # Reviewer
+   ├── research/       # Researcher
+   ├── security/       # Security
+   ├── sessions/       # Conductor (session state)
+   ├── performance/    # Performance
+   ├── docs/           # Docs
+   ├── releases/       # Maintainer
+   ├── telemetry/      # Observability
+   ├── deployments/    # Deployment
+   ├── red-team/       # Red Team
+   ├── accessibility/  # Accessibility
+   ├── tests/          # Test
+   ├── ux/             # Visualizer
+   ├── README.md
+   └── .gitignore
    ```
 3. **Persistence**: All session outputs are written to the local artifacts folder
 4. **Continuity**: Session state in `sessions/` enables resume after interruption
@@ -305,8 +305,8 @@ The `.gitignore` in `artifacts/` excludes session state files (which may contain
 | **Access Control** | Org-level | Repository-based |
 | **Offline Support** | No | Yes (if cloned) |
 | **Custom Per-Repo** | Yes (local overrides) | Yes |
-| **Background Agents** | âœ… Supported | âš ï¸ Requires extra setup |
-| **Claude Skills** | âœ… Supported | âŒ Not available |
+| **Background Agents** | ✅ Supported | ⚠️ Requires extra setup |
+| **Claude Skills** | ✅ Supported | ❌ Not available |
 
 ## Troubleshooting
 

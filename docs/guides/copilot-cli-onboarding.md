@@ -7,7 +7,7 @@ status: stable
 
 # Copilot CLI Onboarding
 
-Get the Copilot Orchestrator's 27 agents running from the command line in under 5 minutes.
+Get the Copilot Orchestrator's 28 agents running from the command line in under 5 minutes.
 
 ## Prerequisites
 

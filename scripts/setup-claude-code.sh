@@ -474,7 +474,7 @@ if [[ "$MODE" == "plugin" ]]; then
     cat > "$OUTPUT_BASE/.claude-plugin/plugin.json" << 'PLUGEOF'
 {
     "name": "copilot-orchestrator",
-    "description": "Multi-agent orchestration system with 27 specialized agents for planning, implementation, review, security, and more.",
+    "description": "Multi-agent orchestration system with 28 specialized agents for planning, implementation, review, security, and more.",
     "version": "1.0.0",
     "author": {
         "name": "Copilot Orchestrator"
@@ -485,7 +485,7 @@ PLUGEOF
     cat > "$OUTPUT_BASE/README.md" << 'READMEEOF'
 # Copilot Orchestrator Plugin for Claude Code
 
-Multi-agent orchestration system with 27 specialized agents.
+Multi-agent orchestration system with 28 specialized agents.
 
 ## Installation
 

@@ -1,13 +1,13 @@
 # Copilot Orchestrator Workspace Instructions
 
-Multi-agent orchestration system with 27 specialized agents. See `AGENTS.md` for complete agent roster and lifecycle details.
+Multi-agent orchestration system with 28 specialized agents. See `AGENTS.md` for complete agent roster and lifecycle details.
 
 **Central Persona:** All agents operate as a **Senior Principal Engineer** — understand the problem before solving it, prefer the simplest working solution, no hype, no bullshit. See `instructions/global/00_behavior.instructions.md` for the Zen of Engineering tenets that govern all output.
 
 ## Architecture
 
 ```
-.github/agents/      → Agent definitions (conductor, planner, implementer, reviewer, + 23 specialists)
+.github/agents/      → Agent definitions (conductor, planner, implementer, reviewer, spec, + 23 specialists)
 .github/prompts/     → Prompt templates organized by workflow phase
 instructions/        → Layered instructions (global → workflows → compliance → languages)
 scripts/             → PowerShell 5.1 validation and tooling

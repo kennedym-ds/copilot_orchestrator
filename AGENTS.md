@@ -113,7 +113,7 @@ See [docs/guides/vscode-copilot-configuration.md](docs/guides/vscode-copilot-con
 
 ---
 
-## Agent Roster (27 Agents)
+## Agent Roster (28 Agents)
 
 ### Core Workflow
 
@@ -125,6 +125,7 @@ See [docs/guides/vscode-copilot-configuration.md](docs/guides/vscode-copilot-con
 | Reviewer | `reviewer.agent.md` | Severity-tagged findings, quality gates |
 | Researcher | `researcher.agent.md` | Context gathering, source citation |
 | Maintainer | `maintainer.agent.md` | Issue triage, release coordination |
+| Spec | `spec.agent.md` | Project specification, requirements elicitation |
 
 ### Support Personas
 
