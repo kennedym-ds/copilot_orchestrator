@@ -61,9 +61,9 @@ Agents delegate work autonomously using `#runSubagent` with keyword-based routin
 
 ## Agent Sessions Integration
 
-VS Code 1.109 builds on the Agent Sessions UI introduced in 1.108, adding multi-environment delegation, parallel subagents, and agent status indicators.
+VS Code 1.110 builds on 1.109, adding agent plugins, agentic browser tools, session forking, context compaction, and the Explore subagent for codebase research.
 
-### Key Features (1.108–1.109)
+### Key Features (1.108–1.110)
 - **Keyboard Navigation**: Navigate sessions with arrow keys, archive with Delete, toggle read state with Space
 - **Session Grouping**: Organize by state (Active, Unread, Read, Archived) or age (Today, Yesterday, This Week, etc.)
 - **Multi-Session Operations**: Shift+Click/Ctrl+Click for batch archiving and state changes
@@ -100,6 +100,36 @@ VS Code 1.109 builds on the Agent Sessions UI introduced in 1.108, adding multi-
 - **External Indexing**: Non-GitHub workspaces remotely indexed for fast code search
 - **Anthropic Enhancements**: Messages API with interleaved thinking, tool search tool, context editing
 
+### VS Code 1.110 Agent Controls
+- **Agent Debug Panel**: `Developer: Open Agent Debug Panel` replaces old Chat Diagnostics action — shows loaded agents, instructions, skills, prompts, and MCP servers
+- **Slash Commands for Auto-Approve**: `/autoApprove` and `/disableAutoApprove` (aliases: `/yolo`, `/disableYolo`) toggle tool auto-approval from chat
+- **Ask Questions Core**: Ask questions tool moved into VS Code core (from Anthropic-specific), with steering/queuing support
+- **Anti-Suspend**: VS Code prevents OS from suspending the machine while a chat response is in progress
+- **Edit Mode Deprecated**: `chat.editMode.hidden` (default `true`) hides Edit mode from mode picker; will be removed in 1.125. Agent mode replaces Edit mode.
+
+### VS Code 1.110 Agent Extensibility
+- **Agent Plugins (Experimental)**: `chat.plugins.enabled` enables installable bundles of skills, tools, and hooks from Extensions view. Configure with `chat.plugins.marketplaces` and `chat.plugins.paths`.
+- **Agentic Browser Tools (Experimental)**: `workbench.browser.enableChatTools` gives agents full browser control (`openBrowserPage`, `navigatePage`, `readPage`, `screenshotPage`, `clickElement`, `hoverElement`, `dragElement`, `typeInPage`, `handleDialog`, `runPlaywrightCode`)
+- **Create Agent Customizations**: `/create-prompt`, `/create-instruction`, `/create-skill`, `/create-agent`, `/create-hook` slash commands for scaffolding customization files
+- **Usages & Rename Tools**: `usages` tool updated, `rename` tool added — LSP-aware refactoring now available to agents
+
+### VS Code 1.110 Smarter Sessions
+- **Session Memory for Plans**: Plans persist to session memory across turns, surviving context compaction
+- **Context Compaction**: `/compact` command with optional custom instructions for manual context window control. Background/Claude agents also support compaction.
+- **Explore Subagent**: Plan agent delegates codebase research to Explore subagent (read-only, fast model). `chat.exploreAgent.defaultModel` sets the model.
+- **Inline Chat Session Sync**: Inline chat queues into active agent sessions instead of running independently
+- **Session Forking**: `/fork` creates an independent session branch with inherited history — explore alternatives without losing context
+
+### VS Code 1.110 Chat Experience
+- **Collapsible Terminal**: `chat.tools.terminal.simpleCollapsible` collapses terminal tool calls for reduced visual noise
+- **Terminal Sandboxing (Preview)**: `chat.tools.terminal.sandbox.enabled` restricts agent terminal access (filesystem, network)
+- **OS Notifications**: `chat.notifyWindowOnResponseReceived` and `chat.notifyWindowOnConfirmation` — set to `"always"` for long-running agent tasks
+- **Inline Chat Modes**: `inlineChat.affordance` changed from boolean to enum (`"off"`, `"editor"`, `"gutter"`). `inlineChat.renderMode` adds hover-based UI.
+- **Kitty Graphics Protocol**: `terminal.integrated.enableImages` enables GPU-accelerated image rendering in the integrated terminal
+- **AI Co-Author**: `git.addAICoAuthor` adds Copilot as co-author in commit messages (`"off"`, `"chatAndAgent"`, `"all"`)
+- **Contextual Tips**: `chat.tips.enabled` shows contextual tips for agent features and workflows
+- **Notification Position**: `workbench.notifications.position` — set to `"bottom-left"` to avoid overlapping Chat view
+
 ### Workflow Best Practices
 - Start each conductor task in a new session with a descriptive prompt
 - Keep session active through all phases (Planning → Implementation → Review)
@@ -107,6 +137,8 @@ VS Code 1.109 builds on the Agent Sessions UI introduced in 1.108, adding multi-
 - Archive session after plan-complete.md and final validation
 - Use session grouping (by State) to track multiple parallel workflows
 - Set `chat.restoreLastPanelSession: false` to prevent context leakage between projects
+- Use `/compact` to manage context window during long sessions
+- Use `/fork` to explore alternative approaches without losing the main thread
 
 ### Documentation
 See [docs/guides/vscode-copilot-configuration.md](docs/guides/vscode-copilot-configuration.md) for complete Agent Sessions UI guide including keyboard shortcuts, grouping modes, troubleshooting, and conductor integration patterns.

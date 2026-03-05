@@ -119,10 +119,24 @@ Security: never expose token values in chat, logs, artifacts, or files.
     "chat.tools.terminal.enableAutoApprove": true,
     "chat.tools.terminal.autoApproveWorkspaceNpmScripts": true,
     "chat.tools.terminal.preventShellHistory": true,
+    "chat.tools.terminal.simpleCollapsible": true,
+    "chat.tools.terminal.sandbox.enabled": true,
     "terminal.integrated.enableKittyKeyboardProtocol": true,
+    "terminal.integrated.enableImages": true,
     "workbench.browser.openLocalhostLinks": true,
     "simpleBrowser.useIntegratedBrowser": true,
-    "git.worktreeIncludeFiles": [".env.local", "token-thresholds.json"]
+    "workbench.browser.enableChatTools": true,
+    "inlineChat.affordance": "editor",
+    "inlineChat.renderMode": "hover",
+    "chat.editMode.hidden": true,
+    "chat.plugins.enabled": true,
+    "chat.exploreAgent.defaultModel": "Claude Haiku 4.5 (copilot)",
+    "chat.notifyWindowOnResponseReceived": "always",
+    "chat.notifyWindowOnConfirmation": "always",
+    "chat.tips.enabled": true,
+    "git.worktreeIncludeFiles": [".env.local", "token-thresholds.json"],
+    "git.addAICoAuthor": "chatAndAgent",
+    "workbench.notifications.position": "bottom-left"
 }
 ```
 
@@ -149,6 +163,28 @@ Security: never expose token values in chat, logs, artifacts, or files.
 - **Kitty Keyboard**: `terminal.integrated.enableKittyKeyboardProtocol` fixes key handling in terminal apps (shift+enter in agentic CLIs).
 - **Git Worktrees**: `git.worktreeIncludeFiles` copies specified files to worktrees for background agents.
 - **Parallel Subagents**: Subagents now run in parallel for independent tasks, plus handoffs support `model` parameter.
+
+**VS Code 1.110 Updates:**
+- **Agent Plugins (Experimental)**: `chat.plugins.enabled` enables installable bundles of skills, tools, and hooks from the Extensions view. Configure sources with `chat.plugins.marketplaces` and `chat.plugins.paths`.
+- **Agentic Browser Tools (Experimental)**: `workbench.browser.enableChatTools` gives agents full browser control (`openBrowserPage`, `navigatePage`, `readPage`, `screenshotPage`, `clickElement`, `typeInPage`, `runPlaywrightCode`). Enables web app testing and interaction from agent sessions.
+- **Explore Subagent**: Plan agent delegates codebase research to the Explore subagent (read-only, fast model). `chat.exploreAgent.defaultModel` sets the model. Replaces expensive inline search calls.
+- **Context Compaction**: `/compact` command with optional custom instructions for manual context window control. Background/Claude agents also support compaction with context window rendering.
+- **Session Forking**: `/fork` creates an independent session branch with inherited conversation history — explore alternatives without losing context.
+- **Agent Debug Panel**: `Developer: Open Agent Debug Panel` replaces the old right-click Diagnostics action. Shows loaded agents, instructions, skills, prompts, and MCP servers.
+- **Edit Mode Deprecated**: `chat.editMode.hidden` (default `true`) hides Edit mode from the mode picker. Will be removed in 1.125. Agent mode replaces Edit mode for file editing.
+- **Create Agent Customizations**: `/create-prompt`, `/create-instruction`, `/create-skill`, `/create-agent`, `/create-hook` slash commands for scaffolding customization files from chat.
+- **Usages & Rename Tools**: `usages` tool updated, `rename` tool added — LSP-aware refactoring now available to agents.
+- **Terminal Sandboxing (Preview)**: `chat.tools.terminal.sandbox.enabled` restricts agent terminal access (filesystem, network) for safer execution.
+- **Collapsible Terminal**: `chat.tools.terminal.simpleCollapsible` collapses terminal tool calls for reduced visual noise.
+- **OS Notifications**: `chat.notifyWindowOnResponseReceived` and `chat.notifyWindowOnConfirmation` send native OS notifications — set to `"always"` for long-running agent tasks.
+- **Inline Chat Modes**: `inlineChat.affordance` changed from boolean to enum (`"off"`, `"editor"`, `"gutter"`). `inlineChat.renderMode` adds hover-based UI. Inline chat now queues into active agent sessions.
+- **Kitty Graphics Protocol**: `terminal.integrated.enableImages` enables GPU-accelerated image rendering in the integrated terminal.
+- **AI Co-Author**: `git.addAICoAuthor` (`"off"`, `"chatAndAgent"`, `"all"`) adds Copilot as co-author in commit messages when agent generates changes.
+- **Session Memory for Plans**: Plans persist to session memory across turns, surviving context compaction.
+- **Contextual Tips**: `chat.tips.enabled` shows contextual tips for agent features and workflows.
+- **Ask Questions Core**: Ask questions tool is now a VS Code core feature (moved out of Anthropic-specific), with steering/queuing support.
+- **Anti-Suspend**: VS Code prevents OS from suspending the machine while a chat response is in progress.
+- **Slash Commands for Auto-Approve**: `/autoApprove` and `/disableAutoApprove` (aliases: `/yolo`, `/disableYolo`) toggle tool auto-approval from chat.
 
 **VS Code 1.108 Updates:**
 - **Agent Sessions UI**: Keyboard navigation (↑↓ arrows, Enter, Delete, Space), session grouping (by state/age), multi-session archiving (Shift+Click, Ctrl+Click), changed files and PR display per session, Quick Open integration (`agent <name>`)

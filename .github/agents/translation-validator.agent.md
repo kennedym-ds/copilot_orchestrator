@@ -4,17 +4,7 @@ description: "Validates translated code through a 6-layer validation stack and p
 argument-hint: "Provide translated file paths to validate against the 6-layer stack"
 model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
 disable-model-invocation: true
-tools:
-  - runSubagent
-  - todos
-  - search
-  - readFile
-  - fileSearch
-  - changes
-  - edit
-  - runCommands
-  - problems
-  - usages
+tools: ['runSubagent', 'todos', 'search', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
 ---
 
 # Translation Validator Agent — Quality Assurance Specialist

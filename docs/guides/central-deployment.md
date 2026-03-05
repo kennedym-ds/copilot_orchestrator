@@ -1,6 +1,6 @@
 # Central Deployment Guide
 
-> **Updated for VS Code 1.109**: Now supports native organization-level agent sharing without manual repository setup.
+> **Updated for VS Code 1.110**: Now supports native organization-level agent sharing without manual repository setup.
 
 This guide explains how to deploy the Copilot Orchestrator agents centrally at the organization level while having agents create local `artifacts/` folders in each consuming repository.
 

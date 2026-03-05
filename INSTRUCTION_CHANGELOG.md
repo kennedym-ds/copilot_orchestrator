@@ -18,6 +18,34 @@ Each entry should include:
 
 ## Changes
 
+### 2026-03-05 - VS Code 1.110 Integration
+
+#### v3.2.0 - VS Code 1.110 Feature Alignment
+**File:** `.vscode/settings.json`, `.github/copilot-instructions.md`, `.claude/CLAUDE.md`, `AGENTS.md`
+**Type:** Modified (4 files)
+**Description:** Updated orchestrator baseline from VS Code 1.109 to 1.110. Key additions:
+- **Agent Plugins**: `chat.plugins.enabled` for installable skill/tool/hook bundles
+- **Agentic Browser Tools**: `workbench.browser.enableChatTools` for agent-driven browser control
+- **Explore Subagent**: `chat.exploreAgent.defaultModel` for Plan agent's codebase research delegation
+- **Context Compaction**: `/compact` command and session memory for plans
+- **Session Forking**: `/fork` command for branching session history
+- **Agent Debug Panel**: Replaces old Chat Diagnostics action
+- **Edit Mode Deprecated**: `chat.editMode.hidden` (default true, removal in 1.125)
+- **Terminal Sandboxing**: `chat.tools.terminal.sandbox.enabled` for safer execution
+- **Collapsible Terminal**: `chat.tools.terminal.simpleCollapsible` for reduced noise
+- **OS Notifications**: `chat.notifyWindowOnResponseReceived`/`chat.notifyWindowOnConfirmation`
+- **Inline Chat Overhaul**: `inlineChat.affordance` changed from boolean to enum; added `inlineChat.renderMode`
+- **AI Co-Author**: `git.addAICoAuthor` for commit attribution
+- **Kitty Graphics**: `terminal.integrated.enableImages` for terminal image rendering
+- **Contextual Tips**: `chat.tips.enabled` for feature discoverability
+- **Auto-Approve Slash Commands**: `/autoApprove`, `/disableAutoApprove` (aliases `/yolo`, `/disableYolo`)
+- **Create Agent Customizations**: `/create-prompt`, `/create-instruction`, `/create-skill`, `/create-agent`, `/create-hook`
+- **Usages & Rename Tools**: LSP-aware refactoring tools for agents
+- **Anti-Suspend**: OS sleep prevention during active chat responses
+**Expected Impact:** Quality: Higher — browser tools enable web app testing, Explore subagent improves plan accuracy, terminal sandboxing improves safety. Cost: Neutral — no model changes. Speed: Faster — collapsible terminal, notifications, context compaction improve workflow.
+**Rollback Plan:** Revert settings.json to 1.109 baseline. Remove 1.110 sections from copilot-instructions.md, CLAUDE.md, AGENTS.md. All settings are additive; removing them restores VS Code defaults.
+**Metrics:** Track: adoption of `/compact` and `/fork` commands, browser tool usage, terminal sandbox feedback, notification preferences.
+
 ### 2026-02-26 - Spec Agent & Documentation Sync
 
 #### v3.1.0 - Project Specification Agent

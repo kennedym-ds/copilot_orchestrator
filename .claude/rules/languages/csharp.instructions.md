@@ -1,9 +1,4 @@
 ---
-paths:
-  - "**/*.cs"
----
-
----
 description: "C# implementation guardrails for .NET development."
 applyTo: "**/*.cs"
 ---

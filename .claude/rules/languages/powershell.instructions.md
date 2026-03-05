@@ -1,11 +1,4 @@
 ---
-paths:
-  - "**/*.ps1"
-  - "**/*.psm1"
-  - "**/*.psd1"
----
-
----
 description: "PowerShell implementation guardrails for scripting and automation best practices."
 applyTo: "**/*.ps1"
 ---

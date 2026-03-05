@@ -1,9 +1,4 @@
 ---
-paths:
-  - "**/*.go"
----
-
----
 description: "Go implementation guardrails for idiomatic and efficient Go development."
 applyTo: "**/*.go"
 ---

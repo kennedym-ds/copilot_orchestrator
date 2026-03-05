@@ -10,20 +10,7 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/translation_server.py"]
     tools: ["analyze_imports", "build_dependency_graph", "translate_file", "validate_translation", "calculate_confidence", "calculate_repo_confidence", "get_translation_status", "update_module_status", "suggest_target_dependencies"]
-tools:
-  - runSubagent
-  - agent
-  - todos
-  - fetch
-  - search
-  - githubRepo
-  - changes
-  - edit
-  - runCommands
-  - readFile
-  - fileSearch
-  - problems
-  - askQuestions
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'changes', 'edit', 'runCommands', 'readFile', 'fileSearch', 'problems', 'askQuestions']
 ---
 
 # Translation Conductor — Full Repository Translation Orchestrator

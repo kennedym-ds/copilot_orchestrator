@@ -5,20 +5,7 @@ argument-hint: "Provide source file path, source language, and target language t
 model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
 disable-model-invocation: true
 agents: ['translation-validator', 'translation-styler']
-tools:
-  - runSubagent
-  - agent
-  - todos
-  - fetch
-  - search
-  - githubRepo
-  - readFile
-  - fileSearch
-  - changes
-  - edit
-  - runCommands
-  - problems
-  - usages
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
 ---
 
 # Translator Agent — Code Translation Specialist

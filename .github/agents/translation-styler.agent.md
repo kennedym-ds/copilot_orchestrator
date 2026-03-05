@@ -4,15 +4,7 @@ description: "Applies target language idioms, conventions, and best practices to
 argument-hint: "Provide translated file paths to apply target language idioms and style conventions"
 model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
 disable-model-invocation: true
-tools:
-  - todos
-  - search
-  - readFile
-  - fileSearch
-  - edit
-  - runCommands
-  - problems
-  - usages
+tools: ['todos', 'search', 'readFile', 'fileSearch', 'edit', 'runCommands', 'problems', 'usages']
 ---
 
 # Translation Styler Agent — Idiomatic Code Specialist

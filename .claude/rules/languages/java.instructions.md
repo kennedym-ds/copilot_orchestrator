@@ -1,9 +1,4 @@
 ---
-paths:
-  - "**/*.java"
----
-
----
 description: "Java implementation guardrails for application development."
 applyTo: "**/*.java"
 ---

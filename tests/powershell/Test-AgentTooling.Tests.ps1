@@ -8,7 +8,7 @@ Describe "Agent Tooling Requirements" -Tag 'tooling' {
     }
 
     if (-not (Test-Path -LiteralPath $agentsPath)) {
-        Write-Warning "Agents directory not found at $agentsPath — skipping remaining tests."
+        Write-Warning "Agents directory not found at $agentsPath -- skipping remaining tests."
         return
     }
 
@@ -22,15 +22,15 @@ Describe "Agent Tooling Requirements" -Tag 'tooling' {
             $content = Get-Content -LiteralPath $agent.FullName -Raw
 
             It "includes runSubagent tool" {
-                ($content -match '(?s)tools:\s*(\[.*\]|[\s\S]*?)' -and $content -match '(?s)tools:[\s\S]*runSubagent') | Should Be $true
+                $content | Should Match '(?s)tools:[\s\S]*runSubagent'
             }
 
             It "includes edit tool" {
-                ($content -match '(?s)tools:[\s\S]*edit') | Should Be $true
+                $content | Should Match '(?s)tools:[\s\S]*edit'
             }
 
             It "includes runCommands tool" {
-                ($content -match '(?s)tools:[\s\S]*runCommands') | Should Be $true
+                $content | Should Match '(?s)tools:[\s\S]*runCommands'
             }
         }
     }

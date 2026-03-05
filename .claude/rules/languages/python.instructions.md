@@ -1,9 +1,4 @@
 ---
-paths:
-  - "**/*.py"
----
-
----
 description: "Python implementation guardrails aligned with the Zen of Python."
 applyTo: "**/*.py"
 ---

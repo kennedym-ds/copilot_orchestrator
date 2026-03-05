@@ -1,13 +1,45 @@
 ---
 title: "Copilot Orchestrator Changelog"
-version: "0.13.0"
-lastUpdated: "2026-07-28"
+version: "0.14.0"
+lastUpdated: "2026-03-05"
 status: stable
 ---
 
 # Changelog
 
 All notable changes are documented here following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
+
+## [0.14.0] - 2026-03-05
+
+### Added
+- **VS Code 1.110 Integration**: Full baseline update across settings, documentation, and agent instructions
+  - Agent Plugins (experimental): installable bundles of skills, tools, and hooks
+  - Agentic Browser Tools (experimental): full browser control from agent sessions
+  - Explore Subagent: plan agent delegates codebase research to fast read-only model
+  - Context Compaction (`/compact`): manual context window control
+  - Session Forking (`/fork`): branch conversations to explore alternatives
+  - Agent Debug Panel replaces old Chat Diagnostics
+  - Edit Mode deprecated (hidden by default, removed in 1.125)
+  - Create Agent Customization slash commands (`/create-prompt`, `/create-skill`, etc.)
+  - Usages and Rename tools for LSP-aware refactoring
+  - Terminal sandboxing, collapsible terminal, Kitty Graphics Protocol
+  - OS notifications for long-running agent tasks
+  - AI Co-Author attribution in git commits
+  - Auto-approve slash commands (`/autoApprove`, `/disableAutoApprove`)
+- **VS Code 1.110 Features Section**: Added to `docs/guides/vscode-copilot-configuration.md` (v0.8.0)
+
+### Fixed
+- **`inlineChat.affordance` breaking change**: Changed from boolean `true` to enum `"editor"` (1.110 changed the setting type)
+- **Test-AgentTooling.Tests.ps1**: Fixed em dash (U+2014) causing ParseException in PowerShell 5.1 due to UTF-8/Windows-1252 encoding mismatch
+- **Front matter validation**: Removed legacy `paths:` keys from 9 `.claude/rules/languages/` instruction files; `applyTo` is the canonical key
+- **Front matter validation (artifact copies)**: Synced 9 artifact test copies under `artifacts/tests/claude_full_review_out/` to match main files
+
+### Changed
+- Updated `.vscode/settings.json` with 14 new 1.110 settings
+- Updated `.github/copilot-instructions.md` and `.claude/CLAUDE.md` with 1.110 settings and feature notes
+- Updated `AGENTS.md` with 4 new 1.110 subsections (Agent Controls, Extensibility, Smarter Sessions, Chat Experience)
+- Updated `INSTRUCTION_CHANGELOG.md` with v3.2.0 entry
+- Updated `docs/guides/vscode-copilot-configuration.md` prerequisites to VS Code 1.110
 
 ## [0.13.0] - 2026-07-28
 

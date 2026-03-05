@@ -15,20 +15,7 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/analytics_server.py"]
     tools: ["list_sessions", "get_session", "list_artifacts"]
-tools:
-  - runSubagent
-  - agent
-  - todos
-  - fetch
-  - search
-  - githubRepo
-  - changes
-  - edit
-  - runCommands
-  - readFile
-  - fileSearch
-  - problems
-  - askQuestions
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'changes', 'edit', 'runCommands', 'readFile', 'fileSearch', 'problems', 'askQuestions']
 handoffs:
   - label: Engage Planner
     agent: planner

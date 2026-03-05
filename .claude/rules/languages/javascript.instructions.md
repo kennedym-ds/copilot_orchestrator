@@ -1,10 +1,4 @@
 ---
-paths:
-  - "**/*.js"
-  - "**/*.jsx"
----
-
----
 description: "JavaScript implementation guardrails for modern ECMAScript development."
 applyTo: "**/*.js,**/*.mjs,**/*.cjs"
 ---

@@ -9,18 +9,7 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/research_server.py"]
     tools: ["web-search"]
-tools:
-  - runSubagent
-  - todos
-  - fetch
-  - search
-  - githubRepo
-  - readFile
-  - usages
-  - problems
-  - edit
-  - runCommands
-  - fileSearch
+tools: ['runSubagent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'usages', 'problems', 'edit', 'runCommands', 'fileSearch']
 handoffs:
   - label: Return to Conductor
     agent: conductor

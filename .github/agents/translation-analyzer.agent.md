@@ -4,19 +4,7 @@ description: "Analyzes source repositories to build dependency graphs, translati
 argument-hint: "Provide source repository path to analyze for translation readiness"
 model: ['Gemini 3.1 Pro (Preview) (copilot)', 'Claude Opus 4.6 (copilot)']
 disable-model-invocation: true
-tools:
-  - runSubagent
-  - todos
-  - fetch
-  - search
-  - githubRepo
-  - readFile
-  - fileSearch
-  - changes
-  - edit
-  - runCommands
-  - problems
-  - usages
+tools: ['runSubagent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
 ---
 
 # Translation Analyzer Agent — Codebase Discovery Specialist

@@ -1,10 +1,4 @@
 ---
-paths:
-  - "**/*.ts"
-  - "**/*.tsx"
----
-
----
 description: "TypeScript implementation guardrails for type-safe JavaScript development."
 applyTo: "**/*.ts,**/*.tsx"
 ---

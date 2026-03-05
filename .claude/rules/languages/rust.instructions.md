@@ -1,9 +1,4 @@
 ---
-paths:
-  - "**/*.rs"
----
-
----
 description: "Rust implementation guardrails for safe and efficient systems programming."
 applyTo: "**/*.rs"
 ---

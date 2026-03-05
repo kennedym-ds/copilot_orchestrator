@@ -1,25 +1,38 @@
 Describe 'Copilot validation scripts' {
-    BeforeAll {
-        $script:repoRoot = (Get-Item $PSScriptRoot).Parent.Parent.FullName
-        $script:scriptRoot = Join-Path $script:repoRoot 'scripts'
+    $script:repoRoot = (Get-Item $PSScriptRoot).Parent.Parent.FullName
+    $script:scriptRoot = Join-Path $script:repoRoot 'scripts'
+    $script:timeoutMs = 300000  # 5 minutes per script
 
-        function Invoke-RepositoryScript {
-            param(
-                [Parameter(Mandatory)]
-                [string]$ScriptName,
-                [string[]]$ArgumentList = @()
-            )
+    function Invoke-RepositoryScript {
+        param(
+            [Parameter(Mandatory=$true)]
+            [string]$ScriptName,
+            [string[]]$ArgumentList = @()
+        )
 
-            $scriptPath = Resolve-Path -LiteralPath (Join-Path $script:scriptRoot $ScriptName)
-            $shellExecutable = 'pwsh'
-            if (-not (Get-Command -Name $shellExecutable -ErrorAction SilentlyContinue)) {
-                $shellExecutable = 'powershell'
-            }
-
-            $arguments = @('-NoLogo', '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $scriptPath.Path) + $ArgumentList
-            $process = Start-Process -FilePath $shellExecutable -ArgumentList $arguments -NoNewWindow -PassThru -Wait
-            return $process.ExitCode
+        $scriptPath = Resolve-Path -LiteralPath (Join-Path $script:scriptRoot $ScriptName)
+        $shellExecutable = 'pwsh'
+        if (-not (Get-Command -Name $shellExecutable -ErrorAction SilentlyContinue)) {
+            $shellExecutable = 'powershell'
         }
+
+        $stdoutFile = Join-Path $TestDrive "$([System.IO.Path]::GetRandomFileName()).stdout"
+        $stderrFile = Join-Path $TestDrive "$([System.IO.Path]::GetRandomFileName()).stderr"
+
+        $arguments = @('-NoLogo', '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $scriptPath.Path) + $ArgumentList
+        $process = Start-Process -FilePath $shellExecutable -ArgumentList $arguments `
+            -NoNewWindow -PassThru `
+            -RedirectStandardOutput $stdoutFile `
+            -RedirectStandardError $stderrFile
+
+        $completed = $process.WaitForExit($script:timeoutMs)
+        if (-not $completed) {
+            try { $process.Kill() } catch { }
+            $partialOut = if (Test-Path $stdoutFile) { Get-Content $stdoutFile -Raw -ErrorAction SilentlyContinue } else { '' }
+            throw "Script '$ScriptName' timed out after $($script:timeoutMs / 1000) seconds.`nPartial output:`n$partialOut"
+        }
+
+        return $process.ExitCode
     }
 
     It 'validate-copilot-assets.ps1 completes successfully' {
@@ -49,7 +62,7 @@ Describe 'Copilot validation scripts' {
 
         $exitCode = Invoke-RepositoryScript -ScriptName 'token-report.ps1' -ArgumentList @('-Path', $script:repoRoot, '-OutputPath', $outputPath)
         $exitCode | Should Be 0
-        Test-Path -LiteralPath $outputPath | Should Be $true
+        (Test-Path -LiteralPath $outputPath) | Should Be $true
 
         $json = Get-Content -LiteralPath $outputPath -Raw | ConvertFrom-Json
         $json.totalTokens | Should BeGreaterThan 0

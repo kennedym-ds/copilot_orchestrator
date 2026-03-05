@@ -1,7 +1,7 @@
 ---
 title: "VS Code Copilot Configuration"
-version: "0.7.0"
-lastUpdated: "2026-02-06"
+version: "0.8.0"
+lastUpdated: "2026-03-05"
 status: stable
 ---
 
@@ -9,7 +9,7 @@ status: stable
 This guide shows how to configure VS Code so the Copilot Orchestrator agents, skills, instructions, and prompts are available in your workspace — and optionally in **every VS Code window** you open.
 
 ## Prerequisites
-- VS Code 1.109 or later (stable channel supports all features including Agent Skills GA, parallel subagents, agent status indicator, and Claude Agent sessions).
+- VS Code 1.110 or later (stable channel supports all features including agent plugins, agentic browser tools, context compaction, session forking, and the Explore subagent).
 - Local clone of the `copilot_orchestrator` repository.
 - GitHub Copilot subscription (Individual, Business, or Enterprise).
 
@@ -260,7 +260,88 @@ Auto-generates workspace instruction files based on codebase analysis — accele
 |---------|-------|-------------|
 | `terminal.integrated.enableKittyKeyboardProtocol` | `true` | Better key handling (shift+enter in agentic CLIs) |
 | `git.worktreeIncludeFiles` | array | Copies specified files to worktrees for background agents |
-| `inlineChat.affordance` | `true` | Inline chat affordance in editor |
+| `inlineChat.affordance` | `"editor"` | Inline chat affordance in editor (changed from boolean to enum in 1.110) |
+
+## VS Code 1.110 Features
+
+### Agent Plugins (Experimental)
+**Setting:** `chat.plugins.enabled` (default: `true`)
+
+Installable bundles of skills, tools, and hooks from the Extensions view. Configure sources with `chat.plugins.marketplaces` and `chat.plugins.paths`.
+
+### Agentic Browser Tools (Experimental)
+**Setting:** `workbench.browser.enableChatTools` (default: `true`)
+
+Gives agents full browser control with tools: `openBrowserPage`, `navigatePage`, `readPage`, `screenshotPage`, `clickElement`, `hoverElement`, `dragElement`, `typeInPage`, `handleDialog`, `runPlaywrightCode`. Enables web app testing and interaction from agent sessions.
+
+### Explore Subagent
+**Setting:** `chat.exploreAgent.defaultModel` (`"Claude Haiku 4.5 (copilot)"`)
+
+The Plan agent delegates codebase research to the Explore subagent, which runs in a read-only context with a fast model. Replaces expensive inline search calls during planning.
+
+### Context Compaction
+**Command:** `/compact`
+
+Manual context window control with optional custom instructions. Background and Claude agents also support compaction with context window rendering. Use during long sessions to free context space.
+
+### Session Forking
+**Command:** `/fork`
+
+Creates an independent session branch with inherited conversation history. Explore alternative approaches without losing the main thread.
+
+### Agent Debug Panel
+**Command:** `Developer: Open Agent Debug Panel`
+
+Replaces the old Chat Diagnostics right-click action. Shows loaded agents, instructions, skills, prompts, and MCP servers in a dedicated panel.
+
+### Edit Mode Deprecated
+**Setting:** `chat.editMode.hidden` (default: `true`)
+
+Edit mode is hidden from the mode picker by default and will be removed in VS Code 1.125. Agent mode replaces Edit mode for file editing.
+
+### Create Agent Customizations
+New slash commands for scaffolding customization files from chat: `/create-prompt`, `/create-instruction`, `/create-skill`, `/create-agent`, `/create-hook`.
+
+### Usages & Rename Tools
+The `usages` tool has been updated and a `rename` tool added for LSP-aware refactoring available to agents.
+
+### Terminal Enhancements
+
+| Setting | Value | Description |
+|---------|-------|-------------|
+| `chat.tools.terminal.simpleCollapsible` | `true` | Collapses terminal tool calls for reduced visual noise |
+| `chat.tools.terminal.sandbox.enabled` | `true` | Restricts agent terminal access (filesystem, network) — Preview |
+| `terminal.integrated.enableImages` | `true` | GPU-accelerated image rendering via Kitty Graphics Protocol |
+
+### Inline Chat Overhaul
+
+| Setting | Value | Description |
+|---------|-------|-------------|
+| `inlineChat.affordance` | `"editor"` | Changed from boolean to enum (`"off"`, `"editor"`, `"gutter"`) |
+| `inlineChat.renderMode` | `"hover"` | Adds hover-based UI for inline chat |
+
+Inline chat now queues into active agent sessions instead of running independently.
+
+### Notifications & OS Integration
+
+| Setting | Value | Description |
+|---------|-------|-------------|
+| `chat.notifyWindowOnResponseReceived` | `"always"` | OS notifications when agent responds |
+| `chat.notifyWindowOnConfirmation` | `"always"` | OS notifications when approval needed |
+| `workbench.notifications.position` | `"bottom-left"` | Avoids overlapping Chat view |
+
+### Other 1.110 Settings
+
+| Setting | Value | Description |
+|---------|-------|-------------|
+| `git.addAICoAuthor` | `"chatAndAgent"` | Adds Copilot as co-author in commit messages |
+| `chat.tips.enabled` | `true` | Contextual tips for agent features and workflows |
+
+### Auto-Approve Slash Commands
+`/autoApprove` and `/disableAutoApprove` (aliases: `/yolo`, `/disableYolo`) toggle tool auto-approval directly from chat.
+
+### Anti-Suspend
+VS Code prevents the OS from suspending the machine while a chat response is in progress.
 
 ## VS Code 1.108 Features
 

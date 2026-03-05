@@ -1,9 +1,4 @@
 ---
-paths:
-  - "**/*.py"
----
-
----
 description: "Python MCP (Model Context Protocol) server implementation patterns using FastMCP."
 applyTo: "**/mcp/**/*.py,**/*mcp*.py"
 ---
