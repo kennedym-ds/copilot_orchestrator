@@ -4,7 +4,13 @@ description: "Analyzes source repositories to build dependency graphs, translati
 argument-hint: "Provide source repository path to analyze for translation readiness"
 model: ['Gemini 3.1 Pro (Preview) (copilot)', 'Claude Opus 4.6 (copilot)']
 disable-model-invocation: true
-tools: ['runSubagent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
+mcp-servers:
+  translation:
+    type: stdio
+    command: python
+    args: ["scripts/mcp/translation_server.py"]
+    tools: ["analyze_imports", "build_dependency_graph", "get_translation_status", "update_module_status"]
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
 ---
 
 # Translation Analyzer Agent — Codebase Discovery Specialist
@@ -37,6 +43,9 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
    - Test-to-source ratio
 
 ### Step 2: Dependency Graph Construction
+
+> Cross-reference: `code-translation` skill § Dependency-Ordered Translation for the layered translation rationale.
+
 1. **Import analysis** — Parse all import/require/use/include statements
 2. **Build adjacency list** — Module A depends on Module B
 3. **Detect cycles** — Flag circular dependencies for special handling

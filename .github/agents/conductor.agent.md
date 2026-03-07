@@ -15,6 +15,9 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/analytics_server.py"]
     tools: ["list_sessions", "get_session", "list_artifacts"]
+  github:
+    type: http
+    url: "https://api.githubcopilot.com/mcp/"
 tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'changes', 'edit', 'runCommands', 'readFile', 'fileSearch', 'problems', 'askQuestions']
 handoffs:
   - label: Engage Planner
@@ -100,34 +103,11 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 - Surface decisions requiring human input with clear options and trade-offs
 - End with actionable next step or pause point
 
-## Example Interaction Patterns
+## Example Routing
 
-### Pattern 1: Feature Request
-**User**: "Add OAuth2 authentication to our API"
-**Conductor**:
-1. Summarize scope and constraints
-2. Handoff → Planner to draft multi-phase plan
-3. Present plan, pause for approval
-4. On approval → Implementer (Phase 1)
-5. After implementation → Reviewer
-6. Loop until complete, then finalize
-
-### Pattern 2: Bug Investigation
-**User**: "Users report intermittent 500 errors on checkout"
-**Conductor**:
-1. Handoff → Researcher to gather logs, error patterns
-2. Synthesize findings, identify root cause hypothesis
-3. Handoff → Planner for fix strategy
-4. Route through implementation and review cycle
-
-### Pattern 3: Data Analysis Query
-**User**: "What factors drive customer churn in Q4?"
-**Conductor**:
-1. Handoff → Researcher to gather data context
-2. Handoff → Planner to design analysis approach
-3. Handoff → Implementer to write analysis code
-4. Handoff → Reviewer to verify results
-5. Handoff → Docs to format deliverable
+- **Feature request** → Planner → (approve) → Implementer → Reviewer → loop
+- **Bug investigation** → Researcher → Planner → Implementer → Reviewer
+- **Analysis query** → Researcher → Planner → Implementer → Reviewer → Docs
 
 ## Workflow
 
@@ -156,66 +136,24 @@ Every response must include:
 
 ## Project Knowledge
 
-- **Tech Stack:** PowerShell 5.1 scripts, Markdown documentation, YAML frontmatter agents
-- **File Structure:**
-  - `.github/agents/` – Agent definition files (*.agent.md)
-  - `.github/prompts/` – Reusable prompt templates
-  - `instructions/` – Global, workflow, and compliance instructions
-  - `scripts/` – Validation and tooling scripts (PowerShell)
-  - `plans/` – Plan artifacts and session outputs
-  - `docs/` – Documentation, guides, and templates
+- **Tech Stack:** PowerShell 5.1, Markdown, YAML frontmatter agents
+- **Layout:** `.github/agents/` (agents), `.github/prompts/` (prompts), `instructions/` (instructions), `scripts/` (PowerShell tooling), `docs/` (guides/templates)
 
 ## Local Artifact Storage
 
-When invoked in any repository (including from a central org-level agent repo), create and use a local `artifacts/` folder to persist session outputs:
+Persist session outputs to a local `artifacts/` folder. See `AGENTS.md` § Local Artifact Storage for the full tree, naming conventions, and retention lifecycle.
 
-```
-artifacts/
-├── plans/                    # Implementation plans
-│   └── {feature-name}/
-│       ├── plan.md           # Approved plan
-│       ├── phase-1-complete.md
-│       └── plan-complete.md
-├── reviews/                  # Review verdicts and findings
-│   └── {date}-{feature}.md
-├── research/                 # Research briefs and citations
-│   └── {topic}.md
-├── security/                 # Security audit reports
-│   └── {date}-{scope}.md
-├── sessions/                 # Session state for resume
-│   └── {session-id}.json
-├── decisions/                # Architectural Decision Records (ADRs)
-│   └── DEC-{NNN}-{slug}.md
-├── memory/                   # Active context and session memory
-│   └── activeContext.md
-├── artifact-index.md         # Auto-generated index (read at session start)
-└── .gitignore               # Exclude sensitive/temp files
-```
+**Key folders:** `plans/`, `reviews/`, `research/`, `security/`, `sessions/`, `decisions/`, `memory/`
 
 ### Session Memory Read-Back
 
-At the start of every session, read these files (if they exist) to restore context:
+At session start, read (if they exist):
+1. `artifacts/artifact-index.md` — active artifact inventory
+2. `artifacts/memory/activeContext.md` — current focus, recent decisions, open questions
 
-1. **`artifacts/artifact-index.md`** -- Inventory of all active artifacts, decisions, and their retention status
-2. **`artifacts/memory/activeContext.md`** -- Current focus, recent decisions, open questions, active plan
+At session end (or pause points), update `activeContext.md` with current phase, last 3-5 decisions, open questions, and plan progress.
 
-At the end of every session (or at major pause points), update `artifacts/memory/activeContext.md` with:
-- Current focus and phase
-- Last 3-5 decisions made (with DEC-IDs)
-- Open questions carried forward
-- Active plan name and progress
-
-**Initialization**: On first task in a repo, create `artifacts/` if missing:
-```bash
-mkdir -p artifacts/{plans,reviews,research,security,sessions}
-echo "# Local agent artifacts" > artifacts/README.md
-```
-
-**Artifact Naming**: Use ISO 8601 dates and descriptive slugs:
-- Plans: `artifacts/plans/{feature-slug}/plan.md`
-- Decisions: `artifacts/decisions/DEC-{NNN}-{slug}.md`
-- Reviews: `artifacts/reviews/{YYYY-MM-DD}-{feature-slug}.md`
-- Sessions: `artifacts/sessions/{session-id}.json`
+**Initialization**: `pwsh -File scripts/init-artifacts.ps1`
 
 ## Commands You Can Use
 

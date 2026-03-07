@@ -26,11 +26,11 @@ status: active
 
 **Informational Totals** (not enforced, since files load independently):
 ```
-Total:        193,063 tokens
-Instructions:  57,469 tokens (18 files)
-Docs:         101,585 tokens
-Agents:        29,957 tokens (27 files)
-Prompts:        4,052 tokens (35 files)
+Total:        350,721 tokens
+Instructions: 172,708 tokens
+Docs:         125,763 tokens
+Agents:        41,052 tokens (28 files)
+Prompts:       11,198 tokens
 ```
 
 **Action Items:**

@@ -9,7 +9,7 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/validation_server.py"]
     tools: ["validate_assets", "run_smoke_tests"]
-tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages', 'askQuestions']
 handoffs:
   - label: Return to Conductor
     agent: conductor
@@ -41,12 +41,8 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 
 ## Commands You Can Use
 
-- **Run Tests:** `Invoke-Pester -Path tests -Output Detailed`
 - **Run Specific Test:** `Invoke-Pester -Path tests/powershell/SpecificTest.Tests.ps1 -Output Detailed`
 - **Run with Coverage:** `Invoke-Pester -Path tests -CodeCoverage scripts/*.ps1 -Output Detailed`
-- **Validate Assets:** `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
-- **Smoke Tests:** `pwsh -File scripts/run-smoke-tests.ps1 -RepositoryRoot .`
-- **Initialize Artifacts:** `pwsh -File scripts/init-artifacts.ps1`
 
 ## Local Artifact Storage
 

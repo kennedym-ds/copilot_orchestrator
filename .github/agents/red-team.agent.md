@@ -4,7 +4,7 @@ description: "Adversarial tester that challenges assumptions and identifies edge
 argument-hint: "Stress test the plan, find loopholes, or simulate bad actor behavior"
 model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
 user-invokable: false
-tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'usages']
 handoffs:
   - label: Return to Conductor
     agent: conductor
@@ -30,12 +30,6 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 3. **Simulation**: Walk through the code/plan with an adversarial mindset. "How can I break this?" "What if this external service hangs?"
 4. **Reporting**: Document findings as "Exploits" or "Weaknesses" with severity ratings.
 5. **Handoff**: Conclude with a resilience score and the recommended next agent, including the precise `#runSubagent {persona}` command.
-
-## Commands You Can Use
-
-- **Validate Assets:** `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
-- **Token Report:** `pwsh -File scripts/token-report.ps1 -Path .`
-- **Initialize Artifacts:** `pwsh -File scripts/init-artifacts.ps1`
 
 ## Local Artifact Storage
 

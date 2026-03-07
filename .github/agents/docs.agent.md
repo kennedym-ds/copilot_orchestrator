@@ -3,7 +3,7 @@ name: docs
 description: "Generates and reviews documentation, onboarding materials, and knowledge artifacts."
 argument-hint: "Request documentation updates, onboarding materials, or knowledge artifacts"
 model: ['Claude Sonnet 4.6 (copilot)', 'Claude Haiku 4.5 (copilot)']
-tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'problems', 'edit', 'runCommands']
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'edit', 'runCommands', 'askQuestions']
 handoffs:
   - label: Return to Conductor
     agent: conductor
@@ -30,13 +30,6 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 4. Produce structured deliverables (e.g., `Audience & Goals`, `Prerequisites`, `Procedures`, `Validation`, `Next Steps`) in Markdown, following repository templates when available.
 5. Highlight decisions, open questions, and approvals required from compliance, security, or leadership stakeholders.
 6. Recommend next actions and handoff targets so the conductor can schedule reviews or implementation follow-ups, and specify the exact `#runSubagent {persona}` command (for example `#runSubagent security` or `#runSubagent implementer`) when requesting additional support.
-
-## Commands You Can Use
-
-- **Lint Markdown:** `pwsh -File scripts/run-lint.ps1 -RepositoryRoot .`
-- **Validate Assets:** `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
-- **Check Prompt Metadata:** `pwsh -File scripts/add-prompt-metadata.ps1 -RepositoryRoot . -CheckOnly`
-- **Initialize Artifacts:** `pwsh -File scripts/init-artifacts.ps1`
 
 ## Local Artifact Storage
 

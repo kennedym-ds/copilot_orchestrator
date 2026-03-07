@@ -149,27 +149,9 @@ Coordinate the end-to-end translation of an entire codebase through a structured
 
 ## Confidence Rating System
 
-### Per-File Confidence Score (0.0–1.0)
+Consult the `code-translation` skill § Confidence Scoring Deep Dive for the full 6-layer scoring formula, layer weights, repo-level LOC-weighted formula, and automation thresholds.
 
-| Score | Label | Criteria |
-|-------|-------|----------|
-| 0.9–1.0 | **High** | Passes all 6 validation layers, tests mirror source, idiomatic |
-| 0.7–0.89 | **Medium** | Passes syntax/type/lint, most tests pass, minor idiom gaps |
-| 0.5–0.69 | **Low** | Compiles but some tests fail, needs manual review |
-| 0.0–0.49 | **Critical** | Does not compile or significant behavioral differences |
-
-### Factors Affecting Confidence:
-- **Syntax validity** (+0.15): Code parses without errors
-- **Type correctness** (+0.15): Type checker passes clean
-- **Lint compliance** (+0.10): Follows target language conventions
-- **Unit test pass rate** (+0.25): % of translated tests passing
-- **Integration test pass rate** (+0.15): Cross-module tests passing
-- **Behavioral equivalence** (+0.20): Same inputs produce same outputs
-
-### Repo-Level Confidence:
-$$\text{Repo Score} = \frac{\sum_{i=1}^{n} (\text{LOC}_i \times \text{Score}_i)}{\sum_{i=1}^{n} \text{LOC}_i}$$
-
-Weighted by lines of code — larger files contribute more to the aggregate score.
+**Quick reference:** Scores use weights: Syntax (0.15), Types (0.15), Lint (0.10), Unit Tests (0.25), Integration (0.15), Behavioral Equivalence (0.20). Thresholds: ≥0.95 auto-approve, 0.80–0.94 quick review, 0.60–0.79 full review, <0.60 re-translate.
 
 ## State Tracking
 
@@ -184,70 +166,11 @@ Every response must include:
 
 ## Translation Manifest Schema
 
-```json
-{
-  "source": {
-    "language": "python",
-    "version": "3.11",
-    "framework": "FastAPI",
-    "packageManager": "pip",
-    "totalFiles": 142,
-    "totalLOC": 28500,
-    "entryPoints": ["main.py", "cli.py"]
-  },
-  "target": {
-    "language": "typescript",
-    "version": "5.3",
-    "framework": "Express/NestJS",
-    "packageManager": "npm"
-  },
-  "modules": [
-    {
-      "id": "mod-001",
-      "sourcePath": "src/models/user.py",
-      "targetPath": "src/models/user.ts",
-      "layer": 0,
-      "dependencies": [],
-      "complexity": "low",
-      "estimatedEffort": "5min",
-      "status": "pending",
-      "confidence": null
-    }
-  ],
-  "dependencyGraph": {
-    "layers": [
-      { "layer": 0, "modules": ["mod-001", "mod-002"] },
-      { "layer": 1, "modules": ["mod-010", "mod-011"] }
-    ]
-  },
-  "frameworkMappings": {
-    "FastAPI": "NestJS",
-    "SQLAlchemy": "TypeORM",
-    "Pydantic": "class-validator + class-transformer"
-  },
-  "packageMappings": {
-    "requests": "axios",
-    "pytest": "jest"
-  }
-}
-```
+The manifest is a JSON file (`artifacts/plans/translation/manifest.json`) with sections: `source` (language, version, framework, entryPoints), `target` (language, version, framework), `modules` (per-file id, paths, layer, dependencies, complexity, status, confidence), `dependencyGraph` (topological layers), `frameworkMappings`, and `packageMappings`. The `translation-analyzer` agent produces this via the translation MCP server.
 
 ## Artifact Storage
 
-```
-artifacts/plans/translation/
-├── plan.md                    # Approved translation plan
-├── manifest.json              # Translation manifest with dep graph
-├── phase-2-complete.md        # Foundation types
-├── phase-3-complete.md        # Business logic
-├── phase-4-complete.md        # Integration layer
-├── phase-5-complete.md        # QA & security
-├── phase-6-complete.md        # Documentation
-├── plan-complete.md           # Final summary
-├── final-report.md            # Detailed translation report
-├── confidence-matrix.json     # Per-file confidence scores
-└── translation-decisions.md   # Decision log
-```
+All translation artifacts go to `artifacts/plans/translation/`. Key files: `plan.md`, `manifest.json`, `phase-{2-6}-complete.md`, `plan-complete.md`, `final-report.md`, `confidence-matrix.json`, `translation-decisions.md`. See `instructions/workflows/translation-conductor.instructions.md` for the full layout.
 
 ## Boundaries
 

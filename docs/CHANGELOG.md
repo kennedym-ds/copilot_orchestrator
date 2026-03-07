@@ -1,13 +1,36 @@
 ---
 title: "Copilot Orchestrator Changelog"
-version: "0.14.0"
-lastUpdated: "2026-03-05"
+version: "0.15.0"
+lastUpdated: "2026-03-07"
 status: stable
 ---
 
 # Changelog
 
 All notable changes are documented here following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
+
+## [0.15.0] - 2026-03-07
+
+### Changed
+- **Agent↔Skill Deduplication**: Removed ~215 lines of duplicated content across 8 agents by replacing inline reference material with skill cross-references
+  - `translation-conductor.agent.md`: Confidence Rating System replaced with `code-translation` skill reference
+  - `translation-validator.agent.md`: 6-Layer Validation Stack condensed from ~90 to ~30 lines with skill reference
+  - `translator.agent.md`: Translation Rules condensed, Confidence Factors table and verbose output format replaced with compact summary + skill reference
+  - `translation-analyzer.agent.md`: Added `code-translation` skill cross-reference to dependency analysis step
+  - `translation-styler.agent.md`: Idiomatic transformation examples (~58 lines of 4-language before/after) replaced with skill reference + key principles (~6 lines)
+- **Commands Section Extraction**: Removed standard validation commands from 13 agents (documented at workspace level in `AGENTS.md`)
+  - Full removal (10 agents): reviewer, lint, beast-mode, deployment, visualizer, red-team, docs, performance, maintainer, implementer
+  - Partial trim (3 agents): test (kept Pester), terraform (kept tf CLI), bicep (kept az CLI)
+- **Frontmatter Tool Array Fixes**: Corrected tool access for 5 agents based on role-alignment audit
+  - `docs.agent.md`: Added `changes`, `runCommands`, `askQuestions` (documentation agent needs to see diffs, run validation, and clarify requirements)
+  - `github-ops.agent.md`: Added `edit` (can now modify local workflow YAML and issue templates)
+  - `observability.agent.md`: Removed `edit`, `runCommands` (analysis-only agent, delegates writes)
+  - `performance.agent.md`: Added `runCommands` (can now run benchmarks and profilers directly)
+  - `translation-validator.agent.md`: Removed `edit` (uses MCP `update_module_status` tool instead)
+
+### Improved
+- **Token Footprint**: Estimated ~6-7 KB reduction in agent file sizes from deduplication
+- **Role Clarity**: Agent tool arrays now consistently match each agent's read/write/execute permissions
 
 ## [0.14.0] - 2026-03-05
 

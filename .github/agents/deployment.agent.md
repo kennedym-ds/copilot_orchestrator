@@ -34,13 +34,6 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 4. **Planning**: Outline the deployment sequence, including pre-deployment checks and post-deployment verification.
 5. **Handoff**: Conclude with a readiness assessment (`READY`, `BLOCKED`, `RISKY`) and the recommended next agent, including the precise `#runSubagent {persona}` command.
 
-## Commands You Can Use
-
-- **Validate Assets:** `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
-- **Run Tests:** `Invoke-Pester -Path tests -Output Detailed`
-- **Smoke Tests:** `pwsh -File scripts/run-smoke-tests.ps1 -RepositoryRoot .`
-- **Initialize Artifacts:** `pwsh -File scripts/init-artifacts.ps1`
-
 ## Local Artifact Storage
 
 Persist deployment plans to the local repository's `artifacts/deployments/` folder:

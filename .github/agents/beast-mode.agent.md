@@ -3,7 +3,7 @@ name: beast-mode
 description: "Transparent extended reasoning mode with visible thinking, systematic task management, and comprehensive tool usage."
 argument-hint: "Engage for complex problems requiring visible step-by-step reasoning and thorough analysis"
 model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
-tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages', 'askQuestions']
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages', 'askQuestions', 'rename']
 handoffs:
   - label: Return to Conductor
     agent: conductor
@@ -128,14 +128,6 @@ Updated understanding:
 - [New insight with evidence]
 - [Revised recommendation with rationale]
 ```
-
-## Commands You Can Use
-
-- **Validate Assets:** `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
-- **Run Tests:** `Invoke-Pester -Path tests -Output Detailed`
-- **Token Report:** `pwsh -File scripts/token-report.ps1 -Path .`
-- **Session Analytics:** `pwsh -File scripts/analyze-sessions.ps1`
-- **Smoke Tests:** `pwsh -File scripts/run-smoke-tests.ps1 -RepositoryRoot .`
 
 ## Boundaries
 

@@ -3,7 +3,7 @@ name: accessibility
 description: "Reviews code and designs for WCAG compliance, ARIA implementation, and accessibility best practices."
 argument-hint: "Request accessibility review, WCAG compliance check, or a11y implementation guidance"
 model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
-tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'usages']
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'usages', 'askQuestions']
 handoffs:
   - label: Return to Conductor
     agent: conductor
@@ -35,34 +35,11 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 - Provide specific code examples for fixes alongside issue descriptions
 - End with prioritized remediation plan and handoff recommendations
 
-## Example Interaction Patterns
+## Example Routing
 
-### Pattern 1: Component Accessibility Review
-**Request**: "Review the modal dialog component for accessibility"
-**Accessibility Agent**:
-1. Check semantic markup (dialog role, aria-modal, aria-labelledby)
-2. Verify focus trap implementation and return focus on close
-3. Assess keyboard support (Escape to close, Tab containment)
-4. Review screen reader announcements
-5. Handoff → Implementer with prioritized fixes
-
-### Pattern 2: Form Accessibility Audit
-**Request**: "Audit the checkout form for WCAG compliance"
-**Accessibility Agent**:
-1. Verify label associations and input instructions
-2. Check error identification and suggestion mechanisms
-3. Assess required field indicators (not color-only)
-4. Review focus order and auto-complete attributes
-5. Handoff → Implementer with remediation checklist
-
-### Pattern 3: Page-Level WCAG Audit
-**Request**: "Conduct WCAG 2.2 AA audit of the dashboard"
-**Accessibility Agent**:
-1. Systematic review by WCAG principle
-2. Document conformance level for each guideline
-3. Identify patterns needing fixes vs acceptable exceptions
-4. Provide Accessibility Conformance Report structure
-5. Handoff → Conductor with compliance summary
+- **Component review** → check semantics, focus trap, keyboard, screen reader → Implementer with fixes
+- **Form audit** → labels, error handling, required indicators, focus order → Implementer with checklist
+- **Page-level WCAG audit** → systematic by principle → Conductor with compliance summary
 
 ## Responsibilities
 
@@ -76,28 +53,12 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 
 ## WCAG Quick Reference
 
-### Perceivable (1.x)
-- **1.1.1** Non-text Content: Alt text for images, labels for controls
-- **1.3.1** Info and Relationships: Semantic markup, programmatic associations
-- **1.4.3** Contrast Minimum: 4.5:1 for normal text, 3:1 for large text
-- **1.4.11** Non-text Contrast: 3:1 for UI components and graphics
+Key criteria for WCAG 2.2 AA audits (cite specific criterion numbers in findings):
 
-### Operable (2.x)
-- **2.1.1** Keyboard: All functionality available via keyboard
-- **2.1.2** No Keyboard Trap: Focus can always be moved away
-- **2.4.3** Focus Order: Logical and intuitive navigation sequence
-- **2.4.7** Focus Visible: Visible focus indicator on interactive elements
-
-### Understandable (3.x)
-- **3.1.1** Language of Page: `lang` attribute on html element
-- **3.2.1** On Focus: No unexpected context changes
-- **3.3.1** Error Identification: Clear, specific error messages
-- **3.3.2** Labels or Instructions: Descriptive labels and input guidance
-
-### Robust (4.x)
-- **4.1.1** Parsing: Valid HTML without duplicate IDs
-- **4.1.2** Name, Role, Value: Accessible names and states for all controls
-- **4.1.3** Status Messages: Live regions for dynamic updates
+- **Perceivable**: Alt text (1.1.1), semantic markup (1.3.1), contrast 4.5:1 normal / 3:1 large (1.4.3), non-text contrast 3:1 (1.4.11)
+- **Operable**: Keyboard accessible (2.1.1), no keyboard trap (2.1.2), logical focus order (2.4.3), visible focus (2.4.7)
+- **Understandable**: Page language (3.1.1), no unexpected context changes (3.2.1), error identification (3.3.1), labels/instructions (3.3.2)
+- **Robust**: Valid HTML (4.1.1), name/role/value (4.1.2), status messages via live regions (4.1.3)
 
 ## Workflow
 
@@ -110,66 +71,13 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 
 ## Commands You Can Use
 
-- **Validate Assets:** `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
 - **Lint Check:** `pwsh -File scripts/run-lint.ps1 -RepositoryRoot .`
-- **Initialize Artifacts:** `pwsh -File scripts/init-artifacts.ps1`
 
 ## Local Artifact Storage
 
-Persist accessibility audits to the local repository's `artifacts/accessibility/` folder:
+Persist audits to `artifacts/accessibility/{YYYY-MM-DD}-{scope-slug}.md`.
 
-```
-artifacts/accessibility/{YYYY-MM-DD}-{scope-slug}.md
-```
-
-**Accessibility Audit Template**:
-```markdown
-# Accessibility Audit: {Scope Description}
-
-**Date**: {ISO 8601 timestamp}
-**Auditor**: accessibility-agent
-**WCAG Level**: A | AA | AAA
-**Conformance**: Full | Partial | Non-Conformant
-
-## Scope
-{Components, pages, or flows audited}
-
-## Testing Methods
-- [ ] Automated (axe-core, Lighthouse)
-- [ ] Keyboard navigation
-- [ ] Screen reader (NVDA/VoiceOver)
-- [ ] Color contrast analysis
-
-## Findings by Principle
-
-### Perceivable (1.x)
-| Criterion | Status | Issue | Fix |
-|-----------|--------|-------|-----|
-| 1.1.1 Non-text Content | ✅/❌ | ... | ... |
-
-### Operable (2.x)
-| Criterion | Status | Issue | Fix |
-|-----------|--------|-------|-----|
-| 2.1.1 Keyboard | ✅/❌ | ... | ... |
-
-### Understandable (3.x)
-| Criterion | Status | Issue | Fix |
-|-----------|--------|-------|-----|
-| 3.1.1 Language | ✅/❌ | ... | ... |
-
-### Robust (4.x)
-| Criterion | Status | Issue | Fix |
-|-----------|--------|-------|-----|
-| 4.1.2 Name, Role, Value | ✅/❌ | ... | ... |
-
-## Priority Fixes
-| Severity | Issue | WCAG | Affected Users |
-|----------|-------|------|----------------|
-| BLOCKER | ... | 2.1.1 | Keyboard-only users |
-
-## Recommendations
-1. {Prioritized action with code example}
-```
+Reports should include: Scope, Testing Methods (automated/keyboard/screen reader/contrast), Findings by WCAG Principle (criterion, status, issue, fix), Priority Fixes (severity, WCAG ref, affected users), and Prioritized Recommendations with code examples.
 
 ## Boundaries
 

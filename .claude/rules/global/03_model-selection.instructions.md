@@ -1,7 +1,7 @@
 ---
 name: "model-selection-fallback"
 description: "Model selection strategy and fallback matrix for multi-tier resilience."
-applyTo: "**/*.{md,agent.md,chatmode.md}"
+applyTo: ".github/agents/*.agent.md"
 ---
 
 # Model Selection & Fallback Matrix

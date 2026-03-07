@@ -7,7 +7,7 @@ mcp-servers:
   github:
     type: http
     url: "https://api.githubcopilot.com/mcp/"
-tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'runCommands', 'problems']
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems']
 handoffs:
   - label: Return to Conductor
     agent: conductor

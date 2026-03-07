@@ -15,7 +15,7 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/validation_server.py"]
     tools: ["token_report"]
-tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems']
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems']
 handoffs:
   - label: Return to Conductor
     agent: conductor
@@ -55,132 +55,26 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 
 ## Partner Platform Integrations
 
-### Dynatrace
-- **APM Correlation**: Link agent sessions to Dynatrace traces and service flows
-- **Metrics Export**: Push token usage, phase durations, and error rates to Dynatrace metrics
-- **Alerting**: Configure Davis AI alerts for anomalous agent behavior
-- **Dashboards**: Design Dynatrace dashboards for conductor workflow visibility
+Design integrations for observability platforms when the consuming repo uses them:
 
-```yaml
-# Example Dynatrace integration configuration
-dynatrace:
-  environment_url: "${DYNATRACE_ENV_URL}"
-  api_token: "${DYNATRACE_API_TOKEN}"
-  metrics:
-    - name: copilot.session.duration
-      type: gauge
-    - name: copilot.token.usage
-      type: counter
-    - name: copilot.escalation.count
-      type: counter
-```
+- **Dynatrace** — APM correlation, metrics export (token usage, phase duration, error rates), Davis AI alerting, session dashboards
+- **PagerDuty** — Incident creation for blocked workflows, escalation policies, event correlation, status sync
+- **Elasticsearch / OpenSearch** — Log aggregation, Kibana dashboards, ML anomaly detection, lifecycle retention
+- **Prometheus / Grafana** — Metrics exposition, SLO alerting rules, workflow dashboards
+- **Application Insights / Azure Monitor** — Distributed trace correlation, custom events, Azure Workbooks
 
-### PagerDuty
-- **Incident Creation**: Trigger incidents for blocked workflows or repeated failures
-- **Escalation Policies**: Route conductor escalations to appropriate on-call teams
-- **Event Intelligence**: Correlate agent failures with infrastructure events
-- **Status Updates**: Sync resolution status back to session artifacts
-
-```yaml
-# Example PagerDuty integration configuration
-pagerduty:
-  api_key: "${PAGERDUTY_API_KEY}"
-  service_id: "${PAGERDUTY_SERVICE_ID}"
-  triggers:
-    - condition: "consecutive_failures >= 3"
-      severity: "warning"
-    - condition: "session_blocked"
-      severity: "critical"
-```
-
-### Elasticsearch / OpenSearch
-- **Log Aggregation**: Index session logs for full-text search and analysis
-- **Visualization**: Create Kibana dashboards for workflow trends and patterns
-- **Anomaly Detection**: Use ML features to detect unusual agent behavior
-- **Retention Policies**: Configure lifecycle management for session data
-
-```yaml
-# Example Elasticsearch integration configuration
-elasticsearch:
-  hosts: ["${ELASTICSEARCH_HOST}"]
-  index_prefix: "copilot-sessions"
-  mappings:
-    session_id: keyword
-    phase: keyword
-    agent: keyword
-    tokens_used: integer
-    duration_ms: long
-    verdict: keyword
-```
-
-### Prometheus / Grafana
-- **Metrics Exposition**: Export session metrics in Prometheus format
-- **Alerting Rules**: Define alerts for SLO breaches and budget overruns
-- **Grafana Dashboards**: Visualize conductor workflow metrics
-
-### Application Insights / Azure Monitor
-- **Trace Correlation**: Link sessions to Azure distributed traces
-- **Custom Events**: Log phase transitions and handoffs as custom events
-- **Workbooks**: Create Azure Workbooks for session analysis
-
-## Integration Workflow
-
-1. **Platform Selection**: Identify target observability platform(s) based on existing infrastructure.
-2. **Configuration Design**: Draft integration configuration with required credentials and endpoints.
-3. **Metric Mapping**: Define how session telemetry maps to platform-specific metrics and events.
-4. **Security Review**: Handoff to Security agent for credential handling and data exposure review.
-5. **Implementation**: Handoff to Implementer with configuration templates and integration code.
-6. **Validation**: Verify data flow and dashboard accuracy post-implementation.
+All platform configs use environment variables for credentials — never hardcode secrets.
 
 ## Commands You Can Use
 
 - **Session Analytics:** `pwsh -File scripts/analyze-sessions.ps1`
 - **Token Report:** `pwsh -File scripts/token-report.ps1 -Path .`
-- **Validate Assets:** `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
-- **Initialize Artifacts:** `pwsh -File scripts/init-artifacts.ps1`
 
 ## Local Artifact Storage
 
-Persist telemetry analysis to the local repository's `artifacts/telemetry/` folder:
+Persist telemetry analysis to `artifacts/telemetry/{YYYY-MM-DD}-{analysis-type}.md`.
 
-```
-artifacts/telemetry/{YYYY-MM-DD}-{analysis-type}.md
-```
-
-**Telemetry Report Template**:
-```markdown
-# Telemetry Analysis: {Analysis Type}
-
-**Date**: {ISO 8601 timestamp}
-**Analyst**: observability-agent
-**Period**: {Start} to {End}
-
-## Executive Summary
-{Key findings in 2-3 sentences}
-
-## Metrics Overview
-| Metric | Value | Target | Trend |
-|--------|-------|--------|-------|
-| Avg Session Duration | Xm | <10m | ↑/↓/→ |
-| Premium Model Usage | X% | <20% | ↑/↓/→ |
-| Escalation Rate | X% | <10% | ↑/↓/→ |
-
-## Token Usage
-| Agent | Tokens | Cost | % of Total |
-|-------|--------|------|------------|
-| conductor | X | $X.XX | X% |
-
-## Anomalies Detected
-1. {Anomaly with evidence}
-
-## Recommendations
-1. {Optimization with expected impact}
-
-## Platform Integration Status
-| Platform | Status | Last Sync |
-|----------|--------|----------|
-| Dynatrace | ✅ Active | {timestamp} |
-```
+Reports should include: Executive Summary, Metrics Overview (session duration, premium model usage, escalation rate vs targets), Token Usage by agent, Anomalies Detected with evidence, Recommendations with expected impact, and Platform Integration Status.
 
 ## Boundaries
 

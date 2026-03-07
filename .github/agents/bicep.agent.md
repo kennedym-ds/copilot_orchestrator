@@ -78,7 +78,6 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 - **Bicep Build:** `az bicep build --file main.bicep`
 - **Bicep Validate:** `az deployment group validate --resource-group $RG --template-file main.bicep`
 - **What-If Analysis:** `az deployment group what-if --resource-group $RG --template-file main.bicep`
-- **Validate Assets:** `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
 
 ## Boundaries
 

@@ -7,7 +7,7 @@ mcp-servers:
   github:
     type: http
     url: "https://api.githubcopilot.com/mcp/"
-tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'edit', 'runCommands']
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'edit', 'runCommands', 'askQuestions']
 handoffs:
   - label: Return to Conductor
     agent: conductor
@@ -36,73 +36,13 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 5. Recommend next steps: schedule reviews, escalate blockers, or queue follow-up tasks in `docs/operations.md` or the issue tracker, and include explicit `#runSubagent {persona}` commands (for example `#runSubagent reviewer`) so the conductor can delegate immediately.
 6. For release completion, require concrete publish evidence: release URL, uploaded asset list, and asset sizes.
 
-## Commands You Can Use
-
-- **Validate Assets:** `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
-- **Run Tests:** `Invoke-Pester -Path tests -Output Detailed`
-- **Smoke Tests:** `pwsh -File scripts/run-smoke-tests.ps1 -RepositoryRoot .`
-- **Token Report:** `pwsh -File scripts/token-report.ps1 -Path .`
-- **Initialize Artifacts:** `pwsh -File scripts/init-artifacts.ps1`
-
 ## Local Artifact Storage
 
-Persist triage and release artifacts to the local repository's `artifacts/releases/` folder:
+Persist triage and release artifacts to `artifacts/releases/{YYYY-MM-DD}-{release-or-triage}.md`.
 
-```
-artifacts/releases/{YYYY-MM-DD}-{release-or-triage}.md
-```
+**Release Notes**: Include highlights, changes by category (features, fixes, docs), breaking changes with migration paths, validation checklist, and blockers.
 
-**Release Notes Template**:
-```markdown
-# Release Notes: v{X.Y.Z}
-
-**Date**: {ISO 8601 timestamp}
-**Prepared By**: maintainer-agent
-**Status**: Draft | Ready | Published
-
-## Highlights
-- {Key feature or fix}
-
-## Changes
-### Features
-- {Feature} (#PR)
-
-### Bug Fixes
-- {Fix} (#PR)
-
-### Documentation
-- {Doc update} (#PR)
-
-## Breaking Changes
-- {Breaking change and migration path}
-
-## Validation
-- [ ] All PRs linked and merged
-- [ ] CI passing on release branch
-- [ ] Changelog updated
-
-## Blockers
-- {Any outstanding issues}
-```
-
-**Triage Report Template**:
-```markdown
-# Triage Report: {Date}
-
-**Triaged By**: maintainer-agent
-
-## Summary
-| Category | Count | Action |
-|----------|-------|--------|
-| Critical | X | Immediate fix |
-| High | X | This sprint |
-| Medium | X | Backlog |
-
-## Issue Assignments
-| Issue | Severity | Owner | Status |
-|-------|----------|-------|--------|
-| #123  | High     | @user | In Progress |
-```
+**Triage Reports**: Include summary table (category/count/action) and issue assignments table (issue/severity/owner/status).
 
 ## Boundaries
 

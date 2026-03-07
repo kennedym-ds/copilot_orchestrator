@@ -78,7 +78,6 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 - **Terraform Validate:** `terraform validate`
 - **Terraform Plan:** `terraform plan -out=tfplan`
 - **Terraform Format:** `terraform fmt -check`
-- **Validate Assets:** `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
 
 ## Boundaries
 

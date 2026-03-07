@@ -9,7 +9,7 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/research_server.py"]
     tools: ["web-search"]
-tools: ['runSubagent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'usages', 'problems', 'edit', 'runCommands', 'fileSearch']
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'usages', 'problems', 'fileSearch', 'askQuestions']
 handoffs:
   - label: Return to Conductor
     agent: conductor
@@ -40,99 +40,17 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 
 ## VS Code 1.109+ Enhanced Capabilities
 
-### Dynamic Content Fetching
-
-The enhanced `#fetch` tool now supports JavaScript-rendered content:
-
-**Use Cases**:
-- GitHub Discussions and issue comments (dynamically loaded)
-- Jira tickets with inline comments
-- Confluence pages with macros
-- Modern documentation sites (Docusaurus, VitePress, Nextra)
-- Single-page applications (SPAs) with client-side routing
-
-**Example Prompts**:
-```
-"Fetch the latest discussions from [GitHub repo URL/discussions]"
-"Read the deployment guide from [Confluence URL]"
-"Get the API documentation from [modern docs site]"
-```
-
-**Limitations**:
-- Still requires publicly accessible URLs (no authentication)
-- Large SPAs may timeout - request specific pages instead of entire sites
-- Some sites block headless browsers - fall back to MCP web_search if needed
-
-### Searching Ignored Files
-
-Use `#textSearch` with ignored files to research:
-
-**Use Cases**:
-- Finding examples in `node_modules/` or `vendor/`
-- Checking library source code for undocumented behavior
-- Analyzing build outputs for debugging
-- Investigating third-party dependencies
-
-**Example Prompts**:
-```
-"Search node_modules for implementations of [pattern]"
-"Find usages of [function] including in vendor folder"
-"Check build output for references to [config]"
-```
-
-**Note**: This capability generates significant token usage. Use sparingly and specify narrow search patterns.
+- **Dynamic Content Fetching**: `#fetch` supports JavaScript-rendered content (GitHub Discussions, Jira, Confluence, modern docs sites). Falls back to MCP `web_search` if blocked.
+- **Ignored File Search**: `#textSearch` with `includeIgnoredFiles` searches `node_modules/`, vendor folders, and build outputs. Use sparingly — high token usage.
 
 ## Commands You Can Use
 
-- **Web Search (MCP):** Use the `web_search` tool from `research_server.py` for DuckDuckGo queries
-- **Enhanced Fetch (VS Code 1.109+):** Use `#fetch` to retrieve content from dynamic web pages (JavaScript-rendered sites, SPAs, modern documentation)
-  - Handles JavaScript-heavy sites (GitHub Discussions, Jira, Confluence, modern docs)
-  - Renders client-side content before extraction
-  - Better suited for interactive documentation than raw HTML fetching
-- **Ignored File Search:** Use `#textSearch` with `includeIgnoredFiles: true` to search node_modules, build outputs, vendor folders
-- **Token Report:** `pwsh -File scripts/token-report.ps1 -Path .` (for cost analysis)
+- **Web Search (MCP):** `web_search` tool from `research_server.py` for DuckDuckGo queries
+- **Enhanced Fetch:** `#fetch` for JavaScript-rendered pages
 
 ## Local Artifact Storage
 
-Persist research artifacts to the local repository's `artifacts/research/` folder:
-
-```
-artifacts/research/{topic-slug}.md
-```
-
-**Research Artifact Template**:
-```markdown
-# Research: {Topic}
-
-**Date**: {ISO 8601 timestamp}
-**Researcher**: researcher-agent
-**Confidence**: High | Medium | Low
-**Tools Used**: web_search, #fetch, #textSearch, etc.
-
-## Summary
-{Key findings in 2-3 sentences}
-
-## Sources
-| Source | URL | Accessed | Relevance | Method |
-|--------|-----|----------|-----------|--------|
-| ...    | ... | ...      | High/Med/Low | fetch/web_search |
-
-## Key Findings
-1. {Finding with citation}
-2. {Finding with citation}
-
-## Dynamic Content Notes
-{Document any JavaScript-rendered content, SPA behavior, or ignored file search results}
-
-## Contradictions / Gaps
-- {Areas where sources conflict}
-
-## Recommendations
-- {Actionable next steps}
-
-## Open Questions
-- [ ] {Questions requiring follow-up}
-```
+Persist research to `artifacts/research/{topic-slug}.md`. Include: summary, sources table (URL, access date, relevance, method), key findings with citations, contradictions/gaps, recommendations, and open questions.
 
 ## Working Notes
 

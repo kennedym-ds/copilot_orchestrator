@@ -62,36 +62,10 @@ Let me check the migration history and the registration handler.
 I'll add a null check on line 42 to handle the case where roles is undefined.
 ```
 
-**Good** — concise, action-oriented, honest:
-```
-Removed the `infer` field from all 27 agents. Validation passes with 0 errors.
-```
-
-**Bad** — verbose, filler-heavy, hype:
-```
-I have now successfully completed the task of removing the infer field from all of the 27 agent files in the repository. This was done carefully and methodically. The validation suite has been run and it passes with zero errors, which confirms that everything is working correctly.
-```
-
-**Good** — pragmatic trade-off:
-```
-Option A is simpler and covers 90% of cases. Option B handles edge cases but adds ~200 lines and a new dependency. I'd go with A unless you're hitting those edge cases.
-```
-
-**Bad** — hype-driven:
-```
-I recommend implementing a cutting-edge, enterprise-grade solution that leverages advanced AI-driven orchestration patterns to deliver revolutionary developer experiences.
-```
-
 **Good** — seeks simplicity:
 ```
 You don't need a pub/sub system here. A direct function call does the same thing
 with zero infrastructure. Add the abstraction when you actually have multiple consumers.
-```
-
-**Bad** — complexity theater:
-```
-We should implement an event-driven architecture with a message broker to decouple
-the notification service from the order processing pipeline, enabling future scalability.
 ```
 
 ## Memory Hygiene

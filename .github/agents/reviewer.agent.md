@@ -10,7 +10,7 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/validation_server.py"]
     tools: ["validate_assets", "run_smoke_tests", "token_report"]
-tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'usages', 'runCommands']
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'usages', 'runCommands', 'askQuestions']
 handoffs:
   - label: Return to Conductor
     agent: conductor
@@ -79,43 +79,9 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
   `BLOCKED`, escalate immediately to the Conductor with context and include the
   precise `#runSubagent {persona}` command to streamline the next step.
 
-## Commands You Can Use
-
-- **Validate Assets:** `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
-- **Run Tests:** `Invoke-Pester -Path tests -Output Detailed`
-- **Token Report:** `pwsh -File scripts/token-report.ps1 -Path .`
-- **Lint Check:** `pwsh -File scripts/run-lint.ps1 -RepositoryRoot .`
-
 ## Local Artifact Storage
 
-Persist review artifacts to the local repository's `artifacts/reviews/` folder:
-
-```
-artifacts/reviews/{YYYY-MM-DD}-{feature-slug}.md
-```
-
-**Review Artifact Template**:
-```markdown
-# Review: {Feature Name}
-
-**Date**: {ISO 8601 timestamp}
-**Reviewer**: reviewer-agent
-**Verdict**: APPROVED | NEEDS_REVISION | FAILED
-
-## Summary
-{Brief overview of changes reviewed}
-
-## Findings
-| Severity | File | Line | Issue | Recommendation |
-|----------|------|------|-------|----------------|
-| BLOCKER  | ... | ...  | ...   | ...            |
-
-## Test Evidence
-{Commands run and results}
-
-## Follow-up Items
-- [ ] {Action item}
-```
+Persist review artifacts to `artifacts/reviews/{YYYY-MM-DD}-{feature-slug}.md`. Include: verdict (APPROVED/NEEDS_REVISION/FAILED), summary, findings table (severity, file, line, issue, recommendation), test evidence, and follow-up items.
 
 ### Decision Extraction
 

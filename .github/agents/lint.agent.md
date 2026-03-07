@@ -9,7 +9,7 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/validation_server.py"]
     tools: ["run_lint", "check_metadata"]
-tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems']
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'rename']
 handoffs:
   - label: Return to Conductor
     agent: conductor
@@ -38,13 +38,6 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
   - PowerShell: Use full cmdlet names (not aliases), proper parameter naming
   - Markdown: Follow markdownlint rules, proper heading hierarchy
   - YAML: Consistent indentation (2 spaces), proper quoting
-
-## Commands You Can Use
-
-- **Lint All:** `pwsh -File scripts/run-lint.ps1 -RepositoryRoot .`
-- **Validate Assets:** `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
-- **Check Prompt Metadata:** `pwsh -File scripts/add-prompt-metadata.ps1 -RepositoryRoot . -CheckOnly`
-- **Add Prompt Metadata:** `pwsh -File scripts/add-prompt-metadata.ps1 -RepositoryRoot .`
 
 ## Workflow
 

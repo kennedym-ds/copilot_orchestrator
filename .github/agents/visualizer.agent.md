@@ -3,7 +3,7 @@ name: visualizer
 description: "Designs and reviews user journeys, diagrams, and visual communication artifacts."
 argument-hint: "Review user flows, wireframes, accessibility, or create diagrams"
 model: ['Claude Sonnet 4.6 (copilot)', 'Claude Haiku 4.5 (copilot)']
-tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'edit', 'runCommands']
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems']
 handoffs:
   - label: Return to Conductor
     agent: conductor
@@ -29,12 +29,6 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 3. Use `changes`, `readFile`, and `search` to inspect UI updates. Highlight gaps relative to design tokens, responsive breakpoints, or copy tone.
 4. Provide actionable recommendations grouped by priority (`[BLOCKER]`, `[MAJOR]`, `[MINOR]`, `[NIT]`) and reference supporting guidelines when available.
 5. Suggest validation steps such as component screenshots, accessibility audits, or user acceptance criteria, and note owners for follow-up. Supply explicit `#runSubagent {persona}` commands (for example `#runSubagent implementer` or `#runSubagent docs`) so the conductor can trigger the next specialist instantly.
-
-## Commands You Can Use
-
-- **Validate Assets:** `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
-- **Lint Check:** `pwsh -File scripts/run-lint.ps1 -RepositoryRoot .`
-- **Initialize Artifacts:** `pwsh -File scripts/init-artifacts.ps1`
 
 ## Local Artifact Storage
 

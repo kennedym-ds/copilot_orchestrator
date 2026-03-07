@@ -4,7 +4,18 @@ description: "Reviews plans and changes for runtime, memory, and scalability ris
 argument-hint: "Analyze code for runtime, memory, scalability risks or optimization opportunities"
 model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
 user-invokable: false
-tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'problems', 'usages', 'edit', 'runCommands']
+mcp-servers:
+  validation:
+    type: stdio
+    command: python
+    args: ["scripts/mcp/validation_server.py"]
+    tools: ["validate_assets", "run_smoke_tests", "token_report"]
+  analytics:
+    type: stdio
+    command: python
+    args: ["scripts/mcp/analytics_server.py"]
+    tools: ["list_sessions", "get_session", "list_artifacts"]
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'runCommands', 'problems', 'usages']
 handoffs:
   - label: Return to Conductor
     agent: conductor
@@ -31,13 +42,6 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 4. Summarize findings with severity (`[BLOCKER]`, `[MAJOR]`, `[MINOR]`, `[NIT]`) and quantify potential impact when possible.
 5. Propose concrete mitigations: algorithmic adjustments, caching, batching, asynchronous work, or workload partitioning.
 6. Recommend validation steps (benchmarks, load tests, telemetry dashboards) and specify responsible owners, adding the appropriate `#runSubagent {persona}` commands (for example `#runSubagent implementer` or `#runSubagent observability`) for the conductor to route work instantly.
-
-## Commands You Can Use
-
-- **Token Report:** `pwsh -File scripts/token-report.ps1 -Path .`
-- **Session Analytics:** `pwsh -File scripts/analyze-sessions.ps1`
-- **Validate Assets:** `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
-- **Initialize Artifacts:** `pwsh -File scripts/init-artifacts.ps1`
 
 ## Local Artifact Storage
 

@@ -10,7 +10,7 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/validation_server.py"]
     tools: ["validate_assets", "run_lint", "run_smoke_tests"]
-tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages', 'rename', 'askQuestions']
 handoffs:
   - label: Return to Conductor
     agent: conductor
@@ -101,62 +101,9 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 5. **Collaboration:** Signal to the conductor when specialist help is required and include the exact `#runSubagent {persona}` command (for example `#runSubagent researcher`) so the handoff executes with full context; surface decision points with options before proceeding.
 6. **Boundaries:** Never modify unrelated files, restructure extensively, or commit; pause and seek conductor approval when scope needs to expand.
 
-## Commands You Can Use
-
-- **Run Tests (PowerShell):** `Invoke-Pester -Path tests -Output Detailed`
-- **Validate Assets:** `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
-- **Lint Check:** `pwsh -File scripts/run-lint.ps1 -RepositoryRoot .`
-- **Smoke Tests:** `pwsh -File scripts/run-smoke-tests.ps1 -RepositoryRoot .`
-- **Token Report:** `pwsh -File scripts/token-report.ps1 -Path .`
-
 ## Local Artifact Storage
 
-Update phase completion records in the local `artifacts/plans/{feature}/` folder:
-
-```markdown
-# Phase {N} Complete: {Phase Name}
-
-**Completed**: {ISO 8601 timestamp}
-**Implementer**: implementer-agent
-
-## Changes Made
-| File | Change Type | Description |
-|------|-------------|-------------|
-| ...  | Added       | ...         |
-
-## Test Results
-| Command | Result | Notes |
-|---------|--------|-------|
-| `Invoke-Pester ...` | ✅ Pass | 12 tests |
-
-## Residual Risks
-- {Any concerns for reviewer}
-
-## Next Phase
-{Brief preview of Phase N+1}
-```
-
-## Code Style Examples
-
-```powershell
-# ✅ Good - explicit parameters, proper error handling
-function Get-ValidationResult {
-    [CmdletBinding()]
-    param(
-        [Parameter(Mandatory)]
-        [string]$RepositoryRoot
-    )
-    Set-StrictMode -Version 2.0
-    $ErrorActionPreference = 'Stop'
-    # Implementation
-}
-
-# ❌ Bad - no parameter validation, aliases
-function validate($path) {
-    cd $path
-    ls | % { $_.Name }
-}
-```
+Update phase completion records in `artifacts/plans/{feature}/phase-{N}-complete.md`. Include: Changes Made (file, change type, description), Test Results (command, result, notes), Residual Risks, and Next Phase preview. Use `docs/templates/phase-complete.md` as the canonical template.
 
 ## Handoff Package
 

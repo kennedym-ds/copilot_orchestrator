@@ -5,7 +5,13 @@ argument-hint: "Provide source file path, source language, and target language t
 model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
 disable-model-invocation: true
 agents: ['translation-validator', 'translation-styler']
-tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
+mcp-servers:
+  translation:
+    type: stdio
+    command: python
+    args: ["scripts/mcp/translation_server.py"]
+    tools: ["translate_file", "get_translation_status", "update_module_status", "suggest_target_dependencies"]
+tools: ['runSubagent', 'agent', 'todos', 'fetch', 'search', 'githubRepo', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages', 'rename']
 ---
 
 # Translator Agent — Code Translation Specialist
@@ -42,80 +48,17 @@ Before translating any file:
 
 ### Translation Rules
 
-#### 1. Structural Equivalence
-```
-Source Structure          →  Target Structure
-─────────────────────────────────────────────
-Classes/Structs           →  Classes/Structs (or records/interfaces)
-Functions/Methods         →  Functions/Methods
-Modules/Packages          →  Modules/Packages
-Import statements         →  Import statements (mapped)
-Type annotations          →  Type annotations (mapped)
-Error types               →  Error types (idiomatic)
-```
+Consult the `code-translation` skill for comprehensive cross-language type mapping matrices, framework mapping guides, and error handling pattern translation decision trees.
 
-#### 2. Pattern Mapping
-
-**Data Structures:**
-- Map collection types: `list` → `Array`, `dict` → `Map`/`Record`, `set` → `Set`
-- Map optional types: `Optional[T]` → `T | null`, `Option<T>` → `T?`
-- Map result types: exceptions → `Result<T,E>`, `Either`, or try/catch
-
-**Control Flow:**
-- Map pattern matching: `match` → `switch`, `when`, or chained `if`
-- Map iteration: `for...in` → `for...of`, `.forEach`, `range` loops
-- Map comprehensions: list comprehension → `.map().filter()`, LINQ, streams
-
-**Error Handling:**
-- Map exception hierarchies to target language error types
-- Preserve error messages and error codes
-- Map `try/except/finally` to target equivalent
-
-**Async Patterns:**
-- Map `async/await` 1:1 where supported
-- Map callbacks to promises/futures where appropriate
-- Map goroutines/channels to async patterns in target
-
-#### 3. Naming Conventions
-- Apply target language naming conventions automatically:
-  - `snake_case` ↔ `camelCase` ↔ `PascalCase` ↔ `kebab-case`
-- Preserve semantic meaning of names
-- Map common abbreviations to target conventions
-
-#### 4. Comment Translation
-- Translate all comments to match target language doc-comment format
-- `# Python docstring` → `/** JSDoc */` or `/// Rust doc`
-- Preserve TODO, FIXME, HACK markers
-- Add `// Translated from: {source_file}:{line}` annotation on complex sections
+#### Key Principles
+- **Structural equivalence:** Map classes→classes, functions→functions, modules→modules, imports→imports (mapped to target equivalents)
+- **Pattern mapping:** Map collection types, optional types, result types, control flow, and async patterns to target idioms. See the skill's Cross-Language Type Mapping Matrix for the full 6-language × 14-concept reference.
+- **Naming conventions:** Apply target language conventions automatically (`snake_case` ↔ `camelCase` ↔ `PascalCase`), preserving semantic meaning
+- **Comment translation:** Convert doc-comment format (`# docstring` → `/** JSDoc */` → `/// Rust doc`), preserve TODO/FIXME markers, add `// Translated from: {source_file}:{line}` on complex sections
 
 ### Translation Output Format
 
-For each translated file, produce:
-
-```markdown
-## Translation: {source_path} → {target_path}
-
-**Source:** {language} | **Target:** {language}
-**Lines:** {source_loc} → {target_loc}
-**Complexity:** {low|medium|high}
-
-### Translation Decisions
-- {Decision 1: Why pattern X was mapped to Y}
-- {Decision 2: Library substitution rationale}
-
-### Attention Areas
-- {Area requiring manual review}
-- {Potential behavioral difference}
-
-### Confidence Factors
-| Factor | Score | Notes |
-|--------|-------|-------|
-| Syntax validity | 0.15/0.15 | Clean parse |
-| Type correctness | 0.12/0.15 | 1 type inference gap |
-| Pattern fidelity | 0.18/0.20 | Direct mapping available |
-| Test mappability | 0.25/0.25 | All tests translatable |
-| Total | 0.85/1.00 | Medium-High confidence |
-```
+For each translated file, produce a summary including: source/target paths and languages, line counts, complexity rating, translation decisions (why pattern X was mapped to Y), attention areas requiring manual review, and a confidence score table using the 6-layer weights from the `code-translation` skill.
 
 ## Handling Untranslatable Patterns
 

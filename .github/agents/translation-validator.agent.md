@@ -4,7 +4,13 @@ description: "Validates translated code through a 6-layer validation stack and p
 argument-hint: "Provide translated file paths to validate against the 6-layer stack"
 model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
 disable-model-invocation: true
-tools: ['runSubagent', 'todos', 'search', 'readFile', 'fileSearch', 'changes', 'edit', 'runCommands', 'problems', 'usages']
+mcp-servers:
+  translation:
+    type: stdio
+    command: python
+    args: ["scripts/mcp/translation_server.py"]
+    tools: ["validate_translation", "calculate_confidence", "calculate_repo_confidence", "get_translation_status", "update_module_status"]
+tools: ['runSubagent', 'agent', 'todos', 'search', 'readFile', 'fileSearch', 'changes', 'runCommands', 'problems', 'usages']
 ---
 
 # Translation Validator Agent — Quality Assurance Specialist
@@ -19,103 +25,33 @@ Ensure every translated file is functionally correct, type-safe, idiomatic, and 
 
 ## 6-Layer Validation Stack
 
-### Layer 1: Syntax Validation (Weight: 0.15)
-**Checks:** Does the code parse without syntax errors?
+Consult the `code-translation` skill § Confidence Scoring Deep Dive for the full scoring formula, layer weights, and automation thresholds.
 
-**Actions:**
-1. Run the target language parser/compiler in check mode
-2. Verify all brackets, braces, and delimiters are balanced
-3. Check string literals, escape sequences, template syntax
-4. Validate import/export statements
+### Layer Summary
 
-**Tools by Language:**
-| Language | Syntax Check Command |
-|----------|---------------------|
-| TypeScript | `npx tsc --noEmit` |
-| Python | `python -m py_compile {file}` |
-| Rust | `cargo check` |
-| Go | `go vet ./...` |
-| Java | `javac -Xlint:all {file}` |
-| C# | `dotnet build --no-restore` |
+| Layer | Weight | Check | Pass Criteria |
+|-------|--------|-------|---------------|
+| 1. Syntax | 0.15 | Parse without errors | Binary: 1.0 or 0.0 |
+| 2. Types | 0.15 | Type checker strict mode | Deduct 0.1 per error |
+| 3. Lint | 0.10 | Linter with project config | Deduct 0.05/warning, 0.15/error |
+| 4. Unit Tests | 0.25 | Translated test suite | `passing / total` |
+| 5. Integration | 0.15 | Cross-module tests | `passing / total` |
+| 6. Equivalence | 0.20 | Same inputs → same outputs | 1.0=perfect, 0.5=edge cases diverge, 0.0=different behavior |
 
-**Score:** 1.0 if clean, 0.0 if any syntax errors
+### Per-Language Tool Commands
 
-### Layer 2: Type Correctness (Weight: 0.15)
-**Checks:** Do all types resolve correctly?
+| Language | Syntax | Lint |
+|----------|--------|------|
+| TypeScript | `npx tsc --noEmit` | `npx eslint {file}` |
+| Python | `python -m py_compile {file}` | `ruff check {file}` |
+| Rust | `cargo check` | `cargo clippy` |
+| Go | `go vet ./...` | `golangci-lint run` |
+| Java | `javac -Xlint:all {file}` | `checkstyle {file}` |
+| C# | `dotnet build --no-restore` | `dotnet format --verify-no-changes` |
 
-**Actions:**
-1. Run type checker in strict mode
-2. Verify generic/template type parameters
-3. Check interface/trait implementations
-4. Validate type narrowing and casting
-
-**Score:** 1.0 if clean, deduct 0.1 per type error (floor 0.0)
-
-### Layer 3: Lint Compliance (Weight: 0.10)
-**Checks:** Does the code follow target language conventions?
-
-**Actions:**
-1. Run linter with project configuration
-2. Check naming conventions (camelCase, snake_case, etc.)
-3. Verify code formatting
-4. Check for anti-patterns and code smells
-
-**Tools by Language:**
-| Language | Lint Command |
-|----------|-------------|
-| TypeScript | `npx eslint {file}` |
-| Python | `ruff check {file}` or `flake8 {file}` |
-| Rust | `cargo clippy` |
-| Go | `golangci-lint run` |
-| Java | `checkstyle {file}` |
-| C# | `dotnet format --verify-no-changes` |
-
-**Score:** 1.0 if clean, deduct 0.05 per warning, 0.15 per error (floor 0.0)
-
-### Layer 4: Unit Test Pass Rate (Weight: 0.25)
-**Checks:** Do translated unit tests pass?
-
-**Actions:**
-1. Run translated test suite for the module
-2. Compare pass/fail ratio
-3. Identify tests that fail due to translation vs source bugs
-4. Check edge cases and boundary conditions
-
-**Score:** `passing_tests / total_tests`
-
-### Layer 5: Integration Test Pass Rate (Weight: 0.15)
-**Checks:** Do cross-module interactions work correctly?
-
-**Actions:**
-1. Run integration tests involving the translated module
-2. Verify API contracts between modules
-3. Check database interactions, network calls
-4. Validate middleware chains and pipelines
-
-**Score:** `passing_integration_tests / total_integration_tests`
-
-### Layer 6: Behavioral Equivalence (Weight: 0.20)
-**Checks:** Does the translated code produce identical outputs for identical inputs?
-
-**Actions:**
-1. Compare function signatures (param types, return types)
-2. Run identical inputs through source and target, compare outputs
-3. Check error conditions produce equivalent error types/messages
-4. Verify side effects (file writes, API calls) are equivalent
-5. Compare performance characteristics (within 2x acceptable)
-
-**Scoring:**
-- 1.0: Perfect equivalence on all test vectors
-- 0.8: Minor output format differences (whitespace, ordering)
-- 0.5: Some edge cases diverge
-- 0.2: Core behavior matches but significant differences
-- 0.0: Fundamentally different behavior
-
-## Confidence Score Calculation
+### Confidence Score
 
 $$\text{File Score} = \sum_{l=1}^{6} w_l \times s_l$$
-
-Where $w_l$ is the layer weight and $s_l$ is the layer score.
 
 ## Retry Protocol
 

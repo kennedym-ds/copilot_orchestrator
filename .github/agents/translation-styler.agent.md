@@ -4,7 +4,13 @@ description: "Applies target language idioms, conventions, and best practices to
 argument-hint: "Provide translated file paths to apply target language idioms and style conventions"
 model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
 disable-model-invocation: true
-tools: ['todos', 'search', 'readFile', 'fileSearch', 'edit', 'runCommands', 'problems', 'usages']
+mcp-servers:
+  translation:
+    type: stdio
+    command: python
+    args: ["scripts/mcp/translation_server.py"]
+    tools: ["get_translation_status", "update_module_status"]
+tools: ['runSubagent', 'agent', 'todos', 'search', 'readFile', 'fileSearch', 'edit', 'runCommands', 'problems', 'usages', 'rename']
 ---
 
 # Translation Styler Agent — Idiomatic Code Specialist
@@ -31,76 +37,13 @@ Ensure translated code doesn't just work — it looks and feels like it was writ
 
 ### Idiomatic Transformations by Target Language
 
-#### TypeScript
-```typescript
-// ❌ Non-idiomatic (Python-style)
-function getUser(id: number): User | null {
-    const result = users.filter(u => u.id === id);
-    if (result.length > 0) {
-        return result[0];
-    }
-    return null;
-}
+Consult the `code-translation` skill § Anti-Patterns for before/after examples across languages.
 
-// ✅ Idiomatic TypeScript
-function getUser(id: number): User | undefined {
-    return users.find(u => u.id === id);
-}
-```
-
-#### Python
-```python
-# ❌ Non-idiomatic (Java-style)
-def get_even_numbers(numbers):
-    result = []
-    for num in numbers:
-        if num % 2 == 0:
-            result.append(num)
-    return result
-
-# ✅ Idiomatic Python
-def get_even_numbers(numbers: list[int]) -> list[int]:
-    return [num for num in numbers if num % 2 == 0]
-```
-
-#### Rust
-```rust
-// ❌ Non-idiomatic (Java-style)
-fn find_user(users: &Vec<User>, id: u64) -> Option<User> {
-    for user in users.iter() {
-        if user.id == id {
-            return Some(user.clone());
-        }
-    }
-    return None;
-}
-
-// ✅ Idiomatic Rust
-fn find_user(users: &[User], id: u64) -> Option<&User> {
-    users.iter().find(|u| u.id == id)
-}
-```
-
-#### Go
-```go
-// ❌ Non-idiomatic (exception-style)
-func getUser(id int) (*User, error) {
-    user := findInDB(id)
-    if user == nil {
-        return nil, fmt.Errorf("user not found")
-    }
-    return user, nil
-}
-
-// ✅ Idiomatic Go
-func GetUser(id int) (*User, error) {
-    user, err := findInDB(id)
-    if err != nil {
-        return nil, fmt.Errorf("getting user %d: %w", id, err)
-    }
-    return user, nil
-}
-```
+**Key principles:**
+- Replace verbose loops with language-native collection operations (list comprehensions in Python, `.find()` in TypeScript, iterator chains in Rust)
+- Use target language null/absence idioms (`undefined` in TS, `Option<T>` in Rust, error returns in Go)
+- Wrap errors with context using the target language's convention (`fmt.Errorf("...: %w", err)` in Go, `anyhow::Context` in Rust)
+- Prefer slices over owned collections in function parameters where the target language supports it
 
 ### File Organization
 

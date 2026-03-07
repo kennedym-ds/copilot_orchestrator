@@ -18,6 +18,22 @@ Each entry should include:
 
 ## Changes
 
+### 2026-03-07 - Agent Streamlining & Tool Alignment
+
+#### v3.3.0 - Agent↔Skill Deduplication, Commands Extraction, Tool Audit
+**File:** `.github/agents/translation-conductor.agent.md`, `.github/agents/translation-validator.agent.md`, `.github/agents/translator.agent.md`, `.github/agents/translation-analyzer.agent.md`, `.github/agents/translation-styler.agent.md`, `.github/agents/reviewer.agent.md`, `.github/agents/lint.agent.md`, `.github/agents/beast-mode.agent.md`, `.github/agents/deployment.agent.md`, `.github/agents/visualizer.agent.md`, `.github/agents/red-team.agent.md`, `.github/agents/docs.agent.md`, `.github/agents/performance.agent.md`, `.github/agents/maintainer.agent.md`, `.github/agents/implementer.agent.md`, `.github/agents/test.agent.md`, `.github/agents/terraform.agent.md`, `.github/agents/bicep.agent.md`, `.github/agents/github-ops.agent.md`, `.github/agents/observability.agent.md`
+**Type:** Modified (20 agent files)
+**Description:** Three-part streamlining pass to reduce duplication and align tool access with agent roles:
+- **Agent↔Skill Deduplication**: 5 translation agents had ~215 lines of duplicated content (confidence scoring, validation stacks, idiomatic examples, translation rules) that duplicated the `code-translation` skill. Replaced inline reference material with skill cross-references while preserving agent-specific context.
+- **Commands Section Extraction**: 13 agents duplicated standard validation commands already documented in `AGENTS.md`. Removed standard commands from 10 agents entirely; preserved domain-specific commands in 3 agents (test: Pester, terraform: tf CLI, bicep: az CLI).
+- **Frontmatter Tool Audit & Fix**: Audited all 28 agents' `tools:` arrays against their roles. Fixed 5 agents: docs (+`changes`, `runCommands`, `askQuestions`), github-ops (+`edit`), observability (-`edit`, -`runCommands`), performance (+`runCommands`), translation-validator (-`edit`).
+**Expected Impact:**
+- Quality: + (agents reference canonical skill content instead of maintaining duplicates; tool arrays match actual permissions)
+- Cost: + (estimated ~6-7 KB reduction in agent file sizes reduces context window usage)
+- Speed: Neutral (no workflow changes)
+**Rollback Plan:** Restore agent files from git history. The `code-translation` skill already exists and is not modified.
+**Metrics:** Track: agent file sizes via `token-report.ps1`, skill invocation rates, tool denial rates in agent sessions.
+
 ### 2026-03-05 - VS Code 1.110 Integration
 
 #### v3.2.0 - VS Code 1.110 Feature Alignment

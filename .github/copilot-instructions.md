@@ -75,172 +75,21 @@ Security: never expose token values in chat, logs, artifacts, or files.
 
 ## VS Code Settings
 
+See `AGENTS.md` for the full VS Code settings block (1.108–1.110), agent sessions integration, and feature updates.
+
+Essential paths for agent loading:
 ```json
 {
-    "chat.useAgentsMdFile": true,
-    "chat.useNestedAgentsMdFiles": true,
     "chat.instructionsFilesLocations": ["instructions"],
     "chat.promptFilesLocations": [".github/prompts"],
     "chat.agentFilesLocations": { ".github/agents": true },
-    "chat.agentSkillsLocations": { ".github/skills": true },
-    "chat.useAgentSkills": true,
-    "chat.useClaudeSkills": true,
-    "chat.agentCustomizationSkill.enabled": true,
-    "chat.customAgentInSubagent.enabled": true,
-    "github.copilot.chat.searchSubagent.enabled": true,
-    "github.copilot.chat.customAgents.showOrganizationAndEnterpriseAgents": true,
-    "github.copilot.chat.cli.customAgents.enabled": true,
-    "github.copilot.chat.organizationInstructions.enabled": true,
-    "chat.thinking.style": "collapsed",
-    "chat.agent.thinking.collapsedTools": true,
-    "chat.agent.thinking.terminalTools": true,
-    "chat.tools.autoExpandFailures": true,
-    "chat.askQuestions.enabled": true,
-    "chat.requestQueuing.enabled": true,
-    "chat.requestQueuing.defaultAction": "steer",
-    "chat.hooks.enabled": true,
-    "github.copilot.chat.anthropic.thinking.budgetTokens": 10000,
-    "github.copilot.chat.anthropic.toolSearchTool.enabled": true,
-    "github.copilot.chat.anthropic.contextEditing.enabled": true,
-    "github.copilot.chat.copilotMemory.enabled": true,
-    "github.copilot.chat.advanced.workspace.codeSearchExternalIngest.enabled": true,
-    "chat.viewSessions.enabled": true,
-    "chat.viewSessions.orientation": "sideBySide",
-    "chat.restoreLastPanelSession": false,
-    "chat.agentsControl.enabled": true,
-    "chat.agentsControl.clickBehavior": "cycle",
-    "workbench.startupEditor": "agentSessionsWelcomePage",
-    "github.copilot.chat.implementAgent.model": "Claude Sonnet 4.6 (copilot)",
-    "chat.tools.terminal.enableAutoApprove": true,
-    "chat.tools.terminal.autoApproveWorkspaceNpmScripts": true,
-    "chat.tools.terminal.preventShellHistory": true,
-    "chat.tools.terminal.simpleCollapsible": true,
-    "chat.tools.terminal.sandbox.enabled": true,
-    "terminal.integrated.enableKittyKeyboardProtocol": true,
-    "terminal.integrated.enableImages": true,
-    "workbench.browser.openLocalhostLinks": true,
-    "simpleBrowser.useIntegratedBrowser": true,
-    "workbench.browser.enableChatTools": true,
-    "inlineChat.affordance": "editor",
-    "inlineChat.renderMode": "hover",
-    "chat.editMode.hidden": true,
-    "chat.plugins.enabled": true,
-    "chat.exploreAgent.defaultModel": "Claude Haiku 4.5 (copilot)",
-    "chat.notifyWindowOnResponseReceived": "always",
-    "chat.notifyWindowOnConfirmation": "always",
-    "chat.tips.enabled": true,
-    "git.worktreeIncludeFiles": [".env.local", "token-thresholds.json"],
-    "git.addAICoAuthor": "chatAndAgent",
-    "workbench.notifications.position": "bottom-left"
+    "chat.agentSkillsLocations": { ".github/skills": true }
 }
 ```
 
-> **Global access:** To use agents in any VS Code window, add the `*FilesLocations` settings to your **user** `settings.json` with tilde paths (e.g., `"~/Projects/copilot_orchestrator/.github/agents": true`). See `docs/guides/vscode-copilot-configuration.md` for full setup.
->
-> **Deprecated settings:** `chat.modeFilesLocations` has been removed (use `chat.agentFilesLocations`). `chat.viewRestorePreviousSession` was renamed to `chat.restoreLastPanelSession` in 1.108.
-
-**VS Code 1.109 Updates:**
-- **Agent Skills GA**: `chat.useAgentSkills` now `true` by default; skills in `.github/skills/` load automatically. Configure paths with `chat.agentSkillsLocations`.
-- **Agent Customization**: New `chat.agentFilesLocations` for custom agent search paths. Agent frontmatter supports `user-invokable`, `disable-model-invocation`, `agents` (subagent allowlist), and multiple model fallbacks.
-- **Thinking Tokens**: Renamed `chat.agent.thinkingStyle` → `chat.thinking.style`. New `chat.agent.thinking.terminalTools` shows reasoning between tool calls. `chat.tools.autoExpandFailures` auto-expands failed tool calls.
-- **Anthropic Enhancements**: Messages API with interleaved thinking (`github.copilot.chat.anthropic.thinking.budgetTokens`), tool search (`toolSearchTool.enabled`), context editing (`contextEditing.enabled`).
-- **Ask Questions**: `chat.askQuestions.enabled` lets agents ask clarifying questions instead of assuming.
-- **Agent Status**: `chat.agentsControl.enabled` shows session status indicator in command center. `clickBehavior: "cycle"` cycles chat view states.
-- **Search Subagent**: `github.copilot.chat.searchSubagent.enabled` runs code search in isolated context window.
-- **Copilot Memory**: `github.copilot.chat.copilotMemory.enabled` replaces legacy `tools.memory.enabled` — stores/recalls info across sessions.
-- **External Indexing**: `github.copilot.chat.advanced.workspace.codeSearchExternalIngest.enabled` enables remote indexing for non-GitHub workspaces.
-- **Welcome Page**: `workbench.startupEditor: "agentSessionsWelcomePage"` surfaces agent sessions on startup.
-- **Plan Agent**: `/plan` command with 4-phase workflow. `github.copilot.chat.implementAgent.model` sets default model for implementation step.
-- **Integrated Browser**: `workbench.browser.openLocalhostLinks` + `simpleBrowser.useIntegratedBrowser` for in-editor browsing with DevTools.
-- **Claude Agent**: New Claude Agent session type using Anthropic's agent SDK (Preview).
-- **MCP Apps**: Interactive UI from MCP servers rendered directly in chat.
-- **Organization Instructions**: `github.copilot.chat.organizationInstructions.enabled` auto-applies org-level instructions.
-- **Kitty Keyboard**: `terminal.integrated.enableKittyKeyboardProtocol` fixes key handling in terminal apps (shift+enter in agentic CLIs).
-- **Git Worktrees**: `git.worktreeIncludeFiles` copies specified files to worktrees for background agents.
-- **Parallel Subagents**: Subagents now run in parallel for independent tasks, plus handoffs support `model` parameter.
-
-**VS Code 1.110 Updates:**
-- **Agent Plugins (Experimental)**: `chat.plugins.enabled` enables installable bundles of skills, tools, and hooks from the Extensions view. Configure sources with `chat.plugins.marketplaces` and `chat.plugins.paths`.
-- **Agentic Browser Tools (Experimental)**: `workbench.browser.enableChatTools` gives agents full browser control (`openBrowserPage`, `navigatePage`, `readPage`, `screenshotPage`, `clickElement`, `typeInPage`, `runPlaywrightCode`). Enables web app testing and interaction from agent sessions.
-- **Explore Subagent**: Plan agent delegates codebase research to the Explore subagent (read-only, fast model). `chat.exploreAgent.defaultModel` sets the model. Replaces expensive inline search calls.
-- **Context Compaction**: `/compact` command with optional custom instructions for manual context window control. Background/Claude agents also support compaction with context window rendering.
-- **Session Forking**: `/fork` creates an independent session branch with inherited conversation history — explore alternatives without losing context.
-- **Agent Debug Panel**: `Developer: Open Agent Debug Panel` replaces the old right-click Diagnostics action. Shows loaded agents, instructions, skills, prompts, and MCP servers.
-- **Edit Mode Deprecated**: `chat.editMode.hidden` (default `true`) hides Edit mode from the mode picker. Will be removed in 1.125. Agent mode replaces Edit mode for file editing.
-- **Create Agent Customizations**: `/create-prompt`, `/create-instruction`, `/create-skill`, `/create-agent`, `/create-hook` slash commands for scaffolding customization files from chat.
-- **Usages & Rename Tools**: `usages` tool updated, `rename` tool added — LSP-aware refactoring now available to agents.
-- **Terminal Sandboxing (Preview)**: `chat.tools.terminal.sandbox.enabled` restricts agent terminal access (filesystem, network) for safer execution.
-- **Collapsible Terminal**: `chat.tools.terminal.simpleCollapsible` collapses terminal tool calls for reduced visual noise.
-- **OS Notifications**: `chat.notifyWindowOnResponseReceived` and `chat.notifyWindowOnConfirmation` send native OS notifications — set to `"always"` for long-running agent tasks.
-- **Inline Chat Modes**: `inlineChat.affordance` changed from boolean to enum (`"off"`, `"editor"`, `"gutter"`). `inlineChat.renderMode` adds hover-based UI. Inline chat now queues into active agent sessions.
-- **Kitty Graphics Protocol**: `terminal.integrated.enableImages` enables GPU-accelerated image rendering in the integrated terminal.
-- **AI Co-Author**: `git.addAICoAuthor` (`"off"`, `"chatAndAgent"`, `"all"`) adds Copilot as co-author in commit messages when agent generates changes.
-- **Session Memory for Plans**: Plans persist to session memory across turns, surviving context compaction.
-- **Contextual Tips**: `chat.tips.enabled` shows contextual tips for agent features and workflows.
-- **Ask Questions Core**: Ask questions tool is now a VS Code core feature (moved out of Anthropic-specific), with steering/queuing support.
-- **Anti-Suspend**: VS Code prevents OS from suspending the machine while a chat response is in progress.
-- **Slash Commands for Auto-Approve**: `/autoApprove` and `/disableAutoApprove` (aliases: `/yolo`, `/disableYolo`) toggle tool auto-approval from chat.
-
-**VS Code 1.108 Updates:**
-- **Agent Sessions UI**: Keyboard navigation (↑↓ arrows, Enter, Delete, Space), session grouping (by state/age), multi-session archiving (Shift+Click, Ctrl+Click), changed files and PR display per session, Quick Open integration (`agent <name>`)
-- **Session Persistence**: `chat.restoreLastPanelSession` (default: `false`) starts with empty chat and prevents context leakage between tasks (renamed from `chat.viewRestorePreviousSession` in 1.108)
-- **Orientation**: Replaced deprecated `"auto"` with `"sideBySide"` for `chat.viewSessions.orientation` — enables session grouping features
-- **Agent Skills**: `chat.useAgentSkills` is now GA and enabled by default (was experimental in 1.108; see Phase 6 pilot for on-demand loading evaluation)
-- **Terminal Auto-Approve**: Added `enableAutoApprove`, `autoApproveWorkspaceNpmScripts`, `preventShellHistory` for safer command execution with reduced prompts
-
-## Artifact Storage
-
-Agents persist outputs to local `artifacts/` folder (14 subfolders):
-
-| Folder | Agents | Content |
-|--------|--------|---------|
-| `plans/` | Conductor, Planner, Implementer | Implementation plans, phase completions |
-| `reviews/` | Reviewer | Code review verdicts, findings |
-| `research/` | Researcher | Research briefs, citations |
-| `security/` | Security | Threat assessments, audit reports |
-| `sessions/` | Conductor | Session state for resume/continuity |
-| `performance/` | Performance | Profiling reports, optimization recs |
-| `docs/` | Docs | Documentation drafts, reviews |
-| `releases/` | Maintainer | Release notes, triage reports |
-| `telemetry/` | Observability | Metrics analysis, platform reports |
-| `deployments/` | Deployment | Deployment plans, runbooks |
-| `red-team/` | Red Team | Adversarial analysis, exploit reports |
-| `accessibility/` | Accessibility | WCAG audits, a11y findings |
-| `tests/` | Test | Test reports, coverage analysis |
-| `ux/` | Visualizer | UX reviews, design artifacts |
-
-Run `init-artifacts.ps1` to create the structure.
-
-## Model Allocation
-
-Agents use a five-tier model strategy to balance cost and capability:
-
-| Tier | Allocation | Models | Use Cases |
-|------|------------|--------|-----------|
-| Orchestration | ~15% | Claude Opus 4.6, Claude Sonnet 4.6 | Planning, coordination, extended reasoning |
-| Security | ~10% | Claude Opus 4.6, Claude Sonnet 4.6 | Threat modeling, adversarial testing, compliance |
-| Research | ~10% | Gemini 3.1 Pro (Preview), Claude Opus 4.6 | Context gathering, evidence synthesis, analysis |
-| Coding | ~50% | GPT-5.3-Codex, Claude Sonnet 4.6 | Implementation, testing, review, IaC, support |
-| Documentation | ~15% | Claude Sonnet 4.6, Claude Haiku 4.5 | Docs, linting, UX review, design artifacts |
-
-See `instructions/global/03_model-selection.instructions.md` for fallback chains and governance rules.
-
-## Data Science Workflow (DS-Star)
-
-For data analysis queries, the Conductor orchestrates an iterative DS-Star workflow using the Researcher, Planner, and Implementer agents:
-
-1. Conductor detects data science query → delegates to Researcher for context gathering
-2. Planner designs iterative analysis approach with success criteria
-3. Implementer executes analysis rounds (max 10 rounds, 30-min timeout)
-4. Each round produces a verdict: INSUFFICIENT, PARTIAL, or SUFFICIENT
-5. On SUFFICIENT → Docs agent creates final deliverables
-6. State persisted to `artifacts/sessions/pipeline_state.json` for resume
-
-**Trigger phrases:** "analyze data", "what factors drive", "correlation between", "predict", "forecast"
-
 ## Key References
 
-- `AGENTS.md` — Agent roster, lifecycle, model allocation, safety guardrails
+- `AGENTS.md` — Agent roster, lifecycle, model allocation, safety guardrails, VS Code settings
 - `docs/guides/onboarding.md` — New contributor setup
 - `docs/templates/` — Plan, phase-complete, and plan-complete templates
 - `docs/operations.md` — Backlog and incident tracking
