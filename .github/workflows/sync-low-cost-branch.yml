@@ -1,0 +1,126 @@
+name: Sync low-cost branch with main
+
+# Trigger on pushes to main, for any file in the copilot orchestrator scope
+on:
+  push:
+    branches:
+      - main
+    # Only trigger if these paths change (skip pure GitHub/CI updates)
+    paths:
+      - '.github/agents/**'
+      - '.github/prompts/**'
+      - '.github/skills/**'
+      - 'instructions/**'
+      - '.claude/**'
+      - 'docs/**'
+      - 'scripts/**'
+      - 'AGENTS.md'
+      - 'README.md'
+      - 'llms.txt'
+      - '.copilot-review-instructions.md'
+  workflow_dispatch: # Allow manual triggers
+
+jobs:
+  sync-low-cost:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: configure git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Checkout low-cost branch
+        run: git checkout -b low-cost origin/low-cost 2>/dev/null || git checkout low-cost
+
+      - name: Merge main into low-cost
+        run: |
+          git merge origin/main -m "Merge main into low-cost" --no-edit
+        continue-on-error: true
+
+      - name: Apply model downgrades
+        shell: bash
+        run: |
+          # Pass 1: Claude Sonnet 4.6 → Claude Haiku 4.5 (full names first)
+          for dir in .github/agents .github/prompts .github/skills instructions .claude docs; do
+            if [ -d "$dir" ]; then
+              find "$dir" -type f \( -name "*.md" -o -name "*.py" \) -exec sed -i 's/Claude Sonnet 4\.6/Claude Haiku 4.5/g' {} \;
+            fi
+          done
+
+          # Pass 2: Claude Opus 4.6 → Claude Sonnet 4.5
+          for dir in .github/agents .github/prompts .github/skills instructions .claude docs; do
+            if [ -d "$dir" ]; then
+              find "$dir" -type f \( -name "*.md" -o -name "*.py" \) -exec sed -i 's/Claude Opus 4\.6/Claude Sonnet 4.5/g' {} \;
+            fi
+          done
+
+          # Pass 3: Short-form Sonnet 4.6 → Haiku 4.5 (tables, references without "Claude" prefix)
+          for dir in .github/agents .github/prompts .github/skills instructions .claude docs; do
+            if [ -d "$dir" ]; then
+              find "$dir" -type f \( -name "*.md" -o -name "*.py" \) -exec sed -i 's/Sonnet 4\.6/Haiku 4.5/g' {} \;
+            fi
+          done
+
+          # Pass 4: Short-form Opus 4.6 → Sonnet 4.5
+          for dir in .github/agents .github/prompts .github/skills instructions .claude docs; do
+            if [ -d "$dir" ]; then
+              find "$dir" -type f \( -name "*.md" -o -name "*.py" \) -exec sed -i 's/Opus 4\.6/Sonnet 4.5/g' {} \;
+            fi
+          done
+
+          # Also update scripts directory (validate whitelist, default models)
+          if [ -d "scripts" ]; then
+            # Scripts are .ps1 and .sh — apply same replacements
+            find scripts -type f \( -name "*.ps1" -o -name "*.sh" \) -exec sed -i 's/Claude Sonnet 4\.6/Claude Haiku 4.5/g' {} \;
+            find scripts -type f \( -name "*.ps1" -o -name "*.sh" \) -exec sed -i 's/Claude Opus 4\.6/Claude Sonnet 4.5/g' {} \;
+            find scripts -type f \( -name "*.ps1" -o -name "*.sh" \) -exec sed -i 's/Sonnet 4\.6/Haiku 4.5/g' {} \;
+            find scripts -type f \( -name "*.ps1" -o -name "*.sh" \) -exec sed -i 's/Opus 4\.6/Sonnet 4.5/g' {} \;
+          fi
+
+          # Root-level files
+          for file in README.md INSTRUCTION_CHANGELOG.md llms.txt .copilot-review-instructions.md; do
+            if [ -f "$file" ]; then
+              sed -i 's/Claude Sonnet 4\.6/Claude Haiku 4.5/g' "$file"
+              sed -i 's/Claude Opus 4\.6/Claude Sonnet 4.5/g' "$file"
+              sed -i 's/Sonnet 4\.6/Haiku 4.5/g' "$file"
+              sed -i 's/Opus 4\.6/Sonnet 4.5/g' "$file"
+            fi
+          done
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if git diff --quiet; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit downgrades
+        if: steps.check_changes.outputs.changes == 'true'
+        run: |
+          git add -A
+          git commit -m "chore: apply model tier downgrades on low-cost branch" \
+            --no-verify
+
+      - name: Push low-cost
+        if: steps.check_changes.outputs.changes == 'true'
+        run: |
+          git push origin low-cost
+
+      - name: Report status
+        run: |
+          if [ "${{ steps.check_changes.outputs.changes }}" == "true" ]; then
+            echo "✅ low-cost branch synced and updated"
+          else
+            echo "ℹ️ low-cost branch is in sync, no changes needed"
+          fi
