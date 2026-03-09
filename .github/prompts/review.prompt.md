@@ -4,11 +4,7 @@ description: "Quick code review of the current file or selection with severity-t
 argument-hint: "Provide code or changes to review for quality and correctness"
 model: GPT-5.3-Codex (copilot)
 agent: agent
-tools:
-  - changes
-  - search
-  - readFile
-  - problems
+tools: [changes, search, read, problems]
 ---
 
 ## Purpose
@@ -21,7 +17,7 @@ ${selection}
 ```
 
 ## Instructions
-- Load the current diff or file using changes/readFile tools.
+- Load the current diff or file using changes/read tools.
 - Review for correctness, security, performance, and style.
 - Tag each finding as **BLOCKER**, **MAJOR**, **MINOR**, or **NIT**.
 - Check for logic errors, edge cases, off-by-one errors.

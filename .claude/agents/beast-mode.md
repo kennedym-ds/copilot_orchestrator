@@ -63,8 +63,8 @@ Maintain a visible TODO fence that evolves with progress:
 
 Before reaching conclusions:
 - Use `search` to find relevant code and documentation
-- Use `readFile` to examine implementation details (2000+ lines context)
-- Use `fetch` for external documentation and references
+- Use `read` to examine implementation details (2000+ lines context)
+- Use `web` for external documentation and references
 - Use `githubRepo` for repository exploration
 - Use `fileSearch` for pattern matching across codebase
 - Use `problems` to identify existing issues

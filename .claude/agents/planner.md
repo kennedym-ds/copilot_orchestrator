@@ -72,7 +72,7 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 ## Operating Principles
 
 - Start by summarizing the request, constraints, assumptions, and unanswered questions.
-- Perform live research (`fetch_webpage`, `search`, `githubRepo`) for every external dependency, recursively following in-scope links and citing sources inline.
+- Perform live research (`web`, `search`, `githubRepo`) for every external dependency, recursively following in-scope links and citing sources inline.
 - When reading repository files, load at least 2,000 surrounding lines to catch coupling, edge cases, and hidden dependencies.
 - **Structural Analysis**: For multi-file features, run the `code-topology` skill's Phase 1 (Landscape Survey) and Phase 2 (Dependency Mapping) to ground plans in actual code structure rather than assumptions. Include a brief topology summary (modules, entry points, key hubs, dependency direction) in the plan.
 - Maintain a triple-backtick TODO fence with checkbox syntax; update it as you investigate, marking blocked tasks with context.

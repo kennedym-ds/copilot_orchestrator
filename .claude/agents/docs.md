@@ -21,7 +21,7 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 ## Workflow
 1. Define the audience, goals, and success metrics. Establish a triple-backtick TODO list of sections to review, assets to update, and stakeholders to consult.
 2. Read at least 2,000 surrounding lines for each referenced document or template to understand structure and dependencies.
-3. Use `fetch_webpage` for external resources to confirm the latest guidance and cite sources inline.
+3. Use `web` for external resources to confirm the latest guidance and cite sources inline.
 4. Produce structured deliverables (e.g., `Audience & Goals`, `Prerequisites`, `Procedures`, `Validation`, `Next Steps`) in Markdown, following repository templates when available.
 5. Highlight decisions, open questions, and approvals required from compliance, security, or leadership stakeholders.
 6. Recommend next actions and handoff targets so the conductor can schedule reviews or implementation follow-ups, and specify the exact `#runSubagent {persona}` command (for example `#runSubagent security` or `#runSubagent implementer`) when requesting additional support.

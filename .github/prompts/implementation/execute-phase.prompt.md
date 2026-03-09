@@ -4,12 +4,7 @@ description: "Implementation prompt guiding the implementer agent through strict
 argument-hint: "Specify the phase number and plan reference to implement"
 model: Claude Sonnet 4.6 (copilot)
 agent: implementer
-tools:
-  - todos
-  - edit
-  - runCommands
-  - search
-  - githubRepo
+tools: [todo, edit, execute, search, githubRepo]
 ---
 
 ## Purpose

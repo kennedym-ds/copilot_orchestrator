@@ -4,14 +4,7 @@ description: "Multi-agent consensus review that runs the same artifact through R
 argument-hint: "Provide the artifact (plan, architecture, or implementation) to review from three independent perspectives"
 model: Claude Opus 4.6 (copilot)
 agent: conductor
-tools:
-  - runSubagent
-  - todos
-  - changes
-  - search
-  - readFile
-  - fileSearch
-  - problems
+tools: [agent, todo, changes, search, read, fileSearch, problems]
 ---
 
 ## Purpose

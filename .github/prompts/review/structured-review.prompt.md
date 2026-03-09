@@ -4,11 +4,7 @@ description: "Review prompt ensuring diffs are evaluated for correctness, tests,
 argument-hint: "Provide the code or changes for a structured severity-tagged review"
 model: GPT-5.3-Codex (copilot)
 agent: reviewer
-tools:
-  - todos
-  - changes
-  - search
-  - githubRepo
+tools: [todo, changes, search, githubRepo]
 ---
 
 ## Purpose

@@ -1,4 +1,3 @@
-````skill
 ---
 name: code-topology
 description: "Structured protocol for understanding codebase architecture through dependency mapping, call-chain tracing, data-flow analysis, and impact assessment. Use for planning, implementation, review, and any task requiring structural code understanding."
@@ -6,7 +5,7 @@ description: "Structured protocol for understanding codebase architecture throug
 
 # Code Topology — Structural Code Understanding
 
-Provides a structured 5-phase protocol for agents to build and reason about the architectural structure of a codebase using existing tools (`usages`, `search`, `readFile`, directory listing).
+Provides a structured 5-phase protocol for agents to build and reason about the architectural structure of a codebase using existing tools (`usages`, `search`, `read`, directory listing).
 
 ## Description
 
@@ -14,7 +13,7 @@ This skill teaches agents how to systematically map and understand the structure
 
 The protocol is inspired by **code topology** — the mathematical study of structural relationships within software systems — and adapts concepts from dependency graphs, call graphs, and data-flow analysis into actionable steps that work with the tools agents already have.
 
-**Key insight**: Agents don't need a full AST parser or specialized tooling to reason about code structure. The `usages` tool, `search`, `readFile`, and directory listings provide sufficient primitives — what's been missing is a *protocol* for combining them systematically.
+**Key insight**: Agents don't need a full AST parser or specialized tooling to reason about code structure. The `usages` tool, `search`, `read`, and directory listings provide sufficient primitives — what's been missing is a *protocol* for combining them systematically.
 
 ## When to Use
 
@@ -90,7 +89,7 @@ This skill is relevant when:
    data layer in {Z}, {T} test directories
    ```
 
-**Tools**: `list_dir`, `search` (for `main`, `export`, `app.`, route patterns), `readFile` (for package manifests)
+**Tools**: `list_dir`, `search` (for `main`, `export`, `app.`, route patterns), `read` (for package manifests)
 
 ---
 
@@ -132,7 +131,7 @@ This skill is relevant when:
    Risk: {circular dep | god module | none detected}
    ```
 
-**Tools**: `search` (import/require patterns), `readFile` (disambiguate dynamic imports), `usages` (verify who imports a module)
+**Tools**: `search` (import/require patterns), `read` (disambiguate dynamic imports), `usages` (verify who imports a module)
 
 ---
 
@@ -151,7 +150,7 @@ This skill is relevant when:
 
 3. **Trace callees (what does this call?)**:
    ```
-   readFile the target function → identify all outgoing calls
+   read the target function → identify all outgoing calls
    usages on each callee → understand their scope
    ```
 
@@ -177,7 +176,7 @@ This skill is relevant when:
    | Nesting depth | 1-2 | >4 |
    | Branching | 1-3 paths | >8 paths |
 
-**Tools**: `usages` (primary), `readFile` (call chain tracing), `search` (find implementations of interfaces)
+**Tools**: `usages` (primary), `read` (call chain tracing), `search` (find implementations of interfaces)
 
 ---
 
@@ -223,7 +222,7 @@ This skill is relevant when:
 - **Security review**: Trace user input forward to find if it reaches SQL queries, file operations, or eval without sanitization
 - **Feature design**: Map the data lifecycle to find the right insertion point for new logic
 
-**Tools**: `search` (event patterns, assignments), `usages` (reference tracing), `readFile` (function body inspection)
+**Tools**: `search` (event patterns, assignments), `usages` (reference tracing), `read` (function body inspection)
 
 ---
 
@@ -274,7 +273,7 @@ This skill is relevant when:
    - **Recommendation**: {proceed | proceed with caution | needs more testing | needs design review}
    ```
 
-**Tools**: `usages` (impact radius), `search` (test file discovery), `readFile` (verify test coverage of specific paths)
+**Tools**: `usages` (impact radius), `search` (test file discovery), `read` (verify test coverage of specific paths)
 
 ---
 
@@ -398,4 +397,3 @@ Phase 5 (Impact):
 - **Language-dependent regex**: Import pattern detection works well for common languages (Python, TypeScript, Java, C#, Go, Rust) but may need adaptation for less common ones.
 - **Token cost**: The full 5-phase protocol consumes significant context. Use the Quick Reference table to select only the phases needed for the task.
 - **Confidence is heuristic**: Impact assessment confidence ratings are human-calibrated guidelines, not mathematical proofs. When in doubt, rate lower.
-````

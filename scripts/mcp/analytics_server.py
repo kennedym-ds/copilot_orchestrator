@@ -29,6 +29,7 @@ Prompts:
 """
 
 from mcp.server.fastmcp import FastMCP
+from mcp.types import ToolAnnotations
 import json
 import os
 from pathlib import Path
@@ -61,7 +62,14 @@ def _safe_read(path: Path, max_size: int = 8000) -> str:
 # TOOLS — 5 analytics tools
 # ---------------------------------------------------------------------------
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
 def list_sessions(state: str = "all") -> str:
     """
     List session files from artifacts/sessions/.
@@ -97,7 +105,14 @@ def list_sessions(state: str = "all") -> str:
     return json.dumps({"sessions": sessions, "count": len(sessions)}, indent=2)
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
 def get_session(session_id: str) -> str:
     """
     Read a specific session JSON file from artifacts/sessions/.
@@ -113,7 +128,14 @@ def get_session(session_id: str) -> str:
     return _safe_read(session_path, max_size=12000)
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
 def get_metrics() -> str:
     """
     Parse the token report from artifacts/token-report.json.
@@ -127,7 +149,14 @@ def get_metrics() -> str:
     return _safe_read(report_path)
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
 def list_artifacts(folder: str = "") -> str:
     """
     Browse artifacts/ folder contents. Lists files with sizes and modification dates.
@@ -160,7 +189,14 @@ def list_artifacts(folder: str = "") -> str:
     }, indent=2)
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
 def search_artifacts(query: str, folder: str = "", file_pattern: str = "*.md") -> str:
     """
     Search artifact files by content. Returns matching files with line excerpts.

@@ -4,10 +4,7 @@ description: "Generate the final translation report with per-file and repo-level
 argument-hint: "Provide the translation session ID for the final report"
 model: Claude Opus 4.6 (copilot)
 agent: translation-conductor
-tools:
-  - search
-  - readFile
-  - changes
+tools: [search, read, changes]
 ---
 
 # Final Translation Report
@@ -19,6 +16,10 @@ All translation phases are complete. Compile the final report for the translated
 - **Source Repo:** ${input:source_repo}
 - **Source Language:** ${input:source_language}
 - **Target Language:** ${input:target_language}
+
+## Instructions
+
+Compile the final report covering all sections below. Use data from `artifacts/plans/translation/manifest.json`, validation results, and security findings.
 
 ## Report Sections
 
@@ -70,3 +71,7 @@ Display with breakdown by confidence band:
 - Medium (0.7–0.89): X files (Y% of LOC)
 - Low (0.5–0.69): X files (Y% of LOC)
 - Critical (<0.5): X files (Y% of LOC)
+
+## Output Format
+
+A single Markdown report (`artifacts/plans/translation/final-report.md`) containing all 8 sections above with tables, confidence scores, and actionable recommendations.

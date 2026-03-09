@@ -4,11 +4,7 @@ description: "Translate a specific module or file from source language to target
 argument-hint: "Specify source language, target language, and module path"
 model: GPT-5.3-Codex (copilot)
 agent: translator
-tools:
-  - search
-  - readFile
-  - edit
-  - runCommands
+tools: [search, read, edit, execute]
 ---
 
 # Translate Module
@@ -22,7 +18,7 @@ Translate the specified module from **${input:source_language}** to **${input:ta
 - **Translation Layer:** ${input:layer_number}
 - **Dependencies:** Already translated — see `artifacts/plans/translation/manifest.json`
 
-## Translation Requirements
+## Instructions
 
 ### Pre-Translation
 1. Read the full source file (2,000+ surrounding lines of context)
@@ -44,7 +40,8 @@ Translate the specified module from **${input:source_language}** to **${input:ta
 3. Produce confidence factors table
 4. Update manifest.json status for this module
 
-## Output
+## Output Format
+
 - Translated source file at target path
-- Translation decision notes
-- Confidence score breakdown
+- Translation decision notes documenting non-obvious choices
+- Confidence score breakdown (syntax, types, lint, tests, behavioral equivalence)

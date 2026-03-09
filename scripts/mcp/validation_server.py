@@ -32,7 +32,8 @@ Prompts:
     severity-review      — Severity-tagged code review
 """
 
-from mcp.server.fastmcp import FastMCP
+from mcp.server.fastmcp import FastMCP, Context
+from mcp.types import ToolAnnotations
 import subprocess
 import json
 import os
@@ -94,8 +95,15 @@ def _run_powershell(script: str, extra_args: list[str] | None = None,
 # TOOLS — 5 validation tools
 # ---------------------------------------------------------------------------
 
-@mcp.tool()
-def validate_assets(repository_root: str = ".") -> str:
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
+async def validate_assets(repository_root: str = ".", ctx: Context = None) -> str:
     """
     Run the copilot asset validation script (validate-copilot-assets.ps1).
     Checks all agent definitions, prompts, and instructions for schema compliance.
@@ -104,14 +112,25 @@ def validate_assets(repository_root: str = ".") -> str:
     Args:
         repository_root: Path to the repository root (default: current directory).
     """
+    if ctx:
+        await ctx.report_progress(progress=0, total=1, message="Running asset validation...")
     result = _run_powershell(
         "validate-copilot-assets.ps1",
         ["-RepositoryRoot", repository_root],
     )
+    if ctx:
+        await ctx.report_progress(progress=1, total=1, message="Validation complete")
     return json.dumps(result, indent=2)
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
 def check_metadata(repository_root: str = ".") -> str:
     """
     Check prompt metadata without modifying files (add-prompt-metadata.ps1 -CheckOnly).
@@ -128,8 +147,15 @@ def check_metadata(repository_root: str = ".") -> str:
     return json.dumps(result, indent=2)
 
 
-@mcp.tool()
-def run_lint(repository_root: str = ".") -> str:
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
+async def run_lint(repository_root: str = ".", ctx: Context = None) -> str:
     """
     Run the repository linting script (run-lint.ps1).
     Checks code style, formatting, and convention compliance.
@@ -138,15 +164,26 @@ def run_lint(repository_root: str = ".") -> str:
     Args:
         repository_root: Path to the repository root (default: current directory).
     """
+    if ctx:
+        await ctx.report_progress(progress=0, total=1, message="Running lint checks...")
     result = _run_powershell(
         "run-lint.ps1",
         ["-RepositoryRoot", repository_root],
     )
+    if ctx:
+        await ctx.report_progress(progress=1, total=1, message="Lint complete")
     return json.dumps(result, indent=2)
 
 
-@mcp.tool()
-def run_smoke_tests(repository_root: str = ".") -> str:
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
+async def run_smoke_tests(repository_root: str = ".", ctx: Context = None) -> str:
     """
     Run the smoke test suite (run-smoke-tests.ps1).
     Validates that the core orchestrator features are functional.
@@ -155,14 +192,25 @@ def run_smoke_tests(repository_root: str = ".") -> str:
     Args:
         repository_root: Path to the repository root (default: current directory).
     """
+    if ctx:
+        await ctx.report_progress(progress=0, total=1, message="Running smoke tests...")
     result = _run_powershell(
         "run-smoke-tests.ps1",
         ["-RepositoryRoot", repository_root],
     )
+    if ctx:
+        await ctx.report_progress(progress=1, total=1, message="Smoke tests complete")
     return json.dumps(result, indent=2)
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
 def token_report(path: str = ".", config_path: str = "token-thresholds.json") -> str:
     """
     Generate a token budget report (token-report.ps1).

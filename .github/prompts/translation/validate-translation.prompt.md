@@ -4,11 +4,7 @@ description: "Run the 6-layer validation stack against translated files and prod
 argument-hint: "Provide the source and target files to validate translation"
 model: GPT-5.3-Codex (copilot)
 agent: translation-validator
-tools:
-  - search
-  - readFile
-  - runCommands
-  - problems
+tools: [search, read, execute, problems]
 ---
 
 # Validate Translation
@@ -22,9 +18,9 @@ Validate the translated file(s) against the 6-layer validation stack and produce
 - **Target Language:** ${input:target_language}
 - **Original Source:** ${input:source_file_paths}
 
-## Validation Stack
+## Instructions
 
-Execute each layer in sequence. Stop and report if a layer fails catastrophically.
+Execute each validation layer in sequence. Stop and report if a layer fails catastrophically.
 
 ### Layer 1: Syntax Validation (Weight: 0.15)
 Run the target language parser to verify the code parses cleanly.
@@ -44,7 +40,8 @@ Run cross-module integration tests if available.
 ### Layer 6: Behavioral Equivalence (Weight: 0.20)
 Compare function signatures and behaviors between source and target.
 
-## Output
+## Output Format
+
 - Validation report with per-layer scores
 - Overall confidence score (0.0–1.0)
 - List of failures with remediation recommendations

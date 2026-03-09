@@ -4,12 +4,7 @@ description: "Support prompt that helps documentation specialists craft onboardi
 argument-hint: "Describe the repository or project to create an onboarding guide for"
 model: Claude Sonnet 4.6 (copilot)
 agent: docs
-tools:
-  - todos
-  - readFile
-  - fetch
-  - search
-  - githubRepo
+tools: [todo, read, web, search, githubRepo]
 ---
 
 ## Purpose
@@ -17,7 +12,7 @@ Provide a reusable starting point for producing onboarding documentation, sample
 
 ## Instructions
 - Audit existing onboarding materials (`docs/README.md`, `docs/operations.md`, templates under `docs/templates/`) before drafting new copy.
-- Use `fetch_webpage` for any external references to ensure up-to-date guidance.
+- Use `web` for any external references to ensure up-to-date guidance.
 - Maintain a TODO checklist (triple backticks, checkbox syntax) covering prerequisites, artifacts to generate, reviews required, and follow-up tasks.
 - Draft concise onboarding narratives that link directly to templates, instructions, validation scripts, and relevant support personas (security, performance) when coordination is required.
 - Identify knowledge gaps or missing assets and log them as follow-up items for the conductor.
@@ -33,6 +28,6 @@ Return markdown with:
 
 ## Validation Checklist
 - ✅ TODO checklist is current and fully resolved or delegated.
-- ✅ All external references were retrieved with `fetch_webpage`.
+- ✅ All external references were retrieved with `web`.
 - ✅ Each recommended artifact links to the appropriate template or script.
 - ✅ The prompt stops short of implementing documentation changes; it only plans them.

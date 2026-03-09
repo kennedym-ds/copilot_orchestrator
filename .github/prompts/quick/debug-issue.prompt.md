@@ -4,11 +4,7 @@ description: "Structured debugging workflow: reproduce, isolate, hypothesize, fi
 argument-hint: "Describe the bug or paste the error message to debug"
 model: GPT-5.3-Codex (copilot)
 agent: agent
-tools:
-  - search
-  - edit
-  - runCommands
-  - changes
+tools: [search, edit, execute, changes]
 ---
 
 ## Purpose

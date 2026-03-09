@@ -4,9 +4,7 @@ description: "Generate a structured pull request description from the current di
 argument-hint: "Describe the PR scope or provide the branch name"
 model: Claude Sonnet 4.6 (copilot)
 agent: agent
-tools:
-  - changes
-  - search
+tools: [changes, search]
 ---
 
 ## Purpose

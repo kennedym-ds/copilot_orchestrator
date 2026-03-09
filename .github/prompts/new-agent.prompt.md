@@ -4,12 +4,7 @@ description: "Scaffold a new custom agent definition file following repository p
 argument-hint: "Describe the agents purpose, domain, and responsibilities"
 model: GPT-5.3-Codex (copilot)
 agent: agent
-tools:
-  - readFile
-  - fileSearch
-  - search
-  - edit
-  - askQuestions
+tools: [read, fileSearch, search, edit, askQuestions]
 ---
 
 ## Purpose

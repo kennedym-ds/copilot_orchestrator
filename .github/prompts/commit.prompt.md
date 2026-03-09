@@ -4,8 +4,7 @@ description: "Generate a conventional commit message from staged changes."
 argument-hint: "Describe the changes for a conventional commit message"
 model: Claude Sonnet 4.6 (copilot)
 agent: agent
-tools:
-  - changes
+tools: [changes]
 ---
 
 ## Purpose
@@ -18,6 +17,7 @@ Generate a well-formatted conventional commit message from the current staged ch
 - Write a concise description in imperative mood, lowercase, no period, max 72 chars.
 - Add a body explaining *what* and *why* (not *how*) if the change is non-trivial.
 - Reference issues with `Closes #N` or `Refs #N` in footer if applicable.
+- Add `BREAKING CHANGE: description` in footer for breaking changes.
 - If changes span multiple concerns, suggest separate commits.
 
 ## Output Format

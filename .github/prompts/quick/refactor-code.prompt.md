@@ -4,11 +4,7 @@ description: "Refactor selected code for clarity, maintainability, and adherence
 argument-hint: "Select or describe the code to refactor"
 model: GPT-5.3-Codex (copilot)
 agent: agent
-tools:
-  - search
-  - edit
-  - runCommands
-  - changes
+tools: [search, edit, execute, changes]
 ---
 
 ## Purpose

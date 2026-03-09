@@ -4,9 +4,7 @@ description: "Fast code review with severity-tagged findings — no conductor wo
 argument-hint: "Paste code or describe the file to review quickly"
 model: GPT-5.3-Codex (copilot)
 agent: agent
-tools:
-  - changes
-  - search
+tools: [changes, search]
 ---
 
 ## Purpose

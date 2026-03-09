@@ -4,13 +4,7 @@ description: "Security support prompt for assessing plans or diffs against polic
 argument-hint: "Provide the code or feature to assess for security vulnerabilities"
 model: GPT-5.3-Codex (copilot)
 agent: security
-tools:
-  - todos
-  - changes
-  - readFile
-  - search
-  - githubRepo
-  - fetch
+tools: [todo, changes, read, search, githubRepo, web]
 ---
 
 ## Purpose
@@ -19,7 +13,7 @@ Guide the security support agent through a structured review of the current plan
 ## Instructions
 - Start with a TODO fence (triple backticks, checkbox syntax) covering STRIDE categories, data handling, secrets, logging, and dependency risks.
 - Load at least 2,000 surrounding lines for each relevant file to understand trust boundaries and existing safeguards.
-- Use `changes` for diffs and `fetch_webpage` for referenced policies or advisories; cite sources with URLs and timestamps.
+- Use `changes` for diffs and `web` for referenced policies or advisories; cite sources with URLs and timestamps.
 - Identify potential vulnerabilities, abuse cases, and compliance gaps. Classify findings by severity (`[BLOCKER]`, `[HIGH]`, `[MEDIUM]`, `[LOW]`).
 - Recommend mitigations, compensating controls, and validation steps (tests, scans, audits). Note required approvals (e.g., privacy, legal, security sign-off).
 - Escalate immediately if secrets or regulated data appear in the change.

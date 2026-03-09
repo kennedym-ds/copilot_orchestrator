@@ -1,4 +1,5 @@
 from mcp.server.fastmcp import FastMCP
+from mcp.types import ToolAnnotations
 import math
 
 # Initialize the MCP server
@@ -38,7 +39,14 @@ def _contrast_ratio(l1, l2):
     darker = min(l1, l2)
     return (lighter + 0.05) / (darker + 0.05)
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
 def get_brand_palette() -> list[dict]:
     """
     Returns the official brand color palette.
@@ -46,7 +54,14 @@ def get_brand_palette() -> list[dict]:
     """
     return BRAND_PALETTE
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
 def check_contrast(fg_hex: str, bg_hex: str) -> dict:
     """
     Calculates the contrast ratio between a foreground and background color.
@@ -71,7 +86,14 @@ def check_contrast(fg_hex: str, bg_hex: str) -> dict:
     except Exception as e:
         return {"error": str(e), "pass_AA": False, "ratio": 0.0}
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
 def search_components(query: str) -> list[dict]:
     """
     Search for approved UI components in the design system.

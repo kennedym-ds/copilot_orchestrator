@@ -6,7 +6,7 @@ This directory hosts prompt templates for orchestrated workflows. Follow these g
 - Restrict front matter keys to the supported schema (`name`, `description`, `model`, `agent`, `tools`, optional `argument-hint`). Use hyphenated identifiers for `name`.
 - Reference `AGENTS.md` at the repository root plus workflow instructions in `instructions/workflows/` for persona-specific nuances.
 - Require every prompt body to include **Purpose**, **Instructions**, **Output Format**, and **Validation Checklist** sections so downstream agents have predictable structure.
-- Reinforce mandatory practices: 2,000-line contextual reads, recursive `fetch_webpage` usage for all URLs, TODO lists in triple backticks, and explicit validation/test expectations.
+- Reinforce mandatory practices: 2,000-line contextual reads, recursive `web` usage for all URLs, TODO lists in triple backticks, and explicit validation/test expectations.
 - Avoid implementation guidance in research or planning prompts; enforce clear stop conditions so the conductor can gate progress.
 - After adding or modifying prompts, run:
   - `pwsh -File scripts/add-prompt-metadata.ps1 -RepositoryRoot . -CheckOnly`

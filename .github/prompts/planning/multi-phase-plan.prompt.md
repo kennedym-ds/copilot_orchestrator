@@ -4,12 +4,7 @@ description: "Planner prompt for breaking complex requests into conductor-ready 
 argument-hint: "Describe the feature or task to plan with phased implementation"
 model: Claude Opus 4.6 (copilot)
 agent: planner
-tools:
-  - todos
-  - readFile
-  - fetch
-  - search
-  - githubRepo
+tools: [todo, read, web, search, githubRepo]
 ---
 
 ## Purpose
@@ -18,7 +13,7 @@ Guide the planner persona through producing a full plan artifact aligned with `d
 ## Instructions
 - Confirm understanding of the task, constraints, and success metrics based on the latest conversation context and repository docs.
 - Read all relevant files (minimum 2,000 surrounding lines when browsing code) before proposing any work.
-- Use `fetch_webpage` for every URL encountered in source material or user input to avoid stale references.
+- Use `web` for every URL encountered in source material or user input to avoid stale references.
 - Build and maintain a TODO list inside triple backticks using checkbox syntax. Keep it updated throughout the planning flow.
 - If gaps remain, launch the `researcher` agent via `#runSubagent` with specific questions before finalizing the plan.
 - Map the plan to numbered phases with explicit objectives, target files, test strategy, risks, mitigations, and compliance checkpoints.
@@ -34,7 +29,7 @@ Return markdown compatible with `docs/templates/plan.md`:
 
 ## Validation Checklist
 - ✅ TODO list reflects the final plan state with all items checked or intentionally deferred.
-- ✅ Every cited resource has been retrieved with `fetch_webpage`.
+- ✅ Every cited resource has been retrieved with `web`.
 - ✅ At least one test strategy is specified for each phase.
 - ✅ Risks enumerate mitigation paths and make escalation points explicit.
 - ✅ No implementation commands or file edits are performed by this prompt; planning only.

@@ -4,10 +4,7 @@ description: "Analyze a source repository and produce a translation manifest wit
 argument-hint: "Specify the repository path to analyze for translation"
 model: GPT-5.3-Codex (copilot)
 agent: translation-analyzer
-tools:
-  - search
-  - readFile
-  - problems
+tools: [search, read, problems]
 ---
 
 # Analyze Repository for Translation
@@ -20,37 +17,23 @@ Analyze the source repository to produce a comprehensive Translation Manifest th
 - **Source Language:** ${input:source_language}
 - **Target Language:** ${input:target_language}
 
-## Required Outputs
+## Instructions
 
-### 1. File Inventory
-Catalog every file with:
-- Path, language, LOC, role (source, test, config, docs, assets)
-- Whether it needs translation, copy-only, or exclusion
+- Catalog every file with path, language, LOC, role (source, test, config, docs, assets), and whether it needs translation, copy-only, or exclusion
+- Parse all import/require/use/include statements and build a dependency adjacency list
+- Detect circular dependencies and topological-sort files into translation layers (Layer 0 = leaf nodes)
+- Score each file on LOC, cyclomatic complexity, external dependencies, language-specific features, metaprogramming, and concurrency
+- Identify source frameworks and map to target equivalents (web framework, ORM, test framework, all external dependencies)
+- Generate `artifacts/plans/translation/manifest.json` with the complete manifest schema
+- Identify high-risk areas: complex metaprogramming/reflection, platform-specific code, language features with no direct equivalent, large files (>500 LOC)
 
-### 2. Dependency Graph
-- Parse all import/require/use/include statements
-- Build adjacency list (A depends on B)
-- Detect circular dependencies
-- Topological sort into translation layers (Layer 0 = leaf nodes)
+## Output Format
 
-### 3. Complexity Assessment
-Score each file on:
-- LOC, cyclomatic complexity, external dependencies
-- Language-specific features, metaprogramming, concurrency
+Produce the following deliverables:
 
-### 4. Framework Mappings
-Identify source frameworks and map to target equivalents:
-- Web framework → target equivalent
-- ORM → target equivalent
-- Test framework → target equivalent
-- All external dependencies → target packages
-
-### 5. Translation Manifest
-Generate `artifacts/plans/translation/manifest.json` with the complete manifest schema.
-
-### 6. Risk Assessment
-Identify high-risk areas:
-- Complex metaprogramming or reflection
-- Platform-specific code
-- Language features with no direct equivalent
-- Large files (>500 LOC) with high complexity
+1. **File Inventory** — table of every file with path, language, LOC, role, and translation action
+2. **Dependency Graph** — adjacency list with topological layers
+3. **Complexity Assessment** — per-file scores with risk indicators
+4. **Framework Mappings** — source → target package/framework matrix
+5. **Translation Manifest** — `artifacts/plans/translation/manifest.json`
+6. **Risk Assessment** — high-risk areas with severity and mitigation notes

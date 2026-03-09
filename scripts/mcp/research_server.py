@@ -1,10 +1,18 @@
 from mcp.server.fastmcp import FastMCP
+from mcp.types import ToolAnnotations
 from duckduckgo_search import DDGS
 import json
 
 mcp = FastMCP("research-server")
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=False,
+        openWorldHint=True,
+    ),
+)
 def web_search(query: str, max_results: int = 5) -> str:
     """
     Search the web for a given query using DuckDuckGo.

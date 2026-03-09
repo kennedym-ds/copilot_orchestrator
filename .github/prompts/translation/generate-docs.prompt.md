@@ -4,10 +4,7 @@ description: "Generate comprehensive documentation for a translated repository i
 argument-hint: "Specify the translated module to generate documentation for"
 model: Claude Sonnet 4.6 (copilot)
 agent: docs
-tools:
-  - search
-  - readFile
-  - edit
+tools: [search, read, edit]
 ---
 
 # Generate Translation Documentation
@@ -21,7 +18,9 @@ Generate comprehensive documentation for the translated repository after all tra
 - **Source Repo:** ${input:source_repo}
 - **Target Repo:** ${input:target_repo}
 
-## Required Documentation
+## Instructions
+
+Generate each documentation category below for the translated repository.
 
 ### 1. Technical Documentation
 - **README.md:** Project overview, setup instructions, dependencies, usage examples
@@ -50,7 +49,8 @@ Generate comprehensive documentation for the translated repository after all tra
 - **Manual Review Areas:** Files/functions flagged for human review
 - **Framework Migration Notes:** Source framework → target framework mapping details
 
-## Format
+## Output Format
+
 Follow the documentation-style skill patterns:
 - Active voice, second person ("You can configure...")
 - Start with action verbs

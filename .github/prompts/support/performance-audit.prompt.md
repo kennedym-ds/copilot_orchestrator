@@ -4,13 +4,7 @@ description: "Performance support prompt for evaluating runtime, memory, and cos
 argument-hint: "Specify the module or endpoint to audit for performance"
 model: GPT-5.3-Codex (copilot)
 agent: performance
-tools:
-  - todos
-  - changes
-  - readFile
-  - search
-  - githubRepo
-  - fetch
+tools: [todo, changes, read, search, githubRepo, web]
 ---
 
 ## Purpose
@@ -19,7 +13,7 @@ Equip the performance support agent with a repeatable checklist to analyze poten
 ## Instructions
 - Establish a TODO fence covering latency, throughput, memory, concurrency, resource usage, and cost considerations. Update statuses as you evaluate each dimension.
 - Inspect at least 2,000 surrounding lines of affected files to understand algorithms, data structures, and existing optimizations.
-- Use `changes` for diffs and `search`/`githubRepo` for related modules; cite telemetry dashboards, benchmarks, or SLA docs retrieved via `fetch_webpage`.
+- Use `changes` for diffs and `search`/`githubRepo` for related modules; cite telemetry dashboards, benchmarks, or SLA docs retrieved via `web`.
 - Quantify potential impact when possible (e.g., `O(n²)` growth, added network calls, increased heap allocations).
 - Recommend mitigation strategies (caching, batching, streaming, background work, feature flags) and specify tests or benchmarks to run.
 - Highlight trade-offs and dependencies (e.g., database load, third-party limits, autoscaling policies).

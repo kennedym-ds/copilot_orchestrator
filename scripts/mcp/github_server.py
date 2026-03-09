@@ -12,11 +12,18 @@ Usage:
   python scripts/mcp/github_server.py
 """
 
-from mcp.server.fastmcp import FastMCP
+from mcp.server.fastmcp import FastMCP, Context
+from mcp.types import ToolAnnotations
+from pydantic import BaseModel, Field
 import subprocess
 import json
 
 mcp = FastMCP("github-ops-server")
+
+
+class MergeConfirmation(BaseModel):
+    """Schema for merge PR confirmation elicitation."""
+    confirm: bool = Field(description="Confirm merge (true/false)")
 
 
 def _run_gh(args: list[str], max_output: int = 8000) -> str:
@@ -42,7 +49,14 @@ def _run_gh(args: list[str], max_output: int = 8000) -> str:
 
 # ── Issue Tools ──────────────────────────────────────────────
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=True,
+    ),
+)
 def list_issues(state: str = "open", labels: str = "", limit: int = 20) -> str:
     """
     List repository issues filtered by state and labels.
@@ -59,7 +73,14 @@ def list_issues(state: str = "open", labels: str = "", limit: int = 20) -> str:
     return _run_gh(args)
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=True,
+    ),
+)
 def view_issue(number: int) -> str:
     """
     Get full details of a specific issue including body and comments.
@@ -73,7 +94,14 @@ def view_issue(number: int) -> str:
     ])
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=False,
+        destructiveHint=False,
+        idempotentHint=False,
+        openWorldHint=True,
+    ),
+)
 def create_issue(title: str, body: str, labels: str = "", assignees: str = "") -> str:
     """
     Create a new issue in the repository.
@@ -92,7 +120,14 @@ def create_issue(title: str, body: str, labels: str = "", assignees: str = "") -
     return _run_gh(args)
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=False,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=True,
+    ),
+)
 def close_issue(number: int, reason: str = "completed") -> str:
     """
     Close an issue with a reason.
@@ -104,7 +139,14 @@ def close_issue(number: int, reason: str = "completed") -> str:
     return _run_gh(["issue", "close", str(number), "--reason", reason])
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=False,
+        destructiveHint=False,
+        idempotentHint=False,
+        openWorldHint=True,
+    ),
+)
 def comment_issue(number: int, body: str) -> str:
     """
     Add a comment to an issue.
@@ -118,7 +160,14 @@ def comment_issue(number: int, body: str) -> str:
 
 # ── Pull Request Tools ───────────────────────────────────────
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=True,
+    ),
+)
 def list_prs(state: str = "open", limit: int = 20) -> str:
     """
     List pull requests filtered by state.
@@ -133,7 +182,14 @@ def list_prs(state: str = "open", limit: int = 20) -> str:
     ])
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=True,
+    ),
+)
 def view_pr(number: int) -> str:
     """
     Get full details of a specific pull request.
@@ -147,7 +203,14 @@ def view_pr(number: int) -> str:
     ])
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=True,
+    ),
+)
 def pr_checks(number: int) -> str:
     """
     View CI check status for a pull request.
@@ -158,10 +221,18 @@ def pr_checks(number: int) -> str:
     return _run_gh(["pr", "checks", str(number)])
 
 
-@mcp.tool()
-def merge_pr(number: int, method: str = "squash", delete_branch: bool = False) -> str:
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=False,
+        destructiveHint=True,
+        idempotentHint=False,
+        openWorldHint=True,
+    ),
+)
+async def merge_pr(number: int, method: str = "squash", delete_branch: bool = False, ctx: Context = None) -> str:
     """
     Merge a pull request after confirming all checks pass.
+    Prompts the user for confirmation before executing the merge.
 
     Args:
         number: The PR number.
@@ -171,6 +242,17 @@ def merge_pr(number: int, method: str = "squash", delete_branch: bool = False) -
     valid_methods = {'squash', 'merge', 'rebase'}
     if method not in valid_methods:
         return f"Error: invalid merge method '{method}'. Must be one of: {', '.join(sorted(valid_methods))}"
+
+    # Elicit user confirmation before irreversible merge
+    if ctx:
+        result = await ctx.elicit(
+            message=f"Confirm merge of PR #{number} using '{method}' method"
+                    + (" (branch will be deleted)" if delete_branch else "") + "?",
+            schema=MergeConfirmation,
+        )
+        if result.action != "accept" or not result.data.confirm:
+            return json.dumps({"status": "cancelled", "message": "Merge cancelled by user"})
+
     args = ["pr", "merge", str(number), f"--{method}"]
     if delete_branch:
         args.append("--delete-branch")
@@ -179,7 +261,14 @@ def merge_pr(number: int, method: str = "squash", delete_branch: bool = False) -
 
 # ── Workflow Tools ────────────────────────────────────────────
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=True,
+    ),
+)
 def list_runs(workflow: str = "", status: str = "", limit: int = 10) -> str:
     """
     List recent GitHub Actions workflow runs.
@@ -198,7 +287,14 @@ def list_runs(workflow: str = "", status: str = "", limit: int = 10) -> str:
     return _run_gh(args)
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=True,
+    ),
+)
 def view_run(run_id: int) -> str:
     """
     Get details and job output for a specific workflow run.
@@ -212,7 +308,14 @@ def view_run(run_id: int) -> str:
     ])
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=True,
+    ),
+)
 def run_failed_logs(run_id: int) -> str:
     """
     Get the failure logs for a workflow run. Only returns logs from failed jobs.
@@ -225,7 +328,14 @@ def run_failed_logs(run_id: int) -> str:
 
 # ── Repository Tools ─────────────────────────────────────────
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=True,
+    ),
+)
 def list_releases(limit: int = 5) -> str:
     """
     List recent releases with tag names and publish dates.
@@ -238,7 +348,14 @@ def list_releases(limit: int = 5) -> str:
     ])
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=False,
+        destructiveHint=False,
+        idempotentHint=False,
+        openWorldHint=True,
+    ),
+)
 def create_release(tag: str, title: str, notes: str, draft: bool = False) -> str:
     """
     Create a new GitHub release.

@@ -8,7 +8,7 @@ applyTo: ".github/agents/planner.agent.md"
 - Embody the Senior Principal Engineer persona defined in `instructions/global/00_behavior.instructions.md`. Understand the problem space before structuring a plan. Match plan depth to actual task complexity.
 - Use premium reasoning models (Claude Opus 4.6, Claude Sonnet 4.6) unless directed otherwise.
 - Start by summarizing the request, constraints, assumptions, and information gaps.
-- Perform live research with `#runSubagent` or `fetch_webpage` for every external reference; cite sources inline.
+- Perform live research with `#runSubagent` or `web` for every external reference; cite sources inline.
 - Produce a plan that conforms to `docs/templates/plan.md`:
   - TL;DR summary
   - **Mermaid diagrams** (required for architecture changes, multi-phase workflows, state machines, or data pipelines)

@@ -1,4 +1,3 @@
-````skill
 ---
 name: delegation-routing
 description: "Agent-to-agent routing patterns for autonomous delegation via #runSubagent. Defines keyword matching, context templates, model preferences, escalation rules, and invocation guardrails. Use for routing decisions, subagent dispatch, delegation context preparation, and handoff target selection."
@@ -356,5 +355,3 @@ When delegating to a sub-agent, load the relevant skills to ensure the agent fol
 - **Agent Roster**: `AGENTS.md` — full agent list with capabilities and model allocations
 - **Model Selection**: `instructions/global/03_model-selection.instructions.md` — tier definitions and fallback chains
 - **Validation Scripts**: `scripts/validate-copilot-assets.ps1`, `scripts/run-lint.ps1`
-
-````

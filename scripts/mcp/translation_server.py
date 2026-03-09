@@ -12,7 +12,8 @@ Requires:
     pip install mcp duckduckgo-search
 """
 
-from mcp.server.fastmcp import FastMCP
+from mcp.server.fastmcp import FastMCP, Context
+from mcp.types import ToolAnnotations
 import json
 import os
 import re
@@ -41,7 +42,14 @@ translation_state = {
 # TOOLS — 8 tools for translation workflow
 # ---------------------------------------------------------------------------
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
 def analyze_imports(file_path: str, language: str) -> str:
     """
     Parse import/require/use/include statements from a source file.
@@ -99,8 +107,15 @@ def analyze_imports(file_path: str, language: str) -> str:
         return json.dumps({"error": str(e)})
 
 
-@mcp.tool()
-def build_dependency_graph(source_dir: str, language: str) -> str:
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
+async def build_dependency_graph(source_dir: str, language: str, ctx: Context = None) -> str:
     """
     Build a dependency DAG for all source files in a directory.
     Returns JSON with adjacency list, topological layers, and cycle detection.
@@ -125,15 +140,26 @@ def build_dependency_graph(source_dir: str, language: str) -> str:
         for ext in exts:
             files.extend(source_path.rglob(f"*{ext}"))
 
-        # Build adjacency list
+        # Build adjacency list with progress reporting
         adjacency = {}
-        for file in files:
+        for i, file in enumerate(files):
+            if ctx:
+                await ctx.report_progress(
+                    progress=i, total=len(files),
+                    message=f"Analyzing {file.name}",
+                )
             rel_path = str(file.relative_to(source_path))
             import_result = json.loads(analyze_imports(str(file), language))
             adjacency[rel_path] = import_result.get("imports", [])
 
         # Simple topological sort with cycle detection
         layers = _topological_sort(adjacency)
+
+        if ctx:
+            await ctx.report_progress(
+                progress=len(files), total=len(files),
+                message=f"Dependency graph complete — {len(files)} files, {len(layers)} layers",
+            )
 
         return json.dumps({
             "source_dir": source_dir,
@@ -193,7 +219,14 @@ def _topological_sort(adjacency: dict) -> list:
     return layers
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
 def translate_file(
     source_path: str,
     target_path: str,
@@ -235,7 +268,14 @@ def translate_file(
         return json.dumps({"error": str(e)})
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
 def validate_translation(
     translated_path: str,
     target_language: str,
@@ -323,7 +363,14 @@ def validate_translation(
         return json.dumps({"error": str(e)})
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
 def calculate_confidence(
     syntax_score: float = 0.0,
     type_score: float = 0.0,
@@ -381,7 +428,14 @@ def calculate_confidence(
     }, indent=2)
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
 def calculate_repo_confidence(scores_json: str) -> str:
     """
     Calculate the LOC-weighted repo-level confidence score.
@@ -427,7 +481,14 @@ def calculate_repo_confidence(scores_json: str) -> str:
         return json.dumps({"error": str(e)})
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
 def get_translation_status() -> str:
     """
     Get the current translation workflow status.
@@ -436,7 +497,14 @@ def get_translation_status() -> str:
     return json.dumps(translation_state, indent=2, default=str)
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=False,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
 def update_module_status(
     module_id: str,
     status: str,
@@ -469,7 +537,14 @@ def update_module_status(
     return json.dumps({"error": f"Module {module_id} not found"})
 
 
-@mcp.tool()
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
 def suggest_target_dependencies(
     source_packages: str,
     source_language: str,

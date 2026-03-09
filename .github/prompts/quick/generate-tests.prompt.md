@@ -4,10 +4,7 @@ description: "Generate unit and integration tests for specified code with edge c
 argument-hint: "Specify the function, class, or module to generate tests for"
 model: GPT-5.3-Codex (copilot)
 agent: agent
-tools:
-  - search
-  - edit
-  - runCommands
+tools: [search, edit, execute]
 ---
 
 ## Purpose

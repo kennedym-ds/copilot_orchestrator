@@ -1,4 +1,3 @@
-````skill
 ---
 name: budget-gatekeeper
 description: "Runtime budget enforcement for conductor workflows. Tracks model tier usage, delegation count, and estimated token cost across phases. Provides soft/hard limits with escalation patterns to prevent runaway sessions."
@@ -234,4 +233,3 @@ Any other response = abort this operation.
 - **Conductor Lifecycle**: `.github/skills/conductor-lifecycle/SKILL.md` — phase management
 - **Delegation Routing**: `.github/skills/delegation-routing/SKILL.md` — agent selection
 - **Inspiration**: Athena-Public `BudgetGatekeeper` pattern (MIT License)
-````
