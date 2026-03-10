@@ -59,17 +59,31 @@ At the start of every session, check whether browser tools are available. If `op
 
 ## Workflow
 
-### Tool Detection (First Step in Every Session)
+### Step 0: Understand the App (Always Do This First)
+
+Before opening a browser or writing any test, understand what you're testing:
+
+1. **Read the source code** — Use `read`, `fileSearch`, and `search` tools to find the app's entry point, routes, components, and key selectors. Look for:
+   - Framework (React, Vue, Svelte, Angular, vanilla) — determines rendering behavior
+   - Router configuration — what pages/routes exist
+   - Component structure — button labels, form fields, data display areas
+   - Package.json / build config — how the dev server runs
+2. **Check the dev server** — Run `curl -s -o /dev/null -w "%{http_code}" http://localhost:<port>` (or `Invoke-WebRequest -Uri http://localhost:<port> -UseBasicParsing` on Windows) to verify the server is responding before attempting any browser interaction.
+3. **Build a test plan** — Break the user's request into sequential numbered steps. Each step should target a specific interaction and have a clear success criterion.
+
+> **Do not skip this step.** Blind navigation wastes turns and produces unhelpful failures. 5 minutes reading source code saves 30 minutes of guessing selectors.
+
+### Step 1: Detect Available Tools
 
 Before running any test, determine which mode to use:
 
 1. Check if `openBrowserPage` is available as a tool
-2. If **yes** → use **Browser Tools Mode** (sections 1-4 below)
-3. If **no** → use **Playwright Fallback Mode** (section 5 below)
+2. If **yes** → use **Browser Tools Mode** (sections 2-5 below)
+3. If **no** → use **Playwright Fallback Mode** (section 6 below)
 
 Do not waste turns searching for tools or attempting workarounds. Pick a mode and execute.
 
-### 1. Open and Inspect (Browser Tools Mode)
+### 2. Open and Inspect (Browser Tools Mode)
 
 Open the target page and read its content to understand the structure:
 
@@ -93,7 +107,7 @@ Test dialog handling, navigation flows, and error states:
 handleDialog → navigatePage → readPage → screenshotPage
 ```
 
-### 4. Complex Scenarios
+### 5. Complex Scenarios
 
 Use Playwright code for multi-step flows that require precise sequencing:
 
@@ -101,57 +115,131 @@ Use Playwright code for multi-step flows that require precise sequencing:
 runPlaywrightCode (login flow, form submission, drag-and-drop sequences)
 ```
 
-### 5. Playwright Fallback Mode (When Browser Tools Unavailable)
+### 6. Playwright Fallback Mode (When Browser Tools Unavailable)
 
-When browser tools are not injected, use Playwright via the terminal. Write a Node.js script and execute it:
+When browser tools are not injected, use Playwright via the terminal. Write a Node.js script and run it with `node`.
+
+**Approach:** Write one script per test scenario. Each script should: navigate, interact, screenshot, assert, and log results to stdout. Read the output to evaluate pass/fail.
+
+#### Script Template
 
 ```javascript
-// Example: Open page, screenshot, read content, click, verify
 const { chromium } = require('playwright');
 
 (async () => {
   const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage();
+  const results = [];
 
-  // Navigate
-  await page.goto('http://localhost:1420');
+  try {
+    // Step 1: Navigate and wait for app to be ready
+    await page.goto('http://localhost:PORT', { waitUntil: 'networkidle' });
+    await page.screenshot({ path: 'step1-initial.png', fullPage: true });
+    results.push({ step: 'Page load', status: 'PASS', detail: await page.title() });
 
-  // Screenshot
-  await page.screenshot({ path: 'screenshot-initial.png', fullPage: true });
+    // Step 2: Interact (adjust selectors from source code analysis)
+    await page.click('button:has-text("Load Data")');
+    await page.waitForSelector('.data-loaded', { timeout: 10000 });
+    await page.screenshot({ path: 'step2-after-load.png' });
+    results.push({ step: 'Load data', status: 'PASS' });
 
-  // Read content
-  const title = await page.title();
-  const bodyText = await page.locator('body').innerText();
-  console.log('Title:', title);
-  console.log('Body preview:', bodyText.substring(0, 500));
+    // Step 3: Verify
+    const text = await page.locator('.result-panel').innerText();
+    results.push({ step: 'Verify results', status: text.includes('expected') ? 'PASS' : 'FAIL', detail: text.substring(0, 200) });
 
-  // Interact
-  await page.click('button#load-data');  // adjust selector
-  await page.waitForTimeout(1000);
-  await page.screenshot({ path: 'screenshot-after-click.png' });
-
-  // Verify
-  const result = await page.locator('.result-panel').innerText();
-  console.log('Result:', result);
-
-  await browser.close();
+  } catch (err) {
+    results.push({ step: 'Error', status: 'FAIL', detail: err.message });
+    await page.screenshot({ path: 'error-state.png' }).catch(() => {});
+  } finally {
+    console.log(JSON.stringify(results, null, 2));
+    await browser.close();
+  }
 })();
 ```
 
-**Playwright fallback workflow:**
-1. Write a `.js` script tailored to the test scenario
-2. Run it via `node script.js` in the terminal
-3. Read screenshots and console output to evaluate results
-4. Report findings in the standard report format
+#### Playwright Patterns for Real Apps
 
-**Key Playwright commands for common tasks:**
-- **Navigate:** `page.goto(url)`
-- **Screenshot:** `page.screenshot({ path: 'file.png', fullPage: true })`
-- **Read text:** `page.locator('selector').innerText()`
-- **Click:** `page.click('selector')`
-- **Type:** `page.fill('input[name="field"]', 'value')`
-- **Wait for element:** `page.waitForSelector('selector')`
-- **Check visibility:** `page.locator('selector').isVisible()`
+**Wait for SPA hydration** (React, Vue, Svelte, Angular):
+```javascript
+// Wait for network to settle (covers API calls, lazy loading)
+await page.goto(url, { waitUntil: 'networkidle' });
+// Or wait for a specific element that only renders after hydration
+await page.waitForSelector('[data-testid="app-ready"]', { timeout: 15000 });
+```
+
+**Wait for dynamic content** (data loading, spinners):
+```javascript
+// Wait for a spinner to disappear
+await page.waitForSelector('.spinner', { state: 'hidden', timeout: 15000 });
+// Wait for content to appear
+await page.waitForSelector('.data-table tr', { timeout: 10000 });
+```
+
+**Dropdowns and select inputs**:
+```javascript
+// Native <select>
+await page.selectOption('select#chart-type', 'bar');
+// Custom dropdown (click to open, then click option)
+await page.click('.dropdown-trigger');
+await page.click('.dropdown-option:has-text("Bar Chart")');
+```
+
+**File uploads**:
+```javascript
+const fileInput = await page.locator('input[type="file"]');
+await fileInput.setInputFiles('/path/to/data.csv');
+```
+
+**Multi-step user flows** (the key pattern for "load data → build chart → run regression"):
+```javascript
+// Step 1: Load data
+await page.click('button:has-text("Load")');
+await page.waitForSelector('.data-preview', { timeout: 10000 });
+await page.screenshot({ path: 'step1-data-loaded.png' });
+
+// Step 2: Build chart
+await page.selectOption('#chart-type', 'scatter');
+await page.click('button:has-text("Build")');
+await page.waitForSelector('canvas, svg.chart', { timeout: 10000 });
+await page.screenshot({ path: 'step2-chart-built.png' });
+
+// Step 3: Run analysis
+await page.click('button:has-text("Regression")');
+await page.waitForSelector('.regression-results', { timeout: 15000 });
+const results = await page.locator('.regression-results').innerText();
+console.log('Regression output:', results);
+await page.screenshot({ path: 'step3-regression.png' });
+```
+
+**Assertions**:
+```javascript
+// Check element text
+const heading = await page.locator('h1').innerText();
+console.log(heading === 'Dashboard' ? 'PASS: Title correct' : 'FAIL: Title was ' + heading);
+
+// Check element count
+const rows = await page.locator('table tbody tr').count();
+console.log(rows > 0 ? `PASS: ${rows} rows loaded` : 'FAIL: No data rows');
+
+// Check visibility
+const visible = await page.locator('.error-message').isVisible();
+console.log(!visible ? 'PASS: No errors shown' : 'FAIL: Error message visible');
+```
+
+**Error recovery**:
+```javascript
+// Dismiss unexpected dialogs
+page.on('dialog', async dialog => {
+  console.log('Dialog:', dialog.type(), dialog.message());
+  await dialog.dismiss();
+});
+
+// Handle consent/cookie banners
+const consent = page.locator('button:has-text("Accept"), button:has-text("Agree")');
+if (await consent.isVisible({ timeout: 3000 }).catch(() => false)) {
+  await consent.click();
+}
+```
 
 ## Testing Patterns
 
@@ -219,9 +307,9 @@ const { chromium } = require('playwright');
 
 ## Boundaries
 
-- ✅ **Always do:** Screenshot before and after interactions, verify page content with `readPage`, report evidence-based findings
+- ✅ **Always do:** Read source code before testing, verify dev server is running, screenshot before and after interactions, use `waitForSelector` instead of `waitForTimeout`, report evidence-based findings
 - ⚠️ **Ask first:** Before testing pages that require authentication, submitting forms on live systems, or running destructive Playwright scripts
-- 🚫 **Never do:** Submit forms on production systems without explicit approval, store credentials in artifacts, bypass authentication flows
+- 🚫 **Never do:** Submit forms on production systems without explicit approval, store credentials in artifacts, bypass authentication flows, use hardcoded selectors without verifying them in source code
 
 ## Delegation
 
