@@ -2,7 +2,7 @@
 name: beast-mode
 description: "Transparent extended reasoning mode with visible thinking, systematic task management, and comprehensive tool usage."
 argument-hint: "Engage for complex problems requiring visible step-by-step reasoning and thorough analysis"
-model: 'Claude Opus 4.6 (copilot)'
+model: 'GPT-5.4 (copilot)'
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, edit, execute, problems, usages, askQuestions, rename]
 handoffs:
   - label: Return to Conductor

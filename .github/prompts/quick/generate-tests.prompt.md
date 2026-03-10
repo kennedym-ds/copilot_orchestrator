@@ -2,7 +2,7 @@
 name: generate-tests
 description: "Generate unit and integration tests for specified code with edge cases and mocking."
 argument-hint: "Specify the function, class, or module to generate tests for"
-model: GPT-5.3-Codex (copilot)
+model: GPT-5.4 (copilot)
 agent: agent
 tools: [search, edit, execute]
 ---

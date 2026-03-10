@@ -1,0 +1,154 @@
+name: Sync free-cost branch with main
+
+# Trigger on pushes to main, for any file in the copilot orchestrator scope
+on:
+  push:
+    branches:
+      - main
+    # Only trigger if these paths change (skip pure GitHub/CI updates)
+    paths:
+      - '.github/agents/**'
+      - '.github/prompts/**'
+      - '.github/skills/**'
+      - 'instructions/**'
+      - '.claude/**'
+      - 'docs/**'
+      - 'scripts/**'
+      - 'AGENTS.md'
+      - 'INSTRUCTION_CHANGELOG.md'
+      - 'README.md'
+      - 'llms.txt'
+      - '.copilot-review-instructions.md'
+  workflow_dispatch: # Allow manual triggers
+
+jobs:
+  sync-free-cost:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Reset free-cost to main
+        run: |
+          # Reset free-cost branch to match main exactly, then apply downgrades.
+          # This avoids merge conflicts from model string changes that diverge
+          # between branches on every sync.
+          git checkout -B free-cost origin/main
+
+      - name: Apply model downgrades to 0x tier
+        shell: bash
+        run: |
+          # Free-cost mapping — all models to 0x premium request models:
+          #   GPT-5 mini (0x)  — 24 agents: deep work (coding, reasoning, planning)
+          #   GPT-4.1 (0x)     — 5 agents: speed-first (docs, lint, rubber-duck, visualizer, gui-tester)
+          #
+          # Agent files get targeted replacement; docs/instructions get blanket replacement.
+          #
+          # Strategy: Replace model strings in agent frontmatter first (targeted),
+          # then do blanket text replacements across docs and instructions.
+
+          AGENT_DIR=".github/agents"
+
+          # --- Step 1: Agent-level targeted replacements ---
+          # GPT-4.1 agents (speed-first, simple tasks)
+          GPT41_AGENTS="docs lint rubber-duck visualizer gui-tester"
+          for agent in $GPT41_AGENTS; do
+            file="$AGENT_DIR/${agent}.agent.md"
+            if [ -f "$file" ]; then
+              sed -i "s/model: '.*'/model: 'GPT-4.1 (copilot)'/" "$file"
+            fi
+          done
+
+          # GPT-5 mini agents (everything else)
+          for file in "$AGENT_DIR"/*.agent.md; do
+            name=$(basename "$file" .agent.md)
+            # Skip agents already set to GPT-4.1
+            case "$name" in
+              docs|lint|rubber-duck|visualizer|gui-tester) continue ;;
+            esac
+            sed -i "s/model: '.*'/model: 'GPT-5 mini (copilot)'/" "$file"
+          done
+
+          # --- Step 2: Blanket text replacements across docs/instructions ---
+          # Replace model references in documentation and instruction files so
+          # the free-cost branch docs accurately reflect the tier.
+          DIRS=".github/prompts .github/skills instructions .claude docs"
+
+          apply_replacements() {
+            local file="$1"
+            # All premium/execution models → GPT-5 mini
+            sed -i 's/Claude Opus 4\.6 (copilot)/GPT-5 mini (copilot)/g' "$file"
+            sed -i 's/Claude Opus 4\.6/GPT-5 mini/g' "$file"
+            sed -i 's/Claude Sonnet 4\.6 (copilot)/GPT-5 mini (copilot)/g' "$file"
+            sed -i 's/Claude Sonnet 4\.6/GPT-5 mini/g' "$file"
+            sed -i 's/GPT-5\.4 (copilot)/GPT-5 mini (copilot)/g' "$file"
+            sed -i 's/GPT-5\.4/GPT-5 mini/g' "$file"
+            # Legacy model references (safety net)
+            sed -i 's/GPT-5\.3-Codex (copilot)/GPT-5 mini (copilot)/g' "$file"
+            sed -i 's/GPT-5\.3-Codex/GPT-5 mini/g' "$file"
+            sed -i 's/Gemini 3\.1 Pro (Preview) (copilot)/GPT-5 mini (copilot)/g' "$file"
+            sed -i 's/Gemini 3\.1 Pro (Preview)/GPT-5 mini/g' "$file"
+            # Routine models → GPT-4.1
+            sed -i 's/Claude Haiku 4\.5 (copilot)/GPT-4.1 (copilot)/g' "$file"
+            sed -i 's/Claude Haiku 4\.5/GPT-4.1/g' "$file"
+          }
+          export -f apply_replacements
+
+          # Content directories (markdown and python)
+          for dir in $DIRS; do
+            if [ -d "$dir" ]; then
+              find "$dir" -type f \( -name "*.md" -o -name "*.py" \) -exec bash -c 'apply_replacements "$0"' {} \;
+            fi
+          done
+
+          # Scripts directory (PowerShell and shell)
+          if [ -d "scripts" ]; then
+            find scripts -type f \( -name "*.ps1" -o -name "*.sh" \) -exec bash -c 'apply_replacements "$0"' {} \;
+          fi
+
+          # Root-level files
+          for file in README.md AGENTS.md INSTRUCTION_CHANGELOG.md llms.txt .copilot-review-instructions.md; do
+            if [ -f "$file" ]; then
+              apply_replacements "$file"
+            fi
+          done
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if git diff --quiet; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit downgrades
+        if: steps.check_changes.outputs.changes == 'true'
+        run: |
+          git add -A
+          git commit -m "chore: apply 0x free-tier model downgrades on free-cost branch" \
+            --no-verify
+
+      - name: Push free-cost
+        if: steps.check_changes.outputs.changes == 'true'
+        run: |
+          git push --force-with-lease origin free-cost
+
+      - name: Report status
+        run: |
+          if [ "${{ steps.check_changes.outputs.changes }}" == "true" ]; then
+            echo "✅ free-cost branch synced and updated"
+          else
+            echo "ℹ️ free-cost branch is in sync, no changes needed"
+          fi

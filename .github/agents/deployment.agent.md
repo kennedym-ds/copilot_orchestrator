@@ -2,7 +2,7 @@
 name: deployment
 description: "Manages CI/CD pipelines, release artifacts, and environment configuration."
 argument-hint: "Review deployment scripts, check release readiness, or plan infrastructure changes"
-model: 'GPT-5.3-Codex (copilot)'
+model: 'GPT-5.4 (copilot)'
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, edit, execute, problems, askQuestions]
 handoffs:
   - label: Return to Conductor

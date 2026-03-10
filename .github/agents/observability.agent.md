@@ -2,7 +2,7 @@
 name: observability
 description: "Analyzes session telemetry, token usage, workflow metrics, and integrates with observability platforms."
 argument-hint: "Analyze session logs, check token budget, review cost metrics, or configure observability integrations"
-model: 'GPT-5.3-Codex (copilot)'
+model: 'GPT-5.4 (copilot)'
 user-invokable: false
 mcp-servers:
   analytics:

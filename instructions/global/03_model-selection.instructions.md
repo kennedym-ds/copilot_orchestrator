@@ -12,68 +12,75 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 ## Model Allocation Strategy
 
-### Premium Tier (~20% of invocations)
+### Premium Tier (~10% of invocations)
 
-**Use cases:** Research, architecture decisions, ambiguity resolution, code review, threat modeling, orchestration
+**Use cases:** Orchestration, architecture decisions, ambiguity resolution, threat modeling
 
 | Agent | Primary Model | Fallback Model | Context Window | Cost Tier |
-|-------|---------------|----------------|----------------|-----------|
-| Conductor | Claude Opus 4.6 | Claude Sonnet 4.6 | 200K tokens | Premium |
-| Planner | Claude Opus 4.6 | Claude Sonnet 4.6 | 200K tokens | Premium |
-| Security | Claude Opus 4.6 | Claude Sonnet 4.6 | 200K tokens | Premium |
-| Beast Mode | Claude Opus 4.6 | Claude Sonnet 4.6 | 200K tokens | Premium |
-| Researcher | Claude Opus 4.6 | Claude Sonnet 4.6 | 200K tokens | Premium |
+|-------|---------------|----------------|----------------|----------|
+| Conductor | Claude Opus 4.6 | GPT-5.4 | 200K tokens | Premium (3×) |
+| Planner | Claude Opus 4.6 | GPT-5.4 | 200K tokens | Premium (3×) |
+| Security | Claude Opus 4.6 | Claude Sonnet 4.6 | 200K tokens | Premium (3×) |
 
 **Premium model characteristics:**
 - Advanced reasoning and planning capabilities
 - Extended thinking with visible chain-of-thought
 - Deep synthesis of complex, multi-domain information
-- Higher cost per request (baseline = 1.0x)
+- Reserved for highest-stakes decisions (orchestration, planning, security)
+- Cost per request: 3× multiplier
 
-### Execution Tier (~70% of invocations)
+### Execution Tier (~76% of invocations)
 
-**Use cases:** Implementation, testing, analysis, routine refactoring, support tasks
+**Use cases:** Implementation, testing, analysis, documentation, refactoring, support tasks
 
 | Agent | Primary Model | Fallback Model | Context Window | Cost Tier |
 |-------|---------------|----------------|----------------|-----------|
-| Reviewer | GPT-5.3-Codex | Claude Sonnet 4.6 | 200K tokens | Execution |
-| Implementer | Claude Sonnet 4.6 | GPT-5.3-Codex | 200K tokens | Execution |
-| Test | Claude Sonnet 4.6 | GPT-5.3-Codex | 200K tokens | Execution |
-| Translator | GPT-5.3-Codex | Claude Sonnet 4.6 | 200K tokens | Execution |
-| Red Team | GPT-5.3-Codex | Claude Sonnet 4.6 | 200K tokens | Execution |
-| Performance | GPT-5.3-Codex | Claude Sonnet 4.6 | 200K tokens | Execution |
-| Rubber Duck | Claude Sonnet 4.6 | Claude Haiku 4.5 | 200K tokens | Routine |
-| Accessibility | GPT-5.3-Codex | Claude Sonnet 4.6 | 200K tokens | Execution |
-| Observability | GPT-5.3-Codex | Claude Sonnet 4.6 | 200K tokens | Execution |
-| Visualizer | GPT-5.3-Codex | Claude Sonnet 4.6 | 200K tokens | Execution |
-| Deployment | GPT-5.3-Codex | Claude Sonnet 4.6 | 200K tokens | Execution |
-| GitHub Ops | GPT-5.3-Codex | Claude Sonnet 4.6 | 200K tokens | Execution |
-| Maintainer | GPT-5.3-Codex | Claude Sonnet 4.6 | 200K tokens | Execution |
-| Terraform | GPT-5.3-Codex | Claude Sonnet 4.6 | 200K tokens | Execution |
-| Bicep | GPT-5.3-Codex | Claude Sonnet 4.6 | 200K tokens | Execution |
-| Design | GPT-5.3-Codex | Claude Sonnet 4.6 | 200K tokens | Execution |
+| Implementer | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
+| Reviewer | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
+| Test | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
+| Beast Mode | GPT-5.4 | Claude Opus 4.6 | 1M tokens | Execution (1×) |
+| Red Team | GPT-5.4 | Claude Opus 4.6 | 1M tokens | Execution (1×) |
+| Spec | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
+| Researcher | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
+| Performance | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
+| Accessibility | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
+| Docs | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
+| Observability | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
+| Deployment | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
+| GitHub Ops | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
+| Maintainer | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
+| Terraform | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
+| Bicep | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
+| Design | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
+| GUI Tester | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
+| Translator | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
+| Translation Analyzer | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
+| Translation Validator | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
+| Translation Styler | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
+| Translation Conductor | Claude Sonnet 4.6 | GPT-5.4 | 200K tokens | Execution (1×) |
 
 **Execution model characteristics:**
-- Strong code generation, testing, and analysis
-- Good balance of reasoning capability and cost
-- Multiple architecture options for resilience
-- Cost per request (~0.3x - 0.5x premium)
+- GPT-5.4: Best 1× model — SWE-Bench Pro 57.7%, 1M context, native tool search
+- Claude Sonnet 4.6: Strong fallback with extended thinking and TDD workflows
+- Docs agent uses GPT-5.4 for its 1M context window (doc trees are token-intensive)
+- Cost per request: 1× multiplier
 
 ### Routine Tier (~10% of invocations)
 
-**Use cases:** Documentation, linting, template-based generation, formatting
+**Use cases:** Linting, template-based generation, formatting, conversational debugging
 
 | Agent | Primary Model | Fallback Model | Context Window | Cost Tier |
-|-------|---------------|----------------|----------------|-----------|
-| Docs | Claude Haiku 4.5 | Gemini 3 Flash | 200K tokens | Routine |
-| Lint | Claude Haiku 4.5 | Gemini 3 Flash | 200K tokens | Routine |
+|-------|---------------|----------------|----------------|----------|
+| Lint | Claude Haiku 4.5 | Gemini 3 Flash | 200K tokens | Routine (0.33×) |
+| Rubber Duck | Claude Haiku 4.5 | Gemini 3 Flash | 200K tokens | Routine (0.33×) |
+| Visualizer | Claude Haiku 4.5 | Gemini 3 Flash | 200K tokens | Routine (0.33×) |
 
 **Routine model characteristics:**
 - Optimized for structured, well-defined tasks
 - Fast response times for interactive workflows
-- Lowest cost per request (0.33x premium or less)
+- Lowest cost per request (0.33× multiplier)
 
-**Expected cost reduction:** 60-75% vs. all-premium approach
+**Expected cost reduction:** ~23% vs. previous allocation (32.99× vs. 43× per cycle)
 
 ## Fallback Matrix
 
@@ -87,23 +94,23 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 ### Fallback Chains by Tier
 
-#### Orchestration Tier Agents (Conductor, Planner, Beast Mode, Translation Conductor)
+#### Orchestration Tier Agents (Conductor, Planner)
 
-**Primary:** Claude Opus 4.6
+**Primary:** Claude Opus 4.6 (3×)
 **Fallback sequence:**
-1. Claude Sonnet 4.6 (strong reasoning, versatile architecture)
-2. GPT-5.3-Codex (good reasoning at lower cost)
+1. GPT-5.4 (strong reasoning, 1M context, tool search)
+2. Claude Sonnet 4.6 (extended thinking, versatile)
 3. **Pause workflow** — Orchestration tasks should never downgrade to routine tier
 
 **Decision logic:**
 - Try Fallback 1 immediately on primary failure
-- Fallback 2 for non-critical orchestration tasks when both primary and Fallback 1 unavailable
+- Fallback 2 for non-critical orchestration when both primary and Fallback 1 unavailable
 - Pause and notify user if all orchestration options exhausted
 - Document model switch in phase summary
 
-#### Security Tier Agents (Security, Red Team)
+#### Security Tier Agents (Security)
 
-**Primary:** Claude Opus 4.6
+**Primary:** Claude Opus 4.6 (3×)
 **Fallback sequence:**
 1. Claude Sonnet 4.6 (strong adversarial and compliance reasoning)
 2. **Pause workflow** — Security reviews must never downgrade below Sonnet
@@ -113,22 +120,9 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 - Pause and notify user if both Opus and Sonnet unavailable
 - Security-critical tasks should never proceed on lower-tier models
 
-#### Research Tier Agents (Researcher, Translation Analyzer)
+#### Execution Tier Agents (22 agents — Implementer, Reviewer, Test, Beast Mode, Red Team, Spec, Researcher, Performance, Accessibility, Docs, Observability, Deployment, GitHub Ops, Maintainer, Terraform, Bicep, Design, GUI Tester, Translator, Translation Analyzer, Translation Validator, Translation Styler)
 
-**Primary:** Gemini 3.1 Pro (Preview)
-**Fallback sequence:**
-1. Claude Opus 4.6 (deep research and synthesis)
-2. Claude Haiku 4.5 (lightweight research for simple queries)
-3. **Escalate to Conductor** if research requires extended analysis
-
-**Decision logic:**
-- Try Fallback 1 immediately on primary failure
-- Fallback 2 only for simple, well-scoped research tasks
-- Escalate for multi-domain synthesis when both primary and Opus unavailable
-
-#### Coding Tier Agents (Implementer, Reviewer, Test, Translator, Translation Validator, Translation Styler, Performance, Accessibility, Observability, Deployment, GitHub Ops, Maintainer, Terraform, Bicep)
-
-**Primary:** GPT-5.3-Codex
+**Primary:** GPT-5.4 (1×)
 **Fallback sequence:**
 1. Claude Sonnet 4.6 (strong code generation and analysis)
 2. **Escalate to Conductor** if task complexity requires premium reasoning
@@ -137,19 +131,31 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 - Try Fallback 1 immediately on primary failure
 - Escalate if implementation task reveals unexpected complexity
 - Document model switch in phase summary
+- Beast Mode and Researcher may escalate to Opus 4.6 if extended deep reasoning is needed
 
-#### Documentation Tier Agents (Docs, Lint, Visualizer, Design, Rubber Duck)
+#### Translation Conductor
 
-**Primary:** Claude Sonnet 4.6
+**Primary:** Claude Sonnet 4.6 (1×)
 **Fallback sequence:**
-1. Claude Haiku 4.5 (fast, cost-effective for structured tasks)
-2. Gemini 3 Flash (lightweight fallback for formatting and templating)
-3. **Escalate to Conductor** if documentation requires research or complex analysis
+1. GPT-5.4 (strong coding and tool calling)
+2. **Escalate to Conductor** if orchestration stalls
+
+**Decision logic:**
+- Translation orchestration follows a well-defined 6-phase lifecycle
+- Sonnet provides sufficient reasoning at 1/3 Opus cost
+- Escalate if translation scope exceeds initial estimates
+
+#### Routine Tier Agents (Lint, Rubber Duck, Visualizer)
+
+**Primary:** Claude Haiku 4.5 (0.33×)
+**Fallback sequence:**
+1. Gemini 3 Flash (lightweight fallback for formatting and templating)
+2. **Escalate to Conductor** if task requires deeper analysis
 
 **Decision logic:**
 - Try Fallback 1 immediately on primary failure
-- Fallback 2 for simple formatting and template-based tasks
-- Escalate when content requires deep analysis or research capabilities
+- Escalate when content requires research or complex reasoning
+- These agents handle structured, template-driven tasks where speed matters more than depth
 
 ## Fallback Implementation
 
@@ -213,19 +219,20 @@ After primary model restored:
 - Multi-domain synthesis and research
 - Extended thinking tasks with visible chain-of-thought
 
-**Claude Sonnet 4.6:**
-- Code generation, TDD workflows, and implementation
-- Structured refactoring and test execution
-- API integration and external calls
-- Strong reasoning with balanced cost efficiency
+**GPT-5.4:**
+- Best 1× model — subsumes GPT-5.3-Codex with better benchmarks across the board
+- SWE-Bench Pro 57.7%, GDPval 83.0%, GPQA Diamond 92.8%
+- Native computer-use capabilities (OSWorld 75.0%, WebArena 67.3%)
+- Tool search for efficient large tool ecosystems (MCP Atlas 67.2%)
+- 1M context window, strong steerability
+- Ideal for: coding, review, testing, research, adversarial testing, GUI testing
 
-**GPT-5.3-Codex:**
-- Analysis, profiling, and support tasks
-- Code review and quality auditing
-- Nuanced requirement interpretation
-- Long-form documentation review
-- Balanced reasoning at moderate cost
-- Large context analysis and cross-repository analysis
+**Claude Sonnet 4.6:**
+- Strong code generation, TDD workflows, and implementation
+- Extended thinking with visible chain-of-thought
+- Structured refactoring and test execution
+- Translation orchestration and workflow management
+- Strong reasoning with balanced cost efficiency (1× multiplier)
 
 **Claude Haiku 4.5:**
 - Fast, reliable answers to lightweight coding questions
@@ -249,15 +256,16 @@ After primary model restored:
 Conductor may override default model assignment when:
 
 1. **Task characteristics favor specific model:**
-   - Research-heavy → Gemini 3.1 Pro (Preview) (large context, evidence synthesis)
-   - Implementation-heavy → GPT-5.3-Codex (code generation)
-   - Documentation-heavy → Claude Sonnet 4.6 (writing quality)
+   - Research-heavy → GPT-5.4 (BrowseComp 82.7%, 1M context)
+   - Implementation-heavy → GPT-5.4 (SWE-Bench Pro 57.7%)
+   - GUI/browser testing → GPT-5.4 (native computer use, OSWorld 75.0%)
+   - Documentation-heavy → GPT-5.4 (1M context for large doc trees)
    - Security/adversarial → Claude Opus 4.6 (deep reasoning)
-   - Large context → Gemini 3.1 Pro (Preview) or Claude Opus 4.6
+   - Large context → GPT-5.4 (1M context) or Claude Opus 4.6 (1M beta)
 
 2. **Context size requirements:**
-   - >200K tokens → Claude Opus 4.6
-   - 100K-200K tokens → Claude Opus 4.6 or Claude Sonnet 4.6
+   - >200K tokens → GPT-5.4 (1M native) or Claude Opus 4.6 (1M beta)
+   - 100K-200K tokens → GPT-5.4 or Claude Sonnet 4.6
    - <100K tokens → Any model appropriate for tier
 
 3. **Budget constraints:**
@@ -277,7 +285,7 @@ Conductor may override default model assignment when:
 
 2. **Cost awareness:**
    - Track costs by model and agent
-   - Alert when premium usage exceeds 25% (target is 20%)
+   - Alert when premium (3×) usage exceeds 15% (target is 10%)
    - Optimize prompt efficiency to reduce token usage
 
 3. **Quality assurance:**

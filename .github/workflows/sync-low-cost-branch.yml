@@ -49,28 +49,28 @@ jobs:
       - name: Apply model downgrades
         shell: bash
         run: |
-          # Downgrade mapping (applied in order to avoid double-substitution):
-          #   Claude Sonnet 4.6 → Claude Haiku 4.5
-          #   Claude Opus 4.6  → Claude Sonnet 4.5
-          #   GPT-5.3-Codex    → Claude Sonnet 4.5
-          #   Gemini 3.1 Pro (Preview) → Claude Sonnet 4.5
+          # Downgrade mapping — Option B (64% cost reduction):
+          #   GPT-5.4           → Claude Haiku 4.5   (22 execution agents)
+          #   Claude Sonnet 4.6 → Claude Haiku 4.5   (1 agent: translation-conductor)
+          #   Claude Opus 4.6   → Claude Sonnet 4.5  (3 premium agents)
+          #   Claude Haiku 4.5  → Claude Haiku 4.5   (3 routine agents — no change)
 
           DIRS=".github/agents .github/prompts .github/skills instructions .claude docs"
-          MD_PY_FILTER='-name *.md -o -name *.py'
 
           apply_replacements() {
             local file="$1"
-            # Pass 1: Full Claude names (order matters — Sonnet before Opus)
+            # Pass 1: GPT-5.4 → Claude Haiku 4.5 (execution tier)
+            sed -i 's/GPT-5\.4 (copilot)/Claude Haiku 4.5 (copilot)/g' "$file"
+            sed -i 's/GPT-5\.4/Claude Haiku 4.5/g' "$file"
+            # Pass 2: Claude Sonnet 4.6 → Claude Haiku 4.5 (before Opus to avoid double-sub)
+            sed -i 's/Claude Sonnet 4\.6 (copilot)/Claude Haiku 4.5 (copilot)/g' "$file"
             sed -i 's/Claude Sonnet 4\.6/Claude Haiku 4.5/g' "$file"
-            sed -i 's/Claude Opus 4\.6/Claude Sonnet 4.5/g' "$file"
-            # Pass 2: Short-form Claude references
             sed -i 's/Sonnet 4\.6/Haiku 4.5/g' "$file"
+            # Pass 3: Claude Opus 4.6 → Claude Sonnet 4.5 (premium → execution)
+            sed -i 's/Claude Opus 4\.6 (copilot)/Claude Sonnet 4.5 (copilot)/g' "$file"
+            sed -i 's/Claude Opus 4\.6/Claude Sonnet 4.5/g' "$file"
             sed -i 's/Opus 4\.6/Sonnet 4.5/g' "$file"
-            # Pass 3: Non-Claude models → Sonnet 4.5
-            sed -i 's/GPT-5\.3-Codex (copilot)/Claude Sonnet 4.5 (copilot)/g' "$file"
-            sed -i 's/GPT-5\.3-Codex/Claude Sonnet 4.5/g' "$file"
-            sed -i 's/Gemini 3\.1 Pro (Preview) (copilot)/Claude Sonnet 4.5 (copilot)/g' "$file"
-            sed -i 's/Gemini 3\.1 Pro (Preview)/Claude Sonnet 4.5/g' "$file"
+            # Claude Haiku 4.5 stays as-is (already budget tier)
           }
           export -f apply_replacements
 

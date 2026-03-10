@@ -54,9 +54,9 @@ Each delegation carries a cost weight based on the target agent's model tier:
 
 | Tier | Weight | Agents | Monthly Budget Target |
 |------|--------|--------|----------------------|
-| Premium (Opus 4.6, Sonnet 4.6) | 3x | conductor, planner, reviewer, researcher, red-team, beast-mode, security, translator, translation-conductor | ≤20% of total delegations |
-| Execution (GPT-5.3-Codex, Sonnet 4.6) | 1x | implementer, maintainer, performance, accessibility, observability, visualizer, deployment, github-ops, terraform, bicep, design, test, translation-analyzer, translation-validator, translation-styler | ~70% of total delegations |
-| Routine (Sonnet 4.6) | 0.3x | docs, lint, rubber-duck | ~10% of total delegations |
+| Premium (Opus 4.6) | 3x | conductor, planner, security | ≤10% of total delegations |
+| Execution (GPT-5.4, Sonnet 4.6) | 1x | implementer, reviewer, researcher, maintainer, spec, performance, accessibility, docs, observability, deployment, red-team, beast-mode, github-ops, terraform, bicep, design, test, gui-tester, translation-conductor, translator, translation-analyzer, translation-validator, translation-styler | ~80% of total delegations |
+| Routine (Haiku 4.5) | 0.3x | lint, rubber-duck, visualizer | ~10% of total delegations |
 
 ### Budget State Tracking
 
@@ -107,10 +107,10 @@ When approaching premium-tier limits, apply these substitution patterns:
 | Instead of... | Use... | When acceptable |
 |---------------|--------|-----------------|
 | `planner` (Opus) | Conductor drafts inline plan | Minor scope adjustments, single-phase additions |
-| `researcher` (Opus) | `implementer` with search tools | Gathering file contents or API docs (not strategic research) |
-| `reviewer` (Opus) | `quick-review` prompt (Sonnet) | Minor changes, NIT-only expected findings |
-| `red-team` (Opus) | `reviewer` with adversarial prompt | When red-team findings are optional, not mandatory |
-| `beast-mode` (Opus) | Standard conductor reasoning | When extended thinking is helpful but not required |
+| `researcher` (GPT-5.4) | `implementer` with search tools | Gathering file contents or API docs (not strategic research) |
+| `reviewer` (GPT-5.4) | `quick-review` prompt (Haiku) | Minor changes, NIT-only expected findings |
+| `red-team` (GPT-5.4) | `reviewer` with adversarial prompt | When red-team findings are optional, not mandatory |
+| `beast-mode` (GPT-5.4) | Standard conductor reasoning | When extended thinking is helpful but not required |
 
 ### Circuit Breaker Pattern
 

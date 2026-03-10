@@ -2,7 +2,7 @@
 name: spec
 description: "Develops comprehensive project specifications through structured requirements elicitation, scope definition, and acceptance criteria."
 argument-hint: "Describe the project or feature you want to spec out and I'll create a comprehensive specification"
-model: 'Claude Opus 4.6 (copilot)'
+model: 'GPT-5.4 (copilot)'
 agents: ['conductor', 'researcher', 'planner']
 tools: [agent, todo, web, search, githubRepo, read, usages, problems, edit, execute, fileSearch, askQuestions]
 handoffs:

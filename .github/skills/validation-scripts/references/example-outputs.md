@@ -174,7 +174,7 @@ Sessions analyzed: 42
 
 Model Usage:
   Claude Opus 4.6:   18% (target: ≤20%)  ✅
-  GPT-5.3-Codex:     52%
+  GPT-5.4:            52%
   Claude Sonnet 4.6:  30%
 
 Quality Metrics:

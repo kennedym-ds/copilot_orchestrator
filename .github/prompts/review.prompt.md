@@ -2,7 +2,7 @@
 name: review
 description: "Quick code review of the current file or selection with severity-tagged findings."
 argument-hint: "Provide code or changes to review for quality and correctness"
-model: GPT-5.3-Codex (copilot)
+model: GPT-5.4 (copilot)
 agent: agent
 tools: [changes, search, read, problems]
 ---

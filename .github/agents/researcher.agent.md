@@ -2,7 +2,7 @@
 name: researcher
 description: "Performs targeted research, evidence gathering, and knowledge synthesis."
 argument-hint: "Ask about technologies, patterns, or gather evidence from docs and repos"
-model: 'Gemini 3.1 Pro (Preview) (copilot)'
+model: 'GPT-5.4 (copilot)'
 mcp-servers:
   research:
     type: stdio

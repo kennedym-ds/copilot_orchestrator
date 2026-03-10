@@ -108,14 +108,21 @@ if ($instructionFiles.Count -eq 0) {
 $agentFiles = @()
 $agentFiles += Get-ChildItem -Path (Join-Path $RepoRoot '.github/agents') -Filter '*.agent.md' -File -ErrorAction SilentlyContinue
 
-# Define valid model names (updated for VS Code 1.109 — model arrays supported)
+# Define valid model names (updated for current model allocation)
 $validModels = @(
     'Claude Opus 4.6 (copilot)',
     'Claude Sonnet 4.6 (copilot)',
+    'Claude Sonnet 4.5 (copilot)',
     'Claude Haiku 4.5 (copilot)',
+    'GPT-5.4 (copilot)',
     'GPT-5.3-Codex (copilot)',
+    'GPT-5.1-Codex-Mini (copilot)',
+    'GPT-5 mini (copilot)',
+    'GPT-4.1 (copilot)',
+    'GPT-4o (copilot)',
     'Gemini 3.1 Pro (Preview) (copilot)',
-    'Gemini 3 Flash (copilot)'
+    'Gemini 3 Flash (copilot)',
+    'Raptor mini (copilot)'
 )
 
 foreach ($agent in $agentFiles) {
