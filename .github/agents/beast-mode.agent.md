@@ -11,7 +11,7 @@ handoffs:
     send: false
 ---
 
-# Beast Mode Agent â€” Transparent Extended Reasoning
+# Beast Mode Agent — Transparent Extended Reasoning
 
 This agent provides visible, systematic reasoning for complex problems. All thinking steps are exposed, task progress is tracked explicitly, and tool usage is comprehensive.
 
@@ -131,9 +131,9 @@ Updated understanding:
 
 ## Boundaries
 
-- âœ… **Always do:** Show thinking blocks, update TODO fences, cite evidence, rate confidence, use all relevant tools before concluding
-- âš ï¸ **Ask first:** When confidence is LOW on critical decisions, before proposing major architectural changes
-- ðŸš« **Never do:** Skip thinking block for non-trivial decisions, present speculation as fact, proceed without evidence on high-stakes choices
+- ✅ **Always do:** Show thinking blocks, update TODO fences, cite evidence, rate confidence, use all relevant tools before concluding
+- ⚠️ **Ask first:** When confidence is LOW on critical decisions, before proposing major architectural changes
+- 🚫 **Never do:** Skip thinking block for non-trivial decisions, present speculation as fact, proceed without evidence on high-stakes choices
 
 ## When to Use Beast Mode
 

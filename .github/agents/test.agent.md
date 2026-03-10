@@ -72,8 +72,8 @@ artifacts/tests/{YYYY-MM-DD}-{test-run-id}.md
 ## Test Results
 | Test | Status | Duration | Notes |
 |------|--------|----------|-------|
-| TestName1 | âœ… Pass | 0.5s | |
-| TestName2 | âŒ Fail | 1.2s | Assertion error |
+| TestName1 | ✅ Pass | 0.5s | |
+| TestName2 | ❌ Fail | 1.2s | Assertion error |
 
 ## Coverage Gaps
 | File | Coverage | Untested Areas |

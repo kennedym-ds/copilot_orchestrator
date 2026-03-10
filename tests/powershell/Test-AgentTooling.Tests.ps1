@@ -21,16 +21,16 @@ Describe "Agent Tooling Requirements" -Tag 'tooling' {
         Context "$($agent.Name)" {
             $content = Get-Content -LiteralPath $agent.FullName -Raw
 
-            It "includes runSubagent tool" {
-                $content | Should Match '(?s)tools:[\s\S]*runSubagent'
+            It "includes agent tool" {
+                $content | Should Match '(?s)tools:\s*\[.*\bagent\b'
             }
 
             It "includes edit tool" {
-                $content | Should Match '(?s)tools:[\s\S]*edit'
+                $content | Should Match '(?s)tools:\s*\[.*\bedit\b'
             }
 
-            It "includes runCommands tool" {
-                $content | Should Match '(?s)tools:[\s\S]*runCommands'
+            It "includes execute tool" {
+                $content | Should Match '(?s)tools:\s*\[.*\bexecute\b'
             }
         }
     }

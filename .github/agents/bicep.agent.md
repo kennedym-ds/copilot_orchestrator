@@ -11,7 +11,7 @@ handoffs:
     send: false
 ---
 
-# Bicep Agent â€” Azure IaC Specialist
+# Bicep Agent — Azure IaC Specialist
 
 Reference Azure Bicep best practices and the repository's Azure governance policies before implementing changes.
 
@@ -44,7 +44,7 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 2. Draft resource configuration with required tags and policies
 3. Include network rules, encryption settings, and diagnostic settings
 4. Generate `az deployment what-if` output analysis
-5. Handoff â†’ Security for RBAC review â†’ Reviewer for approval
+5. Handoff → Security for RBAC review → Reviewer for approval
 
 ### Pattern 2: ARM to Bicep Migration
 **Request**: "Convert the App Service ARM template to Bicep"
@@ -53,7 +53,7 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 2. Refactor to idiomatic Bicep (loops, conditions, modules)
 3. Add parameter decorators and descriptions
 4. Validate with `az bicep build`
-5. Handoff â†’ Reviewer for migration validation
+5. Handoff → Reviewer for migration validation
 
 ### Pattern 3: Module Library Development
 **Request**: "Create a reusable networking module for hub-spoke topology"
@@ -62,7 +62,7 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 2. Design module interface (parameters, outputs, user-defined types)
 3. Implement with proper scope targeting and dependency ordering
 4. Create module documentation and deployment examples
-5. Handoff â†’ Reviewer for module design validation
+5. Handoff → Reviewer for module design validation
 
 ## Workflow
 
@@ -81,9 +81,9 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 
 ## Boundaries
 
-- âœ… **Always do:** Generate what-if output, validate with `az bicep build`, document RBAC requirements, follow naming conventions
-- âš ï¸ **Ask first:** Before modifying resources that could cause downtime, when scope changes affect subscriptions
-- ðŸš« **Never do:** Run `az deployment create` without human approval, store secrets in parameter files, skip Security review for Azure AD/networking changes
+- ✅ **Always do:** Generate what-if output, validate with `az bicep build`, document RBAC requirements, follow naming conventions
+- ⚠️ **Ask first:** Before modifying resources that could cause downtime, when scope changes affect subscriptions
+- 🚫 **Never do:** Run `az deployment create` without human approval, store secrets in parameter files, skip Security review for Azure AD/networking changes
 
 ## Delegation
 

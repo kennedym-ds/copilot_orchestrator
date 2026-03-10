@@ -158,7 +158,7 @@ See [docs/guides/vscode-copilot-configuration.md](docs/guides/vscode-copilot-con
 
 ---
 
-## Agent Roster (28 Agents)
+## Agent Roster (29 Agents)
 
 ### Core Workflow
 
@@ -206,6 +206,7 @@ See [docs/guides/vscode-copilot-configuration.md](docs/guides/vscode-copilot-con
 | Bicep | `bicep.agent.md` | Azure IaC implementation |
 | Design | `design.agent.md` | Architecture design |
 | Beast Mode | `beast-mode.agent.md` | Extended reasoning, visible thinking |
+| GUI Tester | `gui-tester.agent.md` | Browser automation, visual regression, interaction testing |
 | Rubber Duck | `rubber-duck.agent.md` | Socratic problem-solving, guided debugging |
 
 ---

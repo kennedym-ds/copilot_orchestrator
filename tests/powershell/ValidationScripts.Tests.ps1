@@ -1,60 +1,42 @@
+# Validation script tests — suppress Write-Host (stream 6) and Warning
+# (stream 3) output to prevent flooding VS Code's integrated terminal.
+# Scripts use exit 0/1; check $LASTEXITCODE after each call.
+
+$script:repoRoot = (Get-Item $PSScriptRoot).Parent.Parent.FullName
+$script:scriptRoot = Join-Path $script:repoRoot 'scripts'
+
 Describe 'Copilot validation scripts' {
-    BeforeAll {
-        $script:repoRoot = (Get-Item $PSScriptRoot).Parent.Parent.FullName
-        $script:scriptRoot = Join-Path $script:repoRoot 'scripts'
-        $script:timeoutMs = 300000  # 5 minutes per script
-
-        function Invoke-RepositoryScript {
-            param(
-                [Parameter(Mandatory)]
-                [string]$ScriptName,
-                [string[]]$ArgumentList = @()
-            )
-
-            $scriptPath = Resolve-Path -LiteralPath (Join-Path $script:scriptRoot $ScriptName)
-            $shellExecutable = 'pwsh'
-            if (-not (Get-Command -Name $shellExecutable -ErrorAction SilentlyContinue)) {
-                $shellExecutable = 'powershell'
-            }
-
-            $stdoutFile = Join-Path $TestDrive "$([System.IO.Path]::GetRandomFileName()).stdout"
-            $stderrFile = Join-Path $TestDrive "$([System.IO.Path]::GetRandomFileName()).stderr"
-
-            $arguments = @('-NoLogo', '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $scriptPath.Path) + $ArgumentList
-            $process = Start-Process -FilePath $shellExecutable -ArgumentList $arguments `
-                -NoNewWindow -PassThru `
-                -RedirectStandardOutput $stdoutFile `
-                -RedirectStandardError $stderrFile
-
-            $completed = $process.WaitForExit($script:timeoutMs)
-            if (-not $completed) {
-                try { $process.Kill() } catch { }
-                $partialOut = if (Test-Path $stdoutFile) { Get-Content $stdoutFile -Raw -ErrorAction SilentlyContinue } else { '' }
-                throw "Script '$ScriptName' timed out after $($script:timeoutMs / 1000) seconds.`nPartial output:`n$partialOut"
-            }
-
-            return $process.ExitCode
-        }
-    }
 
     It 'validate-copilot-assets.ps1 completes successfully' {
-        $exitCode = Invoke-RepositoryScript -ScriptName 'validate-copilot-assets.ps1' -ArgumentList @('-RepositoryRoot', $script:repoRoot)
-        $exitCode | Should -Be 0
+        $scriptPath = Join-Path $script:scriptRoot 'validate-copilot-assets.ps1'
+        $err = $null
+        try { & $scriptPath -RepositoryRoot $script:repoRoot -ErrorAction Stop 6>$null 3>$null | Out-Null } catch { $err = $_ }
+        $err | Should BeNullOrEmpty
+        $LASTEXITCODE | Should Be 0
     }
 
     It 'add-prompt-metadata.ps1 passes in check-only mode' {
-        $exitCode = Invoke-RepositoryScript -ScriptName 'add-prompt-metadata.ps1' -ArgumentList @('-RepositoryRoot', $script:repoRoot, '-CheckOnly')
-        $exitCode | Should -Be 0
+        $scriptPath = Join-Path $script:scriptRoot 'add-prompt-metadata.ps1'
+        $err = $null
+        try { & $scriptPath -RepositoryRoot $script:repoRoot -CheckOnly -ErrorAction Stop 6>$null 3>$null | Out-Null } catch { $err = $_ }
+        $err | Should BeNullOrEmpty
+        $LASTEXITCODE | Should Be 0
     }
 
     It 'run-lint.ps1 completes without errors' {
-        $exitCode = Invoke-RepositoryScript -ScriptName 'run-lint.ps1' -ArgumentList @('-RepositoryRoot', $script:repoRoot)
-        $exitCode | Should -Be 0
+        $scriptPath = Join-Path $script:scriptRoot 'run-lint.ps1'
+        $err = $null
+        try { & $scriptPath -RepositoryRoot $script:repoRoot -ErrorAction Stop 6>$null 3>$null | Out-Null } catch { $err = $_ }
+        $err | Should BeNullOrEmpty
+        $LASTEXITCODE | Should Be 0
     }
 
     It 'run-smoke-tests.ps1 validates repository health' {
-        $exitCode = Invoke-RepositoryScript -ScriptName 'run-smoke-tests.ps1' -ArgumentList @('-RepositoryRoot', $script:repoRoot)
-        $exitCode | Should -Be 0
+        $scriptPath = Join-Path $script:scriptRoot 'run-smoke-tests.ps1'
+        $err = $null
+        try { & $scriptPath -RepositoryRoot $script:repoRoot -ErrorAction Stop 6>$null 3>$null | Out-Null } catch { $err = $_ }
+        $err | Should BeNullOrEmpty
+        $LASTEXITCODE | Should Be 0
     }
 
     It 'token-report.ps1 emits JSON output' {
@@ -62,12 +44,14 @@ Describe 'Copilot validation scripts' {
         $null = New-Item -ItemType Directory -Path $outputDirectory -Force
         $outputPath = Join-Path $outputDirectory 'token-report.json'
 
-        $exitCode = Invoke-RepositoryScript -ScriptName 'token-report.ps1' -ArgumentList @('-Path', $script:repoRoot, '-OutputPath', $outputPath)
-        $exitCode | Should -Be 0
-        Test-Path -LiteralPath $outputPath | Should -BeTrue
+        $scriptPath = Join-Path $script:scriptRoot 'token-report.ps1'
+        $err = $null
+        try { & $scriptPath -Path $script:repoRoot -OutputPath $outputPath -ErrorAction Stop 6>$null 3>$null | Out-Null } catch { $err = $_ }
+        $err | Should BeNullOrEmpty
+        Test-Path -LiteralPath $outputPath | Should Be $true
 
         $json = Get-Content -LiteralPath $outputPath -Raw | ConvertFrom-Json
-        $json.totalTokens | Should -BeGreaterThan 0
-        ($json.summary | Measure-Object).Count | Should -BeGreaterThan 0
+        $json.totalTokens | Should BeGreaterThan 0
+        ($json.summary | Measure-Object).Count | Should BeGreaterThan 0
     }
 }

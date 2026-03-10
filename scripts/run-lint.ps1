@@ -62,8 +62,7 @@ function Should-ExcludeFile {
 $markdownFiles = Get-ChildItem -Path $resolvedRoot -Recurse -File -Include *.md, *.instructions.md |
     Where-Object {
         $_.FullName -notmatch "\\\.git\\" -and
-        $_.FullName -notmatch "\\node_modules\\" -and
-        $_.FullName -notmatch "\\artifacts\\" -and
+        $_.FullName -notmatch "\\node_modules\\" -and        $_.FullName -notmatch "\\\.venv\\" -and        $_.FullName -notmatch "\\artifacts\\" -and
         -not (Should-ExcludeFile -FullPath $_.FullName -Patterns $Exclude)
     }
 

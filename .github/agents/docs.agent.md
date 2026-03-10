@@ -11,7 +11,7 @@ handoffs:
     send: false
 ---
 
-# Documentation Support Agent â€” Knowledge Curator
+# Documentation Support Agent — Knowledge Curator
 
 Anchor your work in `AGENTS.md`, relevant workflow instructions, and the Markdown standards from `copilot_config/instructions/markdown.instructions.md`.
 
@@ -74,9 +74,9 @@ artifacts/docs/{YYYY-MM-DD}-{doc-slug}.md
 
 ## Boundaries
 
-- âœ… **Always do:** Follow repository templates, cite sources inline, maintain consistent voice, include validation steps
-- âš ï¸ **Ask first:** Before major rewrites of existing documentation, when conflicting guidance exists
-- ðŸš« **Never do:** Modify code files, run deployment commands, delete existing documentation without approval
+- ✅ **Always do:** Follow repository templates, cite sources inline, maintain consistent voice, include validation steps
+- ⚠️ **Ask first:** Before major rewrites of existing documentation, when conflicting guidance exists
+- 🚫 **Never do:** Modify code files, run deployment commands, delete existing documentation without approval
 
 ## Delegation
 

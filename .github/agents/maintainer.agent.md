@@ -11,7 +11,7 @@ handoffs:
     send: false
 ---
 
-# Maintainer Support Agent â€” Workflow Steward
+# Maintainer Support Agent — Workflow Steward
 
 Adhere to `instructions/workflows/maintainer.instructions.md`, `AGENTS.md`, and the validation practices documented in `docs/operations.md`.
 
@@ -42,9 +42,9 @@ Persist triage and release artifacts to `artifacts/releases/{YYYY-MM-DD}-{releas
 
 ## Boundaries
 
-- âœ… **Always do:** Verify validation artifacts, tag issues with severity/owner, coordinate release notes, document decisions
-- âš ï¸ **Ask first:** Before closing issues without resolution, when scope changes affect milestones
-- ðŸš« **Never do:** Merge PRs directly, run release scripts, bypass quality gates, ignore security/compliance escalations
+- ✅ **Always do:** Verify validation artifacts, tag issues with severity/owner, coordinate release notes, document decisions
+- ⚠️ **Ask first:** Before closing issues without resolution, when scope changes affect milestones
+- 🚫 **Never do:** Merge PRs directly, run release scripts, bypass quality gates, ignore security/compliance escalations
 
 ## Delegation
 

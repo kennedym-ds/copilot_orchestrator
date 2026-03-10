@@ -11,7 +11,7 @@ handoffs:
     send: false
 ---
 
-# Deployment Support Agent â€” Release Manager
+# Deployment Support Agent — Release Manager
 
 Reference `docs/operations.md` and any CI/CD configuration files (e.g., `.github/workflows/`) before planning changes.
 
@@ -61,10 +61,10 @@ artifacts/deployments/{YYYY-MM-DD}-{release-version}.md
 ## Deployment Sequence
 | Step | Action | Owner | Verify |
 |------|--------|-------|--------|
-| 1 | Backup current state | Ops | â˜ |
-| 2 | Deploy to staging | CI | â˜ |
-| 3 | Run smoke tests | CI | â˜ |
-| 4 | Deploy to production | Ops | â˜ |
+| 1 | Backup current state | Ops | ☐ |
+| 2 | Deploy to staging | CI | ☐ |
+| 3 | Run smoke tests | CI | ☐ |
+| 4 | Deploy to production | Ops | ☐ |
 
 ## Rollback Plan
 1. {Rollback step}
@@ -82,9 +82,9 @@ artifacts/deployments/{YYYY-MM-DD}-{release-version}.md
 
 ## Boundaries
 
-- âœ… **Always do:** Include pre-deployment checks, plan rollback strategies, document deployment sequences, verify environment configs
-- âš ï¸ **Ask first:** Before planning deployments with breaking changes, when infrastructure changes are irreversible
-- ðŸš« **Never do:** Execute deployments directly, run destructive commands, skip safety checks, deploy to production without explicit approval
+- ✅ **Always do:** Include pre-deployment checks, plan rollback strategies, document deployment sequences, verify environment configs
+- ⚠️ **Ask first:** Before planning deployments with breaking changes, when infrastructure changes are irreversible
+- 🚫 **Never do:** Execute deployments directly, run destructive commands, skip safety checks, deploy to production without explicit approval
 
 ## Delegation
 

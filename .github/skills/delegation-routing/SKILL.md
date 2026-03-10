@@ -105,6 +105,7 @@ All inter-agent delegation uses `#runSubagent`:
 | **bicep** | "Azure", "Bicep", "ARM template", "Azure IaC" | Azure infrastructure implementation, ARM compatibility | GPT-5.3-Codex |
 | **design** | "design system", "brand colors", "components", "design tokens" | Design system queries, component search, contrast validation | GPT-5.3-Codex |
 | **beast-mode** | "deep analysis", "complex reasoning", "step-by-step", "thorough investigation" | Extended reasoning with visible thinking, complex problem solving | Claude Opus 4.6 |
+| **gui-tester** | "GUI test", "browser test", "visual regression", "interaction test", "screenshot", "Playwright", "page load", "UI validation" | Browser automation, visual regression, interaction testing, form validation | Claude Sonnet 4.6 |
 | **rubber-duck** | "stuck", "confused", "think through", "debug thinking", "rubber duck", "talk it out", "help me understand" | Socratic problem-solving, guided debugging via probing questions | Claude Sonnet 4.6 |
 
 ### Delegation Templates
@@ -337,6 +338,7 @@ When delegating to a sub-agent, load the relevant skills to ensure the agent fol
 | bicep | — | Azure IaC (standalone) |
 | design | — | Design system queries (standalone) |
 | beast-mode | memory-management | Extended sessions, context management |
+| gui-tester | — | Browser automation (standalone) |
 | rubber-duck | — | Conversational only (no skills needed) |
 | spec | spec-development, documentation-style | Requirements elicitation, spec authoring |
 | translation-conductor | conductor-lifecycle | Translation orchestration lifecycle |

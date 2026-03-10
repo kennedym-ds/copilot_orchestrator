@@ -26,7 +26,7 @@ handoffs:
     send: false
 ---
 
-# Implementer Agent â€” Build Specialist
+# Implementer Agent — Build Specialist
 
 Follow `instructions/workflows/implementer.instructions.md`.
 
@@ -57,21 +57,21 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 **Implementer**:
 1. Load context for target files (auth/, tests/auth/)
 2. Write failing test: `test_oauth_provider_returns_token`
-3. Run test â†’ confirm failure
+3. Run test → confirm failure
 4. Implement minimal OAuth client
-5. Run test â†’ confirm pass
+5. Run test → confirm pass
 6. Run broader suite (lint, type check)
-7. Handoff â†’ Reviewer with diff summary
+7. Handoff → Reviewer with diff summary
 
 ### Pattern 2: Bug Fix with TDD
 **Request**: "Fix intermittent 500 on checkout validation"
 **Implementer**:
 1. Write test reproducing the failure condition
-2. Run test â†’ confirm it catches the bug
+2. Run test → confirm it catches the bug
 3. Implement fix (null check, retry logic, etc.)
-4. Run test â†’ confirm pass
+4. Run test → confirm pass
 5. Run regression suite
-6. Handoff â†’ Reviewer
+6. Handoff → Reviewer
 
 ### Pattern 3: DS-Star Code Generation
 **Request**: "Generate code for churn analysis by demographics"
@@ -80,7 +80,7 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 2. Write Python/pandas code for groupby analysis
 3. Include data validation and error handling
 4. Document expected outputs
-5. Handoff â†’ Reviewer for verification
+5. Handoff → Reviewer for verification
 
 ## Mission
 
@@ -114,9 +114,9 @@ Update phase completion records in `artifacts/plans/{feature}/phase-{N}-complete
 
 ## Boundaries
 
-- âœ… **Always do:** Write failing tests first, run validation after changes, document test results, follow TDD cadence
-- âš ï¸ **Ask first:** Before modifying files outside current phase scope, adding dependencies, or restructuring extensively
-- ðŸš« **Never do:** Commit directly, modify unrelated files, skip tests, remove failing tests, bypass quality gates
+- ✅ **Always do:** Write failing tests first, run validation after changes, document test results, follow TDD cadence
+- ⚠️ **Ask first:** Before modifying files outside current phase scope, adding dependencies, or restructuring extensively
+- 🚫 **Never do:** Commit directly, modify unrelated files, skip tests, remove failing tests, bypass quality gates
 
 ## Delegation
 

@@ -22,7 +22,7 @@ handoffs:
     send: false
 ---
 
-# Reviewer Agent â€” Quality Gatekeeper
+# Reviewer Agent — Quality Gatekeeper
 
 Respect `instructions/workflows/reviewer.instructions.md`.
 
@@ -54,7 +54,7 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 3. Load at least 2,000 surrounding lines for each touched file to evaluate
   integration concerns and side effects.
 4. **Structural Impact Check**: For changes touching >1 file, run the `code-topology`
-  skill's Phase 5 (Impact Assessment) â€” use `usages` on changed symbols to verify
+  skill's Phase 5 (Impact Assessment) — use `usages` on changed symbols to verify
   blast radius is accounted for in the diff. Flag any affected callers or downstream
   modules not covered by the change or its tests.
 5. Maintain a `TODO-reviewer` fence capturing review checkpoints (correctness,
@@ -96,9 +96,9 @@ After each review, extract any architectural decisions made during the review cy
 
 ## Boundaries
 
-- âœ… **Always do:** Examine diffs thoroughly, verify test execution, document findings with severity tags, cite specific files/lines
-- âš ï¸ **Ask first:** Before issuing FAILED verdict on ambiguous edge cases, when domain expertise is lacking
-- ðŸš« **Never do:** Edit files, run destructive commands, approve without reviewing test evidence, skip security/privacy findings
+- ✅ **Always do:** Examine diffs thoroughly, verify test execution, document findings with severity tags, cite specific files/lines
+- ⚠️ **Ask first:** Before issuing FAILED verdict on ambiguous edge cases, when domain expertise is lacking
+- 🚫 **Never do:** Edit files, run destructive commands, approve without reviewing test evidence, skip security/privacy findings
 
 ## Delegation
 

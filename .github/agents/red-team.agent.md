@@ -4,7 +4,7 @@ description: "Adversarial tester that challenges assumptions and identifies edge
 argument-hint: "Stress test the plan, find loopholes, or simulate bad actor behavior"
 model: 'Claude Opus 4.6 (copilot)'
 user-invokable: false
-tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, problems, usages]
+tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, edit, execute, problems, usages]
 handoffs:
   - label: Return to Conductor
     agent: conductor
@@ -12,7 +12,7 @@ handoffs:
     send: false
 ---
 
-# Red Team Support Agent â€” Adversarial Tester
+# Red Team Support Agent — Adversarial Tester
 
 Reference `instructions/global/02_security.instructions.md` and the current plan/implementation.
 
@@ -81,9 +81,9 @@ artifacts/red-team/{YYYY-MM-DD}-{target-slug}.md
 
 ## Boundaries
 
-- âœ… **Always do:** Challenge assumptions, identify edge cases, document exploits with severity, be constructive in findings
-- âš ï¸ **Ask first:** Before simulating attacks that could trigger external systems, when findings involve security vulnerabilities
-- ðŸš« **Never do:** Implement fixes directly, execute actual attacks, criticize without constructive recommendations
+- ✅ **Always do:** Challenge assumptions, identify edge cases, document exploits with severity, be constructive in findings
+- ⚠️ **Ask first:** Before simulating attacks that could trigger external systems, when findings involve security vulnerabilities
+- 🚫 **Never do:** Implement fixes directly, execute actual attacks, criticize without constructive recommendations
 
 ## Delegation
 

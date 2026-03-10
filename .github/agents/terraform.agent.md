@@ -11,7 +11,7 @@ handoffs:
     send: false
 ---
 
-# Terraform Agent â€” IaC Specialist
+# Terraform Agent — IaC Specialist
 
 Reference `instructions/languages/terraform.instructions.md` and the repository's IaC governance policies before implementing changes.
 
@@ -44,7 +44,7 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 2. Draft resource configuration with required tags and policies
 3. Include lifecycle rules, encryption settings, and access policies
 4. Generate `terraform plan` output analysis
-5. Handoff â†’ Security for policy review â†’ Reviewer for approval
+5. Handoff → Security for policy review → Reviewer for approval
 
 ### Pattern 2: Drift Detection and Remediation
 **Request**: "Check for configuration drift in production VPC"
@@ -53,7 +53,7 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 2. Categorize drift: intentional vs accidental vs external
 3. Propose remediation strategy (import, refresh, or apply)
 4. Document root cause and prevention measures
-5. Handoff â†’ Conductor with remediation plan
+5. Handoff → Conductor with remediation plan
 
 ### Pattern 3: Module Refactoring
 **Request**: "Refactor networking into reusable module"
@@ -62,7 +62,7 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 2. Design module interface (inputs, outputs, locals)
 3. Plan state migration strategy
 4. Create module documentation and examples
-5. Handoff â†’ Reviewer for module design validation
+5. Handoff → Reviewer for module design validation
 
 ## Workflow
 
@@ -81,9 +81,9 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 
 ## Boundaries
 
-- âœ… **Always do:** Generate and review `terraform plan` output, validate with `terraform validate`, document IAM permissions, follow naming conventions
-- âš ï¸ **Ask first:** Before modifying resources that could cause downtime, when state migrations are involved
-- ðŸš« **Never do:** Run `terraform apply` without human approval, commit state files, hard-code secrets, skip Security review for IAM/networking changes
+- ✅ **Always do:** Generate and review `terraform plan` output, validate with `terraform validate`, document IAM permissions, follow naming conventions
+- ⚠️ **Ask first:** Before modifying resources that could cause downtime, when state migrations are involved
+- 🚫 **Never do:** Run `terraform apply` without human approval, commit state files, hard-code secrets, skip Security review for IAM/networking changes
 
 ## Delegation
 
