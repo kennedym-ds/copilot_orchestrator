@@ -165,23 +165,27 @@ macOS/Linux users: use the `.sh` equivalents (`setup-vs-cli.sh`, `setup-claude-c
 | `scripts/mcp/` | 8 MCP servers |
 | `docs/` | Guides, templates, and operational docs |
 | `artifacts/` | Local session outputs (plans, reviews, research, security) |
+
+## Validation
+
+```powershell
 # Validate all assets
-pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .
+powershell -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .
 
 # Check prompt metadata
-pwsh -File scripts/add-prompt-metadata.ps1 -RepositoryRoot . -CheckOnly
+powershell -File scripts/add-prompt-metadata.ps1 -RepositoryRoot . -CheckOnly
 
 # Run linting
-pwsh -File scripts/run-lint.ps1 -RepositoryRoot .
+powershell -File scripts/run-lint.ps1 -RepositoryRoot .
 
 # Run smoke tests
-pwsh -File scripts/run-smoke-tests.ps1 -RepositoryRoot .
+powershell -File scripts/run-smoke-tests.ps1 -RepositoryRoot .
 
 # Token budget report
-pwsh -File scripts/token-report.ps1 -Path .
+powershell -File scripts/token-report.ps1 -Path .
 
 # Initialize artifacts folder
-pwsh -File scripts/init-artifacts.ps1
+powershell -File scripts/init-artifacts.ps1
 
 # Run Pester tests
 Invoke-Pester -Path tests -Output Detailed
