@@ -28,9 +28,9 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 
 ## Prerequisites
 
-Requires VS Code 1.110+ with the experimental integrated browser and browser tools enabled.
+### Option A: VS Code Integrated Browser (Experimental)
 
-Add the following to your VS Code settings:
+Requires VS Code 1.110+ with the experimental integrated browser enabled:
 
 ```json
 {
@@ -38,13 +38,38 @@ Add the following to your VS Code settings:
 }
 ```
 
-When this setting is enabled, VS Code automatically makes the 10 browser tools (`openBrowserPage`, `navigatePage`, `readPage`, `screenshotPage`, `clickElement`, `hoverElement`, `dragElement`, `typeInPage`, `handleDialog`, `runPlaywrightCode`) available to the agent. Do not add them to the `tools:` frontmatter — they are injected by VS Code at session start.
+When this setting is enabled, VS Code automatically injects 10 browser tools (`openBrowserPage`, `navigatePage`, `readPage`, `screenshotPage`, `clickElement`, `hoverElement`, `dragElement`, `typeInPage`, `handleDialog`, `runPlaywrightCode`) at session start. Do not add them to the `tools:` frontmatter.
 
-> **Note:** Browser tools are experimental and may change in future releases. If the setting is disabled or the feature is unavailable, the agent falls back to standard code-analysis tools.
+> **Note:** Browser tools are experimental. If they are not available in your session, use Option B.
+
+### Option B: Playwright via Terminal (Fallback)
+
+If browser tools are not injected (the tools are missing from your session), use Playwright through the terminal instead. This works on any platform and does not require the experimental browser setting.
+
+Install Playwright (one-time):
+
+```powershell
+npm install -g playwright
+npx playwright install chromium
+```
+
+### Tool Detection
+
+At the start of every session, check whether browser tools are available. If `openBrowserPage` is not recognized as a tool, **switch to Playwright fallback mode** and run all interactions through `execute` (terminal) using Playwright scripts. Do not search for the tools or attempt workarounds — they are either injected at session start or not available.
 
 ## Workflow
 
-### 1. Open and Inspect
+### Tool Detection (First Step in Every Session)
+
+Before running any test, determine which mode to use:
+
+1. Check if `openBrowserPage` is available as a tool
+2. If **yes** → use **Browser Tools Mode** (sections 1-4 below)
+3. If **no** → use **Playwright Fallback Mode** (section 5 below)
+
+Do not waste turns searching for tools or attempting workarounds. Pick a mode and execute.
+
+### 1. Open and Inspect (Browser Tools Mode)
 
 Open the target page and read its content to understand the structure:
 
@@ -75,6 +100,58 @@ Use Playwright code for multi-step flows that require precise sequencing:
 ```
 runPlaywrightCode (login flow, form submission, drag-and-drop sequences)
 ```
+
+### 5. Playwright Fallback Mode (When Browser Tools Unavailable)
+
+When browser tools are not injected, use Playwright via the terminal. Write a Node.js script and execute it:
+
+```javascript
+// Example: Open page, screenshot, read content, click, verify
+const { chromium } = require('playwright');
+
+(async () => {
+  const browser = await chromium.launch({ headless: true });
+  const page = await browser.newPage();
+
+  // Navigate
+  await page.goto('http://localhost:1420');
+
+  // Screenshot
+  await page.screenshot({ path: 'screenshot-initial.png', fullPage: true });
+
+  // Read content
+  const title = await page.title();
+  const bodyText = await page.locator('body').innerText();
+  console.log('Title:', title);
+  console.log('Body preview:', bodyText.substring(0, 500));
+
+  // Interact
+  await page.click('button#load-data');  // adjust selector
+  await page.waitForTimeout(1000);
+  await page.screenshot({ path: 'screenshot-after-click.png' });
+
+  // Verify
+  const result = await page.locator('.result-panel').innerText();
+  console.log('Result:', result);
+
+  await browser.close();
+})();
+```
+
+**Playwright fallback workflow:**
+1. Write a `.js` script tailored to the test scenario
+2. Run it via `node script.js` in the terminal
+3. Read screenshots and console output to evaluate results
+4. Report findings in the standard report format
+
+**Key Playwright commands for common tasks:**
+- **Navigate:** `page.goto(url)`
+- **Screenshot:** `page.screenshot({ path: 'file.png', fullPage: true })`
+- **Read text:** `page.locator('selector').innerText()`
+- **Click:** `page.click('selector')`
+- **Type:** `page.fill('input[name="field"]', 'value')`
+- **Wait for element:** `page.waitForSelector('selector')`
+- **Check visibility:** `page.locator('selector').isVisible()`
 
 ## Testing Patterns
 
