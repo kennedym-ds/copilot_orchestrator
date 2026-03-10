@@ -28,9 +28,9 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 
 ## Prerequisites
 
-Requires VS Code 1.110+ with the experimental browser tools enabled.
+Requires VS Code 1.110+ with the experimental integrated browser and browser tools enabled.
 
-Add the following to your VS Code settings, then add the browser tools to the agent's `tools:` frontmatter:
+Add the following to your VS Code settings:
 
 ```json
 {
@@ -38,14 +38,9 @@ Add the following to your VS Code settings, then add the browser tools to the ag
 }
 ```
 
-Browser tools to add to `tools:` when the setting above is enabled:
+When this setting is enabled, VS Code automatically makes the 10 browser tools (`openBrowserPage`, `navigatePage`, `readPage`, `screenshotPage`, `clickElement`, `hoverElement`, `dragElement`, `typeInPage`, `handleDialog`, `runPlaywrightCode`) available to the agent. Do not add them to the `tools:` frontmatter — they are injected by VS Code at session start.
 
-```
-openBrowserPage, navigatePage, readPage, screenshotPage, clickElement,
-hoverElement, dragElement, typeInPage, handleDialog, runPlaywrightCode
-```
-
-> **Note:** Do not include browser tools in the `tools:` list unless the setting is enabled — VS Code may become unresponsive during tool resolution.
+> **Note:** Browser tools are experimental and may change in future releases. If the setting is disabled or the feature is unavailable, the agent falls back to standard code-analysis tools.
 
 ## Workflow
 
