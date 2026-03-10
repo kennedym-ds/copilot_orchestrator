@@ -9,7 +9,7 @@ name: terraform
 description: "Plans and implements Terraform infrastructure-as-code with drift detection, compliance, and modularization support."
 argument-hint: "Describe Terraform changes, drift detection, or IaC planning tasks"
 model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
-tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, edit, execute, problems, usages]
+tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, edit, execute, problems, usages, askQuestions]
 handoffs:
   - label: Return to Conductor
     agent: conductor

@@ -27,7 +27,7 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/validation_server.py"]
     tools: ["token_report"]
-tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, problems]
+tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, problems, askQuestions]
 handoffs:
   - label: Return to Conductor
     agent: conductor
@@ -127,7 +127,7 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/validation_server.py"]
     tools: ["token_report"]
-tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, problems]
+tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, problems, askQuestions]
 handoffs:
   - label: Return to Conductor
     agent: conductor
@@ -223,7 +223,7 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/validation_server.py"]
     tools: ["token_report"]
-tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, problems]
+tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, problems, askQuestions]
 handoffs:
   - label: Return to Conductor
     agent: conductor

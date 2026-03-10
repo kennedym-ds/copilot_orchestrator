@@ -17,7 +17,7 @@ mcp-servers:
   github:
     type: http
     url: "https://api.githubcopilot.com/mcp/"
-tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, edit, execute, problems]
+tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, edit, execute, problems, askQuestions]
 handoffs:
   - label: Return to Conductor
     agent: conductor

@@ -1,0 +1,171 @@
+{
+    // ═══════════════════════════════════════════════════════════
+    // Copilot Orchestrator — VS Code 1.110 Workspace Settings
+    // User setup repo: ensures agents load in all VS Code windows
+    // ═══════════════════════════════════════════════════════════
+
+    // ── Agent & Customization Discovery ──────────────────────
+    "chat.useAgentsMdFile": true,
+    "chat.useNestedAgentsMdFiles": true,
+    "chat.instructionsFilesLocations": {
+        "instructions": true,
+        ".github/instructions": true
+    },
+    "chat.promptFiles": true,
+    "chat.promptFilesLocations": {
+        ".github/prompts": true
+    },
+    // 1.109: Custom agent file locations (additional search paths)
+    "chat.agentFilesLocations": {
+        ".github/agents": true
+    },
+    // 1.109: Agent skill file locations (GA)
+    "chat.agentSkillsLocations": {
+        ".github/skills": true
+    },
+
+    // ── Agent Skills (GA in 1.109, was experimental) ─────────
+    "chat.useAgentSkills": true,
+    // 1.109: Agent customization skill teaches AI about creating agents/instructions/prompts/skills
+    "chat.agentCustomizationSkill.enabled": true,
+
+    // ── Subagents & Orchestration ────────────────────────────
+    "chat.customAgentInSubagent.enabled": true,
+    // 1.109: Search subagent runs in isolated context for iterative code search
+    "github.copilot.chat.searchSubagent.enabled": true,
+
+    // ── Organization & Enterprise ────────────────────────────
+    "github.copilot.chat.customAgents.showOrganizationAndEnterpriseAgents": true,
+    "github.copilot.chat.cli.customAgents.enabled": true,
+    // 1.109: Organization-level custom instructions auto-applied
+    "github.copilot.chat.organizationInstructions.enabled": true,
+
+    // ── Thinking & Reasoning (1.109 renamed/new) ─────────────
+    // Renamed: chat.agent.thinkingStyle → chat.thinking.style
+    "chat.thinking.style": "collapsed",
+    "chat.agent.thinking.collapsedTools": true,
+    // 1.109: Show thinking interleaved with terminal tool calls
+    "chat.agent.thinking.terminalTools": true,
+    // 1.109: Auto-expand failing tool calls for more context
+    "chat.tools.autoExpandFailures": true,
+
+    // ── Anthropic Model Enhancements (1.109) ─────────────────
+    // Messages API with interleaved thinking; set to 0 to disable
+    "github.copilot.chat.anthropic.thinking.budgetTokens": 10000,
+    // Tool search tool helps Claude discover relevant tools from larger pools
+    "github.copilot.chat.anthropic.toolSearchTool.enabled": true,
+    // Context editing: clears old tool results/thinking to maintain more context
+    "github.copilot.chat.anthropic.contextEditing.enabled": true,
+
+    // ── Ask Questions Tool (1.109 Experimental) ──────────────
+    // Agent asks clarifying questions instead of making assumptions
+    "chat.askQuestions.enabled": true,
+    // 1.109.3: Message steering and queueing
+    "chat.requestQueuing.enabled": true,
+    "chat.requestQueuing.defaultAction": "steer",
+    // 1.109.3: Hooks for lifecycle automation and policy checks
+    "chat.hooks.enabled": true,
+
+    // ── Memory & Context ─────────────────────────────────────
+    "github.copilot.chat.mcp.enabled": true,
+    // 1.109: Copilot Memory (Preview) — stores/recalls info across sessions
+    // Replaces legacy github.copilot.chat.tools.memory.enabled
+    "github.copilot.chat.copilotMemory.enabled": true,
+    // 1.109: External indexing for non-GitHub workspaces
+    "github.copilot.chat.advanced.workspace.codeSearchExternalIngest.enabled": true,
+
+    // ── Agent Sessions ───────────────────────────────────────
+    "chat.viewSessions.enabled": true,
+    "chat.viewSessions.orientation": "stacked",
+    "chat.restoreLastPanelSession": false,
+    // 1.109: Agent status indicator in command center
+    "chat.agentsControl.enabled": true,
+    "chat.agentsControl.clickBehavior": "cycle",
+    // 1.109: Agent Sessions Welcome Page as startup editor
+    "workbench.startupEditor": "agentSessionsWelcomePage",
+
+    // ── Plan Agent (1.109+) ──────────────────────────────────
+    // Default model for plan implementation step
+    "github.copilot.chat.implementAgent.model": "Codex 5.2 (copilot)",
+    // 1.110: Explore subagent model for codebase research (fast models)
+    "chat.exploreAgent.defaultModel": "Claude Haiku 4.5 (copilot)",
+
+    // ── Agent Plugins (1.110 Experimental) ───────────────────
+    "chat.plugins.enabled": true,
+
+    // ── Agent Autonomy (1.111 Preview) ───────────────────────
+    // Autopilot mode: agent auto-approves tools and auto-responds to questions
+    "chat.autopilot.enabled": true,
+    // Agent-scoped hooks: pre/post-processing per agent definition
+    "chat.useCustomAgentHooks": true,
+    // Group AI CLI profiles at top of terminal dropdown
+    "terminal.integrated.experimental.aiProfileGrouping": true,
+
+    // ── Notifications (1.110) ────────────────────────────────
+    // Notify even when VS Code is focused (useful for long agent tasks)
+    "chat.notifyWindowOnResponseReceived": "always",
+    "chat.notifyWindowOnConfirmation": "always",
+    // Move notifications to avoid overlapping Chat view
+    "workbench.notifications.position": "bottom-left",
+
+    // ── Tips & Discoverability (1.110) ───────────────────────
+    "chat.tips.enabled": true,
+
+    // ── Terminal ─────────────────────────────────────────────
+    "chat.tools.terminal.enableAutoApprove": true,
+    "chat.tools.terminal.autoApproveWorkspaceNpmScripts": true,
+    "chat.tools.terminal.preventShellHistory": true,
+    // 1.110: Collapsible terminal tool calls (reduces visual noise)
+    "chat.tools.terminal.simpleCollapsible": true,
+    // 1.110: Terminal sandboxing (Preview) — restrict agent terminal access
+    "chat.tools.terminal.sandbox.enabled": true,
+    // 1.109: Kitty keyboard protocol (better key handling in terminal apps)
+    "terminal.integrated.enableKittyKeyboardProtocol": true,
+    // 1.110: Kitty graphics protocol (image rendering in terminal)
+    "terminal.integrated.enableImages": true,
+
+    // ── Integrated Browser (1.109+) ──────────────────────────
+    // Opens localhost links in new integrated browser instead of external
+    "workbench.browser.openLocalhostLinks": true,
+    "simpleBrowser.useIntegratedBrowser": true,
+    // 1.110: Agentic browser tools — agents can drive the integrated browser
+    "workbench.browser.enableChatTools": true,
+
+    // ── Inline Chat (1.110 updated) ──────────────────────────
+    // 1.110: Changed from boolean to enum; "editor" shows affordance alongside selection
+    "inlineChat.affordance": "editor",
+    // 1.110: Hover-based inline chat UI (replacing in-between-lines UI)
+    "inlineChat.renderMode": "hover",
+
+    // ── Git & Worktrees ──────────────────────────────────────
+    "git.enableWorktrees": true,
+    "git.worktree.openAfterCreate": "always",
+    // 1.109: Copy additional files to worktrees for background agents
+    "git.worktreeIncludeFiles": [
+        ".env.local",
+        "token-thresholds.json"
+    ],
+    // 1.110: AI co-author attribution in commits (agent + chat mode)
+    "git.addAICoAuthor": "chatAndAgent",
+
+    // ── Editor ───────────────────────────────────────────────
+    "workbench.editor.restoreEditors": true,
+
+    // ── Tool Auto-Approval (Balanced Security) ───────────────
+    "chat.tools.eligibleForAutoApproval": [
+        "readFile",
+        "search",
+        "semanticSearch",
+        "codeSearch",
+        "fileSearch",
+        "listFiles",
+        "getWorkspaceInfo"
+    ],
+
+    // ── File Associations ────────────────────────────────────
+    "files.associations": {
+        "*.agent.md": "markdown",
+        "*.prompt.md": "markdown",
+        "*.instructions.md": "markdown"
+    }
+}

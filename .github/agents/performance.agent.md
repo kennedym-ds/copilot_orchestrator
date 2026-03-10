@@ -27,7 +27,7 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/analytics_server.py"]
     tools: ["list_sessions", "get_session", "list_artifacts"]
-tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, execute, problems, usages]
+tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, execute, problems, usages, askQuestions]
 handoffs:
   - label: Return to Conductor
     agent: conductor
@@ -135,7 +135,7 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/analytics_server.py"]
     tools: ["list_sessions", "get_session", "list_artifacts"]
-tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, execute, problems, usages]
+tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, execute, problems, usages, askQuestions]
 handoffs:
   - label: Return to Conductor
     agent: conductor
@@ -239,7 +239,7 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/analytics_server.py"]
     tools: ["list_sessions", "get_session", "list_artifacts"]
-tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, execute, problems, usages]
+tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, execute, problems, usages, askQuestions]
 handoffs:
   - label: Return to Conductor
     agent: conductor

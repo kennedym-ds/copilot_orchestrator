@@ -18,6 +18,26 @@ Each entry should include:
 
 ## Changes
 
+### 2026-03-10 - VS Code 1.111 Integration
+
+#### v3.4.0 - VS Code 1.111 Feature Alignment & askQuestions Expansion
+**File:** `.vscode/settings.json`, `AGENTS.md`, `.github/copilot-instructions.md`, `instructions/workflows/conductor.instructions.md`, `docs/guides/vscode-copilot-configuration.md`, `docs/CHANGELOG.md`, + 10 agent files
+**Type:** Modified (17 files)
+**Description:** Updated orchestrator baseline from VS Code 1.110 to 1.111. Key changes:
+- **Agent Autonomy**: Added `chat.autopilot.enabled`, `chat.useCustomAgentHooks`, `terminal.integrated.experimental.aiProfileGrouping` settings
+- **Autopilot Guardrails**: Added conductor instruction section warning that Autopilot bypasses mandatory pause points
+- **askQuestions Expansion**: Added `askQuestions` tool to 10 user-facing agents (security, deployment, github-ops, terraform, bicep, design, performance, observability, visualizer, lint) — total adoption now 23/28 agents (82%)
+- **Agent-Scoped Hooks**: Documented new `hooks` frontmatter section for per-agent lifecycle logic
+- **Debug Events Snapshot**: Documented `#debugEventsSnapshot` context attachment for agent self-diagnosis
+- **`task_complete` Tool**: Documented required completion signal for Autopilot mode
+- **Documentation**: Updated prerequisites to 1.111, added features section, updated version references
+**Expected Impact:**
+- Quality: Higher — all user-facing agents can now ask clarifying questions; Autopilot guardrails prevent accidental pause-point bypass
+- Cost: Neutral — no model changes
+- Speed: Faster — Autopilot enables autonomous background tasks; askQuestions reduces assumption errors
+**Rollback Plan:** Revert settings.json to 1.110 baseline. Remove 1.111 sections from AGENTS.md, copilot-instructions.md, vscode-copilot-configuration.md, conductor.instructions.md. Remove `askQuestions` from 10 agent tools arrays. All changes are additive.
+**Metrics:** Track: askQuestions invocation rates across newly-enabled agents, Autopilot usage frequency, pause-point compliance in conductor sessions.
+
 ### 2026-03-07 - Agent Streamlining & Tool Alignment
 
 #### v3.3.0 - Agent↔Skill Deduplication, Commands Extraction, Tool Audit

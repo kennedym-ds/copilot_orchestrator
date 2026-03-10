@@ -61,9 +61,9 @@ Agents delegate work autonomously using `#runSubagent` with keyword-based routin
 
 ## Agent Sessions Integration
 
-VS Code 1.110 builds on 1.109, adding agent plugins, agentic browser tools, session forking, context compaction, and the Explore subagent for codebase research.
+VS Code 1.111 builds on 1.110, adding agent autonomy levels (Autopilot), agent-scoped hooks, debug event snapshots, and improved onboarding tips.
 
-### Key Features (1.108–1.110)
+### Key Features (1.108–1.111)
 - **Keyboard Navigation**: Navigate sessions with arrow keys, archive with Delete, toggle read state with Space
 - **Session Grouping**: Organize by state (Active, Unread, Read, Archived) or age (Today, Yesterday, This Week, etc.)
 - **Multi-Session Operations**: Shift+Click/Ctrl+Click for batch archiving and state changes
@@ -129,6 +129,19 @@ VS Code 1.110 builds on 1.109, adding agent plugins, agentic browser tools, sess
 - **AI Co-Author**: `git.addAICoAuthor` adds Copilot as co-author in commit messages (`"off"`, `"chatAndAgent"`, `"all"`)
 - **Contextual Tips**: `chat.tips.enabled` shows contextual tips for agent features and workflows
 - **Notification Position**: `workbench.notifications.position` — set to `"bottom-left"` to avoid overlapping Chat view
+
+### VS Code 1.111 Agent Autonomy
+- **Agent Permissions Picker** (Preview): Three autonomy levels per session via new permissions picker in Chat view:
+  - *Default Approvals:* Standard configured approval settings (prompts for authorization)
+  - *Bypass Approvals:* Auto-approves all tool calls without confirmation dialogs, auto-retries errors
+  - *Autopilot (Preview):* Agent works autonomously until `task_complete` — auto-approves tools, auto-retries errors, auto-responds to `askQuestions`. Setting: `chat.autopilot.enabled`
+- **Agent-Scoped Hooks** (Preview): `hooks` section in `.agent.md` frontmatter for per-agent pre/post-processing logic. Setting: `chat.useCustomAgentHooks`
+- **Debug Events Snapshot**: `#debugEventsSnapshot` context attachment passes token consumption, loaded customizations, and state into chat for agent self-diagnosis
+- **`task_complete` Tool**: Required for Autopilot mode — agents must explicitly signal task completion
+- **AI Terminal Profile Grouping** (Experimental): `terminal.integrated.experimental.aiProfileGrouping` groups AI CLI profiles at top of terminal dropdown
+- **Search Subagent Improvements**: Search results exempted from disk writes; token usage reporting refined to avoid context widget spam
+- **Session-Specific Autonomy**: Permissions picker applies per-session; step up or down mid-session
+- **Improved Tips**: Overhauled onboarding tips surface foundational features first; `/fork` and `/init` actively promoted
 
 ### Workflow Best Practices
 - Start each conductor task in a new session with a descriptive prompt

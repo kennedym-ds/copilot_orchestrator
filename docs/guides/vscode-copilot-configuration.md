@@ -1,7 +1,7 @@
 ---
 title: "VS Code Copilot Configuration"
-version: "0.8.0"
-lastUpdated: "2026-03-05"
+version: "0.9.0"
+lastUpdated: "2026-03-10"
 status: stable
 ---
 
@@ -9,7 +9,7 @@ status: stable
 This guide shows how to configure VS Code so the Copilot Orchestrator agents, skills, instructions, and prompts are available in your workspace — and optionally in **every VS Code window** you open.
 
 ## Prerequisites
-- VS Code 1.110 or later (stable channel supports all features including agent plugins, agentic browser tools, context compaction, session forking, and the Explore subagent).
+- VS Code 1.111 or later (stable channel supports all features including agent autonomy levels, agent-scoped hooks, agent plugins, agentic browser tools, context compaction, session forking, and the Explore subagent).
 - Local clone of the `copilot_orchestrator` repository.
 - GitHub Copilot subscription (Individual, Business, or Enterprise).
 
@@ -261,6 +261,42 @@ Auto-generates workspace instruction files based on codebase analysis — accele
 | `terminal.integrated.enableKittyKeyboardProtocol` | `true` | Better key handling (shift+enter in agentic CLIs) |
 | `git.worktreeIncludeFiles` | array | Copies specified files to worktrees for background agents |
 | `inlineChat.affordance` | `"editor"` | Inline chat affordance in editor (changed from boolean to enum in 1.110) |
+
+## VS Code 1.111 Features
+
+### Agent Permissions Picker (Preview)
+**Setting:** `chat.autopilot.enabled` (default: `true` in Insiders, `true` when enabled in Stable)
+
+Three autonomy levels configurable per session via the Chat view permissions picker:
+
+| Level | Behavior | Use Case |
+|-------|----------|----------|
+| **Default Approvals** | Standard approval prompts | Conductor workflows with pause points |
+| **Bypass Approvals** | Auto-approve tools, auto-retry errors | Trusted implementation tasks |
+| **Autopilot** | Full auto: tools + questions + retry | Background tasks, lint runs, autonomous work |
+
+> **Warning:** Autopilot auto-responds to `askQuestions`, bypassing conductor pause points. Use Default Approvals for workflows requiring human approval gates.
+
+### Agent-Scoped Hooks (Preview)
+**Setting:** `chat.useCustomAgentHooks` (default: `true` when enabled)
+
+Define pre- and post-processing logic per agent via a `hooks` section in `.agent.md` YAML frontmatter. Hooks run before/after agent execution without affecting other chat interactions.
+
+### Debug Events Snapshot
+Attach `#debugEventsSnapshot` in the chat composer to pass token consumption, loaded customizations, and agent state into the conversation for self-diagnosis.
+
+### `task_complete` Tool
+Required for Autopilot mode — agents must explicitly call `task_complete` to signal completion. In Default/Bypass modes, normal session flow applies.
+
+### AI Terminal Profile Grouping (Experimental)
+**Setting:** `terminal.integrated.experimental.aiProfileGrouping` (default: `false`)
+
+Groups AI CLI terminal profiles (GitHub Copilot CLI, etc.) at the top of the terminal profile dropdown.
+
+### Other 1.111 Improvements
+- **Search Subagent**: Results no longer written to disk; refined token usage reporting
+- **Session Autonomy**: Permissions picker is per-session; adjustable mid-session
+- **Tips Overhaul**: Foundational tips shown first; `/fork` and `/init` actively promoted
 
 ## VS Code 1.110 Features
 

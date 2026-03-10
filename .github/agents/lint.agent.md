@@ -20,7 +20,7 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/validation_server.py"]
     tools: ["run_lint", "check_metadata"]
-tools: [agent, todo, web, search, read, fileSearch, changes, edit, execute, problems, rename]
+tools: [agent, todo, web, search, read, fileSearch, changes, edit, execute, problems, rename, askQuestions]
 handoffs:
   - label: Return to Conductor
     agent: conductor
@@ -100,7 +100,7 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/validation_server.py"]
     tools: ["run_lint", "check_metadata"]
-tools: [agent, todo, web, search, read, fileSearch, changes, edit, execute, problems, rename]
+tools: [agent, todo, web, search, read, fileSearch, changes, edit, execute, problems, rename, askQuestions]
 handoffs:
   - label: Return to Conductor
     agent: conductor

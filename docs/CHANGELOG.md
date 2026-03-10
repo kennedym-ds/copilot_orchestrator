@@ -1,13 +1,33 @@
 ---
 title: "Copilot Orchestrator Changelog"
-version: "0.15.0"
-lastUpdated: "2026-03-07"
+version: "0.16.0"
+lastUpdated: "2026-03-10"
 status: stable
 ---
 
 # Changelog
 
 All notable changes are documented here following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
+
+## [0.16.0] - 2026-03-10
+
+### Added
+- **VS Code 1.111 Integration**: Agent autonomy levels, agent-scoped hooks, and debug events snapshot
+  - Agent Permissions Picker (Preview): Default Approvals, Bypass Approvals, Autopilot modes
+  - Agent-Scoped Hooks (Preview): `hooks` in `.agent.md` frontmatter for per-agent lifecycle logic
+  - Debug Events Snapshot: `#debugEventsSnapshot` for agent self-diagnosis
+  - `task_complete` tool: Required completion signal for Autopilot mode
+  - AI Terminal Profile Grouping (Experimental)
+- **askQuestions Tool Expansion**: Added to 10 user-facing agents (security, deployment, github-ops, terraform, bicep, design, performance, observability, visualizer, lint) — 82% adoption (23/28)
+- **Autopilot Guardrails**: Conductor instructions updated to warn about pause-point bypass in Autopilot mode
+- **VS Code 1.111 Features Section**: Added to `docs/guides/vscode-copilot-configuration.md` (v0.9.0)
+
+### Changed
+- Updated `.vscode/settings.json` with 3 new 1.111 settings
+- Updated `.github/copilot-instructions.md` version reference to 1.108–1.111
+- Updated `AGENTS.md` with 1.111 Agent Autonomy section, version range to 1.108–1.111
+- Updated `docs/guides/vscode-copilot-configuration.md` prerequisites to VS Code 1.111
+- Updated `INSTRUCTION_CHANGELOG.md` with v3.4.0 entry
 
 ## [0.15.0] - 2026-03-07
 

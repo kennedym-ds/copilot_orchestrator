@@ -48,6 +48,15 @@ Activate a circuit breaker (independent of budget limits) when the workflow invo
 
 When triggered, halt execution and require explicit user acknowledgment before proceeding.
 
+## Autopilot Mode Guardrails
+
+VS Code 1.111 introduces Autopilot mode (`chat.autopilot.enabled`) which auto-approves tool calls and auto-responds to `askQuestions`. This **bypasses mandatory pause points**.
+
+- **Conductor workflows requiring human approval MUST NOT use Autopilot mode.** Use Default Approvals or Bypass Approvals instead.
+- If Autopilot is detected (agent auto-responds to questions without user input), warn the user that pause-point integrity is compromised.
+- In Autopilot mode, the `task_complete` tool becomes the terminal signal — ensure agents call it explicitly to end sessions.
+- For autonomous background tasks that don't require pause points (e.g., lint, test runs), Autopilot is acceptable.
+
 ## Complexity-Based Pre-Routing
 
 Before selecting an agent via keyword matching, assess the request's complexity tier:

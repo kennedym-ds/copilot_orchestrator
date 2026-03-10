@@ -20,7 +20,7 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/design_server.py"]
     tools: ["get_brand_palette", "search_components", "check_contrast"]
-tools: [agent, todo, web, search, read, fileSearch, edit, execute, problems]
+tools: [agent, todo, web, search, read, fileSearch, edit, execute, problems, askQuestions]
 handoffs:
   - label: Return to Conductor
     agent: conductor
@@ -83,7 +83,7 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/design_server.py"]
     tools: ["get_brand_palette", "search_components", "check_contrast"]
-tools: [agent, todo, web, search, read, fileSearch, edit, execute, problems]
+tools: [agent, todo, web, search, read, fileSearch, edit, execute, problems, askQuestions]
 handoffs:
   - label: Return to Conductor
     agent: conductor

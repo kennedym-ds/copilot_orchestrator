@@ -75,7 +75,7 @@ Security: never expose token values in chat, logs, artifacts, or files.
 
 ## VS Code Settings
 
-See `AGENTS.md` for the full VS Code settings block (1.108–1.110), agent sessions integration, and feature updates.
+See `AGENTS.md` for the full VS Code settings block (1.108–1.111), agent sessions integration, and feature updates.
 
 Essential paths for agent loading:
 ```json
