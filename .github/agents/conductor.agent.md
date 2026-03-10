@@ -2,7 +2,7 @@
 name: conductor
 description: "Orchestrates planning, implementation, review, and commit cycles with specialized subagents."
 argument-hint: "Describe your feature request or bug to orchestrate a multi-phase implementation"
-model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
+model: 'Claude Opus 4.6 (copilot)'
 agents: ['planner', 'implementer', 'reviewer', 'researcher', 'maintainer', 'spec', 'security', 'performance', 'accessibility', 'docs', 'observability', 'visualizer', 'deployment', 'red-team', 'test', 'lint', 'github-ops', 'terraform', 'bicep', 'design', 'beast-mode', 'rubber-duck', 'translation-conductor']
 mcp-servers:
   validation:
@@ -15,9 +15,6 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/analytics_server.py"]
     tools: ["list_sessions", "get_session", "list_artifacts"]
-  github:
-    type: http
-    url: "https://api.githubcopilot.com/mcp/"
 tools: [agent, todo, web, search, githubRepo, changes, edit, execute, read, fileSearch, problems, askQuestions]
 handoffs:
   - label: Engage Planner

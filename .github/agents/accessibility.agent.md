@@ -2,7 +2,7 @@
 name: accessibility
 description: "Reviews code and designs for WCAG compliance, ARIA implementation, and accessibility best practices."
 argument-hint: "Request accessibility review, WCAG compliance check, or a11y implementation guidance"
-model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
+model: 'GPT-5.3-Codex (copilot)'
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, problems, usages, askQuestions]
 handoffs:
   - label: Return to Conductor

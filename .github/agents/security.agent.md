@@ -2,12 +2,8 @@
 name: security
 description: "Evaluates changes for security posture, threat models, and compliance impacts."
 argument-hint: "Request security review of changes, threat modeling, or compliance check"
-model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
+model: 'Claude Opus 4.6 (copilot)'
 user-invokable: false
-mcp-servers:
-  github:
-    type: http
-    url: "https://api.githubcopilot.com/mcp/"
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, problems, usages, askQuestions]
 handoffs:
   - label: Return to Conductor
@@ -94,5 +90,5 @@ When your task requires another specialist, use `#runSubagent` with clear contex
 
 - **Route fixes to implementer:** `#runSubagent implementer "Fix security findings: [BLOCKER/MAJOR items]. Files: [list]. Apply fixes with tests. Validate with scripts/validate-copilot-assets.ps1."`
 - **Request review of remediations:** `#runSubagent reviewer "Review security remediations in [files]. Verify STRIDE mitigations are complete. Tag residual risks."`
-- **Report to conductor:** `#runSubagent conductor "Security review complete. Findings: [count by severity]. Blockers: [list]. Threat model: [summary]. Recommended mitigations: [actions]."`
+- **Report to conductor:** `#runSubagent conductor "Security review complete. Findings: [count by severity]. Blockers: [list]. Threat model: 'Claude Opus 4.6 (copilot)'. Recommended mitigations: [actions]."`
 - **Escalate to conductor** for compliance checkpoint failures or scope-changing vulnerabilities.

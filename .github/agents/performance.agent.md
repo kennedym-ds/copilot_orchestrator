@@ -2,7 +2,7 @@
 name: performance
 description: "Reviews plans and changes for runtime, memory, and scalability risks."
 argument-hint: "Analyze code for runtime, memory, scalability risks or optimization opportunities"
-model: ['GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
+model: 'GPT-5.3-Codex (copilot)'
 user-invokable: false
 mcp-servers:
   validation:

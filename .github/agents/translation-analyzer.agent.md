@@ -2,7 +2,7 @@
 name: translation-analyzer
 description: "Analyzes source repositories to build dependency graphs, translation manifests, and complexity assessments for code translation."
 argument-hint: "Provide source repository path to analyze for translation readiness"
-model: ['Gemini 3.1 Pro (Preview) (copilot)', 'Claude Opus 4.6 (copilot)']
+model: 'Gemini 3.1 Pro (Preview) (copilot)'
 disable-model-invocation: true
 mcp-servers:
   translation:

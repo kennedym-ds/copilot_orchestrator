@@ -2,7 +2,7 @@
 name: lint
 description: "Fixes code style, formatting, and enforces repository conventions."
 argument-hint: "Fix code style issues, format files, or check convention compliance"
-model: ['Claude Sonnet 4.6 (copilot)', 'Claude Haiku 4.5 (copilot)']
+model: 'Claude Sonnet 4.6 (copilot)'
 mcp-servers:
   validation:
     type: stdio
