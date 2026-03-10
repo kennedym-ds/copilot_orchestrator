@@ -15,6 +15,7 @@ on:
       - 'docs/**'
       - 'scripts/**'
       - 'AGENTS.md'
+      - 'INSTRUCTION_CHANGELOG.md'
       - 'README.md'
       - 'llms.txt'
       - '.copilot-review-instructions.md'
@@ -38,61 +39,57 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
 
-      - name: Checkout low-cost branch
-        run: git checkout -b low-cost origin/low-cost 2>/dev/null || git checkout low-cost
-
-      - name: Merge main into low-cost
+      - name: Reset low-cost to main
         run: |
-          git merge origin/main -m "Merge main into low-cost" --no-edit
-        continue-on-error: true
+          # Reset low-cost branch to match main exactly, then apply downgrades.
+          # This avoids merge conflicts from model string changes that diverge
+          # between branches on every sync.
+          git checkout -B low-cost origin/main
 
       - name: Apply model downgrades
         shell: bash
         run: |
-          # Pass 1: Claude Sonnet 4.6 → Claude Haiku 4.5 (full names first)
-          for dir in .github/agents .github/prompts .github/skills instructions .claude docs; do
+          # Downgrade mapping (applied in order to avoid double-substitution):
+          #   Claude Sonnet 4.6 → Claude Haiku 4.5
+          #   Claude Opus 4.6  → Claude Sonnet 4.5
+          #   GPT-5.3-Codex    → Claude Sonnet 4.5
+          #   Gemini 3.1 Pro (Preview) → Claude Sonnet 4.5
+
+          DIRS=".github/agents .github/prompts .github/skills instructions .claude docs"
+          MD_PY_FILTER='-name *.md -o -name *.py'
+
+          apply_replacements() {
+            local file="$1"
+            # Pass 1: Full Claude names (order matters — Sonnet before Opus)
+            sed -i 's/Claude Sonnet 4\.6/Claude Haiku 4.5/g' "$file"
+            sed -i 's/Claude Opus 4\.6/Claude Sonnet 4.5/g' "$file"
+            # Pass 2: Short-form Claude references
+            sed -i 's/Sonnet 4\.6/Haiku 4.5/g' "$file"
+            sed -i 's/Opus 4\.6/Sonnet 4.5/g' "$file"
+            # Pass 3: Non-Claude models → Sonnet 4.5
+            sed -i 's/GPT-5\.3-Codex (copilot)/Claude Sonnet 4.5 (copilot)/g' "$file"
+            sed -i 's/GPT-5\.3-Codex/Claude Sonnet 4.5/g' "$file"
+            sed -i 's/Gemini 3\.1 Pro (Preview) (copilot)/Claude Sonnet 4.5 (copilot)/g' "$file"
+            sed -i 's/Gemini 3\.1 Pro (Preview)/Claude Sonnet 4.5/g' "$file"
+          }
+          export -f apply_replacements
+
+          # Content directories (markdown and python)
+          for dir in $DIRS; do
             if [ -d "$dir" ]; then
-              find "$dir" -type f \( -name "*.md" -o -name "*.py" \) -exec sed -i 's/Claude Sonnet 4\.6/Claude Haiku 4.5/g' {} \;
+              find "$dir" -type f \( -name "*.md" -o -name "*.py" \) -exec bash -c 'apply_replacements "$0"' {} \;
             fi
           done
 
-          # Pass 2: Claude Opus 4.6 → Claude Sonnet 4.5
-          for dir in .github/agents .github/prompts .github/skills instructions .claude docs; do
-            if [ -d "$dir" ]; then
-              find "$dir" -type f \( -name "*.md" -o -name "*.py" \) -exec sed -i 's/Claude Opus 4\.6/Claude Sonnet 4.5/g' {} \;
-            fi
-          done
-
-          # Pass 3: Short-form Sonnet 4.6 → Haiku 4.5 (tables, references without "Claude" prefix)
-          for dir in .github/agents .github/prompts .github/skills instructions .claude docs; do
-            if [ -d "$dir" ]; then
-              find "$dir" -type f \( -name "*.md" -o -name "*.py" \) -exec sed -i 's/Sonnet 4\.6/Haiku 4.5/g' {} \;
-            fi
-          done
-
-          # Pass 4: Short-form Opus 4.6 → Sonnet 4.5
-          for dir in .github/agents .github/prompts .github/skills instructions .claude docs; do
-            if [ -d "$dir" ]; then
-              find "$dir" -type f \( -name "*.md" -o -name "*.py" \) -exec sed -i 's/Opus 4\.6/Sonnet 4.5/g' {} \;
-            fi
-          done
-
-          # Also update scripts directory (validate whitelist, default models)
+          # Scripts directory (PowerShell and shell)
           if [ -d "scripts" ]; then
-            # Scripts are .ps1 and .sh — apply same replacements
-            find scripts -type f \( -name "*.ps1" -o -name "*.sh" \) -exec sed -i 's/Claude Sonnet 4\.6/Claude Haiku 4.5/g' {} \;
-            find scripts -type f \( -name "*.ps1" -o -name "*.sh" \) -exec sed -i 's/Claude Opus 4\.6/Claude Sonnet 4.5/g' {} \;
-            find scripts -type f \( -name "*.ps1" -o -name "*.sh" \) -exec sed -i 's/Sonnet 4\.6/Haiku 4.5/g' {} \;
-            find scripts -type f \( -name "*.ps1" -o -name "*.sh" \) -exec sed -i 's/Opus 4\.6/Sonnet 4.5/g' {} \;
+            find scripts -type f \( -name "*.ps1" -o -name "*.sh" \) -exec bash -c 'apply_replacements "$0"' {} \;
           fi
 
           # Root-level files
-          for file in README.md INSTRUCTION_CHANGELOG.md llms.txt .copilot-review-instructions.md; do
+          for file in README.md AGENTS.md INSTRUCTION_CHANGELOG.md llms.txt .copilot-review-instructions.md; do
             if [ -f "$file" ]; then
-              sed -i 's/Claude Sonnet 4\.6/Claude Haiku 4.5/g' "$file"
-              sed -i 's/Claude Opus 4\.6/Claude Sonnet 4.5/g' "$file"
-              sed -i 's/Sonnet 4\.6/Haiku 4.5/g' "$file"
-              sed -i 's/Opus 4\.6/Sonnet 4.5/g' "$file"
+              apply_replacements "$file"
             fi
           done
 
@@ -115,7 +112,7 @@ jobs:
       - name: Push low-cost
         if: steps.check_changes.outputs.changes == 'true'
         run: |
-          git push origin low-cost
+          git push --force-with-lease origin low-cost
 
       - name: Report status
         run: |
