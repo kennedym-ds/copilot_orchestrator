@@ -1,4 +1,4 @@
-﻿# Background Agents with Git Worktrees
+?# Background Agents with Git Worktrees
 
 > **Feature:** VS Code 1.109+ | **Background Agents:** `github.copilot.chat.cli.customAgents.enabled` | **Worktrees UI (Experimental):** `scm.repositories.explorer`, `scm.repositories.selectionMode`
 
@@ -135,24 +135,24 @@ The **Source Control** view now includes a dedicated Worktrees section showing:
 
 ```markdown
 Worktrees Node
-â”œâ”€â”€ main (active) - C:\Projects\my-repo
-â”œâ”€â”€ phase-4-auth - C:\Projects\my-repo-phase-4
-â”‚   â””â”€â”€ Actions: Open New Window | Delete
-â””â”€â”€ phase-5-api - C:\Projects\my-repo-phase-5
-    â””â”€â”€ Actions: Open New Window | Delete
+├── main (active) - C:\Projects\my-repo
+├── phase-4-auth - C:\Projects\my-repo-phase-4
+│   └── Actions: Open New Window | Delete
+└── phase-5-api - C:\Projects\my-repo-phase-5
+    └── Actions: Open New Window | Delete
 ```
 
 ### Benefits of the Worktrees UI
 
-âœ… **Visual Discovery** - See all worktrees at a glance without command-line tools
+✅ **Visual Discovery** - See all worktrees at a glance without command-line tools
 
-âœ… **One-Click Access** - Open worktrees instantly from the UI
+✅ **One-Click Access** - Open worktrees instantly from the UI
 
-âœ… **Safe Cleanup** - Delete worktrees with confirmation prompts
+✅ **Safe Cleanup** - Delete worktrees with confirmation prompts
 
-âœ… **Context Awareness** - UI shows which worktree is currently active
+✅ **Context Awareness** - UI shows which worktree is currently active
 
-âœ… **Background Agent Integration** - Worktrees created by background agents appear automatically
+✅ **Background Agent Integration** - Worktrees created by background agents appear automatically
 
 ### Keyboard Navigation
 
@@ -169,11 +169,11 @@ With VS Code 1.109, the Worktrees view supports full keyboard access:
 
 ```markdown
 **Main Workspace**
-â”œâ”€â”€ Source Control view shows:
-â”‚   â”œâ”€â”€ Worktrees
-â”‚   â”‚   â”œâ”€â”€ main (active) â† Current work: Documentation
-â”‚   â”‚   â”œâ”€â”€ implementer/phase-4-auth â† Background agent running
-â”‚   â”‚   â””â”€â”€ implementer/phase-5-api â† Background agent running
+├── Source Control view shows:
+│   ├── Worktrees
+│   │   ├── main (active) ← Current work: Documentation
+│   │   ├── implementer/phase-4-auth ← Background agent running
+│   │   └── implementer/phase-5-api ← Background agent running
 
 **Actions:**
 1. Right-click "implementer/phase-4-auth"
@@ -197,7 +197,7 @@ code ../my-repo-phase-4
 3. Click "Open in New Window" on desired worktree
 ```
 
-**Best of Both:** The UI complements command-line workflowsâ€”use whichever fits your task.
+**Best of Both:** The UI complements command-line workflows—use whichever fits your task.
 
 ## Use Cases
 
@@ -206,11 +206,11 @@ code ../my-repo-phase-4
 **Scenario**: Execute multiple plan phases simultaneously
 text
 Main Workspace          Worktree 1              Worktree 2
-    â”‚                       â”‚                       â”‚
-    â”œâ”€ Phase 1-3 done       â”œâ”€ Phase 4: Auth        â”œâ”€ Phase 5: API
-    â”‚                       â”‚   (implementer)       â”‚   (implementer)
-    â”‚                       â”‚                       â”‚
-    â””â”€ Working on docs      â””â”€ TDD in progress      â””â”€ TDD in progress
+    │                       │                       │
+    ├─ Phase 1-3 done       ├─ Phase 4: Auth        ├─ Phase 5: API
+    │                       │   (implementer)       │   (implementer)
+    │                       │                       │
+    └─ Working on docs      └─ TDD in progress      └─ TDD in progress
 ```
 
 **Setup**:
@@ -235,8 +235,8 @@ Main Workspace          Worktree 1              Worktree 2
 # Main workspace continues normal development
 # Worktree explores new approach
 
-# If experiment succeeds â†’ merge worktree branch
-# If experiment fails â†’ delete worktree, no cleanup needed
+# If experiment succeeds → merge worktree branch
+# If experiment fails → delete worktree, no cleanup needed
 ### Multi-Specialist Collaboration
 
 **Scenario**: Security review + Performance optimization + Documentation
@@ -245,17 +245,17 @@ Main Workspace          Worktree 1              Worktree 2
 
 ```
 Worktree 1: Security Agent
-â”œâ”€ Adding input validation
-â”œâ”€ Implementing rate limiting
-â””â”€ Adding security tests
+├─ Adding input validation
+├─ Implementing rate limiting
+└─ Adding security tests
 
 Worktree 2: Performance Agent
-â”œâ”€ Optimizing database queries
-â”œâ”€ Adding caching layer
-â””â”€ Profiling improvements
+├─ Optimizing database queries
+├─ Adding caching layer
+└─ Profiling improvements
 
 Main Workspace: Docs Agent
-â””â”€ Updating security docs
+└─ Updating security docs
 ```
 
 ## Worktree Management
@@ -265,7 +265,7 @@ Main Workspace: Docs Agent
 **Preferred Method:** Use the Worktrees node in Source Control view
 
 1. Open Source Control (Ctrl+Shift+G)
-2. Expand "Repositories" â†’ "Worktrees"
+2. Expand "Repositories" → "Worktrees"
 3. Use inline actions and context menu
 
 ### Command Line (All Versions)
@@ -370,11 +370,11 @@ The **Conductor** can delegate phases to background agents:
 
 | Phase | Agent        | Mode       | Worktree | Status |
 |-------|--------------|------------|----------|--------|
-| 1     | implementer  | local      | No       | âœ… Done |
-| 2     | implementer  | local      | No       | âœ… Done |
-| 3     | implementer  | local      | No       | âœ… Done |
-| 4     | implementer  | background | Yes      | ðŸ”„ Running |
-| 5     | implementer  | background | Yes      | ðŸ”„ Running |
+| 1     | implementer  | local      | No       | ✅ Done |
+| 2     | implementer  | local      | No       | ✅ Done |
+| 3     | implementer  | local      | No       | ✅ Done |
+| 4     | implementer  | background | Yes      | 🔄 Running |
+| 5     | implementer  | background | Yes      | 🔄 Running |
 ```
 
 ### Review Phase

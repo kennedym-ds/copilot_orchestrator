@@ -1,7 +1,7 @@
 ---
 title: "Copilot Orchestrator Quick Reference"
-version: "2.1.0"
-lastUpdated: "2026-02-09"
+version: "2.2.0"
+lastUpdated: "2026-03-10"
 status: stable
 ---
 
@@ -84,7 +84,7 @@ Invoke-Pester -Path tests -Output Detailed
 
 ---
 
-## Agent Roster (28 Agents)
+## Agent Roster (29 agents)
 
 ### Core Workflow
 
@@ -122,6 +122,7 @@ Invoke-Pester -Path tests -Output Detailed
 | bicep | Azure IaC |
 | design | Architecture |
 | beast-mode | Extended reasoning |
+| gui-tester | Browser automation, visual regression |
 | rubber-duck | Socratic problem-solving |
 
 ### Translation Workflow
@@ -184,7 +185,7 @@ artifacts/
 
 | Path | Purpose |
 |------|---------|
-| `.github/agents/` | Agent definitions (28 files) |
+| `.github/agents/` | Agent definitions (29 files) |
 | `.github/prompts/` | Reusable prompts |
 | `instructions/` | Layered instruction mesh |
 | `scripts/` | Validation and tooling |

@@ -7,7 +7,7 @@ status: stable
 
 # Antigravity IDE Onboarding
 
-Get the Copilot Orchestrator's 28 agents and 16 skills running in Antigravity IDE in under 5 minutes.
+Get the Copilot Orchestrator's 29 agents and 17 skills running in Antigravity IDE in under 5 minutes.
 
 ## Prerequisites
 
@@ -33,7 +33,7 @@ cd path/to/copilot_orchestrator
 ./scripts/setup-antigravity.sh --mode project --target ~/projects/my-app
 ```
 
-This creates a `.agent/` directory in your target project with all 28 agents, 16 skills, workflows (slash commands), instruction rules, and MCP configuration.
+This creates a `.agent/` directory in your target project with all 29 agents, 17 skills, workflows (slash commands), instruction rules, and MCP configuration.
 
 ### 2. Verify the setup
 
@@ -165,8 +165,8 @@ After setup, your project will contain:
 
 ```
 .agent/
-├── agents/           # 27 transformed agent definitions
-├── skills/           # 16 skill directories (SKILL.md format)
+├── agents/           # 29 transformed agent definitions
+├── skills/           # 17 skill directories (SKILL.md format)
 ├── workflows/        # Slash commands from prompt templates
 ├── rules/            # Instruction files organized by category
 │   ├── global/       # Behavior, quality, security, model selection

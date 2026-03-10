@@ -1,28 +1,30 @@
 ---
 title: "Copilot Orchestrator"
-version: "2.0.1"
-lastUpdated: "2026-02-09"
+version: "2.1.0"
+lastUpdated: "2026-03-10"
 status: stable
 ---
 
+<p align="center">
+  <img src="docs/logo.png" alt="Copilot Orchestrator" width="200">
+</p>
+
 # Copilot Orchestrator
 
-A centrally managed GitHub Copilot configuration implementing a multi-agent orchestration pattern. This repository provides a complete workflow system (conductor → planner → implementer → reviewer → completion) with specialized support agents for security, performance, accessibility, and documentation tasks.
+A multi-agent orchestration system for GitHub Copilot. Provides a structured workflow (conductor → planner → implementer → reviewer → completion) with 29 specialized agents, reusable skills, and validation tooling.
 
-Use this repository as a shared configuration source across workspaces. Configure VS Code to reference this location and all participating projects inherit consistent agent behaviors, tool permissions, and lifecycle guardrails.
+Use as a shared configuration source across workspaces. Point VS Code at this repo and all projects inherit consistent agent behaviors, tool permissions, and lifecycle guardrails.
 
-## Features
+## What's Included
 
-- **Multi-phase orchestration**: Structured workflow with mandatory pause points for human review
-- **28 specialized agents**: Core workflow agents plus support personas for security, performance, accessibility, IaC, translation, and more
-- **13 reusable skills**: Domain-specific capabilities (TDD, security review, delegation routing, code translation, and more)
-- **22 prompt templates**: Organized by workflow phase (planning, implementation, review, research, translation)
-- **37 instruction files**: Layered mesh across global, workflow, compliance, and language categories
-- **Local artifact persistence**: Session outputs stored in consuming repositories via `artifacts/` folder
-- **Validation tooling**: PowerShell scripts for asset validation, token budgeting, and linting
-- **Central deployment support**: Deploy agents at org level while storing artifacts locally per repository
-- **VS Code 1.109+ features**: Agent Skills GA, multi-model fallback, thinking tokens, askQuestions, subagents, Copilot Memory
-- **Organization sharing**: Native org-level agent distribution
+| Asset | Count | Location |
+|-------|-------|----------|
+| Agents | 29 | `.github/agents/` |
+| Skills | 17 | `.github/skills/` |
+| Prompt templates | 22 | `.github/prompts/` |
+| Instruction files | 37 | `instructions/` |
+| Validation scripts | 6 | `scripts/` |
+| MCP servers | 8 | `scripts/mcp/` |
 
 ## Quick Start
 
@@ -87,6 +89,20 @@ pwsh -File scripts/init-artifacts.ps1
 
 This creates the local `artifacts/` folder structure for session persistence.
 
+## Other Platforms
+
+The orchestrator works across five platforms. VS Code is native (no setup needed). The others require a one-time setup script.
+
+| Platform | Setup | Guide |
+|----------|-------|-------|
+| **VS Code** | Built-in — clone and open | [VS Code Configuration](docs/guides/vscode-copilot-configuration.md) |
+| **Visual Studio** | `powershell -File scripts/setup-vs-cli.ps1 -Strategy Symlink -TargetPath <project>` | [Visual Studio Onboarding](docs/guides/visual-studio-onboarding.md) |
+| **Copilot CLI** | `powershell -File scripts/setup-vs-cli.ps1 -Strategy Symlink -TargetPath <project>` | [Copilot CLI Onboarding](docs/guides/copilot-cli-onboarding.md) |
+| **Claude Code** | `powershell -File scripts/setup-claude-code.ps1 -Mode Project -TargetPath <project>` | [Claude Code Onboarding](docs/guides/claude-code-onboarding.md) |
+| **Antigravity** | `powershell -File scripts/setup-antigravity.ps1 -Mode Project -TargetPath <project>` | [Antigravity Onboarding](docs/guides/antigravity-onboarding.md) |
+
+macOS/Linux users: use the `.sh` equivalents (`setup-vs-cli.sh`, `setup-claude-code.sh`, `setup-antigravity.sh`). See [Multi-Platform Setup Reference](docs/guides/multi-platform-setup.md) for full details.
+
 ## Agent Roster
 
 ### Core Workflow Agents
@@ -124,6 +140,7 @@ This creates the local `artifacts/` folder structure for session persistence.
 | Bicep | Azure IaC implementation, ARM template migration |
 | Design | Architecture design, brand system queries, component validation |
 | Beast Mode | Extended reasoning with visible thinking for complex problems |
+| GUI Tester | Browser automation, visual regression, interaction testing |
 | Rubber Duck | Socratic problem-solving, guided debugging |
 
 ### Translation Workflow Agents
@@ -140,18 +157,14 @@ This creates the local `artifacts/` folder structure for session persistence.
 
 | Path | Purpose |
 |------|---------|
-| `.github/agents/` | Agent definitions (28 `.agent.md` files) |
-| `.github/prompts/` | Reusable prompt library (22 templates across 7 categories) |
-| `.github/skills/` | Reusable agent skills (16 domain-specific capabilities) |
-| `instructions/` | Layered instruction mesh (37 files: global, workflow, compliance, language) |
-| `scripts/` | Validation and tooling scripts (PowerShell 5.1) |
-| `docs/` | Guides, templates, and operational documentation |
-| `plans/` | Generated plan artifacts and samples |
-| `artifacts/` | Local session outputs (plans, reviews, research, security audits) |
-
-## Validation Commands
-
-```powershell
+| `.github/agents/` | 29 agent definitions |
+| `.github/prompts/` | 22 prompt templates |
+| `.github/skills/` | 17 agent skills |
+| `instructions/` | 37 instruction files (global, workflow, compliance, language) |
+| `scripts/` | Validation and tooling (PowerShell 5.1) |
+| `scripts/mcp/` | 8 MCP servers |
+| `docs/` | Guides, templates, and operational docs |
+| `artifacts/` | Local session outputs (plans, reviews, research, security) |
 # Validate all assets
 pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .
 
@@ -185,11 +198,9 @@ Invoke-Pester -Path tests -Output Detailed
 | [docs/guides/background-agents-worktrees.md](docs/guides/background-agents-worktrees.md) | Parallel execution with Git worktrees |
 | [docs/guides/claude-skills-migration.md](docs/guides/claude-skills-migration.md) | Migrating prompts to Claude skills |
 | [docs/guides/translation-guide.md](docs/guides/translation-guide.md) | Code translation workflow guide |
-| [docs/guides/agent-skills-pilot.md](docs/guides/agent-skills-pilot.md) | Agent skills pilot evaluation |
 | [docs/operations.md](docs/operations.md) | Monitoring, metrics, and backlog |
 | [docs/CHANGELOG.md](docs/CHANGELOG.md) | Version history |
-| [INSTRUCTION_CHANGELOG.md](INSTRUCTION_CHANGELOG.md) | Instruction file change history |
 
 ## License
 
-See repository license file for terms.
+See [LICENSE](LICENSE) for terms.

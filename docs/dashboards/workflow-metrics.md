@@ -1,4 +1,4 @@
-﻿# Workflow Metrics Dashboard
+?# Workflow Metrics Dashboard
 
 **Report Period:** 2025-10-19 to 2025-11-18
 **Generated:** 2025-11-18 18:49:19
@@ -50,7 +50,7 @@ pie title Current Phase Distribution
 | **Target Premium Usage** | **20%** |
 | Estimated Total Cost | $0.00 |
 
-**Status:** âš ï¸ Above target (>25%)
+**Status:** ⚠️ Above target (>25%)
 
 ---
 
@@ -63,8 +63,8 @@ pie title Current Phase Distribution
 | Needs Revision | 0 | 0% |
 | Failed | 0 | 0% |
 
-**Target:** â‰¥90% approval rate
-**Status:** â„¹ï¸ No data
+**Target:** ≥90% approval rate
+**Status:** ℹ️ No data
 
 ---
 

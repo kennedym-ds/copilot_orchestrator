@@ -21,7 +21,7 @@ This guide provides setup instructions for contributors joining the Copilot Orch
 |----------|----------|---------|
 | Agent playbook | `AGENTS.md` | Agent roster, commands, workflow guardrails |
 | Validation scripts | `scripts/*.ps1` | Asset validation, linting, token reporting |
-| Agent definitions | `.github/agents/` | 28 agent definitions with tool scopes and delegation patterns |
+| Agent definitions | `.github/agents/` | 29 agent definitions with tool scopes and delegation patterns |
 | Prompt library | `.github/prompts/` | Reusable prompts for each workflow phase |
 | Plan templates | `docs/templates/` | Standard structures for plans and phase summaries |
 | Sample artifacts | `plans/samples/` | Completed examples of conductor deliverables |
@@ -87,11 +87,11 @@ See `docs/guides/vscode-copilot-configuration.md` for the complete settings refe
 Run the validation suite to confirm your environment is configured correctly:
 
 ```powershell
-pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .
-pwsh -File scripts/add-prompt-metadata.ps1 -RepositoryRoot . -CheckOnly
-pwsh -File scripts/run-lint.ps1 -RepositoryRoot .
-pwsh -File scripts/run-smoke-tests.ps1 -RepositoryRoot .
-pwsh -File scripts/token-report.ps1 -Path .
+powershell -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .
+powershell -File scripts/add-prompt-metadata.ps1 -RepositoryRoot . -CheckOnly
+powershell -File scripts/run-lint.ps1 -RepositoryRoot .
+powershell -File scripts/run-smoke-tests.ps1 -RepositoryRoot .
+powershell -File scripts/token-report.ps1 -Path .
 Invoke-Pester -Path tests -Output Detailed
 ```
 
@@ -100,7 +100,7 @@ Invoke-Pester -Path tests -Output Detailed
 Create the local artifacts folder structure for session outputs:
 
 ```powershell
-pwsh -File scripts/init-artifacts.ps1
+powershell -File scripts/init-artifacts.ps1
 ```
 
 This creates folders for plans, reviews, research, security audits, and session state.

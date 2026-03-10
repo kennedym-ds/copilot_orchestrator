@@ -32,8 +32,8 @@ This skill is relevant when:
 
 ### Context Patterns
 - Cross-language migration projects
-- Framework modernization (e.g., .NET Framework â†’ .NET Core)
-- Language upgrade (e.g., Java 8 â†’ Kotlin)
+- Framework modernization (e.g., .NET Framework → .NET Core)
+- Language upgrade (e.g., Java 8 → Kotlin)
 - Polyglot services requiring standardization
 
 ## Core Knowledge
@@ -43,14 +43,14 @@ This skill is relevant when:
 Translation should proceed at the appropriate unit granularity:
 
 ```
-Repository          â†’ Full orchestrated translation (translation-conductor)
-â”œâ”€â”€ Module/Package  â†’ Module-level translation (translator)
-â”‚   â”œâ”€â”€ File        â†’ Atomic translation unit
-â”‚   â”‚   â”œâ”€â”€ Class   â†’ Structural translation
-â”‚   â”‚   â”œâ”€â”€ Function â†’ Functional translation
-â”‚   â”‚   â””â”€â”€ Type    â†’ Type system translation
-â”‚   â””â”€â”€ Tests       â†’ Parallel test translation
-â””â”€â”€ Configuration   â†’ Build system & CI translation
+Repository          → Full orchestrated translation (translation-conductor)
+├── Module/Package  → Module-level translation (translator)
+│   ├── File        → Atomic translation unit
+│   │   ├── Class   → Structural translation
+│   │   ├── Function → Functional translation
+│   │   └── Type    → Type system translation
+│   └── Tests       → Parallel test translation
+└── Configuration   → Build system & CI translation
 ```
 
 ### Dependency-Ordered Translation
@@ -116,29 +116,29 @@ When cycles are detected:
 
 #### Score Composition
 ```
-File Confidence = Î£(layer_weight Ã— layer_score) for each of 6 layers
+File Confidence = Î£(layer_weight × layer_score) for each of 6 layers
 
-Layer 1: Syntax    (0.15) Ã— [0.0 or 1.0]     â€” binary pass/fail
-Layer 2: Types     (0.15) Ã— [0.0 to 1.0]     â€” error ratio
-Layer 3: Lint      (0.10) Ã— [0.0 to 1.0]     â€” warning ratio
-Layer 4: Unit      (0.25) Ã— [0.0 to 1.0]     â€” test pass ratio
-Layer 5: Integ     (0.15) Ã— [0.0 to 1.0]     â€” integration pass ratio
-Layer 6: Equiv     (0.20) Ã— [0.0 to 1.0]     â€” behavioral equivalence
+Layer 1: Syntax    (0.15) × [0.0 or 1.0]     — binary pass/fail
+Layer 2: Types     (0.15) × [0.0 to 1.0]     — error ratio
+Layer 3: Lint      (0.10) × [0.0 to 1.0]     — warning ratio
+Layer 4: Unit      (0.25) × [0.0 to 1.0]     — test pass ratio
+Layer 5: Integ     (0.15) × [0.0 to 1.0]     — integration pass ratio
+Layer 6: Equiv     (0.20) × [0.0 to 1.0]     — behavioral equivalence
 ```
 
 #### Repo Confidence (LOC-Weighted)
 ```
-Repo Score = Î£(LOC_i Ã— Score_i) / Î£(LOC_i)
+Repo Score = Î£(LOC_i × Score_i) / Î£(LOC_i)
 ```
 
-This weights larger, more complex files more heavily â€” a single failed 1000-line service file impacts the repo score more than a failed 10-line constants file.
+This weights larger, more complex files more heavily — a single failed 1000-line service file impacts the repo score more than a failed 10-line constants file.
 
 #### Confidence Thresholds for Automation
 | Score | Action |
 |-------|--------|
-| â‰¥ 0.95 | Auto-approve, no human review needed |
-| 0.80â€“0.94 | Quick human review of flagged areas |
-| 0.60â€“0.79 | Full human review required |
+| ≥ 0.95 | Auto-approve, no human review needed |
+| 0.80–0.94 | Quick human review of flagged areas |
+| 0.60–0.79 | Full human review required |
 | < 0.60 | Re-translate or flag for manual rewrite |
 
 ### Error Handling Pattern Translation
@@ -147,24 +147,24 @@ Error handling is the most divergent area across languages. Follow this decision
 
 ```
 Source uses exceptions?
-â”œâ”€â”€ Target has exceptions? â†’ Map exception types 1:1
-â”‚   â””â”€â”€ Map hierarchies: BaseError â†’ TypeError, ValueError
-â”œâ”€â”€ Target uses Result types? (Rust)
-â”‚   â””â”€â”€ Convert try/except â†’ match on Result<T, E>
-â”‚       â””â”€â”€ Map exception types to error enum variants
-â”œâ”€â”€ Target uses error returns? (Go)
-â”‚   â””â”€â”€ Convert try/except â†’ if err != nil { return err }
-â”‚       â””â”€â”€ Map exception types to sentinel errors or error types
-â””â”€â”€ Target uses Either/Option? (FP languages)
-    â””â”€â”€ Convert try/except â†’ flatMap/bind chains
+├── Target has exceptions? → Map exception types 1:1
+│   └── Map hierarchies: BaseError → TypeError, ValueError
+├── Target uses Result types? (Rust)
+│   └── Convert try/except → match on Result<T, E>
+│       └── Map exception types to error enum variants
+├── Target uses error returns? (Go)
+│   └── Convert try/except → if err != nil { return err }
+│       └── Map exception types to sentinel errors or error types
+└── Target uses Either/Option? (FP languages)
+    └── Convert try/except → flatMap/bind chains
 ```
 
 ### Test Translation Protocol
 
-1. **Map test framework:** pytest â†’ Jest, unittest â†’ JUnit, etc.
-2. **Translate fixtures:** setUp/tearDown â†’ beforeEach/afterEach
-3. **Map assertions:** assertEqual â†’ expect().toBe(), assert_raises â†’ expect().toThrow()
-4. **Translate mocks:** unittest.mock â†’ jest.fn(), mockito â†’ mockk
+1. **Map test framework:** pytest → Jest, unittest → JUnit, etc.
+2. **Translate fixtures:** setUp/tearDown → beforeEach/afterEach
+3. **Map assertions:** assertEqual → expect().toBe(), assert_raises → expect().toThrow()
+4. **Translate mocks:** unittest.mock → jest.fn(), mockito → mockk
 5. **Preserve test names:** Keep descriptive test names, update to target convention
 6. **Maintain test data:** Copy test fixtures and expected outputs verbatim
 7. **Verify coverage:** Same lines/branches covered in source and target
@@ -227,14 +227,14 @@ export function findUser(users: User[], userId: number): User | undefined {
 ```
 
 **Translation Decisions:**
-- `@dataclass` â†’ interface + factory function (more idiomatic TS)
-- `Optional[User]` â†’ `User | undefined` (TS convention over null)
-- Methods on dataclass â†’ standalone functions (idiomatic for simple data types)
-- f-string â†’ template literal
+- `@dataclass` → interface + factory function (more idiomatic TS)
+- `Optional[User]` → `User | undefined` (TS convention over null)
+- Methods on dataclass → standalone functions (idiomatic for simple data types)
+- f-string → template literal
 
 ## Anti-Patterns
 
-### âŒ DO NOT: Transliterate Line-by-Line
+### ❌ DO NOT: Transliterate Line-by-Line
 ```typescript
 // BAD: Python-style in TypeScript
 function findUser(users: User[], userId: number): User | null {
@@ -247,7 +247,7 @@ function findUser(users: User[], userId: number): User | null {
 }
 ```
 
-### âŒ DO NOT: Ignore Target Language Error Conventions
+### ❌ DO NOT: Ignore Target Language Error Conventions
 ```go
 // BAD: Exception-style in Go
 func GetUser(id int) *User {
@@ -259,7 +259,7 @@ func GetUser(id int) *User {
 }
 ```
 
-### âŒ DO NOT: Keep Source Language Naming Conventions
+### ❌ DO NOT: Keep Source Language Naming Conventions
 ```typescript
 // BAD: Python naming in TypeScript
 function get_user_by_id(user_id: number): User | undefined {

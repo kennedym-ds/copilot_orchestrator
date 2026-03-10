@@ -1,11 +1,11 @@
 # Multi-Platform Setup Guide
 
 > **Scope:** VS Code | Visual Studio | Claude Code | Antigravity | Copilot CLI
-> **Version:** 1.1.0 | **Last Updated:** 2026-07-28
+> **Version:** 1.2.0 | **Last Updated:** 2026-03-10
 
 ## Overview
 
-The Copilot Orchestrator's 28 agents and 16 skills can be used across five platforms:
+The Copilot Orchestrator's 29 agents and 17 skills can be used across five platforms:
 
 | Platform | Agent Format | Setup Script | OS Support |
 |----------|-------------|-------------|------------|
@@ -169,8 +169,8 @@ Plugin mode creates a package that can be shared with your team:
 copilot-orchestrator-plugin/
 ├── .claude-plugin/
 │   └── plugin.json          # Plugin manifest
-├── agents/                   # 27 transformed agents
-├── skills/                   # 16 skills + instruction skills
+├── agents/                   # 29 transformed agents
+├── skills/                   # 17 skills + instruction skills
 ├── .mcp.json                 # MCP server config
 └── README.md                 # Usage instructions
 ```
@@ -186,17 +186,52 @@ claude --plugin-dir ./copilot-orchestrator-plugin
 
 ### Visual Studio
 
-Visual Studio 2022 (17.x+) and Visual Studio 2025 support the same `.github/agents/` and `.github/prompts/` format as VS Code. No file transformation is needed -- just ensure the files are present in your project.
+Visual Studio 2022 (17.x+) and Visual Studio 2025 support the same `.github/agents/` and `.github/prompts/` format as VS Code. No file transformation is needed — the setup script distributes files directly.
 
 **Requirements:**
-- Visual Studio 2022 version 17.x or later
+- Visual Studio 2022 version 17.x or later, or Visual Studio 2025
 - GitHub Copilot extension enabled
 - Active Copilot subscription
+
+**What gets distributed:**
+
+| Source | Destination (in target project) |
+|--------|-------------------------------|
+| `.github/agents/*.agent.md` | `.github/agents/*.agent.md` |
+| `.github/skills/*/SKILL.md` | `.github/skills/*/SKILL.md` |
+| `.github/prompts/*.prompt.md` | `.github/prompts/*.prompt.md` |
+| `instructions/**/*.md` | `instructions/**/*.md` |
+| `.github/copilot-instructions.md` | `.github/copilot-instructions.md` |
 
 **How it works:**
 - VS discovers agent files from `.github/agents/` in the solution/project root
 - Use `@conductor` or other agents in Copilot Chat
-- Skills and instruction files also load from standard locations
+- Skills, prompts, and instruction files load from standard locations
+- Agent hooks defined in frontmatter (`hooks:` section) are included with the agent files
+
+### Copilot CLI
+
+The GitHub Copilot CLI discovers agents from `.github/agents/` in the current working directory. It uses the same format as VS Code — the setup script distributes files the same way as for Visual Studio.
+
+**Requirements:**
+- GitHub CLI (`gh`) installed from [cli.github.com](https://cli.github.com)
+- `gh copilot` extension: `gh extension install github/gh-copilot`
+- Authenticated: `gh auth login`
+
+**What gets distributed:** Same as Visual Studio (agents, skills, prompts, instructions, copilot-instructions.md).
+
+**Usage:**
+```bash
+# Navigate to project with agents
+cd ~/projects/my-app
+
+# Interactive mode
+gh copilot
+
+# Use specific agent in interactive mode — type @conductor to engage
+```
+
+See [Copilot CLI Onboarding](copilot-cli-onboarding.md) for interactive, one-off, chaining, and CI/CD patterns.
 
 ### Antigravity IDE
 
@@ -245,8 +280,8 @@ Antigravity is a Google DeepMind AI coding IDE that uses a different directory s
 
 ```
 .agent/
-+-- agents/           # 27 transformed agent definitions
-+-- skills/           # 16 skill directories (SKILL.md format)
++-- agents/           # 29 transformed agent definitions
++-- skills/           # 17 skill directories (SKILL.md format)
 +-- workflows/        # Slash commands from prompt templates
 +-- rules/            # Instruction files organized by category
 |   +-- global/
@@ -256,29 +291,6 @@ Antigravity is a Google DeepMind AI coding IDE that uses a different directory s
 +-- mcp_config.json   # MCP server configuration
 +-- ARCHITECTURE.md   # Project context from copilot-instructions.md
 ```
-
-### Copilot CLI
-
-The GitHub Copilot CLI discovers agents from `.github/agents/` in the current working directory.
-
-**Requirements:**
-- `gh` CLI installed ([cli.github.com](https://cli.github.com))
-- `gh copilot` extension: `gh extension install github/gh-copilot`
-- Authenticated: `gh auth login`
-
-**Usage:**
-```bash
-# Navigate to project with agents
-cd ~/projects/my-app
-
-# Interactive mode
-gh copilot
-
-# Use specific agent
-# In interactive mode, type @conductor to engage the conductor agent
-```
-
-See [copilot-cli-usage.md](copilot-cli-usage.md) for the complete CLI guide.
 
 ---
 

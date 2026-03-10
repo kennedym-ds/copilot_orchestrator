@@ -202,14 +202,14 @@ Generalizes patterns proven in the translation system (translation-analyzer's de
 **Type:** Modified
 **Description:** Removed deprecated VS Code settings and converted paths to tilde notation across all documentation:
 - Removed `chat.modeFilesLocations` (deprecated; superseded by `chat.agentFilesLocations` since VS Code 1.106)
-- Renamed `chat.viewRestorePreviousSession` â†’ `chat.restoreLastPanelSession` (renamed in VS Code 1.108)
+- Renamed `chat.viewRestorePreviousSession` → `chat.restoreLastPanelSession` (renamed in VS Code 1.108)
 - Converted absolute Windows paths (`C:\\Users\\...`) to tilde notation (`~/...`) in user-level settings examples for portability
 **Expected Impact:**
 - Quality: + (no more deprecation warnings in VS Code, settings resolve correctly across machines)
 - Cost: Neutral
 - Speed: Neutral
 **Rollback:** Restore previous setting names from git history. Tilde paths can be reverted to absolute paths if needed.
-**Metrics:** Verify agents load in new VS Code windows via Chat â†’ Diagnostics.
+**Metrics:** Verify agents load in new VS Code windows via Chat → Diagnostics.
 
 ### 2026-02-06 - VS Code 1.109 Integration
 
@@ -244,8 +244,8 @@ Added `agent` tool to all 22 agents for 1.109 subagent discovery. Added `askQues
 **File:** `.vscode/settings.json`
 **Type:** Modified (full rewrite from 1.108 format)
 **Description:** Comprehensive update to workspace settings for VS Code 1.109:
-- Replaced `github.copilot.chat.tools.memory.enabled` â†’ `github.copilot.chat.copilotMemory.enabled`
-- Renamed `chat.agent.thinkingStyle` â†’ `chat.thinking.style`
+- Replaced `github.copilot.chat.tools.memory.enabled` → `github.copilot.chat.copilotMemory.enabled`
+- Renamed `chat.agent.thinkingStyle` → `chat.thinking.style`
 - Added: `chat.agentFilesLocations`, `chat.agentSkillsLocations`, `chat.useAgentSkills` (GA), `chat.agentCustomizationSkill.enabled`
 - Added: `chat.agent.thinking.terminalTools`, `chat.tools.autoExpandFailures`, `chat.askQuestions.enabled`
 - Added: Anthropic enhancements (thinking budget, tool search, context editing)
@@ -286,7 +286,7 @@ Added `agent` tool to all 22 agents for 1.109 subagent discovery. Added `askQues
 #### v2.0.0 - vscode-copilot-configuration.md (1.109)
 **File:** `docs/guides/vscode-copilot-configuration.md`
 **Type:** Modified
-**Description:** Bumped version 0.6.0 â†’ 0.7.0. Updated prerequisites to VS Code 1.109. Added comprehensive VS Code 1.109 Features section (17 subsections). Updated user settings.json examples with all new settings. Updated workspace-local settings example.
+**Description:** Bumped version 0.6.0 → 0.7.0. Updated prerequisites to VS Code 1.109. Added comprehensive VS Code 1.109 Features section (17 subsections). Updated user settings.json examples with all new settings. Updated workspace-local settings example.
 **Expected Impact:**
 - Quality: ++ (complete configuration guide for 1.109)
 - Cost: Neutral
@@ -445,14 +445,14 @@ Added `agent` tool to all 22 agents for 1.109 subagent discovery. Added `askQues
 **File:** `instructions/workflows/data-analytics.instructions.md`
 **Type:** Modified
 **Description:** Added explicit cross-references to
-`plans/data-analysis/README.md Â§Â§2â€“5`, reinforced the full metadata key set
+`plans/data-analysis/README.md Â§Â§2–5`, reinforced the full metadata key set
 (`run_id`, `reviewer_model`, `gap_summary`, `router_directive`, `attachments`,
 optional `truncation_note`), and mandated `[severity:high|medium|low]` bullets
 within `TODO-reviewer` fences so analytics, reviewer, and conductor personas can
 trace `verdict.md` / `verdict.json` / `verdict_log.ndjson` updates without
 ambiguity.
 **Expected Impact:**
-- Quality: + (clear pointers close the â€œmissing artifactâ€ loop and reduce reviewer churn)
+- Quality: + (clear pointers close the “missing artifact” loop and reduce reviewer churn)
 - Cost: Neutral
 - Speed: - (minimal) due to extra verification when cross-checking README sections
 **Rollback Plan:** Revert the instruction file to v2.2.0 and remove the new
@@ -626,16 +626,16 @@ severity tags.
 ### When to Increment Versions
 
 Increment version when:
-- âœ… Changing agent behavior expectations
-- âœ… Adding/removing checklist items
-- âœ… Modifying quality criteria
-- âœ… Changing tool usage patterns
-- âœ… Updating persona characteristics
+- ✅ Changing agent behavior expectations
+- ✅ Adding/removing checklist items
+- ✅ Modifying quality criteria
+- ✅ Changing tool usage patterns
+- ✅ Updating persona characteristics
 
 Do NOT increment for:
-- âŒ Comment-only changes
-- âŒ Whitespace/formatting
-- âŒ Metadata updates (except version itself)
+- ❌ Comment-only changes
+- ❌ Whitespace/formatting
+- ❌ Metadata updates (except version itself)
 
 ---
 
@@ -651,17 +651,17 @@ Use this template when analyzing instruction change impact:
 **Sample Size:** {number of sessions}
 
 **Quality Metrics:**
-- Review pass rate: {before}% â†’ {after}%
-- Blocker findings: {before} â†’ {after} per review
-- Edge case coverage: {before}% â†’ {after}%
+- Review pass rate: {before}% → {after}%
+- Blocker findings: {before} → {after} per review
+- Edge case coverage: {before}% → {after}%
 
 **Cost Metrics:**
-- Premium model usage: {before}% â†’ {after}%
-- Average cost per phase: ${before} â†’ ${after}
+- Premium model usage: {before}% → {after}%
+- Average cost per phase: ${before} → ${after}
 
 **Speed Metrics:**
-- Average phase duration: {before}min â†’ {after}min
-- Escalation frequency: {before} â†’ {after} per 10 phases
+- Average phase duration: {before}min → {after}min
+- Escalation frequency: {before} → {after} per 10 phases
 
 **Qualitative Feedback:**
 - {User feedback summary}

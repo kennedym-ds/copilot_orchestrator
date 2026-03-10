@@ -7,7 +7,7 @@ status: stable
 
 # Claude Code Onboarding
 
-Get the Copilot Orchestrator's 28 agents and 16 skills running in Claude Code in under 5 minutes.
+Get the Copilot Orchestrator's 29 agents and 17 skills running in Claude Code in under 5 minutes.
 
 ## Prerequisites
 
@@ -33,7 +33,7 @@ cd path/to/copilot_orchestrator
 ./scripts/setup-claude-code.sh --mode project --target ~/projects/my-app
 ```
 
-This creates a `.claude/` directory in your target project with all 28 agents, 16 skills, instruction rules, and MCP configuration.
+This creates a `.claude/` directory in your target project with all 29 agents, 17 skills, instruction rules, and MCP configuration.
 
 ### 2. Verify the setup
 
@@ -169,8 +169,8 @@ After setup, your project will contain:
 
 ```
 .claude/
-├── agents/           # 27 transformed agent definitions
-├── skills/           # 16 skill directories
+├── agents/           # 29 transformed agent definitions
+├── skills/           # 17 skill directories
 ├── rules/            # Instruction files organized by category
 │   ├── global/       # Behavior, quality, security, model selection
 │   ├── workflows/    # Conductor, implementer, reviewer workflows

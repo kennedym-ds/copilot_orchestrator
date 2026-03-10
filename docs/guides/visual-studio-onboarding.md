@@ -1,13 +1,13 @@
 ---
 title: "Visual Studio Onboarding Guide"
-version: "1.0.0"
-lastUpdated: "2026-02-27"
+version: "1.1.0"
+lastUpdated: "2026-03-10"
 status: stable
 ---
 
 # Visual Studio Onboarding
 
-Get the Copilot Orchestrator's 28 agents running in Visual Studio in under 5 minutes.
+Get the Copilot Orchestrator's 29 agents running in Visual Studio in under 5 minutes.
 
 ## Prerequisites
 
@@ -133,14 +133,14 @@ Use agents directly in Copilot Chat:
 
 ### Available agents
 
-All 28 agents from the orchestrator are available:
+All 29 agents from the orchestrator are available:
 
 | Category | Agents |
 |----------|--------|
-| **Core** | conductor, planner, implementer, reviewer, researcher, maintainer |
+| **Core** | conductor, planner, implementer, reviewer, researcher, maintainer, spec |
 | **Support** | security, performance, accessibility, docs, observability, visualizer, deployment, red-team |
 | **Translation** | translation-conductor, translator, translation-analyzer, translation-validator, translation-styler |
-| **Specialist** | test, lint, github-ops, terraform, bicep, design, beast-mode, rubber-duck |
+| **Specialist** | test, lint, github-ops, terraform, bicep, design, beast-mode, gui-tester, rubber-duck |
 
 ## What Gets Distributed
 
@@ -152,6 +152,9 @@ Since Visual Studio uses the same format as VS Code, no transformation occurs. T
 | `.github/skills/*/SKILL.md` | `.github/skills/*/SKILL.md` |
 | `.github/prompts/*.prompt.md` | `.github/prompts/*.prompt.md` |
 | `instructions/**/*.md` | `instructions/**/*.md` |
+| `.github/copilot-instructions.md` | `.github/copilot-instructions.md` |
+
+Hooks defined in agent frontmatter (`hooks:` section) are included automatically since they're part of the `.agent.md` files.
 
 ## Updating Agents
 

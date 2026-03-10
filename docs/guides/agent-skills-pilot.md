@@ -14,13 +14,13 @@ This guide provides a structured approach to evaluating the Agent Skills experim
 **Objective:** Evaluate whether Agent Skills (on-demand loading) provides benefits over always-on agents/instructions for the Copilot Orchestrator multi-agent system.
 
 **Pilot Skills:**
-1. **orchestrator-terminal-style** â€” Terminal formatting patterns
-2. **worktrees-ops** â€” Git worktrees operations
-3. **validation-scripts** â€” PowerShell validation script usage
+1. **orchestrator-terminal-style** — Terminal formatting patterns
+2. **worktrees-ops** — Git worktrees operations
+3. **validation-scripts** — PowerShell validation script usage
 
 **Evaluation Period:** 2-4 weeks
 **Participants:** Conductor workflow users, agent developers
-**Success Criteria:** Token usage reduction â‰¥20%, relevance accuracy â‰¥90%, no negative performance impact
+**Success Criteria:** Token usage reduction ≥20%, relevance accuracy ≥90%, no negative performance impact
 
 ## Background
 
@@ -131,7 +131,7 @@ This guide provides a structured approach to evaluating the Agent Skills experim
 - Pilot: 2 weeks with `chat.useAgentSkills: true`
 - Compare: Average tokens per session, peak session tokens, token budget headroom
 
-**Success Criterion:** â‰¥20% reduction in average tokens per session
+**Success Criterion:** ≥20% reduction in average tokens per session
 
 ### 2. Loading Accuracy
 
@@ -149,28 +149,28 @@ Create test scenarios for each skill:
 #### orchestrator-terminal-style
 | Scenario | Expected Loading | Test Prompt |
 |----------|------------------|-------------|
-| Format validation output | âœ“ Should load | "Format the validation script output with glyphs" |
-| Plan new feature | âœ— Should NOT load | "Plan OAuth2 implementation" |
-| Display progress | âœ“ Should load | "Show progress for Phase 5 of 7" |
-| Write documentation | âœ— Should NOT load | "Document the conductor workflow" |
+| Format validation output | ✓ Should load | "Format the validation script output with glyphs" |
+| Plan new feature | ✗ Should NOT load | "Plan OAuth2 implementation" |
+| Display progress | ✓ Should load | "Show progress for Phase 5 of 7" |
+| Write documentation | ✗ Should NOT load | "Document the conductor workflow" |
 
 #### worktrees-ops
 | Scenario | Expected Loading | Test Prompt |
 |----------|------------------|-------------|
-| Parallel features | âœ“ Should load | "Work on feature-b while continuing feature-a" |
-| Single branch work | âœ— Should NOT load | "Implement OAuth2 authentication" |
-| Review PR during dev | âœ“ Should load | "Review PR #247 without interrupting current work" |
-| Commit changes | âœ— Should NOT load | "Commit Phase 4 completion" |
+| Parallel features | ✓ Should load | "Work on feature-b while continuing feature-a" |
+| Single branch work | ✗ Should NOT load | "Implement OAuth2 authentication" |
+| Review PR during dev | ✓ Should load | "Review PR #247 without interrupting current work" |
+| Commit changes | ✗ Should NOT load | "Commit Phase 4 completion" |
 
 #### validation-scripts
 | Scenario | Expected Loading | Test Prompt |
 |----------|------------------|-------------|
-| After implementation | âœ“ Should load | "Validate changes after Phase 5" |
-| During planning | âœ— Should NOT load | "Plan VS Code 1.108 integration" |
-| Check frontmatter | âœ“ Should load | "Run asset validation" |
-| Research new feature | âœ— Should NOT load | "Research Agent Skills feature" |
+| After implementation | ✓ Should load | "Validate changes after Phase 5" |
+| During planning | ✗ Should NOT load | "Plan VS Code 1.108 integration" |
+| Check frontmatter | ✓ Should load | "Run asset validation" |
+| Research new feature | ✗ Should NOT load | "Research Agent Skills feature" |
 
-**Success Criterion:** â‰¥90% accuracy (TP + TN) / (TP + TN + FP + FN)
+**Success Criterion:** ≥90% accuracy (TP + TN) / (TP + TN + FP + FN)
 
 ### 3. User Experience
 
@@ -186,7 +186,7 @@ Create test scenarios for each skill:
 5. Would you prefer Agent Skills or always-on instructions? (Skills/Always-On/No Preference)
 6. Additional feedback: [Open text]
 
-**Success Criterion:** â‰¥80% prefer Agent Skills or have No Preference, â‰¤10% report performance issues
+**Success Criterion:** ≥80% prefer Agent Skills or have No Preference, ≤10% report performance issues
 
 ### 4. Performance Impact
 
@@ -194,7 +194,7 @@ Create test scenarios for each skill:
 
 **Measurement:**
 - Time to first response after sending prompt
-- Time to complete conductor phase (Planning â†’ Implementation â†’ Review)
+- Time to complete conductor phase (Planning → Implementation → Review)
 - VS Code responsiveness during chat sessions
 
 **Data Collection:**
@@ -203,7 +203,7 @@ Create test scenarios for each skill:
 .\scripts\analyze-sessions.ps1 -Metric PhaseDuration -StartDate (Get-Date).AddDays(-14)
 ```
 
-**Success Criterion:** â‰¤5% increase in phase duration, no user-reported slowdowns
+**Success Criterion:** ≤5% increase in phase duration, no user-reported slowdowns
 
 ### 5. Maintenance Burden
 
@@ -219,7 +219,7 @@ Create test scenarios for each skill:
 - Track entry point tuning iterations during pilot
 - Survey agent developers on maintenance experience
 
-**Success Criterion:** â‰¤20% additional maintenance time, â‰¤3 entry point tuning iterations per skill
+**Success Criterion:** ≤20% additional maintenance time, ≤3 entry point tuning iterations per skill
 
 ## Evaluation Phases
 
@@ -237,8 +237,8 @@ Create test scenarios for each skill:
 4. Record token usage, phase durations, user feedback
 
 **Deliverables:**
-- `artifacts/sessions/baseline.json` â€” Session analytics
-- `artifacts/evaluation/baseline-metrics.md` â€” Summary report
+- `artifacts/sessions/baseline.json` — Session analytics
+- `artifacts/evaluation/baseline-metrics.md` — Summary report
 
 ### Phase B: Pilot (Week 3-4)
 
@@ -261,10 +261,10 @@ Create test scenarios for each skill:
 6. Log entry point tuning iterations
 
 **Deliverables:**
-- `artifacts/sessions/pilot.json` â€” Session analytics
-- `artifacts/evaluation/pilot-metrics.md` â€” Summary report
-- `artifacts/evaluation/loading-accuracy-results.csv` â€” Test scenario results
-- `artifacts/evaluation/user-feedback.md` â€” Survey responses
+- `artifacts/sessions/pilot.json` — Session analytics
+- `artifacts/evaluation/pilot-metrics.md` — Summary report
+- `artifacts/evaluation/loading-accuracy-results.csv` — Test scenario results
+- `artifacts/evaluation/user-feedback.md` — Survey responses
 
 ### Phase C: Analysis (Week 5)
 
@@ -279,8 +279,8 @@ Create test scenarios for each skill:
 6. Create recommendation report
 
 **Deliverables:**
-- `artifacts/evaluation/comparison-report.md` â€” Detailed analysis
-- `artifacts/evaluation/recommendation.md` â€” Go/No-Go decision
+- `artifacts/evaluation/comparison-report.md` — Detailed analysis
+- `artifacts/evaluation/recommendation.md` — Go/No-Go decision
 
 ## Test Scenarios
 
@@ -294,9 +294,9 @@ Phase 5 implementation complete. Validate changes before creating phase-complete
 ```
 
 **Expected Behavior:**
-- âœ“ validation-scripts skill should load
-- âœ— orchestrator-terminal-style skill should load (if validation output formatted)
-- âœ— worktrees-ops skill should NOT load
+- ✓ validation-scripts skill should load
+- ✗ orchestrator-terminal-style skill should load (if validation output formatted)
+- ✗ worktrees-ops skill should NOT load
 
 **Validation:**
 1. Check chat response mentions validation scripts (validate-copilot-assets.ps1, run-lint.ps1)
@@ -313,9 +313,9 @@ I'm working on Feature A in main branch. Need to start Feature B simultaneously 
 ```
 
 **Expected Behavior:**
-- âœ“ worktrees-ops skill should load
-- âœ— validation-scripts skill should NOT load
-- âœ— orchestrator-terminal-style skill should NOT load
+- ✓ worktrees-ops skill should load
+- ✗ validation-scripts skill should NOT load
+- ✗ orchestrator-terminal-style skill should NOT load
 
 **Validation:**
 1. Check chat response recommends Git worktrees
@@ -332,12 +332,12 @@ The validation script output is plain text. Can you format it with glyphs and co
 ```
 
 **Expected Behavior:**
-- âœ“ orchestrator-terminal-style skill should load
-- âœ— validation-scripts skill might load (output interpretation)
-- âœ— worktrees-ops skill should NOT load
+- ✓ orchestrator-terminal-style skill should load
+- ✗ validation-scripts skill might load (output interpretation)
+- ✗ worktrees-ops skill should NOT load
 
 **Validation:**
-1. Check chat response includes glyph examples (âœ“âœ—âš â„¹)
+1. Check chat response includes glyph examples (✓✗⚠ℹ)
 2. Check response includes PowerShell Write-Host with colors
 3. Check response mentions accessibility (glyph + text labels)
 
@@ -351,7 +351,7 @@ Plan implementation for adding MFA (multi-factor authentication) to our API.
 ```
 
 **Expected Behavior:**
-- âœ— All pilot skills should NOT load (not relevant to planning)
+- ✗ All pilot skills should NOT load (not relevant to planning)
 
 **Validation:**
 1. Check chat response focuses on planning (phases, risks, dependencies)
@@ -368,7 +368,7 @@ Update the README.md to include VS Code 1.108 features.
 ```
 
 **Expected Behavior:**
-- âœ— All pilot skills should NOT load (documentation task)
+- ✗ All pilot skills should NOT load (documentation task)
 
 **Validation:**
 1. Check chat response focuses on documentation structure
@@ -396,10 +396,10 @@ Parallel Features,validation-scripts,NOT Load,NOT Load,TN,"Correctly avoided, no
 
 | Metric | Baseline (Always-On) | Pilot (Agent Skills) | Change |
 |--------|----------------------|----------------------|--------|
-| Average tokens/session | 45,200 | 32,150 | -28.9% âœ… |
-| Peak session tokens | 78,900 | 54,300 | -31.2% âœ… |
-| Median tokens/session | 42,100 | 30,900 | -26.6% âœ… |
-| 95th percentile | 67,800 | 48,200 | -28.9% âœ… |
+| Average tokens/session | 45,200 | 32,150 | -28.9% ✅ |
+| Peak session tokens | 78,900 | 54,300 | -31.2% ✅ |
+| Median tokens/session | 42,100 | 30,900 | -26.6% ✅ |
+| 95th percentile | 67,800 | 48,200 | -28.9% ✅ |
 ```
 
 ### User Feedback Summary
@@ -437,22 +437,22 @@ Parallel Features,validation-scripts,NOT Load,NOT Load,TN,"Correctly avoided, no
 ### Go Decision (Recommend Agent Skills)
 
 All of the following must be true:
-1. âœ… Token usage reduced by â‰¥20%
-2. âœ… Loading accuracy â‰¥90%
-3. âœ… â‰¥80% user preference for Skills or No Preference
-4. âœ… Performance impact â‰¤5%
-5. âœ… Maintenance burden â‰¤20% additional time
+1. ✅ Token usage reduced by ≥20%
+2. ✅ Loading accuracy ≥90%
+3. ✅ ≥80% user preference for Skills or No Preference
+4. ✅ Performance impact ≤5%
+5. ✅ Maintenance burden ≤20% additional time
 
 **Action:** Expand Agent Skills to additional domains (Phase C expansion)
 
 ### No-Go Decision (Keep Always-On Instructions)
 
 Any of the following is true:
-1. âŒ Token usage reduced by <20%
-2. âŒ Loading accuracy <90%
-3. âŒ >20% user preference for Always-On
-4. âŒ Performance impact >5%
-5. âŒ Maintenance burden >20% additional time
+1. ❌ Token usage reduced by <20%
+2. ❌ Loading accuracy <90%
+3. ❌ >20% user preference for Always-On
+4. ❌ Performance impact >5%
+5. ❌ Maintenance burden >20% additional time
 
 **Action:** Disable `chat.useAgentSkills`, keep pilot skills as reference documentation
 
@@ -494,22 +494,22 @@ If pilot shows negative results:
 
 ## Expansion Complete (11 Total Skills)
 
-**Status:** âœ… All candidate skills implemented (2026-01-09)
+**Status:** ✅ All candidate skills implemented (2026-01-09)
 
 ### Core Skills (Implemented)
-1. **orchestrator-terminal-style** â€” Terminal formatting with GPU-accelerated glyphs
-2. **worktrees-ops** â€” Git worktrees parallel workflow management
-3. **validation-scripts** â€” PowerShell validation tooling
+1. **orchestrator-terminal-style** — Terminal formatting with GPU-accelerated glyphs
+2. **worktrees-ops** — Git worktrees parallel workflow management
+3. **validation-scripts** — PowerShell validation tooling
 
 ### Expanded Skills (Implemented)
 4. **conductor-lifecycle** — Phase management, pause points, handoffs
-5. **security-review** â€” STRIDE threat modeling, compliance (SOC2/GDPR/HIPAA)
-6. **performance-analysis** â€” Big O complexity, database optimization, cloud cost
-7. **tdd** â€” Test-Driven Development, Red-Green-Refactor, test doubles
-8. **accessibility-wcag** â€” WCAG 2.1 Level AA, ARIA, keyboard navigation
-9. **documentation-style** â€” Markdown conventions, API docs, technical writing
-10. **git-operations** â€” Conventional commits, branching strategies, PR workflows
-11. **observability-telemetry** â€” Metrics/logs/traces, OpenTelemetry, Prometheus/Grafana
+5. **security-review** — STRIDE threat modeling, compliance (SOC2/GDPR/HIPAA)
+6. **performance-analysis** — Big O complexity, database optimization, cloud cost
+7. **tdd** — Test-Driven Development, Red-Green-Refactor, test doubles
+8. **accessibility-wcag** — WCAG 2.1 Level AA, ARIA, keyboard navigation
+9. **documentation-style** — Markdown conventions, API docs, technical writing
+10. **git-operations** — Conventional commits, branching strategies, PR workflows
+11. **observability-telemetry** — Metrics/logs/traces, OpenTelemetry, Prometheus/Grafana
 
 ### Evaluation for Each Skill
 - Token count in current instruction files

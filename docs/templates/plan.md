@@ -1,6 +1,6 @@
 ﻿## Plan: {Task Title}
 
-{Brief TL;DR of the plan (1â€“3 sentences).}
+{Brief TL;DR of the plan (1–3 sentences).}
 
 ### Architecture Overview
 

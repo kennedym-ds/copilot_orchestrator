@@ -498,7 +498,7 @@ function New-PluginManifest {
 
     $manifest = @{
         name = "copilot-orchestrator"
-        description = "Multi-agent orchestration system with 28 specialized agents for planning, implementation, review, security, and more."
+        description = "Multi-agent orchestration system with 29 specialized agents for planning, implementation, review, security, and more."
         version = "1.0.0"
         author = @{
             name = "Copilot Orchestrator"
@@ -512,7 +512,7 @@ function New-PluginManifest {
     $readmeLines = @(
         "# Copilot Orchestrator Plugin for Claude Code"
         ""
-        "Multi-agent orchestration system with 28 specialized agents."
+        "Multi-agent orchestration system with 29 specialized agents."
         ""
         "## Installation"
         ""
@@ -525,11 +525,11 @@ function New-PluginManifest {
         "## Agents"
         ""
         "Includes conductor, planner, implementer, reviewer, researcher, security,"
-        "performance, test, docs, lint, and 17 more specialist agents."
+        "performance, test, docs, lint, and 19 more specialist agents."
         ""
         "## Skills"
         ""
-        "All 16 orchestrator skills are included:"
+        "All 17 orchestrator skills are included:"
         "- conductor-lifecycle, delegation-routing, budget-gatekeeper"
         "- tdd, security-review, performance-analysis"
         "- documentation-style, git-operations, memory-management"

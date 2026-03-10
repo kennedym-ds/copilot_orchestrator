@@ -45,12 +45,12 @@ This skill is relevant when:
 
 | Script | Purpose | Auto-Approved | Exit Code |
 |--------|---------|---------------|-----------|
-| `validate-copilot-assets.ps1` | Validates frontmatter, YAML, file structure | âœ“ Yes | 0=pass, 1=fail |
-| `run-lint.ps1` | Checks markdown style, line length, whitespace | âœ“ Yes | 0=pass, 1=fail |
-| `run-smoke-tests.ps1` | Tests critical paths, file existence | âœ“ Yes | 0=pass, 1=fail |
-| `token-report.ps1` | Generates token budget report | âœ“ Yes | 0=success |
-| `add-prompt-metadata.ps1` | Adds/updates prompt metadata | âœ— No | 0=success, 1=fail |
-| `init-artifacts.ps1` | Creates artifacts folder structure | âœ— No | 0=success |
+| `validate-copilot-assets.ps1` | Validates frontmatter, YAML, file structure | ✓ Yes | 0=pass, 1=fail |
+| `run-lint.ps1` | Checks markdown style, line length, whitespace | ✓ Yes | 0=pass, 1=fail |
+| `run-smoke-tests.ps1` | Tests critical paths, file existence | ✓ Yes | 0=pass, 1=fail |
+| `token-report.ps1` | Generates token budget report | ✓ Yes | 0=success |
+| `add-prompt-metadata.ps1` | Adds/updates prompt metadata | ✗ No | 0=success, 1=fail |
+| `init-artifacts.ps1` | Creates artifacts folder structure | ✗ No | 0=success |
 
 ### Terminal Auto-Approve Behavior
 
@@ -82,7 +82,7 @@ These scripts prompt for approval before execution:
 ```
 
 **Parameters:**
-- `-RepositoryRoot` â€” Path to repository root (required)
+- `-RepositoryRoot` — Path to repository root (required)
 
 **What It Checks:**
 - Agent files (*.agent.md) have required frontmatter: name, description, version
@@ -94,20 +94,20 @@ These scripts prompt for approval before execution:
 **Success Output:**
 ```
 Scanning Copilot assets under C:\Projects\copilot_orchestrator ...
-âœ… All Copilot assets passed validation.
+✅ All Copilot assets passed validation.
 ```
 
 **Failure Output:**
 ```
 Scanning Copilot assets under C:\Projects\copilot_orchestrator ...
-âŒ Validation failed:
-  [Error] .github/agents/conductor.agent.md â€” Missing required frontmatter: version
-  [Error] .github/prompts/planning/plan.prompt.md â€” Invalid YAML in frontmatter
+❌ Validation failed:
+  [Error] .github/agents/conductor.agent.md — Missing required frontmatter: version
+  [Error] .github/prompts/planning/plan.prompt.md — Invalid YAML in frontmatter
 ```
 
 **Exit Code:**
-- `0` â€” All validations passed
-- `1` â€” One or more validations failed
+- `0` — All validations passed
+- `1` — One or more validations failed
 
 **When to Run:**
 - After creating/modifying agent files
@@ -126,7 +126,7 @@ Scanning Copilot assets under C:\Projects\copilot_orchestrator ...
 ```
 
 **Parameters:**
-- `-RepositoryRoot` â€” Path to repository root (required)
+- `-RepositoryRoot` — Path to repository root (required)
 
 **What It Checks:**
 - Trailing whitespace at end of lines
@@ -151,8 +151,8 @@ Lint findings:
 ```
 
 **Exit Code:**
-- `0` â€” No errors (warnings are acceptable)
-- `1` â€” One or more errors found
+- `0` — No errors (warnings are acceptable)
+- `1` — One or more errors found
 
 **When to Run:**
 - After creating/modifying documentation
@@ -172,7 +172,7 @@ Lint findings:
 ```
 
 **Parameters:**
-- `-RepositoryRoot` â€” Path to repository root (required)
+- `-RepositoryRoot` — Path to repository root (required)
 
 **What It Checks:**
 - Critical files exist (AGENTS.md, README.md, .github/copilot-instructions.md)
@@ -184,25 +184,25 @@ Lint findings:
 **Success Output:**
 ```
 Running smoke tests...
-âœ“ File structure validation passed
-âœ“ Agent definitions loadable
-âœ“ Prompt files parseable
-âœ“ Instruction files valid
-âœ… All smoke tests passed.
+✓ File structure validation passed
+✓ Agent definitions loadable
+✓ Prompt files parseable
+✓ Instruction files valid
+✅ All smoke tests passed.
 ```
 
 **Failure Output:**
 ```
 Running smoke tests...
-âœ“ File structure validation passed
-âœ— Agent definitions loadable â€” conductor.agent.md missing required field
-âœ— Prompt files parseable â€” plan.prompt.md has invalid frontmatter
-âŒ 2 smoke tests failed.
+✓ File structure validation passed
+✗ Agent definitions loadable — conductor.agent.md missing required field
+✗ Prompt files parseable — plan.prompt.md has invalid frontmatter
+❌ 2 smoke tests failed.
 ```
 
 **Exit Code:**
-- `0` â€” All smoke tests passed
-- `1` â€” One or more smoke tests failed
+- `0` — All smoke tests passed
+- `1` — One or more smoke tests failed
 
 **When to Run:**
 - After major structural changes
@@ -220,9 +220,9 @@ Running smoke tests...
 ```
 
 **Parameters:**
-- `-Path` â€” Path to analyze (required, typically `.` for repository root)
-- `-ConfigPath` â€” Path to threshold config (optional, default: `token-thresholds.json`)
-- `-OutputPath` â€” Output file path (optional, default: `artifacts/token-report.json`)
+- `-Path` — Path to analyze (required, typically `.` for repository root)
+- `-ConfigPath` — Path to threshold config (optional, default: `token-thresholds.json`)
+- `-OutputPath` — Output file path (optional, default: `artifacts/token-report.json`)
 
 **What It Reports:**
 - Token counts per file (instructions, prompts, agents)
@@ -234,29 +234,29 @@ Running smoke tests...
 **Success Output:**
 ```
 Analyzing token usage in C:\Projects\copilot_orchestrator ...
-â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ðŸ“Š Token Budget Report
-â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Instructions:     42,150 tokens (18 files)
 Prompts:          12,340 tokens (35 files)
 Agents:            8,920 tokens (22 files)
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+────────────────────────────────────────────────
 Total:            63,410 tokens
 Threshold:       100,000 tokens
-Status:           âœ… PASS (36.6% under limit)
-â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+Status:           ✅ PASS (36.6% under limit)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Report saved to: artifacts/token-report.json
 ```
 
 **Warning Output:**
 ```
-âš ï¸ Warnings:
-  instructions/global/security.instructions.md â€” 8,420 tokens (threshold: 8,000)
-  .github/prompts/planning/comprehensive-plan.prompt.md â€” 3,210 tokens (threshold: 3,000)
+⚠ï¸ Warnings:
+  instructions/global/security.instructions.md — 8,420 tokens (threshold: 8,000)
+  .github/prompts/planning/comprehensive-plan.prompt.md — 3,210 tokens (threshold: 3,000)
 ```
 
 **Exit Code:**
-- `0` â€” Report generated successfully (warnings acceptable)
+- `0` — Report generated successfully (warnings acceptable)
 
 **When to Run:**
 - After adding new instruction files
@@ -274,8 +274,8 @@ Report saved to: artifacts/token-report.json
 ```
 
 **Parameters:**
-- `-RepositoryRoot` â€” Path to repository root (required)
-- `-CheckOnly` â€” Validate metadata without modifying files (optional)
+- `-RepositoryRoot` — Path to repository root (required)
+- `-CheckOnly` — Validate metadata without modifying files (optional)
 
 **What It Does:**
 - Scans all prompt files (*.prompt.md)
@@ -287,25 +287,25 @@ Report saved to: artifacts/token-report.json
 **Check-Only Output:**
 ```
 Checking prompt metadata...
-âš ï¸ Missing metadata:
-  .github/prompts/planning/phase-plan.prompt.md â€” Missing: version, lastUpdated
-  .github/prompts/review/findings.prompt.md â€” Missing: tags
-â„¹ï¸ Use without -CheckOnly to add metadata automatically.
+⚠ï¸ Missing metadata:
+  .github/prompts/planning/phase-plan.prompt.md — Missing: version, lastUpdated
+  .github/prompts/review/findings.prompt.md — Missing: tags
+ℹï¸ Use without -CheckOnly to add metadata automatically.
 ```
 
 **Modification Output:**
 ```
 Adding prompt metadata...
-âœ“ Updated .github/prompts/planning/phase-plan.prompt.md
-âœ“ Updated .github/prompts/review/findings.prompt.md
-âœ… Metadata added to 2 files.
+✓ Updated .github/prompts/planning/phase-plan.prompt.md
+✓ Updated .github/prompts/review/findings.prompt.md
+✅ Metadata added to 2 files.
 ```
 
 **Exit Code:**
-- `0` â€” Check passed or metadata added successfully
-- `1` â€” Errors encountered
+- `0` — Check passed or metadata added successfully
+- `1` — Errors encountered
 
-**âš ï¸ Requires Approval:** This script modifies files and requires user approval in VS Code Chat.
+**⚠ï¸ Requires Approval:** This script modifies files and requires user approval in VS Code Chat.
 
 **When to Run:**
 - After creating new prompt files
@@ -328,48 +328,48 @@ Adding prompt metadata...
 **What It Creates:**
 ```
 artifacts/
-â”œâ”€â”€ README.md
-â”œâ”€â”€ plans/
-â”œâ”€â”€ reviews/
-â”œâ”€â”€ research/
-â”œâ”€â”€ security/
-â”œâ”€â”€ sessions/
-â”œâ”€â”€ performance/
-â”œâ”€â”€ docs/
-â”œâ”€â”€ releases/
-â”œâ”€â”€ telemetry/
-â”œâ”€â”€ deployments/
-â”œâ”€â”€ red-team/
-â”œâ”€â”€ accessibility/
-â”œâ”€â”€ tests/
-â””â”€â”€ ux/
+├── README.md
+├── plans/
+├── reviews/
+├── research/
+├── security/
+├── sessions/
+├── performance/
+├── docs/
+├── releases/
+├── telemetry/
+├── deployments/
+├── red-team/
+├── accessibility/
+├── tests/
+└── ux/
 ```
 
 **Output:**
 ```
 Creating artifacts folder structure...
-âœ“ Created artifacts/plans
-âœ“ Created artifacts/reviews
-âœ“ Created artifacts/research
-âœ“ Created artifacts/security
-âœ“ Created artifacts/sessions
-âœ“ Created artifacts/performance
-âœ“ Created artifacts/docs
-âœ“ Created artifacts/releases
-âœ“ Created artifacts/telemetry
-âœ“ Created artifacts/deployments
-âœ“ Created artifacts/red-team
-âœ“ Created artifacts/accessibility
-âœ“ Created artifacts/tests
-âœ“ Created artifacts/ux
-âœ“ Created artifacts/README.md
-âœ… Artifacts folder initialized.
+✓ Created artifacts/plans
+✓ Created artifacts/reviews
+✓ Created artifacts/research
+✓ Created artifacts/security
+✓ Created artifacts/sessions
+✓ Created artifacts/performance
+✓ Created artifacts/docs
+✓ Created artifacts/releases
+✓ Created artifacts/telemetry
+✓ Created artifacts/deployments
+✓ Created artifacts/red-team
+✓ Created artifacts/accessibility
+✓ Created artifacts/tests
+✓ Created artifacts/ux
+✓ Created artifacts/README.md
+✅ Artifacts folder initialized.
 ```
 
 **Exit Code:**
-- `0` â€” Folder structure created successfully
+- `0` — Folder structure created successfully
 
-**âš ï¸ Requires Approval:** This script creates directories and requires user approval in VS Code Chat.
+**⚠ï¸ Requires Approval:** This script creates directories and requires user approval in VS Code Chat.
 
 **When to Run:**
 - First time using conductor in a repository
@@ -423,21 +423,21 @@ Creating artifacts folder structure...
 ## Interpreting Results
 
 ### Exit Codes
-- **0** â€” Success (proceed with workflow)
-- **1** â€” Failure (fix issues before proceeding)
+- **0** — Success (proceed with workflow)
+- **1** — Failure (fix issues before proceeding)
 
 ### Validation Priorities
-1. **Blockers** â€” Asset validation failures (must fix immediately)
-2. **Errors** â€” Lint errors (must fix before completion)
-3. **Warnings** â€” Pre-existing issues (acceptable, document in phase-complete.md)
-4. **Info** â€” Recommendations (consider for future improvements)
+1. **Blockers** — Asset validation failures (must fix immediately)
+2. **Errors** — Lint errors (must fix before completion)
+3. **Warnings** — Pre-existing issues (acceptable, document in phase-complete.md)
+4. **Info** — Recommendations (consider for future improvements)
 
 ### When to Pause
-- âŒ Asset validation fails â†’ Fix frontmatter, re-run, do not proceed
-- âŒ Smoke tests fail â†’ Fix critical issues, re-run, do not proceed
-- âš ï¸ Lint errors (new) â†’ Fix formatting, re-run validation
-- âœ… Lint warnings (pre-existing) â†’ Document in phase-complete.md, proceed
-- âœ… Token budget warnings â†’ Document, consider optimization, proceed
+- ❌ Asset validation fails → Fix frontmatter, re-run, do not proceed
+- ❌ Smoke tests fail → Fix critical issues, re-run, do not proceed
+- ⚠ï¸ Lint errors (new) → Fix formatting, re-run validation
+- ✅ Lint warnings (pre-existing) → Document in phase-complete.md, proceed
+- ✅ Token budget warnings → Document, consider optimization, proceed
 
 ## Examples
 
@@ -448,7 +448,7 @@ cd C:\Projects\copilot_orchestrator
 
 # Validate changes
 .\scripts\validate-copilot-assets.ps1 -RepositoryRoot .
-# Output: âœ… All Copilot assets passed validation.
+# Output: ✅ All Copilot assets passed validation.
 
 .\scripts\run-lint.ps1 -RepositoryRoot .
 # Output: [Warning] docs/guides/vscode-copilot-configuration.md:511 - Trailing whitespace detected.
@@ -461,15 +461,15 @@ cd C:\Projects\copilot_orchestrator
 ```powershell
 # Validate after creating new instruction file
 .\scripts\validate-copilot-assets.ps1 -RepositoryRoot .
-# Output: âŒ Validation failed:
-#   [Error] instructions/global/new-feature.instructions.md â€” Missing required frontmatter: applyTo
+# Output: ❌ Validation failed:
+#   [Error] instructions/global/new-feature.instructions.md — Missing required frontmatter: applyTo
 
 # Fix the frontmatter issue
 # Add: applyTo: ["all-agents"]
 
 # Re-run validation
 .\scripts\validate-copilot-assets.ps1 -RepositoryRoot .
-# Output: âœ… All Copilot assets passed validation.
+# Output: ✅ All Copilot assets passed validation.
 
 # Now safe to proceed
 ```
@@ -494,10 +494,10 @@ cd C:\Projects\copilot_orchestrator
 # Output:
 # Total: 78,450 tokens
 # Threshold: 100,000 tokens
-# Status: âœ… PASS (21.6% under limit)
+# Status: ✅ PASS (21.6% under limit)
 #
-# âš ï¸ Warnings:
-#   instructions/global/terminal-formatting.instructions.md â€” 8,150 tokens
+# ⚠ï¸ Warnings:
+#   instructions/global/terminal-formatting.instructions.md — 8,150 tokens
 
 # Token budget OK, warning noted
 # Consider splitting terminal-formatting.instructions.md in future

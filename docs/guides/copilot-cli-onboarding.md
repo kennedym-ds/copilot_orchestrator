@@ -1,13 +1,13 @@
 ---
 title: "Copilot CLI Onboarding Guide"
-version: "1.0.0"
-lastUpdated: "2026-02-27"
+version: "1.1.0"
+lastUpdated: "2026-03-10"
 status: stable
 ---
 
 # Copilot CLI Onboarding
 
-Get the Copilot Orchestrator's 28 agents running from the command line in under 5 minutes.
+Get the Copilot Orchestrator's 29 agents running from the command line in under 5 minutes.
 
 ## Prerequisites
 
@@ -137,10 +137,10 @@ copilot --agent=test --prompt "Run tests and report coverage gaps" -p
 
 | Category | Agents |
 |----------|--------|
-| **Core** | `conductor`, `planner`, `implementer`, `reviewer`, `researcher`, `maintainer` |
+| **Core** | `conductor`, `planner`, `implementer`, `reviewer`, `researcher`, `maintainer`, `spec` |
 | **Support** | `security`, `performance`, `accessibility`, `docs`, `observability`, `visualizer`, `deployment`, `red-team` |
 | **Translation** | `translation-conductor`, `translator`, `translation-analyzer`, `translation-validator`, `translation-styler` |
-| **Specialist** | `test`, `lint`, `github-ops`, `terraform`, `bicep`, `design`, `beast-mode`, `rubber-duck` |
+| **Specialist** | `test`, `lint`, `github-ops`, `terraform`, `bicep`, `design`, `beast-mode`, `gui-tester`, `rubber-duck` |
 
 Use `--agent=agent-name` for one-off mode or `@agent-name` in interactive mode.
 
