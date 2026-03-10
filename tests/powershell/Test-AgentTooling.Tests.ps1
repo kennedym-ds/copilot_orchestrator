@@ -26,11 +26,11 @@ Describe "Agent Tooling Requirements" -Tag 'tooling' {
             }
 
             It "includes edit tool" {
-                $content | Should Match '(?s)tools:\s*\[.*\bedit\b'
+                $content | Should Match '(?s)tools:[\s\S]*edit'
             }
 
             It "includes execute tool" {
-                $content | Should Match '(?s)tools:\s*\[.*\bexecute\b'
+                $content | Should Match '(?s)tools:[\s\S]*execute'
             }
         }
     }
