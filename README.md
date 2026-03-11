@@ -110,7 +110,7 @@ The orchestrator ships three branches, each targeting a different cost profile. 
 | Branch | Cost | Primary Model | Secondary Model | Use Case |
 |--------|------|---------------|-----------------|----------|
 | `main` | Premium | GPT-5.4 (22 agents), Claude Opus 4.6 (3) | Claude Sonnet 4.6 (1), Claude Haiku 4.5 (3) | Full capability — optimized per agent role |
-| `low-cost` | Budget | Claude Sonnet 4.5 (3 agents), Claude Haiku 4.5 (26) | — | ~64% savings — Opus→Sonnet 4.5, rest→Haiku 4.5 |
+| `low-cost` | Budget | Claude Sonnet 4.6 (3 agents), Claude Haiku 4.5 (26) | — | ~64% savings — Opus→Sonnet 4.6, rest→Haiku 4.5 |
 | `free-cost` | Zero (0×) | GPT-5 mini | GPT-4.1 | Zero premium requests — 24 agents on GPT-5 mini, 5 on GPT-4.1 |
 
 ### How It Works
@@ -143,14 +143,14 @@ The orchestrator ships three branches, each targeting a different cost profile. 
 
 | Agent | Category | Main (Premium) | Low-Cost (Budget) | Free-Cost (0×) |
 |-------|----------|----------------|--------------------|--------------------|
-| Conductor | Core | Claude Opus 4.6 | Claude Sonnet 4.5 | GPT-5 mini |
-| Planner | Core | Claude Opus 4.6 | Claude Sonnet 4.5 | GPT-5 mini |
+| Conductor | Core | Claude Opus 4.6 | Claude Sonnet 4.6 | GPT-5 mini |
+| Planner | Core | Claude Opus 4.6 | Claude Sonnet 4.6 | GPT-5 mini |
 | Implementer | Core | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
 | Reviewer | Core | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
 | Researcher | Core | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
 | Maintainer | Core | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
 | Spec | Core | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Security | Support | Claude Opus 4.6 | Claude Sonnet 4.5 | GPT-5 mini |
+| Security | Support | Claude Opus 4.6 | Claude Sonnet 4.6 | GPT-5 mini |
 | Performance | Support | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
 | Accessibility | Support | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
 | Docs | Support | GPT-5.4 | Claude Haiku 4.5 | GPT-4.1 |

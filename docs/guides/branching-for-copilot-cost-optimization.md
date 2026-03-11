@@ -40,11 +40,11 @@ Each agent gets the cheapest model that handles its workload without quality los
 
 Collapses the tier structure:
 
-- Opus → Sonnet 4.5 (3× → 1×)
+- Opus → Sonnet 4.6 (3× → 1×)
 - GPT-5.4 / Sonnet 4.6 → Haiku 4.5 (1× → 0.33×)
 - Haiku stays Haiku
 
-**Result:** 3 agents on Sonnet 4.5, 26 on Haiku 4.5. Good enough for learning, experimentation, and lighter workloads.
+**Result:** 3 agents on Sonnet 4.6, 26 on Haiku 4.5. Good enough for learning, experimentation, and lighter workloads.
 
 ### Free-Cost Branch — Zero Premium Requests
 
@@ -73,8 +73,8 @@ The key design choice: **reset-then-substitute**, not merge. The derived branche
   run: |
     # GPT-5.4 → Claude Haiku 4.5
     sed -i 's/GPT-5\.4/Claude Haiku 4.5/g' "$file"
-    # Claude Opus 4.6 → Claude Sonnet 4.5
-    sed -i 's/Claude Opus 4\.6/Claude Sonnet 4.5/g' "$file"
+    # Claude Opus 4.6 → Claude Sonnet 4.6
+    sed -i 's/Claude Opus 4\.6/Claude Sonnet 4.6/g' "$file"
 ```
 
 The substitution order matters — Sonnet before Opus on the low-cost branch prevents double-substitution (Opus → Sonnet → Haiku). Both workflows were verified via simulation to produce correct output.

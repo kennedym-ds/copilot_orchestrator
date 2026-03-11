@@ -13,7 +13,7 @@ GitHub Copilot charges premium requests based on model multiplier:
 | Multiplier | Models |
 |------------|--------|
 | **3×** | Claude Opus 4.6 |
-| **1×** | GPT-5.4, Claude Sonnet 4.6, Claude Sonnet 4.5 |
+| **1×** | GPT-5.4, Claude Sonnet 4.6 |
 | **0.33×** | Claude Haiku 4.5, Gemini 3 Flash, GPT-5.1-Codex-Mini |
 | **0×** | GPT-5 mini, GPT-4.1, GPT-4o, Raptor mini |
 
@@ -94,14 +94,14 @@ The `low-cost` branch provides ~64% savings by collapsing the tier structure:
 
 | Main Model | Low-Cost Replacement | Savings |
 |------------|---------------------|---------|
-| Claude Opus 4.6 (3×) | Claude Sonnet 4.5 (1×) | 67% per request |
+| Claude Opus 4.6 (3×) | Claude Sonnet 4.6 (1×) | 67% per request |
 | GPT-5.4 (1×) | Claude Haiku 4.5 (0.33×) | 67% per request |
 | Claude Sonnet 4.6 (1×) | Claude Haiku 4.5 (0.33×) | 67% per request |
 | Claude Haiku 4.5 (0.33×) | Claude Haiku 4.5 (0.33×) | 0% (already cheapest) |
 
-**Design rationale:** The three Opus agents (conductor, planner, security) handle orchestration and risk — they degrade the most from weaker models. Sonnet 4.5 is the cheapest 1× model that still provides reasonable planning quality. Everything else drops to Haiku 4.5 (0.33×), accepting reduced capability for maximum savings.
+**Design rationale:** The three Opus agents (conductor, planner, security) handle orchestration and risk — they degrade the most from weaker models. Sonnet 4.6 matches Sonnet 4.5 at 1× cost with stronger capabilities. Everything else drops to Haiku 4.5 (0.33×), accepting reduced capability for maximum savings.
 
-**Result:** 3 agents on Claude Sonnet 4.5, 26 on Claude Haiku 4.5.
+**Result:** 3 agents on Claude Sonnet 4.6, 26 on Claude Haiku 4.5.
 
 ## Free-Cost Branch (Zero Tier)
 
@@ -148,5 +148,5 @@ See [instructions/global/03_model-selection.instructions.md](../../instructions/
 | Premium | Claude Opus 4.6 | 3 (~10%) | 3× | Orchestration, planning, security |
 | Execution | GPT-5.4, Claude Sonnet 4.6 | 23 (~80%) | 1× | Implementation, review, analysis, translation |
 | Routine | Claude Haiku 4.5 | 3 (~10%) | 0.33× | Formatting, questions, diagrams |
-| Low-cost | Sonnet 4.5 + Haiku 4.5 | 29 | ~0.44× avg | Budget deployment (~64% savings) |
+| Low-cost | Sonnet 4.6 + Haiku 4.5 | 29 | ~0.44× avg | Budget deployment (~64% savings) |
 | Free-cost | GPT-5 mini + GPT-4.1 | 29 | 0× | Zero premium requests |
