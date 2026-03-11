@@ -134,3 +134,5 @@ When your task requires another specialist, use `#runSubagent` with clear contex
 - **Escalate to conductor** when work threatens to expand beyond approved plan boundaries.
 
 Formal schemas: review requests use **HS-REVIEW**, research requests use **HS-RESEARCH**, return to conductor uses **HS-RETURN**. See `docs/guides/agent-handoff-schemas.md`.
+
+**Return action contract:** Every return to conductor must include an `action` field from: `phase-complete`, `blocked`, or `needs-clarification`. Include `test_results` (passed/failed/skipped counts) and `residual_risks` array. See Return Action Schemas in the handoff schemas guide.

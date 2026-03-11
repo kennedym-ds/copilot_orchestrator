@@ -1,7 +1,7 @@
 ---
 title: "Agent handoff schemas"
-version: "1.0.0"
-lastUpdated: "2026-03-10"
+version: "2.0.0"
+lastUpdated: "2026-03-11"
 status: "active"
 reviewOwners:
   - "Copilot Orchestrator maintainers"
@@ -40,6 +40,112 @@ Typed delegation contracts make handoffs inspectable, auditable, and routable. T
 ## Usage note
 
 Agents should reference the applicable schema ID in `## Delegation` and in any handoff definitions that map to these contracts. If a workflow does not fit one of these six schemas, document the exception instead of improvising silently.
+
+## Return action schemas
+
+Every agent returning via `HS-RETURN` must include a structured `action` field from its role-specific enum. The conductor uses this field for deterministic routing — no pattern-matching on prose. If an agent's result does not resolve to exactly one valid action, the return is invalid and must be retried or escalated.
+
+### Planner return actions
+
+| Action | Meaning | Conductor routes to |
+|--------|---------|---------------------|
+| `plan-ready` | Plan is complete and awaiting approval | **Pause point** — present plan to user |
+| `needs-research` | Open questions block planning | `researcher` via HS-RESEARCH |
+| `scope-too-large` | Request exceeds a single plan cycle | **Pause point** — ask user to narrow scope |
+
+```json
+{
+  "action": "plan-ready | needs-research | scope-too-large",
+  "summary": "string — concise description of what was produced or what is blocking",
+  "artifacts": ["string — artifact paths created or updated"],
+  "open_questions": ["string — unresolved items (required when action is needs-research or scope-too-large)"],
+  "recommended_next": "string — suggested next agent or user action"
+}
+```
+
+### Implementer return actions
+
+| Action | Meaning | Conductor routes to |
+|--------|---------|---------------------|
+| `phase-complete` | Phase finished, tests pass | `reviewer` via HS-REVIEW |
+| `blocked` | Cannot proceed without external input | **Pause point** — present blocker to user |
+| `needs-clarification` | Ambiguity in plan or acceptance criteria | `planner` or **Pause point** |
+
+```json
+{
+  "action": "phase-complete | blocked | needs-clarification",
+  "summary": "string — what was implemented or what is blocking",
+  "artifacts": ["string — files changed or created"],
+  "test_results": {"passed": "int", "failed": "int", "skipped": "int"},
+  "residual_risks": ["string — known issues deferred to review"],
+  "recommended_next": "string — suggested next agent or user action"
+}
+```
+
+### Reviewer return actions
+
+| Action | Meaning | Conductor routes to |
+|--------|---------|---------------------|
+| `approve` | Changes meet acceptance criteria | Next implementation phase or **Pause point** for commit |
+| `request-changes` | Findings require fixes before merge | `implementer` via HS-IMPL with findings |
+| `escalate` | Blocker or specialist review required | `security` / `performance` via HS-QUALITY or **Pause point** |
+
+```json
+{
+  "action": "approve | request-changes | escalate",
+  "summary": "string — review verdict summary",
+  "findings": [{"severity": "BLOCKER | MAJOR | MINOR | NIT", "file": "string", "line": "int | null", "issue": "string", "recommendation": "string"}],
+  "blockers": ["string — BLOCKER-severity findings (empty array when action is approve)"],
+  "recommended_next": "string — suggested next agent or user action"
+}
+```
+
+### Researcher return actions
+
+| Action | Meaning | Conductor routes to |
+|--------|---------|---------------------|
+| `evidence-gathered` | Research complete with cited findings | `planner` or `conductor` for next step |
+| `insufficient-sources` | Could not find enough evidence | **Pause point** — ask user for additional sources or scope change |
+| `out-of-scope` | Question exceeds research capability | **Pause point** — require user guidance |
+
+```json
+{
+  "action": "evidence-gathered | insufficient-sources | out-of-scope",
+  "summary": "string — what was found or why evidence is lacking",
+  "artifacts": ["string — research artifact paths"],
+  "sources": [{"url_or_path": "string", "relevance": "string", "confidence": "high | medium | low"}],
+  "recommended_next": "string — suggested next agent or user action"
+}
+```
+
+### Quality specialist return actions
+
+Applies to `security`, `performance`, and `accessibility` agents when invoked via HS-QUALITY.
+
+| Action | Meaning | Conductor routes to |
+|--------|---------|---------------------|
+| `pass` | No blockers found in the specialist domain | Next phase or **Pause point** |
+| `fail` | Blocker-level findings in specialist domain | `implementer` for remediation or **Pause point** |
+| `conditional-pass` | Minor findings that do not block merge | Next phase with findings logged |
+
+```json
+{
+  "action": "pass | fail | conditional-pass",
+  "summary": "string — specialist verdict",
+  "findings": [{"severity": "BLOCKER | MAJOR | MINOR | NIT", "file": "string", "issue": "string", "recommendation": "string"}],
+  "recommended_next": "string — suggested next agent or user action"
+}
+```
+
+### Validation rule
+
+A return payload is **valid** when:
+1. `action` is exactly one value from the role's enum (not a pipe-delimited string)
+2. `summary` is a non-empty string
+3. `recommended_next` is a non-empty string
+4. When `action` signals a problem (`needs-research`, `blocked`, `request-changes`, `fail`, etc.), `open_questions`, `blockers`, or `findings` must contain at least one entry
+
+The `validate_handoff` MCP tool in the validation server enforces these rules at delegation time.
 
 ## HS-PLAN — request multi-phase planning
 

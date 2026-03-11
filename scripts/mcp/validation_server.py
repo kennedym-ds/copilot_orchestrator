@@ -13,11 +13,12 @@ Requires:
     PowerShell 5.1+ (powershell command available on PATH)
 
 Tools:
-    validate_assets  — Run validate-copilot-assets.ps1
-    check_metadata   — Run add-prompt-metadata.ps1 -CheckOnly
-    run_lint         — Run run-lint.ps1
-    run_smoke_tests  — Run run-smoke-tests.ps1
-    token_report     — Run token-report.ps1
+    validate_assets   — Run validate-copilot-assets.ps1
+    check_metadata    — Run add-prompt-metadata.ps1 -CheckOnly
+    run_lint          — Run run-lint.ps1
+    run_smoke_tests   — Run run-smoke-tests.ps1
+    token_report      — Run token-report.ps1
+    validate_handoff  — Validate agent handoff/return payloads against HS-* schemas
 
 Resources:
     templates://plan           — Plan template for conductor workflows
@@ -226,6 +227,137 @@ def token_report(path: str = ".", config_path: str = "token-thresholds.json") ->
         ["-Path", path, "-ConfigPath", config_path],
     )
     return json.dumps(result, indent=2)
+
+
+# ---------------------------------------------------------------------------
+# Handoff schema definitions — used by validate_handoff tool
+# ---------------------------------------------------------------------------
+
+# Required fields shared by all HS-* dispatch schemas
+_DISPATCH_REQUIRED_FIELDS: dict[str, list[str]] = {
+    "HS-PLAN": ["schema_id", "objective", "inputs", "constraints"],
+    "HS-IMPL": ["schema_id", "objective", "inputs", "constraints"],
+    "HS-REVIEW": ["schema_id", "objective", "inputs", "constraints"],
+    "HS-RESEARCH": ["schema_id", "objective", "inputs", "constraints"],
+    "HS-QUALITY": ["schema_id", "objective", "inputs", "constraints"],
+    "HS-RETURN": ["schema_id", "action", "summary", "recommended_next"],
+}
+
+# Valid return action enums per role
+_RETURN_ACTIONS: dict[str, list[str]] = {
+    "planner": ["plan-ready", "needs-research", "scope-too-large"],
+    "implementer": ["phase-complete", "blocked", "needs-clarification"],
+    "reviewer": ["approve", "request-changes", "escalate"],
+    "researcher": ["evidence-gathered", "insufficient-sources", "out-of-scope"],
+    "security": ["pass", "fail", "conditional-pass"],
+    "performance": ["pass", "fail", "conditional-pass"],
+    "accessibility": ["pass", "fail", "conditional-pass"],
+}
+
+# Actions that require at least one problem-detail entry
+_PROBLEM_ACTIONS: dict[str, str] = {
+    "needs-research": "open_questions",
+    "scope-too-large": "open_questions",
+    "blocked": "open_questions",
+    "needs-clarification": "open_questions",
+    "request-changes": "findings",
+    "escalate": "findings",
+    "fail": "findings",
+    "insufficient-sources": "sources",
+    "out-of-scope": "open_questions",
+}
+
+
+def _validate_payload(payload: dict, schema_id: str,
+                      sender_role: str | None) -> list[str]:
+    """Validate a handoff payload and return a list of error messages."""
+    errors: list[str] = []
+
+    if schema_id not in _DISPATCH_REQUIRED_FIELDS:
+        errors.append(f"Unknown schema_id: {schema_id}")
+        return errors
+
+    # Check required fields
+    required = _DISPATCH_REQUIRED_FIELDS[schema_id]
+    for field in required:
+        if field not in payload or not payload[field]:
+            errors.append(f"Missing or empty required field: {field}")
+
+    # For HS-RETURN, validate action enum and problem-detail rules
+    if schema_id == "HS-RETURN" and sender_role:
+        role = sender_role.lower()
+        action = payload.get("action", "")
+        valid_actions = _RETURN_ACTIONS.get(role, [])
+        if valid_actions and action not in valid_actions:
+            errors.append(
+                f"Invalid action '{action}' for role '{role}'. "
+                f"Valid actions: {valid_actions}"
+            )
+        # Check problem-detail requirement
+        detail_field = _PROBLEM_ACTIONS.get(action)
+        if detail_field:
+            detail_value = payload.get(detail_field)
+            if not detail_value or (isinstance(detail_value, list)
+                                    and len(detail_value) == 0):
+                errors.append(
+                    f"Action '{action}' requires non-empty '{detail_field}'"
+                )
+
+    return errors
+
+
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
+def validate_handoff(schema_id: str, payload_json: str,
+                     sender_role: str = "") -> str:
+    """
+    Validate an agent handoff or return payload against HS-* schemas.
+
+    Checks required fields, action enum validity, and problem-detail rules.
+    Returns JSON with valid (bool), errors (list), and the parsed payload.
+
+    Use before dispatching a subagent (validate HS-PLAN/IMPL/REVIEW/RESEARCH/QUALITY)
+    or when receiving an agent return (validate HS-RETURN with sender_role).
+
+    Args:
+        schema_id: The handoff schema ID (e.g. HS-PLAN, HS-RETURN).
+        payload_json: JSON string of the handoff payload to validate.
+        sender_role: Role of the returning agent (required for HS-RETURN validation).
+    """
+    try:
+        payload = json.loads(payload_json)
+    except (json.JSONDecodeError, TypeError) as exc:
+        return json.dumps({
+            "valid": False,
+            "errors": [f"Invalid JSON: {exc}"],
+            "payload": None,
+        }, indent=2)
+
+    if not isinstance(payload, dict):
+        return json.dumps({
+            "valid": False,
+            "errors": ["Payload must be a JSON object"],
+            "payload": None,
+        }, indent=2)
+
+    # Inject schema_id into payload if not present (caller may pass it separately)
+    payload.setdefault("schema_id", schema_id)
+
+    errors = _validate_payload(payload, schema_id, sender_role or None)
+
+    return json.dumps({
+        "valid": len(errors) == 0,
+        "errors": errors,
+        "schema_id": schema_id,
+        "sender_role": sender_role or None,
+        "payload": payload,
+    }, indent=2)
 
 
 # ---------------------------------------------------------------------------

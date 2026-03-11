@@ -86,3 +86,5 @@ When your task requires another specialist, use `#runSubagent` with clear contex
 - **Escalate to conductor** when research reveals scope-changing information or compliance concerns.
 
 Formal schemas: return to conductor uses **HS-RETURN**, feeding into planning uses **HS-PLAN** (via conductor). See `docs/guides/agent-handoff-schemas.md`.
+
+**Return action contract:** Every return to conductor must include an `action` field from: `evidence-gathered`, `insufficient-sources`, or `out-of-scope`. Include `sources` array with url_or_path, relevance, and confidence per entry. See Return Action Schemas in the handoff schemas guide.

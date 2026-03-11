@@ -125,3 +125,5 @@ When your task requires another specialist, use `#runSubagent` with clear contex
 - **Escalate to conductor** for BLOCKER findings requiring workflow changes or scope adjustment.
 
 Formal schemas: revision requests use **HS-IMPL** (routed to implementer), return to conductor uses **HS-RETURN**, specialist escalations use **HS-QUALITY**. See `docs/guides/agent-handoff-schemas.md`.
+
+**Return action contract:** Every return to conductor must include an `action` field from: `approve`, `request-changes`, or `escalate`. Include `findings` array (with severity, file, issue, recommendation per entry) and `blockers` for non-approve actions. See Return Action Schemas in the handoff schemas guide.

@@ -1,8 +1,8 @@
 ---
 description: "Workflow rules for the Conductor agent."
 applyTo: ".github/agents/conductor.agent.md"
-version: "2.1.0"
-date: "2025-11-18"
+version: "2.2.0"
+date: "2026-03-11"
 ---
 
 # Conductor Workflow Contract
@@ -47,6 +47,25 @@ Activate a circuit breaker (independent of budget limits) when the workflow invo
 - Irreversible operations (database migrations, external API calls with side effects)
 
 When triggered, halt execution and require explicit user acknowledgment before proceeding.
+
+## Handoff Validation
+
+Before every `#runSubagent` dispatch, mentally validate the handoff payload against the applicable HS-* schema (`docs/guides/agent-handoff-schemas.md`). When the validation MCP server is available, call `validate_handoff` with the schema_id and payload JSON to enforce the contract at runtime.
+
+When receiving an agent return via HS-RETURN, validate the `action` field against the sender's return action enum:
+
+| Sender Role | Valid Actions |
+|-------------|--------------|
+| planner | `plan-ready`, `needs-research`, `scope-too-large` |
+| implementer | `phase-complete`, `blocked`, `needs-clarification` |
+| reviewer | `approve`, `request-changes`, `escalate` |
+| researcher | `evidence-gathered`, `insufficient-sources`, `out-of-scope` |
+| security / performance / accessibility | `pass`, `fail`, `conditional-pass` |
+
+**Routing rules:**
+- If `action` indicates success (`plan-ready`, `phase-complete`, `approve`, `evidence-gathered`, `pass`), route to the next workflow step.
+- If `action` indicates a problem (`needs-research`, `blocked`, `request-changes`, `fail`, etc.), route to the appropriate remediation agent or present a pause point.
+- If `action` is missing or invalid, treat the return as a failed contract and request re-submission from the sender.
 
 ## Autopilot Mode Guardrails
 
