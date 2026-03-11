@@ -135,6 +135,8 @@ The orchestrator ships three branches, each targeting a different cost profile. 
 
 > See [artifacts/research/0x-model-benchmark-report.md](artifacts/research/0x-model-benchmark-report.md) for the full benchmark analysis behind these assignments.
 
+> **Deep dive:** [Three Branches, One Codebase](docs/guides/branching-for-copilot-cost-optimization.md) — explains the design choices, sync mechanism, and lessons learned.
+
 ## Agent Roster
 
 29 specialized agents across three model tiers. Push to `main` and the `low-cost` / `free-cost` branches sync automatically. See [Model Tiers](#model-tiers) for details.
