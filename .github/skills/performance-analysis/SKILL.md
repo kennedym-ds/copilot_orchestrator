@@ -21,6 +21,11 @@ This skill teaches performance agents how to analyze code for runtime complexity
 - Estimating cloud infrastructure costs
 - Planning for scale (10x, 100x traffic growth)
 
+### When NOT to Use
+
+- Do not use for functional correctness or business logic review — use the reviewer agent instead.
+- Do not use for security vulnerability analysis — use the `security-review` skill instead.
+
 ## Entry Points
 
 **Trigger Phrases:** "performance review", "optimize this code", "check scalability", "analyze runtime", "memory usage", "cost estimate"
@@ -228,3 +233,5 @@ def find_duplicates(arr):
 - **Profiling Tools:** `scripts/performance-profile.ps1`, py-spy, clinic.js
 - **Monitoring:** `docs/guides/observability.md`
 - **Cost Analysis:** AWS Cost Explorer, GCP Pricing Calculator
+- `.github/agents/performance.agent.md` — performance-focused review persona and workflow
+- `instructions/workflows/reviewer.instructions.md` — review guardrails when performance becomes a quality gate

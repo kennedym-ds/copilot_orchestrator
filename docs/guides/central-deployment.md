@@ -16,7 +16,7 @@ This guide explains how to deploy the Copilot Orchestrator agents centrally at t
 │  │  ├── planner.agent.md                                  │ │
 │  │  ├── implementer.agent.md                              │ │
 │  │  ├── reviewer.agent.md                                 │ │
-│  │  └── ... (all 28 agents)                              │ │
+│  │  └── ... (all 29 agents)                              │ │
 │  └────────────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────┘
                               │
@@ -89,7 +89,7 @@ gh api /orgs/YOUR_ORG/copilot/agents \
   -F description="Orchestrates multi-phase workflows" \
   -F definition=@.github/agents/conductor.agent.md
 
-# Repeat for all 28 agents
+# Repeat for all 29 agents
 ```
 
 ### 2. Users Enable Organization Agents
@@ -105,7 +105,7 @@ Each developer adds to their VS Code `settings.json`:
 
 ### 3. Agents Automatically Available
 
-- All 28 agents appear in the Agents dropdown
+- All 29 agents appear in the Agents dropdown
 - No repository-specific setup required
 - Updates pushed at org level propagate instantly
 - Users can still define personal agents locally

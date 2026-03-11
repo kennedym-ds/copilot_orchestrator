@@ -1,75 +1,39 @@
 {
-  // MCP Server Configuration for Copilot Orchestrator
-  // See: https://code.visualstudio.com/docs/copilot/customization/mcp-servers
-  // Uses portable ${workspaceFolder} paths — commit to source control
-  "servers": {
-    // GitHub Remote MCP — OAuth-authenticated, auto-updating, hosted by GitHub
-    // No local subprocess, no PAT management — just OAuth once
-    // Toolsets: repos, issues, pull_requests, code_security, actions, experiments
-    "github": {
-      "type": "http",
-      "url": "https://api.githubcopilot.com/mcp/"
-    },
-
-    // GitHub local fallback — air-gapped environments only
-    // Requires: gh CLI installed and authenticated (gh auth login)
-    "githubLocal": {
-      "type": "stdio",
-      "command": "${workspaceFolder}/.venv/Scripts/python.exe",
-      "args": ["${workspaceFolder}/scripts/mcp/github_server.py"]
-    },
-
-    // Web search via DuckDuckGo — used by researcher agent
-    "research": {
-      "type": "stdio",
-      "command": "${workspaceFolder}/.venv/Scripts/python.exe",
-      "args": ["${workspaceFolder}/scripts/mcp/research_server.py"]
-    },
-
-    // Design system queries — brand palette, components, contrast checks
-    "design": {
-      "type": "stdio",
-      "command": "${workspaceFolder}/.venv/Scripts/python.exe",
-      "args": ["${workspaceFolder}/scripts/mcp/design_server.py"]
-    },
-
-    // Code translation workflow — dependency graphs, validation, confidence scoring
-    "translation": {
-      "type": "stdio",
-      "command": "${workspaceFolder}/.venv/Scripts/python.exe",
-      "args": ["${workspaceFolder}/scripts/mcp/translation_server.py"]
-    },
-
-    // Validation tools — wraps PowerShell validation scripts as structured MCP tools
-    "validation": {
-      "type": "stdio",
-      "command": "${workspaceFolder}/.venv/Scripts/python.exe",
-      "args": ["${workspaceFolder}/scripts/mcp/validation_server.py"],
-      "dev": {
-        "watch": "scripts/mcp/validation_server.py"
-      }
-    },
-
-    // Session analytics — structured access to artifacts and metrics
-    "analytics": {
-      "type": "stdio",
-      "command": "${workspaceFolder}/.venv/Scripts/python.exe",
-      "args": ["${workspaceFolder}/scripts/mcp/analytics_server.py"],
-      "dev": {
-        "watch": "scripts/mcp/analytics_server.py"
-      }
-    },
-
-    // Bleeding-edge demo — showcases VS Code 1.109 + MCP 2025-11-25 features:
-    // elicitation, tool annotations, progress, structured output, resource
-    // annotations, prompts, and logging
-    "bleedingEdgeDemo": {
-      "type": "stdio",
-      "command": "${workspaceFolder}/.venv/Scripts/python.exe",
-      "args": ["${workspaceFolder}/scripts/mcp/demo_bleeding_edge.py"],
-      "dev": {
-        "watch": "scripts/mcp/demo_bleeding_edge.py"
-      }
-    }
-  }
+	"servers": {
+		"github": {
+			"type": "http",
+			"url": "https://api.githubcopilot.com/mcp/"
+		},
+		"githubLocal": {
+			"type": "stdio",
+			"command": "${workspaceFolder}/.venv/Scripts/python.exe",
+			"args": [
+				"${workspaceFolder}/scripts/mcp/github_server.py"
+			]
+		},
+		"research": {
+			"type": "stdio",
+			"command": "${workspaceFolder}/.venv/Scripts/python.exe",
+			"args": [
+				"${workspaceFolder}/scripts/mcp/research_server.py"
+			]
+		},
+		"translation": {
+			"type": "stdio",
+			"command": "${workspaceFolder}/.venv/Scripts/python.exe",
+			"args": [
+				"${workspaceFolder}/scripts/mcp/translation_server.py"
+			]
+		},
+		"validation": {
+			"type": "stdio",
+			"command": "${workspaceFolder}/.venv/Scripts/python.exe",
+			"args": [
+				"${workspaceFolder}/scripts/mcp/validation_server.py"
+			],
+			"dev": {
+				"watch": "scripts/mcp/validation_server.py"
+			}
+		}
+	}
 }

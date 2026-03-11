@@ -20,6 +20,11 @@ This skill teaches agents how to follow Git best practices for version control i
 - Managing release workflows
 - Repository maintenance (cleanup, history rewriting)
 
+### When NOT to Use
+
+- Do not use for general code implementation — use the TDD or implementer workflow instead.
+- Do not use for documentation formatting — use the documentation-style skill instead.
+
 ## Entry Points
 
 **Trigger Phrases:** "commit message", "create PR", "branching strategy", "merge conflict", "git workflow", "release branch"
@@ -269,3 +274,6 @@ git branch -d hotfix/payment-processing
 - **Conventional Commits:** https://www.conventionalcommits.org/
 - **Git Flow:** https://nvie.com/posts/a-successful-git-branching-model/
 - **GitHub Flow:** https://docs.github.com/en/get-started/quickstart/github-flow
+- `instructions/workflows/implementer.instructions.md` — implementation workflow and TDD boundaries
+- `.github/skills/worktrees-ops/SKILL.md` — parallel Git worktree patterns for multi-branch execution
+- `.github/agents/github-ops.agent.md` — repository operations and PR/release support persona

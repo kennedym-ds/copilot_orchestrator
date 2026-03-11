@@ -9,12 +9,14 @@ status: experimental
 
 This guide provides a structured approach to evaluating the Agent Skills experimental feature in VS Code 1.109, comparing on-demand loading versus always-on agents and instructions.
 
+> **Retirement note (2026-03-11):** `orchestrator-terminal-style` is retired. Terminal formatting guidance now lives in `instructions/global/terminal-formatting.instructions.md`, with user-facing examples in `docs/guides/terminal-formatting-guide.md`.
+
 ## Executive Summary
 
 **Objective:** Evaluate whether Agent Skills (on-demand loading) provides benefits over always-on agents/instructions for the Copilot Orchestrator multi-agent system.
 
 **Pilot Skills:**
-1. **orchestrator-terminal-style** — Terminal formatting patterns
+1. ~~**orchestrator-terminal-style**~~ — *Retired. Migrated to `instructions/global/terminal-formatting.instructions.md`*
 2. **worktrees-ops** — Git worktrees operations
 3. **validation-scripts** — PowerShell validation script usage
 
@@ -50,24 +52,11 @@ This guide provides a structured approach to evaluating the Agent Skills experim
 
 ## Pilot Skills
 
-### 1. orchestrator-terminal-style
+### 1. orchestrator-terminal-style (Retired)
 
-**Domain:** Terminal output formatting with GPU-accelerated glyphs
-**File:** [.github/skills/orchestrator-terminal-style/SKILL.md](../.github/skills/orchestrator-terminal-style/SKILL.md)
+**Status:** Retired — migrated to `instructions/global/terminal-formatting.instructions.md` and `docs/guides/terminal-formatting-guide.md`.
 
-**Always-On Equivalent:** [instructions/global/terminal-formatting.instructions.md](../../instructions/global/terminal-formatting.instructions.md)
-
-**Entry Points:**
-- "format terminal output"
-- "show validation results"
-- "display progress"
-- "create status summary"
-
-**Evaluation Questions:**
-1. Does the skill load when formatting validation script output?
-2. Does it avoid loading during non-terminal tasks (planning, documentation)?
-3. Is the glyph set comprehensive enough for conductor workflows?
-4. Are accessibility requirements clear and followed?
+Terminal formatting is now an instruction-layer concern, not a skill. The instruction file applies to `scripts/**/*.ps1` and the user-facing guide lives in `docs/guides/terminal-formatting-guide.md`.
 
 ### 2. worktrees-ops
 
@@ -146,13 +135,9 @@ This guide provides a structured approach to evaluating the Agent Skills experim
 **Data Collection:**
 Create test scenarios for each skill:
 
-#### orchestrator-terminal-style
-| Scenario | Expected Loading | Test Prompt |
-|----------|------------------|-------------|
-| Format validation output | ✓ Should load | "Format the validation script output with glyphs" |
-| Plan new feature | ✗ Should NOT load | "Plan OAuth2 implementation" |
-| Display progress | ✓ Should load | "Show progress for Phase 5 of 7" |
-| Write documentation | ✗ Should NOT load | "Document the conductor workflow" |
+#### ~~orchestrator-terminal-style~~ (retired)
+
+Retired during DEC-004. Terminal formatting is no longer evaluated as a skill-loading candidate; prompts in this domain should rely on `instructions/global/terminal-formatting.instructions.md` instead.
 
 #### worktrees-ops
 | Scenario | Expected Loading | Test Prompt |
@@ -215,7 +200,7 @@ Create test scenarios for each skill:
 - Developer feedback on SKILL.md structure clarity
 
 **Data Collection:**
-- Log time spent updating terminal-formatting.instructions.md vs. orchestrator-terminal-style/SKILL.md
+- Log time spent updating `instructions/global/terminal-formatting.instructions.md` instead of maintaining a separate terminal-formatting skill
 - Track entry point tuning iterations during pilot
 - Survey agent developers on maintenance experience
 
@@ -295,7 +280,7 @@ Phase 5 implementation complete. Validate changes before creating phase-complete
 
 **Expected Behavior:**
 - ✓ validation-scripts skill should load
-- ✗ orchestrator-terminal-style skill should load (if validation output formatted)
+- ✓ Terminal formatting guidance should come from `instructions/global/terminal-formatting.instructions.md` if output is formatted
 - ✗ worktrees-ops skill should NOT load
 
 **Validation:**
@@ -315,7 +300,7 @@ I'm working on Feature A in main branch. Need to start Feature B simultaneously 
 **Expected Behavior:**
 - ✓ worktrees-ops skill should load
 - ✗ validation-scripts skill should NOT load
-- ✗ orchestrator-terminal-style skill should NOT load
+- ✗ `orchestrator-terminal-style` should NOT load because the skill is retired; terminal formatting guidance is instruction-layer only
 
 **Validation:**
 1. Check chat response recommends Git worktrees
@@ -332,7 +317,8 @@ The validation script output is plain text. Can you format it with glyphs and co
 ```
 
 **Expected Behavior:**
-- ✓ orchestrator-terminal-style skill should load
+- ✗ `orchestrator-terminal-style` should NOT load because the skill is retired
+- ✓ Terminal formatting guidance should come from `instructions/global/terminal-formatting.instructions.md`
 - ✗ validation-scripts skill might load (output interpretation)
 - ✗ worktrees-ops skill should NOT load
 
@@ -382,7 +368,7 @@ Update the README.md to include VS Code 1.108 features.
 ```csv
 Scenario,Skill,Expected,Actual,Result,Notes
 Phase Validation,validation-scripts,Load,Load,TP,"Correctly loaded, mentioned validate-copilot-assets.ps1"
-Phase Validation,orchestrator-terminal-style,Load,Load,TP,"Correctly loaded, formatted output with glyphs"
+Phase Validation,terminal-formatting.instructions,Apply,Apply,TP,"Instruction-layer formatting guidance used; retired skill not loaded"
 Phase Validation,worktrees-ops,NOT Load,NOT Load,TN,"Correctly avoided, not relevant"
 Parallel Features,worktrees-ops,Load,Load,TP,"Correctly loaded, recommended git worktree add"
 Parallel Features,validation-scripts,NOT Load,NOT Load,TN,"Correctly avoided, not relevant"
@@ -497,7 +483,7 @@ If pilot shows negative results:
 **Status:** ✅ All candidate skills implemented (2026-01-09)
 
 ### Core Skills (Implemented)
-1. **orchestrator-terminal-style** — Terminal formatting with GPU-accelerated glyphs
+1. ~~**orchestrator-terminal-style**~~ — *Retired after pilot; migrated to instruction and guide assets*
 2. **worktrees-ops** — Git worktrees parallel workflow management
 3. **validation-scripts** — PowerShell validation tooling
 
@@ -560,7 +546,8 @@ Links to related documentation
 ## Resources
 
 - **Pilot Skills:**
-  - [orchestrator-terminal-style/SKILL.md](../.github/skills/orchestrator-terminal-style/SKILL.md)
+- [../../instructions/global/terminal-formatting.instructions.md](../../instructions/global/terminal-formatting.instructions.md)
+- [terminal-formatting-guide.md](./terminal-formatting-guide.md)
   - [worktrees-ops/SKILL.md](../.github/skills/worktrees-ops/SKILL.md)
   - [validation-scripts/SKILL.md](../.github/skills/validation-scripts/SKILL.md)
 

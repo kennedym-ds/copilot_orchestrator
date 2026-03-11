@@ -25,6 +25,12 @@ This skill is relevant when:
 - Analyzing cryptographic implementations
 - Evaluating access control mechanisms
 
+### When NOT to Use
+
+- Do not use for general code quality or style review — use the reviewer agent instead.
+- Do not use for performance analysis — use the `performance-analysis` skill.
+- Do not use for functional correctness testing — use the `tdd` skill.
+
 ## Entry Points
 
 ### Trigger Phrases

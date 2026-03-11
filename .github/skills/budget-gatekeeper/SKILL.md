@@ -22,6 +22,11 @@ This skill is relevant when:
 - Session has been running for an extended period (15+ minutes)
 - User requests cost-aware execution ("keep this lean", "minimize API usage")
 
+### When NOT to Use
+
+- Do not use for single-turn questions or instant-complexity tasks that complete in one delegation.
+- Do not use for static file-level token enforcement — that is handled by `token-thresholds.json` and `scripts/token-report.ps1`.
+
 ## Entry Points
 
 ### Trigger Phrases
@@ -229,6 +234,8 @@ Any other response = abort this operation.
 
 - **Token Thresholds**: `token-thresholds.json` — static per-file limits
 - **Token Report Script**: `scripts/token-report.ps1` — validate token budgets
+- **Conductor Instructions**: `instructions/workflows/conductor.instructions.md` — workflow rules and pause expectations
+- **Conductor Agent**: `.github/agents/conductor.agent.md` — runtime orchestration entry point
 - **Model Selection**: `instructions/global/03_model-selection.instructions.md` — tier definitions
 - **Conductor Lifecycle**: `.github/skills/conductor-lifecycle/SKILL.md` — phase management
 - **Delegation Routing**: `.github/skills/delegation-routing/SKILL.md` — agent selection

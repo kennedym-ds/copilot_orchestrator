@@ -79,6 +79,13 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 - **Bicep Validate:** `az deployment group validate --resource-group $RG --template-file main.bicep`
 - **What-If Analysis:** `az deployment group what-if --resource-group $RG --template-file main.bicep`
 
+## Output Contract
+
+| Artifact | Format | Location | Success Criteria |
+|----------|--------|----------|-----------------|
+| Bicep template | Bicep + Markdown | Target module path + chat response | `az bicep build` passes, what-if reviewed, Mermaid diagram included |
+| Deployment checklist | Markdown | Chat response | Pre-deploy checks, RBAC requirements, cost estimate, rollback plan |
+
 ## Boundaries
 
 - ✅ **Always do:** Generate what-if output, validate with `az bicep build`, document RBAC requirements, follow naming conventions

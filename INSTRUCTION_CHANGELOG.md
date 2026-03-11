@@ -18,6 +18,24 @@ Each entry should include:
 
 ## Changes
 
+### 2026-03-11 - Agent & Skill Quality Review
+
+#### v3.5.0 - Agent & Skill Structural Normalization
+**File:** `instructions/global/terminal-formatting.instructions.md`, `.github/agents/*.agent.md` (29 agents), `.github/skills/*/SKILL.md` (16 skills), `docs/templates/agent-standard.md` (new), `docs/templates/skill-standard.md` (new)
+**Type:** Modified (47 files), Added (2 templates)
+**Description:** 7-phase quality review normalizing all agents and skills to canonical templates:
+- **Terminal formatting migration**: `orchestrator-terminal-style` skill retired; `terminal-formatting.instructions.md` expanded to v2.0.0 as source of truth
+- **Agent normalization**: All 29 agents aligned to canonical section order (Response Style → Workflow → Output Contract → Boundaries → Delegation); role-specific voice preserved
+- **Skill normalization**: All 16 skills aligned to canonical template with `### When NOT to Use`, `## References`, and consistent entry points
+- **Validation-scripts decomposition**: Slimmed from ~550 to ~80 lines; detailed content moved to bundled references
+- **Standards formalized**: Agent template and skill template locked as canonical references for future additions
+**Expected Impact:**
+- Quality: Higher — consistent structure improves discoverability, auditability, and automated validation
+- Cost: Slightly lower — leaner skills reduce context window usage
+- Speed: Neutral — no workflow changes
+**Rollback Plan:** Restore agent and skill files from git history. Templates are additive and can be removed. Restore `orchestrator-terminal-style` skill directory if needed.
+**Metrics:** Track: Pester test pass rate (baseline 246/0/22), validation script pass rate, skill load relevance.
+
 ### 2026-03-10 - VS Code 1.111 Integration
 
 #### v3.4.0 - VS Code 1.111 Feature Alignment & askQuestions Expansion

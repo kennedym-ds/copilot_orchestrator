@@ -20,6 +20,11 @@ This skill teaches documentation agents how to create clear, consistent, well-st
 - Creating onboarding materials
 - Updating changelogs
 
+### When NOT to Use
+
+- Do not use for inline code comments in implementation files — those follow language-specific instructions.
+- Do not use for commit messages or PR descriptions — use the git-operations skill instead.
+
 ## Entry Points
 
 **Trigger Phrases:** "write documentation", "create user guide", "document this API", "update README", "onboarding guide"
@@ -258,3 +263,6 @@ curl -X POST https://api.example.com/v1/users \\
 - **Markdown Guide:** https://www.markdownguide.org/
 - **Write the Docs:** https://www.writethedocs.org/guide/
 - **Technical Writing Best Practices:** Google Developer Documentation Style Guide
+- `instructions/languages/markdown.instructions.md` — repository Markdown guardrails
+- `instructions/compliance/documentation.instructions.md` — documentation compliance overlay
+- `docs/templates/` — reusable documentation templates and canonical structures

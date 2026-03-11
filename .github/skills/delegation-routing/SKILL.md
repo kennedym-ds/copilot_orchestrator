@@ -1,4 +1,4 @@
----
+.'---
 name: delegation-routing
 description: "Agent-to-agent routing patterns for autonomous delegation via #runSubagent. Defines keyword matching, context templates, model preferences, escalation rules, and invocation guardrails. Use for routing decisions, subagent dispatch, delegation context preparation, and handoff target selection."
 ---
@@ -26,6 +26,11 @@ This skill is relevant when:
 - An agent has completed its work and must return results to the conductor
 - Routing ambiguity needs resolution (which agent handles this task?)
 - An agent encounters work outside its specialization
+
+### When NOT to Use
+
+- Do not use for choosing which _skill_ to load — skill activation is handled by VS Code's skill matching, not by this routing table.
+- Do not use for direct user-to-agent routing — the conductor handles that via its handoff buttons.
 
 ## Entry Points
 
@@ -327,8 +332,8 @@ When delegating to a sub-agent, load the relevant skills to ensure the agent fol
 | performance | performance-analysis | Always (core competency) |
 | accessibility | — | Standalone WCAG analysis |
 | docs | documentation-style | Always (core competency) |
-| observability | performance-analysis, orchestrator-terminal-style | Metrics display, terminal output |
-| visualizer | orchestrator-terminal-style | Diagram authoring, terminal formatting |
+| observability | performance-analysis | Metrics display |
+| visualizer | — | Diagram authoring (standalone) |
 | deployment | git-operations | Release pipelines, tag management |
 | red-team | — | Adversarial testing (standalone) |
 | test | — | Test authoring (standalone) |

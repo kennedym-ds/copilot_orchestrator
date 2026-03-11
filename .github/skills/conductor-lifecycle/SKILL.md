@@ -25,6 +25,11 @@ This skill is relevant when:
 - Managing handoffs between agents with context preservation
 - Handling DS-Star data science workflows
 
+### When NOT to Use
+
+- Do not use for single-turn, instant-complexity tasks that need no orchestration.
+- Do not use when the user explicitly asks for a one-shot answer without phases or delegation.
+
 ## Entry Points
 
 ### Trigger Phrases
@@ -426,6 +431,7 @@ Please choose A, B, or C.
 ## References
 
 - **Conductor Instructions:** `instructions/workflows/conductor.instructions.md`
+- **Conductor Agent:** `.github/agents/conductor.agent.md` — primary orchestration persona and handoff surface
 - **Delegation Routing Skill:** `.github/skills/delegation-routing/SKILL.md` — keyword-based agent routing, escalation rules, invocation guardrails
 - **Templates:** `docs/templates/plan.md`, `docs/templates/phase-complete.md`, `docs/templates/plan-complete.md`
 - **Agent Roster:** `AGENTS.md`

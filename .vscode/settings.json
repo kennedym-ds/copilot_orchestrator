@@ -167,5 +167,13 @@
         "*.agent.md": "markdown",
         "*.prompt.md": "markdown",
         "*.instructions.md": "markdown"
+    },
+    "chat.mcp.serverSampling": {
+        "copilot_orchestrator/.vscode/mcp.json: github": {
+            "allowedModels": [
+                "copilotcli/claude-sonnet-4.6",
+                "copilot/gpt-5.3-codex"
+            ]
+        }
     }
 }

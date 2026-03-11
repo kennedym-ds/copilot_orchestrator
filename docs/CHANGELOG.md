@@ -1,13 +1,30 @@
----
 title: "Copilot Orchestrator Changelog"
-version: "0.16.0"
-lastUpdated: "2026-03-10"
+version: "0.17.0"
+lastUpdated: "2026-03-11"
 status: stable
 ---
 
 # Changelog
 
 All notable changes are documented here following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
+
+## [0.17.0] - 2026-03-11
+
+### Added
+- **Agent & Skill Quality Review**: 7-phase structural normalization across 29 agents and 16 skills
+  - Canonical agent template (`docs/templates/agent-standard.md`) and skill template (`docs/templates/skill-standard.md`)
+  - All 29 agents normalized to canonical section order: frontmatter → H1 → instruction refs → Core Capabilities → Response Style → Workflow → Output Contract → Boundaries → Delegation
+  - All 16 skills normalized with `### When NOT to Use`, `## References`, and canonical section order
+
+### Changed
+- **`orchestrator-terminal-style` skill retired**: Terminal formatting guidance migrated to `instructions/global/terminal-formatting.instructions.md` (v2.0.0) and `docs/guides/terminal-formatting-guide.md`
+- **`validation-scripts` skill decomposed**: Slimmed to thin entry point with bundled references (`references/script-catalog.md`, `references/workflow-patterns.md`)
+- **Agent normalization** (Phases 2-4): Response Style, Output Contract, Boundaries, and Delegation sections standardized across all agents
+- **Skill normalization** (Phase 6): `### When NOT to Use` added to all 16 skills; section ordering aligned to canonical template
+
+### Fixed
+- Stale agent count references updated from "22" or "28" to "29" across documentation
+- Stale skill count references updated from "17" to "16" after `orchestrator-terminal-style` retirement
 
 ## [0.16.0] - 2026-03-10
 

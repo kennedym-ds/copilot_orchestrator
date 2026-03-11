@@ -21,6 +21,11 @@ This skill is relevant when:
 - Running background agents on separate branches
 - Cleaning up stale worktrees
 
+### When NOT to Use
+
+- Do not use for single-branch workflows where no parallel work is needed.
+- Do not use for temporary file isolation — worktrees are for branch-level isolation, not file-level.
+
 ## Entry Points
 
 ### Trigger Phrases
@@ -64,7 +69,7 @@ A worktree is an additional working copy of your repository that can be checked 
 - `scm.repositories.selectionMode: "worktree"` (select worktree root)
 - `scm.repositories.selectionMode: "repository"` (select repository root)
 
-## Operations
+### Operations
 
 ### 1. Create Worktree
 

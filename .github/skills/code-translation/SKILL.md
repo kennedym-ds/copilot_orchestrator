@@ -21,6 +21,11 @@ This skill is relevant when:
 - Scoring confidence in translation quality
 - Generating documentation for a translated codebase
 
+### When NOT to Use
+
+- Do not use for code refactoring within the same language — use the implementer workflow instead.
+- Do not use for documentation translation (natural language) — that is a different task entirely.
+
 ## Entry Points
 
 ### Trigger Phrases
@@ -266,6 +271,11 @@ function get_user_by_id(user_id: number): User | undefined {
     return users.find(u => u.id === user_id);
 }
 ```
-## Bundled References
+
+## References
 
 - [Language Equivalence Tables](references/language-equivalence-tables.md) — Python↔TypeScript and PowerShell↔Bash mapping tables
+- [Translation Conductor agent](../../agents/translation-conductor.agent.md) — orchestrates end-to-end repository translation workflows
+- [Translator agent](../../agents/translator.agent.md) — executes file- and module-level translation work
+- [Translation Validator agent](../../agents/translation-validator.agent.md) — applies the validation stack and confidence scoring
+- [Translation Conductor instructions](../../../instructions/workflows/translation-conductor.instructions.md) — workflow rules and handoff expectations

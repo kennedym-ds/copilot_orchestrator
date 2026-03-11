@@ -21,6 +21,11 @@ This skill teaches observability agents how to instrument code for monitoring, d
 - Troubleshooting production issues
 - Integrating observability platforms
 
+### When NOT to Use
+
+- Do not use for debugging application logic or fixing functional bugs — use the implementer or researcher agent.
+- Do not use for session-level token tracking — use the budget-gatekeeper skill instead.
+
 ## Entry Points
 
 **Trigger Phrases:** "add metrics", "logging strategy", "distributed tracing", "monitoring dashboard", "observability", "instrumentation"

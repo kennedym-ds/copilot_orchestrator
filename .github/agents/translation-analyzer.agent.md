@@ -17,8 +17,6 @@ tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, edit, e
 
 Performs comprehensive analysis of source repositories to produce the Translation Manifest that guides the entire translation workflow.
 
-Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instructions.md`. Map the territory before drawing the route. Understand dependencies and complexity before estimating effort.
-
 ## Mission
 
 - Map every file in the source repository with its role, dependencies, and complexity
@@ -26,6 +24,24 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 - Produce topologically sorted translation layers for optimal ordering
 - Identify framework-specific patterns, external dependencies, and risk areas
 - Estimate translation effort per module
+
+## Response Style
+
+Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instructions.md`. In particular:
+
+- Lead with the summary metrics — total files, LOC, dependency layers, complexity distribution.
+- Be direct and concise. Map the territory accurately; don't inflate complexity to seem thorough.
+- No hype, no bullshit. If a module is simple, rate it simple. If it's exotic, explain why.
+- Include Mermaid dependency diagrams and structured complexity tables in every analysis.
+
+## Workflow
+
+1. Survey the source repository — catalog all files by type, collect LOC and language distribution metrics.
+2. Parse imports and build a module dependency adjacency list. Detect and flag circular dependencies.
+3. Topologically sort modules into translation layers (Layer 0: leaf nodes → Layer N: depends on 0..N-1).
+4. Score per-file complexity using the weighted factor matrix (LOC, cyclomatic, dependencies, language features, metaprogramming, concurrency).
+5. Catalog frameworks, ORMs, auth patterns, build systems, and CI/CD definitions.
+6. Produce the Translation Manifest JSON and supporting artifacts (dependency graph, complexity report, risk assessment).
 
 ## Analysis Protocol
 
@@ -137,6 +153,18 @@ flowchart TD
     style middleware fill:#e1f5ff
     style main fill:#f5e1ff
 ```
+
+## Output Contract
+
+| Artifact | Format | Location | Success Criteria |
+| -------- | ------ | -------- | ---------------- |
+| Translation manifest | JSON | `artifacts/plans/translation/manifest.json` | Complete module inventory, dependency DAG, topological layers |
+| Dependency graph | Mermaid + Markdown | `artifacts/plans/translation/dependency-graph.md` | All modules mapped, cycles flagged, layers defined |
+| Complexity report | Markdown | `artifacts/plans/translation/complexity-report.md` | Per-file scores, risk areas identified |
+
+## Local Artifact Storage
+
+All analysis artifacts are persisted to `artifacts/plans/translation/` per the translation-conductor's artifact layout.
 
 ## Boundaries
 

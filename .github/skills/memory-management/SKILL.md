@@ -20,6 +20,11 @@ This skill covers the full memory lifecycle: what to remember, where to store it
 - Storing or refreshing Copilot Memory facts
 - Context window approaching capacity
 
+### When NOT to Use
+
+- Do not use for runtime budget enforcement — use the `budget-gatekeeper` skill instead.
+- Do not use for code-level implementation details or transient debugging state that will not be relevant next session.
+
 ## Entry Points
 
 **Trigger Phrases:** "record this decision", "what did we decide", "clean up artifacts", "memory budget", "active context"
@@ -143,7 +148,7 @@ Preview only: `powershell -File scripts/cleanup-artifacts.ps1 -DryRun`
 4. **Phase splitting** -- when context grows, split work into smaller phases with artifact handoffs
 5. **Decision-first reading** -- read ADRs before code to avoid re-debating settled choices
 
-## Implementation Patterns
+## Examples
 
 ### Pattern: New Decision
 
@@ -184,3 +189,10 @@ Preview only: `powershell -File scripts/cleanup-artifacts.ps1 -DryRun`
 - Conductor MUST read-back activeContext.md at session start
 - Conductor MUST write-back activeContext.md at session end
 - Only `scripts/cleanup-artifacts.ps1` moves files to `.archive/` -- never move manually
+
+## References
+
+- `scripts/cleanup-artifacts.ps1` — artifact compaction, archival, and cleanup workflow
+- `docs/templates/decision.md` — ADR template for recording durable decisions
+- `.github/agents/conductor.agent.md` — session read-back and write-back responsibilities
+- `artifacts/memory/activeContext.md` — active session context handoff document

@@ -5,7 +5,7 @@
 
 ## Overview
 
-The Copilot Orchestrator's 29 agents and 17 skills can be used across five platforms:
+The Copilot Orchestrator's 29 agents and 16 skills can be used across five platforms:
 
 | Platform | Agent Format | Setup Script | OS Support |
 |----------|-------------|-------------|------------|
@@ -170,7 +170,7 @@ copilot-orchestrator-plugin/
 ├── .claude-plugin/
 │   └── plugin.json          # Plugin manifest
 ├── agents/                   # 29 transformed agents
-├── skills/                   # 17 skills + instruction skills
+├── skills/                   # 16 skills + instruction skills
 ├── .mcp.json                 # MCP server config
 └── README.md                 # Usage instructions
 ```

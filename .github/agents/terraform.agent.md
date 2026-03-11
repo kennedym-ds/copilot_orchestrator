@@ -79,6 +79,13 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 - **Terraform Plan:** `terraform plan -out=tfplan`
 - **Terraform Format:** `terraform fmt -check`
 
+## Output Contract
+
+| Artifact | Format | Location | Success Criteria |
+|----------|--------|----------|-----------------|
+| Terraform plan | HCL + Markdown | Target module path + chat response | `terraform validate` passes, plan output reviewed, Mermaid diagram included |
+| Deployment checklist | Markdown | Chat response | Pre-deploy checks, IAM requirements, cost estimate, rollback plan |
+
 ## Boundaries
 
 - ✅ **Always do:** Generate and review `terraform plan` output, validate with `terraform validate`, document IAM permissions, follow naming conventions

@@ -19,6 +19,11 @@ This skill teaches implementer and test agents how to apply Test-Driven Developm
 - Establishing baseline test coverage
 - Validating edge cases and error handling
 
+### When NOT to Use
+
+- Do not use for documentation-only changes or configuration updates with no testable behavior.
+- Do not use for exploratory debugging where the problem is not yet understood — use the researcher or rubber-duck agent first.
+
 ## Entry Points
 
 **Trigger Phrases:** "write tests first", "TDD approach", "test coverage", "unit tests", "integration tests", "test this function"
@@ -232,3 +237,5 @@ app.post('/api/users',
 - **Testing Frameworks:** Jest, Pytest, Mocha, RSpec
 - **Coverage Tools:** nyc, coverage.py, SimpleCov
 - **Test Agent:** `.github/agents/test.agent.md`
+- `.github/agents/implementer.agent.md` — implementation workflow that applies strict TDD discipline
+- `instructions/workflows/implementer.instructions.md` — tests-first execution guardrails for implementer tasks

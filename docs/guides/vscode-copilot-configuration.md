@@ -39,7 +39,7 @@ VS Code expands `~` to your user home directory (`%USERPROFILE%` on Windows, `$H
 
 ## Setup: User-Level Settings (Global Agents)
 
-Use this configuration to make all 22 orchestrator agents available in **any VS Code window**, even when the copilot_orchestrator repo is not open.
+Use this configuration to make all 29 orchestrator agents available in **any VS Code window**, even when the copilot_orchestrator repo is not open.
 
 1. Open **User Settings (JSON)**: `Ctrl+Shift+P` → "Preferences: Open User Settings (JSON)"
 2. Add the following settings (adjust the tilde path to match your repo location):
@@ -821,7 +821,7 @@ VS Code 1.109 introduces Claude Agent as a new session type, powered by Anthropi
 
 | Session Type | Best For | Context | Model |
 |---|---|---|---|
-| **Local (Conductor)** | Multi-phase orchestrated work | Full workspace access, 22 custom agents | Your choice via model picker |
+| **Local (Conductor)** | Multi-phase orchestrated work | Full workspace access, 29 custom agents | Your choice via model picker |
 | **Background** | Long-running implementation | Git worktree isolation, auto-commit | Configured model |
 | **Cloud** | Quick tasks, PR-focused work | GitHub-hosted, repo access | Cloud model selection |
 | **Claude Agent** | Deep reasoning, complex analysis | Anthropic SDK, native Claude tools | Claude models only |

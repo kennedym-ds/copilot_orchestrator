@@ -29,6 +29,11 @@ This skill is relevant when:
 
 **Complexity threshold**: Use this skill when the task involves **more than one file** or when the change target has **unknown downstream consumers**. For single-function, single-file edits with no callers, this protocol is overkill.
 
+### When NOT to Use
+
+- Do not use for single-function, single-file edits with no callers — the full 5-phase protocol is overkill for those.
+- Do not use for documentation-only changes that have no code dependencies.
+
 ## Entry Points
 
 ### Trigger Phrases
@@ -397,3 +402,10 @@ Phase 5 (Impact):
 - **Language-dependent regex**: Import pattern detection works well for common languages (Python, TypeScript, Java, C#, Go, Rust) but may need adaptation for less common ones.
 - **Token cost**: The full 5-phase protocol consumes significant context. Use the Quick Reference table to select only the phases needed for the task.
 - **Confidence is heuristic**: Impact assessment confidence ratings are human-calibrated guidelines, not mathematical proofs. When in doubt, rate lower.
+
+## References
+
+- `instructions/global/00_behavior.instructions.md` — repository rule to understand the problem before solving it
+- `.github/agents/planner.agent.md` — planning workflows that benefit from topology analysis
+- `.github/agents/reviewer.agent.md` — review workflows that assess blast radius and hidden impacts
+- `.github/agents/researcher.agent.md` — research workflows that map unfamiliar code structure

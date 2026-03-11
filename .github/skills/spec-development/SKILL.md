@@ -17,6 +17,17 @@ This skill provides structured methodology for developing comprehensive project 
 - When the conductor identifies a task that benefits from upfront specification
 - When existing requirements are incomplete or contradictory
 
+### When NOT to Use
+
+- Do not use for bug fixes with clear reproduction steps — go straight to planning or implementation.
+- Do not use when the task is a trivial single-file change with no design decisions.
+
+## Entry Points
+
+**Trigger phrases:** "create a spec", "write requirements", "scope this project", "define acceptance criteria".
+
+**Context patterns:** New feature requests, ambiguous scope, cross-cutting changes requiring upfront alignment, conductor identifies need for structured decomposition.
+
 ## Complexity Tiers
 
 ### LIGHTWEIGHT (single concern, 1-2 files)

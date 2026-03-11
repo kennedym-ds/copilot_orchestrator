@@ -20,6 +20,11 @@ This skill teaches accessibility agents how to evaluate and implement WCAG 2.1 L
 - Testing screen reader compatibility
 - Conducting WCAG 2.1 audits
 
+### When NOT to Use
+
+- Do not use for backend-only changes with no user-facing output.
+- Do not use for internal CLI tools where accessibility standards do not apply.
+
 ## Entry Points
 
 **Trigger Phrases:** "accessibility review", "WCAG compliance", "screen reader", "keyboard navigation", "ARIA", "a11y audit"
@@ -195,12 +200,12 @@ This skill teaches accessibility agents how to evaluate and implement WCAG 2.1 L
 - `<button>` for keyboard accessibility (WCAG 2.1.1) âœ“
 - Visible focus indicators (WCAG 2.4.7) âœ“
 
-## Bundled References
+## References
 
 - [WCAG 2.2 Success Criteria](references/wcag-2.2-success-criteria.md) — Key Level A/AA criteria quick reference
 - [ARIA Patterns](references/aria-patterns.md) — Common patterns, anti-patterns, and code examples
 
-## References
+### External references
 
 - **WCAG 2.2:** https://www.w3.org/WAI/WCAG22/quickref/
 - **ARIA Practices:** https://www.w3.org/WAI/ARIA/apg/
