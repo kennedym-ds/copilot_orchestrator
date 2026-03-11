@@ -138,8 +138,24 @@ Workspace settings layer on top of user settings. If you have user-level global 
 | Agents missing despite user settings | OneDrive files are cloud-only | Right-click folder → "Always keep on this device" |
 | Agents missing after VS Code update | Settings renamed | Check for deprecated settings (see below) |
 | Some agents load, others don't | Workspace trust not granted | Accept trust prompt for the external path |
+| Duplicate agents in Copilot | `.claude/agents/` also discovered | Set `".claude/agents": false` in `chat.agentFilesLocations` (see below) |
 | `chat.modeFilesLocations` warning | Setting is deprecated | Remove it; use `chat.agentFilesLocations` instead |
 | `chat.viewRestorePreviousSession` warning | Setting renamed in 1.108 | Replace with `chat.restoreLastPanelSession` |
+
+### Duplicate Agents from `.claude` Folder
+
+If you've run `setup-claude-code.ps1` to create Claude Code–compatible agent files, you'll have converted copies in `.claude/agents/`. VS Code Copilot can discover these alongside the originals in `.github/agents/`, causing every agent to appear twice.
+
+**Fix:** Explicitly exclude `.claude/agents` from agent discovery:
+
+```json
+"chat.agentFilesLocations": {
+    ".github/agents": true,
+    ".claude/agents": false
+}
+```
+
+Setting a path to `false` tells Copilot to skip that directory. This is already configured in the workspace settings shipped with this repo.
 
 **Diagnostics:** Right-click in Chat panel → **Diagnostics** to see all loaded agents, prompts, instructions, and skills with their resolved paths.
 

@@ -16,8 +16,11 @@
         ".github/prompts": true
     },
     // 1.109: Custom agent file locations (additional search paths)
+    // Explicitly exclude .claude/agents to prevent duplicate agent discovery
+    // when users have run setup-claude-code.ps1 (which creates converted copies)
     "chat.agentFilesLocations": {
-        ".github/agents": true
+        ".github/agents": true,
+        ".claude/agents": false
     },
     // 1.109: Agent skill file locations (GA)
     "chat.agentSkillsLocations": {
