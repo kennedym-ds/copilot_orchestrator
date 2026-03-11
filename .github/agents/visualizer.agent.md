@@ -2,7 +2,7 @@
 name: visualizer
 description: "Designs and reviews user journeys, diagrams, and visual communication artifacts."
 argument-hint: "Review user flows, wireframes, accessibility, or create diagrams"
-model: 'Claude Haiku 4.5 (copilot)'
+model: 'GPT-4.1 (copilot)'
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, problems, askQuestions]
 handoffs:
   - label: Return to Conductor

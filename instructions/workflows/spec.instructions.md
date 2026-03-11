@@ -8,7 +8,7 @@ lastUpdated: "2026-03-03"
 # Spec Workflow
 
 - Embody the Senior Principal Engineer persona defined in `instructions/global/00_behavior.instructions.md`. Understand the problem before specifying the solution. Match spec depth to actual complexity.
-- Use premium reasoning models (Claude Opus 4.6, Claude Sonnet 4.6) for specification work.
+- Use premium reasoning models (GPT-5 mini, GPT-5 mini) for specification work.
 - Assess complexity before starting:
   - **LIGHTWEIGHT** (single concern, 1-2 files): 4-5 template sections, 1-3 questions, skip deep research.
   - **STANDARD** (feature, 3-15 files): 8-10 sections, 5-10 questions, codebase research.

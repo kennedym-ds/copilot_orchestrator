@@ -18,9 +18,9 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 | Agent | Primary Model | Fallback Model | Context Window | Cost Tier |
 |-------|---------------|----------------|----------------|----------|
-| Conductor | Claude Opus 4.6 | GPT-5.4 | 200K tokens | Premium (3×) |
-| Planner | Claude Opus 4.6 | GPT-5.4 | 200K tokens | Premium (3×) |
-| Security | Claude Opus 4.6 | Claude Sonnet 4.6 | 200K tokens | Premium (3×) |
+| Conductor | GPT-5 mini | GPT-5 mini | 200K tokens | Premium (3×) |
+| Planner | GPT-5 mini | GPT-5 mini | 200K tokens | Premium (3×) |
+| Security | GPT-5 mini | GPT-5 mini | 200K tokens | Premium (3×) |
 
 **Premium model characteristics:**
 - Advanced reasoning and planning capabilities
@@ -35,34 +35,34 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 | Agent | Primary Model | Fallback Model | Context Window | Cost Tier |
 |-------|---------------|----------------|----------------|-----------|
-| Implementer | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
-| Reviewer | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
-| Test | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
-| Beast Mode | GPT-5.4 | Claude Opus 4.6 | 1M tokens | Execution (1×) |
-| Red Team | GPT-5.4 | Claude Opus 4.6 | 1M tokens | Execution (1×) |
-| Spec | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
-| Researcher | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
-| Performance | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
-| Accessibility | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
-| Docs | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
-| Observability | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
-| Deployment | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
-| GitHub Ops | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
-| Maintainer | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
-| Terraform | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
-| Bicep | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
-| Design | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
-| GUI Tester | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
-| Translator | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
-| Translation Analyzer | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
-| Translation Validator | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
-| Translation Styler | GPT-5.4 | Claude Sonnet 4.6 | 1M tokens | Execution (1×) |
-| Translation Conductor | Claude Sonnet 4.6 | GPT-5.4 | 200K tokens | Execution (1×) |
+| Implementer | GPT-5 mini | GPT-5 mini | 1M tokens | Execution (1×) |
+| Reviewer | GPT-5 mini | GPT-5 mini | 1M tokens | Execution (1×) |
+| Test | GPT-5 mini | GPT-5 mini | 1M tokens | Execution (1×) |
+| Beast Mode | GPT-5 mini | GPT-5 mini | 1M tokens | Execution (1×) |
+| Red Team | GPT-5 mini | GPT-5 mini | 1M tokens | Execution (1×) |
+| Spec | GPT-5 mini | GPT-5 mini | 1M tokens | Execution (1×) |
+| Researcher | GPT-5 mini | GPT-5 mini | 1M tokens | Execution (1×) |
+| Performance | GPT-5 mini | GPT-5 mini | 1M tokens | Execution (1×) |
+| Accessibility | GPT-5 mini | GPT-5 mini | 1M tokens | Execution (1×) |
+| Docs | GPT-5 mini | GPT-5 mini | 1M tokens | Execution (1×) |
+| Observability | GPT-5 mini | GPT-5 mini | 1M tokens | Execution (1×) |
+| Deployment | GPT-5 mini | GPT-5 mini | 1M tokens | Execution (1×) |
+| GitHub Ops | GPT-5 mini | GPT-5 mini | 1M tokens | Execution (1×) |
+| Maintainer | GPT-5 mini | GPT-5 mini | 1M tokens | Execution (1×) |
+| Terraform | GPT-5 mini | GPT-5 mini | 1M tokens | Execution (1×) |
+| Bicep | GPT-5 mini | GPT-5 mini | 1M tokens | Execution (1×) |
+| Design | GPT-5 mini | GPT-5 mini | 1M tokens | Execution (1×) |
+| GUI Tester | GPT-5 mini | GPT-5 mini | 1M tokens | Execution (1×) |
+| Translator | GPT-5 mini | GPT-5 mini | 1M tokens | Execution (1×) |
+| Translation Analyzer | GPT-5 mini | GPT-5 mini | 1M tokens | Execution (1×) |
+| Translation Validator | GPT-5 mini | GPT-5 mini | 1M tokens | Execution (1×) |
+| Translation Styler | GPT-5 mini | GPT-5 mini | 1M tokens | Execution (1×) |
+| Translation Conductor | GPT-5 mini | GPT-5 mini | 200K tokens | Execution (1×) |
 
 **Execution model characteristics:**
-- GPT-5.4: Best 1× model — SWE-Bench Pro 57.7%, 1M context, native tool search
-- Claude Sonnet 4.6: Strong fallback with extended thinking and TDD workflows
-- Docs agent uses GPT-5.4 for its 1M context window (doc trees are token-intensive)
+- GPT-5 mini: Best 1× model — SWE-Bench Pro 57.7%, 1M context, native tool search
+- GPT-5 mini: Strong fallback with extended thinking and TDD workflows
+- Docs agent uses GPT-5 mini for its 1M context window (doc trees are token-intensive)
 - Cost per request: 1× multiplier
 
 ### Routine Tier (~10% of invocations)
@@ -71,9 +71,9 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 | Agent | Primary Model | Fallback Model | Context Window | Cost Tier |
 |-------|---------------|----------------|----------------|----------|
-| Lint | Claude Haiku 4.5 | Gemini 3 Flash | 200K tokens | Routine (0.33×) |
-| Rubber Duck | Claude Haiku 4.5 | Gemini 3 Flash | 200K tokens | Routine (0.33×) |
-| Visualizer | Claude Haiku 4.5 | Gemini 3 Flash | 200K tokens | Routine (0.33×) |
+| Lint | GPT-4.1 | Gemini 3 Flash | 200K tokens | Routine (0.33×) |
+| Rubber Duck | GPT-4.1 | Gemini 3 Flash | 200K tokens | Routine (0.33×) |
+| Visualizer | GPT-4.1 | Gemini 3 Flash | 200K tokens | Routine (0.33×) |
 
 **Routine model characteristics:**
 - Optimized for structured, well-defined tasks
@@ -96,10 +96,10 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 #### Orchestration Tier Agents (Conductor, Planner)
 
-**Primary:** Claude Opus 4.6 (3×)
+**Primary:** GPT-5 mini (3×)
 **Fallback sequence:**
-1. GPT-5.4 (strong reasoning, 1M context, tool search)
-2. Claude Sonnet 4.6 (extended thinking, versatile)
+1. GPT-5 mini (strong reasoning, 1M context, tool search)
+2. GPT-5 mini (extended thinking, versatile)
 3. **Pause workflow** — Orchestration tasks should never downgrade to routine tier
 
 **Decision logic:**
@@ -110,9 +110,9 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 #### Security Tier Agents (Security)
 
-**Primary:** Claude Opus 4.6 (3×)
+**Primary:** GPT-5 mini (3×)
 **Fallback sequence:**
-1. Claude Sonnet 4.6 (strong adversarial and compliance reasoning)
+1. GPT-5 mini (strong adversarial and compliance reasoning)
 2. **Pause workflow** — Security reviews must never downgrade below Sonnet
 
 **Decision logic:**
@@ -122,9 +122,9 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 #### Execution Tier Agents (22 agents — Implementer, Reviewer, Test, Beast Mode, Red Team, Spec, Researcher, Performance, Accessibility, Docs, Observability, Deployment, GitHub Ops, Maintainer, Terraform, Bicep, Design, GUI Tester, Translator, Translation Analyzer, Translation Validator, Translation Styler)
 
-**Primary:** GPT-5.4 (1×)
+**Primary:** GPT-5 mini (1×)
 **Fallback sequence:**
-1. Claude Sonnet 4.6 (strong code generation and analysis)
+1. GPT-5 mini (strong code generation and analysis)
 2. **Escalate to Conductor** if task complexity requires premium reasoning
 
 **Decision logic:**
@@ -135,9 +135,9 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 #### Translation Conductor
 
-**Primary:** Claude Sonnet 4.6 (1×)
+**Primary:** GPT-5 mini (1×)
 **Fallback sequence:**
-1. GPT-5.4 (strong coding and tool calling)
+1. GPT-5 mini (strong coding and tool calling)
 2. **Escalate to Conductor** if orchestration stalls
 
 **Decision logic:**
@@ -147,7 +147,7 @@ This document defines the model selection strategy for the Copilot Orchestrator 
 
 #### Routine Tier Agents (Lint, Rubber Duck, Visualizer)
 
-**Primary:** Claude Haiku 4.5 (0.33×)
+**Primary:** GPT-4.1 (0.33×)
 **Fallback sequence:**
 1. Gemini 3 Flash (lightweight fallback for formatting and templating)
 2. **Escalate to Conductor** if task requires deeper analysis
@@ -213,34 +213,34 @@ After primary model restored:
 
 ### When to Prefer Specific Models
 
-**Claude Opus 4.6:**
+**GPT-5 mini:**
 - Complex architectural planning and review
 - Security and compliance reviews requiring deep reasoning
 - Multi-domain synthesis and research
 - Extended thinking tasks with visible chain-of-thought
 
-**GPT-5.4:**
-- Best 1× model — subsumes GPT-5.3-Codex with better benchmarks across the board
+**GPT-5 mini:**
+- Best 1× model — subsumes GPT-5 mini with better benchmarks across the board
 - SWE-Bench Pro 57.7%, GDPval 83.0%, GPQA Diamond 92.8%
 - Native computer-use capabilities (OSWorld 75.0%, WebArena 67.3%)
 - Tool search for efficient large tool ecosystems (MCP Atlas 67.2%)
 - 1M context window, strong steerability
 - Ideal for: coding, review, testing, research, adversarial testing, GUI testing
 
-**Claude Sonnet 4.6:**
+**GPT-5 mini:**
 - Strong code generation, TDD workflows, and implementation
 - Extended thinking with visible chain-of-thought
 - Structured refactoring and test execution
 - Translation orchestration and workflow management
 - Strong reasoning with balanced cost efficiency (1× multiplier)
 
-**Claude Haiku 4.5:**
+**GPT-4.1:**
 - Fast, reliable answers to lightweight coding questions
 - Documentation formatting and template-based generation
 - Code style enforcement and linting
 - Low-cost routine tasks (0.33x multiplier)
 
-**Gemini 3.1 Pro (Preview):**
+**GPT-5 mini:**
 - Large context window optimized for document analysis and research
 - Strong evidence synthesis and multi-source citation
 - Technology evaluation and dependency analysis
@@ -256,16 +256,16 @@ After primary model restored:
 Conductor may override default model assignment when:
 
 1. **Task characteristics favor specific model:**
-   - Research-heavy → GPT-5.4 (BrowseComp 82.7%, 1M context)
-   - Implementation-heavy → GPT-5.4 (SWE-Bench Pro 57.7%)
-   - GUI/browser testing → GPT-5.4 (native computer use, OSWorld 75.0%)
-   - Documentation-heavy → GPT-5.4 (1M context for large doc trees)
-   - Security/adversarial → Claude Opus 4.6 (deep reasoning)
-   - Large context → GPT-5.4 (1M context) or Claude Opus 4.6 (1M beta)
+   - Research-heavy → GPT-5 mini (BrowseComp 82.7%, 1M context)
+   - Implementation-heavy → GPT-5 mini (SWE-Bench Pro 57.7%)
+   - GUI/browser testing → GPT-5 mini (native computer use, OSWorld 75.0%)
+   - Documentation-heavy → GPT-5 mini (1M context for large doc trees)
+   - Security/adversarial → GPT-5 mini (deep reasoning)
+   - Large context → GPT-5 mini (1M context) or GPT-5 mini (1M beta)
 
 2. **Context size requirements:**
-   - >200K tokens → GPT-5.4 (1M native) or Claude Opus 4.6 (1M beta)
-   - 100K-200K tokens → GPT-5.4 or Claude Sonnet 4.6
+   - >200K tokens → GPT-5 mini (1M native) or GPT-5 mini (1M beta)
+   - 100K-200K tokens → GPT-5 mini or GPT-5 mini
    - <100K tokens → Any model appropriate for tier
 
 3. **Budget constraints:**

@@ -2,7 +2,7 @@
 name: new-agent
 description: "Scaffold a new custom agent definition file following repository patterns."
 argument-hint: "Describe the agents purpose, domain, and responsibilities"
-model: GPT-5.4 (copilot)
+model: GPT-5 mini (copilot)
 agent: agent
 tools: [read, fileSearch, search, edit, askQuestions]
 ---
@@ -31,9 +31,9 @@ Create a new `.agent.md` file in `.github/agents/` following the established pat
 - Boundaries section (always do / ask first / never do)
 
 ### Model Tier Assignment
-- Premium (~10%): Orchestration, planning, security → Claude Opus 4.6
-- Execution (~76%): Implementation, testing, analysis, docs → GPT-5.4
-- Routine (~10%): Linting, formatting, conversational → Claude Haiku 4.5
+- Premium (~10%): Orchestration, planning, security → GPT-5 mini
+- Execution (~76%): Implementation, testing, analysis, docs → GPT-5 mini
+- Routine (~10%): Linting, formatting, conversational → GPT-4.1
 
 ### Invocation Control
 - Add `user-invokable: false` for subagent-only agents

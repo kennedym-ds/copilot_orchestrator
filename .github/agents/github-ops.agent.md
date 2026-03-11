@@ -2,7 +2,7 @@
 name: github-ops
 description: "Manages GitHub operations including issues, PRs, workflows, and repository management via the GitHub MCP server."
 argument-hint: "Manage PRs, issues, workflows, or repository operations"
-model: 'GPT-5.4 (copilot)'
+model: 'GPT-5 mini (copilot)'
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, edit, execute, problems, askQuestions]
 handoffs:
   - label: Return to Conductor

@@ -2,7 +2,7 @@
 name: support-security-review
 description: "Security support prompt for assessing plans or diffs against policy, privacy, and threat-model requirements."
 argument-hint: "Provide the code or feature to assess for security vulnerabilities"
-model: GPT-5.4 (copilot)
+model: GPT-5 mini (copilot)
 agent: security
 tools: [todo, changes, read, search, githubRepo, web]
 ---

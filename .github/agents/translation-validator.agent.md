@@ -2,7 +2,7 @@
 name: translation-validator
 description: "Validates translated code through a 6-layer validation stack and produces per-file confidence scores."
 argument-hint: "Provide translated file paths to validate against the 6-layer stack"
-model: 'GPT-5.4 (copilot)'
+model: 'GPT-5 mini (copilot)'
 disable-model-invocation: true
 mcp-servers:
   translation:

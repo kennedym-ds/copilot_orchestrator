@@ -67,7 +67,7 @@ Invoke-Pester -Path tests -Output Detailed
   "github.copilot.chat.organizationInstructions.enabled": true,
   "github.copilot.chat.customAgents.showOrganizationAndEnterpriseAgents": true,
   "github.copilot.chat.cli.customAgents.enabled": true,
-  "github.copilot.chat.implementAgent.model": "Claude Sonnet 4.6 (copilot)",
+  "github.copilot.chat.implementAgent.model": "GPT-5 mini (copilot)",
   "chat.thinking.style": "collapsed",
   "chat.agent.thinking.collapsedTools": true,
   "chat.agent.thinking.terminalTools": true,
@@ -90,13 +90,13 @@ Invoke-Pester -Path tests -Output Detailed
 
 | Agent | Model | Purpose |
 |-------|-------|---------|
-| conductor | Claude Opus 4.6 | Lifecycle orchestration |
-| planner | Claude Opus 4.6 | Multi-phase planning |
-| implementer | Claude Sonnet 4.6 | TDD execution |
-| reviewer | Claude Opus 4.6 | Code review |
-| researcher | Claude Opus 4.6 | Context gathering |
-| maintainer | GPT-5.3-Codex | Issue triage, releases |
-| spec | Claude Opus 4.6 | Project specification |
+| conductor | GPT-5 mini | Lifecycle orchestration |
+| planner | GPT-5 mini | Multi-phase planning |
+| implementer | GPT-5 mini | TDD execution |
+| reviewer | GPT-5 mini | Code review |
+| researcher | GPT-5 mini | Context gathering |
+| maintainer | GPT-5 mini | Issue triage, releases |
+| spec | GPT-5 mini | Project specification |
 
 ### Support Personas
 

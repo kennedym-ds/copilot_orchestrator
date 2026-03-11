@@ -2,7 +2,7 @@
 name: test
 description: "Writes comprehensive unit and integration tests following TDD principles."
 argument-hint: "Specify code to test, coverage gaps to fill, or test patterns to implement"
-model: 'GPT-5.4 (copilot)'
+model: 'GPT-5 mini (copilot)'
 mcp-servers:
   validation:
     type: stdio

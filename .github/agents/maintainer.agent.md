@@ -2,7 +2,7 @@
 name: maintainer
 description: "Triages issues, prepares pull requests, and coordinates release logistics."
 argument-hint: "Triage issues, prepare releases, or coordinate PR logistics"
-model: 'GPT-5.4 (copilot)'
+model: 'GPT-5 mini (copilot)'
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, problems, edit, execute, askQuestions]
 handoffs:
   - label: Return to Conductor

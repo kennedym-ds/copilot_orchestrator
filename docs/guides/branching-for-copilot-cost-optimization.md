@@ -7,13 +7,13 @@ status: stable
 
 # Three Branches, One Codebase: Optimizing GitHub Copilot Costs with Model Tier Branches
 
-GitHub Copilot's premium request system charges differently per model — from 3× for Claude Opus 4.6 down to 0× for GPT-5 mini. If you're running a multi-agent system with 29 specialized agents, those multipliers add up fast.
+GitHub Copilot's premium request system charges differently per model — from 3× for GPT-5 mini down to 0× for GPT-5 mini. If you're running a multi-agent system with 29 specialized agents, those multipliers add up fast.
 
 Here's how we solved it: **three branches, automatically synced, each targeting a different cost profile.**
 
 ## The Problem
 
-Not every task needs the most expensive model. A lint check doesn't need Claude Opus 4.6. A rubber duck debugging session doesn't need GPT-5.4. But maintaining separate agent configurations per cost tier by hand is a maintenance nightmare — every change to an agent's prompt, workflow, or tooling would need to be applied three times.
+Not every task needs the most expensive model. A lint check doesn't need GPT-5 mini. A rubber duck debugging session doesn't need GPT-5 mini. But maintaining separate agent configurations per cost tier by hand is a maintenance nightmare — every change to an agent's prompt, workflow, or tooling would need to be applied three times.
 
 ## The Setup
 
@@ -31,17 +31,17 @@ Each agent gets the cheapest model that handles its workload without quality los
 
 | Tier | Model | Cost | Agents | Why |
 |------|-------|------|--------|-----|
-| Premium | Claude Opus 4.6 | 3× | 3 (conductor, planner, security) | Orchestration errors compound. Security is ruin-risk. Plan quality drives everything downstream. |
-| Execution | GPT-5.4 | 1× | 22 (implementer, reviewer, test, etc.) | Strong coding benchmarks, 1M context window. The workhorse. |
-| Execution | Claude Sonnet 4.6 | 1× | 1 (translation-conductor) | Leverages Anthropic-specific tool-use patterns. |
-| Routine | Claude Haiku 4.5 | 0.33× | 3 (lint, rubber-duck, visualizer) | Pattern-matching and template-driven output. Smallest capable model. |
+| Premium | GPT-5 mini | 3× | 3 (conductor, planner, security) | Orchestration errors compound. Security is ruin-risk. Plan quality drives everything downstream. |
+| Execution | GPT-5 mini | 1× | 22 (implementer, reviewer, test, etc.) | Strong coding benchmarks, 1M context window. The workhorse. |
+| Execution | GPT-5 mini | 1× | 1 (translation-conductor) | Leverages Anthropic-specific tool-use patterns. |
+| Routine | GPT-4.1 | 0.33× | 3 (lint, rubber-duck, visualizer) | Pattern-matching and template-driven output. Smallest capable model. |
 
 ### Low-Cost Branch — ~64% Savings
 
 Collapses the tier structure:
 
 - Opus → Sonnet 4.6 (3× → 1×)
-- GPT-5.4 / Sonnet 4.6 → Haiku 4.5 (1× → 0.33×)
+- GPT-5 mini / Sonnet 4.6 → Haiku 4.5 (1× → 0.33×)
 - Haiku stays Haiku
 
 **Result:** 3 agents on Sonnet 4.6, 26 on Haiku 4.5. Good enough for learning, experimentation, and lighter workloads.
@@ -71,10 +71,10 @@ The key design choice: **reset-then-substitute**, not merge. The derived branche
 
 - name: Apply model downgrades
   run: |
-    # GPT-5.4 → Claude Haiku 4.5
-    sed -i 's/GPT-5\.4/Claude Haiku 4.5/g' "$file"
-    # Claude Opus 4.6 → Claude Sonnet 4.6
-    sed -i 's/Claude Opus 4\.6/Claude Sonnet 4.6/g' "$file"
+    # GPT-5 mini → GPT-4.1
+    sed -i 's/GPT-5\.4/GPT-4.1/g' "$file"
+    # GPT-5 mini → GPT-5 mini
+    sed -i 's/Claude Opus 4\.6/GPT-5 mini/g' "$file"
 ```
 
 The substitution order matters — Sonnet before Opus on the low-cost branch prevents double-substitution (Opus → Sonnet → Haiku). Both workflows were verified via simulation to produce correct output.

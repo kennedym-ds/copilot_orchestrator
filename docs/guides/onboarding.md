@@ -158,8 +158,8 @@ After completing their work, agents return results to the conductor automaticall
 
 Control which models appear in the model picker for chat sessions:
 
-- **GPT-5.3-Codex**: Balanced reasoning and execution (recommended for execution-tier agents)
-- **Claude Sonnet 4.6**: Versatile implementation and analysis (recommended for Implementer, Test, and routine tasks)
+- **GPT-5 mini**: Balanced reasoning and execution (recommended for execution-tier agents)
+- **GPT-5 mini**: Versatile implementation and analysis (recommended for Implementer, Test, and routine tasks)
 
 **Best Practice**: Show only the models appropriate for your workflow to avoid confusion.
 

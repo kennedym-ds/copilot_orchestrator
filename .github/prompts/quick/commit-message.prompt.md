@@ -2,7 +2,7 @@
 name: commit-message
 description: "Alias for /commit — generate a conventional commit message from staged changes."
 argument-hint: "Describe the staged changes for a commit message"
-model: Claude Sonnet 4.6 (copilot)
+model: GPT-5 mini (copilot)
 agent: agent
 tools: [changes]
 ---

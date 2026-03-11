@@ -2,7 +2,7 @@
 name: translation-analyzer
 description: "Analyzes source repositories to build dependency graphs, translation manifests, and complexity assessments for code translation."
 argument-hint: "Provide source repository path to analyze for translation readiness"
-model: 'GPT-5.4 (copilot)'
+model: 'GPT-5 mini (copilot)'
 disable-model-invocation: true
 mcp-servers:
   translation:

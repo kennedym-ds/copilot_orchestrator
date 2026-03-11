@@ -2,7 +2,7 @@
 name: trilateral-review
 description: "Multi-agent consensus review that runs the same artifact through Reviewer, Red Team, and Security agents in parallel, then synthesizes a consensus score. Use for high-stakes plans, architecture decisions, and ULTRADEEP complexity tasks."
 argument-hint: "Provide the artifact (plan, architecture, or implementation) to review from three independent perspectives"
-model: Claude Opus 4.6 (copilot)
+model: GPT-5 mini (copilot)
 agent: conductor
 tools: [agent, todo, changes, search, read, fileSearch, problems]
 ---

@@ -2,7 +2,7 @@
 name: conductor
 description: "Orchestrates planning, implementation, review, and commit cycles with specialized subagents."
 argument-hint: "Describe your feature request or bug to orchestrate a multi-phase implementation"
-model: 'Claude Opus 4.6 (copilot)'
+model: 'GPT-5 mini (copilot)'
 agents: ['planner', 'implementer', 'reviewer', 'researcher', 'maintainer', 'spec', 'security', 'performance', 'accessibility', 'docs', 'observability', 'visualizer', 'deployment', 'red-team', 'test', 'lint', 'github-ops', 'terraform', 'bicep', 'design', 'beast-mode', 'rubber-duck', 'translation-conductor', 'gui-tester']
 mcp-servers:
   validation:
@@ -20,62 +20,62 @@ handoffs:
   - label: Engage Planner
     agent: planner
     prompt: Draft a multi-phase plan using the research findings above.
-    model: 'Claude Opus 4.6 (copilot)'
+    model: 'GPT-5 mini (copilot)'
     send: false
   - label: Launch Implementation
     agent: implementer
     prompt: Execute Phase 1 of the approved plan following TDD principles.
-    model: 'Claude Sonnet 4.6 (copilot)'
+    model: 'GPT-5 mini (copilot)'
     send: false
   - label: Request Review
     agent: reviewer
     prompt: Review the latest implementation changes against the phase objectives.
-    model: 'Claude Sonnet 4.6 (copilot)'
+    model: 'GPT-5 mini (copilot)'
     send: false
   - label: Deepen Research
     agent: researcher
     prompt: Gather additional context or evidence for the open questions listed above.
-    model: 'Claude Opus 4.6 (copilot)'
+    model: 'GPT-5 mini (copilot)'
     send: false
   - label: Security Checkpoint
     agent: security
     prompt: Evaluate the current plan or diff for security, privacy, and compliance risks before proceeding.
-    model: 'Claude Opus 4.6 (copilot)'
+    model: 'GPT-5 mini (copilot)'
     send: false
   - label: Performance Review
     agent: performance
     prompt: Assess the changes for potential performance regressions and recommend optimizations.
-    model: 'Claude Sonnet 4.6 (copilot)'
+    model: 'GPT-5 mini (copilot)'
     send: false
   - label: Documentation Update
     agent: docs
     prompt: Draft or revise documentation and onboarding materials based on the latest plan or implementation changes.
-    model: 'Claude Sonnet 4.6 (copilot)'
+    model: 'GPT-5 mini (copilot)'
     send: false
   - label: Write Tests
     agent: test
     prompt: Write comprehensive tests for the implemented changes following TDD principles.
-    model: 'Claude Sonnet 4.6 (copilot)'
+    model: 'GPT-5 mini (copilot)'
     send: false
   - label: Fix Linting
     agent: lint
     prompt: Fix code style and formatting issues in the modified files.
-    model: 'Claude Sonnet 4.6 (copilot)'
+    model: 'GPT-5 mini (copilot)'
     send: false
   - label: Accessibility Audit
     agent: accessibility
     prompt: Conduct WCAG compliance review on UI changes or documentation.
-    model: 'Claude Sonnet 4.6 (copilot)'
+    model: 'GPT-5 mini (copilot)'
     send: false
   - label: GitHub Operations
     agent: github-ops
     prompt: Execute GitHub operations (issues, PRs, workflows) as needed for this phase.
-    model: 'Claude Sonnet 4.6 (copilot)'
+    model: 'GPT-5 mini (copilot)'
     send: false
   - label: GUI Testing
     agent: gui-tester
     prompt: Test the web-based UI for visual correctness, interaction behavior, and regression issues.
-    model: 'Claude Sonnet 4.6 (copilot)'
+    model: 'GPT-5 mini (copilot)'
     send: false
   - label: Trilateral Review
     agent: conductor

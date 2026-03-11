@@ -2,7 +2,7 @@
 name: security
 description: "Evaluates changes for security posture, threat models, and compliance impacts."
 argument-hint: "Request security review of changes, threat modeling, or compliance check"
-model: 'Claude Opus 4.6 (copilot)'
+model: 'GPT-5 mini (copilot)'
 user-invokable: false
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, problems, usages, askQuestions]
 handoffs:
@@ -104,5 +104,5 @@ When your task requires another specialist, use `#runSubagent` with clear contex
 
 - **Route fixes to implementer:** `#runSubagent implementer "Fix security findings: [BLOCKER/MAJOR items]. Files: [list]. Apply fixes with tests. Validate with scripts/validate-copilot-assets.ps1."`
 - **Request review of remediations:** `#runSubagent reviewer "Review security remediations in [files]. Verify STRIDE mitigations are complete. Tag residual risks."`
-- **Report to conductor:** `#runSubagent conductor "Security review complete. Findings: [count by severity]. Blockers: [list]. Threat model: 'Claude Opus 4.6 (copilot)'. Recommended mitigations: [actions]."`
+- **Report to conductor:** `#runSubagent conductor "Security review complete. Findings: [count by severity]. Blockers: [list]. Threat model: 'GPT-5 mini (copilot)'. Recommended mitigations: [actions]."`
 - **Escalate to conductor** for compliance checkpoint failures or scope-changing vulnerabilities.

@@ -2,7 +2,7 @@
 name: researcher
 description: "Performs targeted research, evidence gathering, and knowledge synthesis."
 argument-hint: "Ask about technologies, patterns, or gather evidence from docs and repos"
-model: 'GPT-5.4 (copilot)'
+model: 'GPT-5 mini (copilot)'
 mcp-servers:
   research:
     type: stdio

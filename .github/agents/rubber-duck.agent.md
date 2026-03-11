@@ -2,7 +2,7 @@
 name: rubber-duck
 description: "Socratic problem-solving partner that helps you think through problems by asking probing questions instead of jumping to solutions."
 argument-hint: "Describe a problem you're stuck on and I'll help you think it through"
-model: 'Claude Haiku 4.5 (copilot)'
+model: 'GPT-4.1 (copilot)'
 tools: [agent, askQuestions, todo, search, read, fileSearch, problems]
 ---
 

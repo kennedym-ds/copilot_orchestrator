@@ -64,7 +64,7 @@ Add these settings to your user or workspace `settings.json`:
    "chat.agentsControl.enabled": true,
    "chat.agentsControl.clickBehavior": "cycle",
    "workbench.startupEditor": "agentSessionsWelcomePage",
-   "github.copilot.chat.implementAgent.model": "Claude Sonnet 4.6 (copilot)",
+   "github.copilot.chat.implementAgent.model": "GPT-5 mini (copilot)",
    "chat.tools.terminal.enableAutoApprove": true,
    "chat.tools.terminal.autoApproveWorkspaceNpmScripts": true,
    "chat.tools.terminal.preventShellHistory": true,
@@ -109,8 +109,8 @@ The orchestrator ships three branches, each targeting a different cost profile. 
 
 | Branch | Cost | Primary Model | Secondary Model | Use Case |
 |--------|------|---------------|-----------------|----------|
-| `main` | Premium | GPT-5.4 (22 agents), Claude Opus 4.6 (3) | Claude Sonnet 4.6 (1), Claude Haiku 4.5 (3) | Full capability — optimized per agent role |
-| `low-cost` | Budget | Claude Sonnet 4.6 (3 agents), Claude Haiku 4.5 (26) | — | ~64% savings — Opus→Sonnet 4.6, rest→Haiku 4.5 |
+| `main` | Premium | GPT-5 mini (22 agents), GPT-5 mini (3) | GPT-5 mini (1), GPT-4.1 (3) | Full capability — optimized per agent role |
+| `low-cost` | Budget | GPT-5 mini (3 agents), GPT-4.1 (26) | — | ~64% savings — Opus→Sonnet 4.6, rest→Haiku 4.5 |
 | `free-cost` | Zero (0×) | GPT-5 mini | GPT-4.1 | Zero premium requests — 24 agents on GPT-5 mini, 5 on GPT-4.1 |
 
 ### How It Works
@@ -143,35 +143,35 @@ The orchestrator ships three branches, each targeting a different cost profile. 
 
 | Agent | Category | Main (Premium) | Low-Cost (Budget) | Free-Cost (0×) |
 |-------|----------|----------------|--------------------|--------------------|
-| Conductor | Core | Claude Opus 4.6 | Claude Sonnet 4.6 | GPT-5 mini |
-| Planner | Core | Claude Opus 4.6 | Claude Sonnet 4.6 | GPT-5 mini |
-| Implementer | Core | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Reviewer | Core | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Researcher | Core | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Maintainer | Core | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Spec | Core | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Security | Support | Claude Opus 4.6 | Claude Sonnet 4.6 | GPT-5 mini |
-| Performance | Support | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Accessibility | Support | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Docs | Support | GPT-5.4 | Claude Haiku 4.5 | GPT-4.1 |
-| Observability | Support | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Visualizer | Support | Claude Haiku 4.5 | Claude Haiku 4.5 | GPT-4.1 |
-| Test | Specialist | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Lint | Specialist | Claude Haiku 4.5 | Claude Haiku 4.5 | GPT-4.1 |
-| GitHub Ops | Specialist | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Red Team | Specialist | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Deployment | Specialist | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Terraform | Specialist | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Bicep | Specialist | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Design | Specialist | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Beast Mode | Specialist | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| GUI Tester | Specialist | GPT-5.4 | Claude Haiku 4.5 | GPT-4.1 |
-| Rubber Duck | Specialist | Claude Haiku 4.5 | Claude Haiku 4.5 | GPT-4.1 |
-| Translation Conductor | Translation | Claude Sonnet 4.6 | Claude Haiku 4.5 | GPT-5 mini |
-| Translator | Translation | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Translation Analyzer | Translation | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Translation Validator | Translation | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Translation Styler | Translation | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
+| Conductor | Core | GPT-5 mini | GPT-5 mini | GPT-5 mini |
+| Planner | Core | GPT-5 mini | GPT-5 mini | GPT-5 mini |
+| Implementer | Core | GPT-5 mini | GPT-4.1 | GPT-5 mini |
+| Reviewer | Core | GPT-5 mini | GPT-4.1 | GPT-5 mini |
+| Researcher | Core | GPT-5 mini | GPT-4.1 | GPT-5 mini |
+| Maintainer | Core | GPT-5 mini | GPT-4.1 | GPT-5 mini |
+| Spec | Core | GPT-5 mini | GPT-4.1 | GPT-5 mini |
+| Security | Support | GPT-5 mini | GPT-5 mini | GPT-5 mini |
+| Performance | Support | GPT-5 mini | GPT-4.1 | GPT-5 mini |
+| Accessibility | Support | GPT-5 mini | GPT-4.1 | GPT-5 mini |
+| Docs | Support | GPT-5 mini | GPT-4.1 | GPT-4.1 |
+| Observability | Support | GPT-5 mini | GPT-4.1 | GPT-5 mini |
+| Visualizer | Support | GPT-4.1 | GPT-4.1 | GPT-4.1 |
+| Test | Specialist | GPT-5 mini | GPT-4.1 | GPT-5 mini |
+| Lint | Specialist | GPT-4.1 | GPT-4.1 | GPT-4.1 |
+| GitHub Ops | Specialist | GPT-5 mini | GPT-4.1 | GPT-5 mini |
+| Red Team | Specialist | GPT-5 mini | GPT-4.1 | GPT-5 mini |
+| Deployment | Specialist | GPT-5 mini | GPT-4.1 | GPT-5 mini |
+| Terraform | Specialist | GPT-5 mini | GPT-4.1 | GPT-5 mini |
+| Bicep | Specialist | GPT-5 mini | GPT-4.1 | GPT-5 mini |
+| Design | Specialist | GPT-5 mini | GPT-4.1 | GPT-5 mini |
+| Beast Mode | Specialist | GPT-5 mini | GPT-4.1 | GPT-5 mini |
+| GUI Tester | Specialist | GPT-5 mini | GPT-4.1 | GPT-4.1 |
+| Rubber Duck | Specialist | GPT-4.1 | GPT-4.1 | GPT-4.1 |
+| Translation Conductor | Translation | GPT-5 mini | GPT-4.1 | GPT-5 mini |
+| Translator | Translation | GPT-5 mini | GPT-4.1 | GPT-5 mini |
+| Translation Analyzer | Translation | GPT-5 mini | GPT-4.1 | GPT-5 mini |
+| Translation Validator | Translation | GPT-5 mini | GPT-4.1 | GPT-5 mini |
+| Translation Styler | Translation | GPT-5 mini | GPT-4.1 | GPT-5 mini |
 
 ## Directory Structure
 

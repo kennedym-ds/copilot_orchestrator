@@ -2,7 +2,7 @@
 name: gui-tester
 description: "Tests web-based GUIs using browser automation tools for visual validation, interaction testing, and regression detection."
 argument-hint: "Provide a URL or local page to test — describe expected behavior, interactions, or visual checks"
-model: 'GPT-5.4 (copilot)'
+model: 'GPT-4.1 (copilot)'
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, edit, execute, problems, usages, askQuestions]
 handoffs:
   - label: Return to Conductor
