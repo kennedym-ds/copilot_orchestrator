@@ -9,6 +9,14 @@ handoffs:
     agent: conductor
     prompt: "GUI testing complete. Findings, screenshots, and remediation guidance delivered."
     send: false
+  - label: Run Browser Tools Mode
+    agent: gui-tester
+    prompt: "Run GUI tests in Browser Tools Mode for URL: {provide URL}. Perform element interactions and capture screenshots. Use injected browser tools if available." 
+    send: true
+  - label: Run Playwright Fallback Mode
+    agent: gui-tester
+    prompt: "Run GUI tests using Playwright fallback for URL: {provide URL}. Produce JSON results and screenshots in working directory." 
+    send: true
 ---
 
 # GUI Tester Agent — Browser Automation Specialist

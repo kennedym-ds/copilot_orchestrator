@@ -96,3 +96,13 @@ Essential paths for agent loading:
 - `INSTRUCTION_CHANGELOG.md` — Instruction change history
 - `docs/guides/mcp-integration.md` — MCP server setup, agent mapping, protocol features
 - `.vscode/mcp.json` — Workspace MCP configuration (8 servers)
+
+## Parallel Execution Guidance
+
+- **Prefer parallel when safe:** Run independent, idempotent tasks in parallel to reduce overall runtime (examples: static validation, linting, and non-destructive smoke tests).
+- **Detect independence before parallelizing:** Only parallelize tasks that do not contend for the same mutable resources, files, or locks. If tasks share writable state, keep them sequential or add coordination.
+- **Use agent-level parallelism:** Agents may invoke multiple read-only subagents in parallel (for example, `search_subagent`, `researcher`, or analysis subagents). Use `multi_tool_use.parallel` patterns for truly concurrent tool calls.
+- **Aggregate and summarize results:** When tasks run in parallel, collect outputs into a single summary and surface any blockers prominently; non-critical failures can be reported without blocking unrelated tasks.
+- **Protect destructive operations:** Do not run destructive actions (deploys, pushes, deletes) concurrently unless there is explicit coordination and approval; require an extra confirmation step for such actions.
+- **Fallback to sequential:** If the runtime environment or client does not support concurrency, workflows should gracefully fall back to sequential execution.
+

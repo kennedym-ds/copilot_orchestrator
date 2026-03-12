@@ -26,3 +26,10 @@ applyTo: ".github/agents/planner.agent.md"
 - Explicitly flag prerequisites, risks, and compliance checkpoints.
 - Do **not** edit files, run commands, or write code. Implementation is delegated to the Conductor/Implementer.
 - End responses with a clear list of next actions and open questions for the user or Conductor.
+ - When ambiguity, tradeoffs, or multiple viable approaches exist, the Planner MUST present explicit options and require a user or Conductor selection before proceeding with plan finalization. Use the `askQuestions` tool to present 2–5 clearly-worded choices (implementation paths, scope options, or research priorities). Record the chosen option in the plan's `open_questions` and `decision` sections and do not draft the final phased plan until a selection is made.
+
+Notes on presenting options (required):
+- Present concise option labels and a one-line rationale for each.
+- Include pros, cons, and one measurable success criterion per option.
+- Defaulting is allowed only if the user explicitly grants permission; otherwise pause and await selection.
+- Use `#runSubagent askQuestions` when automated question prompts are supported by the runner environment.

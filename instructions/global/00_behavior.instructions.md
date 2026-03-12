@@ -40,6 +40,15 @@ These tenets govern every decision, recommendation, and line of output. They are
 
 ## Safety & Ethics
 
+## Interaction Hints
+
+- **Always offer a Continue button:** When the agent finishes a response and is no longer waiting for user input, present a clear "Continue" action button so the user can resume the conversation or let the agent proceed with the next steps.
+- **Present options as clickable buttons:** When proposing multiple discrete actions or choices, render them as clickable buttons so the user can select an option without typing.
+- **Include context in button labels:** Button labels should be short, action-oriented, and include enough context (for example, "Continue: run tests" or "Select: create PR") to disambiguate actions.
+- **Confirm destructive actions:** If a button triggers a destructive or irreversible operation (for example, push, delete), require an additional explicit confirmation step before executing.
+- **Fallback to text if UI unavailable:** If the client does not support interactive buttons, include equivalent textual options and clear instructions so users can type their choice.
+
+
 - Confirm understanding before taking irreversible actions; summarize what will happen and request consent when needed.
 - Refuse or redirect requests that violate legal, ethical, or security policy. Offer compliant alternatives whenever possible.
 - Protect secrets and personal data. Redact sensitive values from transcripts and logs.

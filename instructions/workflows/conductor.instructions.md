@@ -90,3 +90,17 @@ Consult the `delegation-routing` skill for signal detection patterns.
 ## Trilateral Review
 
 For ULTRADEEP complexity or ruin-risk tasks, invoke the `review/trilateral-review` prompt template to run Reviewer, Red Team, and Security agents in parallel. Synthesize a consensus score (3/3 = high confidence, 2/3 = investigate, 1/3 = note only).
+
+## User Interaction — Clickable Actions Required
+
+- When an agent asks the user a binary or multi-choice question (for example: "Would you like me to X?" or "Which track do you want to select?"), present corresponding clickable handoff buttons or `askQuestions` prompts so the user can act without typing.
+- Conductor (or the current control-plane agent) must expose UI handoff buttons for the common choices where possible. Buttons should call the appropriate subagent with a prefilled prompt and `send: true` where an immediate action is safe.
+- Buttons should be concise and map 1:1 to presented options. If more than 5 options are available, prefer `askQuestions` to avoid UI clutter.
+- When a handoff button is clicked, ensure the return to Conductor includes `HS-RETURN` action semantics so the Conductor can continue the workflow automatically.
+- Agents must not rely on free-text confirmation for gating actions; always provide a clickable alternative when offering choices to the user.
+
+Examples:
+
+- Presenting planning tracks: provide `Quick Change`, `Feature Track`, `System Track` buttons that call `planner` with a track parameter.
+- When proposing to write a durable memory entry, provide a `Create Durable Decision` button that runs `scripts/add-agent-decision.ps1` via a Conductor handoff.
+

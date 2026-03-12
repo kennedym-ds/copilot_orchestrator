@@ -24,6 +24,10 @@ handoffs:
     agent: researcher
     prompt: "Investigate a technical question encountered during implementation."
     send: false
+  - label: Start Implementation (click)
+    agent: implementer
+    prompt: "Start Phase Implementation now: Execute Phase [N]: [objective]. Files: [list]. Follow TDD cadence and validate with validation scripts. Report phase-complete or blocked via HS-RETURN."
+    send: true
 ---
 
 # Implementer Agent — Build Specialist

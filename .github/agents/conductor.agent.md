@@ -3,7 +3,7 @@ name: conductor
 description: "Orchestrates planning, implementation, review, and commit cycles with specialized subagents."
 argument-hint: "Describe your feature request or bug to orchestrate a multi-phase implementation"
 model: 'GPT-5 mini (copilot)'
-agents: ['planner', 'implementer', 'reviewer', 'researcher', 'maintainer', 'spec', 'security', 'performance', 'accessibility', 'docs', 'observability', 'visualizer', 'deployment', 'red-team', 'test', 'lint', 'github-ops', 'terraform', 'bicep', 'design', 'beast-mode', 'rubber-duck', 'translation-conductor', 'gui-tester']
+agents: ['planner', 'implementer', 'reviewer', 'researcher', 'maintainer', 'spec', 'security', 'performance', 'accessibility', 'docs', 'observability', 'visualizer', 'deployment', 'red-team', 'test', 'lint', 'github-ops', 'terraform', 'bicep', 'design', 'beast-mode', 'rubber-duck', 'translation-conductor', 'gui-tester', 'multi-reviewer']
 mcp-servers:
   validation:
     type: stdio
@@ -22,6 +22,18 @@ handoffs:
     prompt: Draft a multi-phase plan using the research findings above.
     model: 'GPT-5 mini (copilot)'
     send: false
+  - label: Quick Change (choose)
+    agent: planner
+    prompt: "Selected planning track: Quick Change. Constraints: [as given]. Proceed with AUTO x1 discovery and draft a minimal plan."
+    send: true
+  - label: Feature Track (choose)
+    agent: planner
+    prompt: "Selected planning track: Feature Track. Constraints: [as given]. Proceed with AUTO x2 discovery and draft a feature-level plan."
+    send: true
+  - label: System Track (choose)
+    agent: planner
+    prompt: "Selected planning track: System Track. Constraints: [as given]. Proceed with PARALLEL x3 discovery and draft a system-level plan."
+    send: true
   - label: Launch Implementation
     agent: implementer
     prompt: Execute Phase 1 of the approved plan following TDD principles.
@@ -81,6 +93,30 @@ handoffs:
     agent: conductor
     prompt: Run trilateral review on the current artifact — dispatch Reviewer, Red Team, and Security in parallel, then synthesize a consensus score.
     send: false
+  - label: Multi-Reviewer Consolidation
+    agent: multi-reviewer
+    prompt: "Run parallel reviewers and consolidate findings. Requesters: [reviewer, reviewer-gpt, reviewer-gemini] (where available). Changes: {provide PR or diff summary}. Return consolidated artifact and HS-QUALITY handoff to Conductor."
+    send: true
+  - label: Run Agent-Button Linter
+    agent: conductor
+    prompt: "Run scripts/lint-agent-buttons.ps1 across the repository and return any agent files that ask user-choice questions but lack clickable handoff buttons. Include a short remediation plan per file."
+    send: true
+  - label: Auto-Open PRs To Add Buttons
+    agent: maintainer
+    prompt: "Run the agent-button linter; for each violation, create a minimal PR that adds a `handoffs:` entry with an appropriate `send: true` button to the agent file. Return a list of created PR URLs."
+    send: true
+  - label: Extend Linter (stricter)
+    agent: maintainer
+    prompt: "Implement a stricter linter that validates option labels against `handoffs` labels, add tests, and add a CI job to run the linter. Create a PR with implementation and tests."
+    send: true
+  - label: Create Durable Decision (run helper)
+    agent: conductor
+    prompt: "Create durable memory entry: run scripts/add-agent-decision.ps1 with parameters. Format: Subject: <short title>; Fact: <one-line fact>; Citations: <paths>; Reason: <short>; Category: <architecture|process|security|ops|other>. Create the markdown under .agent-memory and return the created file path."
+    send: true
+  - label: Add Memory Linting (create PR)
+    agent: maintainer
+    prompt: "Add a lightweight frontmatter linter for .agent-memory entries: create a PowerShell or Node script under scripts/ that validates YAML frontmatter (subject,fact,category,created) and add a CI job that runs it. Open a PR with the changes and include sample failing/pass fixtures."
+    send: true
 ---
 
 # Conductor Agent — Lifecycle Orchestrator
@@ -96,6 +132,8 @@ Follow the guardrails in `instructions/workflows/conductor.instructions.md` and 
 - **Trilateral Review**: For ULTRADEEP or ruin-risk tasks, run Reviewer + Red Team + Security in parallel and synthesize a consensus score. See `review/trilateral-review` prompt.
 - **Circuit Breaker**: Halt execution when ruin-risk operations are detected (file deletions, PII handling, production changes). Require explicit user override before proceeding.
 - **State Management**: Track phase progress, verdicts, and handoff context across multi-turn conversations
+ - **State Management**: Track phase progress, verdicts, and handoff context across multi-turn conversations
+ - **Durable Memory Policy**: The Conductor is the only agent allowed to write durable repo-scoped memory in `.agent-memory/`. All durable writes should use `scripts/add-agent-decision.ps1` (or an approved helper) and be review-committed. Agents should store ephemeral notes in session memory only.
 - **Pause Point Enforcement**: Maintain mandatory checkpoints after plans and reviews for human approval
 - **Risk Surfacing**: Aggregate open questions, compliance checkpoints, and escalation triggers
 
@@ -211,6 +249,10 @@ The conductor uses `#runSubagent` in addition to handoff buttons. Use whichever 
 - **Planning:** `#runSubagent planner "Draft plan for [objective]. Constraints: [list]. Success criteria: [list]."`
 - **Implementation:** `#runSubagent implementer "Execute Phase [N]: [objective]. Files: [list]. TDD. Validate with validation scripts."`
 - **Review:** `#runSubagent reviewer "Review Phase [N] changes. Files: [list]. Acceptance criteria: [list]. Tag findings by severity."`
+ - **Review:** `#runSubagent reviewer "Review Phase [N] changes. Files: [list]. Acceptance criteria: [list]. Tag findings by severity."`
+ - **Multi-review consolidation:** `#runSubagent multi-reviewer "PARALLEL: reviewers=[reviewer,reviewer-gpt,reviewer-gemini]; changes: [PR#123]"`
+   - Handling consolidated results (HS-QUALITY): parse the returned payload for `action` (approve|request-changes|escalate), `findings` (severity, consensus_level, file, line, recommendation) and `subagent_outputs` links. For `request-changes` or `escalate`, auto-create an implementer handoff:
+     - `#runSubagent implementer "Fix BLOCKER findings: [list of file:line]; Priority: BLOCKER first. Re-run multi-reviewer after fixes."`
 - **Research:** `#runSubagent researcher "Investigate [topic]. Context: [why needed]. Deliver: evidence with citations."`
 - **Security gate:** `#runSubagent security "Evaluate [scope] for security/compliance risks. Context: [what changed]."`
 - **Performance check:** `#runSubagent performance "Assess [scope] for runtime/memory/scalability. Context: [change description]."`
