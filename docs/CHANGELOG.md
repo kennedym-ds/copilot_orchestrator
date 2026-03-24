@@ -1,12 +1,36 @@
 title: "Copilot Orchestrator Changelog"
-version: "0.17.0"
-lastUpdated: "2026-03-11"
+version: "0.18.0"
+lastUpdated: "2026-03-24"
 status: stable
 ---
 
 # Changelog
 
 All notable changes are documented here following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
+
+## [0.18.0] - 2026-03-24
+
+### Added
+- **VS Code 1.112 Integration**: Agent diagnostics, monorepo customization discovery, MCP sandboxing, image/binary support
+  - `/troubleshoot` skill (Preview): In-chat analysis of agent debug logs for diagnosing misapplied tools, instructions, or skills
+  - Agent debug log export/import: JSONL export for offline analysis and sharing
+  - Image & binary file support: Agents read images and binary files natively; image carousel view (`chat.imageCarousel.enabled`)
+  - Automatic symbol references: Pasted symbol names auto-convert to `#sym:Name` in chat
+  - Copilot CLI permissions: Autopilot, Bypass Approvals, Default Permissions for CLI sessions
+  - Copilot CLI message steering, pending changes preview, and clickable file links
+  - Monorepo customizations discovery: `chat.useCustomizationsInParentRepositories` for subfolder workspaces
+  - MCP server sandboxing: `"sandboxEnabled": true` in mcp.json (macOS/Linux only)
+  - Improved MCP elicitation UI, plugin/MCP enable/disable, automatic plugin updates
+  - Integrated browser debugging: New `editor-browser` debug type with Launch/Attach configs
+  - Integrated browser UX: Context menus, independent zoom (`workbench.browser.pageZoom`)
+- **VS Code 1.112 Features Section**: Added to `docs/guides/vscode-copilot-configuration.md` (v1.0.0)
+
+### Changed
+- Updated `.vscode/settings.json` with 4 new 1.112 settings (agent debug logging, monorepo discovery, image carousel)
+- Updated `.github/copilot-instructions.md` version reference to 1.108–1.112
+- Updated `AGENTS.md` with 3 new 1.112 subsections (Diagnostics, Extensibility, Developer Experience), version range to 1.108–1.112
+- Updated `docs/guides/vscode-copilot-configuration.md` prerequisites to VS Code 1.112
+- Updated `INSTRUCTION_CHANGELOG.md` with v3.6.0 entry
 
 ## [0.17.0] - 2026-03-11
 

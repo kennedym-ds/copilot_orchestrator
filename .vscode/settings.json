@@ -1,6 +1,6 @@
 {
     // ═══════════════════════════════════════════════════════════
-    // Copilot Orchestrator — VS Code 1.110 Workspace Settings
+    // Copilot Orchestrator — VS Code 1.112 Workspace Settings
     // User setup repo: ensures agents load in all VS Code windows
     // ═══════════════════════════════════════════════════════════
 
@@ -103,6 +103,20 @@
     "chat.useCustomAgentHooks": true,
     // Group AI CLI profiles at top of terminal dropdown
     "terminal.integrated.experimental.aiProfileGrouping": true,
+
+    // ── Agent Diagnostics (1.112 Preview) ────────────────────
+    // Agent debug logging for /troubleshoot skill analysis
+    "github.copilot.chat.agentDebugLog.enabled": true,
+    // Write debug logs to JSONL files on disk for export/import
+    "github.copilot.chat.agentDebugLog.fileLogging.enabled": true,
+
+    // ── Monorepo Support (1.112) ─────────────────────────────
+    // Discover customizations (agents, instructions, skills) from parent Git repos
+    "chat.useCustomizationsInParentRepositories": true,
+
+    // ── Image Support (1.112 Experimental) ───────────────────
+    // Image carousel for agent-generated images (screenshots, diagrams)
+    "chat.imageCarousel.enabled": true,
 
     // ── Notifications (1.110) ────────────────────────────────
     // Notify even when VS Code is focused (useful for long agent tasks)

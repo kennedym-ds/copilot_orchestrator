@@ -1,7 +1,7 @@
 ---
 title: "VS Code Copilot Configuration"
-version: "0.9.0"
-lastUpdated: "2026-03-10"
+version: "1.0.0"
+lastUpdated: "2026-03-24"
 status: stable
 ---
 
@@ -9,7 +9,7 @@ status: stable
 This guide shows how to configure VS Code so the Copilot Orchestrator agents, skills, instructions, and prompts are available in your workspace — and optionally in **every VS Code window** you open.
 
 ## Prerequisites
-- VS Code 1.111 or later (stable channel supports all features including agent autonomy levels, agent-scoped hooks, agent plugins, agentic browser tools, context compaction, session forking, and the Explore subagent).
+- VS Code 1.112 or later (stable channel supports all features including agent diagnostics, monorepo customization discovery, MCP server sandboxing, image/binary file support, agent autonomy levels, agent-scoped hooks, agent plugins, agentic browser tools, context compaction, session forking, and the Explore subagent).
 - Local clone of the `copilot_orchestrator` repository.
 - GitHub Copilot subscription (Individual, Business, or Enterprise).
 
@@ -277,6 +277,63 @@ Auto-generates workspace instruction files based on codebase analysis — accele
 | `terminal.integrated.enableKittyKeyboardProtocol` | `true` | Better key handling (shift+enter in agentic CLIs) |
 | `git.worktreeIncludeFiles` | array | Copies specified files to worktrees for background agents |
 | `inlineChat.affordance` | `"editor"` | Inline chat affordance in editor (changed from boolean to enum in 1.110) |
+
+## VS Code 1.112 Features
+
+### `/troubleshoot` Skill (Preview)
+**Settings:** `github.copilot.chat.agentDebugLog.enabled`, `github.copilot.chat.agentDebugLog.fileLogging.enabled`
+
+Analyzes agent debug logs directly in the conversation to diagnose why tools, subagents, instructions, or skills weren’t applied correctly, or what caused slow responses. Type `/troubleshoot` followed by your question. Both settings must be enabled and VS Code reloaded.
+
+### Agent Debug Log Export/Import
+**Setting:** `github.copilot.chat.agentDebugLog.enabled`
+
+Export and import JSONL debug logs from the Agent Debug Logs panel for sharing and offline analysis. Importing files >50 MB shows a warning. Useful for troubleshooting across teams and archiving session diagnostics.
+
+### Image & Binary File Support
+**Settings:** `chat.imageCarousel.enabled` (Experimental), `imageCarousel.explorerContextMenu.enabled` (Experimental)
+
+Agents can now read image files from disk and binary files (presented in hexdump format). Agent-generated images (e.g., screenshots from the integrated browser) appear in a selectable carousel view. Right-click images/folders in Explorer → **Open Images in Carousel** when the context menu setting is enabled.
+
+### Automatic Symbol References
+When you copy a symbol name (class, function, method) and paste it into chat, VS Code auto-converts it to a `#sym:Name` reference, giving the agent richer context. Use **Paste as Text** (`Ctrl+Shift+V`) to paste without conversion.
+
+### Copilot CLI Enhancements
+- **Permissions Levels**: Default Permissions, Bypass Approvals, and Autopilot now available for Copilot CLI sessions
+- **Message Steering/Queueing**: Send messages while a CLI request is running to steer or queue follow-ups
+- **Pending Changes Preview**: Chat view shows uncommitted changes when delegating to Copilot CLI
+- **Clickable File Links**: Terminal recognizes `~/.copilot/session-state/` paths (`github.copilot.chat.cli.terminalLinks.enabled`, default: `true`)
+
+### Monorepo Customizations Discovery
+**Setting:** `chat.useCustomizationsInParentRepositories` (default: `false`)
+
+In monorepo setups where you open a subfolder, VS Code now discovers customization files from parent folders up to the repository root. Applies to all customization types: `copilot-instructions.md`, `AGENTS.md`, `CLAUDE.md`, instruction files, prompt files, agents, skills, and hooks. Only active when the workspace folder is not itself a Git repository and a parent contains `.git`.
+
+### MCP Server Sandboxing
+Set `"sandboxEnabled": true` for a server in `mcp.json` to restrict file system and network access for locally running stdio MCP servers. When a sandboxed server needs additional access, VS Code prompts for permission.
+
+> **Note:** Sandboxing is only available on macOS and Linux. Not currently available on Windows.
+
+### Improved MCP Elicitation UI
+MCP elicitation forms now use the same UI as the Ask Questions tool for a consistent experience when MCP servers request additional information.
+
+### Plugin & MCP Enable/Disable
+Plugins and MCP servers can now be enabled/disabled globally and per-workspace without uninstalling. Right-click entries in the Extensions view or Chat: Open Customizations view.
+
+### Automatic Plugin Updates
+**Setting:** `extensions.autoUpdate`
+
+Plugins auto-update based on the `extensions.autoUpdate` setting. Plugins from npm and pypi registries require approval before updating, as updates may run new code on your machine.
+
+### Integrated Browser Debugging
+New `editor-browser` debug type for debugging web apps directly in the integrated browser with Launch and Attach configurations. Most options from existing `msedge` and `chrome` debug configs are supported — migration is often as simple as changing the `type` in `launch.json`.
+
+### Integrated Browser UX Improvements
+**Setting:** `workbench.browser.pageZoom`
+
+- **Context menus**: Right-click in browser pages for copy/paste, open in new tab, and inspect
+- **Independent zoom**: Browser has its own zoom level, independent from VS Code window zoom. Zoom remembered per website
+- **Default zoom**: Configure with `workbench.browser.pageZoom` (set to `"Match Window"` or leave unset to match VS Code zoom)
 
 ## VS Code 1.111 Features
 

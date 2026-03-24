@@ -18,6 +18,26 @@ Each entry should include:
 
 ## Changes
 
+### 2026-03-24 - VS Code 1.112 Integration
+
+#### v3.6.0 - VS Code 1.112 Feature Alignment
+**File:** `.vscode/settings.json`, `AGENTS.md`, `.github/copilot-instructions.md`, `docs/guides/vscode-copilot-configuration.md`, `docs/CHANGELOG.md`
+**Type:** Modified (5 files)
+**Description:** Updated orchestrator baseline from VS Code 1.111 to 1.112. Key changes:
+- **Agent Diagnostics**: Added `github.copilot.chat.agentDebugLog.enabled`, `github.copilot.chat.agentDebugLog.fileLogging.enabled` settings for `/troubleshoot` skill
+- **Monorepo Discovery**: Added `chat.useCustomizationsInParentRepositories` setting for subfolder workspace support
+- **Image Support**: Added `chat.imageCarousel.enabled` setting for agent-generated image carousel
+- **MCP Sandboxing**: Documented `sandboxEnabled` option in mcp.json (macOS/Linux only)
+- **Integrated Browser Debugging**: Documented new `editor-browser` debug type
+- **Copilot CLI**: Documented permissions levels, message steering, pending changes preview, and file links
+- **Documentation**: Updated AGENTS.md with 3 new subsections (Diagnostics, Extensibility, Developer Experience); vscode-copilot-configuration.md bumped to v1.0.0 with full 1.112 features section
+**Expected Impact:**
+- Quality: Higher — `/troubleshoot` skill enables self-diagnosis of agent configuration issues; monorepo discovery simplifies multi-package setups
+- Cost: Neutral — no model changes
+- Speed: Faster — debug log analysis and image support reduce manual debugging effort
+**Rollback Plan:** Revert settings.json to 1.111 baseline. Remove 1.112 sections from AGENTS.md, copilot-instructions.md, vscode-copilot-configuration.md. All changes are additive.
+**Metrics:** Track: `/troubleshoot` usage frequency, monorepo discovery adoption, image carousel usage, debug log export/import volume.
+
 ### 2026-03-11 - Agent & Skill Quality Review
 
 #### v3.5.0 - Agent & Skill Structural Normalization

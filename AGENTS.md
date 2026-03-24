@@ -61,9 +61,9 @@ Agents delegate work autonomously using `#runSubagent` with keyword-based routin
 
 ## Agent Sessions Integration
 
-VS Code 1.111 builds on 1.110, adding agent autonomy levels (Autopilot), agent-scoped hooks, debug event snapshots, and improved onboarding tips.
+VS Code 1.112 builds on 1.111, adding agent diagnostics (`/troubleshoot`), monorepo customization discovery, MCP server sandboxing, image/binary file support, and integrated browser debugging.
 
-### Key Features (1.108–1.111)
+### Key Features (1.108–1.112)
 - **Keyboard Navigation**: Navigate sessions with arrow keys, archive with Delete, toggle read state with Space
 - **Session Grouping**: Organize by state (Active, Unread, Read, Archived) or age (Today, Yesterday, This Week, etc.)
 - **Multi-Session Operations**: Shift+Click/Ctrl+Click for batch archiving and state changes
@@ -142,6 +142,27 @@ VS Code 1.111 builds on 1.110, adding agent autonomy levels (Autopilot), agent-s
 - **Search Subagent Improvements**: Search results exempted from disk writes; token usage reporting refined to avoid context widget spam
 - **Session-Specific Autonomy**: Permissions picker applies per-session; step up or down mid-session
 - **Improved Tips**: Overhauled onboarding tips surface foundational features first; `/fork` and `/init` actively promoted
+
+### VS Code 1.112 Agent Diagnostics
+- **`/troubleshoot` Skill (Preview)**: Analyzes agent debug logs in-chat to diagnose why tools, subagents, instructions, or skills weren’t applied. Requires `github.copilot.chat.agentDebugLog.enabled` and `github.copilot.chat.agentDebugLog.fileLogging.enabled`
+- **Debug Log Export/Import**: Export and import JSONL debug logs for sharing and offline analysis. Import warns for files >50 MB
+- **Image & Binary File Support**: Agents can read image files from disk and binary files (hexdump format). Image carousel view (`chat.imageCarousel.enabled`) for agent-generated images
+- **Automatic Symbol References**: Pasting copied symbol names in chat auto-converts to `#sym:Name` references for richer context
+- **Copilot CLI Permissions**: Autopilot, Bypass Approvals, and Default Permissions now available for Copilot CLI sessions
+- **Copilot CLI Message Steering**: Steering and queueing messages extended to Copilot CLI sessions
+- **Copilot CLI Pending Changes Preview**: Chat view shows uncommitted changes when delegating to Copilot CLI
+- **Copilot CLI File Links**: Terminal link detection for `~/.copilot/session-state/` paths (`github.copilot.chat.cli.terminalLinks.enabled`)
+
+### VS Code 1.112 Agent Extensibility
+- **Monorepo Customizations Discovery**: `chat.useCustomizationsInParentRepositories` discovers agents, instructions, skills, and hooks from parent Git repositories when opening a subfolder
+- **MCP Server Sandboxing**: `"sandboxEnabled": true` in `mcp.json` restricts file system and network access for stdio MCP servers (macOS/Linux only; not available on Windows)
+- **Improved MCP Elicitation UI**: Elicitation forms now use the same UI as the Ask Questions tool for consistency
+- **Plugin & MCP Enable/Disable**: Plugins and MCP servers can be enabled/disabled globally and per-workspace without uninstalling
+- **Automatic Plugin Updates**: Plugins auto-update via `extensions.autoUpdate` setting; npm/pypi plugins require approval
+
+### VS Code 1.112 Developer Experience
+- **Integrated Browser Debugging**: New `editor-browser` debug type for debugging web apps in the integrated browser with Launch/Attach configurations
+- **Integrated Browser UX**: Context menus, independent zoom level (`workbench.browser.pageZoom`), per-site zoom memory
 
 ### Workflow Best Practices
 - Start each conductor task in a new session with a descriptive prompt
