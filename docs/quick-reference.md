@@ -73,6 +73,7 @@ Invoke-Pester -Path tests -Output Detailed
   "chat.agent.thinking.terminalTools": true,
   "chat.tools.autoExpandFailures": true,
   "github.copilot.chat.anthropic.thinking.budgetTokens": 10000,
+  "chat.subagents.allowInvocationsFromSubagents": true,
   "chat.viewSessions.enabled": true,
   "chat.viewSessions.orientation": "sideBySide",
   "chat.restoreLastPanelSession": false,

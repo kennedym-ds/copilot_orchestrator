@@ -3,7 +3,7 @@ name: reviewer
 description: "Audits changes for correctness, quality, and policy compliance before handoff."
 argument-hint: "Provide changes to review for correctness, quality, and policy compliance"
 model: 'GPT-5.4 (copilot)'
-agents: ['conductor', 'implementer']
+agents: ['conductor', 'implementer', 'security', 'red-team']
 mcp-servers:
   validation:
     type: stdio

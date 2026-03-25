@@ -28,6 +28,28 @@ Escalation is not failure — it's the Senior Principal Engineer persona in acti
 
 ## Escalation Triggers
 
+### Tier 0.5: Effort Bump (Try Before Model Escalation)
+
+Before escalating from execution-tier to premium-tier, increase thinking effort:
+
+1. **Raise effort from Low → Medium or Medium → High**
+   - Pattern: Agent produces shallow or incomplete output at current effort level
+   - Action: Recommend user adjust thinking effort in model picker for the current model
+   - Rationale: Higher effort adds reasoning tokens at the same pricing tier — cheaper than switching to 3× premium models
+
+2. **Indicators that effort bump is sufficient:**
+   - Problem is well-scoped but requires more careful reasoning
+   - No cross-domain coordination needed (that requires conductor routing)
+   - Single agent can handle the task with deeper thinking
+   - Context window has room for additional thinking tokens
+
+3. **Indicators that effort bump is NOT sufficient:**
+   - Repeated failures even at High effort — escalate to premium model
+   - Task requires capabilities the current model lacks (e.g., extended context)
+   - Cross-cutting concerns requiring multi-agent coordination
+
+> **Cost comparison:** Effort bump costs ~1.5× token estimate at same model price. Model escalation costs 3× multiplier. Always try effort first.
+
 ### Tier 1: Automatic Escalation (Implementer Must Escalate)
 
 Escalate immediately to Conductor (which may invoke premium models) when:

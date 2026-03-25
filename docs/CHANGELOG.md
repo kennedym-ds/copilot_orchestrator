@@ -1,12 +1,38 @@
 title: "Copilot Orchestrator Changelog"
-version: "0.18.0"
-lastUpdated: "2026-03-24"
+version: "0.19.0"
+lastUpdated: "2026-03-25"
 status: stable
 ---
 
 # Changelog
 
 All notable changes are documented here following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
+
+## [0.19.0] - 2026-03-25
+
+### Added
+- **VS Code 1.113 Integration**: Thinking effort cost optimization, nested subagents, MCP in CLI/Claude agents
+  - 5-branch cost structure: Premium-High, Premium-Medium, Execution-Medium, Execution-Low, Routine-None
+  - Tier 0.5 escalation pattern: Effort bump before model-tier escalation
+  - Effort-weighted budget tracking in budget-gatekeeper skill
+  - Recommended thinking effort per agent in model-selection and delegation-routing docs
+  - Nested subagents (`chat.subagents.allowInvocationsFromSubagents`): implementer→test/lint, reviewer→security/red-team, beast-mode→researcher
+  - Nested delegation rules with depth limits and logging requirements
+  - MCP server bridging to Copilot CLI and Claude agent sessions
+  - Chat Customizations editor (Preview), session forking in CLI, plugin URL handlers
+  - Image preview with full viewer, new default themes
+- **VS Code 1.113 Features Section**: Added to `AGENTS.md` with Agent Experience and Cost Optimization subsections
+
+### Changed
+- Updated `instructions/global/03_model-selection.instructions.md` with Thinking Effort Allocation section and per-agent effort recommendations
+- Updated `instructions/workflows/escalation-patterns.instructions.md` with Tier 0.5 effort bump pattern
+- Updated `.github/skills/budget-gatekeeper/SKILL.md` with effort-weighted token estimates and effort profile tracking
+- Updated `.github/skills/delegation-routing/SKILL.md` with effort column in routing tables and nested delegation section
+- Updated `implementer.agent.md` agents allowlist: added `test`, `lint`
+- Updated `reviewer.agent.md` agents allowlist: added `security`, `red-team`
+- Updated `beast-mode.agent.md` agents allowlist: added `conductor`, `researcher`
+- Added `chat.subagents.allowInvocationsFromSubagents: true` to settings in README, quick-reference, vscode-copilot-configuration
+- Marked `github.copilot.chat.anthropic.thinking.effort` and `responsesApiReasoningEffort` as deprecated (1.113)
 
 ## [0.18.0] - 2026-03-24
 

@@ -18,6 +18,36 @@ Each entry should include:
 
 ## Changes
 
+### 2026-03-25 - VS Code 1.113 Integration
+
+#### v3.7.0 - Thinking Effort Cost Architecture & Nested Subagents
+**Files:**
+- `instructions/global/03_model-selection.instructions.md`
+- `instructions/workflows/escalation-patterns.instructions.md`
+- `.github/skills/budget-gatekeeper/SKILL.md`
+- `.github/skills/delegation-routing/SKILL.md`
+- `.github/agents/implementer.agent.md`
+- `.github/agents/reviewer.agent.md`
+- `.github/agents/beast-mode.agent.md`
+- `AGENTS.md`, `README.md`, `docs/quick-reference.md`
+- `docs/guides/vscode-copilot-configuration.md`, `docs/CHANGELOG.md`
+
+**Type:** Modified (12 files), Added (1 plan)
+**Description:** Integrated VS Code 1.113 features with focus on cost optimization:
+- **5-Branch Cost Structure**: Layered configurable thinking effort (Low/Medium/High) onto 3-tier model allocation, creating Premium-High, Premium-Medium, Execution-Medium, Execution-Low, Routine-None branches
+- **Tier 0.5 Escalation**: New "effort bump" pattern — increase thinking effort before escalating to premium model tier
+- **Effort-Weighted Budget Tracking**: Budget gatekeeper now tracks effort distribution with weighted token estimates (Low=0.7×, Medium=1×, High=1.5×)
+- **Recommended Effort per Agent**: All 29 agents assigned recommended thinking effort levels in model-selection and delegation-routing docs
+- **Nested Subagents**: Enabled `chat.subagents.allowInvocationsFromSubagents` — implementer→test/lint, reviewer→security/red-team, beast-mode→researcher
+- **Deprecation Cleanup**: Noted `github.copilot.chat.anthropic.thinking.effort` and `responsesApiReasoningEffort` deprecated in favor of model picker
+**Expected Impact:**
+- Cost: ~15-25% token savings by right-sizing effort per agent
+- Quality: Maintained or improved — High effort reserved for security, beast-mode, red-team
+- Speed: Reduced latency for Low-effort agents (docs, deployment, github-ops)
+- Autonomy: Nested subagents save 1-2 conductor round-trips per workflow
+**Rollback Plan:** Revert agent allowlist changes and remove effort guidance from instruction files. Nested subagent setting is off by default — toggling it off restores prior behavior.
+**Metrics:** Track effort distribution per session, premium-tier call reduction, per-delegation token estimates
+
 ### 2026-03-24 - VS Code 1.112 Integration
 
 #### v3.6.0 - VS Code 1.112 Feature Alignment

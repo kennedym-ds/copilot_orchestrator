@@ -164,6 +164,24 @@ VS Code 1.112 builds on 1.111, adding agent diagnostics (`/troubleshoot`), monor
 - **Integrated Browser Debugging**: New `editor-browser` debug type for debugging web apps in the integrated browser with Launch/Attach configurations
 - **Integrated Browser UX**: Context menus, independent zoom level (`workbench.browser.pageZoom`), per-site zoom memory
 
+### VS Code 1.113 Agent Experience
+- **Nested Subagents**: `chat.subagents.allowInvocationsFromSubagents` enables subagents to invoke other subagents (max depth 5). Implementer can directly invoke test/lint; reviewer can directly invoke security/red-team without conductor relay.
+- **Configurable Thinking Effort**: Model picker exposes Low/Medium/High effort submenu for reasoning models. Controls thinking token budget per request. Effort level persists per-model across conversations. Replaces deprecated `github.copilot.chat.anthropic.thinking.effort` and `github.copilot.chat.responsesApiReasoningEffort` settings.
+- **MCP in Copilot CLI & Claude Agents**: MCP servers configured in VS Code now bridge to Copilot CLI and Claude agent sessions. All 8 workspace MCP servers are available in CLI sessions.
+- **Chat Customizations Editor** (Preview): Centralized UI for managing all chat customizations (instructions, prompts, agents, skills). Open via Configure Chat gear icon or `Chat: Open Chat Customizations`.
+- **Session Forking in CLI & Claude Agents**: `/fork` now available in Copilot CLI and Claude agent sessions. Setting: `github.copilot.chat.cli.forkSessions.enabled`.
+- **Agent Debug Logs for CLI**: Agent Debug Log panel now works for Copilot CLI and Claude agent sessions.
+- **Claude Session Listing via SDK**: VS Code adopts official Claude agent SDK APIs for session and message listing, replacing JSONL file parsing.
+- **Plugin Marketplace Management**: `Chat: Manage Plugin Marketplaces` command for browsing, opening, and removing plugin sources.
+- **Plugin URL Handlers**: Install plugins via `vscode://chat-plugin/install?source=<source>` URLs.
+- **Images Preview**: Full image viewer for chat attachments with navigation, zoom, and pan. Settings: `imageCarousel.chat.enabled`, `imageCarousel.explorerContextMenu.enabled`.
+- **New Default Themes**: "VS Code Light" and "VS Code Dark" replace the previous Modern themes.
+
+### VS Code 1.113 Cost Optimization
+- **5-Branch Cost Structure**: Thinking effort layered onto the 3-tier model allocation creates 5 effective cost branches: Premium-High, Premium-Medium, Execution-Medium, Execution-Low, Routine-None. See `instructions/global/03_model-selection.instructions.md`.
+- **Effort Before Escalation**: New Tier 0.5 escalation pattern — increase thinking effort before switching model tiers. See `instructions/workflows/escalation-patterns.instructions.md`.
+- **Effort-Weighted Budget Tracking**: Budget gatekeeper now tracks effort distribution and uses effort-weighted token estimates. See `budget-gatekeeper` skill.
+
 ### Workflow Best Practices
 - Start each conductor task in a new session with a descriptive prompt
 - Keep session active through all phases (Planning → Implementation → Review)

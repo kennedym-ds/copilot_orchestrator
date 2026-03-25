@@ -276,6 +276,74 @@ Conductor may override default model assignment when:
    - Track success rates by model-task pairs
    - Switch to proven alternatives when patterns emerge
 
+## Thinking Effort Allocation (VS Code 1.113+)
+
+VS Code 1.113 introduced configurable thinking effort in the model picker. Reasoning models (Opus 4.6, Sonnet 4.6, GPT-5.4) now expose a Low/Medium/High effort submenu that controls how much internal reasoning the model performs per request. Higher effort = more thinking tokens = higher latency and token consumption within the same pricing tier.
+
+> **Deprecated:** `github.copilot.chat.anthropic.thinking.effort` and `github.copilot.chat.responsesApiReasoningEffort` are deprecated as of 1.113. Configure effort via the model picker only.
+
+### 5-Branch Cost Structure
+
+Layering thinking effort onto the 3-tier model allocation creates 5 effective cost branches:
+
+| Branch | Model + Effort | Effective Token Weight | Target Agents | When to Use |
+|--------|----------------|------------------------|---------------|-------------|
+| **Premium-High** | Opus 4.6 · High | 3× + heavy thinking | Security | Threat modeling, deep compliance review, complex architecture |
+| **Premium-Medium** | Opus 4.6 · Medium | 3× + standard thinking | Conductor, Planner | Orchestration, strategy, multi-domain synthesis |
+| **Execution-Medium** | GPT-5.4 · Medium / Sonnet 4.6 · Medium | 1× + standard thinking | Implementer, Reviewer, Test, Beast Mode, Red Team, Spec, Researcher, Performance | Implementation, code review, TDD, deep analysis |
+| **Execution-Low** | GPT-5.4 · Low / Sonnet 4.6 · Low | 1× + minimal thinking | Docs, Observability, Deployment, GitHub Ops, Maintainer, Accessibility, Design, Terraform, Bicep, GUI Tester, Translation sub-agents | Structured tasks, documentation, routine operations |
+| **Routine-None** | Haiku 4.5 (no reasoning) | 0.33× | Lint, Rubber Duck, Visualizer | Formatting, conversational debugging, diagrams |
+
+### Recommended Effort by Agent
+
+| Agent | Model | Recommended Effort | Rationale |
+|-------|-------|--------------------|-----------|
+| Conductor | Opus 4.6 | Medium | Orchestration needs balanced reasoning; High only for ULTRADEEP complexity |
+| Planner | Opus 4.6 | Medium | Strategy drafting benefits from reasoning but rarely needs maximum depth |
+| Security | Opus 4.6 | High | Threat modeling and compliance require exhaustive reasoning |
+| Implementer | GPT-5.4 | Medium | Code generation benefits from moderate reasoning for edge cases |
+| Reviewer | GPT-5.4 | Medium | Quality gates need reasoning to catch subtle bugs |
+| Test | GPT-5.4 | Medium | TDD requires reasoning about edge cases and coverage |
+| Beast Mode | GPT-5.4 | High | Extended reasoning is the entire point of this agent |
+| Red Team | GPT-5.4 | High | Adversarial analysis requires exhaustive thinking |
+| Spec | GPT-5.4 | Medium | Requirements elicitation needs balanced reasoning |
+| Researcher | GPT-5.4 | Medium | Synthesis and evidence evaluation need moderate depth |
+| Performance | GPT-5.4 | Medium | Analysis benefits from reasoning about algorithmic complexity |
+| Docs | GPT-5.4 | Low | Documentation is structured; deep reasoning rarely needed |
+| Observability | GPT-5.4 | Low | Telemetry config is pattern-driven |
+| Deployment | GPT-5.4 | Low | CI/CD review follows established patterns |
+| GitHub Ops | GPT-5.4 | Low | PR/issue management is procedural |
+| Maintainer | GPT-5.4 | Low | Triage and release logistics are routine |
+| Accessibility | GPT-5.4 | Low | WCAG checks follow well-defined rulesets |
+| Design | GPT-5.4 | Low | Design token queries are structured lookups |
+| Terraform | GPT-5.4 | Low | IaC follows established patterns |
+| Bicep | GPT-5.4 | Low | Azure IaC follows established patterns |
+| GUI Tester | GPT-5.4 | Low | Browser automation scripts are procedural |
+| Translation Conductor | Sonnet 4.6 | Medium | Orchestration of 6-phase lifecycle |
+| Translator | GPT-5.4 | Low | File-level translation follows pattern mapping |
+| Translation Analyzer | GPT-5.4 | Low | Dependency graph analysis is structural |
+| Translation Validator | GPT-5.4 | Low | Validation stack is rule-based |
+| Translation Styler | GPT-5.4 | Low | Idiom application follows target-language patterns |
+| Lint | Haiku 4.5 | N/A | Non-reasoning model |
+| Rubber Duck | Haiku 4.5 | N/A | Non-reasoning model |
+| Visualizer | Haiku 4.5 | N/A | Non-reasoning model |
+
+### Dynamic Effort Override
+
+The conductor may recommend users adjust effort when:
+
+1. **Escalate effort** (e.g., Medium → High):
+   - Implementer hits repeated test failures requiring deeper analysis
+   - Reviewer encounters architecturally complex changes
+   - Researcher faces contradictory evidence requiring synthesis
+
+2. **Reduce effort** (e.g., Medium → Low):
+   - Execution-tier agent performing routine sub-task (simple file reads, straightforward edits)
+   - Budget gatekeeper in Yellow Zone — reduce effort before escalating model tier
+   - Task is well-defined with clear acceptance criteria and no ambiguity
+
+> **Effort before escalation:** When an agent struggles at its current tier, first try increasing thinking effort before escalating to a higher-cost model. This is cheaper than switching from Execution → Premium tier.
+
 ## Resilience Best Practices
 
 1. **Graceful degradation:**
@@ -287,6 +355,7 @@ Conductor may override default model assignment when:
    - Track costs by model and agent
    - Alert when premium (3×) usage exceeds 15% (target is 10%)
    - Optimize prompt efficiency to reduce token usage
+   - Monitor thinking effort distribution — High effort should be reserved for security, beast-mode, and red-team
 
 3. **Quality assurance:**
    - Review outputs from fallback models more carefully

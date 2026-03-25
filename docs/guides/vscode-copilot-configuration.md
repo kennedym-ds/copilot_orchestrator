@@ -65,6 +65,7 @@ Use this configuration to make all 29 orchestrator agents available in **any VS 
      "chat.useAgentSkills": true,
      "chat.agentCustomizationSkill.enabled": true,
      "chat.customAgentInSubagent.enabled": true,
+     "chat.subagents.allowInvocationsFromSubagents": true,
      "chat.askQuestions.enabled": true,
      "github.copilot.chat.copilotMemory.enabled": true,
      "github.copilot.chat.searchSubagent.enabled": true,
@@ -79,6 +80,8 @@ Use this configuration to make all 29 orchestrator agents available in **any VS 
      "chat.agent.thinking.terminalTools": true,
      "chat.tools.autoExpandFailures": true,
      "github.copilot.chat.anthropic.thinking.budgetTokens": 10000,
+     // Thinking effort is now configured via model picker (1.113+).
+     // github.copilot.chat.anthropic.thinking.effort and responsesApiReasoningEffort are deprecated.
      "github.copilot.chat.anthropic.toolSearchTool.enabled": true,
      "github.copilot.chat.anthropic.contextEditing.enabled": true,
 

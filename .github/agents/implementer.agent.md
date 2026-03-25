@@ -3,7 +3,7 @@ name: implementer
 description: "Executes the approved plan, making disciplined, tested code changes."
 argument-hint: "Specify the phase or task to implement with TDD approach"
 model: 'GPT-5.4 (copilot)'
-agents: ['conductor', 'reviewer', 'researcher']
+agents: ['conductor', 'reviewer', 'researcher', 'test', 'lint']
 mcp-servers:
   validation:
     type: stdio

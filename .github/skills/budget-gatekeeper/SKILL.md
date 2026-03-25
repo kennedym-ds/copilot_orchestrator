@@ -73,8 +73,33 @@ The conductor maintains a budget state block in its internal tracking, updated a
 - **Premium Calls:** {used}/{limit}
 - **Est. Tokens:** ~{used}K / {limit}K
 - **Session Time:** {elapsed} min / {limit} min
+- **Effort Profile:** {High: N, Medium: N, Low: N}
 - **Zone:** 🟢 Green | 🟡 Yellow (soft limit) | 🔴 Red (hard limit)
 ```
+
+### Effort-Weighted Token Estimates
+
+Thinking effort affects token consumption within the same pricing tier. Use these weights for budget estimation:
+
+| Effort Level | Thinking Token Weight | Typical Use |
+|-------------|----------------------|-------------|
+| None | 0× (no thinking) | Routine-tier agents (Haiku) |
+| Low | 0.7× baseline | Docs, Ops, Translation sub-agents |
+| Medium | 1× baseline | Implementer, Reviewer, Test (default) |
+| High | 1.5× baseline | Security, Beast Mode, Red Team |
+
+When tracking estimated session tokens, multiply the base estimate by the effort weight:
+- A Medium-effort delegation to implementer: ~25K tokens × 1.0 = ~25K
+- A High-effort delegation to security: ~25K tokens × 1.5 = ~37.5K
+- A Low-effort delegation to docs: ~25K tokens × 0.7 = ~17.5K
+
+#### Yellow Zone Cost Saving via Effort Reduction
+
+When approaching budget limits, reduce effort before switching model tiers:
+
+1. Switch Execution-Medium agents to Execution-Low (save ~30% thinking tokens)
+2. Switch Premium-Medium agents to Premium-Low only for non-critical orchestration
+3. Reserve High effort for security and adversarial reviews only
 
 ### Enforcement Patterns
 

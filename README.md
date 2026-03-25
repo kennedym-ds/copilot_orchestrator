@@ -44,6 +44,7 @@ Add these settings to your user or workspace `settings.json`:
    "chat.useClaudeSkills": true,
    "chat.agentCustomizationSkill.enabled": true,
    "chat.customAgentInSubagent.enabled": true,
+   "chat.subagents.allowInvocationsFromSubagents": true,
    "github.copilot.chat.searchSubagent.enabled": true,
    "github.copilot.chat.customAgents.showOrganizationAndEnterpriseAgents": true,
    "github.copilot.chat.cli.customAgents.enabled": true,
@@ -54,6 +55,8 @@ Add these settings to your user or workspace `settings.json`:
    "chat.tools.autoExpandFailures": true,
    "chat.askQuestions.enabled": true,
    "github.copilot.chat.anthropic.thinking.budgetTokens": 10000,
+   // Note: github.copilot.chat.anthropic.thinking.effort and responsesApiReasoningEffort are deprecated in 1.113.
+   // Configure thinking effort via the model picker submenu instead.
    "github.copilot.chat.anthropic.toolSearchTool.enabled": true,
    "github.copilot.chat.anthropic.contextEditing.enabled": true,
    "github.copilot.chat.copilotMemory.enabled": true,
