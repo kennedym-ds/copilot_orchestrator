@@ -9,7 +9,7 @@ status: stable
 This guide shows how to configure VS Code so the Copilot Orchestrator agents, skills, instructions, and prompts are available in your workspace — and optionally in **every VS Code window** you open.
 
 ## Prerequisites
-- VS Code 1.112 or later (stable channel supports all features including agent diagnostics, monorepo customization discovery, MCP server sandboxing, image/binary file support, agent autonomy levels, agent-scoped hooks, agent plugins, agentic browser tools, context compaction, session forking, and the Explore subagent).
+- VS Code 1.114 or later (stable channel supports all features including simplified workspace search, video carousel, cross-session troubleshooting, agent diagnostics, monorepo customization discovery, MCP server sandboxing, image/binary file support, agent autonomy levels, agent-scoped hooks, agent plugins, agentic browser tools, context compaction, session forking, and the Explore subagent).
 - Local clone of the `copilot_orchestrator` repository.
 - GitHub Copilot subscription (Individual, Business, or Enterprise).
 
@@ -280,6 +280,41 @@ Auto-generates workspace instruction files based on codebase analysis — accele
 | `terminal.integrated.enableKittyKeyboardProtocol` | `true` | Better key handling (shift+enter in agentic CLIs) |
 | `git.worktreeIncludeFiles` | array | Copies specified files to worktrees for background agents |
 | `inlineChat.affordance` | `"editor"` | Inline chat affordance in editor (changed from boolean to enum in 1.110) |
+
+## VS Code 1.114 Features
+
+### Workspace Search Simplification
+The `#codebase` tool is now purely semantic search — no more fuzzy text fallback. The local/remote index distinction has been removed; indexing is automatic and managed by VS Code. Agents get faster, more consistent context without any user configuration.
+
+**What changed:**
+- `#codebase` always returns semantic results (no fuzzy fallback)
+- No more local vs remote index management — single "indexed or not" state
+- Workspaces previously using local indexes may require reindexing
+- `github.copilot.chat.advanced.workspace.codeSearchExternalIngest.enabled` may no longer be necessary (auto-managed)
+
+### Video Carousel
+**Settings:** `imageCarousel.chat.enabled`, `imageCarousel.explorerContextMenu.enabled`
+
+The image carousel now supports video playback with controls and thumbnail navigation. Videos from chat attachments or the Explorer context menu play inline with the same carousel UI used for images.
+
+### Copy Final Response
+New context menu command in the Chat view copies only the final Markdown section of an agent response — excludes thinking process and tool calls. Useful for sharing conductor deliverables, plan summaries, or review findings.
+
+### Troubleshoot Previous Sessions
+**Settings:** `github.copilot.chat.agentDebugLog.enabled`, `github.copilot.chat.agentDebugLog.fileLogging.enabled`
+
+The `/troubleshoot` skill can now reference any previous chat session using `#session`. Attach a session via `+` (Add Context) > Sessions, or include `#session` in the troubleshoot prompt to open a session picker.
+
+### Claude Agent Group Policy (Enterprise)
+**Setting:** `github.copilot.chat.claudeAgent.enabled` (managed by `Claude3PIntegration` group policy)
+
+Administrators can disable the Claude agent integration via device management group policy. When applied, users cannot override the setting.
+
+### Fine-grained Tool Approval (Proposed API)
+Proposed `approveCombination` property on `LanguageModelToolConfirmationMessages` scopes approval to specific argument combinations — e.g., approving `editor.action.formatDocument` without approving all VS Code commands. Relevant to our tool-approval-policy when this graduates from proposed.
+
+### TypeScript 6.0
+Built-in JavaScript and TypeScript support now uses TypeScript 6.0, which deprecates a number of older options in preparation for the TypeScript 7.0 native rewrite.
 
 ## VS Code 1.112 Features
 

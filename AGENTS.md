@@ -61,9 +61,9 @@ Agents delegate work autonomously using `#runSubagent` with keyword-based routin
 
 ## Agent Sessions Integration
 
-VS Code 1.112 builds on 1.111, adding agent diagnostics (`/troubleshoot`), monorepo customization discovery, MCP server sandboxing, image/binary file support, and integrated browser debugging.
+VS Code 1.114 builds on 1.113, streamlining the chat experience with simplified workspace search, video carousel support, cross-session troubleshooting, and a Copy Final Response command.
 
-### Key Features (1.108–1.112)
+### Key Features (1.108–1.114)
 - **Keyboard Navigation**: Navigate sessions with arrow keys, archive with Delete, toggle read state with Space
 - **Session Grouping**: Organize by state (Active, Unread, Read, Archived) or age (Today, Yesterday, This Week, etc.)
 - **Multi-Session Operations**: Shift+Click/Ctrl+Click for batch archiving and state changes
@@ -181,6 +181,18 @@ VS Code 1.112 builds on 1.111, adding agent diagnostics (`/troubleshoot`), monor
 - **5-Branch Cost Structure**: Thinking effort layered onto the 3-tier model allocation creates 5 effective cost branches: Premium-High, Premium-Medium, Execution-Medium, Execution-Low, Routine-None. See `instructions/global/03_model-selection.instructions.md`.
 - **Effort Before Escalation**: New Tier 0.5 escalation pattern — increase thinking effort before switching model tiers. See `instructions/workflows/escalation-patterns.instructions.md`.
 - **Effort-Weighted Budget Tracking**: Budget gatekeeper now tracks effort distribution and uses effort-weighted token estimates. See `budget-gatekeeper` skill.
+
+### VS Code 1.114 Chat Streamlining
+- **Workspace Search Simplification**: `#codebase` is now purely semantic search — no more fuzzy text fallback. Local/remote index distinction removed; indexing is automatic. Agents get faster, more consistent context.
+- **Video Carousel**: Image carousel (`imageCarousel.chat.enabled`, `imageCarousel.explorerContextMenu.enabled`) now supports video playback with controls and thumbnail navigation.
+- **Copy Final Response**: New context menu command copies only the final Markdown section of an agent response (excludes thinking/tool calls). Useful for sharing conductor deliverables.
+- **Troubleshoot Previous Sessions**: `/troubleshoot` + `#session` can reference any previous chat session for post-hoc diagnosis. Also available via `+` (Add Context) > Sessions.
+
+### VS Code 1.114 Enterprise & Ecosystem
+- **Claude Agent Group Policy**: Administrators can disable Claude agent integration via `Claude3PIntegration` group policy key. Setting: `github.copilot.chat.claudeAgent.enabled`.
+- **Fine-grained Tool Approval (Proposed API)**: `approveCombination` property on `LanguageModelToolConfirmationMessages` scopes approval to specific argument combinations — e.g., approving `formatDocument` without approving all VS Code commands.
+- **TypeScript 6.0**: Built-in TypeScript support upgraded; deprecates older options ahead of TypeScript 7.0 native rewrite.
+- **MCP Env Var Resolution Fix**: Environment variables in agent plugin MCP server definitions now resolve correctly.
 
 ### Workflow Best Practices
 - Start each conductor task in a new session with a descriptive prompt

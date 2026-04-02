@@ -18,6 +18,39 @@ Each entry should include:
 
 ## Changes
 
+### 2026-04-02 - VS Code 1.114 Integration
+
+#### v3.8.0 - Chat Streamlining & Enterprise Controls
+**Files:**
+- `AGENTS.md`
+- `.github/copilot-instructions.md`
+- `.vscode/settings.json`
+- `docs/guides/vscode-copilot-configuration.md`
+- `docs/CHANGELOG.md`
+
+**Change Type:** Modified
+
+**Description:**
+VS Code 1.114 integration — a streamlining release focused on chat experience improvements:
+- Documented workspace search simplification (`#codebase` now purely semantic, auto-managed indexing)
+- Added video carousel support documentation (`imageCarousel.explorerContextMenu.enabled`)
+- Documented Copy Final Response context menu command for sharing conductor deliverables
+- Documented cross-session troubleshooting (`/troubleshoot` + `#session`)
+- Documented Claude Agent Group Policy (`Claude3PIntegration`) for enterprise control
+- Noted Fine-grained Tool Approval proposed API (`approveCombination`) for future tool-approval-policy updates
+- Noted TypeScript 6.0 upgrade and MCP env var resolution fix
+- Updated version references across all documentation files to 1.108–1.114
+- Audited `.github/prompts/` for deprecated prompt attribute spellings — none found
+
+**Expected Impact:**
+- Quality: Neutral — streamlining release, no behavioral changes to agents
+- Cost: Neutral — no model changes
+- Speed: Slightly faster — simplified workspace search should provide more consistent context
+
+**Rollback Plan:** Revert settings.json to 1.112 baseline. Remove 1.114 sections from AGENTS.md, copilot-instructions.md, vscode-copilot-configuration.md. All changes are additive.
+
+**Metrics:** Track: workspace search quality (semantic consistency), video carousel usage, Copy Final Response adoption.
+
 ### 2026-03-25 - VS Code 1.113 Integration
 
 #### v3.7.0 - Thinking Effort Cost Architecture & Nested Subagents

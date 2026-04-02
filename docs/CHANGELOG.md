@@ -1,12 +1,32 @@
 title: "Copilot Orchestrator Changelog"
-version: "0.19.0"
-lastUpdated: "2026-03-25"
+version: "0.20.0"
+lastUpdated: "2026-04-02"
 status: stable
 ---
 
 # Changelog
 
 All notable changes are documented here following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
+
+## [0.20.0] - 2026-04-02
+
+### Added
+- **VS Code 1.114 Integration**: Chat streamlining — simplified workspace search, video carousel, cross-session troubleshooting, Copy Final Response
+  - Workspace search simplification: `#codebase` now purely semantic, no fuzzy fallback; auto-managed indexing replaces local/remote distinction
+  - Video carousel: `imageCarousel.chat.enabled` and `imageCarousel.explorerContextMenu.enabled` now support video playback with controls
+  - Copy Final Response: context menu command copies only the final Markdown section (excludes thinking/tool calls)
+  - Troubleshoot previous sessions: `/troubleshoot` + `#session` references any past chat session for post-hoc diagnosis
+  - Claude Agent Group Policy: `Claude3PIntegration` policy key for enterprise control of Claude agent integration
+  - Fine-grained tool approval (Proposed API): `approveCombination` scopes approval to specific argument combinations
+  - TypeScript 6.0: Built-in TS support upgraded; deprecates older options ahead of TS 7.0 native rewrite
+  - MCP env var resolution fix: Environment variables in agent plugin MCP server definitions now resolve correctly
+- **VS Code 1.114 Features Section**: Added to `docs/guides/vscode-copilot-configuration.md` and `AGENTS.md`
+
+### Changed
+- Updated `.vscode/settings.json` header to 1.114; added `imageCarousel.explorerContextMenu.enabled: true`
+- Updated `.github/copilot-instructions.md` version reference to 1.108–1.114
+- Updated `AGENTS.md` with 2 new 1.114 subsections (Chat Streamlining, Enterprise & Ecosystem), version range to 1.108–1.114
+- Updated `docs/guides/vscode-copilot-configuration.md` prerequisites to VS Code 1.114
 
 ## [0.19.0] - 2026-03-25
 

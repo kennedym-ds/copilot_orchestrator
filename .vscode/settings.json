@@ -1,6 +1,6 @@
 {
     // ═══════════════════════════════════════════════════════════
-    // Copilot Orchestrator — VS Code 1.112 Workspace Settings
+    // Copilot Orchestrator — VS Code 1.114 Workspace Settings
     // User setup repo: ensures agents load in all VS Code windows
     // ═══════════════════════════════════════════════════════════
 
@@ -117,6 +117,8 @@
     // ── Image Support (1.112 Experimental) ───────────────────
     // Image carousel for agent-generated images (screenshots, diagrams)
     "chat.imageCarousel.enabled": true,
+    // 1.114: Video support + Explorer context menu integration
+    "imageCarousel.explorerContextMenu.enabled": true,
 
     // ── Notifications (1.110) ────────────────────────────────
     // Notify even when VS Code is focused (useful for long agent tasks)
@@ -134,8 +136,6 @@
     "chat.tools.terminal.preventShellHistory": true,
     // 1.110: Collapsible terminal tool calls (reduces visual noise)
     "chat.tools.terminal.simpleCollapsible": true,
-    // 1.110: Terminal sandboxing (Preview) — restrict agent terminal access
-    "chat.tools.terminal.sandbox.enabled": true,
     // 1.109: Kitty keyboard protocol (better key handling in terminal apps)
     "terminal.integrated.enableKittyKeyboardProtocol": true,
     // 1.110: Kitty graphics protocol (image rendering in terminal)
@@ -192,5 +192,6 @@
                 "copilot/gpt-5.3-codex"
             ]
         }
-    }
+    },
+    "chat.agent.sandbox": true
 }
