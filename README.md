@@ -1,7 +1,7 @@
 ---
 title: "Copilot Orchestrator"
-version: "2.1.0"
-lastUpdated: "2026-03-10"
+version: "3.0.0"
+lastUpdated: "2026-04-16"
 status: stable
 ---
 
@@ -11,7 +11,7 @@ status: stable
 
 # Copilot Orchestrator
 
-A multi-agent orchestration system for GitHub Copilot. Provides a structured workflow (conductor → planner → implementer → reviewer → completion) with 29 specialized agents, reusable skills, and validation tooling.
+A multi-agent orchestration system for GitHub Copilot. Provides a structured workflow (conductor → planner → implementer → reviewer → completion) with 16 specialized agents (11 core + 5 translation), reusable skills, and validation tooling.
 
 Use as a shared configuration source across workspaces. Point VS Code at this repo and all projects inherit consistent agent behaviors, tool permissions, and lifecycle guardrails.
 
@@ -19,12 +19,12 @@ Use as a shared configuration source across workspaces. Point VS Code at this re
 
 | Asset | Count | Location |
 |-------|-------|----------|
-| Agents | 29 | `.github/agents/` |
-| Skills | 17 | `.github/skills/` |
+| Agents | 16 | `.github/agents/` |
+| Skills | 12 | `.github/skills/` |
 | Prompt templates | 22 | `.github/prompts/` |
-| Instruction files | 37 | `instructions/` |
+| Instruction files | 15 | `instructions/` |
 | Validation scripts | 6 | `scripts/` |
-| MCP servers | 8 | `scripts/mcp/` |
+| MCP servers | 6 | `scripts/mcp/` |
 
 ## Quick Start
 
@@ -112,9 +112,9 @@ The orchestrator ships three branches, each targeting a different cost profile. 
 
 | Branch | Cost | Primary Model | Secondary Model | Use Case |
 |--------|------|---------------|-----------------|----------|
-| `main` | Premium | GPT-5.4 (22 agents), Claude Opus 4.6 (3) | Claude Sonnet 4.6 (1), Claude Haiku 4.5 (3) | Full capability — optimized per agent role |
-| `low-cost` | Budget | Claude Sonnet 4.6 (3 agents), Claude Haiku 4.5 (26) | — | ~64% savings — Opus→Sonnet 4.6, rest→Haiku 4.5 |
-| `free-cost` | Zero (0×) | GPT-5 mini | GPT-4.1 | Zero premium requests — 24 agents on GPT-5 mini, 5 on GPT-4.1 |
+| `main` | Premium | Claude Opus 4.6 (3 agents), Claude Sonnet 4.6 (11), Claude Haiku 4.5 (2) | — | Full capability — optimized per agent role |
+| `low-cost` | Budget | Claude Sonnet 4.6 (3 agents), Claude Haiku 4.5 (13) | — | ~64% savings — Opus→Sonnet 4.6, Sonnet→Haiku 4.5 |
+| `free-cost` | Zero (0×) | GPT-5 mini | GPT-4.1 | Zero premium requests — all agents on GPT-5 mini or GPT-4.1 |
 
 ### How It Works
 
@@ -129,63 +129,41 @@ The orchestrator ships three branches, each targeting a different cost profile. 
    git checkout main        # Premium tier
    ```
 
-### Free-Cost Agent Allocation
-
-| Model | Agents | Rationale |
-|-------|--------|-----------|
-| GPT-5 mini | 24 agents (conductor, planner, implementer, reviewer, researcher, security, performance, red-team, etc.) | Strongest 0× model — SWE-bench 71%, COLLIE 98.5% instruction following |
-| GPT-4.1 | 5 agents (docs, lint, rubber-duck, visualizer, gui-tester) | Speed-first tasks where deep reasoning is unnecessary |
-
-> See [artifacts/research/0x-model-benchmark-report.md](artifacts/research/0x-model-benchmark-report.md) for the full benchmark analysis behind these assignments.
-
 > **Deep dive:** [Three Branches, One Codebase](docs/guides/branching-for-copilot-cost-optimization.md) — explains the design choices, sync mechanism, and lessons learned.
 
 ## Agent Roster
 
-29 specialized agents across three model tiers. Push to `main` and the `low-cost` / `free-cost` branches sync automatically. See [Model Tiers](#model-tiers) for details.
+16 specialized agents across three model tiers. Push to `main` and the `low-cost` / `free-cost` branches sync automatically. See [Model Tiers](#model-tiers) for details.
 
-| Agent | Category | Main (Premium) | Low-Cost (Budget) | Free-Cost (0×) |
-|-------|----------|----------------|--------------------|--------------------|
-| Conductor | Core | Claude Opus 4.6 | Claude Sonnet 4.6 | GPT-5 mini |
-| Planner | Core | Claude Opus 4.6 | Claude Sonnet 4.6 | GPT-5 mini |
-| Implementer | Core | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Reviewer | Core | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Researcher | Core | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Maintainer | Core | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Spec | Core | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Security | Support | Claude Opus 4.6 | Claude Sonnet 4.6 | GPT-5 mini |
-| Performance | Support | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Accessibility | Support | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Docs | Support | GPT-5.4 | Claude Haiku 4.5 | GPT-4.1 |
-| Observability | Support | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Visualizer | Support | Claude Haiku 4.5 | Claude Haiku 4.5 | GPT-4.1 |
-| Test | Specialist | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Lint | Specialist | Claude Haiku 4.5 | Claude Haiku 4.5 | GPT-4.1 |
-| GitHub Ops | Specialist | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Red Team | Specialist | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Deployment | Specialist | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Terraform | Specialist | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Bicep | Specialist | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Design | Specialist | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Beast Mode | Specialist | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| GUI Tester | Specialist | GPT-5.4 | Claude Haiku 4.5 | GPT-4.1 |
-| Rubber Duck | Specialist | Claude Haiku 4.5 | Claude Haiku 4.5 | GPT-4.1 |
-| Translation Conductor | Translation | Claude Sonnet 4.6 | Claude Haiku 4.5 | GPT-5 mini |
-| Translator | Translation | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Translation Analyzer | Translation | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Translation Validator | Translation | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
-| Translation Styler | Translation | GPT-5.4 | Claude Haiku 4.5 | GPT-5 mini |
+| Agent | Tier | Model (Main) | Purpose |
+|-------|------|--------------|---------|
+| Conductor | Premium | Claude Opus 4.6 | Lifecycle orchestration |
+| Planner | Premium | Claude Opus 4.6 | Multi-phase planning |
+| Reviewer | Premium | Claude Opus 4.6 | Multi-mode code review |
+| Implementer | Execution | Claude Sonnet 4.6 | TDD implementation |
+| Researcher | Execution | Claude Sonnet 4.6 | Evidence gathering |
+| Ops | Execution | Claude Sonnet 4.6 | Issues, PRs, CI/CD |
+| Test | Execution | Claude Sonnet 4.6 | Test authoring |
+| IaC | Execution | Claude Sonnet 4.6 | Terraform/Bicep/Pulumi |
+| GUI Tester | Execution | Claude Sonnet 4.6 | Browser automation |
+| Docs | Fast | Claude Haiku 4.5 | Documentation |
+| UX | Fast | Claude Haiku 4.5 | UX/accessibility review |
+| Translation Conductor | Execution | Claude Sonnet 4.6 | Translation orchestration |
+| Translator | Execution | Claude Sonnet 4.6 | File-level translation |
+| Translation Analyzer | Execution | Claude Sonnet 4.6 | Dependency analysis |
+| Translation Validator | Execution | Claude Sonnet 4.6 | Validation scoring |
+| Translation Styler | Execution | Claude Sonnet 4.6 | Target language idioms |
 
 ## Directory Structure
 
 | Path | Purpose |
 |------|---------|
-| `.github/agents/` | 29 agent definitions |
+| `.github/agents/` | 16 agent definitions |
 | `.github/prompts/` | 22 prompt templates |
-| `.github/skills/` | 17 agent skills |
-| `instructions/` | 37 instruction files (global, workflow, compliance, language) |
+| `.github/skills/` | 12 agent skills |
+| `instructions/` | 15 instruction files (global, workflow, compliance, language) |
 | `scripts/` | Validation and tooling (PowerShell 5.1) |
-| `scripts/mcp/` | 8 MCP servers |
+| `scripts/mcp/` | 6 MCP servers |
 | `docs/` | Guides, templates, and operational docs |
 | `artifacts/` | Local session outputs (plans, reviews, research, security) |
 

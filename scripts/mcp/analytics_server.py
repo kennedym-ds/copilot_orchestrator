@@ -142,9 +142,6 @@ def get_metrics() -> str:
     Returns token usage metrics, threshold violations, and budget summary.
     """
     report_path = ARTIFACTS_DIR / "token-report.json"
-    if not report_path.exists():
-        # Try the root-level token report
-        report_path = REPO_ROOT / "artifacts" / "token-report.json"
 
     return _safe_read(report_path)
 

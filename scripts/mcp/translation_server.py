@@ -22,10 +22,15 @@ from typing import Optional
 
 mcp = FastMCP("translation-server")
 
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
+
 # ---------------------------------------------------------------------------
-# In-memory state (persisted to artifacts/plans/translation/ on disk)
+# In-memory state (persisted to artifacts/plans/translation/state.json)
 # ---------------------------------------------------------------------------
-translation_state = {
+_STATE_DIR = REPO_ROOT / "artifacts" / "plans" / "translation"
+_STATE_FILE = _STATE_DIR / "state.json"
+
+_DEFAULT_STATE = {
     "source": {"language": None, "path": None, "total_files": 0, "total_loc": 0},
     "target": {"language": None, "path": None},
     "modules": [],
@@ -36,6 +41,38 @@ translation_state = {
     "phase": "idle",  # idle | discovery | foundation | business_logic | integration | qa | documentation | complete
     "progress": {"translated": 0, "validated": 0, "total": 0},
 }
+
+
+def _load_state() -> dict:
+    """Load translation state from disk, falling back to defaults."""
+    if _STATE_FILE.exists():
+        try:
+            with open(_STATE_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except (json.JSONDecodeError, OSError):
+            pass
+    return json.loads(json.dumps(_DEFAULT_STATE))  # deep copy
+
+
+def _save_state() -> None:
+    """Persist current translation state to disk."""
+    _STATE_DIR.mkdir(parents=True, exist_ok=True)
+    with open(_STATE_FILE, "w", encoding="utf-8") as f:
+        json.dump(translation_state, f, indent=2, default=str)
+
+
+translation_state = _load_state()
+
+
+def _validate_path(file_path: str) -> Optional[str]:
+    """Validate that file_path resolves within REPO_ROOT. Returns error JSON or None."""
+    try:
+        resolved = Path(file_path).resolve()
+        if not resolved.is_relative_to(REPO_ROOT):
+            return json.dumps({"error": f"Path {file_path} is outside the workspace boundary"})
+    except (ValueError, OSError) as e:
+        return json.dumps({"error": f"Invalid path: {e}"})
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -57,6 +94,9 @@ def analyze_imports(file_path: str, language: str) -> str:
     Supports Python, TypeScript/JavaScript, Rust, Go, Java, C#.
     """
     try:
+        path_error = _validate_path(file_path)
+        if path_error:
+            return path_error
         with open(file_path, "r", encoding="utf-8") as f:
             content = f.read()
 
@@ -175,12 +215,6 @@ async def build_dependency_graph(source_dir: str, language: str, ctx: Context = 
 
 def _topological_sort(adjacency: dict) -> list:
     """Layer-based topological sort with cycle detection."""
-    in_degree = {node: 0 for node in adjacency}
-    for node, deps in adjacency.items():
-        for dep in deps:
-            if dep in in_degree:
-                in_degree[dep] += 1
-
     # Simplified: group by depth
     visited = set()
     layers = []
@@ -241,6 +275,9 @@ def translate_file(
     The actual translation is performed by the translator agent using this context.
     """
     try:
+        path_error = _validate_path(source_path)
+        if path_error:
+            return path_error
         with open(source_path, "r", encoding="utf-8") as f:
             source_content = f.read()
 
@@ -532,6 +569,7 @@ def update_module_status(
             translation_state["progress"]["validated"] = sum(
                 1 for m in translation_state["modules"] if m.get("status") == "validated"
             )
+            _save_state()
             return json.dumps({"success": True, "module": module}, indent=2)
 
     return json.dumps({"error": f"Module {module_id} not found"})
@@ -729,11 +767,20 @@ def translate_file_prompt(
     source_language: str,
     target_language: str,
 ) -> str:
-    """Generate a prompt for translating a specific file."""
+    """Generate a prompt for translating a specific file.
+
+    Note: source_path and target_path are interpolated from user/agent input.
+    Source file content is read and embedded by the caller. The <source_code>
+    delimiters below reduce prompt injection risk from crafted source files.
+    """
     return f"""Translate the following {source_language} file to idiomatic {target_language}.
 
 Source file: {source_path}
 Target file: {target_path}
+
+<source_code language="{source_language}" path="{source_path}">
+{{{{ source content inserted here by caller }}}}
+</source_code>
 
 Translation requirements:
 1. Maintain functional equivalence (same inputs → same outputs)

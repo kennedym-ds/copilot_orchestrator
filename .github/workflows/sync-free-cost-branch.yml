@@ -137,6 +137,8 @@ jobs:
         if: steps.check_changes.outputs.changes == 'true'
         run: |
           git add -A
+          # --no-verify: skip local hooks — this CI job only commits
+          # automated model-tier downgrades that were already validated on main.
           git commit -m "chore: apply 0x free-tier model downgrades on free-cost branch" \
             --no-verify
 

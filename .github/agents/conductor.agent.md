@@ -125,22 +125,6 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 - Surface decisions requiring human input with clear options and trade-offs
 - End with actionable next step or pause point
 
-## Workflow
-
-1. **Planning**
-   - Summarize the request, constraints, and success criteria.
-   - Invoke the `planner` or `researcher` subagents with `#runSubagent` to gather context and draft the plan.
-   - Present the plan using `docs/templates/plan.md` and pause for approval.
-
-2. **Implementation Cycles** (repeat per phase)
-   - Launch the `implementer` subagent with explicit objectives, files, and testing expectations.
-   - After implementation, call the `reviewer` subagent with the diff summary and acceptance criteria.
-   - Produce a phase completion record using `docs/templates/phase-complete.md` and wait for the user to handle git commits.
-
-3. **Completion**
-   - When all phases finish, compile the final report using `docs/templates/plan-complete.md`.
-   - Surface follow-up tasks, risks, and recommendations, engaging support personas (security, performance, documentation) for outstanding reviews.
-
 ## Example Routing
 
 - **Feature request** → Planner → (approve) → Implementer → Reviewer → loop
@@ -148,30 +132,10 @@ Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instr
 - **UI feature or fix** → Planner → Implementer → GUI Tester → Reviewer → loop
 - **Analysis query** → Researcher → Planner → Implementer → Reviewer → Docs
 
-## State Tracking
-
-Every response must include:
-
-- **Current Phase:** Planning / Implementation / Review / Complete
-- **Plan Progress:** `{completed} of {total}` phases
-- **Last Action:** {Summary of most recent step}
-- **Next Action:** {Immediate recommended step}
-
 ## Project Knowledge
 
 - **Tech Stack:** PowerShell 5.1, Markdown, YAML frontmatter agents
 - **Layout:** `.github/agents/` (agents), `.github/prompts/` (prompts), `instructions/` (instructions), `scripts/` (PowerShell tooling), `docs/` (guides/templates)
-
-## Commands You Can Use
-
-- **Initialize Artifacts:** `pwsh -File scripts/init-artifacts.ps1` (creates local artifacts folder)
-- **Validate All Assets:** `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .`
-- **Check Prompt Metadata:** `pwsh -File scripts/add-prompt-metadata.ps1 -RepositoryRoot . -CheckOnly`
-- **Token Budget Report:** `pwsh -File scripts/token-report.ps1 -Path .`
-- **Run Smoke Tests:** `pwsh -File scripts/run-smoke-tests.ps1 -RepositoryRoot .`
-- **Artifact Cleanup:** `powershell -File scripts/cleanup-artifacts.ps1 -DryRun` (preview rolloff/compaction)
-- **Lint Check:** `pwsh -File scripts/run-lint.ps1 -RepositoryRoot .`
-- **Session Analytics:** `pwsh -File scripts/analyze-sessions.ps1`
 
 ## Output Contract
 
@@ -187,17 +151,6 @@ Every response must include:
 Persist session outputs to a local `artifacts/` folder. See `AGENTS.md` § Local Artifact Storage for the full tree, naming conventions, and retention lifecycle.
 
 **Key folders:** `plans/`, `reviews/`, `research/`, `security/`, `sessions/`, `decisions/`, `memory/`
-
-### Session Memory Read-Back
-
-At session start, read (if they exist):
-
-1. `artifacts/artifact-index.md` — active artifact inventory
-2. `artifacts/memory/activeContext.md` — current focus, recent decisions, open questions
-
-At session end (or pause points), update `activeContext.md` with current phase, last 3-5 decisions, open questions, and plan progress.
-
-**Initialization**: `pwsh -File scripts/init-artifacts.ps1`
 
 ## Boundaries
 

@@ -1,11 +1,23 @@
+"""
+Design System Pilot MCP Server — Model Context Protocol server for design system operations.
+
+Provides tools for color contrast checking, component inventory, and spacing/typography
+validation against a brand palette. Currently uses mock data for pilot evaluation.
+
+Usage:
+    python scripts/mcp/design_server.py
+
+Requires:
+    pip install mcp
+"""
+
 from mcp.server.fastmcp import FastMCP
 from mcp.types import ToolAnnotations
-import math
 
 # Initialize the MCP server
 mcp = FastMCP("Design System Pilot")
 
-# Mock Data for Pilot
+# TODO: Replace with dynamic data source — currently hardcoded mock data for pilot
 BRAND_PALETTE = [
     {"name": "Primary Blue", "hex": "#0052CC", "usage": "Buttons, Links"},
     {"name": "Secondary Teal", "hex": "#00B8D9", "usage": "Accents"},

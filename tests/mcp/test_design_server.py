@@ -1,33 +1,8 @@
 import unittest
 import sys
 import os
-from unittest.mock import MagicMock
 
-# Mock the mcp library since it might not be installed in the CI/Test env yet
-# We need to configure the mock so that @mcp.tool() acts as a passthrough decorator
-# Otherwise, the decorated functions become Mocks and we can't test their logic.
-
-mock_fastmcp_module = MagicMock()
-sys.modules["mcp"] = MagicMock()
-sys.modules["mcp.server"] = MagicMock()
-sys.modules["mcp.server.fastmcp"] = mock_fastmcp_module
-
-# Define a side effect for the .tool() method
-# It should accept arguments (like name, description) and return a decorator
-def tool_decorator_factory(*args, **kwargs):
-    def decorator(func):
-        return func
-    return decorator
-
-# Configure the FastMCP class mock
-# FastMCP("name") -> returns instance
-# instance.tool() -> returns decorator
-mock_mcp_instance = MagicMock()
-mock_mcp_instance.tool.side_effect = tool_decorator_factory
-mock_fastmcp_module.FastMCP.return_value = mock_mcp_instance
-
-# Add the repository root to sys.path so we can import from scripts
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
+# MCP mocks are installed by conftest.py — no module-level mock setup needed here.
 
 class TestDesignServer(unittest.TestCase):
     def setUp(self):

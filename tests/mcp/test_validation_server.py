@@ -2,31 +2,10 @@ import unittest
 import sys
 import os
 import json
+import asyncio
 from unittest.mock import MagicMock, patch
 
-# Mock the mcp library since it might not be installed in the CI/Test env yet
-# Configure mock so that @mcp.tool(), @mcp.resource(), @mcp.prompt() act as passthrough decorators
-
-mock_fastmcp_module = MagicMock()
-sys.modules["mcp"] = MagicMock()
-sys.modules["mcp.server"] = MagicMock()
-sys.modules["mcp.server.fastmcp"] = mock_fastmcp_module
-
-
-def passthrough_decorator_factory(*args, **kwargs):
-    def decorator(func):
-        return func
-    return decorator
-
-
-mock_mcp_instance = MagicMock()
-mock_mcp_instance.tool.side_effect = passthrough_decorator_factory
-mock_mcp_instance.resource.side_effect = passthrough_decorator_factory
-mock_mcp_instance.prompt.side_effect = passthrough_decorator_factory
-mock_fastmcp_module.FastMCP.return_value = mock_mcp_instance
-
-# Add the repository root to sys.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
+# MCP mocks are installed by conftest.py — no module-level mock setup needed here.
 
 
 class TestValidationServer(unittest.TestCase):
@@ -64,7 +43,7 @@ class TestValidationServer(unittest.TestCase):
             stdout="All assets valid\n",
             stderr="",
         )
-        result = json.loads(self.vs.validate_assets("."))
+        result = json.loads(asyncio.run(self.vs.validate_assets(".")))
         self.assertTrue(result["success"])
         self.assertEqual(result["exit_code"], 0)
         self.assertIn("valid", result["stdout"].lower())
@@ -79,7 +58,7 @@ class TestValidationServer(unittest.TestCase):
             stdout="2 errors found\n",
             stderr="ERROR: missing field",
         )
-        result = json.loads(self.vs.validate_assets("."))
+        result = json.loads(asyncio.run(self.vs.validate_assets(".")))
         self.assertFalse(result["success"])
         self.assertEqual(result["exit_code"], 1)
 
@@ -91,7 +70,7 @@ class TestValidationServer(unittest.TestCase):
         mock_run.return_value = MagicMock(
             returncode=0, stdout="Linting passed", stderr=""
         )
-        result = json.loads(self.vs.run_lint("."))
+        result = json.loads(asyncio.run(self.vs.run_lint(".")))
         self.assertTrue(result["success"])
 
     @patch("scripts.mcp.validation_server.subprocess.run")

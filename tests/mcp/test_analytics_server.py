@@ -2,31 +2,8 @@ import unittest
 import sys
 import os
 import json
-from unittest.mock import MagicMock
 
-# Mock the mcp library since it might not be installed in the CI/Test env yet
-# Configure mock so that @mcp.tool(), @mcp.resource(), @mcp.prompt() act as passthrough decorators
-
-mock_fastmcp_module = MagicMock()
-sys.modules["mcp"] = MagicMock()
-sys.modules["mcp.server"] = MagicMock()
-sys.modules["mcp.server.fastmcp"] = mock_fastmcp_module
-
-
-def passthrough_decorator_factory(*args, **kwargs):
-    def decorator(func):
-        return func
-    return decorator
-
-
-mock_mcp_instance = MagicMock()
-mock_mcp_instance.tool.side_effect = passthrough_decorator_factory
-mock_mcp_instance.resource.side_effect = passthrough_decorator_factory
-mock_mcp_instance.prompt.side_effect = passthrough_decorator_factory
-mock_fastmcp_module.FastMCP.return_value = mock_mcp_instance
-
-# Add the repository root to sys.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
+# MCP mocks are installed by conftest.py — no module-level mock setup needed here.
 
 
 class TestAnalyticsServer(unittest.TestCase):
@@ -108,10 +85,10 @@ class TestAnalyticsServer(unittest.TestCase):
         if self.ans is None:
             self.skipTest("Module missing")
         for func_name in [
-            "get_delegation_table",
-            "get_agent_roster",
-            "get_token_thresholds",
-            "get_operations_config",
+            "delegation_table",
+            "agent_roster",
+            "token_thresholds",
+            "operations_doc",
         ]:
             func = getattr(self.ans, func_name, None)
             if func is not None:

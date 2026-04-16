@@ -2,15 +2,15 @@
     "mcpServers": {
         "validation": {
             "command": "python",
-            "args": ["/mnt/c/Users/Micha/OneDrive/Documents/Projects/copilot_orchestrator/scripts/mcp/validation_server.py"]
+            "args": ["scripts/mcp/validation_server.py"]
         },
         "analytics": {
             "command": "python",
-            "args": ["/mnt/c/Users/Micha/OneDrive/Documents/Projects/copilot_orchestrator/scripts/mcp/analytics_server.py"]
+            "args": ["scripts/mcp/analytics_server.py"]
         },
         "research": {
             "command": "python",
-            "args": ["/mnt/c/Users/Micha/OneDrive/Documents/Projects/copilot_orchestrator/scripts/mcp/research_server.py"]
+            "args": ["scripts/mcp/research_server.py"]
         }
     }
 }
