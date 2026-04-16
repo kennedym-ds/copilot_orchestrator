@@ -134,11 +134,11 @@ Claude Code uses a different agent format than VS Code. The setup scripts automa
 
 | VS Code Model | Claude Code Alias |
 |--------------|-------------------|
-| `Claude Opus 4.6 (copilot)` | `opus` |
-| `Claude Sonnet 4.6 (copilot)` | `sonnet` |
-| `Claude Haiku 4.5 (copilot)` | `haiku` |
-| `GPT-5.4 (copilot)` | `sonnet` (fallback) |
-| `Gemini 3.1 Pro (Preview) (copilot)` | `sonnet` (fallback) |
+| `GPT-5 mini (copilot)` | `opus` |
+| `GPT-5 mini (copilot)` | `sonnet` |
+| `GPT-4.1 (copilot)` | `haiku` |
+| `GPT-5 mini (copilot)` | `sonnet` (fallback) |
+| `GPT-5 mini (copilot)` | `sonnet` (fallback) |
 
 **Tool names** are mapped:
 
@@ -252,11 +252,11 @@ Antigravity is a Google DeepMind AI coding IDE that uses a different directory s
 
 | VS Code Model | Antigravity Alias |
 |--------------|-------------------|
-| `Claude Opus 4.6 (copilot)` | `opus` |
-| `Claude Sonnet 4.6 (copilot)` | `sonnet` |
-| `Claude Haiku 4.5 (copilot)` | `haiku` |
-| `Gemini 3.1 Pro (Preview) (copilot)` | `gemini-pro` |
-| `GPT-5.4 (copilot)` | `inherit` (uses IDE default) |
+| `GPT-5 mini (copilot)` | `opus` |
+| `GPT-5 mini (copilot)` | `sonnet` |
+| `GPT-4.1 (copilot)` | `haiku` |
+| `GPT-5 mini (copilot)` | `gemini-pro` |
+| `GPT-5 mini (copilot)` | `inherit` (uses IDE default) |
 
 **Tool names** are mapped to Antigravity equivalents:
 

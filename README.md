@@ -67,7 +67,7 @@ Add these settings to your user or workspace `settings.json`:
    "chat.agentsControl.enabled": true,
    "chat.agentsControl.clickBehavior": "cycle",
    "workbench.startupEditor": "agentSessionsWelcomePage",
-   "github.copilot.chat.implementAgent.model": "Claude Sonnet 4.6 (copilot)",
+   "github.copilot.chat.implementAgent.model": "GPT-5 mini (copilot)",
    "chat.tools.terminal.enableAutoApprove": true,
    "chat.tools.terminal.autoApproveWorkspaceNpmScripts": true,
    "chat.tools.terminal.preventShellHistory": true,
@@ -112,8 +112,8 @@ The orchestrator ships three branches, each targeting a different cost profile. 
 
 | Branch | Cost | Primary Model | Secondary Model | Use Case |
 |--------|------|---------------|-----------------|----------|
-| `main` | Premium | Claude Opus 4.6 (3 agents), Claude Sonnet 4.6 (11), Claude Haiku 4.5 (2) | — | Full capability — optimized per agent role |
-| `low-cost` | Budget | Claude Sonnet 4.6 (3 agents), Claude Haiku 4.5 (13) | — | ~64% savings — Opus→Sonnet 4.6, Sonnet→Haiku 4.5 |
+| `main` | Premium | GPT-5 mini (3 agents), GPT-5 mini (11), GPT-4.1 (2) | — | Full capability — optimized per agent role |
+| `low-cost` | Budget | GPT-5 mini (3 agents), GPT-4.1 (13) | — | ~64% savings — Opus→Sonnet 4.6, Sonnet→Haiku 4.5 |
 | `free-cost` | Zero (0×) | GPT-5 mini | GPT-4.1 | Zero premium requests — all agents on GPT-5 mini or GPT-4.1 |
 
 ### How It Works
@@ -137,22 +137,22 @@ The orchestrator ships three branches, each targeting a different cost profile. 
 
 | Agent | Tier | Model (Main) | Purpose |
 |-------|------|--------------|---------|
-| Conductor | Premium | Claude Opus 4.6 | Lifecycle orchestration |
-| Planner | Premium | Claude Opus 4.6 | Multi-phase planning |
-| Reviewer | Premium | Claude Opus 4.6 | Multi-mode code review |
-| Implementer | Execution | Claude Sonnet 4.6 | TDD implementation |
-| Researcher | Execution | Claude Sonnet 4.6 | Evidence gathering |
-| Ops | Execution | Claude Sonnet 4.6 | Issues, PRs, CI/CD |
-| Test | Execution | Claude Sonnet 4.6 | Test authoring |
-| IaC | Execution | Claude Sonnet 4.6 | Terraform/Bicep/Pulumi |
-| GUI Tester | Execution | Claude Sonnet 4.6 | Browser automation |
-| Docs | Fast | Claude Haiku 4.5 | Documentation |
-| UX | Fast | Claude Haiku 4.5 | UX/accessibility review |
-| Translation Conductor | Execution | Claude Sonnet 4.6 | Translation orchestration |
-| Translator | Execution | Claude Sonnet 4.6 | File-level translation |
-| Translation Analyzer | Execution | Claude Sonnet 4.6 | Dependency analysis |
-| Translation Validator | Execution | Claude Sonnet 4.6 | Validation scoring |
-| Translation Styler | Execution | Claude Sonnet 4.6 | Target language idioms |
+| Conductor | Premium | GPT-5 mini | Lifecycle orchestration |
+| Planner | Premium | GPT-5 mini | Multi-phase planning |
+| Reviewer | Premium | GPT-5 mini | Multi-mode code review |
+| Implementer | Execution | GPT-5 mini | TDD implementation |
+| Researcher | Execution | GPT-5 mini | Evidence gathering |
+| Ops | Execution | GPT-5 mini | Issues, PRs, CI/CD |
+| Test | Execution | GPT-5 mini | Test authoring |
+| IaC | Execution | GPT-5 mini | Terraform/Bicep/Pulumi |
+| GUI Tester | Execution | GPT-5 mini | Browser automation |
+| Docs | Fast | GPT-4.1 | Documentation |
+| UX | Fast | GPT-4.1 | UX/accessibility review |
+| Translation Conductor | Execution | GPT-5 mini | Translation orchestration |
+| Translator | Execution | GPT-5 mini | File-level translation |
+| Translation Analyzer | Execution | GPT-5 mini | Dependency analysis |
+| Translation Validator | Execution | GPT-5 mini | Validation scoring |
+| Translation Styler | Execution | GPT-5 mini | Target language idioms |
 
 ## Directory Structure
 

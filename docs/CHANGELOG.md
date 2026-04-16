@@ -33,12 +33,12 @@ All notable changes are documented here following [Keep a Changelog](https://kee
 - Complete rewrite of Copilot CLI usage guide with all 16 agents and new features
 - Template audit: fixed 1 stale reference (spec.md), confirmed 10 templates clean
 - Removed all dead links to deleted files
-- Updated all GPT-5.3-Codex references to current model names
+- Updated all GPT-5 mini references to current model names
 
 ### Model Updates
-- Premium tier: Claude Opus 4.6 → GPT-5.4 → GPT-4.1
-- Execution tier: Claude Sonnet 4.6 → GPT-5.4 → GPT-4.1
-- Fast tier: Claude Haiku 4.5 → GPT-5 mini → Claude Sonnet 4.6
+- Premium tier: GPT-5 mini → GPT-5 mini → GPT-4.1
+- Execution tier: GPT-5 mini → GPT-5 mini → GPT-4.1
+- Fast tier: GPT-4.1 → GPT-5 mini → GPT-5 mini
 
 ## [0.20.0] - 2026-04-02
 
@@ -288,7 +288,7 @@ All notable changes are documented here following [Keep a Changelog](https://kee
 - **Agent MCP Wiring**: Added scoped tool allowlists to conductor, implementer, reviewer, test, lint, observability, translation-conductor
 - **MCP Integration Guide** (`docs/guides/mcp-integration.md`): Rewritten to cover HTTP transport, workspace config, resource annotations, prompts, validation/analytics servers, agent-to-MCP mapping
 - **Python MCP Instructions** (`instructions/languages/python-mcp-server.instructions.md`): Updated from low-level `Server` class to `FastMCP` high-level API matching actual server implementations
-- **Model Allocation**: Updated model tiers — Premium (Opus 4.6, Sonnet 4.6), Execution (GPT-5.3-Codex, Sonnet 4.6), Routine (Haiku 4.5, Gemini 3 Flash)
+- **Model Allocation**: Updated model tiers — Premium (Opus 4.6, Sonnet 4.6), Execution (GPT-5 mini, Sonnet 4.6), Routine (Haiku 4.5, Gemini 3 Flash)
 
 ## [0.8.0] - 2026-02-09
 

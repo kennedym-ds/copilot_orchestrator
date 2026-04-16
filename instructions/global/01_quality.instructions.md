@@ -61,9 +61,9 @@ All agents use fallback arrays in frontmatter `model:` — VS Code picks the fir
 
 | Tier | Agents | Primary → Fallback |
 |------|--------|--------------------|
-| **Premium** | Conductor, Planner, Reviewer | Claude Opus 4.6 → GPT-5.4 → GPT-4.1 |
-| **Execution** | Implementer, Researcher, Ops, Test, IaC, GUI Tester | Claude Sonnet 4.6 → GPT-5.4 → GPT-4.1 |
-| **Fast** | Docs, UX | Claude Haiku 4.5 → GPT-5 mini → Claude Sonnet 4.6 |
+| **Premium** | Conductor, Planner, Reviewer | GPT-5 mini → GPT-5 mini → GPT-4.1 |
+| **Execution** | Implementer, Researcher, Ops, Test, IaC, GUI Tester | GPT-5 mini → GPT-5 mini → GPT-4.1 |
+| **Fast** | Docs, UX | GPT-4.1 → GPT-5 mini → GPT-5 mini |
 
 - Never pin a single model. Models deprecate monthly.
 - If all fallbacks fail, escalate to the conductor.

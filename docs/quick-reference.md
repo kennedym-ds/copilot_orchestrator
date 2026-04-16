@@ -67,7 +67,7 @@ Invoke-Pester -Path tests -Output Detailed
   "github.copilot.chat.organizationInstructions.enabled": true,
   "github.copilot.chat.customAgents.showOrganizationAndEnterpriseAgents": true,
   "github.copilot.chat.cli.customAgents.enabled": true,
-  "github.copilot.chat.implementAgent.model": "Claude Sonnet 4.6 (copilot)",
+  "github.copilot.chat.implementAgent.model": "GPT-5 mini (copilot)",
   "chat.thinking.style": "collapsed",
   "chat.agent.thinking.collapsedTools": true,
   "chat.agent.thinking.terminalTools": true,
@@ -119,9 +119,9 @@ Invoke-Pester -Path tests -Output Detailed
 
 | Tier | Primary → Fallback | Target Usage |
 |------|-------------------|--------------|
-| **Premium** | Claude Opus 4.6 → GPT-5.4 → GPT-4.1 | ~15% of invocations |
-| **Execution** | Claude Sonnet 4.6 → GPT-5.4 → GPT-4.1 | ~75% of invocations |
-| **Fast** | Claude Haiku 4.5 → GPT-5 mini → Claude Sonnet 4.6 | ~10% of invocations |
+| **Premium** | GPT-5 mini → GPT-5 mini → GPT-4.1 | ~15% of invocations |
+| **Execution** | GPT-5 mini → GPT-5 mini → GPT-4.1 | ~75% of invocations |
+| **Fast** | GPT-4.1 → GPT-5 mini → GPT-5 mini | ~10% of invocations |
 
 Never pin a single model. Models deprecate monthly.
 
