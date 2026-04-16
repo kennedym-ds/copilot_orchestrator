@@ -1,12 +1,44 @@
 title: "Copilot Orchestrator Changelog"
-version: "0.20.0"
-lastUpdated: "2026-04-02"
+version: "3.0.0"
+lastUpdated: "2026-04-16"
 status: stable
 ---
 
 # Changelog
 
 All notable changes are documented here following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
+
+## [3.0.0] — 2026-04-16
+
+### Architecture
+- Consolidated agent roster from 29 to 16 agents (11 core + 5 translation)
+- Three-tier model allocation: Premium (3), Execution (11), Fast (2)
+- Deleted 16 agents: security, performance, accessibility, lint, rubber-duck, beast-mode, observability, visualizer, deployment, red-team, spec, maintainer, github-ops, terraform, bicep, design
+- Merged capabilities: ops (maintainer+github-ops+deployment+observability), ux (visualizer+accessibility), iac (terraform+bicep), reviewer (absorbed security/performance/red-team as review modes)
+
+### New Features (Burke Holland-Inspired)
+- **Pushback system**: Implementer can refuse/counter questionable requests with structured reasoning
+- **File risk classification**: 🟢 Additive / 🟡 Existing logic / 🔴 Critical path — auto-escalates review depth
+- **Baseline capture**: Before/after validation snapshots for regression safety
+- **Evidence-based verification**: 3-tier cascade (automated → manual → formal) with minimum signal requirements
+- **Confidence levels**: High/Medium/Low scoring on review findings with evidence bundles
+- **Auto-commit offer**: After validation passes, implementer offers structured commit
+- **Context7 MCP**: Live library documentation via `https://mcp.context7.com/mcp`
+- **Skills ecosystem**: Compatible with vercel-labs/skills standard (`npx skills find/add/list`)
+- **Wiki memory**: Karpathy-pattern knowledge base in `artifacts/memory/wiki/` (5 pages)
+
+### Documentation
+- Complete rewrite of docs/README.md, docs/quick-reference.md, docs/operations.md
+- Updated 8 guide files: onboarding, model-tiers, memory-management, prompt-engineering-by-tier, claude-code-onboarding, antigravity-onboarding, multi-platform-setup, session-analytics
+- Complete rewrite of Copilot CLI usage guide with all 16 agents and new features
+- Template audit: fixed 1 stale reference (spec.md), confirmed 10 templates clean
+- Removed all dead links to deleted files
+- Updated all GPT-5.3-Codex references to current model names
+
+### Model Updates
+- Premium tier: Claude Opus 4.6 → GPT-5.4 → GPT-4.1
+- Execution tier: Claude Sonnet 4.6 → GPT-5.4 → GPT-4.1
+- Fast tier: Claude Haiku 4.5 → GPT-5 mini → Claude Sonnet 4.6
 
 ## [0.20.0] - 2026-04-02
 

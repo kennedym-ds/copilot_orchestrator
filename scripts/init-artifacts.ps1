@@ -38,18 +38,10 @@ $subfolders = @(
     "plans",
     "reviews",
     "research",
-    "security",
-    "sessions",
-    "performance",
-    "docs",
-    "releases",
-    "telemetry",
-    "deployments",
-    "red-team",
-    "accessibility",
-    "tests",
-    "ux",
     "decisions",
+    "sessions",
+    "tests",
+    "specs",
     "memory",
     ".archive"
 )
@@ -88,17 +80,11 @@ if (-not (Test-Path $readmePath)) {
         "| ``plans/`` | Planner, Implementer, Conductor | Implementation plans and phase completions |",
         "| ``reviews/`` | Reviewer | Code review verdicts and findings |",
         "| ``research/`` | Researcher | Research briefs, citations, and analysis |",
-        "| ``security/`` | Security | Security audit reports and threat assessments |",
+        "| ``decisions/`` | Conductor | Architectural Decision Records (permanent) |",
         "| ``sessions/`` | Conductor | Session state for resume/continuity |",
-        "| ``performance/`` | Performance | Performance analysis and optimization reports |",
-        "| ``docs/`` | Docs | Documentation drafts and reviews |",
-        "| ``releases/`` | Maintainer | Release notes and triage reports |",
-        "| ``telemetry/`` | Observability | Telemetry analysis and metrics reports |",
-        "| ``deployments/`` | Deployment | Deployment plans and runbooks |",
-        "| ``red-team/`` | Red Team | Adversarial analysis and exploit reports |",
-        "| ``accessibility/`` | Accessibility | WCAG audits and a11y findings |",
-        "| ``tests/`` | Test | Test reports and coverage analysis |",
-        "| ``ux/`` | Visualizer | UX reviews and design artifacts |",
+        "| ``tests/`` | Test, GUI Tester | Test reports and coverage analysis |",
+        "| ``specs/`` | Conductor | Project specifications |",
+        "| ``memory/`` | Conductor | Active context and session memory |",
         "",
         "## Naming Conventions",
         "",
@@ -149,6 +135,32 @@ foreach ($folder in $subfolders) {
         New-Item -ItemType File -Path $gitkeepPath -Force | Out-Null
     }
 }
+
+# Create wiki knowledge base starter pages
+$wikiPath = Join-Path (Join-Path $artifactsPath "memory") "wiki"
+if (-not (Test-Path $wikiPath)) {
+    New-Item -ItemType Directory -Path $wikiPath -Force | Out-Null
+    Write-Host "[OK] Created: $wikiPath" -ForegroundColor Green
+}
+
+$wikiPages = @(
+    "codebase-patterns",
+    "build-and-test",
+    "lessons-learned",
+    "dependencies",
+    "tooling"
+)
+
+foreach ($page in $wikiPages) {
+    $pagePath = Join-Path $wikiPath "$page.md"
+    if (-not (Test-Path $pagePath)) {
+        $titleWords = ($page -split '-') | ForEach-Object { $_.Substring(0,1).ToUpper() + $_.Substring(1) }
+        $title = $titleWords -join ' '
+        $pageContent = @("# $title", "", "<!-- Wiki page maintained by agents. One fact per bullet, date-stamped. Max 50 lines. -->", "")
+        Set-Content -Path $pagePath -Value ($pageContent -join "`r`n") -Encoding UTF8
+    }
+}
+Write-Host "[OK] Wiki pages initialized: $($wikiPages -join ', ')" -ForegroundColor Green
 
 # Generate session ID if needed and create initial session file
 if ($SessionId -eq "") {

@@ -193,5 +193,5 @@
             ]
         }
     },
-    "chat.agent.sandbox": true
+    "chat.agent.sandbox.enabled": "on"
 }

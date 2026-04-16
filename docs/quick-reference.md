@@ -1,7 +1,7 @@
 ---
 title: "Copilot Orchestrator Quick Reference"
-version: "2.2.0"
-lastUpdated: "2026-03-10"
+version: "3.0.0"
+lastUpdated: "2026-04-16"
 status: stable
 ---
 
@@ -85,56 +85,59 @@ Invoke-Pester -Path tests -Output Detailed
 
 ---
 
-## Agent Roster (29 agents)
+## Agent Roster (16 agents)
 
-### Core Workflow
+### Core Agents (11)
 
-| Agent | Model | Purpose |
-|-------|-------|---------|
-| conductor | Claude Opus 4.6 | Lifecycle orchestration |
-| planner | Claude Opus 4.6 | Multi-phase planning |
-| implementer | Claude Sonnet 4.6 | TDD execution |
-| reviewer | Claude Opus 4.6 | Code review |
-| researcher | Claude Opus 4.6 | Context gathering |
-| maintainer | GPT-5.3-Codex | Issue triage, releases |
-| spec | Claude Opus 4.6 | Project specification |
+| Agent | Tier | Purpose |
+|-------|------|---------|
+| conductor | Premium | Lifecycle orchestration, delegation, pause points |
+| planner | Premium | Multi-phase planning, risk analysis |
+| reviewer | Premium | Multi-mode review: standard, security, adversarial, performance |
+| implementer | Execution | TDD execution, validation |
+| researcher | Execution | Evidence gathering, citation |
+| ops | Execution | Issues, PRs, CI/CD, releases, telemetry |
+| test | Execution | Test authoring, coverage analysis |
+| iac | Execution | Terraform, Bicep, Pulumi |
+| gui-tester | Execution | Browser automation, visual regression |
+| docs | Fast | Documentation, onboarding |
+| ux | Fast | UX review, WCAG accessibility, diagrams |
 
-### Support Personas
-
-| Agent | Purpose |
-|-------|---------|
-| security | Threat modeling, compliance |
-| performance | Runtime/memory analysis |
-| accessibility | WCAG compliance |
-| docs | Documentation |
-| observability | Telemetry, integrations |
-| visualizer | UX review, diagrams |
-| deployment | CI/CD review |
-| red-team | Adversarial testing |
-
-### Specialists
+### Translation Agents (5)
 
 | Agent | Purpose |
 |-------|---------|
-| test | TDD test writing |
-| lint | Code style |
-| github-ops | Issue/PR/workflow management |
-| terraform | Multi-cloud IaC |
-| bicep | Azure IaC |
-| design | Architecture |
-| beast-mode | Extended reasoning |
-| gui-tester | Browser automation, visual regression |
-| rubber-duck | Socratic problem-solving |
-
-### Translation Workflow
-
-| Agent | Purpose |
-|-------|--------|
 | translation-conductor | Full-repo translation orchestration |
 | translator | File-level code translation |
 | translation-analyzer | Dependency graph, complexity assessment |
-| translation-validator | 6-layer validation, confidence scoring |
+| translation-validator | Validation stack, confidence scoring |
 | translation-styler | Target language idioms |
+
+---
+
+## Model Tiers
+
+| Tier | Primary → Fallback | Target Usage |
+|------|-------------------|--------------|
+| **Premium** | Claude Opus 4.6 → GPT-5.4 → GPT-4.1 | ~15% of invocations |
+| **Execution** | Claude Sonnet 4.6 → GPT-5.4 → GPT-4.1 | ~75% of invocations |
+| **Fast** | Claude Haiku 4.5 → GPT-5 mini → Claude Sonnet 4.6 | ~10% of invocations |
+
+Never pin a single model. Models deprecate monthly.
+
+---
+
+## New Features
+
+- **Pushback System** — Reviewer challenges implementer assumptions, triggers re-work cycles
+- **File Risk Classification** — 🟢 Safe / 🟡 Moderate / 🔴 Critical risk scoring
+- **Baseline Capture** — Snapshot working state before changes for rollback
+- **Evidence-Based Verification** — Test execution results, not just static analysis
+- **Confidence Levels** — Findings scored by evidence strength to filter false positives
+- **Auto-Commit** — Optional commit-on-green after successful verification
+- **Context7 MCP** — Live library documentation fetching (implementer, researcher)
+- **Wiki Memory** — Karpathy-style wiki pattern in `artifacts/memory/wiki/`
+- **Skills Ecosystem** — Compatible with [vercel-labs/skills](https://github.com/vercel-labs/skills)
 
 ---
 
@@ -145,20 +148,11 @@ artifacts/
 ├── plans/          # Implementation plans
 ├── reviews/        # Code review verdicts
 ├── research/       # Research briefs
-├── security/       # Security audits
-├── sessions/       # Session state (JSON)
-├── performance/    # Performance reports
-├── docs/           # Documentation drafts
-├── releases/       # Release notes
-├── telemetry/      # Telemetry analysis
-├── deployments/    # Deployment plans
-├── red-team/       # Adversarial analysis
-├── accessibility/  # WCAG audits
+├── decisions/      # Architectural Decision Records (ADRs)
+├── sessions/       # Session state JSON
 ├── tests/          # Test reports
-├── ux/             # UX reviews
-├── decisions/      # Architectural Decision Records
-├── memory/         # Active context (session write-back)
-├── artifact-index.md  # Auto-generated inventory
+├── specs/          # Project specifications
+├── memory/         # Active context + wiki/
 └── .archive/       # Rolled-off artifacts past TTL
 ```
 
@@ -174,6 +168,7 @@ artifacts/
 2. Implementation (per phase)
    Conductor → Implementer → Code
    Conductor → Reviewer → Findings
+   [Pushback cycle if needed]
    [Pause for commit]
 
 3. Completion
@@ -186,16 +181,12 @@ artifacts/
 
 | Path | Purpose |
 |------|---------|
-| `.github/agents/` | Agent definitions (29 files) |
+| `.github/agents/` | Agent definitions (16 files) |
 | `.github/prompts/` | Reusable prompts |
+| `.github/skills/` | Skill modules (12 skills) |
 | `instructions/` | Layered instruction mesh |
 | `scripts/` | Validation and tooling |
-| `docs/` | Guides and templates |
-| `plans/` | Generated plan artifacts |
-| `artifacts/` | Local session outputs |
-
----
-
+| `scripts/mcp/` | MCP servers (validation, analytics, research, translation) |
 ## Key Documentation
 
 | Document | Purpose |

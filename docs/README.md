@@ -1,7 +1,7 @@
 ---
 title: "Copilot Orchestrator Documentation"
-version: "1.0.0"
-lastUpdated: "2026-02-09"
+version: "3.0.0"
+lastUpdated: "2026-04-16"
 status: stable
 ---
 
@@ -24,41 +24,40 @@ This directory contains guides, templates, and operational documentation for the
 | [guides/agent-skills-pilot.md](guides/agent-skills-pilot.md) | Agent skills pilot evaluation |
 | [guides/terminal-formatting-guide.md](guides/terminal-formatting-guide.md) | Terminal output formatting standards |
 | [guides/translation-guide.md](guides/translation-guide.md) | Code translation workflow guide |
-## Workflows
-
-| Document | Purpose |
-|----------|---------|
-| [workflows/orchestration-rebuild-plan.md](workflows/orchestration-rebuild-plan.md) | Strategic roadmap and success metrics |
-| [workflows/new-workspace-blueprint.md](workflows/new-workspace-blueprint.md) | Repository architecture reference |
-| [workflows/new-workspace-setup-checklist.md](workflows/new-workspace-setup-checklist.md) | Setup checklist for new workspaces |
-| [workflows/agent-instruction-gap-analysis.md](workflows/agent-instruction-gap-analysis.md) | Coverage assessment |
+| [guides/memory-management.md](guides/memory-management.md) | Memory lifecycle, cleanup, ADRs |
+| [guides/mcp-integration.md](guides/mcp-integration.md) | MCP server integration patterns |
+| [guides/model-tiers.md](guides/model-tiers.md) | Model tier allocation and fallback strategies |
+| [guides/multi-platform-setup.md](guides/multi-platform-setup.md) | VS Code, Claude Code, CLI configuration |
+| [guides/antigravity-onboarding.md](guides/antigravity-onboarding.md) | Antigravity orchestrator setup |
+| [guides/claude-code-onboarding.md](guides/claude-code-onboarding.md) | Claude Code integration |
+| [guides/copilot-cli-onboarding.md](guides/copilot-cli-onboarding.md) | Copilot CLI onboarding |
+| [guides/visual-studio-onboarding.md](guides/visual-studio-onboarding.md) | Visual Studio integration |
+| [guides/branching-for-copilot-cost-optimization.md](guides/branching-for-copilot-cost-optimization.md) | Git branching for cost control |
+| [guides/agent-handoff-schemas.md](guides/agent-handoff-schemas.md) | Agent handoff data schemas |
+| [guides/agent-hooks-standard.md](guides/agent-hooks-standard.md) | Agent lifecycle hooks |
 
 ## Templates
 
 | Template | Purpose |
 |----------|---------|
 | [templates/plan.md](templates/plan.md) | Implementation plan structure |
+| [templates/plan-complete.md](templates/plan-complete.md) | Plan completion template |
 | [templates/phase-complete.md](templates/phase-complete.md) | Phase completion checklist |
-| [templates/plan-complete.md](templates/plan-complete.md) | Final completion report |
-| [templates/agents-root.md](templates/agents-root.md) | AGENTS.md template |
+| [templates/agent-standard.md](templates/agent-standard.md) | Agent definition standard |
+| [templates/agents-root.md](templates/agents-root.md) | Agent roster template |
+| [templates/skill-standard.md](templates/skill-standard.md) | Skill definition standard |
+| [templates/decision.md](templates/decision.md) | Architectural Decision Record (ADR) |
+| [templates/spec.md](templates/spec.md) | Project specification template |
+| [templates/compact.md](templates/compact.md) | Context compaction template |
+| [templates/data-science-analysis.md](templates/data-science-analysis.md) | Data science analysis template |
 | [templates/translation-report.md](templates/translation-report.md) | Translation validation report template |
+
 ## Operations
 
 | Document | Purpose |
 |----------|---------|
-| [operations.md](operations.md) | Monitoring, metrics, and backlog |
-| [CHANGELOG.md](CHANGELOG.md) | Version history |
-| [quick-reference.md](quick-reference.md) | Command and configuration reference |
-| [repository-analysis.md](repository-analysis.md) | Repository health assessment |
-
-## Research
-
-| Document | Purpose |
-|----------|---------|
-| [research/sota-agent-design-review-2025.md](research/sota-agent-design-review-2025.md) | Agent design patterns review |
-| [research/sota-enhancement-summary.md](research/sota-enhancement-summary.md) | SOTA enhancement implementation summary |
-| [research/copilot-subagents-briefing.md](research/copilot-subagents-briefing.md) | Subagent architecture briefing |
-| [research/mcp-design-pilot-brief.md](research/mcp-design-pilot-brief.md) | MCP design pilot research brief |
+| [operations.md](operations.md) | Monitoring, metrics, incident response, backlog |
+| [quick-reference.md](quick-reference.md) | Commands, configuration, agent roster |
 
 ## Examples
 

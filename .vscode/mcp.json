@@ -4,6 +4,13 @@
 			"type": "http",
 			"url": "https://api.githubcopilot.com/mcp/"
 		},
+		"context7": {
+			"type": "http",
+			"url": "https://mcp.context7.com/mcp",
+			"headers": {
+				"CONTEXT7-API-KEY": "${input:context7ApiKey}"
+			}
+		},
 		"githubLocal": {
 			"type": "stdio",
 			"command": "${workspaceFolder}/.venv/Scripts/python.exe",

@@ -3,12 +3,12 @@ name: support-security-review
 description: "Security support prompt for assessing plans or diffs against policy, privacy, and threat-model requirements."
 argument-hint: "Provide the code or feature to assess for security vulnerabilities"
 model: GPT-5.4 (copilot)
-agent: security
+agent: reviewer
 tools: [todo, changes, read, search, githubRepo, web]
 ---
 
 ## Purpose
-Guide the security support agent through a structured review of the current plan or diff, ensuring risks, mitigations, and approvals are captured before the conductor proceeds.
+Guide the reviewer agent (security mode) through a structured review of the current plan or diff, ensuring risks, mitigations, and approvals are captured before the conductor proceeds.
 
 ## Instructions
 - Start with a TODO fence (triple backticks, checkbox syntax) covering STRIDE categories, data handling, secrets, logging, and dependency risks.

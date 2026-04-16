@@ -2,7 +2,7 @@
 name: translation-styler
 description: "Applies target language idioms, conventions, and best practices to translated code."
 argument-hint: "Provide translated file paths to apply target language idioms and style conventions"
-model: 'GPT-5.4 (copilot)'
+model: ['Claude Haiku 4.5 (copilot)', 'GPT-5 mini (copilot)', 'Claude Sonnet 4.6 (copilot)']
 disable-model-invocation: true
 mcp-servers:
   translation:

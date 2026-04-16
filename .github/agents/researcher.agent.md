@@ -2,13 +2,17 @@
 name: researcher
 description: "Performs targeted research, evidence gathering, and knowledge synthesis."
 argument-hint: "Ask about technologies, patterns, or gather evidence from docs and repos"
-model: 'GPT-5.4 (copilot)'
+model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-4.1 (copilot)']
 mcp-servers:
   research:
     type: stdio
     command: python
     args: ["scripts/mcp/research_server.py"]
     tools: ["web-search"]
+  context7:
+    type: http
+    url: "https://mcp.context7.com/mcp"
+    tools: ["resolve-library-id", "query-docs"]
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, usages, problems, askQuestions]
 handoffs:
   - label: Return to Conductor

@@ -1,7 +1,7 @@
 ---
 title: "Copilot Orchestrator Onboarding Guide"
-version: "0.3.0"
-lastUpdated: "2025-12-08"
+version: "3.0.0"
+lastUpdated: "2026-04-16"
 status: stable
 ---
 
@@ -21,7 +21,7 @@ This guide provides setup instructions for contributors joining the Copilot Orch
 |----------|----------|---------|
 | Agent playbook | `AGENTS.md` | Agent roster, commands, workflow guardrails |
 | Validation scripts | `scripts/*.ps1` | Asset validation, linting, token reporting |
-| Agent definitions | `.github/agents/` | 29 agent definitions with tool scopes and delegation patterns |
+| Agent definitions | `.github/agents/` | 16 agent definitions (11 core + 5 translation) with tool scopes and delegation patterns |
 | Prompt library | `.github/prompts/` | Reusable prompts for each workflow phase |
 | Plan templates | `docs/templates/` | Standard structures for plans and phase summaries |
 | Sample artifacts | `plans/samples/` | Completed examples of conductor deliverables |
@@ -136,8 +136,8 @@ The conductor is the only agent with handoff buttons in the UI. All other agents
 
 - **Planner**: Research and multi-phase plan creation
 - **Implementer**: TDD execution and validation
-- **Reviewer**: Code review with severity-tagged findings
-- **Support personas**: Security, Performance, Accessibility, Docs as needed
+- **Reviewer**: Multi-mode review (standard, security, adversarial, performance)
+- **Specialized agents**: Researcher, Ops, Test, Docs, UX, IaC, GUI Tester as needed
 
 After completing their work, agents return results to the conductor automatically — no manual button clicks required.
 
@@ -158,8 +158,9 @@ After completing their work, agents return results to the conductor automaticall
 
 Control which models appear in the model picker for chat sessions:
 
-- **GPT-5.3-Codex**: Balanced reasoning and execution (recommended for execution-tier agents)
-- **Claude Sonnet 4.6**: Versatile implementation and analysis (recommended for Implementer, Test, and routine tasks)
+- **Claude Sonnet 4.6**: Versatile implementation and analysis (recommended for execution-tier agents)
+- **Claude Opus 4.6**: Advanced reasoning for planning and review (premium tier)
+- **Claude Haiku 4.5**: Fast execution for routine tasks (fast tier)
 
 **Best Practice**: Show only the models appropriate for your workflow to avoid confusion.
 

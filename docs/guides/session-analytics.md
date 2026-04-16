@@ -1,5 +1,8 @@
 ﻿# Session Analytics Guide
 
+version: 2.0.0
+lastUpdated: 2026-04-16
+
 ## Overview
 
 The Copilot Orchestrator session analytics system provides data-driven insights into workflow performance, cost efficiency, and quality metrics. This enables continuous improvement through evidence-based instruction optimization.
@@ -219,7 +222,7 @@ Use analytics to drive improvements:
 
 ## Future Enhancements
 
-Planned improvements (see `docs/research/sota-agent-design-review-2025.md`):
+Planned improvements:
 
 1. **Real-time Dashboard** - Live updates during active sessions
 2. **Automated Collection** - Agents emit structured telemetry
@@ -231,7 +234,6 @@ Planned improvements (see `docs/research/sota-agent-design-review-2025.md`):
 ## Related Documentation
 
 - `INSTRUCTION_CHANGELOG.md` - Track instruction changes
-- `docs/research/sota-agent-design-review-2025.md` - Design rationale
 - `docs/operations.md` - Operational procedures
 - `plans/sessions/session-metadata.schema.json` - Metadata schema
 

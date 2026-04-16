@@ -2,8 +2,8 @@
 name: translation-conductor
 description: "Orchestrates full-repository code translation from one language to another through discovery, translation, validation, and documentation phases."
 argument-hint: "Specify source repo, source language, and target language to begin full translation orchestration"
-model: 'Claude Sonnet 4.6 (copilot)'
-agents: ['translator', 'translation-validator', 'translation-styler', 'translation-analyzer', 'test', 'reviewer', 'security', 'docs', 'researcher', 'planner', 'implementer', 'lint', 'github-ops']
+model: ['Claude Opus 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-4.1 (copilot)']
+agents: ['translator', 'translation-validator', 'translation-styler', 'translation-analyzer', 'test', 'reviewer', 'security', 'docs', 'researcher', 'planner', 'implementer', 'github-ops']
 mcp-servers:
   translation:
     type: stdio

@@ -1,8 +1,8 @@
 ---
 title: "Prompt Engineering by Model Tier"
-version: "0.1.0"
-lastUpdated: "2025-11-08"
-status: draft
+version: "2.0.0"
+lastUpdated: "2026-04-16"
+status: stable
 ---
 
 # Prompt Engineering by Model Tier
@@ -14,14 +14,19 @@ This guide provides tier-specific prompt crafting strategies to maximize effecti
 ## Architecture Context
 
 **Planning/Review Tier (20% of invocations):**
-- Models: Claude Opus 4.6, Claude Sonnet 4.6, GPT-5.3-Codex
+- Models: Claude Opus 4.6
 - Strengths: Advanced reasoning, ambiguity handling, synthesis, creative problem-solving
 - Use cases: Research, planning, architecture decisions, code review
 
-**Execution Tier (80% of invocations):**
-- Models: Claude Sonnet 4.6, GPT-5.3-Codex
+**Execution Tier (75% of invocations):**
+- Models: Claude Sonnet 4.6, GPT-5.4
 - Strengths: Structured execution, code generation, pattern following, efficiency
 - Use cases: Implementation, testing, refactoring, documentation updates
+
+**Fast Tier (5% of invocations):**
+- Models: Claude Haiku 4.5
+- Strengths: Fast pattern-matching, template-driven output
+- Use cases: UX review, diagrams, style checking
 
 ## Planning/Review Tier Prompting
 
@@ -460,17 +465,19 @@ Implement JWT authentication following this workflow:
 - Ask for multiple phases with pause points
 - Encourage identification of open questions
 
-### GPT-5.3-Codex (Execution Tier)
+### GPT-5.4 (Execution Tier)
 
 **Strengths:**
 - Code understanding and refactoring
 - Nuanced requirement interpretation
 - Security and compliance analysis
+- Multi-language code generation
 
 **Prompting tips:**
 - Provide rich context and constraints
 - Request detailed reasoning for recommendations
 - Leverage for complex code reviews and threat modeling
+- Use for fallback when Claude models are unavailable
 
 ### Claude Sonnet 4.6 (Execution Tier)
 
@@ -541,6 +548,5 @@ Tag prompts with:
 ## Related Documentation
 
 - `instructions/workflows/escalation-patterns.instructions.md` — When to escalate from execution to planning tier
-- `instructions/global/03_model-selection.instructions.md` — Model capabilities and fallback chains
 - `docs/operations.md` — Metrics for tracking prompt effectiveness
 - `.github/prompts/` — Reusable prompt templates by tier and task type

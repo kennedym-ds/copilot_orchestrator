@@ -3,12 +3,12 @@ name: support-performance-audit
 description: "Performance support prompt for evaluating runtime, memory, and cost implications of planned or implemented changes."
 argument-hint: "Specify the module or endpoint to audit for performance"
 model: GPT-5.4 (copilot)
-agent: performance
+agent: reviewer
 tools: [todo, changes, read, search, githubRepo, web]
 ---
 
 ## Purpose
-Equip the performance support agent with a repeatable checklist to analyze potential regressions, optimization opportunities, and validation needs before rollout.
+Equip the reviewer agent (performance mode) with a repeatable checklist to analyze potential regressions, optimization opportunities, and validation needs before rollout.
 
 ## Instructions
 - Establish a TODO fence covering latency, throughput, memory, concurrency, resource usage, and cost considerations. Update statuses as you evaluate each dimension.

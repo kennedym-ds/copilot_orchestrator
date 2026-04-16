@@ -1,9 +1,9 @@
 ---
 name: "quality-baseline"
-description: "Repository-wide definition of done, simplicity checklist, and quality expectations."
+description: "Repository-wide definition of done, simplicity checklist, quality expectations, and model allocation."
 applyTo: "**"
-version: "2.0.0"
-lastUpdated: "2026-02-15"
+version: "3.0.0"
+lastUpdated: "2026-04-16"
 ---
 
 # Quality Expectations
@@ -54,3 +54,17 @@ powershell -File scripts/run-lint.ps1 -RepositoryRoot .
 git add -A; git commit -m "done"
 # (no validation run — bugs may be committed)
 ```
+
+## Model Allocation
+
+All agents use fallback arrays in frontmatter `model:` — VS Code picks the first available.
+
+| Tier | Agents | Primary → Fallback |
+|------|--------|--------------------|
+| **Premium** | Conductor, Planner, Reviewer | Claude Opus 4.6 → GPT-5.4 → GPT-4.1 |
+| **Execution** | Implementer, Researcher, Ops, Test, IaC, GUI Tester | Claude Sonnet 4.6 → GPT-5.4 → GPT-4.1 |
+| **Fast** | Docs, UX | Claude Haiku 4.5 → GPT-5 mini → Claude Sonnet 4.6 |
+
+- Never pin a single model. Models deprecate monthly.
+- If all fallbacks fail, escalate to the conductor.
+- Premium tier for judgment-critical work only (~15% of invocations).

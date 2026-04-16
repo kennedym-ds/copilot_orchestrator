@@ -1,13 +1,13 @@
 ---
 title: "Claude Code Onboarding Guide"
-version: "1.0.0"
-lastUpdated: "2026-02-27"
+version: "2.0.0"
+lastUpdated: "2026-04-16"
 status: stable
 ---
 
 # Claude Code Onboarding
 
-Get the Copilot Orchestrator's 29 agents and 16 skills running in Claude Code in under 5 minutes.
+Get the Copilot Orchestrator's 16 agents (11 core + 5 translation) and skills running in Claude Code in under 5 minutes.
 
 ## Prerequisites
 
@@ -33,7 +33,7 @@ cd path/to/copilot_orchestrator
 ./scripts/setup-claude-code.sh --mode project --target ~/projects/my-app
 ```
 
-This creates a `.claude/` directory in your target project with all 29 agents, 16 skills, instruction rules, and MCP configuration.
+This creates a `.claude/` directory in your target project with all 16 agents, skills, instruction rules, and MCP configuration.
 
 ### 2. Verify the setup
 
@@ -109,7 +109,7 @@ Claude Code uses short aliases instead of VS Code's full model names:
 | `Claude Opus 4.6 (copilot)` | `opus` |
 | `Claude Sonnet 4.6 (copilot)` | `sonnet` |
 | `Claude Haiku 4.5 (copilot)` | `haiku` |
-| `GPT-5.3-Codex (copilot)` | `sonnet` (nearest equivalent) |
+| `GPT-5.4 (copilot)` | `sonnet` (nearest equivalent) |
 | `Gemini 3.1 Pro (copilot)` | `sonnet` (nearest equivalent) |
 
 ### Tool mapping
@@ -169,8 +169,8 @@ After setup, your project will contain:
 
 ```
 .claude/
-├── agents/           # 29 transformed agent definitions
-├── skills/           # 17 skill directories
+├── agents/           # 16 transformed agent definitions
+├── skills/           # Skill directories
 ├── rules/            # Instruction files organized by category
 │   ├── global/       # Behavior, quality, security, model selection
 │   ├── workflows/    # Conductor, implementer, reviewer workflows

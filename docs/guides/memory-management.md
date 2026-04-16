@@ -1,7 +1,7 @@
 ---
 title: "Memory Management Guide"
-version: "1.0.0"
-lastUpdated: "2026-02-20"
+version: "2.0.0"
+lastUpdated: "2026-04-16"
 status: stable
 ---
 
@@ -90,7 +90,7 @@ If the `artifacts/` folder doesn't exist yet:
 powershell -File scripts/init-artifacts.ps1
 ```
 
-This creates 17 subfolders including `decisions/`, `memory/`, and `.archive/`.
+This creates 8 subfolders: `plans/`, `reviews/`, `research/`, `decisions/`, `sessions/`, `memory/` (with `wiki/` subfolder), and `.archive/`.
 
 ### 2. Record a Decision
 
@@ -196,6 +196,50 @@ memory-management / Phase 5 of 5
 ```
 
 This file is `ephemeral` (TTL: 7 days) — it's meant to be overwritten each session.
+
+---
+
+## Wiki Knowledge Base
+
+Inspired by Andrej Karpathy's "one fact per bullet" pattern, the orchestrator maintains a lightweight wiki in `artifacts/memory/wiki/` with five focused pages:
+
+### Wiki Pages
+
+| Page | Path | Purpose |
+|------|------|---------|  
+| **Codebase Patterns** | `wiki/codebase-patterns.md` | Architectural patterns, code conventions, idioms specific to this codebase |
+| **Build and Test** | `wiki/build-and-test.md` | Verified build commands, test commands, CI/CD patterns |
+| **Lessons Learned** | `wiki/lessons-learned.md` | Mistakes made and corrected, gotchas, non-obvious fixes |
+| **Dependencies** | `wiki/dependencies.md` | External libraries, version constraints, upgrade notes |
+| **Tooling** | `wiki/tooling.md` | Development tools, scripts, automation helpers |
+
+### Wiki Guidelines
+
+- **One fact per bullet** — Each bullet is a standalone, date-stamped fact
+- **Max 50 lines per page** — Keep pages scannable and fast to read
+- **Date-stamp additions** — `- [2026-04-16]` prefix for new facts
+- **Remove stale facts** — Delete facts that become outdated or incorrect
+- **Cross-reference** — Link to ADRs (`DEC-NNN`) or other artifacts for details
+
+### Example Wiki Entry
+
+```markdown
+## Codebase Patterns
+
+- [2026-04-16] All agents use model fallback arrays; never pin a single model
+- [2026-04-12] Instructions use `applyTo` glob patterns for selective loading  
+- [2026-03-20] Skills follow vercel-labs/skills standard (name + description frontmatter)
+- [2026-02-15] Use `multi_replace_string_in_file` for batched edits instead of sequential calls
+```
+
+### When to Use Wiki vs. ADR
+
+| Use Wiki | Use ADR |
+|----------|---------|  
+| Quick facts, commands, patterns | Architectural decisions with rationale |
+| Lessons learned, gotchas | Trade-offs between alternatives |
+| Date-stamped observations | Formal decision record with status lifecycle |
+| Max 1-2 lines per fact | Multi-section document with consequences |
 
 ---
 

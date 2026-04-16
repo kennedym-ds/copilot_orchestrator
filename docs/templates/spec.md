@@ -3,7 +3,7 @@ title: "Project Specification"
 version: "1.0.0"
 status: draft
 created: "YYYY-MM-DD"
-author: "spec agent"
+author: "{author name}"
 complexity: "LIGHTWEIGHT | STANDARD | COMPREHENSIVE"
 ---
 

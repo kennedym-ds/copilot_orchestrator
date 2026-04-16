@@ -1,7 +1,7 @@
 ﻿---
 title: "Operations & Continuous Improvement Plan"
-version: "0.4.0"
-lastUpdated: "2026-03-10"
+version: "3.0.0"
+lastUpdated: "2026-04-16"
 status: active
 ---
 
@@ -9,41 +9,40 @@ status: active
 
 ## Monitoring
 
-- **Weekly** – review Conductor transcripts for adherence to pause points and instruction compliance.
-- **Monthly** – run validation scripts, prune unused prompts/chat modes, refresh AGENTS.md overlays.
-- **Quarterly** – host retrospectives to assess model allocations, cost usage, and workflow effectiveness.
+- **Weekly** – Review conductor transcripts for adherence to pause points and instruction compliance.
+- **Monthly** – Run validation scripts, prune unused prompts, refresh AGENTS.md.
+- **Quarterly** – Host retrospectives to assess model allocations, cost usage, and workflow effectiveness.
 
 ### Token Budget Status
 
-**Last Updated:** 2026-01-09
-**Current Status:** ⚠ï¸ 1 FILE OVER LIMIT
+**Last Updated:** 2026-04-16
+**Current Status:** ⚠️ 2 FILES OVER LIMIT
 
 **Per-File Token Limit:** 10,000 tokens (primary enforcement)
 **Rationale:** Agents load specific files per-context, not all files at once.
 
-**Current Violations:**
-- `docs/research/copilot-subagents-briefing.md`: 19,161 tokens (+91.6% over limit)
-
-**Informational Totals** (not enforced, since files load independently):
+**Current Totals:**
 ```
-Total:        350,721 tokens
-Instructions: 172,708 tokens
-Docs:         125,763 tokens
-Agents:        41,052 tokens (29 files)
-Prompts:       11,198 tokens
+Total:        ~213,000 tokens
+Agents:        ~30,000 tokens (16 files)
+Docs:          ~96,000 tokens
+Instructions:  ~78,000 tokens
+Prompts:       ~10,000 tokens
 ```
 
 **Action Items:**
-1. **Immediate:** Split `copilot-subagents-briefing.md` into smaller research documents
-2. **Short-term:** Monitor per-file token sizes in validation pipeline
-3. **Medium-term:** Enable Agent Skills pilot to evaluate on-demand loading benefits
-4. **Long-term:** Establish 8k token soft limit for new documentation
+1. **Immediate:** Monitor 2 files exceeding 10k token limit (vscode-copilot-configuration.md, CHANGELOG.md)
+2. **Short-term:** Enable Agent Skills pilot to evaluate on-demand loading benefits
+3. **Medium-term:** Establish 8k token soft limit for new documentation
+4. **Long-term:** Migrate heavy instruction content to skill modules
 
 **Agent Skills Pilot Timeline:**
 - Phase A (Week 1-2): Baseline measurement with always-on instructions
 - Phase B (Week 3-4): Pilot with Agent Skills enabled
 - Phase C (Week 5): Analysis and Go/No-Go decision
 - See: `docs/guides/agent-skills-pilot.md`
+
+---
 
 ## Metrics
 
@@ -57,55 +56,40 @@ Prompts:       11,198 tokens
 ### Multi-Tier Model Effectiveness
 
 **Cost Efficiency Metrics:**
-- **Premium vs. execution tier ratio** — Target: 20% premium / 80% execution. Track actual ratio weekly.
+- **Premium vs. execution tier ratio** — Target: 15% premium / 75% execution / 10% fast. Track actual ratio weekly.
 - **Cost per completed phase** — Total model costs divided by phases completed successfully.
-- **Cost per agent type** — Break down costs by Conductor, Planner, Implementer, Reviewer, Researcher, Security, Performance, Docs.
+- **Cost per agent type** — Break down costs by Conductor, Planner, Implementer, Reviewer, Researcher, Ops, Test, IaC, GUI Tester, Docs, UX.
 - **Budget variance** — Actual spend vs. projected spend; alert when >10% over budget.
 
-**Quality & Escalation Metrics:**
-- **Review rejection rate** — Percentage of phases rejected by Reviewer, broken down by:
-  - Implementer using execution tier (baseline)
-  - Implementer after escalation to premium tier (should be lower)
-  - Trend over time (should decrease as patterns mature)
-- **Escalation frequency** — Track escalations per phase by trigger type:
-  - Tier 1 (automatic): Test failures, ambiguity, security, performance
-  - Tier 2 (recommended): Architecture changes, API integration, context overflow, cross-cutting concerns
-  - Tier 3 (optional): Refactoring opportunities, test coverage gaps, documentation updates
-- **Escalation resolution time** — Mean time from escalation to unblock.
-- **False escalation rate** — Escalations where execution tier could have succeeded (indicates need for better prompting).
+**Quality Metrics:**
+- **Review rejection rate** — Percentage of phases rejected by Reviewer.
+- **Pushback cycle count** — Average pushback cycles per phase (target: <2).
+- **Confidence score trends** — Track confidence levels on review findings.
+- **Evidence verification success** — Percentage of tests passing on first run.
 
-**Model Availability & Resilience:**
-- **Primary model uptime** — Availability percentage by model type (Claude Opus 4.6, Claude Sonnet 4.6, GPT-5.3-Codex, etc.).
+**Model Availability:**
+- **Primary model uptime** — Availability percentage by model type.
 - **Fallback invocation frequency** — How often fallback models used vs. primary.
 - **Fallback success rate** — Percentage of successful completions when using 1st, 2nd, 3rd fallback.
-- **Mean time to recovery** — When primary model unavailable, how long until restored.
-
-**Model-Task Fit:**
-- **Success rate by model-task pairs** — Track which models perform best for:
-  - Code generation vs. refactoring vs. test writing
-  - Security analysis vs. performance analysis
-  - Research vs. planning vs. review
-- **Context window utilization** — Average and peak token usage by agent, identify opportunities for optimization.
-- **Response quality scores** — Manual or automated scoring of output quality (1-5 scale) by model and task type.
 
 ### Data-Driven Model Allocation
 
 **Weekly Review:**
-- Check premium/execution tier ratio; adjust agent defaults if consistently off-target.
-- Review top 5 escalation triggers; document patterns and update escalation guidance if needed.
-- Identify models with high failure or fallback rates; investigate root causes.
+- Check tier distribution; adjust agent defaults if consistently off-target.
+- Review pushback patterns; identify common failure modes.
+- Monitor fallback usage; escalate reliability concerns.
 
 **Monthly Review:**
 - Analyze cost per phase trends; optimize prompts or model selection if costs rising.
-- Review false escalation patterns; improve Implementer prompts to reduce unnecessary premium usage.
-- Compare review rejection rates before vs. after introducing escalation patterns; validate quality improvement.
+- Compare before/after metrics for new features (pushback, risk classification, evidence verification).
+- Evaluate new model releases for potential inclusion.
 
 **Quarterly Review:**
 - Assess model-task fit data; update default model assignments in agent definitions.
-- Evaluate new model releases for potential inclusion.
 - Fine-tune cost-efficient models on successful patterns if data available.
 - Adjust fallback chains based on empirical reliability and performance data.
 
+---
 
 ## Incident Response
 
@@ -114,36 +98,32 @@ Prompts:       11,198 tokens
 - Disable problematic agents/prompts via repo settings until resolved.
 - Document post-incident reviews and remediation steps.
 
+
+---
+
 ## Backlog
 
 | Item | Owner | Status |
-| --- | --- | --- |
-| Author root `AGENTS.md` | Docs Guild | Complete |
-| Publish conductor + subagent definitions under `.github/agents/` | Platform Guild | Complete |
-| Port validation scripts (`validate`, `metadata`, `token-report`) | Tooling | Complete |
-| Configure `ci/validate.yml` workflow | Tooling | Complete |
-| Develop onboarding walkthrough (Agent Sessions demo) | Enablement | Complete |
-| Draft prompt library for orchestrator workflows | Prompt Guild | Complete |
+|------|-------|--------|
 | Add JSON output mode to token report | Tooling | Planned |
-| Introduce Pester-based regression tests for scripts | Tooling | Complete |
-| Author support persona prompts (security, performance, docs) | Prompt Guild | Complete |
-| Create planner/researcher/implementer/reviewer chat modes with handoffs | Prompt Guild | Complete |
-| Replace placeholder `.github/copilot-instructions.md` with finalized workspace charter | Docs Guild | Complete |
-| Document nested `AGENTS.md` settings and Agent Sessions workflow | Enablement | Complete |
-| Align prompt front matter with chat modes and tool priority rules | Prompt Guild | Complete |
-| Document escalation patterns for multi-tier model usage | Prompt Guild | Complete |
-| Define model fallback matrix and resilience strategies | Platform Guild | Complete |
-| Add multi-tier effectiveness metrics to operations playbook | Operations | Complete |
-| Create prompt engineering by tier guidelines | Enablement | Complete |
 | Implement escalation metrics tracking dashboard | Tooling | Planned |
 | Pilot dynamic escalation in low-risk workflows | Platform Guild | Planned |
 | Evaluate model re-evaluation cadence for new releases | Operations | Planned |
+| Expand Context7 MCP coverage to additional libraries | MCP Guild | Planned |
+| Wiki memory retention policy and search tooling | Platform Guild | Planned |
+| Skills ecosystem integration testing | Skills Guild | Planned |
+
+---
 
 ## Tooling
 
-- Validation scripts (PowerShell) to be ported from legacy repo.
-- Markdown/YAML linting pipeline (to be defined).
+- Validation scripts (PowerShell) under `scripts/`.
+- MCP servers (Python) under `scripts/mcp/`.
 - Token budget reporting integrated with CI.
+- Session analytics via `analyze-sessions.ps1`.
+- Pester-based regression tests under `tests/powershell/`.
+
+---
 
 ## Instruction Hygiene
 

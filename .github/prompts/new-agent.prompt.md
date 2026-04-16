@@ -12,7 +12,7 @@ Create a new `.agent.md` file in `.github/agents/` following the established pat
 
 ## Instructions
 - Read existing agent files for pattern reference (e.g., `.github/agents/implementer.agent.md`).
-- Read `instructions/global/03_model-selection.instructions.md` for model tier assignments.
+- Read `instructions/global/01_quality.instructions.md` § Model Allocation for tier assignments.
 - Ask clarifying questions about the agent's purpose, tier, and required tools.
 - Generate the agent file with complete frontmatter and body.
 
@@ -31,9 +31,9 @@ Create a new `.agent.md` file in `.github/agents/` following the established pat
 - Boundaries section (always do / ask first / never do)
 
 ### Model Tier Assignment
-- Premium (~10%): Orchestration, planning, security → Claude Opus 4.6
-- Execution (~76%): Implementation, testing, analysis, docs → GPT-5.4
-- Routine (~10%): Linting, formatting, conversational → Claude Haiku 4.5
+- Premium (~15%): Orchestration, planning, review → Claude Opus 4.6 → GPT-5.4 → GPT-4.1
+- Execution (~75%): Implementation, testing, analysis → Claude Sonnet 4.6 → GPT-5.4 → GPT-4.1
+- Fast (~10%): Documentation, UX → Claude Haiku 4.5 → GPT-5 mini → Claude Sonnet 4.6
 
 ### Invocation Control
 - Add `user-invokable: false` for subagent-only agents

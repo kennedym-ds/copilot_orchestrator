@@ -148,6 +148,35 @@ Preview only: `powershell -File scripts/cleanup-artifacts.ps1 -DryRun`
 4. **Phase splitting** -- when context grows, split work into smaller phases with artifact handoffs
 5. **Decision-first reading** -- read ADRs before code to avoid re-debating settled choices
 
+### Wiki Knowledge Base (Karpathy Pattern)
+
+Beyond `activeContext.md` (session-scoped), agents maintain a **wiki** — a set of topic-organized living documents in `artifacts/memory/wiki/`. The wiki is the agent's institutional memory: facts discovered during work, curated and refined over time.
+
+**Wiki pages:**
+
+| Page | Purpose | Update Trigger |
+|------|---------|----------------|
+| `codebase-patterns.md` | Discovered conventions, architecture patterns, file organization | After implementation or review |
+| `build-and-test.md` | Verified build commands, test commands, CI quirks | After running build/test successfully |
+| `lessons-learned.md` | Mistakes made, fixes found, reviewer catches | After review findings or debugging |
+| `dependencies.md` | Key dependency notes, version constraints, known issues | After dependency changes |
+| `tooling.md` | Working tool configurations, MCP servers, editor settings | After tool discovery or setup |
+
+**Wiki rules:**
+
+1. **Append, don't rewrite** — add new facts to the relevant page. Remove only when a fact is verified stale.
+2. **One fact per bullet** — keep entries scannable. No paragraphs.
+3. **Date-stamp entries** — `- [2026-04-16] PowerShell 5.1 requires semicolons, not && for chaining`
+4. **Max 50 lines per page** — if a page exceeds 50 lines, prune the oldest/least-useful entries.
+5. **Read wiki at session start** — after `activeContext.md`, scan wiki pages relevant to the current task.
+6. **Write wiki after verification** — only store facts that have been verified through tool execution, not assumed.
+
+**Wiki vs. Copilot Memory:**
+- Wiki = per-repo, detailed, living — "PowerShell tests use `Invoke-Pester -Path tests -Output Detailed`"
+- Copilot Memory = cross-repo, durable conventions — "Always use model fallback arrays"
+
+**Initialization:** `pwsh -File scripts/init-artifacts.ps1` creates the wiki folder with empty starter pages.
+
 ## Examples
 
 ### Pattern: New Decision

@@ -1,11 +1,11 @@
 # Multi-Platform Setup Guide
 
 > **Scope:** VS Code | Visual Studio | Claude Code | Antigravity | Copilot CLI
-> **Version:** 1.2.0 | **Last Updated:** 2026-03-10
+> **Version:** 2.0.0 | **Last Updated:** 2026-04-16
 
 ## Overview
 
-The Copilot Orchestrator's 29 agents and 16 skills can be used across five platforms:
+The Copilot Orchestrator's 16 agents (11 core + 5 translation) and skills can be used across five platforms:
 
 | Platform | Agent Format | Setup Script | OS Support |
 |----------|-------------|-------------|------------|
@@ -137,7 +137,7 @@ Claude Code uses a different agent format than VS Code. The setup scripts automa
 | `Claude Opus 4.6 (copilot)` | `opus` |
 | `Claude Sonnet 4.6 (copilot)` | `sonnet` |
 | `Claude Haiku 4.5 (copilot)` | `haiku` |
-| `GPT-5.3-Codex (copilot)` | `sonnet` (fallback) |
+| `GPT-5.4 (copilot)` | `sonnet` (fallback) |
 | `Gemini 3.1 Pro (Preview) (copilot)` | `sonnet` (fallback) |
 
 **Tool names** are mapped:
@@ -169,8 +169,8 @@ Plugin mode creates a package that can be shared with your team:
 copilot-orchestrator-plugin/
 ├── .claude-plugin/
 │   └── plugin.json          # Plugin manifest
-├── agents/                   # 29 transformed agents
-├── skills/                   # 16 skills + instruction skills
+├── agents/                   # 16 transformed agents
+├── skills/                   # Skills + instruction skills
 ├── .mcp.json                 # MCP server config
 └── README.md                 # Usage instructions
 ```
@@ -256,7 +256,7 @@ Antigravity is a Google DeepMind AI coding IDE that uses a different directory s
 | `Claude Sonnet 4.6 (copilot)` | `sonnet` |
 | `Claude Haiku 4.5 (copilot)` | `haiku` |
 | `Gemini 3.1 Pro (Preview) (copilot)` | `gemini-pro` |
-| `GPT-5.3-Codex (copilot)` | `inherit` (uses IDE default) |
+| `GPT-5.4 (copilot)` | `inherit` (uses IDE default) |
 
 **Tool names** are mapped to Antigravity equivalents:
 
