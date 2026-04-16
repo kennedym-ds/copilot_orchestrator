@@ -2,7 +2,7 @@
 name: generate-tests
 description: "Generate unit and integration tests for specified code with edge cases and mocking."
 argument-hint: "Specify the function, class, or module to generate tests for"
-model: GPT-5.4 (copilot)
+model: Claude Haiku 4.5 (copilot)
 agent: agent
 tools: [search, edit, execute]
 ---

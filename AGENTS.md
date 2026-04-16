@@ -64,9 +64,9 @@ All agents use fallback arrays. VS Code picks the first available model.
 
 | Tier | Primary → Fallback | Target |
 |------|--------------------|--------|
-| **Premium** | Claude Opus 4.6 → GPT-5.4 → GPT-4.1 | ~15% of invocations |
-| **Execution** | Claude Sonnet 4.6 → GPT-5.4 → GPT-4.1 | ~75% of invocations |
-| **Fast** | Claude Haiku 4.5 → GPT-5 mini → Claude Sonnet 4.6 | ~10% of invocations |
+| **Premium** | Claude Sonnet 4.6 → Claude Haiku 4.5 → GPT-4.1 | ~15% of invocations |
+| **Execution** | Claude Haiku 4.5 → Claude Haiku 4.5 → GPT-4.1 | ~75% of invocations |
+| **Fast** | Claude Haiku 4.5 → GPT-5 mini → Claude Haiku 4.5 | ~10% of invocations |
 
 Never pin a single model. Models deprecate monthly.
 

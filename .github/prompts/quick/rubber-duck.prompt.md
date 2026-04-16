@@ -1,7 +1,7 @@
 ---
 name: rubber-duck
 description: "Socratic problem-solving — helps you think through problems by asking probing questions instead of jumping to solutions."
-model: Claude Sonnet 4.6 (copilot)
+model: Claude Haiku 4.5 (copilot)
 agent: agent
 tools: [read, search, fileSearch]
 mode: ask

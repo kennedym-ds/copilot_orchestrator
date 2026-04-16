@@ -35,7 +35,7 @@ Canonical reference for normalizing `.github/agents/*.agent.md` in Phases 2-4 of
 name: {agent-name}
 description: "{one-line purpose}"
 argument-hint: "{what the user should provide}"
-model: 'GPT-5.4 (copilot)'
+model: 'Claude Haiku 4.5 (copilot)'
 tools: [agent, read]
 
 <!-- INSTRUCTIONS: Add optional frontmatter only when the role actually needs it. -->

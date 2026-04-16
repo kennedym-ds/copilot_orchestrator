@@ -2,7 +2,7 @@
 name: reviewer
 description: "Audits changes for correctness, quality, security, performance, and policy compliance."
 argument-hint: "Provide changes to review — add --security, --adversarial, or --performance for specialized modes"
-model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)']
+model: ['Claude Sonnet 4.6 (copilot)', 'Claude Haiku 4.5 (copilot)', 'Claude Haiku 4.5 (copilot)']
 agents: ['conductor', 'implementer']
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, problems, usages, execute, askQuestions]
 handoffs:

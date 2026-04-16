@@ -110,11 +110,11 @@ $agentFiles += Get-ChildItem -Path (Join-Path $RepoRoot '.github/agents') -Filte
 
 # Define valid model names (updated for current model allocation)
 $validModels = @(
-    'Claude Opus 4.6 (copilot)',
     'Claude Sonnet 4.6 (copilot)',
+    'Claude Haiku 4.5 (copilot)',
 
     'Claude Haiku 4.5 (copilot)',
-    'GPT-5.4 (copilot)',
+    'Claude Haiku 4.5 (copilot)',
     'GPT-5.3-Codex (copilot)',
     'GPT-5.1-Codex-Mini (copilot)',
     'GPT-5 mini (copilot)',

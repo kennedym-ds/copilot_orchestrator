@@ -323,9 +323,9 @@ If you hit context limits:
 ### Model Selection
 
 Agents use fallback arrays:
-- **Premium**: Claude Opus 4.6 → GPT-5.4 → GPT-4.1
-- **Execution**: Claude Sonnet 4.6 → GPT-5.4 → GPT-4.1
-- **Fast**: Claude Haiku 4.5 → GPT-5 mini → Claude Sonnet 4.6
+- **Premium**: Claude Sonnet 4.6 → Claude Haiku 4.5 → GPT-4.1
+- **Execution**: Claude Haiku 4.5 → Claude Haiku 4.5 → GPT-4.1
+- **Fast**: Claude Haiku 4.5 → GPT-5 mini → Claude Haiku 4.5
 
 If a model is unavailable, the next in the array is used automatically.
 

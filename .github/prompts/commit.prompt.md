@@ -2,7 +2,7 @@
 name: commit
 description: "Generate a conventional commit message from staged changes."
 argument-hint: "Describe the changes for a conventional commit message"
-model: Claude Sonnet 4.6 (copilot)
+model: Claude Haiku 4.5 (copilot)
 agent: agent
 tools: [changes]
 ---

@@ -2,7 +2,7 @@
 name: generate-docs
 description: "Generate comprehensive documentation for a translated repository including technical, business, and test documentation."
 argument-hint: "Specify the translated module to generate documentation for"
-model: Claude Sonnet 4.6 (copilot)
+model: Claude Haiku 4.5 (copilot)
 agent: docs
 tools: [search, read, edit]
 ---

@@ -2,7 +2,7 @@
 name: conductor
 description: "Orchestrates planning, implementation, review, and completion cycles with specialized subagents."
 argument-hint: "Describe your feature request or bug to orchestrate a multi-phase implementation"
-model: ['Claude Opus 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-4.1 (copilot)']
+model: ['Claude Sonnet 4.6 (copilot)', 'Claude Haiku 4.5 (copilot)', 'GPT-4.1 (copilot)']
 agents: ['planner', 'implementer', 'reviewer', 'researcher', 'ops', 'docs', 'test', 'iac', 'gui-tester', 'ux', 'translation-conductor']
 tools: [agent, todo, web, search, githubRepo, changes, edit, execute, read, fileSearch, problems, askQuestions]
 handoffs:

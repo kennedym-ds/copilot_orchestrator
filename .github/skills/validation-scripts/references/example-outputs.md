@@ -173,9 +173,9 @@ Period: 2026-01-01 to 2026-02-09
 Sessions analyzed: 42
 
 Model Usage:
-  Claude Opus 4.6:   18% (target: ≤20%)  ✅
-  GPT-5.4:            52%
-  Claude Sonnet 4.6:  30%
+  Claude Sonnet 4.6:   18% (target: ≤20%)  ✅
+  Claude Haiku 4.5:            52%
+  Claude Haiku 4.5:  30%
 
 Quality Metrics:
   Review approval rate: 92% (target: ≥90%)  ✅

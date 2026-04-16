@@ -2,7 +2,7 @@
 name: ux
 description: "Reviews UX design, WCAG accessibility, visual hierarchy, and user journey flows."
 argument-hint: "Review user flows, wireframes, accessibility, color contrast, or create diagrams"
-model: ['Claude Haiku 4.5 (copilot)', 'GPT-5 mini (copilot)', 'Claude Sonnet 4.6 (copilot)']
+model: ['Claude Haiku 4.5 (copilot)', 'GPT-5 mini (copilot)', 'Claude Haiku 4.5 (copilot)']
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, problems, usages, askQuestions]
 handoffs:
   - label: Return to Conductor

@@ -68,49 +68,49 @@ All inter-agent delegation uses `#runSubagent`:
 
 | Agent | Keyword Triggers | When to Delegate | Model Preference | Effort |
 |-------|-----------------|------------------|------------------|--------|
-| **conductor** | "orchestrate", "coordinate", "multi-phase", "lifecycle" | Escalate scope changes, ambiguous routing, multi-agent coordination | Claude Opus 4.6 | Medium |
-| **planner** | "plan", "scope", "phases", "strategy", "breakdown", "estimate", "impact analysis", "blast radius" | Need structured multi-phase plan, risk analysis, option evaluation, impact assessment | Claude Opus 4.6 | Medium |
-| **implementer** | "implement", "build", "code", "fix", "apply", "execute", "create" | Execute approved changes, apply fixes, generate code | GPT-5.4 | Medium |
-| **reviewer** | "review", "audit", "quality", "check", "verify", "validate" | After implementation, quality gates, diff review, compliance checks | GPT-5.4 | Medium |
-| **researcher** | "research", "investigate", "evidence", "compare", "explore", "context", "code topology", "codebase overview", "architecture map" | Gather background info, evaluate alternatives, find documentation, structural codebase analysis | GPT-5.4 | Medium |
-| **maintainer** | "triage", "release", "changelog", "version", "PR", "issue management" | Issue triage, release preparation, PR logistics, changelog updates | GPT-5.4 | Low |
-| **spec** | "spec", "specification", "requirements", "scope", "project brief", "acceptance criteria" | Comprehensive project specification, requirements elicitation, scope definition | GPT-5.4 | Medium |
+| **conductor** | "orchestrate", "coordinate", "multi-phase", "lifecycle" | Escalate scope changes, ambiguous routing, multi-agent coordination | Claude Sonnet 4.6 | Medium |
+| **planner** | "plan", "scope", "phases", "strategy", "breakdown", "estimate", "impact analysis", "blast radius" | Need structured multi-phase plan, risk analysis, option evaluation, impact assessment | Claude Sonnet 4.6 | Medium |
+| **implementer** | "implement", "build", "code", "fix", "apply", "execute", "create" | Execute approved changes, apply fixes, generate code | Claude Haiku 4.5 | Medium |
+| **reviewer** | "review", "audit", "quality", "check", "verify", "validate" | After implementation, quality gates, diff review, compliance checks | Claude Haiku 4.5 | Medium |
+| **researcher** | "research", "investigate", "evidence", "compare", "explore", "context", "code topology", "codebase overview", "architecture map" | Gather background info, evaluate alternatives, find documentation, structural codebase analysis | Claude Haiku 4.5 | Medium |
+| **maintainer** | "triage", "release", "changelog", "version", "PR", "issue management" | Issue triage, release preparation, PR logistics, changelog updates | Claude Haiku 4.5 | Low |
+| **spec** | "spec", "specification", "requirements", "scope", "project brief", "acceptance criteria" | Comprehensive project specification, requirements elicitation, scope definition | Claude Haiku 4.5 | Medium |
 
 #### Support Persona Agents
 
 | Agent | Keyword Triggers | When to Delegate | Model Preference | Effort | Restriction |
 |-------|-----------------|------------------|------------------|--------|-------------|
-| **security** | "threat", "vulnerability", "compliance", "STRIDE", "credentials", "auth" | Security review, threat modeling, compliance checkpoint | Claude Opus 4.6 | High | `user-invokable: false` — subagent-only |
-| **performance** | "latency", "memory", "profiling", "scalability", "Big O", "cost" | Runtime analysis, memory profiling, cost modeling | GPT-5.4 | Medium | `user-invokable: false` — subagent-only |
-| **accessibility** | "WCAG", "ARIA", "a11y", "screen reader", "keyboard navigation", "contrast" | Accessibility audit, WCAG compliance, ARIA review | GPT-5.4 | Low | — |
-| **docs** | "documentation", "onboarding", "guide", "README", "tutorial", "knowledge" | Documentation drafts, onboarding materials, template creation | GPT-5.4 | Low | — |
-| **observability** | "metrics", "logging", "tracing", "telemetry", "monitoring", "dashboard" | Instrumentation review, platform integration, metrics analysis | GPT-5.4 | Low | `user-invokable: false` — subagent-only |
+| **security** | "threat", "vulnerability", "compliance", "STRIDE", "credentials", "auth" | Security review, threat modeling, compliance checkpoint | Claude Sonnet 4.6 | High | `user-invokable: false` — subagent-only |
+| **performance** | "latency", "memory", "profiling", "scalability", "Big O", "cost" | Runtime analysis, memory profiling, cost modeling | Claude Haiku 4.5 | Medium | `user-invokable: false` — subagent-only |
+| **accessibility** | "WCAG", "ARIA", "a11y", "screen reader", "keyboard navigation", "contrast" | Accessibility audit, WCAG compliance, ARIA review | Claude Haiku 4.5 | Low | — |
+| **docs** | "documentation", "onboarding", "guide", "README", "tutorial", "knowledge" | Documentation drafts, onboarding materials, template creation | Claude Haiku 4.5 | Low | — |
+| **observability** | "metrics", "logging", "tracing", "telemetry", "monitoring", "dashboard" | Instrumentation review, platform integration, metrics analysis | Claude Haiku 4.5 | Low | `user-invokable: false` — subagent-only |
 | **visualizer** | "UX", "diagram", "wireframe", "user flow", "visual", "Mermaid" | UX review, diagram creation, visual hierarchy feedback | Claude Haiku 4.5 | N/A | — |
-| **deployment** | "CI/CD", "pipeline", "deploy", "release readiness", "environment", "infrastructure" | Deployment review, pipeline validation, release runbooks | GPT-5.4 | Low | — |
-| **red-team** | "adversarial", "exploit", "edge case", "stress test", "loophole", "bad actor" | Adversarial testing, assumption challenging, attack surface analysis | GPT-5.4 | High | `user-invokable: false` — subagent-only |
+| **deployment** | "CI/CD", "pipeline", "deploy", "release readiness", "environment", "infrastructure" | Deployment review, pipeline validation, release runbooks | Claude Haiku 4.5 | Low | — |
+| **red-team** | "adversarial", "exploit", "edge case", "stress test", "loophole", "bad actor" | Adversarial testing, assumption challenging, attack surface analysis | Claude Haiku 4.5 | High | `user-invokable: false` — subagent-only |
 
 #### Translation Workflow Agents
 
 | Agent | Keyword Triggers | When to Delegate | Model Preference | Effort | Restriction |
 |-------|-----------------|------------------|------------------|--------|-------------|
-| **translation-conductor** | "translate repo", "full translation", "codebase translation", "language migration" | Full-repo translation orchestration (6-phase lifecycle) | Claude Sonnet 4.6 | Medium | Only invoked by conductor |
-| **translator** | "translate file", "convert code", "port module" | Single-file code translation with pattern mapping | GPT-5.4 | Low | `disable-model-invocation: true` |
-| **translation-analyzer** | "dependency graph", "manifest", "translation analysis", "source discovery" | Source repo analysis, dependency DAG, complexity assessment | GPT-5.4 | Low | `disable-model-invocation: true` |
-| **translation-validator** | "validate translation", "confidence score", "equivalence check" | 6-layer validation stack, confidence scoring | GPT-5.4 | Low | `disable-model-invocation: true` |
-| **translation-styler** | "idioms", "conventions", "target style", "idiomatic code" | Target language idiom application, convention enforcement | GPT-5.4 | Low | `disable-model-invocation: true` |
+| **translation-conductor** | "translate repo", "full translation", "codebase translation", "language migration" | Full-repo translation orchestration (6-phase lifecycle) | Claude Haiku 4.5 | Medium | Only invoked by conductor |
+| **translator** | "translate file", "convert code", "port module" | Single-file code translation with pattern mapping | Claude Haiku 4.5 | Low | `disable-model-invocation: true` |
+| **translation-analyzer** | "dependency graph", "manifest", "translation analysis", "source discovery" | Source repo analysis, dependency DAG, complexity assessment | Claude Haiku 4.5 | Low | `disable-model-invocation: true` |
+| **translation-validator** | "validate translation", "confidence score", "equivalence check" | 6-layer validation stack, confidence scoring | Claude Haiku 4.5 | Low | `disable-model-invocation: true` |
+| **translation-styler** | "idioms", "conventions", "target style", "idiomatic code" | Target language idiom application, convention enforcement | Claude Haiku 4.5 | Low | `disable-model-invocation: true` |
 
 #### Specialist Agents
 
 | Agent | Keyword Triggers | When to Delegate | Model Preference | Effort |
 |-------|-----------------|------------------|------------------|--------|
-| **test** | "unit test", "integration test", "coverage", "TDD", "Pester", "test suite" | Test creation, coverage analysis, Red-Green-Refactor cycles | GPT-5.4 | Medium |
+| **test** | "unit test", "integration test", "coverage", "TDD", "Pester", "test suite" | Test creation, coverage analysis, Red-Green-Refactor cycles | Claude Haiku 4.5 | Medium |
 | **lint** | "format", "style fix", "lint", "whitespace", "naming convention" | Code formatting, style enforcement, auto-fixes | Claude Haiku 4.5 | N/A |
-| **github-ops** | "issue", "pull request", "workflow", "GitHub Actions", "branch", "repository" | GitHub operations, PR management, workflow automation | GPT-5.4 | Low |
-| **terraform** | "Terraform", "multi-cloud", "IaC", "drift detection", "HCL" | Infrastructure-as-code planning, drift detection | GPT-5.4 | Low |
-| **bicep** | "Azure", "Bicep", "ARM template", "Azure IaC" | Azure infrastructure implementation, ARM compatibility | GPT-5.4 | Low |
-| **design** | "design system", "brand colors", "components", "design tokens" | Design system queries, component search, contrast validation | GPT-5.4 | Low |
-| **beast-mode** | "deep analysis", "complex reasoning", "step-by-step", "thorough investigation" | Extended reasoning with visible thinking, complex problem solving | GPT-5.4 | High |
-| **gui-tester** | "GUI test", "browser test", "visual regression", "interaction test", "screenshot", "Playwright", "page load", "UI validation" | Browser automation, visual regression, interaction testing, form validation | GPT-5.4 | Low |
+| **github-ops** | "issue", "pull request", "workflow", "GitHub Actions", "branch", "repository" | GitHub operations, PR management, workflow automation | Claude Haiku 4.5 | Low |
+| **terraform** | "Terraform", "multi-cloud", "IaC", "drift detection", "HCL" | Infrastructure-as-code planning, drift detection | Claude Haiku 4.5 | Low |
+| **bicep** | "Azure", "Bicep", "ARM template", "Azure IaC" | Azure infrastructure implementation, ARM compatibility | Claude Haiku 4.5 | Low |
+| **design** | "design system", "brand colors", "components", "design tokens" | Design system queries, component search, contrast validation | Claude Haiku 4.5 | Low |
+| **beast-mode** | "deep analysis", "complex reasoning", "step-by-step", "thorough investigation" | Extended reasoning with visible thinking, complex problem solving | Claude Haiku 4.5 | High |
+| **gui-tester** | "GUI test", "browser test", "visual regression", "interaction test", "screenshot", "Playwright", "page load", "UI validation" | Browser automation, visual regression, interaction testing, form validation | Claude Haiku 4.5 | Low |
 | **rubber-duck** | "stuck", "confused", "think through", "debug thinking", "rubber duck", "talk it out", "help me understand" | Socratic problem-solving, guided debugging via probing questions | Claude Haiku 4.5 | N/A |
 
 ### Delegation Templates
@@ -268,9 +268,9 @@ Notable cost-tier assignments:
 | lint | Claude Haiku 4.5 | Routine (0.33×) | N/A | Formatting is pattern-matching; smallest model suffices |
 | rubber-duck | Claude Haiku 4.5 | Routine (0.33×) | N/A | Socratic questions don't require deep reasoning |
 | visualizer | Claude Haiku 4.5 | Routine (0.33×) | N/A | Diagram generation and UX feedback are template-driven |
-| translation-conductor | Claude Sonnet 4.6 | Execution (1×) | Medium | Multi-phase orchestration needs Anthropic tool-use strengths |
-| beast-mode | GPT-5.4 | Execution (1×) | High | Extended reasoning is the core purpose |
-| red-team | GPT-5.4 | Execution (1×) | High | Adversarial analysis requires exhaustive thinking |
+| translation-conductor | Claude Haiku 4.5 | Execution (1×) | Medium | Multi-phase orchestration needs Anthropic tool-use strengths |
+| beast-mode | Claude Haiku 4.5 | Execution (1×) | High | Extended reasoning is the core purpose |
+| red-team | Claude Haiku 4.5 | Execution (1×) | High | Adversarial analysis requires exhaustive thinking |
 
 ### Nested Delegation (VS Code 1.113+)
 

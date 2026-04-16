@@ -2,7 +2,7 @@
 name: validate-translation
 description: "Run the 6-layer validation stack against translated files and produce confidence scores."
 argument-hint: "Provide the source and target files to validate translation"
-model: GPT-5.4 (copilot)
+model: Claude Haiku 4.5 (copilot)
 agent: translation-validator
 tools: [search, read, execute, problems]
 ---

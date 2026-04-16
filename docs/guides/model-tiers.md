@@ -12,8 +12,8 @@ GitHub Copilot charges premium requests based on model multiplier:
 
 | Multiplier | Models |
 |------------|--------|
-| **3×** | Claude Opus 4.6 |
-| **1×** | GPT-5.4, Claude Sonnet 4.6 |
+| **3×** | Claude Sonnet 4.6 |
+| **1×** | Claude Haiku 4.5, Claude Haiku 4.5 |
 | **0.33×** | Claude Haiku 4.5, Gemini 3 Flash |
 | **0×** | GPT-5 mini, GPT-4.1, GPT-4o, Raptor mini |
 
@@ -23,7 +23,7 @@ Source: [GitHub Copilot premium request documentation](https://docs.github.com/e
 
 The orchestrator optimizes for capability per dollar. Each agent gets the cheapest model that handles its workload without quality degradation.
 
-### Premium Tier — Claude Opus 4.6 (3×)
+### Premium Tier — Claude Sonnet 4.6 (3×)
 
 Reserved for agents where reasoning depth directly determines output quality.
 
@@ -35,7 +35,7 @@ Reserved for agents where reasoning depth directly determines output quality.
 
 **Premium tier agents:** 3 (~19% of invocations)
 
-### Execution Tier — Claude Sonnet 4.6 (1×)
+### Execution Tier — Claude Haiku 4.5 (1×)
 
 The workhorse tier for implementation, analysis, and specialized tasks.
 
@@ -84,9 +84,9 @@ When a primary model is unavailable, agents fall back to the next available mode
 
 | Tier | Primary | Fallback 1 | Fallback 2 |
 |------|---------|------------|------------|
-| Premium | Claude Opus 4.6 | GPT-5.4 | GPT-4.1 |
-| Execution | Claude Sonnet 4.6 | GPT-5.4 | GPT-4.1 |
-| Fast | Claude Haiku 4.5 | GPT-5 mini | Claude Sonnet 4.6 |
+| Premium | Claude Sonnet 4.6 | Claude Haiku 4.5 | GPT-4.1 |
+| Execution | Claude Haiku 4.5 | Claude Haiku 4.5 | GPT-4.1 |
+| Fast | Claude Haiku 4.5 | GPT-5 mini | Claude Haiku 4.5 |
 
 All agents use fallback arrays in their frontmatter `model:` field. VS Code picks the first available model from the array.
 
@@ -94,8 +94,8 @@ All agents use fallback arrays in their frontmatter `model:` field. VS Code pick
 
 | Tier | Model(s) | Agent Count | Cost | Use Case |
 |------|----------|-------------|------|----------|
-| Premium | Claude Opus 4.6 | 3 (~19%) | 3× | Orchestration, planning, multi-mode review |
-| Execution | Claude Sonnet 4.6 | 11 (~69%) | 1× | Implementation, research, ops, translation, specialized tasks |
+| Premium | Claude Sonnet 4.6 | 3 (~19%) | 3× | Orchestration, planning, multi-mode review |
+| Execution | Claude Haiku 4.5 | 11 (~69%) | 1× | Implementation, research, ops, translation, specialized tasks |
 | Fast | Claude Haiku 4.5 | 2 (~12%) | 0.33× | Documentation, UX review, diagrams, accessibility patterns |
 
 **Total:** 16 agents (11 core + 5 translation)

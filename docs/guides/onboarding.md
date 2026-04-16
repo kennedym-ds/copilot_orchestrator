@@ -158,8 +158,8 @@ After completing their work, agents return results to the conductor automaticall
 
 Control which models appear in the model picker for chat sessions:
 
-- **Claude Sonnet 4.6**: Versatile implementation and analysis (recommended for execution-tier agents)
-- **Claude Opus 4.6**: Advanced reasoning for planning and review (premium tier)
+- **Claude Haiku 4.5**: Versatile implementation and analysis (recommended for execution-tier agents)
+- **Claude Sonnet 4.6**: Advanced reasoning for planning and review (premium tier)
 - **Claude Haiku 4.5**: Fast execution for routine tasks (fast tier)
 
 **Best Practice**: Show only the models appropriate for your workflow to avoid confusion.

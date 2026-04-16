@@ -2,7 +2,7 @@
 name: docs
 description: "Generates and reviews documentation, onboarding materials, and knowledge artifacts."
 argument-hint: "Request documentation updates, onboarding materials, or knowledge artifacts"
-model: ['Claude Haiku 4.5 (copilot)', 'GPT-5 mini (copilot)', 'Claude Sonnet 4.6 (copilot)']
+model: ['Claude Haiku 4.5 (copilot)', 'GPT-5 mini (copilot)', 'Claude Haiku 4.5 (copilot)']
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, problems, edit, execute, askQuestions]
 handoffs:
   - label: Return to Conductor
