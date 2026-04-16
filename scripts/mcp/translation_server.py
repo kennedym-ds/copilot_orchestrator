@@ -14,6 +14,7 @@ Requires:
 
 from mcp.server.fastmcp import FastMCP, Context
 from mcp.types import ToolAnnotations
+import copy
 import json
 import os
 import re
@@ -51,11 +52,16 @@ def _load_state() -> dict:
                 return json.load(f)
         except (json.JSONDecodeError, OSError):
             pass
-    return json.loads(json.dumps(_DEFAULT_STATE))  # deep copy
+    return copy.deepcopy(_DEFAULT_STATE)
 
 
 def _save_state() -> None:
-    """Persist current translation state to disk."""
+    """Persist current translation state to disk.
+
+    Must be called after any mutation to ``translation_state`` — not just
+    ``update_module_status``.  If the state schema expands, add a
+    ``_save_state()`` call at the mutation site.
+    """
     _STATE_DIR.mkdir(parents=True, exist_ok=True)
     with open(_STATE_FILE, "w", encoding="utf-8") as f:
         json.dump(translation_state, f, indent=2, default=str)
