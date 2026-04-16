@@ -27,7 +27,7 @@ date: "2026-04-16"
 
 For each phase in the lifecycle:
 
-1. **Summarise & delegate** — restate the objective, invoke the appropriate agent (`planner`, `implementer`, etc.), pause for user approval where required.
+1. **Summarize & delegate** — restate the objective, invoke the appropriate agent (`planner`, `implementer`, etc.), pause for user approval where required.
 2. **Execute & verify** — launch the agent, collect its results, call `reviewer` if the tier requires it, produce a phase record, wait for the user to commit.
 3. **Close & advance** — compile the phase summary, surface follow-up tasks and risks, update state tracking, then move to the next phase or final report.
 

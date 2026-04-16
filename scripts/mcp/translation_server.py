@@ -9,14 +9,13 @@ Usage:
     python scripts/mcp/translation_server.py
 
 Requires:
-    pip install mcp duckduckgo-search
+    pip install mcp
 """
 
 from mcp.server.fastmcp import FastMCP, Context
 from mcp.types import ToolAnnotations
 import copy
 import json
-import os
 import re
 from pathlib import Path
 from typing import Optional
@@ -167,6 +166,9 @@ async def build_dependency_graph(source_dir: str, language: str, ctx: Context = 
     Returns JSON with adjacency list, topological layers, and cycle detection.
     """
     try:
+        path_error = _validate_path(source_dir)
+        if path_error:
+            return path_error
         source_path = Path(source_dir)
         extensions = {
             "python": [".py"],

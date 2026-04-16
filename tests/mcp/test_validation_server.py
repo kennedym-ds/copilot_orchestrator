@@ -1,14 +1,13 @@
-import unittest
 import sys
 import os
 import json
-import asyncio
+import unittest
 from unittest.mock import MagicMock, patch
 
 # MCP mocks are installed by conftest.py — no module-level mock setup needed here.
 
 
-class TestValidationServer(unittest.TestCase):
+class TestValidationServer(unittest.IsolatedAsyncioTestCase):
     def setUp(self):
         if "scripts.mcp.validation_server" in sys.modules:
             del sys.modules["scripts.mcp.validation_server"]
@@ -34,7 +33,7 @@ class TestValidationServer(unittest.TestCase):
         )
 
     @patch("scripts.mcp.validation_server.subprocess.run")
-    def test_validate_assets_success(self, mock_run):
+    async def test_validate_assets_success(self, mock_run):
         """Verify validate_assets returns structured JSON on success."""
         if self.vs is None:
             self.skipTest("Module missing")
@@ -43,13 +42,13 @@ class TestValidationServer(unittest.TestCase):
             stdout="All assets valid\n",
             stderr="",
         )
-        result = json.loads(asyncio.run(self.vs.validate_assets(".")))
+        result = json.loads(await self.vs.validate_assets("."))
         self.assertTrue(result["success"])
         self.assertEqual(result["exit_code"], 0)
         self.assertIn("valid", result["stdout"].lower())
 
     @patch("scripts.mcp.validation_server.subprocess.run")
-    def test_validate_assets_failure(self, mock_run):
+    async def test_validate_assets_failure(self, mock_run):
         """Verify validate_assets captures failures."""
         if self.vs is None:
             self.skipTest("Module missing")
@@ -58,19 +57,19 @@ class TestValidationServer(unittest.TestCase):
             stdout="2 errors found\n",
             stderr="ERROR: missing field",
         )
-        result = json.loads(asyncio.run(self.vs.validate_assets(".")))
+        result = json.loads(await self.vs.validate_assets("."))
         self.assertFalse(result["success"])
         self.assertEqual(result["exit_code"], 1)
 
     @patch("scripts.mcp.validation_server.subprocess.run")
-    def test_run_lint_returns_json(self, mock_run):
+    async def test_run_lint_returns_json(self, mock_run):
         """Verify run_lint returns structured JSON."""
         if self.vs is None:
             self.skipTest("Module missing")
         mock_run.return_value = MagicMock(
             returncode=0, stdout="Linting passed", stderr=""
         )
-        result = json.loads(asyncio.run(self.vs.run_lint(".")))
+        result = json.loads(await self.vs.run_lint("."))
         self.assertTrue(result["success"])
 
     @patch("scripts.mcp.validation_server.subprocess.run")
@@ -109,9 +108,9 @@ class TestValidationServer(unittest.TestCase):
             self.skipTest("Module missing")
         # Resources should read files and return content
         for func_name in [
-            "get_behavior_instructions",
-            "get_security_instructions",
-            "get_model_selection_instructions",
+            "behavior_instructions",
+            "security_instructions",
+            "model_selection_instructions",
         ]:
             func = getattr(self.vs, func_name, None)
             if func is not None:

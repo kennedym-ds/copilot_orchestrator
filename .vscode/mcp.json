@@ -1,4 +1,5 @@
 {
+	"_comment": "VS Code Copilot MCP config — full server set. Claude Code sessions use .mcp.json at the repo root, which omits githubLocal and translation because those require the .venv interpreter path that only VS Code resolves via ${workspaceFolder}.",
 	"servers": {
 		"github": {
 			"type": "http",
