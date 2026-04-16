@@ -103,12 +103,6 @@ At session start, read (if they exist):
 
 At pause points, update `activeContext.md` with current phase, decisions, and open questions. After verified discoveries, update relevant wiki pages.
 
-## Boundaries
-
-- ✅ **Always do:** Delegate to subagents, maintain state tracking, enforce pause points for Deep/Ultra
-- ⚠️ **Ask first:** Before expanding scope, adding phases, or bypassing review
-- 🚫 **Never do:** Edit files directly, run destructive commands, skip pause points on Ultra tasks
-
 ## Response Style
 
 Follow the Zen of Engineering tenets from `instructions/global/00_behavior.instructions.md`. In particular:

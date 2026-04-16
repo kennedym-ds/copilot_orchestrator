@@ -215,7 +215,7 @@ async def build_dependency_graph(source_dir: str, language: str, ctx: Context = 
             "total_files": len(files),
             "adjacency": adjacency,
             "layers": layers,
-            "has_cycles": any("CYCLE" in str(l) for l in layers),
+            "has_cycles": any("CYCLE" in layer.get("note", "") for layer in layers),
         }, indent=2)
     except Exception as e:
         return json.dumps({"error": str(e)})
@@ -332,7 +332,10 @@ def validate_translation(
     Layers: syntax, types, lint, unit_tests, integration, equivalence.
     """
     try:
-        layers_to_run = [l.strip() for l in validation_layers.split(",")]
+        path_error = _validate_path(translated_path)
+        if path_error:
+            return path_error
+        layers_to_run = [layer.strip() for layer in validation_layers.split(",")]
         results = {}
 
         validation_commands = {

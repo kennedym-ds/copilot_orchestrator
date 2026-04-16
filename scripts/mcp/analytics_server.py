@@ -45,6 +45,17 @@ REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 ARTIFACTS_DIR = REPO_ROOT / "artifacts"
 
 
+def _validate_artifacts_path(subpath: str) -> str | None:
+    """Ensure *subpath* resolves inside ARTIFACTS_DIR. Returns error JSON or None."""
+    try:
+        resolved = (ARTIFACTS_DIR / subpath).resolve()
+        if not resolved.is_relative_to(ARTIFACTS_DIR.resolve()):
+            return json.dumps({"error": f"Path '{subpath}' resolves outside artifacts/"})
+    except (ValueError, OSError) as e:
+        return json.dumps({"error": f"Invalid path: {e}"})
+    return None
+
+
 def _safe_read(path: Path, max_size: int = 8000) -> str:
     """Read a file with size limits and error handling."""
     try:
@@ -96,7 +107,7 @@ def list_sessions(state: str = "all") -> str:
                 if key in data:
                     entry[key] = data[key]
             sessions.append(entry)
-        except (json.JSONDecodeError, Exception):
+        except Exception:
             sessions.append({"file": f.name, "error": "Invalid JSON"})
 
     if state != "all":
@@ -124,6 +135,9 @@ def get_session(session_id: str) -> str:
     if not session_id.endswith(".json"):
         session_id += ".json"
 
+    path_error = _validate_artifacts_path(f"sessions/{session_id}")
+    if path_error:
+        return path_error
     session_path = ARTIFACTS_DIR / "sessions" / session_id
     return _safe_read(session_path, max_size=12000)
 
@@ -162,6 +176,10 @@ def list_artifacts(folder: str = "") -> str:
     Args:
         folder: Subfolder within artifacts/ to list (default: top-level).
     """
+    if folder:
+        path_error = _validate_artifacts_path(folder)
+        if path_error:
+            return path_error
     target = ARTIFACTS_DIR / folder if folder else ARTIFACTS_DIR
     if not target.exists():
         return json.dumps({"error": f"Folder not found: artifacts/{folder}"})
@@ -203,6 +221,10 @@ def search_artifacts(query: str, folder: str = "", file_pattern: str = "*.md") -
         folder: Subfolder within artifacts/ to search (default: all).
         file_pattern: Glob pattern for files to search (default: *.md).
     """
+    if folder:
+        path_error = _validate_artifacts_path(folder)
+        if path_error:
+            return path_error
     target = ARTIFACTS_DIR / folder if folder else ARTIFACTS_DIR
     if not target.exists():
         return json.dumps({"error": f"Folder not found: artifacts/{folder}"})
