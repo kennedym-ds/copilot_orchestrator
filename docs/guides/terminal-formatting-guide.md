@@ -497,7 +497,6 @@ Recommendation: ⚠ Address 2 major findings before merge [WARN]
 ## Related Resources
 
 - [VS Code 1.108 Release Notes](https://code.visualstudio.com/updates/v1_108)
-- [Terminal Formatting Instructions](../../instructions/global/terminal-formatting.instructions.md) - For agent developers
 - [VS Code Terminal Documentation](https://code.visualstudio.com/docs/terminal/basics)
 - [Unicode Box Drawing](https://en.wikipedia.org/wiki/Box-drawing_character)
 - [Accessible Terminal Output](https://code.visualstudio.com/docs/editor/accessibility)

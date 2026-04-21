@@ -61,7 +61,7 @@ Terminal formatting is now an instruction-layer concern, not a skill. The instru
 ### 2. worktrees-ops
 
 **Domain:** Git worktrees for parallel conductor workflows
-**File:** [.github/skills/worktrees-ops/SKILL.md](../.github/skills/worktrees-ops/SKILL.md)
+**File:** `.github/skills/worktrees-ops/SKILL.md` (never created — pilot outcome)
 
 **Always-On Equivalent:** [docs/guides/background-agents-worktrees.md](../../docs/guides/background-agents-worktrees.md) (user guide, not instruction)
 
@@ -80,7 +80,7 @@ Terminal formatting is now an instruction-layer concern, not a skill. The instru
 ### 3. validation-scripts
 
 **Domain:** PowerShell 5.1 validation script usage
-**File:** [.github/skills/validation-scripts/SKILL.md](../.github/skills/validation-scripts/SKILL.md)
+**File:** [.github/skills/validation-scripts/SKILL.md](../../.github/skills/validation-scripts/SKILL.md)
 
 **Always-On Equivalent:** [scripts/AGENTS.md](../../scripts/AGENTS.md) + inline script documentation
 
@@ -546,13 +546,13 @@ Links to related documentation
 ## Resources
 
 - **Pilot Skills:**
-- [../../instructions/global/terminal-formatting.instructions.md](../../instructions/global/terminal-formatting.instructions.md)
+- `instructions/global/terminal-formatting.instructions.md` (planned, never created)
 - [terminal-formatting-guide.md](./terminal-formatting-guide.md)
-  - [worktrees-ops/SKILL.md](../.github/skills/worktrees-ops/SKILL.md)
-  - [validation-scripts/SKILL.md](../.github/skills/validation-scripts/SKILL.md)
+  - `worktrees-ops/SKILL.md` (never created)
+  - [validation-scripts/SKILL.md](../../.github/skills/validation-scripts/SKILL.md)
 
 - **Always-On Equivalents:**
-  - [terminal-formatting.instructions.md](../../instructions/global/terminal-formatting.instructions.md)
+  - `terminal-formatting.instructions.md` (never created)
   - [background-agents-worktrees.md](../../docs/guides/background-agents-worktrees.md)
   - [scripts/AGENTS.md](../../scripts/AGENTS.md)
 
