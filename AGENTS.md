@@ -34,9 +34,9 @@ Complexity scales the ceremony:
 
 | Agent | File | Tier | Purpose |
 |-------|------|------|---------|
-| Conductor | `conductor.agent.md` | Premium | Lifecycle orchestration, delegation, pause points |
+| Conductor | `conductor.agent.md` | Execution | Lifecycle orchestration, delegation, pause points |
 | Planner | `planner.agent.md` | Premium | Multi-phase planning, risk analysis |
-| Reviewer | `reviewer.agent.md` | Premium | Multi-mode review: standard, security, adversarial, performance |
+| Reviewer | `reviewer.agent.md` | Execution | Multi-mode review (security mode pins Opus) |
 | Implementer | `implementer.agent.md` | Execution | TDD execution, validation |
 | Researcher | `researcher.agent.md` | Execution | Evidence gathering, citation |
 | Ops | `ops.agent.md` | Execution | Issues, PRs, CI/CD, releases, telemetry |
@@ -60,13 +60,15 @@ Complexity scales the ceremony:
 
 ## Model Allocation
 
-All agents use fallback arrays. VS Code picks the first available model.
+All agents use fallback arrays and a `defaultEffort:` hint. VS Code picks the first available model in the array.
 
-| Tier | Primary → Fallback | Target |
-|------|--------------------|--------|
-| **Premium** | Claude Opus 4.6 → GPT-5.4 → GPT-4.1 | ~15% of invocations |
-| **Execution** | Claude Sonnet 4.6 → GPT-5.4 → GPT-4.1 | ~75% of invocations |
-| **Fast** | Claude Haiku 4.5 → GPT-5 mini → Claude Sonnet 4.6 | ~10% of invocations |
+| Tier | Primary -> Fallback chain | Agents | Typical effort |
+|------|---------------------------|--------|----------------|
+| **Premium** | Claude Opus 4.6 -> Claude Opus 4.7 -> Claude Sonnet 4.6 | Planner | high |
+| **Execution** | Claude Sonnet 4.6 -> GPT-5.4 -> GPT-5.3-Codex | Conductor, Reviewer, Implementer, Researcher, Ops, Test, IaC, GUI Tester, Translation Conductor, Translator, Translation Analyzer, Translation Validator | low / medium / high |
+| **Fast** | Claude Haiku 4.5 -> GPT-5.4 mini -> GPT-5 mini | Docs, UX, Translation Styler | low / medium |
+
+Security-mode review is pinned to `Claude Opus 4.6` via a prompt-level `model:` override (see `.github/prompts/support/security-review.prompt.md`).
 
 Never pin a single model. Models deprecate monthly.
 

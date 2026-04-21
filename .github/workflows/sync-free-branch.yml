@@ -1,0 +1,151 @@
+﻿name: Sync free branch with main
+
+# Trigger on pushes to main. The free branch targets Copilot Free plan users
+# where only 0x multiplier models (GPT-5 mini, GPT-4.1) plus a very limited
+# premium-request quota are available. All paid-tier models are substituted
+# with 0x equivalents so no premium requests are consumed.
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/agents/**'
+      - '.github/prompts/**'
+      - '.github/skills/**'
+      - 'instructions/**'
+      - '.claude/**'
+      - 'docs/**'
+      - 'scripts/**'
+      - 'AGENTS.md'
+      - 'INSTRUCTION_CHANGELOG.md'
+      - 'README.md'
+      - 'llms.txt'
+      - '.copilot-review-instructions.md'
+  workflow_dispatch:
+
+jobs:
+  sync-free:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Reset free to main
+        run: git checkout -B free origin/main
+
+      - name: Apply Free plan model substitutions
+        shell: bash
+        run: |
+          # Free plan mapping (all paid models -> 0x models):
+          #   All Opus / Sonnet / GPT-5.4 / GPT-5.3-Codex / Gemini / GPT-5.4 mini
+          #     -> GPT-5 mini (0x)    (deep work)
+          #   Claude Haiku 4.5 (0.33x, paid-only)
+          #     -> GPT-4.1 (0x)       (routine work)
+          #
+          # Unchanged (already on Free): GPT-5 mini, GPT-4.1
+
+          AGENT_DIR=".github/agents"
+          # Agents where low effort + speed matters more than reasoning go to GPT-4.1
+          GPT41_AGENTS="docs ux gui-tester ops translation-styler"
+
+          # --- Step 1: Blanket text replacements ---
+          DIRS=".github/prompts .github/skills instructions .claude docs"
+
+          apply_replacements() {
+            local file="$1"
+            # Paid tier premium/execution -> GPT-5 mini
+            sed -i 's/Claude Opus 4\.7 (copilot)/GPT-5 mini (copilot)/g' "$file"
+            sed -i 's/Claude Opus 4\.7/GPT-5 mini/g' "$file"
+            sed -i 's/Claude Opus 4\.6 (copilot)/GPT-5 mini (copilot)/g' "$file"
+            sed -i 's/Claude Opus 4\.6/GPT-5 mini/g' "$file"
+            sed -i 's/Claude Sonnet 4\.6 (copilot)/GPT-5 mini (copilot)/g' "$file"
+            sed -i 's/Claude Sonnet 4\.6/GPT-5 mini/g' "$file"
+            sed -i 's/GPT-5\.4 mini (copilot)/GPT-5 mini (copilot)/g' "$file"
+            sed -i 's/GPT-5\.4 mini/GPT-5 mini/g' "$file"
+            sed -i 's/GPT-5\.4 (copilot)/GPT-5 mini (copilot)/g' "$file"
+            sed -i 's/GPT-5\.4/GPT-5 mini/g' "$file"
+            sed -i 's/GPT-5\.3-Codex (copilot)/GPT-5 mini (copilot)/g' "$file"
+            sed -i 's/GPT-5\.3-Codex/GPT-5 mini/g' "$file"
+            sed -i 's/Gemini 3\.1 Pro (Preview) (copilot)/GPT-5 mini (copilot)/g' "$file"
+            sed -i 's/Gemini 3\.1 Pro (Preview)/GPT-5 mini/g' "$file"
+            # Haiku (paid, 0.33x) -> GPT-4.1 (free, 0x)
+            sed -i 's/Claude Haiku 4\.5 (copilot)/GPT-4.1 (copilot)/g' "$file"
+            sed -i 's/Claude Haiku 4\.5/GPT-4.1/g' "$file"
+          }
+          export -f apply_replacements
+
+          # --- Step 2: Agent frontmatter: collapse model arrays to single 0x model ---
+          # Speed-first agents -> GPT-4.1
+          for agent in $GPT41_AGENTS; do
+            file="$AGENT_DIR/${agent}.agent.md"
+            if [ -f "$file" ]; then
+              sed -i "s/^model:.*/model: ['GPT-4.1 (copilot)']/" "$file"
+            fi
+          done
+
+          # All other agents -> GPT-5 mini
+          for file in "$AGENT_DIR"/*.agent.md; do
+            name=$(basename "$file" .agent.md)
+            skip=0
+            for a in $GPT41_AGENTS; do
+              if [ "$name" = "$a" ]; then skip=1; break; fi
+            done
+            if [ "$skip" -eq 1 ]; then continue; fi
+            sed -i "s/^model:.*/model: ['GPT-5 mini (copilot)']/" "$file"
+          done
+
+          # --- Step 3: Blanket replacements across non-agent files ---
+          for dir in $DIRS; do
+            if [ -d "$dir" ]; then
+              find "$dir" -type f \( -name "*.md" -o -name "*.py" \) -exec bash -c 'apply_replacements "$0"' {} \;
+            fi
+          done
+
+          if [ -d "scripts" ]; then
+            find scripts -type f \( -name "*.ps1" -o -name "*.sh" \) -exec bash -c 'apply_replacements "$0"' {} \;
+          fi
+
+          for file in README.md AGENTS.md INSTRUCTION_CHANGELOG.md llms.txt .copilot-review-instructions.md; do
+            if [ -f "$file" ]; then
+              apply_replacements "$file"
+            fi
+          done
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if git diff --quiet; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit substitutions
+        if: steps.check_changes.outputs.changes == 'true'
+        run: |
+          git add -A
+          git commit -m "chore: apply Free plan 0x model substitutions on free branch" --no-verify
+
+      - name: Push free
+        if: steps.check_changes.outputs.changes == 'true'
+        run: git push --force-with-lease origin free
+
+      - name: Report status
+        run: |
+          if [ "${{ steps.check_changes.outputs.changes }}" == "true" ]; then
+            echo "free branch synced and updated"
+          else
+            echo "free branch is in sync, no changes needed"
+          fi

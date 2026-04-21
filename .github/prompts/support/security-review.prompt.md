@@ -1,8 +1,8 @@
----
+﻿---
 name: support-security-review
 description: "Security support prompt for assessing plans or diffs against policy, privacy, and threat-model requirements."
 argument-hint: "Provide the code or feature to assess for security vulnerabilities"
-model: GPT-5.4 (copilot)
+model: Claude Opus 4.6 (copilot)
 agent: reviewer
 tools: [todo, changes, read, search, githubRepo, web]
 ---
@@ -20,14 +20,14 @@ Guide the reviewer agent (security mode) through a structured review of the curr
 
 ## Output Format
 Return Markdown with the following structure:
-1. **Scope Snapshot** – summary of assets reviewed, assumptions, and threat surfaces.
-2. **Findings** – table with columns `Severity`, `Area`, `Description`, `Mitigation`, `Owner`.
-3. **Approvals & Dependencies** – list of required sign-offs, tickets, or follow-up reviews.
-4. **Recommended Actions** – prioritized tasks for implementer/conductor, including validation steps.
-5. **Verdict** – `APPROVED`, `NEEDS_MITIGATION`, or `FAILED`, plus suggested next handoff.
+1. **Scope Snapshot** â€“ summary of assets reviewed, assumptions, and threat surfaces.
+2. **Findings** â€“ table with columns `Severity`, `Area`, `Description`, `Mitigation`, `Owner`.
+3. **Approvals & Dependencies** â€“ list of required sign-offs, tickets, or follow-up reviews.
+4. **Recommended Actions** â€“ prioritized tasks for implementer/conductor, including validation steps.
+5. **Verdict** â€“ `APPROVED`, `NEEDS_MITIGATION`, or `FAILED`, plus suggested next handoff.
 
 ## Validation Checklist
-- ✅ TODO fence reflects completed review checkpoints or clearly documented blockers.
-- ✅ Every finding references a file/line or source link.
-- ✅ Approvals and follow-up tasks include owners or escalation paths.
-- ✅ No code edits or commands were executed; guidance only.
+- âœ… TODO fence reflects completed review checkpoints or clearly documented blockers.
+- âœ… Every finding references a file/line or source link.
+- âœ… Approvals and follow-up tasks include owners or escalation paths.
+- âœ… No code edits or commands were executed; guidance only.

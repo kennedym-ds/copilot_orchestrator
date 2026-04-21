@@ -1,4 +1,4 @@
----
+﻿---
 title: "Copilot Orchestrator"
 version: "3.0.0"
 lastUpdated: "2026-04-16"
@@ -11,7 +11,7 @@ status: stable
 
 # Copilot Orchestrator
 
-A multi-agent orchestration system for GitHub Copilot. Provides a structured workflow (conductor → planner → implementer → reviewer → completion) with 16 specialized agents (11 core + 5 translation), reusable skills, and validation tooling.
+A multi-agent orchestration system for GitHub Copilot. Provides a structured workflow (conductor â†’ planner â†’ implementer â†’ reviewer â†’ completion) with 16 specialized agents (11 core + 5 translation), reusable skills, and validation tooling.
 
 Use as a shared configuration source across workspaces. Point VS Code at this repo and all projects inherit consistent agent behaviors, tool permissions, and lifecycle guardrails.
 
@@ -98,7 +98,7 @@ The orchestrator works across five platforms. VS Code is native (no setup needed
 
 | Platform | Setup | Guide |
 |----------|-------|-------|
-| **VS Code** | Built-in — clone and open | [VS Code Configuration](docs/guides/vscode-copilot-configuration.md) |
+| **VS Code** | Built-in â€” clone and open | [VS Code Configuration](docs/guides/vscode-copilot-configuration.md) |
 | **Visual Studio** | `powershell -File scripts/setup-vs-cli.ps1 -Strategy Symlink -TargetPath <project>` | [Visual Studio Onboarding](docs/guides/visual-studio-onboarding.md) |
 | **Copilot CLI** | `powershell -File scripts/setup-vs-cli.ps1 -Strategy Symlink -TargetPath <project>` | [Copilot CLI Onboarding](docs/guides/copilot-cli-onboarding.md) |
 | **Claude Code** | `powershell -File scripts/setup-claude-code.ps1 -Mode Project -TargetPath <project>` | [Claude Code Onboarding](docs/guides/claude-code-onboarding.md) |
@@ -108,51 +108,58 @@ macOS/Linux users: use the `.sh` equivalents (`setup-vs-cli.sh`, `setup-claude-c
 
 ## Model Tiers
 
-The orchestrator ships three branches, each targeting a different cost profile. Push to `main` and GitHub Actions automatically syncs the other two.
+The orchestrator ships four branches aligned to GitHub Copilot plan pricing. Push to `main` and GitHub Actions automatically syncs the other three.
 
-| Branch | Cost | Primary Model | Secondary Model | Use Case |
-|--------|------|---------------|-----------------|----------|
-| `main` | Premium | Claude Opus 4.6 (3 agents), Claude Sonnet 4.6 (11), Claude Haiku 4.5 (2) | — | Full capability — optimized per agent role |
-| `low-cost` | Budget | Claude Sonnet 4.6 (3 agents), Claude Haiku 4.5 (13) | — | ~64% savings — Opus→Sonnet 4.6, Sonnet→Haiku 4.5 |
-| `free-cost` | Zero (0×) | GPT-5 mini | GPT-4.1 | Zero premium requests — all agents on GPT-5 mini or GPT-4.1 |
+| Branch | Target Plan | Flagship Model | Use Case |
+|--------|-------------|----------------|----------|
+| `main` | **Enterprise** | Claude Opus 4.6 (3x) | Source of truth - flagship reasoning on Enterprise-only Opus 4.6 |
+| `pro-plus` | **Pro+ / Business** | Claude Opus 4.7 (7.5x) | Flagship reasoning via Opus 4.7 (available on Pro+, Business, Enterprise) |
+| `pro` | **Pro / Student** | GPT-5.3-Codex (1x) | No Anthropic premium - routes to GPT-5.3-Codex + GPT-5.4 mini + Haiku 4.5 |
+| `free` | **Free** | GPT-5 mini (0x) | Zero premium requests - all agents on GPT-5 mini or GPT-4.1 |
+
+Each agent's `model:` field is a fallback array. VS Code picks the first model you have access to, so the published branches substitute unavailable models with plan-available equivalents.
 
 ### How It Works
 
-1. **Develop on `main`** — all agents run premium models with full capability.
-2. **Push to `main`** — two GitHub Actions workflows trigger automatically:
-   - [`sync-low-cost-branch.yml`](.github/workflows/sync-low-cost-branch.yml) resets `low-cost` from `main` and applies budget model substitutions.
-   - [`sync-free-cost-branch.yml`](.github/workflows/sync-free-cost-branch.yml) resets `free-cost` from `main` and applies 0× model substitutions.
-3. **Switch tiers** — clone or checkout the branch matching your budget:
+1. **Develop on `main`** - all agents run Enterprise-tier models with full capability.
+2. **Push to `main`** - three GitHub Actions workflows trigger automatically:
+   - [`sync-pro-plus-branch.yml`](.github/workflows/sync-pro-plus-branch.yml) resets `pro-plus` from `main` and swaps Opus 4.6 -> Opus 4.7.
+   - [`sync-pro-branch.yml`](.github/workflows/sync-pro-branch.yml) resets `pro` from `main` and swaps Anthropic premium/execution + GPT-5.4 to Pro-available models.
+   - [`sync-free-branch.yml`](.github/workflows/sync-free-branch.yml) resets `free` from `main` and swaps all paid models to GPT-5 mini / GPT-4.1.
+3. **Switch tiers** - clone or checkout the branch matching your plan:
    ```bash
-   git checkout free-cost   # Zero-cost tier
-   git checkout low-cost    # Budget tier
-   git checkout main        # Premium tier
+   git checkout pro-plus   # Pro+ / Business
+   git checkout pro        # Pro / Student
+   git checkout free       # Free
+   git checkout main       # Enterprise (source of truth)
    ```
 
-> **Deep dive:** [Three Branches, One Codebase](docs/guides/branching-for-copilot-cost-optimization.md) — explains the design choices, sync mechanism, and lessons learned.
+> **Deep dive:** [Branching for Copilot Cost Optimization](docs/guides/branching-for-copilot-cost-optimization.md) - explains the design choices, sync mechanism, and lessons learned.
 
 ## Agent Roster
 
-16 specialized agents across three model tiers. Push to `main` and the `low-cost` / `free-cost` branches sync automatically. See [Model Tiers](#model-tiers) for details.
+16 specialized agents across three model tiers. Each agent declares a `model:` fallback array and a `defaultEffort:` hint (low/medium/high). The `pro-plus` / `pro` / `free` branches sync automatically from `main`. See [Model Tiers](#model-tiers) for details.
 
-| Agent | Tier | Model (Main) | Purpose |
-|-------|------|--------------|---------|
-| Conductor | Premium | Claude Opus 4.6 | Lifecycle orchestration |
-| Planner | Premium | Claude Opus 4.6 | Multi-phase planning |
-| Reviewer | Premium | Claude Opus 4.6 | Multi-mode code review |
-| Implementer | Execution | Claude Sonnet 4.6 | TDD implementation |
-| Researcher | Execution | Claude Sonnet 4.6 | Evidence gathering |
-| Ops | Execution | Claude Sonnet 4.6 | Issues, PRs, CI/CD |
-| Test | Execution | Claude Sonnet 4.6 | Test authoring |
-| IaC | Execution | Claude Sonnet 4.6 | Terraform/Bicep/Pulumi |
-| GUI Tester | Execution | Claude Sonnet 4.6 | Browser automation |
-| Docs | Fast | Claude Haiku 4.5 | Documentation |
-| UX | Fast | Claude Haiku 4.5 | UX/accessibility review |
-| Translation Conductor | Execution | Claude Sonnet 4.6 | Translation orchestration |
-| Translator | Execution | Claude Sonnet 4.6 | File-level translation |
-| Translation Analyzer | Execution | Claude Sonnet 4.6 | Dependency analysis |
-| Translation Validator | Execution | Claude Sonnet 4.6 | Validation scoring |
-| Translation Styler | Execution | Claude Sonnet 4.6 | Target language idioms |
+| Agent | Tier | Default Model (main) | Effort | Purpose |
+|-------|------|----------------------|--------|---------|
+| Planner | Premium | Claude Opus 4.6 | high | Multi-phase planning |
+| Conductor | Execution | Claude Sonnet 4.6 | medium | Lifecycle orchestration |
+| Reviewer | Execution | Claude Sonnet 4.6 | high | Multi-mode code review (security mode pins Opus) |
+| Implementer | Execution | Claude Sonnet 4.6 | medium | TDD implementation |
+| Researcher | Execution | Claude Sonnet 4.6 | high | Evidence gathering |
+| Ops | Execution | Claude Sonnet 4.6 | low | Issues, PRs, CI/CD |
+| Test | Execution | Claude Sonnet 4.6 | medium | Test authoring |
+| IaC | Execution | Claude Sonnet 4.6 | medium | Terraform/Bicep/Pulumi |
+| GUI Tester | Execution | Claude Sonnet 4.6 | low | Browser automation |
+| Translation Conductor | Execution | Claude Sonnet 4.6 | high | Translation orchestration |
+| Translator | Execution | Claude Sonnet 4.6 | medium | File-level translation |
+| Translation Analyzer | Execution | Claude Sonnet 4.6 | high | Dependency analysis |
+| Translation Validator | Execution | Claude Sonnet 4.6 | high | Validation scoring |
+| Docs | Fast | Claude Haiku 4.5 | medium | Documentation |
+| UX | Fast | Claude Haiku 4.5 | low | UX/accessibility review |
+| Translation Styler | Fast | Claude Haiku 4.5 | medium | Target language idioms |
+
+`defaultEffort` is the role's baseline reasoning depth — individual prompts can override with the `effort:` frontmatter key.
 
 ## Directory Structure
 

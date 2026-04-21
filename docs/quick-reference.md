@@ -1,4 +1,4 @@
----
+﻿---
 title: "Copilot Orchestrator Quick Reference"
 version: "3.0.0"
 lastUpdated: "2026-04-16"
@@ -117,27 +117,27 @@ Invoke-Pester -Path tests -Output Detailed
 
 ## Model Tiers
 
-| Tier | Primary → Fallback | Target Usage |
-|------|-------------------|--------------|
-| **Premium** | Claude Opus 4.6 → GPT-5.4 → GPT-4.1 | ~15% of invocations |
-| **Execution** | Claude Sonnet 4.6 → GPT-5.4 → GPT-4.1 | ~75% of invocations |
-| **Fast** | Claude Haiku 4.5 → GPT-5 mini → Claude Sonnet 4.6 | ~10% of invocations |
+| Tier | Primary -> Fallback | Target Usage | Typical effort |
+|------|---------------------|--------------|----------------|
+| **Premium** | Claude Opus 4.6 -> Claude Opus 4.7 -> Claude Sonnet 4.6 | ~6% (Planner) | high |
+| **Execution** | Claude Sonnet 4.6 -> GPT-5.4 -> GPT-5.3-Codex | ~75% (12 agents) | low / medium / high |
+| **Fast** | Claude Haiku 4.5 -> GPT-5.4 mini -> GPT-5 mini | ~19% (3 agents) | low / medium |
 
-Never pin a single model. Models deprecate monthly.
+Each agent declares `defaultEffort:` in frontmatter. Security-mode review pins Opus via a prompt-level override. Never pin a single model. Models deprecate monthly.
 
 ---
 
 ## New Features
 
-- **Pushback System** — Reviewer challenges implementer assumptions, triggers re-work cycles
-- **File Risk Classification** — 🟢 Safe / 🟡 Moderate / 🔴 Critical risk scoring
-- **Baseline Capture** — Snapshot working state before changes for rollback
-- **Evidence-Based Verification** — Test execution results, not just static analysis
-- **Confidence Levels** — Findings scored by evidence strength to filter false positives
-- **Auto-Commit** — Optional commit-on-green after successful verification
-- **Context7 MCP** — Live library documentation fetching (implementer, researcher)
-- **Wiki Memory** — Karpathy-style wiki pattern in `artifacts/memory/wiki/`
-- **Skills Ecosystem** — Compatible with [vercel-labs/skills](https://github.com/vercel-labs/skills)
+- **Pushback System** â€” Reviewer challenges implementer assumptions, triggers re-work cycles
+- **File Risk Classification** â€” ðŸŸ¢ Safe / ðŸŸ¡ Moderate / ðŸ”´ Critical risk scoring
+- **Baseline Capture** â€” Snapshot working state before changes for rollback
+- **Evidence-Based Verification** â€” Test execution results, not just static analysis
+- **Confidence Levels** â€” Findings scored by evidence strength to filter false positives
+- **Auto-Commit** â€” Optional commit-on-green after successful verification
+- **Context7 MCP** â€” Live library documentation fetching (implementer, researcher)
+- **Wiki Memory** â€” Karpathy-style wiki pattern in `artifacts/memory/wiki/`
+- **Skills Ecosystem** â€” Compatible with [vercel-labs/skills](https://github.com/vercel-labs/skills)
 
 ---
 
@@ -145,15 +145,15 @@ Never pin a single model. Models deprecate monthly.
 
 ```
 artifacts/
-├── plans/          # Implementation plans
-├── reviews/        # Code review verdicts
-├── research/       # Research briefs
-├── decisions/      # Architectural Decision Records (ADRs)
-├── sessions/       # Session state JSON
-├── tests/          # Test reports
-├── specs/          # Project specifications
-├── memory/         # Active context + wiki/
-└── .archive/       # Rolled-off artifacts past TTL
+â”œâ”€â”€ plans/          # Implementation plans
+â”œâ”€â”€ reviews/        # Code review verdicts
+â”œâ”€â”€ research/       # Research briefs
+â”œâ”€â”€ decisions/      # Architectural Decision Records (ADRs)
+â”œâ”€â”€ sessions/       # Session state JSON
+â”œâ”€â”€ tests/          # Test reports
+â”œâ”€â”€ specs/          # Project specifications
+â”œâ”€â”€ memory/         # Active context + wiki/
+â””â”€â”€ .archive/       # Rolled-off artifacts past TTL
 ```
 
 ---
@@ -162,17 +162,17 @@ artifacts/
 
 ```
 1. Planning
-   User → Conductor → Planner → Plan
+   User â†’ Conductor â†’ Planner â†’ Plan
    [Pause for approval]
 
 2. Implementation (per phase)
-   Conductor → Implementer → Code
-   Conductor → Reviewer → Findings
+   Conductor â†’ Implementer â†’ Code
+   Conductor â†’ Reviewer â†’ Findings
    [Pushback cycle if needed]
    [Pause for commit]
 
 3. Completion
-   Conductor → Final Report
+   Conductor â†’ Final Report
 ```
 
 ---

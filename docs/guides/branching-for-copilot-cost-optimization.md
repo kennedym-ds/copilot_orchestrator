@@ -1,109 +1,116 @@
----
-title: "Three Branches, One Codebase: Optimizing GitHub Copilot Costs"
-version: "1.0.0"
-lastUpdated: "2026-03-11"
+﻿---
+title: "Branching for Copilot Cost Optimization"
+version: "2.0.0"
+lastUpdated: "2026-04-21"
 status: stable
 ---
 
-# Three Branches, One Codebase: Optimizing GitHub Copilot Costs with Model Tier Branches
+# Branching for Copilot Cost Optimization
 
-GitHub Copilot's premium request system charges differently per model — from 3× for Claude Opus 4.6 down to 0× for GPT-5 mini. If you're running a multi-agent system with 29 specialized agents, those multipliers add up fast.
+GitHub Copilot plans ship different models at different multipliers. Opus 4.6 (3x) is Enterprise-only; Opus 4.7 (7.5x) is Pro+/Business/Enterprise; Sonnet 4.6 and GPT-5.4 (1x) need Pro+ or above; GPT-5.3-Codex and GPT-5.4 mini reach down to Pro/Student; only GPT-5 mini and GPT-4.1 (0x) are available on Free.
 
-Here's how we solved it: **three branches, automatically synced, each targeting a different cost profile.**
+Rather than forcing every user onto a lowest-common-denominator model set, we ship **four branches aligned to the plan matrix**. Develop on `main`, push once, and GitHub Actions rewrites the model strings on the other three branches.
 
-## The Problem
-
-Not every task needs the most expensive model. A lint check doesn't need Claude Opus 4.6. A rubber duck debugging session doesn't need GPT-5.4. But maintaining separate agent configurations per cost tier by hand is a maintenance nightmare — every change to an agent's prompt, workflow, or tooling would need to be applied three times.
-
-## The Setup
-
-We maintain one source of truth (`main`) and two derived branches that sync automatically on every push:
+## The Branches
 
 ```
-main          → Premium tier (full capability)
-low-cost      → Budget tier (~64% savings)
-free-cost     → Zero tier (0× models only)
+main       -> Enterprise  (Opus 4.6 flagship, Sonnet 4.6 execution, Haiku 4.5 fast)
+pro-plus   -> Pro+/Business (Opus 4.7 flagship, Sonnet 4.6 execution, Haiku 4.5 fast)
+pro        -> Pro/Student  (GPT-5.3-Codex, GPT-5.4 mini, Haiku 4.5)
+free       -> Free         (GPT-5 mini, GPT-4.1)
 ```
 
-### Main Branch — Optimized Per Role
+`main` is the source of truth. The other three are force-regenerated from `main` by CI on every push.
 
-Each agent gets the cheapest model that handles its workload without quality loss:
+## Per-Branch Mapping
 
-| Tier | Model | Cost | Agents | Why |
-|------|-------|------|--------|-----|
-| Premium | Claude Opus 4.6 | 3× | 3 (conductor, planner, security) | Orchestration errors compound. Security is ruin-risk. Plan quality drives everything downstream. |
-| Execution | GPT-5.4 | 1× | 22 (implementer, reviewer, test, etc.) | Strong coding benchmarks, 1M context window. The workhorse. |
-| Execution | Claude Sonnet 4.6 | 1× | 1 (translation-conductor) | Leverages Anthropic-specific tool-use patterns. |
-| Routine | Claude Haiku 4.5 | 0.33× | 3 (lint, rubber-duck, visualizer) | Pattern-matching and template-driven output. Smallest capable model. |
+### main (Enterprise)
 
-### Low-Cost Branch — ~64% Savings
+Each agent declares a fallback array in frontmatter and a `defaultEffort:` hint. The first array entry is the default model.
 
-Collapses the tier structure:
+| Agent class | Primary | Fallback 1 | Fallback 2 | Effort range |
+|-------------|---------|-----------|-----------|--------------|
+| Premium (planner) | Claude Opus 4.6 | Claude Opus 4.7 | Claude Sonnet 4.6 | high |
+| Execution (12 agents) | Claude Sonnet 4.6 | GPT-5.4 | GPT-5.3-Codex | low - high |
+| Fast (docs, ux, translation-styler) | Claude Haiku 4.5 | GPT-5.4 mini | GPT-5 mini | low - medium |
 
-- Opus → Sonnet 4.6 (3× → 1×)
-- GPT-5.4 / Sonnet 4.6 → Haiku 4.5 (1× → 0.33×)
-- Haiku stays Haiku
+The Reviewer runs on the execution chain by default. Security-mode review pins `Claude Opus 4.6` via a prompt-level `model:` override so only the security invocation uses a 3x model.
 
-**Result:** 3 agents on Sonnet 4.6, 26 on Haiku 4.5. Good enough for learning, experimentation, and lighter workloads.
+### pro-plus (Pro+ / Business)
 
-### Free-Cost Branch — Zero Premium Requests
+Opus 4.6 is Enterprise-only, so the pro-plus branch substitutes the flagship:
 
-Uses only 0× multiplier models:
+- `Claude Opus 4.6` -> `Claude Opus 4.7` (3x -> 7.5x, but available on Pro+)
 
-- **GPT-5 mini** (24 agents) — strongest free model, 71% on SWE-bench
-- **GPT-4.1** (5 agents) — speed-first tasks (docs, lint, rubber-duck, visualizer, gui-tester)
+All other models (Sonnet 4.6, GPT-5.4, Haiku 4.5, GPT-5.3-Codex, GPT-5.4 mini) are available on Pro+ and pass through unchanged.
 
-Zero premium requests consumed. Ideal for teams hitting quota limits or evaluating the system before committing budget.
+### pro (Pro / Student)
+
+Neither Opus 4.6 nor Opus 4.7 is on Pro. Sonnet 4.6 and GPT-5.4 also require Pro+. The pro branch rewrites:
+
+- `Claude Opus 4.7` -> `GPT-5.3-Codex` (1x)
+- `Claude Opus 4.6` -> `GPT-5.3-Codex` (1x)
+- `Claude Sonnet 4.6` -> `GPT-5.3-Codex` (1x)
+- `GPT-5.4` (bare) -> `GPT-5.4 mini` (0.33x)
+
+GPT-5.3-Codex, GPT-5.4 mini, and Haiku 4.5 all stay on Pro.
+
+### free (Free plan)
+
+Only `GPT-5 mini` and `GPT-4.1` are truly 0x on Free. Everything else is substituted:
+
+- All Opus / Sonnet / GPT-5.4 / GPT-5.3-Codex / Gemini / GPT-5.4 mini -> `GPT-5 mini` (0x)
+- `Claude Haiku 4.5` (0.33x, paid-only) -> `GPT-4.1` (0x)
+
+Five speed-first agents (docs, ux, gui-tester, ops, translation-styler) have their frontmatter array collapsed to `[GPT-4.1]`. The other eleven collapse to `[GPT-5 mini]`.
 
 ## How the Sync Works
 
-Two GitHub Actions workflows fire on every push to `main`:
+Three GitHub Actions workflows fire on every push to `main`:
 
-1. **`sync-low-cost-branch.yml`** — resets `low-cost` from `main`, applies sed substitutions for model strings
-2. **`sync-free-cost-branch.yml`** — resets `free-cost` from `main`, applies targeted agent-level substitutions + blanket doc replacements
+1. `sync-pro-plus-branch.yml` - resets `pro-plus` from `main`, runs the Opus substitutions.
+2. `sync-pro-branch.yml` - resets `pro` from `main`, runs the Pro-plan substitutions.
+3. `sync-free-branch.yml` - resets `free` from `main`, collapses frontmatter arrays and runs the Free-plan substitutions.
 
-The key design choice: **reset-then-substitute**, not merge. The derived branches are always a clean transformation of `main`. No merge conflicts, no drift, no manual maintenance.
+The key design choice is **reset-then-substitute, not merge**. The derived branches are always a clean transformation of `main`. No merge conflicts, no drift, no manual maintenance.
 
 ```yaml
-# Simplified — the actual workflow handles edge cases
-- name: Reset low-cost to main
-  run: git checkout -B low-cost origin/main
+# Simplified - see .github/workflows/sync-pro-branch.yml for the real script
+- name: Reset pro to main
+  run: git checkout -B pro origin/main
 
-- name: Apply model downgrades
+- name: Apply Pro plan substitutions
   run: |
-    # GPT-5.4 → Claude Haiku 4.5
-    sed -i 's/GPT-5\.4/Claude Haiku 4.5/g' "$file"
-    # Claude Opus 4.6 → Claude Sonnet 4.6
-    sed -i 's/Claude Opus 4\.6/Claude Sonnet 4.6/g' "$file"
+    sed -i 's/Claude Opus 4\.6/GPT-5.3-Codex/g' "$file"
+    sed -i 's/Claude Sonnet 4\.6/GPT-5.3-Codex/g' "$file"
+    sed -i 's/GPT-5\.4/GPT-5.4 mini/g' "$file"   # with placeholder dance
 ```
 
-The substitution order matters — Sonnet before Opus on the low-cost branch prevents double-substitution (Opus → Sonnet → Haiku). Both workflows were verified via simulation to produce correct output.
+Substitution order matters. The pro workflow protects `GPT-5.4 mini` with a placeholder before rewriting bare `GPT-5.4` to avoid `GPT-5.4 mini mini`.
 
 ## Switching Tiers
 
 ```bash
-git checkout free-cost   # Zero-cost — evaluating or quota-limited
-git checkout low-cost    # Budget — light workloads
-git checkout main        # Premium — production work
+git checkout pro-plus   # Pro+ or Business subscriber
+git checkout pro        # Pro or Student subscriber
+git checkout free       # Free tier
+git checkout main       # Enterprise (source of truth)
 ```
 
-That's it. Same agents, same prompts, same workflows. Different models.
+Same agents, same prompts, same workflows - different models.
 
 ## What We Learned
 
-1. **Three models cover the full spectrum.** Premium (3×), execution (1×), and routine (0.33×) tiers map cleanly to agent roles. You don't need per-agent optimization — you need per-role optimization.
-
-2. **Reset-then-substitute beats merge.** Any merge-based approach would accumulate conflicts from model string changes on every sync. Force-resetting the derived branch and reapplying substitutions is simpler and conflict-free.
-
-3. **The free tier is surprisingly capable.** GPT-5 mini scores 71% on SWE-bench at 0× cost. For many workflows — especially with well-structured prompts — it's good enough.
-
-4. **Cost optimization is a branching problem, not a configuration problem.** We tried environment variables, config files, and conditional model loading. Branches turned out to be the simplest solution because VS Code loads agent files directly from the filesystem — no runtime configuration layer needed.
+1. **Align branches to plans, not "cost targets".** Earlier versions used opaque names like `low-cost` and `free-cost`. Users had to guess whether their plan supported the target models. `pro-plus` / `pro` / `free` are self-explanatory.
+2. **Fallback arrays let one branch serve multiple plans.** An Enterprise user on `main` still works if their request happens to fall back to Sonnet 4.6 - the array is ordered by preference, not by exclusivity.
+3. **`defaultEffort` is a second dial.** Model choice sets the ceiling; effort sets the spend per call. A `low` effort Sonnet call costs far less than a `high` effort one, so right-sizing effort per agent matters as much as right-sizing the model.
+4. **Security-critical prompts override at the prompt level.** The security-mode review pins Opus regardless of which branch it runs on (subject to plan availability). Agent-level demotions do not compromise the paths where reasoning quality is genuinely load-bearing.
 
 ## Getting Started
 
-If you're running the Copilot Orchestrator:
+1. Identify your Copilot plan (Free / Pro / Pro+ / Business / Enterprise / Student).
+2. Checkout the matching branch - Students use `pro`, Enterprise users stay on `main`.
+3. The sync workflows handle everything else. Develop on `main` if you have write access; otherwise pin to the branch that matches your plan.
+4. See [Model Tier Strategy & Rationale](model-tiers.md) for the per-agent reasoning.
+5. See the [README](../../README.md#model-tiers) for the summary table.
 
-1. Clone the repo and check out the branch matching your budget
-2. The sync workflows handle everything — just develop on `main`
-3. See [Model Tier Strategy & Rationale](model-tiers.md) for the full rationale behind each model assignment
-4. See the [README](../../README.md#model-tiers) for the complete agent-to-model mapping across all three branches

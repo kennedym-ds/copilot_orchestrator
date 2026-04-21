@@ -1,0 +1,105 @@
+﻿name: Sync pro-plus branch with main
+
+# Trigger on pushes to main. The pro-plus branch targets Copilot Pro+/Business
+# plans where Claude Opus 4.7 (7.5x multiplier) is the flagship premium model.
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/agents/**'
+      - '.github/prompts/**'
+      - '.github/skills/**'
+      - 'instructions/**'
+      - '.claude/**'
+      - 'docs/**'
+      - 'scripts/**'
+      - 'AGENTS.md'
+      - 'INSTRUCTION_CHANGELOG.md'
+      - 'README.md'
+      - 'llms.txt'
+      - '.copilot-review-instructions.md'
+  workflow_dispatch:
+
+jobs:
+  sync-pro-plus:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Reset pro-plus to main
+        run: git checkout -B pro-plus origin/main
+
+      - name: Apply Pro+ model substitutions
+        shell: bash
+        run: |
+          # Pro+/Business mapping:
+          #   Opus 4.6 (Enterprise-only, 3x) -> Opus 4.7 (Pro+/Business/Enterprise, 7.5x)
+          # All other models (Sonnet 4.6, GPT-5.4, Haiku 4.5) are available on Pro+
+          # and remain unchanged.
+
+          DIRS=".github/agents .github/prompts .github/skills instructions .claude docs"
+
+          apply_replacements() {
+            local file="$1"
+            sed -i 's/Claude Opus 4\.6 (copilot)/Claude Opus 4.7 (copilot)/g' "$file"
+            sed -i 's/Claude Opus 4\.6/Claude Opus 4.7/g' "$file"
+            sed -i 's/Opus 4\.6/Opus 4.7/g' "$file"
+          }
+          export -f apply_replacements
+
+          for dir in $DIRS; do
+            if [ -d "$dir" ]; then
+              find "$dir" -type f \( -name "*.md" -o -name "*.py" \) -exec bash -c 'apply_replacements "$0"' {} \;
+            fi
+          done
+
+          if [ -d "scripts" ]; then
+            find scripts -type f \( -name "*.ps1" -o -name "*.sh" \) -exec bash -c 'apply_replacements "$0"' {} \;
+          fi
+
+          for file in README.md AGENTS.md INSTRUCTION_CHANGELOG.md llms.txt .copilot-review-instructions.md; do
+            if [ -f "$file" ]; then
+              apply_replacements "$file"
+            fi
+          done
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if git diff --quiet; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit substitutions
+        if: steps.check_changes.outputs.changes == 'true'
+        run: |
+          git add -A
+          git commit -m "chore: apply Pro+ model substitutions on pro-plus branch" --no-verify
+
+      - name: Push pro-plus
+        if: steps.check_changes.outputs.changes == 'true'
+        run: git push --force-with-lease origin pro-plus
+
+      - name: Report status
+        run: |
+          if [ "${{ steps.check_changes.outputs.changes }}" == "true" ]; then
+            echo "pro-plus branch synced and updated"
+          else
+            echo "pro-plus branch is in sync, no changes needed"
+          fi

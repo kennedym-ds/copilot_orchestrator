@@ -1,8 +1,8 @@
----
+﻿---
 name: final-report
 description: "Generate the final translation report with per-file and repo-level confidence scores, test coverage, and security findings."
 argument-hint: "Provide the translation session ID for the final report"
-model: Claude Opus 4.6 (copilot)
+model: Claude Sonnet 4.6 (copilot)
 agent: translation-conductor
 tools: [search, read, changes]
 ---
@@ -33,7 +33,7 @@ Compile the final report covering all sections below. Use data from `artifacts/p
 ### 2. Per-File Confidence Matrix
 | Source File | Target File | LOC | Confidence | Status | Notes |
 |-------------|-------------|-----|------------|--------|-------|
-| ... | ... | ... | 0.XX | ✅/⚠️/❌ | ... |
+| ... | ... | ... | 0.XX | âœ…/âš ï¸/âŒ | ... |
 
 ### 3. Validation Summary
 - Layer-by-layer aggregate scores
@@ -65,11 +65,11 @@ Compile the final report covering all sections below. Use data from `artifacts/p
 - Follow-up tasks and technical debt items
 
 ### 8. Repo Confidence Score
-Weighted average: Σ(LOC × Score) / Σ(LOC)
+Weighted average: Î£(LOC Ã— Score) / Î£(LOC)
 Display with breakdown by confidence band:
-- High (≥0.9): X files (Y% of LOC)
-- Medium (0.7–0.89): X files (Y% of LOC)
-- Low (0.5–0.69): X files (Y% of LOC)
+- High (â‰¥0.9): X files (Y% of LOC)
+- Medium (0.7â€“0.89): X files (Y% of LOC)
+- Low (0.5â€“0.69): X files (Y% of LOC)
 - Critical (<0.5): X files (Y% of LOC)
 
 ## Output Format

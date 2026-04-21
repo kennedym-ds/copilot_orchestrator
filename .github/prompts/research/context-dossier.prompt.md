@@ -1,8 +1,8 @@
----
+﻿---
 name: research-context-dossier
 description: "Research prompt that compels the researcher agent to gather evidence, cite sources, and surface open questions."
 argument-hint: "Describe the topic or technology to research with source citations"
-model: Claude Opus 4.6 (copilot)
+model: Claude Sonnet 4.6 (copilot)
 agent: researcher
 tools: [web, search, read, githubRepo, todo]
 ---
@@ -21,14 +21,14 @@ Direct the researcher agent to collect high-fidelity context, citations, and ope
 
 ## Output Format
 Return a markdown dossier with the following sections:
-1. **Objectives & Scope** – restate what was investigated and why.
-2. **Key Findings** – bullet list with citations and evidence.
-3. **Options & Trade-offs** – compare viable paths with pros/cons.
-4. **Open Questions** – numbered list of unresolved issues.
-5. **Recommended Next Actions** – suggest which agent should act on each follow-up.
+1. **Objectives & Scope** â€“ restate what was investigated and why.
+2. **Key Findings** â€“ bullet list with citations and evidence.
+3. **Options & Trade-offs** â€“ compare viable paths with pros/cons.
+4. **Open Questions** â€“ numbered list of unresolved issues.
+5. **Recommended Next Actions** â€“ suggest which agent should act on each follow-up.
 
 ## Validation Checklist
-- ✅ Every external reference has a corresponding `web` invocation.
-- ✅ TODO checklist is up to date with outcomes or blockers noted.
-- ✅ Findings cite primary sources and note confidence levels if uncertain.
-- ✅ No plans, code edits, or commands are suggested—research only.
+- âœ… Every external reference has a corresponding `web` invocation.
+- âœ… TODO checklist is up to date with outcomes or blockers noted.
+- âœ… Findings cite primary sources and note confidence levels if uncertain.
+- âœ… No plans, code edits, or commands are suggestedâ€”research only.

@@ -1,4 +1,4 @@
----
+﻿---
 name: new-agent
 description: "Scaffold a new custom agent definition file following repository patterns."
 argument-hint: "Describe the agents purpose, domain, and responsibilities"
@@ -12,7 +12,7 @@ Create a new `.agent.md` file in `.github/agents/` following the established pat
 
 ## Instructions
 - Read existing agent files for pattern reference (e.g., `.github/agents/implementer.agent.md`).
-- Read `instructions/global/01_quality.instructions.md` § Model Allocation for tier assignments.
+- Read `instructions/global/01_quality.instructions.md` Â§ Model Allocation for tier assignments.
 - Ask clarifying questions about the agent's purpose, tier, and required tools.
 - Generate the agent file with complete frontmatter and body.
 
@@ -31,9 +31,11 @@ Create a new `.agent.md` file in `.github/agents/` following the established pat
 - Boundaries section (always do / ask first / never do)
 
 ### Model Tier Assignment
-- Premium (~15%): Orchestration, planning, review → Claude Opus 4.6 → GPT-5.4 → GPT-4.1
-- Execution (~75%): Implementation, testing, analysis → Claude Sonnet 4.6 → GPT-5.4 → GPT-4.1
-- Fast (~10%): Documentation, UX → Claude Haiku 4.5 → GPT-5 mini → Claude Sonnet 4.6
+- Premium (~6%): Multi-phase planning -> Claude Opus 4.6 -> Claude Opus 4.7 -> Claude Sonnet 4.6
+- Execution (~75%): Orchestration, review, implementation, research, ops, specialized tasks -> Claude Sonnet 4.6 -> GPT-5.4 -> GPT-5.3-Codex
+- Fast (~19%): Documentation, UX, translation styling -> Claude Haiku 4.5 -> GPT-5.4 mini -> GPT-5 mini
+
+Also declare a `defaultEffort:` hint (low / medium / high). Security-critical prompts may override `model:` at the prompt level.
 
 ### Invocation Control
 - Add `user-invokable: false` for subagent-only agents

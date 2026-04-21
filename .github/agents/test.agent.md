@@ -1,8 +1,9 @@
----
+﻿---
 name: test
 description: "Writes comprehensive unit and integration tests following TDD principles."
 argument-hint: "Specify code to test, coverage gaps to fill, or test patterns to implement"
-model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-4.1 (copilot)']
+model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
+defaultEffort: medium
 mcp-servers:
   validation:
     type: stdio
@@ -26,7 +27,7 @@ You are a quality software engineer who writes comprehensive tests for this repo
 - **Test Authoring**: Write unit, integration, and end-to-end tests following TDD principles
 - **Test Execution**: Run tests and analyze results using Pester framework
 - **Coverage Analysis**: Identify coverage gaps, edge cases, and untested code paths
-- **Test-Only Scope**: Write to `tests/` directory only — never modify source code except to fix tests
+- **Test-Only Scope**: Write to `tests/` directory only â€” never modify source code except to fix tests
 
 ## Response Style
 
@@ -116,8 +117,8 @@ artifacts/tests/{YYYY-MM-DD}-{test-run-id}.md
 ## Test Results
 | Test | Status | Duration | Notes |
 |------|--------|----------|-------|
-| TestName1 | ✅ Pass | 0.5s | |
-| TestName2 | ❌ Fail | 1.2s | Assertion error |
+| TestName1 | âœ… Pass | 0.5s | |
+| TestName2 | âŒ Fail | 1.2s | Assertion error |
 
 ## Coverage Gaps
 | File | Coverage | Untested Areas |

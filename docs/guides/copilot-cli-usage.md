@@ -1,4 +1,4 @@
----
+﻿---
 version: 3.0.0
 lastUpdated: 2026-04-16
 ---
@@ -38,7 +38,7 @@ Agents, instructions, and skills are auto-discovered from workspace paths. MCP s
 
 | Agent | Tier | Purpose | When to Use |
 |-------|------|---------|-------------|
-| **conductor** | Premium | Lifecycle orchestration, delegation, pause points | Multi-phase tasks requiring planning → implementation → review |
+| **conductor** | Premium | Lifecycle orchestration, delegation, pause points | Multi-phase tasks requiring planning â†’ implementation â†’ review |
 | **planner** | Premium | Multi-phase planning, risk analysis | Deep/Ultra complexity tasks before implementation |
 | **reviewer** | Premium | Multi-mode code review (standard/security/adversarial/performance) | After implementation or for standalone review |
 | **implementer** | Execution | TDD execution, validation, pushback | Execute plans, implement features, fix bugs |
@@ -66,10 +66,10 @@ The conductor routes tasks based on complexity:
 
 | Tier | Path | Use For |
 |------|------|---------|
-| **Instant** | → Implementer directly | Single-file edits, simple fixes, no plan needed |
-| **Standard** | → Implementer + inline plan | 2-3 file changes, clear scope, optional review |
-| **Deep** | → Planner → Implementer → Reviewer | Multi-phase work, cross-cutting changes, new features |
-| **Ultra** | → Full cycle + pause points | Major refactors, architecture changes, high-risk work |
+| **Instant** | â†’ Implementer directly | Single-file edits, simple fixes, no plan needed |
+| **Standard** | â†’ Implementer + inline plan | 2-3 file changes, clear scope, optional review |
+| **Deep** | â†’ Planner â†’ Implementer â†’ Reviewer | Multi-phase work, cross-cutting changes, new features |
+| **Ultra** | â†’ Full cycle + pause points | Major refactors, architecture changes, high-risk work |
 
 ## Common Workflows
 
@@ -170,7 +170,7 @@ The implementer can refuse or counter questionable requests:
 copilot chat --agent implementer "Remove all error handling to improve performance"
 
 # Implementer response
-# ⚠️ PUSHBACK: Removing error handling violates safety baseline and would introduce
+# âš ï¸ PUSHBACK: Removing error handling violates safety baseline and would introduce
 # production risks. COUNTER: Profile first to identify actual bottlenecks, then
 # optimize hot paths while preserving error handling. Proceed? (y/n)
 ```
@@ -180,9 +180,9 @@ copilot chat --agent implementer "Remove all error handling to improve performan
 Reviewer tags files by risk level in findings:
 
 ```
-🟢 Additive: scripts/new-helper.ps1 (new utility, low risk)
-🟡 Existing logic: scripts/validate-copilot-assets.ps1 (modified validation, medium risk)
-🔴 Critical path: scripts/mcp/validation_server.py (core MCP server, high risk)
+ðŸŸ¢ Additive: scripts/new-helper.ps1 (new utility, low risk)
+ðŸŸ¡ Existing logic: scripts/validate-copilot-assets.ps1 (modified validation, medium risk)
+ðŸ”´ Critical path: scripts/mcp/validation_server.py (core MCP server, high risk)
 ```
 
 ### Evidence-Based Verification
@@ -195,7 +195,7 @@ Reviewer tags files by risk level in findings:
 
 ```bash
 # Implementer runs verification after changes
-# ✅ VERIFICATION:
+# âœ… VERIFICATION:
 # - Build: PASS (pwsh syntax check)
 # - Tests: PASS (Pester: 12/12)
 # - Lint: PASS (PSScriptAnalyzer: 0 issues)
@@ -212,14 +212,14 @@ MEDIUM: 2 signal types (e.g., code inspection + manual test)
 LOW: 1 signal type (code inspection only)
 ```
 
-Minimum signal: ≥2 required to surface a finding.
+Minimum signal: â‰¥2 required to surface a finding.
 
 ### Auto-Commit Offer
 
 After validation passes, implementer offers to commit:
 
 ```bash
-# ✅ All validation passed. Commit changes? (y/n)
+# âœ… All validation passed. Commit changes? (y/n)
 # Files:
 # - scripts/validate-copilot-assets.ps1
 # - tests/powershell/Validate-CopilotAssets.Tests.ps1
@@ -306,10 +306,10 @@ Community skills install to `.github/skills/` and are auto-discovered by agents.
 ### Effective Prompts
 
 ```bash
-# ✅ Specific scope and expected outcome
+# âœ… Specific scope and expected outcome
 copilot chat --agent implementer "Add PSScriptAnalyzer to validate-copilot-assets.ps1, suppress PSUseDeclaredVarsMoreThanAssignments for $ErrorActionPreference"
 
-# ❌ Vague request
+# âŒ Vague request
 copilot chat --agent implementer "improve scripts"
 ```
 
@@ -323,9 +323,9 @@ If you hit context limits:
 ### Model Selection
 
 Agents use fallback arrays:
-- **Premium**: Claude Opus 4.6 → GPT-5.4 → GPT-4.1
-- **Execution**: Claude Sonnet 4.6 → GPT-5.4 → GPT-4.1
-- **Fast**: Claude Haiku 4.5 → GPT-5 mini → Claude Sonnet 4.6
+- **Premium**: Claude Opus 4.6 -> Claude Opus 4.7 -> Claude Sonnet 4.6 (Planner only)
+- **Execution**: Claude Sonnet 4.6 -> GPT-5.4 -> GPT-5.3-Codex (12 agents)
+- **Fast**: Claude Haiku 4.5 -> GPT-5.4 mini -> GPT-5 mini (3 agents)
 
 If a model is unavailable, the next in the array is used automatically.
 
@@ -334,20 +334,20 @@ If a model is unavailable, the next in the array is used automatically.
 Check:
 1. Agent file exists: `.github/agents/{agent-name}.agent.md`
 2. CLI is in workspace root: `cd copilot_orchestrator`
-3. VS Code version: Must be ≥1.113
+3. VS Code version: Must be â‰¥1.113
 
 ### Tool Approval
 
 CLI prompts for tool approval. Options:
-- "Yes" — Approve once
-- "Yes, approve all" — Approve for session
-- "No" — Reject and provide alternative
+- "Yes" â€” Approve once
+- "Yes, approve all" â€” Approve for session
+- "No" â€” Reject and provide alternative
 
-For unattended CI: Use `--allow-all-tools` (⚠️ review logs afterward)
+For unattended CI: Use `--allow-all-tools` (âš ï¸ review logs afterward)
 
 ## Resources
 
-- [AGENTS.md](../../AGENTS.md) — Complete agent reference
+- [AGENTS.md](../../AGENTS.md) â€” Complete agent reference
 - [Copilot CLI Docs](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-cli)
 - [MCP Documentation](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-cli#add-an-mcp-server)
 - [Skills Ecosystem](https://github.com/vercel-labs/skills)

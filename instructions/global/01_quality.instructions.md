@@ -1,4 +1,4 @@
----
+﻿---
 name: "quality-baseline"
 description: "Repository-wide definition of done, simplicity checklist, quality expectations, and model allocation."
 applyTo: "**"
@@ -38,7 +38,7 @@ Apply these questions at every decision point:
 
 ## Examples
 
-**Good** — validates before and after:
+**Good** â€” validates before and after:
 ```powershell
 # Run validation before changes
 powershell -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .
@@ -48,23 +48,25 @@ powershell -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .
 powershell -File scripts/run-lint.ps1 -RepositoryRoot .
 ```
 
-**Bad** — skips validation:
+**Bad** â€” skips validation:
 ```powershell
 # Make changes...
 git add -A; git commit -m "done"
-# (no validation run — bugs may be committed)
+# (no validation run â€” bugs may be committed)
 ```
 
 ## Model Allocation
 
-All agents use fallback arrays in frontmatter `model:` — VS Code picks the first available.
+All agents use fallback arrays in frontmatter `model:` and a `defaultEffort:` hint. VS Code picks the first available model.
 
-| Tier | Agents | Primary → Fallback |
-|------|--------|--------------------|
-| **Premium** | Conductor, Planner, Reviewer | Claude Opus 4.6 → GPT-5.4 → GPT-4.1 |
-| **Execution** | Implementer, Researcher, Ops, Test, IaC, GUI Tester | Claude Sonnet 4.6 → GPT-5.4 → GPT-4.1 |
-| **Fast** | Docs, UX | Claude Haiku 4.5 → GPT-5 mini → Claude Sonnet 4.6 |
+| Tier | Agents | Primary -> Fallback | Typical effort |
+|------|--------|---------------------|----------------|
+| **Premium** | Planner | Claude Opus 4.6 -> Claude Opus 4.7 -> Claude Sonnet 4.6 | high |
+| **Execution** | Conductor, Reviewer, Implementer, Researcher, Ops, Test, IaC, GUI Tester, Translation Conductor, Translator, Translation Analyzer, Translation Validator | Claude Sonnet 4.6 -> GPT-5.4 -> GPT-5.3-Codex | low / medium / high |
+| **Fast** | Docs, UX, Translation Styler | Claude Haiku 4.5 -> GPT-5.4 mini -> GPT-5 mini | low / medium |
 
 - Never pin a single model. Models deprecate monthly.
 - If all fallbacks fail, escalate to the conductor.
-- Premium tier for judgment-critical work only (~15% of invocations).
+- Premium tier for judgment-critical work only (~6% of default invocations).
+- Security-mode review overrides the reviewer's array and pins `Claude Opus 4.6` at the prompt level (`.github/prompts/support/security-review.prompt.md`).
+- `defaultEffort` is a second dial: model sets the ceiling, effort sets the spend per call. Prompts may override with `effort:`.
