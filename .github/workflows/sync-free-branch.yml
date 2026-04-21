@@ -1,6 +1,6 @@
-﻿name: Sync free branch with main
+﻿name: Sync free branch with enterprise
 
-# Trigger on pushes to main. The free branch targets Copilot Free plan users
+# Trigger on pushes to enterprise. The free branch targets Copilot Free plan users
 # where only 0x multiplier models (GPT-5 mini, GPT-4.1) plus a very limited
 # premium-request quota are available. All paid-tier models are substituted
 # with 0x equivalents so no premium requests are consumed.
@@ -8,7 +8,7 @@
 on:
   push:
     branches:
-      - main
+      - enterprise
     paths:
       - '.github/agents/**'
       - '.github/prompts/**'
@@ -31,10 +31,10 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout main
+      - name: Checkout enterprise
         uses: actions/checkout@v4
         with:
-          ref: main
+          ref: enterprise
           fetch-depth: 0
 
       - name: Configure git
@@ -42,8 +42,8 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
 
-      - name: Reset free to main
-        run: git checkout -B free origin/main
+      - name: Reset free to enterprise
+        run: git checkout -B free origin/enterprise
 
       - name: Apply Free plan model substitutions
         shell: bash

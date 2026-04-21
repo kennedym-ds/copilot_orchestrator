@@ -108,11 +108,11 @@ macOS/Linux users: use the `.sh` equivalents (`setup-vs-cli.sh`, `setup-claude-c
 
 ## Model Tiers
 
-The orchestrator ships four branches aligned to GitHub Copilot plan pricing. Push to `main` and GitHub Actions automatically syncs the other three.
+The orchestrator ships four branches aligned to GitHub Copilot plan pricing. Push to `enterprise` and GitHub Actions automatically syncs the other three.
 
 | Branch | Target Plan | Flagship Model | Use Case |
 |--------|-------------|----------------|----------|
-| `main` | **Enterprise** | Claude Opus 4.6 (3x) | Source of truth - flagship reasoning on Enterprise-only Opus 4.6 |
+| `enterprise` | **Enterprise** | Claude Opus 4.6 (3x) | Source of truth - flagship reasoning on Enterprise-only Opus 4.6 |
 | `pro-plus` | **Pro+ / Business** | Claude Opus 4.7 (7.5x) | Flagship reasoning via Opus 4.7 (available on Pro+, Business, Enterprise) |
 | `pro` | **Pro / Student** | GPT-5.3-Codex (1x) | No Anthropic premium - routes to GPT-5.3-Codex + GPT-5.4 mini + Haiku 4.5 |
 | `free` | **Free** | GPT-5 mini (0x) | Zero premium requests - all agents on GPT-5 mini or GPT-4.1 |
@@ -121,26 +121,26 @@ Each agent's `model:` field is a fallback array. VS Code picks the first model y
 
 ### How It Works
 
-1. **Develop on `main`** - all agents run Enterprise-tier models with full capability.
-2. **Push to `main`** - three GitHub Actions workflows trigger automatically:
-   - [`sync-pro-plus-branch.yml`](.github/workflows/sync-pro-plus-branch.yml) resets `pro-plus` from `main` and swaps Opus 4.6 -> Opus 4.7.
-   - [`sync-pro-branch.yml`](.github/workflows/sync-pro-branch.yml) resets `pro` from `main` and swaps Anthropic premium/execution + GPT-5.4 to Pro-available models.
-   - [`sync-free-branch.yml`](.github/workflows/sync-free-branch.yml) resets `free` from `main` and swaps all paid models to GPT-5 mini / GPT-4.1.
+1. **Develop on `enterprise`** - all agents run Enterprise-tier models with full capability.
+2. **Push to `enterprise`** - three GitHub Actions workflows trigger automatically:
+   - [`sync-pro-plus-branch.yml`](.github/workflows/sync-pro-plus-branch.yml) resets `pro-plus` from `enterprise` and swaps Opus 4.6 -> Opus 4.7.
+   - [`sync-pro-branch.yml`](.github/workflows/sync-pro-branch.yml) resets `pro` from `enterprise` and swaps Anthropic premium/execution + GPT-5.4 to Pro-available models.
+   - [`sync-free-branch.yml`](.github/workflows/sync-free-branch.yml) resets `free` from `enterprise` and swaps all paid models to GPT-5 mini / GPT-4.1.
 3. **Switch tiers** - clone or checkout the branch matching your plan:
    ```bash
    git checkout pro-plus   # Pro+ / Business
    git checkout pro        # Pro / Student
    git checkout free       # Free
-   git checkout main       # Enterprise (source of truth)
+   git checkout enterprise       # Enterprise (source of truth)
    ```
 
 > **Deep dive:** [Branching for Copilot Cost Optimization](docs/guides/branching-for-copilot-cost-optimization.md) - explains the design choices, sync mechanism, and lessons learned.
 
 ## Agent Roster
 
-16 specialized agents across three model tiers. Each agent declares a `model:` fallback array and a `defaultEffort:` hint (low/medium/high). The `pro-plus` / `pro` / `free` branches sync automatically from `main`. See [Model Tiers](#model-tiers) for details.
+16 specialized agents across three model tiers. Each agent declares a `model:` fallback array and a `defaultEffort:` hint (low/medium/high). The `pro-plus` / `pro` / `free` branches sync automatically from `enterprise`. See [Model Tiers](#model-tiers) for details.
 
-| Agent | Tier | Default Model (main) | Effort | Purpose |
+| Agent | Tier | Default Model (enterprise) | Effort | Purpose |
 |-------|------|----------------------|--------|---------|
 | Planner | Premium | Claude Opus 4.6 | high | Multi-phase planning |
 | Conductor | Execution | Claude Sonnet 4.6 | medium | Lifecycle orchestration |

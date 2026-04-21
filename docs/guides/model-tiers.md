@@ -28,7 +28,7 @@ Reasoning spend is a product of two factors:
 
 A `low` effort Sonnet call costs a fraction of a `high` effort Sonnet call. Right-sizing effort matters as much as right-sizing the model.
 
-## Three-Tier Model Allocation (main branch)
+## Three-Tier Model Allocation (enterprise branch)
 
 ### Premium Tier - Claude Opus 4.6 (3x)
 

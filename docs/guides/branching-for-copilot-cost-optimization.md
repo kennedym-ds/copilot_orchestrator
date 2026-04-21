@@ -9,22 +9,22 @@ status: stable
 
 GitHub Copilot plans ship different models at different multipliers. Opus 4.6 (3x) is Enterprise-only; Opus 4.7 (7.5x) is Pro+/Business/Enterprise; Sonnet 4.6 and GPT-5.4 (1x) need Pro+ or above; GPT-5.3-Codex and GPT-5.4 mini reach down to Pro/Student; only GPT-5 mini and GPT-4.1 (0x) are available on Free.
 
-Rather than forcing every user onto a lowest-common-denominator model set, we ship **four branches aligned to the plan matrix**. Develop on `main`, push once, and GitHub Actions rewrites the model strings on the other three branches.
+Rather than forcing every user onto a lowest-common-denominator model set, we ship **four branches aligned to the plan matrix**. Develop on `enterprise`, push once, and GitHub Actions rewrites the model strings on the other three branches.
 
 ## The Branches
 
 ```
-main       -> Enterprise  (Opus 4.6 flagship, Sonnet 4.6 execution, Haiku 4.5 fast)
+enterprise -> Enterprise plan  (Opus 4.6 flagship, Sonnet 4.6 execution, Haiku 4.5 fast)
 pro-plus   -> Pro+/Business (Opus 4.7 flagship, Sonnet 4.6 execution, Haiku 4.5 fast)
 pro        -> Pro/Student  (GPT-5.3-Codex, GPT-5.4 mini, Haiku 4.5)
 free       -> Free         (GPT-5 mini, GPT-4.1)
 ```
 
-`main` is the source of truth. The other three are force-regenerated from `main` by CI on every push.
+`enterprise` is the source of truth. The other three are force-regenerated from `enterprise` by CI on every push.
 
 ## Per-Branch Mapping
 
-### main (Enterprise)
+### enterprise (Enterprise plan)
 
 Each agent declares a fallback array in frontmatter and a `defaultEffort:` hint. The first array entry is the default model.
 
@@ -66,18 +66,18 @@ Five speed-first agents (docs, ux, gui-tester, ops, translation-styler) have the
 
 ## How the Sync Works
 
-Three GitHub Actions workflows fire on every push to `main`:
+Three GitHub Actions workflows fire on every push to `enterprise`:
 
-1. `sync-pro-plus-branch.yml` - resets `pro-plus` from `main`, runs the Opus substitutions.
-2. `sync-pro-branch.yml` - resets `pro` from `main`, runs the Pro-plan substitutions.
-3. `sync-free-branch.yml` - resets `free` from `main`, collapses frontmatter arrays and runs the Free-plan substitutions.
+1. `sync-pro-plus-branch.yml` - resets `pro-plus` from `enterprise`, runs the Opus substitutions.
+2. `sync-pro-branch.yml` - resets `pro` from `enterprise`, runs the Pro-plan substitutions.
+3. `sync-free-branch.yml` - resets `free` from `enterprise`, collapses frontmatter arrays and runs the Free-plan substitutions.
 
-The key design choice is **reset-then-substitute, not merge**. The derived branches are always a clean transformation of `main`. No merge conflicts, no drift, no manual maintenance.
+The key design choice is **reset-then-substitute, not merge**. The derived branches are always a clean transformation of `enterprise`. No merge conflicts, no drift, no manual maintenance.
 
 ```yaml
 # Simplified - see .github/workflows/sync-pro-branch.yml for the real script
-- name: Reset pro to main
-  run: git checkout -B pro origin/main
+- name: Reset pro to enterprise
+  run: git checkout -B pro origin/enterprise
 
 - name: Apply Pro plan substitutions
   run: |
@@ -94,7 +94,7 @@ Substitution order matters. The pro workflow protects `GPT-5.4 mini` with a plac
 git checkout pro-plus   # Pro+ or Business subscriber
 git checkout pro        # Pro or Student subscriber
 git checkout free       # Free tier
-git checkout main       # Enterprise (source of truth)
+git checkout enterprise       # Enterprise (source of truth)
 ```
 
 Same agents, same prompts, same workflows - different models.
@@ -102,15 +102,15 @@ Same agents, same prompts, same workflows - different models.
 ## What We Learned
 
 1. **Align branches to plans, not "cost targets".** Earlier versions used opaque names like `low-cost` and `free-cost`. Users had to guess whether their plan supported the target models. `pro-plus` / `pro` / `free` are self-explanatory.
-2. **Fallback arrays let one branch serve multiple plans.** An Enterprise user on `main` still works if their request happens to fall back to Sonnet 4.6 - the array is ordered by preference, not by exclusivity.
+2. **Fallback arrays let one branch serve multiple plans.** An Enterprise user on `enterprise` still works if their request happens to fall back to Sonnet 4.6 - the array is ordered by preference, not by exclusivity.
 3. **`defaultEffort` is a second dial.** Model choice sets the ceiling; effort sets the spend per call. A `low` effort Sonnet call costs far less than a `high` effort one, so right-sizing effort per agent matters as much as right-sizing the model.
 4. **Security-critical prompts override at the prompt level.** The security-mode review pins Opus regardless of which branch it runs on (subject to plan availability). Agent-level demotions do not compromise the paths where reasoning quality is genuinely load-bearing.
 
 ## Getting Started
 
 1. Identify your Copilot plan (Free / Pro / Pro+ / Business / Enterprise / Student).
-2. Checkout the matching branch - Students use `pro`, Enterprise users stay on `main`.
-3. The sync workflows handle everything else. Develop on `main` if you have write access; otherwise pin to the branch that matches your plan.
+2. Checkout the matching branch - Students use `pro`, Enterprise users stay on `enterprise`.
+3. The sync workflows handle everything else. Develop on `enterprise` if you have write access; otherwise pin to the branch that matches your plan.
 4. See [Model Tier Strategy & Rationale](model-tiers.md) for the per-agent reasoning.
 5. See the [README](../../README.md#model-tiers) for the summary table.
 

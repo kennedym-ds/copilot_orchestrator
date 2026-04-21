@@ -1,12 +1,12 @@
-﻿name: Sync pro-plus branch with main
+﻿name: Sync pro-plus branch with enterprise
 
-# Trigger on pushes to main. The pro-plus branch targets Copilot Pro+/Business
+# Trigger on pushes to enterprise. The pro-plus branch targets Copilot Pro+/Business
 # plans where Claude Opus 4.7 (7.5x multiplier) is the flagship premium model.
 
 on:
   push:
     branches:
-      - main
+      - enterprise
     paths:
       - '.github/agents/**'
       - '.github/prompts/**'
@@ -29,10 +29,10 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout main
+      - name: Checkout enterprise
         uses: actions/checkout@v4
         with:
-          ref: main
+          ref: enterprise
           fetch-depth: 0
 
       - name: Configure git
@@ -40,8 +40,8 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
 
-      - name: Reset pro-plus to main
-        run: git checkout -B pro-plus origin/main
+      - name: Reset pro-plus to enterprise
+        run: git checkout -B pro-plus origin/enterprise
 
       - name: Apply Pro+ model substitutions
         shell: bash

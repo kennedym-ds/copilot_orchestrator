@@ -1,6 +1,6 @@
-﻿name: Sync pro branch with main
+﻿name: Sync pro branch with enterprise
 
-# Trigger on pushes to main. The pro branch targets Copilot Pro and Student
+# Trigger on pushes to enterprise. The pro branch targets Copilot Pro and Student
 # plans where Claude Opus/Sonnet 4.6 and GPT-5.4 are NOT available. We substitute
 # all Anthropic premium/execution models and GPT-5.4 with GPT-5.3-Codex (1x).
 # Haiku 4.5 (0.33x) remains on the Pro tier.
@@ -8,7 +8,7 @@
 on:
   push:
     branches:
-      - main
+      - enterprise
     paths:
       - '.github/agents/**'
       - '.github/prompts/**'
@@ -31,10 +31,10 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout main
+      - name: Checkout enterprise
         uses: actions/checkout@v4
         with:
-          ref: main
+          ref: enterprise
           fetch-depth: 0
 
       - name: Configure git
@@ -42,8 +42,8 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
 
-      - name: Reset pro to main
-        run: git checkout -B pro origin/main
+      - name: Reset pro to enterprise
+        run: git checkout -B pro origin/enterprise
 
       - name: Apply Pro plan model substitutions
         shell: bash
