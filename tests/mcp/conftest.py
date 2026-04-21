@@ -29,7 +29,7 @@ sys.modules["mcp"] = MagicMock()
 sys.modules["mcp.server"] = MagicMock()
 sys.modules["mcp.server.fastmcp"] = _mock_fastmcp_module
 sys.modules["mcp.types"] = MagicMock()
-sys.modules["duckduckgo_search"] = MagicMock()
+sys.modules["ddgs"] = MagicMock()
 
 # Ensure repo root is on sys.path for `import scripts.mcp.*`
 _repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))

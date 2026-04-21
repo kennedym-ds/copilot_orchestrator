@@ -8,12 +8,12 @@ Usage:
     python scripts/mcp/research_server.py
 
 Requires:
-    pip install mcp duckduckgo-search
+    pip install mcp ddgs
 """
 
 from mcp.server.fastmcp import FastMCP
 from mcp.types import ToolAnnotations
-from duckduckgo_search import DDGS
+from ddgs import DDGS
 import json
 
 mcp = FastMCP("research-server")
