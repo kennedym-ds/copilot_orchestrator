@@ -67,6 +67,9 @@ Use this configuration to make all 29 orchestrator agents available in **any VS 
      "chat.customAgentInSubagent.enabled": true,
      "chat.subagents.allowInvocationsFromSubagents": true,
      "chat.useCustomAgentHooks": true,
+     "chat.tools.terminal.backgroundNotifications": true,
+     "chat.tools.confirmationCarousel.enabled": true,
+     "chat.agent.sandbox.enabled": "on",
      "github.copilot.chat.claudeAgent.enabled": true,
      "chat.plugins.enabled": true,
      "chat.askQuestions.enabled": true,
@@ -287,6 +290,83 @@ Auto-generates workspace instruction files based on codebase analysis — accele
 | `git.worktreeIncludeFiles` | array | Copies specified files to worktrees for background agents |
 | `inlineChat.affordance` | `"editor"` | Inline chat affordance in editor (changed from boolean to enum in 1.110) |
 
+## VS Code 1.116 Features
+
+Released 2026-04-16. Iterative release with persistent debug logs, CLI thinking effort, foreground terminal support, and enterprise network filtering.
+
+### Persistent Agent Debug Logs
+**Setting:** `github.copilot.chat.agentDebugLog.fileLogging.enabled` (default: `false`)
+
+Promoted from single-session view (1.112) to persistent on-disk storage. The Agent Debug Log panel now shows historical sessions in addition to the current one. Combined with `/troubleshoot`, this enables cross-session root-cause analysis without needing to replay sessions.
+
+Our [scripts/analyze-sessions.ps1](../../scripts/analyze-sessions.ps1) remains the CI/batch path; `/troubleshoot` + persistent logs is the interactive path. See [policy-and-operations.md §1](policy-and-operations.md).
+
+### Thinking Effort in Copilot CLI
+**Where:** Copilot CLI language-model picker (arrow submenu on reasoning models).
+
+Parity with the 1.113 local-session control. Non-reasoning models do not show the submenu. Effort levels vary per model.
+
+**Usage pattern:** select a reasoning model in the picker, then select the arrow to reveal None / Low / Medium / High.
+
+### Foreground Terminal Support for Agent Tools
+**Tools affected:** `send_to_terminal`, `get_terminal_output`
+
+Agents can now read from and send input to **foreground terminals** — any terminal visible in the terminal panel, including user-opened REPLs, running dev servers, or interactive installers — not just agent-created background terminals.
+
+**New patterns this enables:**
+- `implementer` agent can interact with a running `npm run dev` watcher
+- `ops` agent can respond to interactive CLI prompts (`gh auth login`, `az login`)
+- `test` agent can drive a live Python/Node REPL during debugging
+
+### Terminal Input Improvements
+- **LLM-based input detection removed** — the agent now uses `send_to_terminal` directly instead of classifying every output chunk. Reduces per-command token overhead.
+- **Focus Terminal button** — when the agent needs interactive input (e.g., `npm init` prompts), the question carousel offers a shortcut to type directly in the terminal. Start typing in the terminal to auto-dismiss the carousel.
+
+### Background Terminal Notifications (Default Flipped)
+**Setting:** `chat.tools.terminal.backgroundNotifications` (default: `true` as of 1.116)
+
+Background terminal commands now push notifications on completion / timeout / input-needed. Agents respond faster and spend fewer tokens polling for terminal output.
+
+### Tool Confirmation Carousel (Experimental)
+**Setting:** `chat.tools.confirmationCarousel.enabled` (Insiders default: `true`; Stable rollout in progress)
+
+Batch-approval UI for multi-tool sequences. Instead of scrolling through the conversation to approve each tool call, a compact carousel lets you navigate and approve in sequence. Useful for conductor multi-file edits under Default Approvals permission mode.
+
+### Customizations Welcome Page
+**Where:** Chat Customizations dialog (gear icon or **Chat: Open Customizations**) → welcome page.
+
+Overview of all agent customizations in one view. The welcome page includes a **Customize Your Agent** input that drafts agents, skills, and instructions from a natural-language description. Overlaps our `/create-agent` / `/create-skill` / `/create-instruction` slash commands (1.110) — the welcome page is a better entry point for new contributors; the slash commands remain faster for experienced authors.
+
+### Group Policy: Agent Network Filter (Enterprise)
+**Settings** (all enforced via enterprise group policy):
+
+| Setting | Purpose |
+|---|---|
+| `chat.agent.networkFilter` | Enable the filter |
+| `chat.agent.allowedNetworkDomains` | Allowlist (wildcards like `*.example.com` supported) |
+| `chat.agent.deniedNetworkDomains` | Blocklist (precedence over allow) |
+
+**Group policy keys:** `ChatAgentNetworkFilter`, `ChatAgentAllowedNetworkDomains`, `ChatAgentDeniedNetworkDomains`.
+
+When the filter is enabled and both lists are empty, **all domains are blocked**. When `chat.agent.sandbox.enabled` is also enabled, the network rules extend to the terminal sandbox.
+
+See [policy-and-operations.md §7](policy-and-operations.md) for our recommended allowlist.
+
+### Sandbox Setting Name (1.110 → 1.116 Reconciliation)
+**Current setting:** `chat.agent.sandbox.enabled`  (values: `"on"`, `"off"`, or `true` / `false`)
+
+Our workspace [.vscode/settings.json](../../.vscode/settings.json) already uses this key. Older user configs may still carry the deprecated `chat.tools.terminal.sandbox.enabled`; remove it and use the current setting.
+
+### GitHub Copilot Built-in
+GitHub Copilot Chat is now a built-in extension in VS Code — no separate install required. Use `chat.disableAIFeatures` to opt out for users who don't want AI features.
+
+### GitHub Pull Requests 0.136.0
+Extension gains a chat tool for creating pull requests, plus worktree deletion in the **Delete Local Branches and Remotes** command. Our `ops` agent's PR workflow currently wraps `gh pr create` — the built-in tool is a candidate replacement.
+
+### Diffs in Top-Level Chat
+Code diffs now render directly in the conversation instead of a separate diff view. Changes the reviewer agent's feedback surface — findings can be inline-tagged against visible diffs.
+
+---
 ## VS Code 1.115 Features
 
 Released 2026-04-08. Several preview features graduated to GA in this release.

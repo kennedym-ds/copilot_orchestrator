@@ -18,6 +18,8 @@ Both analyse agent debug output. They are **not** redundant — they serve diffe
 
 **Policy**: `/troubleshoot` is the primary UX. The PowerShell script stays for CI and for offline analysis (where the chat session is no longer available). Neither tool is deprecated.
 
+**1.116 update**: `github.copilot.chat.agentDebugLog.fileLogging.enabled` now persists historical session logs on disk. `/troubleshoot` can reference any past session (not just the current one), so cross-session root-cause work no longer requires replaying. The PowerShell script remains the CI path because JSON under `artifacts/sessions/` is version-controlled metadata, orthogonal to per-user debug logs.
+
 ---
 
 ## 2. Copilot Spaces adoption (G11)
@@ -71,6 +73,8 @@ Budget gatekeeper caps concurrent subagent invocations at **3**. Origin and rati
 
 **Policy**: keep the 3-cap for default subagent delegation. If telemetry shows the cap throttling legitimate workflows, raise by increments of 1 with a CHANGELOG entry.
 
+**1.116 update**: Copilot CLI sessions gained the model-picker thinking-effort control (parity with 1.113 local sessions). The 3-cap applies to subagent fan-out only; thinking effort is orthogonal - per-turn reasoning depth, not parallelism. See [copilot-cli-usage.md](copilot-cli-usage.md#thinking-effort-1116).
+
 ---
 
 ## 6. LTS vs preview model policy (G19)
@@ -86,21 +90,33 @@ Annotation is informal (comment in the YAML when a model is in preview). Formal 
 
 ---
 
-## 7. Agent firewall guidance (Enterprise) (G20)
+## 7. Agent firewall guidance (Enterprise) (G20, refreshed for 1.116)
 
-Copilot Coding Agent supports a customizable firewall (egress allowlist). For the `enterprise` branch:
+Two layers of egress control now apply:
 
-**Recommended default allowlist**
-- `api.githubcopilot.com` — hosted MCP server (when adopted)
-- `api.github.com` — PR / issue APIs used by `github-pr` / `github-issue` integration agents
-- `registry.npmjs.org`, `pypi.org` — dependency fetches during implementer sessions
-- Provider endpoints for any configured LLMs (Anthropic, OpenAI) — via Copilot's own managed endpoints
+1. **Coding-agent firewall** (org-level, pre-existing) - allowlist applied to the Copilot Coding Agent.
+2. **VS Code 1.116 agent network filter** (group policy) - allow/deny domain lists enforced on the `fetch` tool, integrated browser, and (when `chat.agent.sandbox.enabled` is on) the terminal sandbox.
 
-**Blocked by default**
-- Arbitrary web hosts. Research agent uses `ddgs` through the research MCP — that flow is proxied.
-- Any host not on the allowlist above.
+**Group policy keys** (1.116):
 
-**Operational note**: firewall config lives in the org settings, not this repo. This section documents the **recommended defaults**, not the enforcement mechanism.
+| Key | Setting | Purpose |
+|---|---|---|
+| `ChatAgentNetworkFilter` | `chat.agent.networkFilter` | Enable the filter |
+| `ChatAgentAllowedNetworkDomains` | `chat.agent.allowedNetworkDomains` | Allowlist (wildcards `*.example.com`) |
+| `ChatAgentDeniedNetworkDomains` | `chat.agent.deniedNetworkDomains` | Blocklist (precedence over allow) |
+
+When the filter is enabled and both lists are empty, **all domains are blocked**.
+
+**Recommended default allowlist** (applies to both layers):
+- `api.githubcopilot.com` - hosted MCP server
+- `api.github.com`, `*.github.com` - PR / issue / raw content APIs
+- `registry.npmjs.org`, `pypi.org`, `*.pythonhosted.org` - dependency fetches during implementer sessions
+- `raw.githubusercontent.com` - research agent fetches of vscode-docs release notes
+- Provider endpoints for configured LLMs (routed via Copilot's own managed endpoints)
+
+**Blocked by default**: everything else. Research agent uses `ddgs` via the research MCP - that flow is proxied and does not need explicit allowlisting.
+
+**Operational note**: firewall config lives in org settings / group policy, not in this repo. This section documents **recommended defaults**, not the enforcement mechanism.
 
 ---
 

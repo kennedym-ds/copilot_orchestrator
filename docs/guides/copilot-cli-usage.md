@@ -32,6 +32,26 @@ copilot chat --agent planner "Create a plan for adding input validation to scrip
 
 Agents, instructions, and skills are auto-discovered from workspace paths. MCP servers bridge to CLI sessions.
 
+## Thinking Effort (1.116)
+
+Copilot CLI gained the same model-picker thinking-effort control as local VS Code sessions (1.113). When a reasoning model is selected in the CLI picker, an arrow reveals **None / Low / Medium / High** effort levels.
+
+- **Non-reasoning models** do not show the submenu.
+- **Available levels vary per model.** Claude Sonnet 4.6 and GPT-5.4 expose all four; smaller models (Haiku, mini) typically expose fewer.
+- Effort persists per-model across CLI conversations, mirroring the local-session behaviour.
+
+**Recommendation for orchestrator use:**
+
+| Tier | CLI effort |
+|---|---|
+| Premium agents (planner, conductor, security review) | Medium or High |
+| Execution agents (implementer, reviewer, test) | Low or Medium |
+| Fast agents (docs, ux) | None (non-reasoning default) |
+
+See [policy-and-operations.md #5](policy-and-operations.md) for the interaction with our 3-cap on parallel subagents (thinking effort is orthogonal - it controls per-turn reasoning depth, not parallelism).
+
+
+
 ## Agent Roster
 
 ### Core Agents (11)
