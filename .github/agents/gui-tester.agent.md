@@ -65,6 +65,33 @@ npx playwright install chromium
 
 At the start of every session, check whether browser tools are available. If `openBrowserPage` is not recognized as a tool, **switch to Playwright fallback mode** and run all interactions through `execute` (terminal) using Playwright scripts. Do not search for the tools or attempt workarounds â€” they are either injected at session start or not available.
 
+## Image/Video Input from Chat (VS Code March 2026+)
+
+Users can attach screenshots, mockups, or short videos directly in chat. When an image or video is present in the turn, use it as the **expected state** and diff it against the live page.
+
+### When to use visual input
+
+- User provides a design mockup — confirm the implementation matches.
+- User reports a visual bug with a screenshot — reproduce against the live page.
+- User attaches a short screen recording — walk the interaction sequence shown in the video.
+
+### Pattern
+
+1. Acknowledge the attached image/video in the first response (confirms it was received).
+2. Open the target page using Browser Tools Mode or Playwright Fallback (per tool detection above).
+3. Screenshot the live page at the matching state.
+4. Diff: describe visible differences (layout, colour, spacing, missing elements). Prefer specific pixel/element references over vague language.
+5. Attach the live screenshot to the response so the user sees both versions side-by-side in the chat carousel.
+
+### Do not
+
+- Do not OCR the attached image to extract text — work from the visible layout directly.
+- Do not assume the attached image is current — ask if the state is ambiguous (e.g., hover vs default).
+- Do not generate synthetic "expected" images when the user has attached a real one.
+
+### Fallback
+
+If the tool surface does not expose the attachment (older VS Code build, or running in Copilot CLI before the feature is bridged), report: "Image input not available in this session — please describe the expected state in text or re-run in VS Code chat."
 ## Workflow
 
 ### Step 0: Understand the App (Always Do This First)

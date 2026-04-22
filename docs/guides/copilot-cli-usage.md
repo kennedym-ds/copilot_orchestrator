@@ -253,6 +253,24 @@ copilot chat --agent implementer "Apply the MCP test pattern to analytics-server
 # (Implementer reads wiki entry from Session 1)
 ```
 
+### Image/Video Input in Chat
+
+VS Code March 2026+ chat accepts image and short-video attachments. The `gui-tester` agent uses these as **expected state** and diffs them against the live page.
+
+```bash
+# In VS Code chat (not CLI — attachment UI is chat-only):
+# 1. Click the paperclip, attach a design mockup PNG
+# 2. Ask:
+copilot chat --agent gui-tester "Does the checkout page at http://localhost:3000/checkout match this mockup?"
+
+# Gui-tester will:
+#   - Confirm the attachment was received
+#   - Open the live page (browser tools or Playwright fallback)
+#   - Screenshot at the matching state
+#   - Return a side-by-side diff in the chat carousel
+```
+
+Not available in CLI (`copilot chat -p`) — attachments require the chat UI. In headless sessions, describe the expected state in text.
 ## MCP Server Integration
 
 MCP servers are configured in `.vscode/mcp.json` and bridge to CLI sessions:
