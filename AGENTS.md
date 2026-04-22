@@ -199,6 +199,8 @@ Initialize with: `pwsh -File scripts/init-artifacts.ps1`
 
 Our SKILL.md files follow the [vercel-labs/skills](https://github.com/vercel-labs/skills) standard (`name` + `description` frontmatter). This makes them compatible with the cross-agent skills ecosystem.
 
+> **Publishing status:** Our 12 skills are **not yet published** to the community catalogue (skills.sh / vercel-labs registry). See `artifacts/decisions/ADR-sota-2026-04-22-remaining-gaps.md` §G65 for the deferred publishing decision. The commands below apply once we publish or for installing *other* community skills.
+
 ### Installing Community Skills
 
 ```bash

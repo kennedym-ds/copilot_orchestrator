@@ -109,6 +109,9 @@ $agentFiles = @()
 $agentFiles += Get-ChildItem -Path (Join-Path $RepoRoot '.github/agents') -Filter '*.agent.md' -File -ErrorAction SilentlyContinue
 
 # Define valid model names (updated for current model allocation)
+# Review monthly — Copilot model catalogue changes frequently. Sources of truth:
+# 1. `copilot --model list` (if authenticated) 2. https://docs.github.com/copilot/reference/models
+# Add new IDs here when they land; remove deprecated ones in the next review cycle.
 $validModels = @(
     'Claude Opus 4.6 (copilot)',
     'Claude Opus 4.7 (copilot)',

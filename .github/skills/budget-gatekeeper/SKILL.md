@@ -18,7 +18,7 @@ Hooks still emit `artifacts/sessions/hooks/*.jsonl` for post-session analytics. 
 
 ## Description
 
-This skill teaches the conductor and delegating agents how to monitor and enforce session budgets in real time. Inspired by Athena's BudgetGatekeeper pattern, it adapts the concept to our multi-agent orchestration model — where the "cost" is distributed across 29 specialized agents using a 3-tier model allocation.
+This skill teaches the conductor and delegating agents how to monitor and enforce session budgets in real time. Inspired by Athena's BudgetGatekeeper pattern, it adapts the concept to our multi-agent orchestration model — where the "cost" is distributed across 16 specialized agents using a 3-tier model allocation.
 
 Unlike our existing `token-thresholds.json` (which enforces file-level token limits at validation time), this skill provides **runtime session-level enforcement** during active conductor workflows.
 

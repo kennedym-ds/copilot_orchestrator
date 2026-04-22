@@ -1,4 +1,6 @@
-# Tooling Maintainer Guidance
+# Tooling Maintainer Guidance (scripts/)
+
+> This is the directory-scoped AGENTS.md (standard convention). The canonical orchestrator playbook lives at [AGENTS.md](../AGENTS.md) in the repo root; read that first for agent roster, lifecycle, and model allocation. This file covers only the scripts/ maintenance contract.
 
 Scripts in this directory provide validation, metadata normalization, reporting, and cross-platform setup for the Copilot Orchestrator. Maintain them with the following principles:
 

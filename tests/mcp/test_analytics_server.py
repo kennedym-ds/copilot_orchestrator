@@ -139,5 +139,36 @@ class TestAnalyticsServer(unittest.TestCase):
         self.assertIn("Limit", metric_labels)
         self.assertIn("Utilization", metric_labels)
 
+
+
+class TestLoopMetrics(unittest.TestCase):
+    """G64 — agentic-loop observability."""
+
+    def setUp(self):
+        if "scripts.mcp.analytics_server" in sys.modules:
+            del sys.modules["scripts.mcp.analytics_server"]
+        import scripts.mcp.analytics_server as ans
+        self.ans = ans
+
+    def test_loop_metrics_returns_json(self):
+        result = json.loads(self.ans.loop_metrics())
+        for key in ("iteration_count", "repetition_rate", "depth_max",
+                    "tool_failures", "compactions", "effort_distribution"):
+            self.assertIn(key, result, f"loop_metrics missing key {key}")
+        self.assertIsInstance(result["iteration_count"], int)
+        self.assertIsInstance(result["repetition_rate"], (int, float))
+
+    def test_loop_metrics_handles_missing_hooks_dir(self):
+        # Point to a fresh REPO_ROOT without hooks dir
+        import tempfile, pathlib
+        from unittest.mock import patch
+        with tempfile.TemporaryDirectory() as td:
+            tmp_root = pathlib.Path(td)
+            (tmp_root / "artifacts").mkdir()
+            with patch.object(self.ans, "ARTIFACTS_DIR", tmp_root / "artifacts"):
+                result = json.loads(self.ans.loop_metrics())
+                self.assertEqual(result["iteration_count"], 0)
+                self.assertEqual(result["tool_failures"], 0)
+
 if __name__ == "__main__":
     unittest.main()

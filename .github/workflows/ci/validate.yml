@@ -81,6 +81,13 @@ jobs:
       # Exit 10 signals HIGH+ findings; CI flags but does not fail hard.
       # Skipped automatically if COPILOT_TOKEN is not provisioned.
       # -------------------------------------------------------------------
+      - name: Notice — headless reviewer status
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          if ('${{ secrets.COPILOT_TOKEN }}' -eq '') {
+            Write-Host "::notice title=Headless reviewer skipped::COPILOT_TOKEN secret not configured. This PR did not get an automated Copilot review. To enable, provision secrets.COPILOT_TOKEN per docs/operations.md. Human review remains required."
+          }
+
       - name: Copilot headless reviewer (best-effort)
         id: copilot-headless-review
         if: ${{ github.event_name == 'pull_request' && env.COPILOT_TOKEN != '' }}

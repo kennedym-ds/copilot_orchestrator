@@ -27,4 +27,5 @@ Write-HookEvent -Event 'subagent-start' -Payload @{
 
 if (-not $ok) {
     Write-HookError -Agent $Parent -Trigger 'subagent-start' -ExitCode 1 -StderrTail "Nested subagent edge '$edge' (depth=$Depth) not allowed. Route via conductor."
+    exit 1
 }

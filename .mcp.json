@@ -1,5 +1,5 @@
 {
-    "_comment": "Claude Code MCP config. Intentionally a subset of .vscode/mcp.json — githubLocal and translation servers are omitted here because they require the .venv Python interpreter path that VS Code resolves via ${workspaceFolder}. Add those servers to your local .mcp.json if you need them in Claude Code sessions.",
+    "_comment": "Claude Code MCP config. Intentionally a subset of .vscode/mcp.json — githubLocal and translation servers are omitted here because they require the .venv Python interpreter path that VS Code resolves via ${workspaceFolder}. Add those servers to your local .mcp.json if you need them in Claude Code sessions, or run scripts/setup-claude-code.ps1 which reconciles this file with .vscode/mcp.json automatically.",
     "mcpServers": {
         "validation": {
             "command": "python",
