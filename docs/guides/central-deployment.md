@@ -382,8 +382,8 @@ For large organizations migrating to Method 1:
 
 ---
 
-**Updated**: January 2026 (VS Code 1.109)
-**Method 1 Status**: Experimental (GA expected Q1 2026)VS Code:
+**Updated**: April 2026 (VS Code 1.116)
+**Method 1 Status**: Generally AvailableVS Code:
 
 ```json
 {

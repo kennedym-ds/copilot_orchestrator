@@ -137,7 +137,7 @@ foreach ($agent in $agentFiles) {
     }
 
     # Core required keys
-    $missing = @(Test-YamlKeyPresence -FrontMatter $frontMatter -RequiredKeys @('name', 'description', 'model', 'tools'))
+    $missing = @(Test-YamlKeyPresence -FrontMatter $frontMatter -RequiredKeys @('name', 'description', 'model', 'tools', 'thinkingEffort'))
     if ($missing.Length -gt 0) {
         Add-Issue -Collector $issues -File $relativePath -Severity 'Error' -Message "Missing required front matter keys: $([string]::Join(', ', $missing))."
     }
@@ -161,6 +161,14 @@ foreach ($agent in $agentFiles) {
         $modelName = $Matches[1].Trim()
         if ($validModels -notcontains $modelName) {
             Add-Issue -Collector $issues -File $relativePath -Severity 'Error' -Message "Invalid model: '$modelName'. Valid models: $([string]::Join(', ', $validModels))."
+        }
+    }
+
+    # Validate thinkingEffort is one of low/medium/high
+    if ($frontMatter -match '(?m)^thinkingEffort:\s*([A-Za-z]+)') {
+        $effort = $Matches[1].Trim()
+        if (@('low','medium','high') -notcontains $effort) {
+            Add-Issue -Collector $issues -File $relativePath -Severity 'Error' -Message "Invalid thinkingEffort: '$effort'. Must be one of: low, medium, high."
         }
     }
 
