@@ -101,7 +101,7 @@ Maps the conductor's complexity tiers to Copilot CLI permission modes and per-ag
 |--------|------------------|
 | free / pro | Autopilot permitted for INSTANT tier only |
 | pro-plus | Autopilot permitted for INSTANT and read-only STANDARD |
-| enterprise | Autopilot disallowed; all mutations human-confirmed |
+| enterprise | Autopilot permitted (ratified 2026-04-22); security review remains human-confirmed |
 
 ---
 

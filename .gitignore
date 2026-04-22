@@ -22,4 +22,9 @@ __pycache__/
 *antigravity_setup_test*
 
 # Artifacts
-artifacts/
+artifacts/*
+!artifacts/decisions/
+!artifacts/decisions/**
+# Decisions (ADRs) are permanent â€” overrides artifacts/ ignore
+!artifacts/decisions/
+!artifacts/decisions/**
