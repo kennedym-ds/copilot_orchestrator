@@ -1,7 +1,7 @@
 ---
 title: "Copilot Orchestrator Documentation"
-version: "3.0.0"
-lastUpdated: "2026-04-16"
+version: "3.1.0"
+lastUpdated: "2026-04-22"
 status: stable
 ---
 
@@ -19,7 +19,9 @@ This directory contains guides, templates, and operational documentation for the
 | [guides/session-analytics.md](guides/session-analytics.md) | Workflow metrics and analysis |
 | [guides/sample-agent-session.md](guides/sample-agent-session.md) | Example conductor session walkthrough |
 | [guides/prompt-engineering-by-tier.md](guides/prompt-engineering-by-tier.md) | Model-specific prompt guidance |
-| [guides/copilot-cli-usage.md](guides/copilot-cli-usage.md) | GitHub CLI integration || [guides/background-agents-worktrees.md](guides/background-agents-worktrees.md) | Parallel execution with Git worktrees |
+| [guides/copilot-cli-usage.md](guides/copilot-cli-usage.md) | GitHub CLI integration |
+| [guides/copilot-cli-shortcuts.md](guides/copilot-cli-shortcuts.md) | CLI keyboard shortcuts and aliases |
+| [guides/background-agents-worktrees.md](guides/background-agents-worktrees.md) | Parallel execution with Git worktrees |
 | [guides/claude-skills-migration.md](guides/claude-skills-migration.md) | Migrating prompts to Claude skills |
 | [guides/agent-skills-pilot.md](guides/agent-skills-pilot.md) | Agent skills pilot evaluation |
 | [guides/terminal-formatting-guide.md](guides/terminal-formatting-guide.md) | Terminal output formatting standards |
@@ -34,7 +36,9 @@ This directory contains guides, templates, and operational documentation for the
 | [guides/visual-studio-onboarding.md](guides/visual-studio-onboarding.md) | Visual Studio integration |
 | [guides/branching-for-copilot-cost-optimization.md](guides/branching-for-copilot-cost-optimization.md) | Git branching for cost control |
 | [guides/agent-handoff-schemas.md](guides/agent-handoff-schemas.md) | Agent handoff data schemas |
-| [guides/agent-hooks-standard.md](guides/agent-hooks-standard.md) | Agent lifecycle hooks |
+| [guides/agent-hooks-standard.md](guides/agent-hooks-standard.md) | Agent lifecycle hooks — triggers, scripts, JSONL output |
+| [guides/session-forking.md](guides/session-forking.md) | Session forking and continuation patterns |
+| [guides/policy-and-operations.md](guides/policy-and-operations.md) | Tool approval policy, safety guardrails |
 
 ## Templates
 

@@ -1,7 +1,7 @@
 ﻿---
 title: "Operations & Continuous Improvement Plan"
-version: "3.0.0"
-lastUpdated: "2026-04-16"
+version: "3.1.0"
+lastUpdated: "2026-04-22"
 status: active
 ---
 
@@ -15,32 +15,21 @@ status: active
 
 ### Token Budget Status
 
-**Last Updated:** 2026-04-16
-**Current Status:** ⚠️ 2 FILES OVER LIMIT
-
 **Per-File Token Limit:** 10,000 tokens (primary enforcement)
 **Rationale:** Agents load specific files per-context, not all files at once.
 
-**Current Totals:**
-```
-Total:        ~213,000 tokens
-Agents:        ~30,000 tokens (16 files)
-Docs:          ~96,000 tokens
-Instructions:  ~78,000 tokens
-Prompts:       ~10,000 tokens
+Run the token report before each release to check current status:
+
+```powershell
+pwsh -File scripts/token-report.ps1 -Path . -ConfigPath token-thresholds.json
 ```
 
-**Action Items:**
-1. **Immediate:** Monitor 2 files exceeding 10k token limit (vscode-copilot-configuration.md, CHANGELOG.md)
-2. **Short-term:** Enable Agent Skills pilot to evaluate on-demand loading benefits
-3. **Medium-term:** Establish 8k token soft limit for new documentation
-4. **Long-term:** Migrate heavy instruction content to skill modules
+Files historically over the 10k limit: `vscode-copilot-configuration.md`, `CHANGELOG.md`. Monitor these after doc updates.
 
-**Agent Skills Pilot Timeline:**
-- Phase A (Week 1-2): Baseline measurement with always-on instructions
-- Phase B (Week 3-4): Pilot with Agent Skills enabled
-- Phase C (Week 5): Analysis and Go/No-Go decision
-- See: `docs/guides/agent-skills-pilot.md`
+**Policy:**
+1. New documentation: target 8k token soft limit
+2. Files exceeding 10k: split or migrate heavy content to skill modules
+3. Agent Skills provide on-demand loading — prefer skills over always-on instructions for reference material
 
 ---
 
@@ -56,7 +45,7 @@ Prompts:       ~10,000 tokens
 ### Multi-Tier Model Effectiveness
 
 **Cost Efficiency Metrics:**
-- **Premium vs. execution tier ratio** — Target: 15% premium / 75% execution / 10% fast. Track actual ratio weekly.
+- **Premium vs. execution tier ratio** — Target: ~6% premium (Planner) / ~75% execution / ~19% fast. Track actual ratio weekly.
 - **Cost per completed phase** — Total model costs divided by phases completed successfully.
 - **Cost per agent type** — Break down costs by Conductor, Planner, Implementer, Reviewer, Researcher, Ops, Test, IaC, GUI Tester, Docs, UX.
 - **Budget variance** — Actual spend vs. projected spend; alert when >10% over budget.
@@ -103,15 +92,19 @@ Prompts:       ~10,000 tokens
 
 ## Backlog
 
-| Item | Owner | Status |
-|------|-------|--------|
-| Add JSON output mode to token report | Tooling | Planned |
-| Implement escalation metrics tracking dashboard | Tooling | Planned |
-| Pilot dynamic escalation in low-risk workflows | Platform Guild | Planned |
-| Evaluate model re-evaluation cadence for new releases | Operations | Planned |
-| Expand Context7 MCP coverage to additional libraries | MCP Guild | Planned |
-| Wiki memory retention policy and search tooling | Platform Guild | Planned |
-| Skills ecosystem integration testing | Skills Guild | Planned |
+| Item | Owner | Status | Gap |
+|------|-------|--------|-----|
+| Agent-quality eval harness (SWE-bench-style fixture set) | Platform Guild | Deferred — see ADR-sota-2026-04-22-remaining-gaps.md | G58 |
+| MCP Task Augmentation — async `tasks/result` for long-running tools | MCP Guild | Deferred — blocked on mcp SDK v1.x stable | G59 |
+| Semantic firewall pre-tool pattern matching | Security Guild | Deferred — blocked on VS Code `chat.tools.preApprovalHook` API | G63 |
+| Publish 12 Agent Skills to skills.sh catalogue | Operations | Deferred — needs OWNER decision on license/support scope | G65 |
+| Community catalogue drift audit (obra/superpowers, skills.sh) | Researcher | Deferred — blocked on G65 | G66 |
+| Add JSON output mode to token report | Tooling | Planned | — |
+| Implement escalation metrics tracking dashboard | Tooling | Planned | — |
+| Pilot dynamic escalation in low-risk workflows | Platform Guild | Planned | — |
+| Expand Context7 MCP coverage to additional libraries | MCP Guild | Planned | — |
+| Wiki memory retention policy and search tooling | Platform Guild | Planned | — |
+| Next SOTA review | Operations | Target: 2026-07 | — |
 
 ---
 

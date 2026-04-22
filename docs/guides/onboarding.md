@@ -1,7 +1,7 @@
 ---
 title: "Copilot Orchestrator Onboarding Guide"
 version: "3.0.0"
-lastUpdated: "2026-04-16"
+lastUpdated: "2026-04-22"
 status: stable
 ---
 

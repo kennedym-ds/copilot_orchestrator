@@ -1,7 +1,7 @@
 ---
 title: "Claude Code Onboarding Guide"
 version: "2.0.0"
-lastUpdated: "2026-04-16"
+lastUpdated: "2026-04-22"
 status: stable
 ---
 

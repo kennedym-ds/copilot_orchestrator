@@ -1,6 +1,6 @@
 ---
-version: 3.0.0
-lastUpdated: 2026-04-16
+version: 3.1.0
+lastUpdated: 2026-04-22
 ---
 
 # GitHub Copilot CLI Usage Guide
@@ -44,8 +44,8 @@ Copilot CLI gained the same model-picker thinking-effort control as local VS Cod
 
 | Tier | CLI effort |
 |---|---|
-| Premium agents (planner, conductor, security review) | Medium or High |
-| Execution agents (implementer, reviewer, test) | Low or Medium |
+| Premium agents (planner) | High |
+| Execution agents (conductor, reviewer, implementer, test) | Low or Medium |
 | Fast agents (docs, ux) | None (non-reasoning default) |
 
 See [policy-and-operations.md #5](policy-and-operations.md) for the interaction with our 3-cap on parallel subagents (thinking effort is orthogonal - it controls per-turn reasoning depth, not parallelism).
@@ -58,9 +58,9 @@ See [policy-and-operations.md #5](policy-and-operations.md) for the interaction 
 
 | Agent | Tier | Purpose | When to Use |
 |-------|------|---------|-------------|
-| **conductor** | Premium | Lifecycle orchestration, delegation, pause points | Multi-phase tasks requiring planning â†’ implementation â†’ review |
+| **conductor** | Execution | Lifecycle orchestration, delegation, pause points | Multi-phase tasks requiring planning → implementation → review |
 | **planner** | Premium | Multi-phase planning, risk analysis | Deep/Ultra complexity tasks before implementation |
-| **reviewer** | Premium | Multi-mode code review (standard/security/adversarial/performance) | After implementation or for standalone review |
+| **reviewer** | Execution | Multi-mode code review (standard/security/adversarial/performance) | After implementation or for standalone review |
 | **implementer** | Execution | TDD execution, validation, pushback | Execute plans, implement features, fix bugs |
 | **researcher** | Execution | Evidence gathering, citation | Investigate issues, gather context before planning |
 | **ops** | Execution | Issues, PRs, CI/CD, releases, telemetry | DevOps tasks, GitHub workflows, deployment |

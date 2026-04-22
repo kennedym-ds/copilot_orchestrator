@@ -1,6 +1,6 @@
 title: "Copilot Orchestrator Changelog"
-version: "3.0.0"
-lastUpdated: "2026-04-16"
+version: "3.1.0"
+lastUpdated: "2026-04-22"
 status: stable
 ---
 
@@ -8,11 +8,37 @@ status: stable
 
 All notable changes are documented here following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
 
+## [3.1.0] — 2026-04-22
+
+### Fixed
+- `scripts/hooks/subagent-start.ps1` now exits non-zero on disallowed edges — `on_fail: block` was previously inert (Write-HookError logged but did not exit)
+- `docs/guides/agent-hooks-standard.md` rewritten: v1.0 documented a pre-release hook syntax (`preResponse`/`path:`) that was never deployed; v2.0 documents the actual deployed syntax (`trigger`/`run.command`/`on_fail`) with all 8 live triggers
+- Tier labels corrected: conductor and reviewer were miscategorised as Premium in `quick-reference.md` and `copilot-cli-usage.md`; both are Execution tier (Planner is the only Premium agent)
+- `budget-gatekeeper/SKILL.md` agent count corrected: 29 → 16
+- `AGENTS.md` Skills Ecosystem section flags publishing (G65) as deferred to prevent `npx skills` commands being mistaken for current capability
+- `.mcp.json` comment now references `setup-claude-code.ps1` for automatic reconciliation with `.vscode/mcp.json`
+- Model catalog in `validate-copilot-assets.ps1` reconciled against official GitHub Copilot supported-models page (2026-04-22); GPT-5.2, GPT-5.4 nano, Gemini 2.5 Pro, Grok Code Fast 1, and preview models added; retired models removed
+
+### Added
+- `tests/powershell/Test-Hooks.Tests.ps1` — 7 Pester tests for hook exit codes, JSONL schema, and `task-completed.ps1` JSON round-trip
+- `tests/mcp/test_analytics_server.py` — loop metrics tests for G64 observability
+- `tests/mcp/conftest.py` — shared FastMCP mock setup for all MCP server test modules
+- `tests/mcp/test_validation_server.py`, `test_translation_server.py`, `test_design_server.py` — unit tests for remaining MCP servers
+- CI `validate.yml` emits a GitHub Actions `::notice::` when the headless reviewer step is skipped due to missing `COPILOT_TOKEN`
+- `scripts/hooks/subagent-start.ps1` — `exit 1` after `Write-HookError` so `on_fail: block` actually halts the turn
+
+### Changed
+- `docs/CHANGELOG.md` v3.0.0 model tier counts and fallback chains corrected (see note below)
+- `docs/operations.md` token budget status and tier target percentages updated
+- `docs/README.md` — three missing guides added to index
+
+---
+
 ## [3.0.0] — 2026-04-16
 
 ### Architecture
 - Consolidated agent roster from 29 to 16 agents (11 core + 5 translation)
-- Three-tier model allocation: Premium (3), Execution (11), Fast (2)
+- Three-tier model allocation: Premium (1 — Planner only), Execution (12), Fast (3)
 - Deleted 16 agents: security, performance, accessibility, lint, rubber-duck, beast-mode, observability, visualizer, deployment, red-team, spec, maintainer, github-ops, terraform, bicep, design
 - Merged capabilities: ops (maintainer+github-ops+deployment+observability), ux (visualizer+accessibility), iac (terraform+bicep), reviewer (absorbed security/performance/red-team as review modes)
 
@@ -36,9 +62,9 @@ All notable changes are documented here following [Keep a Changelog](https://kee
 - Updated all GPT-5.3-Codex references to current model names
 
 ### Model Updates
-- Premium tier: Claude Opus 4.6 → GPT-5.4 → GPT-4.1
-- Execution tier: Claude Sonnet 4.6 → GPT-5.4 → GPT-4.1
-- Fast tier: Claude Haiku 4.5 → GPT-5 mini → Claude Sonnet 4.6
+- Premium tier: Claude Opus 4.6 → Claude Opus 4.7 → Claude Sonnet 4.6 (Planner only)
+- Execution tier: Claude Sonnet 4.6 → GPT-5.4 → GPT-5.3-Codex (12 agents)
+- Fast tier: Claude Haiku 4.5 → GPT-5.4 mini → GPT-5 mini (3 agents)
 
 ## [0.20.0] - 2026-04-02
 

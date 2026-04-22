@@ -1,7 +1,7 @@
 ﻿---
 title: "Copilot Orchestrator Quick Reference"
-version: "3.0.0"
-lastUpdated: "2026-04-16"
+version: "3.1.0"
+lastUpdated: "2026-04-22"
 status: stable
 ---
 
@@ -91,9 +91,9 @@ Invoke-Pester -Path tests -Output Detailed
 
 | Agent | Tier | Purpose |
 |-------|------|---------|
-| conductor | Premium | Lifecycle orchestration, delegation, pause points |
+| conductor | Execution | Lifecycle orchestration, delegation, pause points |
 | planner | Premium | Multi-phase planning, risk analysis |
-| reviewer | Premium | Multi-mode review: standard, security, adversarial, performance |
+| reviewer | Execution | Multi-mode review: standard, security, adversarial, performance |
 | implementer | Execution | TDD execution, validation |
 | researcher | Execution | Evidence gathering, citation |
 | ops | Execution | Issues, PRs, CI/CD, releases, telemetry |
@@ -187,6 +187,9 @@ artifacts/
 | `instructions/` | Layered instruction mesh |
 | `scripts/` | Validation and tooling |
 | `scripts/mcp/` | MCP servers (validation, analytics, research, translation) |
+
+---
+
 ## Key Documentation
 
 | Document | Purpose |
@@ -194,9 +197,12 @@ artifacts/
 | `README.md` | Project overview |
 | `AGENTS.md` | Agent playbook |
 | `docs/guides/onboarding.md` | Setup guide |
-| `docs/guides/central-deployment.md` | Org-level deployment || `docs/guides/background-agents-worktrees.md` | Git worktrees for parallel execution |
-| `docs/guides/claude-skills-migration.md` | Prompt to skill migration || `docs/guides/memory-management.md` | Memory lifecycle, cleanup, ADRs |
-| `docs/operations.md` | Monitoring and backlog |
+| `docs/guides/central-deployment.md` | Org-level deployment |
+| `docs/guides/background-agents-worktrees.md` | Git worktrees for parallel execution |
+| `docs/guides/agent-hooks-standard.md` | Hook triggers, scripts, JSONL output |
+| `docs/guides/claude-skills-migration.md` | Prompt to skill migration |
+| `docs/guides/memory-management.md` | Memory lifecycle, cleanup, ADRs |
+| `docs/operations.md` | Monitoring, backlog, deferred gaps |
 
 ---
 

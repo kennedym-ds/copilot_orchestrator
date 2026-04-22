@@ -1,7 +1,7 @@
 # Multi-Platform Setup Guide
 
 > **Scope:** VS Code | Visual Studio | Claude Code | Antigravity | Copilot CLI
-> **Version:** 2.0.0 | **Last Updated:** 2026-04-16
+> **Version:** 2.0.0 | **Last Updated:** 2026-04-22
 
 ## Overview
 
