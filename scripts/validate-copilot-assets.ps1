@@ -108,26 +108,41 @@ if ($instructionFiles.Count -eq 0) {
 $agentFiles = @()
 $agentFiles += Get-ChildItem -Path (Join-Path $RepoRoot '.github/agents') -Filter '*.agent.md' -File -ErrorAction SilentlyContinue
 
-# Define valid model names (updated for current model allocation)
-# Review monthly — Copilot model catalogue changes frequently. Sources of truth:
-# 1. `copilot --model list` (if authenticated) 2. https://docs.github.com/copilot/reference/models
-# Add new IDs here when they land; remove deprecated ones in the next review cycle.
+# Define valid model names
+# Source of truth: https://docs.github.com/en/copilot/reference/ai-models/supported-models
+# Last reconciled: 2026-04-22. Review monthly — Copilot catalogue changes frequently.
+# Includes GA models + public-preview models available via Copilot Chat/CLI/SDK.
+# Retired models (GPT-5, GPT-5.1, GPT-5-Codex, GPT-5.1-Codex*, Claude Opus 4 / 4.1,
+# Claude Sonnet 3.5/3.7, Gemini 2.0/3 Pro, o1/o3/o4 family) are intentionally excluded.
 $validModels = @(
+    # Anthropic — GA
+    'Claude Haiku 4.5 (copilot)',
+    'Claude Opus 4.5 (copilot)',
     'Claude Opus 4.6 (copilot)',
     'Claude Opus 4.7 (copilot)',
+    'Claude Sonnet 4 (copilot)',
+    'Claude Sonnet 4.5 (copilot)',
     'Claude Sonnet 4.6 (copilot)',
-
-    'Claude Haiku 4.5 (copilot)',
+    # Anthropic — Public preview
+    'Claude Opus 4.6 (fast mode) (preview) (copilot)',
+    # OpenAI — GA
+    'GPT-4.1 (copilot)',
+    'GPT-5 mini (copilot)',
+    'GPT-5.2 (copilot)',
+    'GPT-5.2-Codex (copilot)',
+    'GPT-5.3-Codex (copilot)',
     'GPT-5.4 (copilot)',
     'GPT-5.4 mini (copilot)',
-    'GPT-5.3-Codex (copilot)',
-    'GPT-5.1-Codex-Mini (copilot)',
-    'GPT-5 mini (copilot)',
-    'GPT-4.1 (copilot)',
-    'GPT-4o (copilot)',
-    'Gemini 3.1 Pro (Preview) (copilot)',
+    'GPT-5.4 nano (copilot)',
+    # OpenAI — Fine-tuned / preview
+    'Raptor mini (copilot)',
+    'Goldeneye (copilot)',
+    # Google
+    'Gemini 2.5 Pro (copilot)',
     'Gemini 3 Flash (copilot)',
-    'Raptor mini (copilot)'
+    'Gemini 3.1 Pro (copilot)',
+    # xAI
+    'Grok Code Fast 1 (copilot)'
 )
 
 foreach ($agent in $agentFiles) {
