@@ -4,6 +4,7 @@ description: "Issue triage, PR management, CI/CD pipelines, release coordination
 argument-hint: "Triage issues, manage PRs, prepare releases, review deployments, or analyze session metrics"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: low
+cli-affinity: [pr, diff, delegate, share]
 hooks:
   - trigger: session-pause
     run:
@@ -117,3 +118,16 @@ When git push works but `gh auth` is unavailable:
 - **Route implementations:** `#runSubagent implementer "Implement: [task]. Context: [findings]. Acceptance criteria: [list]."`
 - **Route reviews:** `#runSubagent reviewer "Review: [scope]. Acceptance criteria: [list]."`
 - **Report to conductor:** `#runSubagent conductor "Ops complete: [summary]. Status: [verdict]. Next: [actions]."`
+
+
+## Copilot CLI Integration
+
+| Command | When to use | Falls back to |
+|---------|-------------|---------------|
+| `/pr` | PR creation, review requests, merge queue actions | `gh pr` commands |
+| `/diff` | Pre-merge scope verification | `git diff` |
+| `/delegate` | Hand a fully-planned feature to GitHub for autonomous PR production | Manual Implementer loop |
+| `/share` | Publish plans/research briefs as gists | Copy to clipboard |
+
+Prefer `/pr` over `gh pr` when running interactively; `gh pr` remains the fallback for CI jobs and non-CLI sessions.
+

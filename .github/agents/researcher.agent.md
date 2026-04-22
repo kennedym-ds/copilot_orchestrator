@@ -4,6 +4,7 @@ description: "Performs targeted research, evidence gathering, and knowledge synt
 argument-hint: "Ask about technologies, patterns, or gather evidence from docs and repos"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: high
+cli-affinity: [research, ask, share]
 mcp-allowlist: [research, context7]
 hooks:
   - trigger: error
@@ -93,3 +94,13 @@ When your task requires another specialist, use `#runSubagent` with clear contex
 Formal schemas: return to conductor uses **HS-RETURN**, feeding into planning uses **HS-PLAN** (via conductor). See `docs/guides/agent-handoff-schemas.md`.
 
 **Return action contract:** Every return to conductor must include an `action` field from: `evidence-gathered`, `insufficient-sources`, or `out-of-scope`. Include `sources` array with url_or_path, relevance, and confidence per entry. See Return Action Schemas in the handoff schemas guide.
+
+
+## Copilot CLI Integration
+
+| Command | When to use |
+|---------|-------------|
+| `/research` | First-pass investigation. Layer manual web/code search only when `/research` output is insufficient or needs citation rigour. |
+| `/ask` | Side-questions that must not pollute the main conversation history. |
+| `/share` | Publish the final research brief as a markdown gist for teammates. |
+

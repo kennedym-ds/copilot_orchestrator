@@ -4,6 +4,7 @@ description: "Clarifies objectives, gathers context, and drafts multi-phase impl
 argument-hint: "Describe what you want to build and I'll create a phased implementation plan"
 model: ['Claude Opus 4.6 (copilot)', 'Claude Opus 4.7 (copilot)', 'Claude Sonnet 4.6 (copilot)']
 thinkingEffort: high
+cli-affinity: [plan, research, context]
 agents: ['conductor', 'researcher', 'implementer']
 hooks:
   - trigger: session-pause
@@ -98,3 +99,13 @@ When your task requires another specialist, use `#runSubagent` with clear contex
 Formal schemas: planning uses **HS-PLAN**, implementation launches use **HS-IMPL**, research requests use **HS-RESEARCH**, return to conductor uses **HS-RETURN**. See `docs/guides/agent-handoff-schemas.md`.
 
 **Return action contract:** Every return to conductor must include an `action` field from: `plan-ready`, `needs-research`, or `scope-too-large`. Include `open_questions` array when action is not `plan-ready`. See Return Action Schemas in the handoff schemas guide.
+
+
+## Copilot CLI Integration
+
+| Command | When to use |
+|---------|-------------|
+| `/plan` | Initial draft of multi-phase plans. Persist output to `artifacts/plans/{feature}/` as always — `/plan` is the authoring surface, not the storage. |
+| `/research` | Before finalising a phase when evidence is thin. Prefer delegating to the researcher agent for deeper analysis. |
+| `/context` | At each phase boundary to confirm working set fits. |
+

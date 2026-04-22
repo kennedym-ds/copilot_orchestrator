@@ -4,6 +4,7 @@ description: "Audits changes for correctness, quality, security, performance, an
 argument-hint: "Provide changes to review â€” add --security, --adversarial, or --performance for specialized modes"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: high
+cli-affinity: [review, diff, pr]
 agents: ['conductor', 'implementer']
 hooks:
   - trigger: pre-prompt
@@ -124,3 +125,15 @@ Multiple modes can be combined. For ULTRA-complexity tasks, the conductor may re
 
 - **Request revisions:** `#runSubagent implementer "Fix [N] findings. Priority: [BLOCKER items first]. Files: [list]."`
 - **Report to conductor:** `#runSubagent conductor "Review verdict: [VERDICT]. Findings: [count by severity]. Blockers: [list]."`
+
+
+## Copilot CLI Integration
+
+| Command | When to use |
+|---------|-------------|
+| `/review` | Baseline pass before applying our confidence-scoring + security overlay. The two **layer** — `/review` surfaces findings, we add calibrated severity and OWASP mapping. |
+| `/diff` | Scope confirmation at review start. |
+| `/pr` | For PR-mode reviews, pull author/context and post findings back via `/pr`. |
+
+Do not treat `/review` as a replacement for the reviewer agent. Our confidence-scoring and security-mode Opus escalation remain required gates.
+

@@ -7,6 +7,15 @@ description: "Runtime budget enforcement for conductor workflows. Tracks model t
 
 Provides runtime budget enforcement patterns for conductor workflows, tracking model tier allocation, delegation count, and estimated token cost to prevent runaway sessions.
 
+## Copilot CLI Native Metrics
+
+Under `copilot` CLI, use native commands for budget telemetry instead of manual estimation:
+
+- `/context` — real-time token usage and visualisation.
+- `/usage` — session-wide model cost and invocation metrics.
+
+Hooks still emit `artifacts/sessions/hooks/*.jsonl` for post-session analytics. CLI metrics supplement, do not replace, the JSONL stream.
+
 ## Description
 
 This skill teaches the conductor and delegating agents how to monitor and enforce session budgets in real time. Inspired by Athena's BudgetGatekeeper pattern, it adapts the concept to our multi-agent orchestration model — where the "cost" is distributed across 29 specialized agents using a 3-tier model allocation.

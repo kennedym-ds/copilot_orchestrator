@@ -7,6 +7,16 @@ description: "Conductor workflow patterns for multi-phase orchestration includin
 
 Provides conductor workflow patterns for multi-phase orchestration including planning, implementation, review cycles, pause points, and handoffs.
 
+## Copilot CLI Command Hooks
+
+When running under `copilot` CLI, prefer native slash commands over manual equivalents:
+
+- `/fleet` — parallel subagent execution (DEEP/ULTRADEEP + teams-enabled only).
+- `/tasks` — visibility into background subagents.
+- `/compact` — emit at every phase transition to preserve context budget (see `memory-management` skill).
+- `/model` — downshift to Haiku for Fast-tier delegates, upshift via security-review prompt override.
+- `/remote` — for long-running ULTRADEEP sessions.
+
 ## Description
 
 This skill teaches the conductor agent how to manage complex multi-phase workflows through structured lifecycle stages: Planning → Implementation → Review → Completion. It covers pause point enforcement, subagent delegation patterns, state tracking, artifact persistence, and handoff protocols that maintain context across the orchestration lifecycle.

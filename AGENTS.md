@@ -146,8 +146,23 @@ Agents load automatically in Copilot CLI sessions (VS Code 1.113+). MCP servers 
 # Start a CLI session with agent context
 copilot chat --agent conductor
 
-# Agents, instructions, and skills are discovered from workspace paths. MCP servers load from `.vscode/mcp.json`. For permission-tier guidance see the Permission & Complexity Tier Matrix above
 ```
+
+### CLI Command Affinity
+
+Agents declare `cli-affinity:` in frontmatter listing Copilot CLI slash commands they prefer when available. Falls back to internal orchestration when the command is absent (pre-1.113 VS Code, non-CLI surfaces).
+
+| Agent | Key commands | Purpose |
+|-------|--------------|---------|
+| conductor | `/fleet`, `/tasks`, `/delegate`, `/compact`, `/model`, `/context`, `/usage`, `/remote` | Native parallel subagents, task surfacing, budget metrics, long-run sessions |
+| planner | `/plan`, `/research`, `/context` | Authoring surface for multi-phase plans |
+| researcher | `/research`, `/ask`, `/share` | First-pass investigation, side-questions, gist publishing |
+| reviewer | `/review`, `/diff`, `/pr` | Baseline findings layered with confidence scoring and security mode |
+| ops | `/pr`, `/diff`, `/delegate`, `/share` | PR workflow; `gh` CLI remains the fallback |
+| implementer | `/ide`, `/diff`, `/rewind`, `/undo`, `/ask` | IDE bridge, safe TDD revert, side-questions |
+
+`/fleet` coexists with our `team-state.json` telemetry: the native command drives execution, hook JSONL feeds analytics. Validator warns on unknown `cli-affinity` entries (warn-only — CLI surface evolves).
+
 
 ---
 

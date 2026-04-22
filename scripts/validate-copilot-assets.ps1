@@ -192,6 +192,19 @@ foreach ($agent in $agentFiles) {
     if ($frontMatter -notmatch "tools:\s*\[" -and $frontMatter -notmatch "(?s)tools:\s*\n") {
         Add-Issue -Collector $issues -File $relativePath -Severity 'Warning' -Message 'Tools list appears empty; confirm tool bindings are defined.'
     }
+
+    # Validate cli-affinity (warn-only): advisory list of Copilot CLI slash commands this agent prefers.
+    # Unknown entries warn but do not fail; CLI surface evolves.
+    if ($frontMatter -match '(?m)^cli-affinity:\s*\[([^\]]*)\]') {
+        $rawList = $Matches[1]
+        $knownCli = @('fleet','tasks','delegate','compact','model','research','context','usage','remote','plan','review','diff','pr','ide','rewind','undo','ask','share')
+        $entries = $rawList -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne '' }
+        foreach ($e in $entries) {
+            if ($knownCli -notcontains $e) {
+                Add-Issue -Collector $issues -File $relativePath -Severity 'Warning' -Message "cli-affinity entry '$e' not in known Copilot CLI command list."
+            }
+        }
+    }
 }
 
 # 3b. Validate #runSubagent references resolve to an agent or known alias (WATCH-G23)

@@ -4,6 +4,7 @@ description: "Executes the approved plan, making disciplined, tested code change
 argument-hint: "Specify the phase or task to implement with TDD approach"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: medium
+cli-affinity: [ide, diff, rewind, undo, ask]
 agents: ['conductor', 'reviewer', 'researcher', 'test']
 mcp-allowlist: [validation, context7]
 hooks:
@@ -229,3 +230,14 @@ When your task requires another specialist, use `#runSubagent` with clear contex
 Formal schemas: review requests use **HS-REVIEW**, research requests use **HS-RESEARCH**, return to conductor uses **HS-RETURN**. See `docs/guides/agent-handoff-schemas.md`.
 
 **Return action contract:** Every return to conductor must include an `action` field from: `phase-complete`, `blocked`, or `needs-clarification`. Include `test_results` (passed/failed/skipped counts) and `residual_risks` array. See Return Action Schemas in the handoff schemas guide.
+
+
+## Copilot CLI Integration
+
+| Command | When to use |
+|---------|-------------|
+| `/ide` | Bridge CLI session to VS Code for visual debugging or multi-file review. |
+| `/diff` | Before handing back to conductor; confirm the phase delta. |
+| `/rewind`, `/undo` | Safe revert after a failing TDD red stage — preferred over `git reset` because it preserves conversation history. |
+| `/ask` | Mid-TDD side questions (e.g. library syntax) without polluting the main conversation. |
+

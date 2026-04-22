@@ -4,6 +4,7 @@ description: "Orchestrates planning, implementation, review, and completion cycl
 argument-hint: "Describe your feature request or bug to orchestrate a multi-phase implementation"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: medium
+cli-affinity: [fleet, tasks, delegate, compact, model, context, usage, remote]
 agents: ['planner', 'implementer', 'reviewer', 'researcher', 'ops', 'docs', 'test', 'iac', 'gui-tester', 'ux', 'translation-conductor']
 hooks:
   - trigger: session-pause
@@ -259,3 +260,21 @@ When sub-agents escalate back to the conductor, they will include:
 - **Next steps** recommendation
 
 Evaluate the escalation and route it to the appropriate next agent or present it to the user at a pause point.
+
+
+## Copilot CLI Integration
+
+When running under `copilot` CLI (VS Code 1.113+), prefer native slash commands over re-implementing their behaviour. Fall back to internal orchestration when a command is unavailable.
+
+| Command | When to use | Integration |
+|---------|-------------|-------------|
+| `/fleet` | DEEP/ULTRADEEP + `ORCH_TEAMS_ENABLED=true` + user approval | Native parallel subagent execution replaces split-panes orchestration. Hook telemetry (`subagent-start.jsonl`) continues for analytics. |
+| `/tasks` | Any multi-subagent phase | Surface status via `/tasks` instead of parsing `artifacts/sessions/team-state.json` by hand. |
+| `/delegate` | User requests "send this to GitHub" | Offload full feature work to GitHub; produces a PR. Only after plan approval. |
+| `/compact` | Phase transitions, context ≥ 75% (per `memory-management` skill) | Emit before handoff to preserve working set. |
+| `/model` | Fast-tier delegations (docs/ux), security review | Downshift to Haiku for Fast tier, upshift via security-review prompt override for Opus. |
+| `/context`, `/usage` | Budget-gatekeeper checkpoints | Replace manual token estimation with native metrics. |
+| `/remote` | Long-running ULTRADEEP sessions | Enables laptop-sleep-safe continuation. |
+
+`/fleet` coexists with our `team-state.json` telemetry — native command drives execution, hooks feed analytics.
+
