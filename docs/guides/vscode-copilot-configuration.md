@@ -66,6 +66,9 @@ Use this configuration to make all 29 orchestrator agents available in **any VS 
      "chat.agentCustomizationSkill.enabled": true,
      "chat.customAgentInSubagent.enabled": true,
      "chat.subagents.allowInvocationsFromSubagents": true,
+     "chat.useCustomAgentHooks": true,
+     "github.copilot.chat.claudeAgent.enabled": true,
+     "chat.plugins.enabled": true,
      "chat.askQuestions.enabled": true,
      "github.copilot.chat.copilotMemory.enabled": true,
      "github.copilot.chat.searchSubagent.enabled": true,
@@ -144,6 +147,9 @@ Workspace settings layer on top of user settings. If you have user-level global 
 | Duplicate agents in Copilot | `.claude/agents/` also discovered | Set `".claude/agents": false` in `chat.agentFilesLocations` (see below) |
 | `chat.modeFilesLocations` warning | Setting is deprecated | Remove it; use `chat.agentFilesLocations` instead |
 | `chat.viewRestorePreviousSession` warning | Setting renamed in 1.108 | Replace with `chat.restoreLastPanelSession` |
+| `anthropic.thinking.effort` no-op | Deprecated in 1.113 | Remove setting; use model-picker thinking effort |
+| `responsesApiReasoningEffort` no-op | Deprecated in 1.113 | Remove setting; use model-picker thinking effort |
+| `useCustomizationsInParentRepositories` no-op | Deprecated in 1.115 (now default) | Remove setting; parent discovery is automatic |
 
 ### Duplicate Agents from `.claude` Folder
 
@@ -281,6 +287,52 @@ Auto-generates workspace instruction files based on codebase analysis — accele
 | `git.worktreeIncludeFiles` | array | Copies specified files to worktrees for background agents |
 | `inlineChat.affordance` | `"editor"` | Inline chat affordance in editor (changed from boolean to enum in 1.110) |
 
+## VS Code 1.115 Features
+
+Released 2026-04-08. Several preview features graduated to GA in this release.
+
+### Agent-Scoped Hooks (GA)
+**Setting:** `chat.useCustomAgentHooks` (default: `true`)
+
+Promoted from preview (1.111) to GA. Define pre/post-tool, session-lifecycle, user-prompt-submitted, and error-handling hooks in YAML frontmatter of `.agent.md` files. Each hook runs only when its owning agent is active.
+
+**Example hook declaration:**
+
+```yaml
+hooks:
+  - event: post-tool
+    match: { tool: "edit_file", path: "**/.github/**" }
+    run: "pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot ."
+```
+
+Our roster does not yet use hooks — tracked as gap **G1** in `artifacts/research/copilot-sota-gap-analysis-2026-04-22.md`. Priority candidates: `implementer` (post-edit validation), `reviewer` (pre-load security context), `conductor` (session-lifecycle writes `activeContext.md`).
+
+### Monorepo Parent-Folder Discovery (GA)
+**Behavior change** — No setting required (now automatic).
+
+Promoted from preview (1.112 behind `chat.useCustomizationsInParentRepositories`) to default behavior. When you open a subfolder, Copilot walks parent directories up to the repository root to discover `AGENTS.md`, `copilot-instructions.md`, instructions, prompts, agents, skills, and hooks. Only active when the opened folder is not itself a Git repository and a parent contains `.git`.
+
+> **Deprecation:** `chat.useCustomizationsInParentRepositories` is retained for pre-1.115 compatibility but is a no-op in 1.115+. Remove it from your settings.
+
+> **Impact on central deployment:** The symlink pattern in `docs/guides/central-deployment.md` is now **only** needed for pre-1.115 versions or non-VS-Code clients. New users on 1.115+ should use parent-folder discovery instead of symlinks.
+
+### Integrated Browser Debug (GA)
+**Debug type:** `editor-browser`
+
+Promoted from experimental (1.112). Set breakpoints, step through code, and inspect the DOM in the integrated browser without leaving VS Code. Launch and Attach configurations supported. Migration from `msedge` / `chrome` is usually just a `type` change in `launch.json`.
+
+### Standalone Code-Review Repo Rule (GitHub platform)
+**Where:** Repository rulesets on github.com (not a VS Code setting).
+
+A new standalone rule enforces Copilot code review on pull requests at the repo level — independent of any workflow or CI configuration. Interacts with our `reviewer` agent: the reviewer produces chat-level findings; the repo rule is a CI-level gate. Ensure they don't double-gate the same PR.
+
+### Faster `#codebase`
+See the 1.114 section below — a single auto-managed semantic index replaces the local/remote split. Reindexing may be needed for workspaces that previously used local-only indexes.
+
+### Image & Video in Chat (Expanded)
+Attachments now include videos with playback controls, navigable alongside images in the carousel. Agent outputs can return both. Our `gui-tester` agent gained image/video input support in commit `54b0980` (FOLLOWUP-G13).
+
+---
 ## VS Code 1.114 Features
 
 ### Workspace Search Simplification
@@ -316,6 +368,66 @@ Proposed `approveCombination` property on `LanguageModelToolConfirmationMessages
 ### TypeScript 6.0
 Built-in JavaScript and TypeScript support now uses TypeScript 6.0, which deprecates a number of older options in preparation for the TypeScript 7.0 native rewrite.
 
+## VS Code 1.113 Features
+
+Released 2026-03-25. Thinking-effort control, nested subagents, and MCP cross-runtime bridging.
+
+### Configurable Thinking Effort (Model Picker)
+**Where:** Model picker → effort submenu (None / Low / Medium / High). Persists per-model across conversations.
+
+Replaces two deprecated settings:
+
+| Deprecated setting | Replacement |
+|---|---|
+| `github.copilot.chat.anthropic.thinking.effort` | Model-picker effort control |
+| `github.copilot.chat.responsesApiReasoningEffort` | Model-picker effort control |
+
+Remove both from your settings if present — they are no-ops in 1.113+.
+
+> **Note:** `github.copilot.chat.anthropic.thinking.budgetTokens` is **not** deprecated. It caps Anthropic thinking token count per request and is orthogonal to the effort control. Keep it configured (default `10000`, we use `32000` for premium-tier work).
+
+Our agent frontmatter uses `thinkingEffort:` as a recommendation-only hint that a user's picker should honour by default. See `instructions/global/01_quality.instructions.md` for the per-tier default allocation.
+
+### Nested Subagents
+**Setting:** `chat.subagents.allowInvocationsFromSubagents` (default: `false`)
+
+Enables a subagent to invoke another subagent directly without relaying through the conductor. System limit: depth 5. Our policy: **depth ≤ 2** with an explicit allow-list in `AGENTS.md`.
+
+**Our allow-listed edges:**
+
+| Parent → Child | Rationale |
+|---|---|
+| implementer → test | Add coverage mid-task |
+| implementer → researcher | Quick library lookup |
+| reviewer → researcher | Gather evidence for a finding |
+| reviewer → reviewer[security] | Standard review escalates to security mode |
+| planner → researcher | Finalize a phase with one more piece of evidence |
+| translation-conductor → translator / translation-analyzer | Per-file dispatch |
+
+All other edges relay through the conductor. Explicitly denied: `implementer → reviewer`, `implementer → implementer`, `* → conductor`, `reviewer → implementer`, `ops → *`, `gui-tester → *`.
+
+Every nested invocation emits `artifacts/sessions/hooks/nested-call.jsonl` with `{parent, child, depth, purpose, ts}`.
+
+### MCP Cross-Runtime
+MCP servers configured in VS Code now bridge automatically to:
+
+- Copilot CLI sessions (`copilot chat`)
+- Claude agent sessions
+
+Our six MCP servers (`validation`, `analytics`, `research`, `translation`, `design`, `github`) are stdio-based and work in all three runtimes. See `docs/guides/mcp-integration.md` for per-runtime caveats (sandboxing is macOS/Linux only).
+
+### Claude Agent Integration
+**Setting:** `github.copilot.chat.claudeAgent.enabled` (default: `true`; managed by `Claude3PIntegration` group policy in Enterprise)
+
+Session type picker includes "Claude Agent" alongside local, background, and cloud sessions. Uses the Anthropic agent SDK directly.
+
+### Chat Customizations Editor (Preview)
+Unified UI for browsing and managing instructions, agents, skills, plugins, and MCP servers in one panel. Replaces navigating multiple file locations manually. Access via **Chat: Open Customizations** command.
+
+### Session Forking in CLI
+`/fork` command extended from local sessions to Copilot CLI sessions. Branch a CLI session to explore alternatives without losing the main conversation.
+
+---
 ## VS Code 1.112 Features
 
 ### `/troubleshoot` Skill (Preview)
