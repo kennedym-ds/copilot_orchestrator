@@ -154,33 +154,22 @@ The structure should be:
 ```
 .github-private/
 └── agents/
-    ├── conductor.agent.md
-    ├── planner.agent.md
-    ├── implementer.agent.md
-    ├── reviewer.agent.md
-    ├── researcher.agent.md
-    ├── maintainer.agent.md
-    ├── security.agent.md
-    ├── performance.agent.md
-    ├── accessibility.agent.md
-    ├── docs.agent.md
-    ├── observability.agent.md
-    ├── visualizer.agent.md
-    ├── deployment.agent.md
-    ├── red-team.agent.md
-    ├── test.agent.md
-    ├── lint.agent.md
-    ├── github-ops.agent.md
-    ├── terraform.agent.md
-    ├── bicep.agent.md
-    ├── design.agent.md
-    ├── beast-mode.agent.md
-    ├── rubber-duck.agent.md
-    ├── translation-conductor.agent.md
-    ├── translator.agent.md
-    ├── translation-analyzer.agent.md
-    ├── translation-validator.agent.md
-    └── translation-styler.agent.md
+    conductor.agent.md
+    planner.agent.md
+    implementer.agent.md
+    reviewer.agent.md
+    researcher.agent.md
+    ops.agent.md
+    test.agent.md
+    iac.agent.md
+    gui-tester.agent.md
+    docs.agent.md
+    ux.agent.md
+    translation-conductor.agent.md
+    translator.agent.md
+    translation-analyzer.agent.md
+    translation-validator.agent.md
+    translation-styler.agent.md
 ```
 
 ### 3. Include the Init Script
@@ -219,7 +208,15 @@ cp scripts/init-artifacts.ps1 scripts/
   "github.copilot.chat.copilotMemory.enabled": true,
   "chat.customAgentInSubagent.enabled": true,
   "chat.thinking.style": "collapsed",
-  "chat.agent.thinking.collapsedToolseate the `artifacts/` folder when they start working. No setup required in consuming repos.
+  "chat.agent.thinking.collapsedTools": true
+}
+```
+
+### Artifact Folder Initialization
+
+#### Option A: Auto-Initialize
+
+Agents automatically create the `artifacts/` folder when they start working. No setup required in consuming repos.
 
 #### Option B: Pre-Initialize
 
@@ -249,23 +246,20 @@ When an agent (conductor, planner, reviewer, etc.) is invoked in any repository:
 2. **Initialization**: If missing, creates the standard structure:
    ```
    artifacts/
-   ├── plans/          # Planner, Implementer, Conductor
-   ├── reviews/        # Reviewer
-   ├── research/       # Researcher
-   ├── security/       # Security
-   ├── sessions/       # Conductor (session state)
-   ├── performance/    # Performance
-   ├── docs/           # Docs
-   ├── releases/       # Maintainer
-   ├── telemetry/      # Observability
-   ├── deployments/    # Deployment
-   ├── red-team/       # Red Team
-   ├── accessibility/  # Accessibility
-   ├── tests/          # Test
-   ├── ux/             # Visualizer
-   ├── README.md
-   └── .gitignore
-   ```
+   plans/          # Planner, Implementer, Conductor
+   reviews/        # Reviewer
+   research/       # Researcher
+   sessions/       # Conductor (session state)
+   decisions/      # ADRs, permanent
+   memory/         # activeContext.md
+   docs/           # Docs
+   tests/          # Test
+   infra/          # IaC
+   ops/            # Ops (issues, PRs, CI artifacts)
+   translation/    # Translation system outputs
+   gui-tests/      # GUI Tester
+   README.md
+   .gitignore
 3. **Persistence**: All session outputs are written to the local artifacts folder
 4. **Continuity**: Session state in `sessions/` enables resume after interruption
 
@@ -278,23 +272,23 @@ When an agent (conductor, planner, reviewer, etc.) is invoked in any repository:
 | Implementer | `artifacts/plans/{feature}/` | Phase completion records |
 | Reviewer | `artifacts/reviews/` | Review verdicts, findings |
 | Researcher | `artifacts/research/` | Research briefs, citations |
-| Security | `artifacts/security/` | Audit reports, threat assessments |
-| Performance | `artifacts/performance/` | Performance analysis reports |
-| Docs | `artifacts/docs/` | Documentation drafts |
-| Maintainer | `artifacts/releases/` | Release notes, triage reports |
-| Observability | `artifacts/telemetry/` | Metrics and telemetry analysis |
-| Deployment | `artifacts/deployments/` | Deployment plans |
-| Red Team | `artifacts/red-team/` | Adversarial analysis |
-| Accessibility | `artifacts/accessibility/` | WCAG audits |
+| Ops | `artifacts/ops/` | Issues, PRs, CI/CD artifacts |
 | Test | `artifacts/tests/` | Test reports, coverage |
-| Visualizer | `artifacts/ux/` | UX reviews, design artifacts |
+| IaC | `artifacts/infra/` | Terraform/Bicep plans |
+| GUI Tester | `artifacts/gui-tests/` | Browser automation reports |
+| Docs | `artifacts/docs/` | Documentation drafts |
+| UX | `artifacts/ux/` | UX reviews, design artifacts |
+| Translation agents | `artifacts/translation/` | Dependency graphs, translated files, validation reports |
 
 ### Git Integration
 
 The `.gitignore` in `artifacts/` excludes session state files (which may contain sensitive context) but preserves:
 
 - Plans and phase completions
-- RComparison Matrix
+- Reviews and research outputs
+- Decision records (ADRs)
+
+## Comparison Matrix
 
 | Feature | Method 1 (Native) | Method 2 (GitHub Repo) |
 |---------|-------------------|------------------------|
@@ -318,9 +312,14 @@ The `.gitignore` in `artifacts/` excludes session state files (which may contain
 4. Verify organization has Copilot subscription
 5. Restart VS Code after enabling the setting
 
-### Method 2:ecurity audits
+### Method 2: Repository Not Syncing
 
-This allows tPaths
+1. Verify the repository clone is up to date (`git pull`)
+2. Confirm `chat.useAgentsMdFile` and `chat.useNestedAgentsMdFiles` are enabled
+3. Reload VS Code window after pulling
+4. Review security audits before installing any community skills
+
+## Migration Paths
 
 ### From Local to Method 1 (Native Organization)
 

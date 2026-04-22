@@ -219,7 +219,7 @@ Before deploying agents with auto-approval enabled:
 - [ ] Document risk acceptance for auto-approved tools
 - [ ] Configure session logging and audit retention
 - [ ] Establish incident response procedures for malicious tool use
-- [ ] Test with adversarial prompts (see `red-team.agent.md`)
+- [ ] Test with adversarial prompts (OWASP LLM Top-10 2026, agent threat model)
 
 ### Runtime Monitoring
 
@@ -245,14 +245,22 @@ If malicious tool use is detected:
 
 | Agent | Auto-Approve Read | Auto-Approve Write | Auto-Approve Execute | Rationale |
 |-------|-------------------|--------------------|-----------------------|-----------|
-| Conductor | âœ… Yes | âŒ No | âŒ No | Orchestration only, delegates writes |
-| Planner | âœ… Yes | âš ï¸ Artifacts only | âŒ No | Creates plans, not code |
-| Implementer | âœ… Yes | âš ï¸ Approved phases | âŒ No | TDD edits need review |
-| Reviewer | âœ… Yes | âŒ No | âŒ No | Read-only analysis |
-| Researcher | âœ… Yes | âš ï¸ Research briefs | âš ï¸ Fetch if allowlist | Needs web access |
-| Security | âœ… Yes | âŒ No | âŒ No | Audit only, no modifications |
-| Deployment | âœ… Yes | âŒ No | âŒ No | Review deploy plans, don't execute |
-| Red Team | âœ… Yes | âŒ No | âŒ No | Adversarial testing, supervised only |
+| Conductor | Yes | No | No | Orchestration only, delegates writes |
+| Planner | Yes | Artifacts only | No | Creates plans, not code |
+| Implementer | Yes | Approved phases | No | TDD edits need review |
+| Reviewer | Yes | No | No | Read-only analysis |
+| Researcher | Yes | Research briefs | Fetch if allowlist | Needs web access |
+| Ops | Yes | Conditional | No | Issues/PRs/CI/CD, deploys need approval |
+| Test | Yes | Test files only | Test runners | Coverage authoring |
+| IaC | Yes | Infra files | Plan/validate only | Never auto-apply |
+| GUI Tester | Yes | Test artifacts | Browser automation with approval | Isolated sessions |
+| Docs | Yes | Docs only | No | Documentation updates |
+| UX | Yes | No | No | Read-only UX review |
+| Translation Conductor | Yes | Artifacts only | No | Dispatches translators |
+| Translator | Yes | Target files | No | File-level translation |
+| Translation Analyzer | Yes | No | No | Dependency graph analysis |
+| Translation Validator | Yes | Validation output | Run test harness | Confidence scoring |
+| Translation Styler | Yes | No | No | Style suggestions only |
 
 **Key**: âœ… Safe to auto-approve | âš ï¸ Conditional | âŒ Never auto-approve
 
