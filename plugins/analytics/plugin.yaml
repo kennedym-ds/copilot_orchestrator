@@ -1,0 +1,41 @@
+# copilot-orchestrator-analytics — MCP plugin manifest
+#
+# Installs the analytics MCP server into a user's Copilot CLI as a plugin.
+# Reference: https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-cli#add-an-mcp-server
+#
+# Install: copilot plugins install kennedym-ds/copilot-orchestrator-analytics
+#
+# This is the first plugin pilot (Phase 3 row 3.5). If successful, remaining
+# MCP servers follow the same pattern.
+name: copilot-orchestrator-analytics
+version: 0.1.0
+description: Session analytics, metrics, and delegation routing for the Copilot orchestrator.
+author: kennedym-ds
+license: MIT
+
+kind: mcp-server
+
+entrypoint:
+  command: python
+  args: ["-m", "scripts.mcp.analytics_server"]
+
+requirements:
+  python: ">=3.10"
+  packages:
+    - "mcp[cli]>=1.0.0"
+
+tools:
+  - name: calculate_token_cost
+    description: Estimate token cost for a given prompt/response pair
+  - name: get_session_summary
+    description: Summarise a persisted session artifact
+  - name: list_recent_delegations
+    description: List recent subagent delegations from session artifacts
+
+compatibility:
+  copilot-cli: ">=0.5.0"
+  platforms: [windows, linux, macos]
+
+homepage: https://github.com/kennedym-ds/copilot_orchestrator
+repository: https://github.com/kennedym-ds/copilot_orchestrator
+issues: https://github.com/kennedym-ds/copilot_orchestrator/issues

@@ -37,6 +37,12 @@
     // 1.109: Search subagent runs in isolated context for iterative code search
     "github.copilot.chat.searchSubagent.enabled": true,
 
+    // March 2026: nested subagent invocations — gated by AGENTS.md allow-list (depth cap 2)
+    // Policy lives in AGENTS.md §"Nested Subagent Allow-List" and
+    // artifacts/decisions/... / artifacts/plans/close-all-gaps/phase-2-nested-subagents.md
+    "chat.subagents.allowInvocationsFromSubagents": true,
+    "chat.subagents.maxNestingDepth": 2,
+
     // ── Organization & Enterprise ────────────────────────────
     "github.copilot.chat.customAgents.showOrganizationAndEnterpriseAgents": true,
     "github.copilot.chat.cli.customAgents.enabled": true,

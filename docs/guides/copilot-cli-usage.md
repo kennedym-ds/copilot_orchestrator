@@ -1,4 +1,4 @@
-﻿---
+---
 version: 3.0.0
 lastUpdated: 2026-04-16
 ---
@@ -345,6 +345,55 @@ CLI prompts for tool approval. Options:
 
 For unattended CI: Use `--allow-all-tools` (âš ï¸ review logs afterward)
 
+## Headless Mode (CI / cron / hooks)
+
+`copilot chat -p "<prompt>"` runs non-interactively. Per [ADR-headless-conductor](../../artifacts/decisions/ADR-headless-conductor.md), the conductor adapts:
+
+| Complexity tier | Headless behavior | Exit code |
+|-----------------|-------------------|-----------|
+| INSTANT | Execute; no plan/review | 0 |
+| STANDARD | Auto-approve inline plan; reviewer reports findings | 0 (clean) / **10** (HIGH+ findings) |
+| DEEP | Fail closed — emit plan, no code changes | **20** |
+| ULTRADEEP | Fail closed — emit plan, no code changes | **21** |
+| `--security` review | Never auto-approves; only commits on clean | **30** on BLOCKER |
+
+### Environment variables
+
+| Variable | Purpose | Default |
+|----------|---------|---------|
+| `COPILOT_HEADLESS` | Force headless even on TTY | unset |
+| `COPILOT_HEADLESS_MAX_TIER` | Upper tier conductor will execute | `STANDARD` |
+| `COPILOT_HEADLESS_NO_COMMIT` | Run without committing (dry-run) | unset |
+| `COPILOT_HEADLESS_REVIEWER_MODE` | Override reviewer mode | `standard` |
+
+### Exit code scheme
+
+| Code | Meaning |
+|-----:|---------|
+| 0 | Success |
+| 10 | STANDARD landed with reviewer HIGH+ findings |
+| 20 | DEEP refused; plan on stdout; no changes |
+| 21 | ULTRADEEP refused; plan on stdout; no changes |
+| 30 | Security review BLOCKER; no commit |
+| 40 | Hook failure that hit `on_fail: escalate` |
+| 50 | Timeout |
+| 60 | Internal error (budget exceeded, model unavailable) |
+
+### Examples
+
+```powershell
+# CI: run reviewer headless on the current diff
+copilot chat --agent reviewer -p "Review the diff on HEAD. Report severity tags."
+
+# Cron: nightly docs update (INSTANT-scope prompt)
+copilot chat --agent docs -p "Refresh the CHANGELOG with today's merged PRs."
+
+# Dry-run any tier without touching git
+$env:COPILOT_HEADLESS_NO_COMMIT="1"
+copilot chat --agent conductor -p "Plan a rename from defaultEffort to thinkingEffort."
+```
+
+**Rule:** CI pipelines must treat any non-zero exit as "needs human attention"; never ignore exit 10.
 ## Resources
 
 - [AGENTS.md](../../AGENTS.md) â€” Complete agent reference

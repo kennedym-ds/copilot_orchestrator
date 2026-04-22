@@ -5,6 +5,15 @@ argument-hint: "Provide changes to review â€” add --security, --adversarial
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: high
 agents: ['conductor', 'implementer']
+hooks:
+  - trigger: pre-prompt
+    when:
+      pathGlob: "{**/auth/**,scripts/mcp/**,.github/workflows/**}"
+    run:
+      command: powershell
+      args: ["-File", "scripts/hooks/load-security-context.ps1"]
+      timeoutMs: 5000
+    on_fail: continue
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, problems, usages, execute, askQuestions]
 handoffs:
   - label: Return to Conductor

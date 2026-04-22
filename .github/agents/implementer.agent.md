@@ -15,6 +15,16 @@ mcp-servers:
     type: http
     url: "https://mcp.context7.com/mcp"
     tools: ["resolve-library-id", "query-docs"]
+hooks:
+  - trigger: post-tool
+    when:
+      tool: edit
+      pathGlob: ".github/**"
+    run:
+      command: powershell
+      args: ["-File", "scripts/validate-copilot-assets.ps1", "-RepositoryRoot", "."]
+      timeoutMs: 60000
+    on_fail: escalate
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, edit, execute, problems, usages, rename, askQuestions]
 handoffs:
   - label: Return to Conductor

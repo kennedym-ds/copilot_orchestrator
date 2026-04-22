@@ -1,0 +1,47 @@
+# Copilot Cloud Coding Agent — opt-in template
+#
+# Invokes the GitHub-hosted Copilot coding agent to execute a headless
+# implementation task from an issue or PR comment containing "@copilot-agent".
+# Drop this in .github/workflows/ (remove the `.template` suffix) to enable.
+#
+# Requirements:
+#   - Organization has Copilot coding agent enabled
+#   - secrets.COPILOT_AGENT_TOKEN provisioned (PAT with workflow scope)
+#
+# See artifacts/research/copilot-sota-gap-analysis-2026-04-22.md G36 for context.
+name: Copilot Cloud Agent
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  dispatch:
+    if: contains(github.event.comment.body, '@copilot-agent')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Invoke Copilot Coding Agent
+        env:
+          COPILOT_AGENT_TOKEN: ${{ secrets.COPILOT_AGENT_TOKEN }}
+        run: |
+          # Extract the task from the comment body (strip the trigger prefix).
+          task=$(echo "${{ github.event.comment.body }}" | sed "s/@copilot-agent[[:space:]]*//")
+          if [ -z "$task" ]; then
+            echo "No task provided; expected: @copilot-agent <task description>" >&2
+            exit 1
+          fi
+          echo "Dispatching task: $task"
+          # Placeholder: real invocation uses the github/copilot-agent-action once
+          # it reaches GA in the marketplace. Until then, this template logs
+          # the intent and posts a comment.
+          echo "::notice::Copilot agent dispatched (template mode — replace with real action)."

@@ -74,3 +74,33 @@ jobs:
 
       - name: Run Python tests
         run: python -m pytest tests/mcp/ -v
+
+      # -------------------------------------------------------------------
+      # Headless Copilot reviewer step (Phase 3 row 3.6)
+      # Runs `copilot chat --agent reviewer -p` against the PR diff.
+      # Exit 10 signals HIGH+ findings; CI flags but does not fail hard.
+      # Skipped automatically if COPILOT_TOKEN is not provisioned.
+      # -------------------------------------------------------------------
+      - name: Copilot headless reviewer (best-effort)
+        id: copilot-headless-review
+        if: ${{ github.event_name == 'pull_request' && env.COPILOT_TOKEN != '' }}
+        continue-on-error: true
+        env:
+          COPILOT_TOKEN: ${{ secrets.COPILOT_TOKEN }}
+          COPILOT_HEADLESS: '1'
+          COPILOT_HEADLESS_MAX_TIER: STANDARD
+        run: |
+          if (-not (Get-Command copilot -ErrorAction SilentlyContinue)) {
+            Write-Host "copilot CLI not available on runner; skipping."
+            exit 0
+          }
+          $diff = git diff --name-only origin/${{ github.base_ref }}...HEAD
+          $prompt = "Review changes on this PR. Report HIGH/MEDIUM/LOW findings with confidence scores. Files: `n$diff"
+          copilot chat --agent reviewer -p $prompt
+          $code = $LASTEXITCODE
+          if ($code -eq 10) {
+            Write-Host "::warning::Reviewer reported HIGH+ findings (exit 10). Human attention required."
+          } elseif ($code -ne 0) {
+            Write-Host "::error::Reviewer exited with unexpected code $code"
+            exit $code
+          }

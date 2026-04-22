@@ -1,41 +1,56 @@
 {
-  "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/specification/main/schemas/mcp-config.schema.json",
-  "_comment": "Canonical workspace MCP config (VS Code 1.109+). Replaces per-agent frontmatter duplication. Agents reference shared servers via mcp-allowlist. Closes gaps G26 and G31 from artifacts/research/copilot-sota-gap-analysis-2026-04-22.md",
-  "servers": {
-    "validation": {
-      "type": "stdio",
-      "command": "python",
-      "args": ["scripts/mcp/validation_server.py"],
-      "description": "PowerShell validation scripts wrapped as MCP tools"
-    },
-    "research": {
-      "type": "stdio",
-      "command": "python",
-      "args": ["scripts/mcp/research_server.py"],
-      "description": "Web search via DuckDuckGo (ddgs) for evidence gathering"
-    },
-    "analytics": {
-      "type": "stdio",
-      "command": "python",
-      "args": ["scripts/mcp/analytics_server.py"],
-      "description": "Session analytics and metrics"
-    },
-    "translation": {
-      "type": "stdio",
-      "command": "python",
-      "args": ["scripts/mcp/translation_server.py"],
-      "description": "Code translation validation and confidence scoring"
-    },
-    "design": {
-      "type": "stdio",
-      "command": "python",
-      "args": ["scripts/mcp/design_server.py"],
-      "description": "Design artefacts and diagram helpers"
-    },
-    "context7": {
-      "type": "http",
-      "url": "https://mcp.context7.com/mcp",
-      "description": "Live library documentation lookups"
-    }
-  }
+    "$schema":  "https://raw.githubusercontent.com/modelcontextprotocol/specification/main/schemas/mcp-config.schema.json",
+    "_comment":  "Canonical workspace MCP config (VS Code 1.109+). Replaces per-agent frontmatter duplication. Agents reference shared servers via mcp-allowlist. Closes gaps G26 and G31 from artifacts/research/copilot-sota-gap-analysis-2026-04-22.md",
+    "servers":  {
+                    "validation":  {
+                                       "type":  "stdio",
+                                       "command":  "python",
+                                       "args":  [
+                                                    "scripts/mcp/validation_server.py"
+                                                ],
+                                       "description":  "PowerShell validation scripts wrapped as MCP tools"
+                                   },
+                    "research":  {
+                                     "type":  "stdio",
+                                     "command":  "python",
+                                     "args":  [
+                                                  "scripts/mcp/research_server.py"
+                                              ],
+                                     "description":  "Web search via DuckDuckGo (ddgs) for evidence gathering"
+                                 },
+                    "analytics":  {
+                                      "type":  "stdio",
+                                      "command":  "python",
+                                      "args":  [
+                                                   "scripts/mcp/analytics_server.py"
+                                               ],
+                                      "description":  "Session analytics and metrics"
+                                  },
+                    "translation":  {
+                                        "type":  "stdio",
+                                        "command":  "python",
+                                        "args":  [
+                                                     "scripts/mcp/translation_server.py"
+                                                 ],
+                                        "description":  "Code translation validation and confidence scoring"
+                                    },
+                    "design":  {
+                                   "type":  "stdio",
+                                   "command":  "python",
+                                   "args":  [
+                                                "scripts/mcp/design_server.py"
+                                            ],
+                                   "description":  "Design artefacts and diagram helpers"
+                               },
+                    "context7":  {
+                                     "type":  "http",
+                                     "url":  "https://mcp.context7.com/mcp",
+                                     "description":  "Live library documentation lookups"
+                                 },
+                    "github":  {
+                                   "type":  "http",
+                                   "url":  "https://api.githubcopilot.com/mcp/",
+                                   "description":  "Hosted GitHub MCP (OAuth); replaces scripts/mcp/github_server.py retired 2026-04-22"
+                               }
+                }
 }

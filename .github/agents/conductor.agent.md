@@ -5,6 +5,13 @@ argument-hint: "Describe your feature request or bug to orchestrate a multi-phas
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: medium
 agents: ['planner', 'implementer', 'reviewer', 'researcher', 'ops', 'docs', 'test', 'iac', 'gui-tester', 'ux', 'translation-conductor']
+hooks:
+  - trigger: session-pause
+    run:
+      command: powershell
+      args: ["-File", "scripts/hooks/session-pause.ps1"]
+      timeoutMs: 15000
+    on_fail: continue
 tools: [agent, todo, web, search, githubRepo, changes, edit, execute, read, fileSearch, problems, askQuestions]
 handoffs:
   - label: Engage Planner
@@ -72,6 +79,19 @@ Every response includes:
 - **Last Action:** summary of most recent step
 - **Next Action:** immediate recommended step
 
+## Headless Mode (`copilot chat -p`)
+
+When invoked non-interactively (no TTY, `--print`, or `COPILOT_HEADLESS=1`), the conductor degrades deterministically per [ADR-headless-conductor](../../artifacts/decisions/ADR-headless-conductor.md):
+
+- **INSTANT** — execute normally (exit 0)
+- **STANDARD** — auto-approve inline plan; run reviewer; exit 0 clean, **10** if reviewer reports HIGH+
+- **DEEP** — fail closed: emit plan to stdout, exit **20**, write no changes
+- **ULTRADEEP** — fail closed: emit plan to stdout, exit **21**, write no changes
+- **Security review** — never auto-proceeds; exit **30** on BLOCKER
+
+Gate env vars: `COPILOT_HEADLESS_MAX_TIER` (default STANDARD), `COPILOT_HEADLESS_NO_COMMIT`, `COPILOT_HEADLESS_REVIEWER_MODE`.
+
+Full exit code table: [docs/guides/copilot-cli-usage.md#headless-mode-ci--cron--hooks](../../docs/guides/copilot-cli-usage.md).
 ## Delegation Quick Reference
 
 - `#runSubagent planner "Draft plan for [objective]. Constraints: [list]."`

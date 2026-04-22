@@ -105,6 +105,22 @@ Maps the conductor's complexity tiers to Copilot CLI permission modes and per-ag
 
 ---
 
+### Nested Subagent Allow-List
+
+Per [ADR](artifacts/plans/close-all-gaps/phase-2-nested-subagents.md) — the `chat.subagents.allowInvocationsFromSubagents` setting (VS Code March 2026) is enabled for these edges only, with depth capped at 2:
+
+| Parent -> Child | Rationale |
+|-----------------|-----------|
+| implementer -> test | Implementer authors code; test agent adds coverage |
+| implementer -> researcher | Mid-task library question without full conductor relay |
+| reviewer -> researcher | Evidence gathering for a finding |
+| reviewer -> reviewer[security] | Standard review escalates to security mode |
+| planner -> researcher | One more piece of evidence to finalize a phase |
+| translation-conductor -> translator | Per-file dispatch |
+| translation-conductor -> translation-analyzer | Mid-translation dependency analysis |
+
+All other edges relay through the conductor. Explicitly denied: `implementer -> reviewer`, `implementer -> implementer`, `* -> conductor`, `reviewer -> implementer`, `ops -> *`, `gui-tester -> *`. Depth > 2 forces conductor relay. Every nested invocation emits `artifacts/sessions/hooks/nested-call.jsonl` with `{parent, child, depth, purpose, ts}`.
+
 ## Development Commands
 
 | Task | Command |

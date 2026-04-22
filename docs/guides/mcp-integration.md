@@ -18,7 +18,6 @@ Servers run as either:
 | Server | File / URL | Type | Agent(s) | Tools | Purpose |
 |--------|-----------|------|----------|-------|---------|
 | github | `https://api.githubcopilot.com/mcp/` | HTTP | github-ops, maintainer, security, deployment | ~40+ (GitHub-managed) | Issue, PR, workflow, release, code security |
-| githubLocal | `scripts/mcp/github_server.py` | stdio | _(fallback only)_ | 14 | Air-gapped GitHub operations |
 | research | `scripts/mcp/research_server.py` | stdio | researcher | 1 (`web_search`) | DuckDuckGo web search |
 | design | `scripts/mcp/design_server.py` | stdio | design | 3 | Design system queries |
 | translation | `scripts/mcp/translation_server.py` | stdio | translation-conductor | 9 | Code translation workflow |
@@ -61,8 +60,6 @@ The **remote** GitHub MCP server (`https://api.githubcopilot.com/mcp/`) is the p
 - Additional toolsets: repos, issues, pull_requests, code_security, actions, experiments
 - Read-only mode: add `"headers": {"X-MCP-Readonly": "true"}`
 - Selective toolsets: add `"headers": {"X-GitHub-Toolsets": "issues,pull_requests"}`
-
-The **local** fallback (`githubLocal` → `github_server.py`) is kept for air-gapped environments requiring `gh` CLI.
 
 Install the remote server: Open Command Palette → `GitHub MCP: Install Remote Server`
 
@@ -210,40 +207,6 @@ The `analytics_server.py` provides structured access to session data and workflo
 |--------|---------|
 | `workflow-analysis` | Analyze session patterns and metrics |
 | `cost-optimization` | Evaluate token usage and model costs |
-
-## GitHub MCP Server Tools (Local Fallback)
-
-The `github_server.py` provides 14 tools for air-gapped environments:
-
-### Issues
-| Tool | Description |
-|------|-------------|
-| `list_issues` | List issues by state and labels |
-| `view_issue` | Get full issue details with comments |
-| `create_issue` | Create a new issue |
-| `close_issue` | Close an issue with reason |
-| `comment_issue` | Add a comment to an issue |
-
-### Pull Requests
-| Tool | Description |
-|------|-------------|
-| `list_prs` | List PRs by state |
-| `view_pr` | Get full PR details with files and reviews |
-| `pr_checks` | View CI check status |
-| `merge_pr` | Merge a PR (squash/merge/rebase) |
-
-### Workflows
-| Tool | Description |
-|------|-------------|
-| `list_runs` | List recent workflow runs |
-| `view_run` | Get run details and job output |
-| `run_failed_logs` | Get failure logs from failed jobs |
-
-### Releases
-| Tool | Description |
-|------|-------------|
-| `list_releases` | List recent releases |
-| `create_release` | Create a new release with notes |
 
 ## Adding a New MCP Server
 
