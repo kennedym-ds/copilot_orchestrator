@@ -4,16 +4,7 @@ description: "Performs targeted research, evidence gathering, and knowledge synt
 argument-hint: "Ask about technologies, patterns, or gather evidence from docs and repos"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: high
-mcp-servers:
-  research:
-    type: stdio
-    command: python
-    args: ["scripts/mcp/research_server.py"]
-    tools: ["web-search"]
-  context7:
-    type: http
-    url: "https://mcp.context7.com/mcp"
-    tools: ["resolve-library-id", "query-docs"]
+mcp-allowlist: [research, context7]
 hooks:
   - trigger: error
     when:

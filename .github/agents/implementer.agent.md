@@ -5,16 +5,7 @@ argument-hint: "Specify the phase or task to implement with TDD approach"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: medium
 agents: ['conductor', 'reviewer', 'researcher', 'test']
-mcp-servers:
-  validation:
-    type: stdio
-    command: python
-    args: ["scripts/mcp/validation_server.py"]
-    tools: ["validate_assets", "run_lint", "run_smoke_tests"]
-  context7:
-    type: http
-    url: "https://mcp.context7.com/mcp"
-    tools: ["resolve-library-id", "query-docs"]
+mcp-allowlist: [validation, context7]
 hooks:
   - trigger: post-tool
     when:

@@ -6,12 +6,7 @@ model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copi
 thinkingEffort: medium
 disable-model-invocation: true
 agents: ['translation-validator', 'translation-styler']
-mcp-servers:
-  translation:
-    type: stdio
-    command: python
-    args: ["scripts/mcp/translation_server.py"]
-    tools: ["translate_file", "get_translation_status", "update_module_status", "suggest_target_dependencies"]
+mcp-allowlist: [translation]
 hooks:
   - trigger: error
     when:

@@ -5,12 +5,7 @@ argument-hint: "Provide source repository path to analyze for translation readin
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: high
 disable-model-invocation: true
-mcp-servers:
-  translation:
-    type: stdio
-    command: python
-    args: ["scripts/mcp/translation_server.py"]
-    tools: ["analyze_imports", "build_dependency_graph", "get_translation_status", "update_module_status"]
+mcp-allowlist: [translation]
 hooks:
   - trigger: error
     when:

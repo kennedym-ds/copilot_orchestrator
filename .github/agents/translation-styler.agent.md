@@ -5,12 +5,7 @@ argument-hint: "Provide translated file paths to apply target language idioms an
 model: ['Claude Haiku 4.5 (copilot)', 'GPT-5.4 mini (copilot)', 'GPT-5 mini (copilot)']
 thinkingEffort: medium
 disable-model-invocation: true
-mcp-servers:
-  translation:
-    type: stdio
-    command: python
-    args: ["scripts/mcp/translation_server.py"]
-    tools: ["get_translation_status", "update_module_status"]
+mcp-allowlist: [translation]
 hooks:
   - trigger: error
     when:

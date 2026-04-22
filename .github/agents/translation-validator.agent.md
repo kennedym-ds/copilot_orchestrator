@@ -5,12 +5,7 @@ argument-hint: "Provide translated file paths to validate against the 6-layer st
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: high
 disable-model-invocation: true
-mcp-servers:
-  translation:
-    type: stdio
-    command: python
-    args: ["scripts/mcp/translation_server.py"]
-    tools: ["validate_translation", "calculate_confidence", "calculate_repo_confidence", "get_translation_status", "update_module_status"]
+mcp-allowlist: [translation]
 hooks:
   - trigger: error
     when:

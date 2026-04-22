@@ -5,12 +5,7 @@ argument-hint: "Specify source repo, source language, and target language to beg
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: high
 agents: ['translator', 'translation-validator', 'translation-styler', 'translation-analyzer', 'test', 'reviewer', 'security', 'docs', 'researcher', 'planner', 'implementer', 'github-ops']
-mcp-servers:
-  translation:
-    type: stdio
-    command: python
-    args: ["scripts/mcp/translation_server.py"]
-    tools: ["analyze_imports", "build_dependency_graph", "translate_file", "validate_translation", "calculate_confidence", "calculate_repo_confidence", "get_translation_status", "update_module_status", "suggest_target_dependencies"]
+mcp-allowlist: [translation]
 hooks:
   - trigger: session-pause
     run:

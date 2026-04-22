@@ -4,12 +4,7 @@ description: "Writes comprehensive unit and integration tests following TDD prin
 argument-hint: "Specify code to test, coverage gaps to fill, or test patterns to implement"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: medium
-mcp-servers:
-  validation:
-    type: stdio
-    command: python
-    args: ["scripts/mcp/validation_server.py"]
-    tools: ["validate_assets", "run_smoke_tests"]
+mcp-allowlist: [validation]
 hooks:
   - trigger: error
     when:
