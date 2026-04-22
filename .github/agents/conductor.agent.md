@@ -12,6 +12,48 @@ hooks:
       args: ["-File", "scripts/hooks/session-pause.ps1"]
       timeoutMs: 15000
     on_fail: continue
+  - trigger: user-prompt-submit
+    run:
+      command: powershell
+      args: ["-File", "scripts/hooks/user-prompt-submit.ps1"]
+      timeoutMs: 5000
+    on_fail: continue
+  - trigger: subagent-start
+    run:
+      command: powershell
+      args: ["-File", "scripts/hooks/subagent-start.ps1"]
+      timeoutMs: 5000
+    on_fail: block
+  - trigger: subagent-stop
+    run:
+      command: powershell
+      args: ["-File", "scripts/hooks/subagent-stop.ps1"]
+      timeoutMs: 5000
+    on_fail: continue
+  - trigger: post-tool-failure
+    run:
+      command: powershell
+      args: ["-File", "scripts/hooks/post-tool-failure.ps1"]
+      timeoutMs: 5000
+    on_fail: continue
+  - trigger: pre-compact
+    run:
+      command: powershell
+      args: ["-File", "scripts/hooks/pre-compact.ps1"]
+      timeoutMs: 10000
+    on_fail: continue
+  - trigger: task-created
+    run:
+      command: powershell
+      args: ["-File", "scripts/hooks/task-created.ps1"]
+      timeoutMs: 5000
+    on_fail: continue
+  - trigger: task-completed
+    run:
+      command: powershell
+      args: ["-File", "scripts/hooks/task-completed.ps1"]
+      timeoutMs: 5000
+    on_fail: continue
 tools: [agent, todo, web, search, githubRepo, changes, edit, execute, read, fileSearch, problems, askQuestions]
 handoffs:
   - label: Engage Planner

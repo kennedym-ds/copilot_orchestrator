@@ -171,6 +171,63 @@ def get_metrics() -> str:
         openWorldHint=False,
     ),
 )
+def loop_metrics() -> str:
+    """
+    Agentic-loop observability (G64). Aggregates hook JSONL streams to produce:
+      - iteration_count: total subagent-start events
+      - repetition_rate: fraction of (parent,child) edges that repeat
+      - depth_max: deepest observed nesting
+      - tool_failures: count from post-tool-failure.jsonl
+      - compactions: count of pre-compact events
+      - effort_distribution: placeholder — populated once thinkingEffort is logged per call
+
+    Returns JSON. Safe for budget dashboards and session post-mortems.
+    """
+    hooks_dir = ARTIFACTS_DIR / "sessions" / "hooks"
+    metrics = {
+        "iteration_count": 0,
+        "repetition_rate": 0.0,
+        "depth_max": 0,
+        "tool_failures": 0,
+        "compactions": 0,
+        "effort_distribution": {"low": 0, "medium": 0, "high": 0},
+    }
+    if not hooks_dir.exists():
+        return json.dumps(metrics)
+
+    edges = []
+    for line in (hooks_dir / "subagent-start.jsonl").read_text(encoding="utf-8").splitlines() if (hooks_dir / "subagent-start.jsonl").exists() else []:
+        try:
+            ev = json.loads(line)
+            edges.append((ev.get("parent"), ev.get("child")))
+            depth = int(ev.get("depth") or 0)
+            if depth > metrics["depth_max"]:
+                metrics["depth_max"] = depth
+        except Exception:
+            continue
+    metrics["iteration_count"] = len(edges)
+    if edges:
+        unique = len(set(edges))
+        metrics["repetition_rate"] = round(1 - unique / len(edges), 4)
+
+    ftf = hooks_dir / "post-tool-failure.jsonl"
+    if ftf.exists():
+        metrics["tool_failures"] = sum(1 for _ in ftf.read_text(encoding="utf-8").splitlines() if _.strip())
+    pcf = hooks_dir / "pre-compact.jsonl"
+    if pcf.exists():
+        metrics["compactions"] = sum(1 for _ in pcf.read_text(encoding="utf-8").splitlines() if _.strip())
+
+    return json.dumps(metrics, indent=2)
+
+
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
 def list_artifacts(folder: str = "") -> str:
     """
     Browse artifacts/ folder contents. Lists files with sizes and modification dates.

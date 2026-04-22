@@ -160,6 +160,27 @@ These tools execute code or access external systems:
 
 ## Threat Model
 
+### OWASP Framework Mapping
+
+Threats below map to:
+- **OWASP LLM Top-10 2026** — https://genai.owasp.org/llm-top-10/
+- **OWASP AI Agents Top-10 (2026)** — https://genai.owasp.org/agentic-app-sec/
+
+| OWASP Category | Local Vector | Mitigation |
+|----------------|--------------|------------|
+| LLM01 Prompt Injection | Attack Vector 1 (code comments), untrusted tool outputs | Never auto-approve runCommands/fetch; alert on tool-denial anomalies |
+| LLM02 Sensitive Information Disclosure | Secrets in terminal/logs | Scrub env vars, rotate on exposure |
+| LLM03 Supply Chain | Attack Vector 2 (dependency confusion) | Pin versions; scan advisories |
+| LLM04 Data & Model Poisoning | Malicious instructions in docs/code | Validate instruction sources; block instruction overrides |
+| LLM05 Improper Output Handling | Unescaped tool output executed | Sanitize before rendering; treat tool output as untrusted |
+| LLM07 System Prompt Leakage | Session logs, memory exports | Redact before persisting; rotate session IDs |
+| LLM08 Excessive Agency | Auto-approved destructive tools | Default-deny for write/execute |
+| AGENT01 Memory Poisoning | Malicious Copilot Memory writes | Memory hygiene per `memory-management` skill |
+| AGENT02 Tool Misuse | Agent calls tool outside role | Least-privilege `tools:` frontmatter; subagent-start hook allowlist |
+| AGENT03 Privilege Compromise | Nested subagents crossing trust boundary | Nested allowlist (AGENTS.md) + depth cap 2 |
+| AGENT05 Cascading Hallucination Attacks | Output of one agent trusted by next | Reviewer independence; evidence + confidence scoring |
+
+
 ### Attack Vector 1: Prompt Injection via Code Comments
 
 **Scenario**: Malicious contributor adds hidden instructions in code comments:
