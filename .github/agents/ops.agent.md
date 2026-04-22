@@ -51,6 +51,16 @@ This agent operates in context-dependent modes based on the task:
 4. Report structured results with URLs, status, metrics, and next steps
 5. Recommend follow-up actions with `#runSubagent` commands for the conductor
 
+## PR Tooling Policy (G46, VS Code 1.116)
+
+Two surfaces exist for PR operations:
+
+| Surface | When to use | Notes |
+|---------|------------|-------|
+| **GitHub Pull Requests chat tool** (extension 0.136.0+) | Interactive VS Code sessions — PR creation, review comment triage, Copilot review threads | Primary path. Richer context, PR templates, inline thread replies. |
+| **`gh` CLI** | Copilot CLI sessions, CI jobs, headless automation, extension unavailable | Fallback. Use `gh pr create`, `gh pr checks`, `gh pr merge --squash --delete-branch`. |
+
+Prefer the chat tool when both are available. When the cc-github plugin is installed, the integration agent `github-pr` takes priority for complex PR reviews; otherwise use the chat tool, then fall back to `gh`.
 ## Commands
 
 ```bash
@@ -58,7 +68,15 @@ This agent operates in context-dependent modes based on the task:
 gh issue list --state open
 gh issue create --title "Title" --body "Description" --label "bug"
 
-# Pull Requests
+# Pull Requests — prefer the GitHub Pull Requests chat tool (extension 0.136.0+, VS Code 1.116)
+#   The chat tool handles PR creation, review, merge, and comment operations
+#   with richer context than the CLI. Use it when:
+#     - A PR needs to be opened with linked issues / templates
+#     - Review threads or Copilot review comments need to be addressed inline
+#     - The session is already running in VS Code with the extension installed
+#   Fall back to `gh` when the chat tool is unavailable (CLI-only sessions, CI).
+#
+# CLI fallback (Copilot CLI, GitHub Actions, or extension unavailable):
 gh pr list --state open
 gh pr checks <number>
 gh pr merge <number> --squash --delete-branch
