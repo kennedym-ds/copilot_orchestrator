@@ -4,6 +4,13 @@ description: "Issue triage, PR management, CI/CD pipelines, release coordination
 argument-hint: "Triage issues, manage PRs, prepare releases, review deployments, or analyze session metrics"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: low
+hooks:
+  - trigger: session-pause
+    run:
+      command: powershell
+      args: ["-File", "scripts/hooks/agent-pause.ps1", "-Agent", "ops"]
+      timeoutMs: 10000
+    on_fail: continue
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, edit, execute, problems, askQuestions]
 handoffs:
   - label: Return to Conductor
@@ -34,6 +41,7 @@ This agent operates in context-dependent modes based on the task:
 - Review CI/CD pipelines â€” validate build steps, deployment sequences, rollback plans
 - Analyze session telemetry â€” token usage, model tier distribution, escalation patterns
 - Surface process gaps and recommend corrective actions
+- **Foreground Terminal Interaction (1.116)**: When a user already has a CI watcher, `gh pr checks --watch`, or a running deploy log open, attach to it via `terminalId` instead of spawning a parallel shell. Read status with `get_terminal_output`; send confirmations with `send_to_terminal`.
 
 ## Workflow
 

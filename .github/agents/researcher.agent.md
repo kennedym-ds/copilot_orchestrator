@@ -14,6 +14,15 @@ mcp-servers:
     type: http
     url: "https://mcp.context7.com/mcp"
     tools: ["resolve-library-id", "query-docs"]
+hooks:
+  - trigger: error
+    when:
+      tool: execute
+    run:
+      command: powershell
+      args: ["-File", "scripts/hooks/capture-error.ps1", "-Agent", "researcher"]
+      timeoutMs: 5000
+    on_fail: continue
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, usages, problems, askQuestions]
 handoffs:
   - label: Return to Conductor

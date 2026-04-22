@@ -11,6 +11,13 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/translation_server.py"]
     tools: ["analyze_imports", "build_dependency_graph", "translate_file", "validate_translation", "calculate_confidence", "calculate_repo_confidence", "get_translation_status", "update_module_status", "suggest_target_dependencies"]
+hooks:
+  - trigger: session-pause
+    run:
+      command: powershell
+      args: ["-File", "scripts/hooks/agent-pause.ps1", "-Agent", "translation-conductor"]
+      timeoutMs: 10000
+    on_fail: continue
 tools: [agent, todo, web, search, githubRepo, changes, edit, execute, read, fileSearch, problems, askQuestions]
 ---
 

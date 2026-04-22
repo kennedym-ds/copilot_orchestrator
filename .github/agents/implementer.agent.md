@@ -52,6 +52,7 @@ Follow `instructions/workflows/implementer.instructions.md`.
 - **Context Loading**: Read 2,000+ lines of surrounding context to understand dependencies and invariants
 - **Validation Evidence**: Run linters, validation scripts, and test suites with documented results
 - **Scope Discipline**: Pause and escalate when work threatens to expand beyond approved plan boundaries
+- **Foreground Terminal Interaction (1.116)**: Read from and send input to terminals opened by the user (dev servers, REPLs, installers). Use `terminalId` (numeric instance ID) with `get_terminal_output` / `send_to_terminal` to drive long-running processes without spawning a new shell. Prefer this over killing and restarting an existing dev server.
 
 ## Response Style
 

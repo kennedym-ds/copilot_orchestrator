@@ -5,6 +5,13 @@ argument-hint: "Describe what you want to build and I'll create a phased impleme
 model: ['Claude Opus 4.6 (copilot)', 'Claude Opus 4.7 (copilot)', 'Claude Sonnet 4.6 (copilot)']
 thinkingEffort: high
 agents: ['conductor', 'researcher', 'implementer']
+hooks:
+  - trigger: session-pause
+    run:
+      command: powershell
+      args: ["-File", "scripts/hooks/agent-pause.ps1", "-Agent", "planner"]
+      timeoutMs: 10000
+    on_fail: continue
 tools: [agent, todo, web, search, githubRepo, read, usages, problems, fileSearch, askQuestions]
 handoffs:
   - label: Return to Conductor

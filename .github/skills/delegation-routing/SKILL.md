@@ -1,4 +1,4 @@
-.'---
+---
 name: delegation-routing
 description: "Agent-to-agent routing patterns for autonomous delegation via #runSubagent. Defines keyword matching, context templates, model preferences, escalation rules, and invocation guardrails. Use for routing decisions, subagent dispatch, delegation context preparation, and handoff target selection."
 ---

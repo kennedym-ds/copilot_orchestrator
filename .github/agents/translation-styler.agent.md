@@ -11,6 +11,15 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/translation_server.py"]
     tools: ["get_translation_status", "update_module_status"]
+hooks:
+  - trigger: error
+    when:
+      tool: execute
+    run:
+      command: powershell
+      args: ["-File", "scripts/hooks/capture-error.ps1", "-Agent", "translation-styler"]
+      timeoutMs: 5000
+    on_fail: continue
 tools: [agent, todo, search, read, fileSearch, edit, execute, problems, usages, rename]
 ---
 

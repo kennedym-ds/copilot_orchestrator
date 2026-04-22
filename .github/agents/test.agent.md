@@ -10,6 +10,15 @@ mcp-servers:
     command: python
     args: ["scripts/mcp/validation_server.py"]
     tools: ["validate_assets", "run_smoke_tests"]
+hooks:
+  - trigger: error
+    when:
+      tool: execute
+    run:
+      command: powershell
+      args: ["-File", "scripts/hooks/capture-error.ps1", "-Agent", "test"]
+      timeoutMs: 5000
+    on_fail: continue
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, edit, execute, problems, usages, askQuestions]
 handoffs:
   - label: Return to Conductor

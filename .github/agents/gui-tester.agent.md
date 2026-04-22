@@ -4,6 +4,15 @@ description: "Tests web-based GUIs using browser automation tools for visual val
 argument-hint: "Provide a URL or local page to test â€” describe expected behavior, interactions, or visual checks"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: low
+hooks:
+  - trigger: error
+    when:
+      tool: execute
+    run:
+      command: powershell
+      args: ["-File", "scripts/hooks/capture-error.ps1", "-Agent", "gui-tester"]
+      timeoutMs: 5000
+    on_fail: continue
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, edit, execute, problems, usages, askQuestions]
 handoffs:
   - label: Return to Conductor

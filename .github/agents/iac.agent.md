@@ -4,6 +4,15 @@ description: "Plans and implements infrastructure-as-code with Terraform, Bicep,
 argument-hint: "Describe IaC changes, drift detection, module development, or cloud resource planning"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: medium
+hooks:
+  - trigger: error
+    when:
+      tool: execute
+    run:
+      command: powershell
+      args: ["-File", "scripts/hooks/capture-error.ps1", "-Agent", "iac"]
+      timeoutMs: 5000
+    on_fail: continue
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, edit, execute, problems, usages, askQuestions]
 handoffs:
   - label: Return to Conductor
