@@ -3,7 +3,6 @@ name: Validation Suite
 on:
   push:
     branches:
-      - main
       - enterprise
   pull_request:
   workflow_dispatch:
