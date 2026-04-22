@@ -207,7 +207,7 @@ handoffs:
 ### Anthropic Model Enhancements
 Three new settings optimize Claude model performance:
 
-- **`github.copilot.chat.anthropic.thinking.budgetTokens`** (`10000`) — Budget for interleaved thinking via Messages API
+- **`github.copilot.chat.anthropic.thinking.budgetTokens`** (`10000`) — Budget for interleaved thinking via Messages API. This is an Anthropic-specific token count; it is **not** the same as the VS Code 1.113+ model-picker **thinking effort** control. The model-picker effort supersedes the older `anthropic.thinking.effort` and `responsesApiReasoningEffort` settings, but `budgetTokens` remains a valid per-request cap for Anthropic models.
 - **`github.copilot.chat.anthropic.toolSearchTool.enabled`** (`true`) — Helps Claude discover relevant tools from larger pools
 - **`github.copilot.chat.anthropic.contextEditing.enabled`** (`true`) — Clears old tool results/thinking to maintain more useful context
 

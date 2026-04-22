@@ -1,4 +1,4 @@
-﻿[CmdletBinding()]
+[CmdletBinding()]
 param(
     [Parameter(Mandatory = $false)]
     [string]$RepositoryRoot = (Get-Location).Path,
@@ -183,6 +183,30 @@ foreach ($agent in $agentFiles) {
 
     if ($frontMatter -notmatch "tools:\s*\[" -and $frontMatter -notmatch "(?s)tools:\s*\n") {
         Add-Issue -Collector $issues -File $relativePath -Severity 'Warning' -Message 'Tools list appears empty; confirm tool bindings are defined.'
+    }
+}
+
+# 3b. Validate #runSubagent references resolve to an agent or known alias (WATCH-G23)
+$rosterNames = @()
+$rosterNames += $agentFiles | ForEach-Object { $_.BaseName -replace '\.agent$','' }
+# Known aliases: persona modes invoked via flags (e.g. reviewer --security) rather than standalone agent files
+$knownAliases = @('security', 'performance', 'accessibility')
+$validSubagentNames = [System.Collections.Generic.HashSet[string]]::new([string[]]($rosterNames + $knownAliases), [System.StringComparer]::OrdinalIgnoreCase)
+
+foreach ($agent in $agentFiles) {
+    $content = Get-Content -LiteralPath $agent.FullName -Raw
+    $relativePath = $agent.FullName.Replace($RepoRoot + [IO.Path]::DirectorySeparatorChar, '')
+    $unknown = @{}
+    $refs = [regex]::Matches($content, '#runSubagent\s+([a-zA-Z][a-zA-Z0-9_-]*)')
+    foreach ($ref in $refs) {
+        $name = $ref.Groups[1].Value
+        if (-not $validSubagentNames.Contains($name)) {
+            $unknown[$name] = $true
+        }
+    }
+    if ($unknown.Count -gt 0) {
+        $list = ($unknown.Keys | Sort-Object) -join ', '
+        Add-Issue -Collector $issues -File $relativePath -Severity 'Warning' -Message "Unknown #runSubagent target(s): $list. Expected one of the agent roster or known aliases (security, performance, accessibility)."
     }
 }
 
