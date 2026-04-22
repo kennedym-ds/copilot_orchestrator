@@ -1,4 +1,4 @@
-﻿---
+---
 name: "quality-baseline"
 description: "Repository-wide definition of done, simplicity checklist, quality expectations, and model allocation."
 applyTo: "**"
@@ -57,7 +57,7 @@ git add -A; git commit -m "done"
 
 ## Model Allocation
 
-All agents use fallback arrays in frontmatter `model:` and a `defaultEffort:` hint. VS Code picks the first available model.
+All agents use fallback arrays in frontmatter `model:` and a `thinkingEffort:` hint. VS Code picks the first available model.
 
 | Tier | Agents | Primary -> Fallback | Typical effort |
 |------|--------|---------------------|----------------|
@@ -69,4 +69,4 @@ All agents use fallback arrays in frontmatter `model:` and a `defaultEffort:` hi
 - If all fallbacks fail, escalate to the conductor.
 - Premium tier for judgment-critical work only (~6% of default invocations).
 - Security-mode review overrides the reviewer's array and pins `Claude Opus 4.6` at the prompt level (`.github/prompts/support/security-review.prompt.md`).
-- `defaultEffort` is a second dial: model sets the ceiling, effort sets the spend per call. Prompts may override with `effort:`.
+- `thinkingEffort` is a second dial: model sets the ceiling, effort sets the spend per call. Prompts may override with `effort:`.

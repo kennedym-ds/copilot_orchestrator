@@ -1,9 +1,9 @@
-﻿---
+---
 name: planner
 description: "Clarifies objectives, gathers context, and drafts multi-phase implementation plans."
 argument-hint: "Describe what you want to build and I'll create a phased implementation plan"
 model: ['Claude Opus 4.6 (copilot)', 'Claude Opus 4.7 (copilot)', 'Claude Sonnet 4.6 (copilot)']
-defaultEffort: high
+thinkingEffort: high
 agents: ['conductor', 'researcher', 'implementer']
 tools: [agent, todo, web, search, githubRepo, read, usages, problems, fileSearch, askQuestions]
 handoffs:

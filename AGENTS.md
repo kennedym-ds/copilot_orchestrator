@@ -1,4 +1,4 @@
-﻿# Copilot Orchestrator — Agent Playbook
+# Copilot Orchestrator — Agent Playbook
 
 Multi-agent orchestration for GitHub Copilot. Works in VS Code Chat, Copilot CLI, and the VS Code Agents app.
 
@@ -60,7 +60,7 @@ Complexity scales the ceremony:
 
 ## Model Allocation
 
-All agents use fallback arrays and a `defaultEffort:` hint. VS Code picks the first available model in the array.
+All agents use fallback arrays and a `thinkingEffort:` hint. VS Code picks the first available model in the array.
 
 | Tier | Primary -> Fallback chain | Agents | Typical effort |
 |------|---------------------------|--------|----------------|
@@ -68,9 +68,40 @@ All agents use fallback arrays and a `defaultEffort:` hint. VS Code picks the fi
 | **Execution** | Claude Sonnet 4.6 -> GPT-5.4 -> GPT-5.3-Codex | Conductor, Reviewer, Implementer, Researcher, Ops, Test, IaC, GUI Tester, Translation Conductor, Translator, Translation Analyzer, Translation Validator | low / medium / high |
 | **Fast** | Claude Haiku 4.5 -> GPT-5.4 mini -> GPT-5 mini | Docs, UX, Translation Styler | low / medium |
 
-Security-mode review is pinned to `Claude Opus 4.6` via a prompt-level `model:` override (see `.github/prompts/support/security-review.prompt.md`).
+Security-mode review promotes Claude Opus 4.7 to the top of the fallback chain via a prompt-level override (see `.github/prompts/support/security-review.prompt.md`).
 
 Never pin a single model. Models deprecate monthly.
+
+---
+
+## Permission & Complexity Tier Matrix
+
+Maps the conductor's complexity tiers to Copilot CLI permission modes and per-agent Autopilot safety. Closes gaps G2 and G33.
+
+| Complexity tier | Conductor path | Copilot CLI permission | Autopilot allowed? | Notes |
+|-----------------|----------------|------------------------|--------------------|-------|
+| INSTANT         | Implementer direct | Bypass Approvals    | Yes (free/pro branches only) | Single-file reads/edits; no multi-phase ceremony |
+| STANDARD        | Implementer + inline plan | Default      | No                 | Human confirms destructive actions |
+| DEEP            | Planner -> Implementer -> Reviewer | Default | No              | Mandatory pause points |
+| ULTRADEEP       | Full cycle + trilateral review | Default     | No                 | Explicit human ratification at every gate |
+| Security review | Reviewer --security | Default               | No                 | Autopilot explicitly disallowed regardless of tier |
+
+### Per-agent Autopilot safety
+
+| Agent class | Agents | Autopilot safe? | Rationale |
+|-------------|--------|-----------------|-----------|
+| Read-only   | researcher, docs, ux, translation-analyzer, translation-styler | Yes | No filesystem mutation in normal operation |
+| Edit-bounded | test, iac, translator, translation-validator | Case-by-case | Safe for trivial test authoring; never for infra apply |
+| State-changing | implementer, ops, translation-conductor, gui-tester | No | Destructive CLI calls, deploys, browser automation |
+| Judgement-critical | conductor, planner, reviewer | No | Autopilot removes the approval step that defines these roles |
+
+### Branch policy
+
+| Branch | Autopilot policy |
+|--------|------------------|
+| free / pro | Autopilot permitted for INSTANT tier only |
+| pro-plus | Autopilot permitted for INSTANT and read-only STANDARD |
+| enterprise | Autopilot disallowed; all mutations human-confirmed |
 
 ---
 
@@ -99,7 +130,7 @@ Agents load automatically in Copilot CLI sessions (VS Code 1.113+). MCP servers 
 # Start a CLI session with agent context
 copilot chat --agent conductor
 
-# Agents, instructions, and skills are discovered from workspace paths
+# Agents, instructions, and skills are discovered from workspace paths. MCP servers load from `.vscode/mcp.json`. For permission-tier guidance see the Permission & Complexity Tier Matrix above
 ```
 
 ---

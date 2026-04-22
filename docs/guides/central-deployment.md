@@ -427,3 +427,33 @@ If you have agents defined locally in `.github/agents/`:
 2. Delete local `.github/agents/` folder
 3. Keep `artifacts/` local (don't centralize session data)
 4. Update any repo-specific instructions as needed
+
+---
+
+## Monorepo Discovery (VS Code 1.112+)
+
+For monorepos and sub-project workspaces, enable native parent-folder customization discovery instead of per-subproject symlinks.
+
+### Settings
+
+Add to `.vscode/settings.json` at the sub-project level:
+
+```json
+{
+  "chat.useCustomizationsInParentRepositories": "always"
+}
+```
+
+With this setting, VS Code walks from the sub-project directory up to the repository root, loading any `.github/agents/`, `.github/prompts/`, `.github/skills/`, and `instructions/` along the way.
+
+### When to use symlinks instead
+
+Symlinks (`scripts/setup-vs-cli.ps1 -Strategy Symlink`) remain the recommended approach for:
+
+- Cross-repository distribution (consuming the orchestrator from an unrelated project)
+- Non-VS-Code clients (Copilot CLI with older build, Visual Studio, Claude Code)
+- Pinned-version deployments where parent-folder walking is undesirable
+
+For same-repo monorepos on VS Code 1.112+, prefer the native setting.
+
+Closes gap G4 from the SOTA gap analysis.

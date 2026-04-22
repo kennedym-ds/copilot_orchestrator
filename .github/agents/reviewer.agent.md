@@ -1,9 +1,9 @@
-﻿---
+---
 name: reviewer
 description: "Audits changes for correctness, quality, security, performance, and policy compliance."
 argument-hint: "Provide changes to review â€” add --security, --adversarial, or --performance for specialized modes"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
-defaultEffort: high
+thinkingEffort: high
 agents: ['conductor', 'implementer']
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, problems, usages, execute, askQuestions]
 handoffs:

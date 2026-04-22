@@ -1,9 +1,9 @@
-﻿---
+---
 name: translation-validator
 description: "Validates translated code through a 6-layer validation stack and produces per-file confidence scores."
 argument-hint: "Provide translated file paths to validate against the 6-layer stack"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
-defaultEffort: high
+thinkingEffort: high
 disable-model-invocation: true
 mcp-servers:
   translation:

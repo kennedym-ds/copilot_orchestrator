@@ -1,9 +1,9 @@
-﻿---
+---
 name: researcher
 description: "Performs targeted research, evidence gathering, and knowledge synthesis."
 argument-hint: "Ask about technologies, patterns, or gather evidence from docs and repos"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
-defaultEffort: high
+thinkingEffort: high
 mcp-servers:
   research:
     type: stdio

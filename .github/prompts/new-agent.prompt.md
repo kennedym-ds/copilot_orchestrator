@@ -1,4 +1,4 @@
-﻿---
+---
 name: new-agent
 description: "Scaffold a new custom agent definition file following repository patterns."
 argument-hint: "Describe the agents purpose, domain, and responsibilities"
@@ -35,7 +35,7 @@ Create a new `.agent.md` file in `.github/agents/` following the established pat
 - Execution (~75%): Orchestration, review, implementation, research, ops, specialized tasks -> Claude Sonnet 4.6 -> GPT-5.4 -> GPT-5.3-Codex
 - Fast (~19%): Documentation, UX, translation styling -> Claude Haiku 4.5 -> GPT-5.4 mini -> GPT-5 mini
 
-Also declare a `defaultEffort:` hint (low / medium / high). Security-critical prompts may override `model:` at the prompt level.
+Also declare a `thinkingEffort:` hint (low / medium / high). Security-critical prompts may override `model:` at the prompt level.
 
 ### Invocation Control
 - Add `user-invokable: false` for subagent-only agents

@@ -1,9 +1,9 @@
-﻿---
+---
 name: ops
 description: "Issue triage, PR management, CI/CD pipelines, release coordination, and session telemetry."
 argument-hint: "Triage issues, manage PRs, prepare releases, review deployments, or analyze session metrics"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
-defaultEffort: low
+thinkingEffort: low
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, edit, execute, problems, askQuestions]
 handoffs:
   - label: Return to Conductor

@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Copilot Orchestrator"
 version: "3.0.0"
 lastUpdated: "2026-04-16"
@@ -138,7 +138,7 @@ Each agent's `model:` field is a fallback array. VS Code picks the first model y
 
 ## Agent Roster
 
-16 specialized agents across three model tiers. Each agent declares a `model:` fallback array and a `defaultEffort:` hint (low/medium/high). The `pro-plus` / `pro` / `free` branches sync automatically from `enterprise`. See [Model Tiers](#model-tiers) for details.
+16 specialized agents across three model tiers. Each agent declares a `model:` fallback array and a `thinkingEffort:` hint (low/medium/high). The `pro-plus` / `pro` / `free` branches sync automatically from `enterprise`. See [Model Tiers](#model-tiers) for details.
 
 | Agent | Tier | Default Model (enterprise) | Effort | Purpose |
 |-------|------|----------------------|--------|---------|
@@ -159,7 +159,7 @@ Each agent's `model:` field is a fallback array. VS Code picks the first model y
 | UX | Fast | Claude Haiku 4.5 | low | UX/accessibility review |
 | Translation Styler | Fast | Claude Haiku 4.5 | medium | Target language idioms |
 
-`defaultEffort` is the role's baseline reasoning depth — individual prompts can override with the `effort:` frontmatter key.
+`thinkingEffort` is the role's baseline reasoning depth — individual prompts can override with the `effort:` frontmatter key.
 
 ## Directory Structure
 

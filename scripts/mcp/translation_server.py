@@ -1,3 +1,6 @@
+# MCP Sandbox (VS Code 1.115+, macOS/Linux): this server operates on the repository filesystem only.
+# No network except explicitly configured endpoints. Windows has no sandbox yet — review required.
+# Closes gap G6 from the SOTA gap analysis.
 """
 Translation MCP Server — Model Context Protocol server for code translation workflows.
 
