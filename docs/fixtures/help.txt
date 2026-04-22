@@ -1,4 +1,3 @@
-﻿
 This file previously contained a UTF-16 command dump artifact and is intentionally kept as plain UTF-8 text.
 
 Run `claude --help` in your terminal to view the latest CLI help output.
@@ -63,4 +62,3 @@ Commands:
   plugin                                            Manage Claude Code plugins
   setup-token                                       Set up a long-lived authentication token (requires Claude subscription)
   update|upgrade                                    Check for updates and install if available
-

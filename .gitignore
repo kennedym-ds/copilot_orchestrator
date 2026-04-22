@@ -8,6 +8,9 @@ plans/
 # Virtual environment
 .venv/
 
+# Pytest cache
+.pytest_cache/
+
 # Python bytecode
 __pycache__/
 *.pyc
