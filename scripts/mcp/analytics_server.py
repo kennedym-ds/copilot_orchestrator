@@ -336,5 +336,120 @@ def cost_optimization_prompt() -> str:
     )
 
 
+# ---------------------------------------------------------------------------
+# MCP APPS UI ENDPOINTS (VS Code 1.113+) — Phase 4.2 graduate
+# Thin UI layer: structured JSON envelopes consumed by VS Code's MCP Apps
+# renderer. Business logic stays in the @mcp.tool functions above.
+# See artifacts/decisions/ADR-mcp-apps-analytics-spike.md
+# ---------------------------------------------------------------------------
+
+# Severity thresholds for the budget card. Kept in sync with token-thresholds.json.
+_BUDGET_SEVERITY_CAUTION = 0.75
+_BUDGET_SEVERITY_WARNING = 0.90
+
+
+def _delegation_row(session: dict) -> dict:
+    """Project a session entry onto the UI table schema."""
+    return {
+        "agent": session.get("agent", "—"),
+        "phase": session.get("phase", "—"),
+        "status": session.get("status", "unknown"),
+        "objective": (session.get("objective") or "")[:80],
+        "modified": session.get("modified", ""),
+        "size_bytes": session.get("size_bytes", 0),
+    }
+
+
+@mcp.resource("ui://delegations-table")
+def ui_delegations_table() -> str:
+    """
+    MCP Apps UI envelope: recent delegations as a sortable table.
+
+    Reuses list_sessions() for data. VS Code's MCP Apps renderer consumes the
+    returned JSON and renders a table view in the chat panel.
+    """
+    try:
+        payload = json.loads(list_sessions("all"))
+    except (ValueError, TypeError) as e:
+        return json.dumps({"error": f"Failed to load sessions: {e}"})
+
+    rows = [_delegation_row(s) for s in payload.get("sessions", [])[:50]]
+    return json.dumps({
+        "ui": "table",
+        "version": 1,
+        "title": "Recent Delegations",
+        "columns": [
+            {"key": "agent",      "label": "Agent"},
+            {"key": "phase",      "label": "Phase"},
+            {"key": "status",     "label": "Status"},
+            {"key": "objective",  "label": "Objective"},
+            {"key": "modified",   "label": "Modified"},
+            {"key": "size_bytes", "label": "Size", "align": "right"},
+        ],
+        "rows": rows,
+        "empty_message": "No sessions recorded yet — run a delegation first.",
+    }, indent=2)
+
+
+@mcp.resource("ui://budget-card")
+def ui_budget_card() -> str:
+    """
+    MCP Apps UI envelope: current token budget as a card.
+
+    Reads artifacts/token-report.json and token-thresholds.json. Returns a
+    card envelope with used/limit/percent plus a severity hint the UI maps
+    to colour (ok / caution / warning / exceeded).
+    """
+    report_path = ARTIFACTS_DIR / "token-report.json"
+    thresholds_path = REPO_ROOT / "token-thresholds.json"
+
+    used = 0
+    limit = 0
+    files_over = 0
+    try:
+        if report_path.exists():
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            # token-report.json schema: {"totals": {...}, "files": [...]}
+            totals = report.get("totals") or {}
+            used = totals.get("tokens", 0) or sum(
+                f.get("tokens", 0) for f in report.get("files", [])
+            )
+            files_over = sum(
+                1 for f in report.get("files", []) if f.get("over_threshold")
+            )
+    except (ValueError, OSError):
+        pass
+
+    try:
+        if thresholds_path.exists():
+            thresholds = json.loads(thresholds_path.read_text(encoding="utf-8"))
+            limit = thresholds.get("workspace_limit") or thresholds.get("total", 0)
+    except (ValueError, OSError):
+        pass
+
+    percent = (used / limit) if limit > 0 else 0.0
+    if percent >= 1.0:
+        severity = "exceeded"
+    elif percent >= _BUDGET_SEVERITY_WARNING:
+        severity = "warning"
+    elif percent >= _BUDGET_SEVERITY_CAUTION:
+        severity = "caution"
+    else:
+        severity = "ok"
+
+    return json.dumps({
+        "ui": "card",
+        "version": 1,
+        "title": "Token Budget",
+        "severity": severity,
+        "metrics": [
+            {"label": "Used",         "value": used,                  "format": "number"},
+            {"label": "Limit",        "value": limit,                 "format": "number"},
+            {"label": "Utilization",  "value": round(percent * 100, 1), "format": "percent"},
+            {"label": "Files over",   "value": files_over,            "format": "number"},
+        ],
+        "source": "artifacts/token-report.json",
+    }, indent=2)
+
 if __name__ == "__main__":
     mcp.run()

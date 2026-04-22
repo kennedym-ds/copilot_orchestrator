@@ -208,6 +208,23 @@ The `analytics_server.py` provides structured access to session data and workflo
 | `workflow-analysis` | Analyze session patterns and metrics |
 | `cost-optimization` | Evaluate token usage and model costs |
 
+### MCP Apps UI Endpoints (VS Code 1.113+)
+
+Two resource URIs return structured JSON envelopes that VS Code's MCP Apps renderer displays as cards or tables in the chat panel. See [ADR-mcp-apps-analytics-spike](../../artifacts/decisions/ADR-mcp-apps-analytics-spike.md).
+
+| URI | Kind | Purpose |
+|-----|------|---------|
+| `ui://delegations-table` | table | Sortable list of recent delegations (agent, phase, status, objective) |
+| `ui://budget-card` | card | Token budget summary with severity hint (ok / caution / warning / exceeded) |
+
+Envelopes follow a stable shape:
+
+```json
+{"ui": "table" | "card", "version": 1, "title": "...", "...": "..."}
+```
+
+Business logic stays in the `@mcp.tool` functions — the UI resources are thin projections and degrade gracefully when token data is absent.
+
 ## Adding a New MCP Server
 
 1. Create `scripts/mcp/your_server.py` using the FastMCP pattern:

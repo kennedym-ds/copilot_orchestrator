@@ -111,5 +111,33 @@ class TestAnalyticsServer(unittest.TestCase):
                 self.assertGreater(len(result), 0, f"{func_name} should return content")
 
 
+    def test_ui_delegations_table_envelope(self):
+        """Verify ui://delegations-table returns a well-formed table envelope."""
+        if self.ans is None:
+            self.skipTest("Module missing")
+        payload = json.loads(self.ans.ui_delegations_table())
+        self.assertEqual(payload.get("ui"), "table")
+        self.assertEqual(payload.get("version"), 1)
+        self.assertIn("columns", payload)
+        self.assertIn("rows", payload)
+        self.assertIsInstance(payload["columns"], list)
+        self.assertIsInstance(payload["rows"], list)
+        column_keys = {c["key"] for c in payload["columns"]}
+        self.assertIn("agent", column_keys)
+        self.assertIn("status", column_keys)
+
+    def test_ui_budget_card_envelope(self):
+        """Verify ui://budget-card returns a well-formed card envelope with a severity hint."""
+        if self.ans is None:
+            self.skipTest("Module missing")
+        payload = json.loads(self.ans.ui_budget_card())
+        self.assertEqual(payload.get("ui"), "card")
+        self.assertEqual(payload.get("version"), 1)
+        self.assertIn(payload.get("severity"), {"ok", "caution", "warning", "exceeded"})
+        metric_labels = {m["label"] for m in payload.get("metrics", [])}
+        self.assertIn("Used", metric_labels)
+        self.assertIn("Limit", metric_labels)
+        self.assertIn("Utilization", metric_labels)
+
 if __name__ == "__main__":
     unittest.main()
