@@ -15,11 +15,13 @@ Requires:
     pip install mcp[cli]
 
 Tools:
-    list_sessions   — List sessions from artifacts/sessions/
-    get_session     — Read a specific session JSON file
-    get_metrics     — Parse artifacts/token-report.json
-    list_artifacts  — Browse artifacts/ folder contents
+    list_sessions    — List sessions from artifacts/sessions/
+    get_session      — Read a specific session JSON file
+    get_metrics      — Parse artifacts/token-report.json
+    list_artifacts   — Browse artifacts/ folder contents
     search_artifacts — Search artifact files by content
+    list_evals       — List offline eval fixtures from artifacts/evals/fixtures/  [G58]
+    run_eval         — Score a fixture offline (no model calls required)          [G58]
 
 Resources:
     routing://delegation-table — Agent delegation routing table
@@ -35,6 +37,7 @@ from mcp.server.fastmcp import FastMCP
 from mcp.types import ToolAnnotations
 import json
 import os
+import re
 from pathlib import Path
 from datetime import datetime
 
@@ -46,6 +49,7 @@ mcp = FastMCP("analytics-server")
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 ARTIFACTS_DIR = REPO_ROOT / "artifacts"
+EVALS_DIR = ARTIFACTS_DIR / "evals" / "fixtures"
 
 
 def _validate_artifacts_path(subpath: str) -> str | None:
@@ -507,6 +511,146 @@ def ui_budget_card() -> str:
         ],
         "source": "artifacts/token-report.json",
     }, indent=2)
+
+
+# ---------------------------------------------------------------------------
+# TOOLS — Offline eval harness (G58)
+# ---------------------------------------------------------------------------
+
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
+def list_evals(tag: str = "") -> str:
+    """
+    List offline eval fixtures from artifacts/evals/fixtures/.
+    Returns fixture IDs, descriptions, tags, and versions.
+
+    Args:
+        tag: Filter fixtures by tag (e.g. 'routing', 'security'). Default: all.
+    """
+    if not EVALS_DIR.exists():
+        return json.dumps({"fixtures": [], "count": 0, "note": "No fixtures found. Create artifacts/evals/fixtures/*.json."})
+
+    fixtures = []
+    for f in sorted(EVALS_DIR.glob("*.json")):
+        if f.name == "schema.json":
+            continue
+        try:
+            data = json.loads(f.read_text(encoding="utf-8"))
+            entry = {
+                "id": data.get("id", f.stem),
+                "description": data.get("description", ""),
+                "version": data.get("version", "?"),
+                "tags": data.get("tags", []),
+            }
+            if tag and tag not in entry["tags"]:
+                continue
+            fixtures.append(entry)
+        except Exception as e:
+            fixtures.append({"id": f.stem, "error": str(e)})
+
+    return json.dumps({"fixtures": fixtures, "count": len(fixtures)}, indent=2)
+
+
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=False,
+        openWorldHint=False,
+    ),
+)
+def run_eval(fixture_id: str, response_text: str = "") -> str:
+    """
+    Score a fixture offline against a provided response text (no model calls required).
+    Checks routing_tier keywords, contains_keywords, and forbidden_patterns from the fixture.
+
+    To use:
+        1. Call list_evals() to find a fixture ID.
+        2. Generate a response for the fixture's prompt (manually or via agent).
+        3. Pass that response as response_text to score it.
+
+    If response_text is empty, returns the fixture content for inspection.
+
+    Args:
+        fixture_id: ID of the fixture (e.g. 'conductor-routing-instant').
+        response_text: The agent response to score against expected criteria.
+    """
+    fixture_path = EVALS_DIR / f"{fixture_id}.json"
+    if not fixture_path.exists():
+        return json.dumps({"error": f"Fixture not found: {fixture_id}. Run list_evals() to see available fixtures."})
+
+    path_err = _validate_artifacts_path(f"evals/fixtures/{fixture_id}.json")
+    if path_err:
+        return path_err
+
+    try:
+        fixture = json.loads(fixture_path.read_text(encoding="utf-8"))
+    except Exception as e:
+        return json.dumps({"error": f"Invalid fixture JSON: {e}"})
+
+    if not response_text:
+        return json.dumps({"fixture": fixture, "note": "Provide response_text to score the fixture."}, indent=2)
+
+    expected = fixture.get("expected", {})
+    checks = []
+    passed = 0
+    total = 0
+
+    # Check 1: routing_tier keyword in response
+    if "routing_tier" in expected:
+        tier = expected["routing_tier"]
+        found = tier.upper() in response_text.upper()
+        checks.append({"check": "routing_tier", "expected": tier, "pass": found})
+        total += 1
+        if found:
+            passed += 1
+
+    # Check 2: agent names invoked
+    for agent in expected.get("agents_invoked", []):
+        found = agent.lower() in response_text.lower()
+        checks.append({"check": f"agent_invoked:{agent}", "expected": agent, "pass": found})
+        total += 1
+        if found:
+            passed += 1
+
+    # Check 3: keyword presence
+    for kw in expected.get("contains_keywords", []):
+        found = kw.lower() in response_text.lower()
+        checks.append({"check": f"keyword:{kw}", "expected": kw, "pass": found})
+        total += 1
+        if found:
+            passed += 1
+
+    # Check 4: forbidden patterns absent
+    for pat in expected.get("forbidden_patterns", []):
+        try:
+            match = bool(re.search(pat, response_text, re.IGNORECASE))
+        except re.error:
+            match = pat.lower() in response_text.lower()
+        checks.append({"check": f"forbidden:{pat}", "expected": "absent", "pass": not match})
+        total += 1
+        if not match:
+            passed += 1
+
+    score = round(passed / total, 3) if total > 0 else 1.0
+    verdict = "PASS" if score >= 0.8 else ("PARTIAL" if score >= 0.5 else "FAIL")
+
+    return json.dumps({
+        "fixture_id": fixture_id,
+        "score": score,
+        "verdict": verdict,
+        "passed": passed,
+        "total": total,
+        "checks": checks,
+        "ts": datetime.utcnow().isoformat() + "Z",
+    }, indent=2)
+
 
 if __name__ == "__main__":
     mcp.run()

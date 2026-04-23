@@ -22,6 +22,7 @@ Tools:
     run_smoke_tests   — Run run-smoke-tests.ps1
     token_report      — Run token-report.ps1
     validate_handoff  — Validate agent handoff/return payloads against HS-* schemas
+    get_task_status   — Poll background task status (async_mode pattern, G59)
 
 Resources:
     templates://plan           — Plan template for conductor workflows
@@ -41,9 +42,48 @@ from mcp.types import ToolAnnotations
 import subprocess
 import json
 import os
+import threading
+import uuid
 from pathlib import Path
+from typing import Dict, Any
 
 mcp = FastMCP("validation-server")
+
+# ---------------------------------------------------------------------------
+# Async task registry (G59 — MCP Task Augmentation pattern)
+# ---------------------------------------------------------------------------
+# Long-running tools (validate_assets, run_lint, run_smoke_tests) accept
+# async_mode=True. When set, the tool starts work in a background thread and
+# immediately returns a task handle. Call get_task_status(task_id) to poll.
+#
+# This implements the intent of the MCP 2025-11-25 tasks/result pattern
+# without requiring the pending SDK helper. Update to the native SDK helper
+# once mcp>=2.x ships it in stable form (G59 tracking).
+
+_task_registry: Dict[str, Dict[str, Any]] = {}
+_registry_lock = threading.Lock()
+
+
+def _start_task(fn, *args, **kwargs) -> str:
+    """Run fn(*args, **kwargs) in a daemon thread. Return task_id immediately."""
+    task_id = uuid.uuid4().hex[:12]
+    with _registry_lock:
+        _task_registry[task_id] = {"status": "running", "result": None, "error": None}
+
+    def _worker():
+        try:
+            result = fn(*args, **kwargs)
+            with _registry_lock:
+                _task_registry[task_id]["status"] = "complete"
+                _task_registry[task_id]["result"] = result
+        except Exception as exc:
+            with _registry_lock:
+                _task_registry[task_id]["status"] = "error"
+                _task_registry[task_id]["error"] = str(exc)
+
+    threading.Thread(target=_worker, daemon=True).start()
+    return task_id
+
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -125,7 +165,7 @@ def _run_powershell(script: str, extra_args: list[str] | None = None,
         openWorldHint=False,
     ),
 )
-async def validate_assets(repository_root: str = ".", ctx: Context = None) -> str:
+async def validate_assets(repository_root: str = ".", ctx: Context = None, async_mode: bool = False) -> str:
     """
     Run the copilot asset validation script (validate-copilot-assets.ps1).
     Checks all agent definitions, prompts, and instructions for schema compliance.
@@ -133,12 +173,19 @@ async def validate_assets(repository_root: str = ".", ctx: Context = None) -> st
 
     Args:
         repository_root: Path to the repository root (default: current directory).
+        async_mode: If True, start validation in the background and return a task_id.
+                    Poll the result with get_task_status(task_id). [G59]
     """
-    if ctx:
-        await ctx.report_progress(progress=0, total=1, message="Running asset validation...")
     guard = _validate_repository_root(repository_root)
     if guard:
         return json.dumps(guard, indent=2)
+    if async_mode:
+        task_id = _start_task(
+            _run_powershell, "validate-copilot-assets.ps1", ["-RepositoryRoot", repository_root]
+        )
+        return json.dumps({"task_id": task_id, "status": "running", "poll": "get_task_status"})
+    if ctx:
+        await ctx.report_progress(progress=0, total=1, message="Running asset validation...")
     result = _run_powershell(
         "validate-copilot-assets.ps1",
         ["-RepositoryRoot", repository_root],
@@ -183,7 +230,7 @@ def check_metadata(repository_root: str = ".") -> str:
         openWorldHint=False,
     ),
 )
-async def run_lint(repository_root: str = ".", ctx: Context = None) -> str:
+async def run_lint(repository_root: str = ".", ctx: Context = None, async_mode: bool = False) -> str:
     """
     Run the repository linting script (run-lint.ps1).
     Checks code style, formatting, and convention compliance.
@@ -191,12 +238,19 @@ async def run_lint(repository_root: str = ".", ctx: Context = None) -> str:
 
     Args:
         repository_root: Path to the repository root (default: current directory).
+        async_mode: If True, start linting in the background and return a task_id.
+                    Poll the result with get_task_status(task_id). [G59]
     """
-    if ctx:
-        await ctx.report_progress(progress=0, total=1, message="Running lint checks...")
     guard = _validate_repository_root(repository_root)
     if guard:
         return json.dumps(guard, indent=2)
+    if async_mode:
+        task_id = _start_task(
+            _run_powershell, "run-lint.ps1", ["-RepositoryRoot", repository_root]
+        )
+        return json.dumps({"task_id": task_id, "status": "running", "poll": "get_task_status"})
+    if ctx:
+        await ctx.report_progress(progress=0, total=1, message="Running lint checks...")
     result = _run_powershell(
         "run-lint.ps1",
         ["-RepositoryRoot", repository_root],
@@ -214,7 +268,7 @@ async def run_lint(repository_root: str = ".", ctx: Context = None) -> str:
         openWorldHint=False,
     ),
 )
-async def run_smoke_tests(repository_root: str = ".", ctx: Context = None) -> str:
+async def run_smoke_tests(repository_root: str = ".", ctx: Context = None, async_mode: bool = False) -> str:
     """
     Run the smoke test suite (run-smoke-tests.ps1).
     Validates that the core orchestrator features are functional.
@@ -222,12 +276,19 @@ async def run_smoke_tests(repository_root: str = ".", ctx: Context = None) -> st
 
     Args:
         repository_root: Path to the repository root (default: current directory).
+        async_mode: If True, start tests in the background and return a task_id.
+                    Poll the result with get_task_status(task_id). [G59]
     """
-    if ctx:
-        await ctx.report_progress(progress=0, total=1, message="Running smoke tests...")
     guard = _validate_repository_root(repository_root)
     if guard:
         return json.dumps(guard, indent=2)
+    if async_mode:
+        task_id = _start_task(
+            _run_powershell, "run-smoke-tests.ps1", ["-RepositoryRoot", repository_root]
+        )
+        return json.dumps({"task_id": task_id, "status": "running", "poll": "get_task_status"})
+    if ctx:
+        await ctx.report_progress(progress=0, total=1, message="Running smoke tests...")
     result = _run_powershell(
         "run-smoke-tests.ps1",
         ["-RepositoryRoot", repository_root],
@@ -235,6 +296,37 @@ async def run_smoke_tests(repository_root: str = ".", ctx: Context = None) -> st
     if ctx:
         await ctx.report_progress(progress=1, total=1, message="Smoke tests complete")
     return json.dumps(result, indent=2)
+
+
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
+@mcp.tool(
+    annotations=ToolAnnotations(
+        readOnlyHint=True,
+        destructiveHint=False,
+        idempotentHint=True,
+        openWorldHint=False,
+    ),
+)
+def get_task_status(task_id: str) -> str:
+    """
+    Poll the status of a background task started with async_mode=True. [G59]
+    Returns status ('running', 'complete', or 'error') and the result when done.
+
+    Args:
+        task_id: The task ID returned by validate_assets/run_lint/run_smoke_tests with async_mode=True.
+    """
+    with _registry_lock:
+        entry = _task_registry.get(task_id)
+    if entry is None:
+        return json.dumps({"error": f"Unknown task_id: {task_id}"})
+    return json.dumps({"task_id": task_id, **entry}, indent=2)
 
 
 @mcp.tool(

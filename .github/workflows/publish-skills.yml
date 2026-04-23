@@ -1,0 +1,85 @@
+# Publishes all 12 Agent Skills to the gh skill registry on tagged releases.
+#
+# Decision (G65, 2026-04-23):
+#   Publish all 12 skills. License: MIT (repo root LICENSE).
+#   Support scope: community / best-effort.
+#
+# Prerequisites:
+#   - gh CLI v2.90.0+ with the skills extension (installed below).
+#   - GITHUB_TOKEN requires `contents: read` for checkout.
+#   - gh skill publish talks to api.github.com — no extra secret needed for public repos.
+#
+# Trigger: any tag matching v*.*.* pushed to the repository.
+# The workflow validates all skills first; publish only runs if validation passes.
+
+name: Publish Skills
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-and-publish:
+    name: Validate and publish skills
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up PowerShell
+        uses: microsoft/setup-msbuild@v2
+        continue-on-error: true  # not required — pwsh is pre-installed on ubuntu-latest
+
+      - name: Validate skill assets
+        run: pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .
+        # Fails the job if any SKILL.md is missing required frontmatter
+
+      - name: Install gh skills extension
+        run: gh extension install github/gh-skills 2>/dev/null || true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish skills
+        run: |
+          set -e
+          FAILED=()
+          for skill_dir in .github/skills/*/; do
+            skill_name=$(basename "$skill_dir")
+            if [ ! -f "${skill_dir}SKILL.md" ]; then
+              echo "SKIP ${skill_name}: no SKILL.md"
+              continue
+            fi
+            echo "Publishing ${skill_name}..."
+            if ! gh skill publish --fix "${skill_dir}" 2>&1; then
+              echo "WARN: Failed to publish ${skill_name}"
+              FAILED+=("${skill_name}")
+            else
+              echo "OK: ${skill_name}"
+            fi
+          done
+          if [ ${#FAILED[@]} -gt 0 ]; then
+            echo ""
+            echo "The following skills failed to publish: ${FAILED[*]}"
+            echo "Review the errors above. Partial failures do not block the release."
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        if: always()
+        run: |
+          TAG="${{ github.ref_name }}"
+          echo "## Skills publish summary" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Tag**: ${TAG}" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Skills directory: \`.github/skills/\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "Install community skills with:" >> "$GITHUB_STEP_SUMMARY"
+          echo "\`\`\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "gh skill install ${{ github.repository }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "\`\`\`" >> "$GITHUB_STEP_SUMMARY"

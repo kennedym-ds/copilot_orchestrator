@@ -12,6 +12,10 @@ mcp-servers:
   context7:
     type: http
 hooks:
+  PreToolUse:
+    - type: command
+      command: "pwsh -File scripts/hooks/semantic-firewall.ps1"
+      windows: "powershell -File scripts/hooks/semantic-firewall.ps1"
   PostToolUse:
     - type: command
       command: "pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot ."

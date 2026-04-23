@@ -15,6 +15,10 @@ hooks:
     - type: command
       command: "pwsh -File scripts/hooks/user-prompt-submit.ps1"
       windows: "powershell -File scripts/hooks/user-prompt-submit.ps1"
+  PreToolUse:
+    - type: command
+      command: "pwsh -File scripts/hooks/semantic-firewall.ps1"
+      windows: "powershell -File scripts/hooks/semantic-firewall.ps1"
   SubagentStart:
     - type: command
       command: "pwsh -File scripts/hooks/subagent-start.ps1"
