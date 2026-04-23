@@ -1,6 +1,8 @@
 ﻿---
 name: security-review
 description: "Security analysis patterns for STRIDE threat modeling, compliance checks (SOC2, GDPR, HIPAA), vulnerability assessment, and secure coding. Use for security reviews at planning, implementation, and review phases."
+user-invocable: true
+argument-hint: "[file, PR, or path to review for vulnerabilities]"
 ---
 
 # Security Review & Threat Modeling

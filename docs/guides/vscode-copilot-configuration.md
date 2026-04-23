@@ -200,9 +200,9 @@ Handoffs can now specify a `model` parameter for per-handoff model selection:
 ```yaml
 handoffs:
   - label: Deep Analysis
-    agent: beast-mode
+    agent: reviewer
     model: Claude Opus 4.6 (copilot)
-    prompt: Perform extended reasoning analysis.
+    prompt: Perform adversarial review with extended analysis.
 ```
 
 ### Thinking & Reasoning Enhancements
@@ -223,7 +223,7 @@ Three new settings optimize Claude model performance:
 ### Ask Questions Tool
 **Setting:** `chat.askQuestions.enabled` (default: `true`)
 
-Agents can now ask clarifying questions instead of making assumptions. This is especially useful for the Planner and Conductor agents during the discovery phase. The `askQuestions` tool has been added to conductor, planner, and beast-mode agents.
+Agents can now ask clarifying questions instead of making assumptions. This is especially useful for the Planner and Conductor agents during the discovery phase. The `askQuestions` tool has been added to conductor, planner, and reviewer agents.
 
 ### Agent Sessions Enhancements
 

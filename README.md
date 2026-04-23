@@ -1,7 +1,7 @@
 ---
 title: "Copilot Orchestrator"
-version: "3.0.0"
-lastUpdated: "2026-04-16"
+version: "3.1.1"
+lastUpdated: "2026-04-23"
 status: stable
 ---
 
@@ -23,8 +23,8 @@ Use as a shared configuration source across workspaces. Point VS Code at this re
 | Skills | 12 | `.github/skills/` |
 | Prompt templates | 22 | `.github/prompts/` |
 | Instruction files | 15 | `instructions/` |
-| Validation scripts | 6 | `scripts/` |
-| MCP servers | 6 | `scripts/mcp/` |
+| Validation scripts | 12 | `scripts/` |
+| MCP servers | 5 | `scripts/mcp/` |
 
 ## Quick Start
 
@@ -195,8 +195,8 @@ powershell -File scripts/token-report.ps1 -Path .
 # Initialize artifacts folder
 powershell -File scripts/init-artifacts.ps1
 
-# Run Pester tests
-Invoke-Pester -Path tests -Output Detailed
+# Run Pester tests (fast — safe for interactive use)
+Invoke-Pester -Path tests -ExcludeTag Slow -Output Detailed
 ```
 
 ## Documentation

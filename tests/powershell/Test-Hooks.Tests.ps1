@@ -22,35 +22,86 @@ AfterAll {
 }
 
 Describe "subagent-start.ps1" {
+    # Script reads VS Code hook context from stdin JSON (not CLI params).
+    # Stdin format: {agent_type, parent_agent_type, nesting_depth}
+
     It "exits 0 on an allowed edge (implementer -> test, depth 1)" {
         $p = Join-Path $script:sandboxHooks "subagent-start.ps1"
-        & powershell -NoProfile -File $p -Parent "implementer" -Child "test" -Depth 1
+        '{"agent_type":"test","parent_agent_type":"implementer","nesting_depth":1}' |
+            & powershell -NoProfile -File $p
         $LASTEXITCODE | Should -Be 0
     }
 
     It "exits 1 on a disallowed edge (implementer -> reviewer)" {
         $p = Join-Path $script:sandboxHooks "subagent-start.ps1"
-        & powershell -NoProfile -File $p -Parent "implementer" -Child "reviewer" -Depth 1
+        '{"agent_type":"reviewer","parent_agent_type":"implementer","nesting_depth":1}' |
+            & powershell -NoProfile -File $p
         $LASTEXITCODE | Should -Be 1
     }
 
     It "exits 1 when depth exceeds cap (2)" {
         $p = Join-Path $script:sandboxHooks "subagent-start.ps1"
-        & powershell -NoProfile -File $p -Parent "implementer" -Child "test" -Depth 3
+        '{"agent_type":"test","parent_agent_type":"implementer","nesting_depth":3}' |
+            & powershell -NoProfile -File $p
         $LASTEXITCODE | Should -Be 1
     }
 
-    It "writes a structured JSONL record to hooks/subagent-start.jsonl" {
+    It "writes a structured JSONL record to hooks/SubagentStart.jsonl" {
         $p = Join-Path $script:sandboxHooks "subagent-start.ps1"
-        & powershell -NoProfile -File $p -Parent "planner" -Child "researcher" -Depth 1 | Out-Null
-        $log = Join-Path $script:sandbox "artifacts/sessions/hooks/subagent-start.jsonl"
+        '{"agent_type":"researcher","parent_agent_type":"planner","nesting_depth":1}' |
+            & powershell -NoProfile -File $p | Out-Null
+        $log = Join-Path $script:sandbox "artifacts/sessions/hooks/SubagentStart.jsonl"
         Test-Path $log | Should -BeTrue
         $last = Get-Content $log | Select-Object -Last 1 | ConvertFrom-Json
-        $last.event | Should -Be "subagent-start"
+        $last.event | Should -Be "SubagentStart"
         $last.parent | Should -Be "planner"
         $last.child | Should -Be "researcher"
         $last.allowed | Should -BeTrue
         $last.ts | Should -Not -BeNullOrEmpty
+    }
+
+    It "emits additionalContext JSON to stdout on an allowed edge" {
+        $p = Join-Path $script:sandboxHooks "subagent-start.ps1"
+        $stdout = @('{"agent_type":"test","parent_agent_type":"implementer","nesting_depth":1}' |
+            & powershell -NoProfile -File $p)
+        $contextLine = $stdout | Where-Object { $_ -match '"additionalContext"' } | Select-Object -First 1
+        $contextLine | Should -Not -BeNullOrEmpty
+        $parsed = $contextLine | ConvertFrom-Json
+        $parsed.additionalContext | Should -Match 'test'
+        $parsed.additionalContext | Should -Match 'implementer'
+    }
+
+    It "does not emit additionalContext on a disallowed edge" {
+        $p = Join-Path $script:sandboxHooks "subagent-start.ps1"
+        $stdout = @('{"agent_type":"reviewer","parent_agent_type":"implementer","nesting_depth":1}' |
+            & powershell -NoProfile -File $p)
+        $contextLine = $stdout | Where-Object { $_ -match '"additionalContext"' } | Select-Object -First 1
+        $contextLine | Should -BeNullOrEmpty
+    }
+}
+
+Describe "session-start.ps1" {
+    It "emits additionalContext containing project name and validate command" {
+        $p = Join-Path $script:sandboxHooks "session-start.ps1"
+        $stdout = @('{"sessionId":"test-sess-001","cwd":"C:/workspace"}' |
+            & powershell -NoProfile -File $p)
+        $contextLine = $stdout | Where-Object { $_ -match '"additionalContext"' } | Select-Object -First 1
+        $contextLine | Should -Not -BeNullOrEmpty
+        $parsed = $contextLine | ConvertFrom-Json
+        $parsed.additionalContext | Should -Match 'Copilot Orchestrator'
+        $parsed.additionalContext | Should -Match 'validate-copilot-assets'
+    }
+
+    It "writes a SessionStart JSONL record with session_id" {
+        $p = Join-Path $script:sandboxHooks "session-start.ps1"
+        '{"sessionId":"sess-abc-123","cwd":"C:/workspace"}' |
+            & powershell -NoProfile -File $p | Out-Null
+        $log = Join-Path $script:sandbox "artifacts/sessions/hooks/SessionStart.jsonl"
+        Test-Path $log | Should -BeTrue
+        $last = Get-Content $log | Select-Object -Last 1 | ConvertFrom-Json
+        $last.event | Should -Be 'SessionStart'
+        $last.session_id | Should -Be 'sess-abc-123'
+        $last.ts | Should -Match '^\d{4}-\d{2}-\d{2}T'
     }
 }
 

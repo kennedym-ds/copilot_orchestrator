@@ -1,6 +1,8 @@
 ---
 name: git-operations
 description: "Git workflow patterns for conventional commits, branching strategies, PR workflows, merge strategies, and conflict resolution. Use for version control operations and repository management."
+user-invocable: true
+argument-hint: "[operation: commit / branch / PR / tag]"
 ---
 
 # Git Operations & Best Practices

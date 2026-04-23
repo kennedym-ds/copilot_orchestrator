@@ -1,6 +1,8 @@
 ---
 name: performance-analysis
 description: "Performance analysis patterns for runtime complexity, memory usage, cost optimization, and scalability assessment. Use for Big O analysis, profiling, caching strategies, and cloud cost modeling."
+user-invocable: true
+argument-hint: "[component, query, or endpoint to profile]"
 ---
 
 # Performance Analysis & Optimization

@@ -5,17 +5,24 @@ argument-hint: "Provide translated file paths to apply target language idioms an
 model: ['Claude Haiku 4.5 (copilot)', 'GPT-5.4 mini (copilot)', 'GPT-5 mini (copilot)']
 thinkingEffort: medium
 disable-model-invocation: true
-mcp-allowlist: [translation]
+mcp-servers:
+  translation:
+    type: stdio
 hooks:
-  - trigger: error
-    when:
-      tool: execute
-    run:
-      command: powershell
-      args: ["-File", "scripts/hooks/capture-error.ps1", "-Agent", "translation-styler"]
-      timeoutMs: 5000
-    on_fail: continue
+  PostToolUse:
+    - type: command
+      command: "pwsh -File scripts/hooks/capture-error.ps1 -Agent translation-styler"
+      windows: "powershell -File scripts/hooks/capture-error.ps1 -Agent translation-styler"
 tools: [agent, todo, search, read, fileSearch, edit, execute, problems, usages, rename]
+handoffs:
+  - label: Return to Translation Conductor
+    agent: translation-conductor
+    prompt: "Styling complete. All translated files are idiomatically correct in the target language."
+    send: false
+  - label: Validate Translation
+    agent: translation-validator
+    prompt: "Validate the styled translations for functional equivalence with the source."
+    send: false
 ---
 
 # Translation Styler Agent â€” Idiomatic Code Specialist

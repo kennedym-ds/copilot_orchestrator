@@ -140,7 +140,7 @@ All 29 agents from the orchestrator are available:
 | **Core** | conductor, planner, implementer, reviewer, researcher, maintainer, spec |
 | **Support** | security, performance, accessibility, docs, observability, visualizer, deployment, red-team |
 | **Translation** | translation-conductor, translator, translation-analyzer, translation-validator, translation-styler |
-| **Specialist** | test, lint, github-ops, terraform, bicep, design, beast-mode, gui-tester, rubber-duck |
+| **Specialist** | test, lint, github-ops, terraform, bicep, design, gui-tester, rubber-duck |
 
 ## What Gets Distributed
 

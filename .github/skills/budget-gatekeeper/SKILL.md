@@ -1,6 +1,8 @@
 ---
 name: budget-gatekeeper
 description: "Runtime budget enforcement for conductor workflows. Tracks model tier usage, delegation count, and estimated token cost across phases. Provides soft/hard limits with escalation patterns to prevent runaway sessions."
+user-invocable: true
+argument-hint: "[session or phase to report tier usage for]"
 ---
 
 # Budget Gatekeeper
@@ -69,7 +71,7 @@ Each delegation carries a cost weight based on the target agent's model tier:
 | Tier | Weight | Agents | Monthly Budget Target |
 |------|--------|--------|----------------------|
 | Premium (Opus 4.6) | 3x | conductor, planner, security | ≤10% of total delegations |
-| Execution (GPT-5.4, Sonnet 4.6) | 1x | implementer, reviewer, researcher, maintainer, spec, performance, accessibility, docs, observability, deployment, red-team, beast-mode, github-ops, terraform, bicep, design, test, gui-tester, translation-conductor, translator, translation-analyzer, translation-validator, translation-styler | ~80% of total delegations |
+| Execution (GPT-5.4, Sonnet 4.6) | 1x | implementer, reviewer, researcher, ops, docs, test, iac, gui-tester, translation-conductor, translator, translation-analyzer, translation-validator, translation-styler | ~75% of total delegations |
 | Routine (Haiku 4.5) | 0.3x | lint, rubber-duck, visualizer | ~10% of total delegations |
 
 ### Budget State Tracking
@@ -149,7 +151,7 @@ When approaching premium-tier limits, apply these substitution patterns:
 | `researcher` (GPT-5.4) | `implementer` with search tools | Gathering file contents or API docs (not strategic research) |
 | `reviewer` (GPT-5.4) | `quick-review` prompt (Haiku) | Minor changes, NIT-only expected findings |
 | `red-team` (GPT-5.4) | `reviewer` with adversarial prompt | When red-team findings are optional, not mandatory |
-| `beast-mode` (GPT-5.4) | Standard conductor reasoning | When extended thinking is helpful but not required |
+| `reviewer --adversarial` | Standard reviewer with adversarial prompt | When red-team depth is needed but not a full dedicated pass |
 
 ### Circuit Breaker Pattern
 

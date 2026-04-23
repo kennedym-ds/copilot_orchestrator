@@ -1,6 +1,8 @@
 ﻿---
 name: tdd
 description: "TDD patterns for Red-Green-Refactor cycles, unit/integration testing, test doubles, and coverage analysis. Use for writing tests before implementation and validating code changes."
+user-invocable: true
+argument-hint: "[file or feature to implement test-first]"
 ---
 
 # Test-Driven Development (TDD)

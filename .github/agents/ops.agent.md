@@ -4,14 +4,7 @@ description: "Issue triage, PR management, CI/CD pipelines, release coordination
 argument-hint: "Triage issues, manage PRs, prepare releases, review deployments, or analyze session metrics"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: low
-cli-affinity: [pr, diff, delegate, share]
-hooks:
-  - trigger: session-pause
-    run:
-      command: powershell
-      args: ["-File", "scripts/hooks/agent-pause.ps1", "-Agent", "ops"]
-      timeoutMs: 10000
-    on_fail: continue
+cli-affinity: []
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, edit, execute, problems, askQuestions]
 handoffs:
   - label: Return to Conductor

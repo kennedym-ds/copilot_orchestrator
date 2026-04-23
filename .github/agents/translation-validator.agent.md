@@ -5,16 +5,14 @@ argument-hint: "Provide translated file paths to validate against the 6-layer st
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: high
 disable-model-invocation: true
-mcp-allowlist: [translation]
+mcp-servers:
+  translation:
+    type: stdio
 hooks:
-  - trigger: error
-    when:
-      tool: execute
-    run:
-      command: powershell
-      args: ["-File", "scripts/hooks/capture-translation-error.ps1"]
-      timeoutMs: 5000
-    on_fail: continue
+  PostToolUse:
+    - type: command
+      command: "pwsh -File scripts/hooks/capture-translation-error.ps1"
+      windows: "powershell -File scripts/hooks/capture-translation-error.ps1"
 tools: [agent, todo, search, read, fileSearch, changes, edit, execute, problems, usages]
 ---
 

@@ -52,7 +52,7 @@ Use `!` after the type/scope, and add a `BREAKING CHANGE:` footer:
 feat(agents)!: remove deprecated infer field from all agents
 
 BREAKING CHANGE: Agents no longer support the `infer` frontmatter field.
-Use `user-invokable` and `disable-model-invocation` instead.
+Use `user-invocable` and `disable-model-invocation` instead.
 ```
 
 ## Multi-Line Body

@@ -1,7 +1,8 @@
 {
     // ═══════════════════════════════════════════════════════════
-    // Copilot Orchestrator — VS Code 1.114 Workspace Settings
+    // Copilot Orchestrator — VS Code 1.117 Workspace Settings
     // User setup repo: ensures agents load in all VS Code windows
+    // Last updated: 2026-04-23 (SOTA alignment: v1.111-v1.117)
     // ═══════════════════════════════════════════════════════════
 
     // ── Agent & Customization Discovery ──────────────────────
@@ -95,11 +96,12 @@
 
     // ── Plan Agent (1.109+) ──────────────────────────────────
     // Default model for plan implementation step
-    "github.copilot.chat.implementAgent.model": "Codex 5.2 (copilot)",
+    "github.copilot.chat.implementAgent.model": "GPT-5.2-Codex (copilot)",
     // 1.110: Explore subagent model for codebase research (fast models)
     "chat.exploreAgent.defaultModel": "Claude Haiku 4.5 (copilot)",
 
-    // ── Agent Plugins (1.110 Experimental) ───────────────────
+    // ── Agent Plugins (1.110 Experimental → GA in 1.117) ─────
+    // plugin.json manifest at repo root enables `gh skill install` / marketplace distribution
     "chat.plugins.enabled": true,
 
     // ── Agent Autonomy (1.111 Preview) ───────────────────────
@@ -110,15 +112,20 @@
     // Group AI CLI profiles at top of terminal dropdown
     "terminal.integrated.experimental.aiProfileGrouping": true,
 
-    // ── Agent Diagnostics (1.112 Preview) ────────────────────
-    // Agent debug logging for /troubleshoot skill analysis
+    // ── Agent Diagnostics (1.112 → 1.116 stable) ─────────────
+    // 1.116: setting merged — agentDebugLog.enabled folded into fileLogging.enabled
+    // Both kept for backwards compat with pre-1.116 VS Code
     "github.copilot.chat.agentDebugLog.enabled": true,
-    // Write debug logs to JSONL files on disk for export/import
+    // Write debug logs to JSONL files on disk; enables /troubleshoot on previous sessions
     "github.copilot.chat.agentDebugLog.fileLogging.enabled": true,
 
     // ── Monorepo Support (1.112) ─────────────────────────────
     // Discover customizations (agents, instructions, skills) from parent Git repos
     "chat.useCustomizationsInParentRepositories": true,
+
+    // ── Tool Confirmation UX (1.116 Experimental → rolling out to Stable) ──
+    // Carousel for approving multiple pending tool calls without scrolling
+    "chat.tools.confirmationCarousel.enabled": true,
 
     // ── Image Support (1.112 Experimental) ───────────────────
     // Image carousel for agent-generated images (screenshots, diagrams)
@@ -142,6 +149,12 @@
     "chat.tools.terminal.preventShellHistory": true,
     // 1.110: Collapsible terminal tool calls (reduces visual noise)
     "chat.tools.terminal.simpleCollapsible": true,
+    // 1.115/1.116: Background terminal notifications (default-on in 1.116)
+    // Agent auto-notified when background terminal command finishes or needs input
+    "chat.tools.terminal.backgroundNotifications": true,
+    // 1.116: Agent debug logs persisted across sessions for /troubleshoot
+    // Setting merged: agentDebugLog.enabled folded into fileLogging.enabled
+    // (agentDebugLog.enabled kept below for <1.116 compatibility)
     // 1.109: Kitty keyboard protocol (better key handling in terminal apps)
     "terminal.integrated.enableKittyKeyboardProtocol": true,
     // 1.110: Kitty graphics protocol (image rendering in terminal)

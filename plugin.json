@@ -1,0 +1,10 @@
+{
+  "name": "copilot-orchestrator",
+  "description": "16-agent multi-agent orchestration system. Conductor orchestrates; specialists execute. Includes agents for planning, implementation, review, research, translation, ops, testing, docs, UX, IaC, and GUI testing.",
+  "version": "1.0.0",
+  "author": {
+    "name": "kennedym-ds"
+  },
+  "skills": ".github/skills/",
+  "agents": ".github/agents/"
+}

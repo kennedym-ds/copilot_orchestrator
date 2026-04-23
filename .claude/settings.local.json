@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:code.visualstudio.com)",
+      "WebFetch(domain:github.blog)",
+      "WebSearch",
+      "WebFetch(domain:burkeholland.github.io)",
+      "WebFetch(domain:gist.github.com)"
+    ]
+  }
+}

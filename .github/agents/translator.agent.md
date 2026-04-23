@@ -6,16 +6,14 @@ model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copi
 thinkingEffort: medium
 disable-model-invocation: true
 agents: ['translation-validator', 'translation-styler']
-mcp-allowlist: [translation]
+mcp-servers:
+  translation:
+    type: stdio
 hooks:
-  - trigger: error
-    when:
-      tool: execute
-    run:
-      command: powershell
-      args: ["-File", "scripts/hooks/capture-error.ps1", "-Agent", "translator"]
-      timeoutMs: 5000
-    on_fail: continue
+  PostToolUse:
+    - type: command
+      command: "pwsh -File scripts/hooks/capture-error.ps1 -Agent translator"
+      windows: "powershell -File scripts/hooks/capture-error.ps1 -Agent translator"
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, edit, execute, problems, usages, rename]
 ---
 

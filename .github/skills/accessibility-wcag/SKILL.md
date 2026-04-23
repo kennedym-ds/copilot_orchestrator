@@ -1,6 +1,8 @@
 ﻿---
 name: accessibility-wcag
 description: "WCAG 2.1 Level AA compliance patterns for semantic HTML, ARIA, keyboard navigation, and screen reader compatibility. Use for accessibility audits, ARIA reviews, and POUR principle validation."
+user-invocable: true
+argument-hint: "[component or page to check for WCAG compliance]"
 ---
 
 # Accessibility & WCAG Compliance

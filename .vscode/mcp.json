@@ -1,6 +1,6 @@
 {
     "$schema":  "https://raw.githubusercontent.com/modelcontextprotocol/specification/main/schemas/mcp-config.schema.json",
-    "_comment":  "Canonical workspace MCP config (VS Code 1.109+). Replaces per-agent frontmatter duplication. Agents reference shared servers via mcp-allowlist. Closes gaps G26 and G31; MCP protocolVersion 2025-11-25 is negotiated automatically by the mcp Python SDK (FastMCP), see ADR-sota-2026-04-22-remaining-gaps.md for G55 closure.",
+    "_comment":  "Canonical workspace MCP config (VS Code 1.109+). Replaces per-agent frontmatter duplication. Agents reference shared servers via mcp-servers. sandboxEnabled restricts file system and network access on macOS/Linux (VS Code 1.112+); no-op on Windows. Closes gaps G26 and G31; MCP protocolVersion 2025-11-25 is negotiated automatically by the mcp Python SDK (FastMCP), see ADR-sota-2026-04-22-remaining-gaps.md for G55 closure.",
     "servers":  {
                     "validation":  {
                                        "type":  "stdio",
@@ -8,6 +8,7 @@
                                        "args":  [
                                                     "scripts/mcp/validation_server.py"
                                                 ],
+                                       "sandboxEnabled": true,
                                        "description":  "PowerShell validation scripts wrapped as MCP tools"
                                    },
                     "research":  {
@@ -16,6 +17,7 @@
                                      "args":  [
                                                   "scripts/mcp/research_server.py"
                                               ],
+                                     "sandboxEnabled": true,
                                      "description":  "Web search via DuckDuckGo (ddgs) for evidence gathering"
                                  },
                     "analytics":  {
@@ -24,6 +26,7 @@
                                       "args":  [
                                                    "scripts/mcp/analytics_server.py"
                                                ],
+                                      "sandboxEnabled": true,
                                       "description":  "Session analytics and metrics"
                                   },
                     "translation":  {
@@ -32,6 +35,7 @@
                                         "args":  [
                                                      "scripts/mcp/translation_server.py"
                                                  ],
+                                        "sandboxEnabled": true,
                                         "description":  "Code translation validation and confidence scoring"
                                     },
                     "design":  {
@@ -40,6 +44,7 @@
                                    "args":  [
                                                 "scripts/mcp/design_server.py"
                                             ],
+                                   "sandboxEnabled": true,
                                    "description":  "Design artefacts and diagram helpers"
                                },
                     "context7":  {

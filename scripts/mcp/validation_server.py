@@ -52,6 +52,24 @@ mcp = FastMCP("validation-server")
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 
 
+def _validate_repository_root(repository_root: str) -> dict | None:
+    """Return an error dict if repository_root resolves outside REPO_ROOT, else None."""
+    if repository_root in (".", ""):
+        return None
+    try:
+        resolved = Path(repository_root).resolve()
+    except Exception:
+        return {"error": f"Invalid repository_root path: {repository_root!r}", "exit_code": -1}
+    try:
+        resolved.relative_to(REPO_ROOT)
+    except ValueError:
+        return {
+            "error": f"repository_root '{repository_root}' resolves outside the repository boundary.",
+            "exit_code": -1,
+        }
+    return None
+
+
 def _run_powershell(script: str, extra_args: list[str] | None = None,
                     timeout: int = 120) -> dict:
     """Run a PowerShell script and return structured results."""
@@ -118,6 +136,9 @@ async def validate_assets(repository_root: str = ".", ctx: Context = None) -> st
     """
     if ctx:
         await ctx.report_progress(progress=0, total=1, message="Running asset validation...")
+    guard = _validate_repository_root(repository_root)
+    if guard:
+        return json.dumps(guard, indent=2)
     result = _run_powershell(
         "validate-copilot-assets.ps1",
         ["-RepositoryRoot", repository_root],
@@ -144,6 +165,9 @@ def check_metadata(repository_root: str = ".") -> str:
     Args:
         repository_root: Path to the repository root (default: current directory).
     """
+    guard = _validate_repository_root(repository_root)
+    if guard:
+        return json.dumps(guard, indent=2)
     result = _run_powershell(
         "add-prompt-metadata.ps1",
         ["-RepositoryRoot", repository_root, "-CheckOnly"],
@@ -170,6 +194,9 @@ async def run_lint(repository_root: str = ".", ctx: Context = None) -> str:
     """
     if ctx:
         await ctx.report_progress(progress=0, total=1, message="Running lint checks...")
+    guard = _validate_repository_root(repository_root)
+    if guard:
+        return json.dumps(guard, indent=2)
     result = _run_powershell(
         "run-lint.ps1",
         ["-RepositoryRoot", repository_root],
@@ -198,6 +225,9 @@ async def run_smoke_tests(repository_root: str = ".", ctx: Context = None) -> st
     """
     if ctx:
         await ctx.report_progress(progress=0, total=1, message="Running smoke tests...")
+    guard = _validate_repository_root(repository_root)
+    if guard:
+        return json.dumps(guard, indent=2)
     result = _run_powershell(
         "run-smoke-tests.ps1",
         ["-RepositoryRoot", repository_root],

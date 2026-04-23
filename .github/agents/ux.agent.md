@@ -5,14 +5,10 @@ argument-hint: "Review user flows, wireframes, accessibility, color contrast, or
 model: ['Claude Haiku 4.5 (copilot)', 'GPT-5.4 mini (copilot)', 'GPT-5 mini (copilot)']
 thinkingEffort: low
 hooks:
-  - trigger: error
-    when:
-      tool: execute
-    run:
-      command: powershell
-      args: ["-File", "scripts/hooks/capture-error.ps1", "-Agent", "ux"]
-      timeoutMs: 5000
-    on_fail: continue
+  PostToolUse:
+    - type: command
+      command: "pwsh -File scripts/hooks/capture-error.ps1 -Agent ux"
+      windows: "powershell -File scripts/hooks/capture-error.ps1 -Agent ux"
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, problems, usages, askQuestions]
 handoffs:
   - label: Return to Conductor

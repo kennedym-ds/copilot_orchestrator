@@ -61,12 +61,12 @@ All agents use fallback arrays in frontmatter `model:` and a `thinkingEffort:` h
 
 | Tier | Agents | Primary -> Fallback | Typical effort |
 |------|--------|---------------------|----------------|
-| **Premium** | Planner | Claude Opus 4.6 -> Claude Opus 4.7 -> Claude Sonnet 4.6 | high |
+| **Premium** | Planner | Claude Opus 4.7 -> Claude Opus 4.6 -> Claude Sonnet 4.6 | high |
 | **Execution** | Conductor, Reviewer, Implementer, Researcher, Ops, Test, IaC, GUI Tester, Translation Conductor, Translator, Translation Analyzer, Translation Validator | Claude Sonnet 4.6 -> GPT-5.4 -> GPT-5.3-Codex | low / medium / high |
 | **Fast** | Docs, UX, Translation Styler | Claude Haiku 4.5 -> GPT-5.4 mini -> GPT-5 mini | low / medium |
 
 - Never pin a single model. Models deprecate monthly.
 - If all fallbacks fail, escalate to the conductor.
 - Premium tier for judgment-critical work only (~6% of default invocations).
-- Security-mode review overrides the reviewer's array and pins `Claude Opus 4.6` at the prompt level (`.github/prompts/support/security-review.prompt.md`).
+- Security-mode review overrides the reviewer's array and pins `Claude Opus 4.7` at the prompt level (`.github/prompts/support/security-review.prompt.md`).
 - `thinkingEffort` is a second dial: model sets the ceiling, effort sets the spend per call. Prompts may override with `effort:`.

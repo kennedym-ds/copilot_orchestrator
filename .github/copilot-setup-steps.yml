@@ -33,9 +33,7 @@ jobs:
           # Ensure required directories exist
           $requiredDirs = @(
             '.github/agents',
-            '.github/chatmodes',
             '.github/prompts',
-            'docs/workflows',
             'docs/templates',
             'instructions',
             'scripts'

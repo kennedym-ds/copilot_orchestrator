@@ -85,6 +85,7 @@ foreach ($prompt in $promptFiles) {
             $newContent = [string]::Join("`n", $defaultFrontMatter) + "`n`n" + ($body -replace '^---.*?---\s*', '', 'Singleline')
             Set-Content -LiteralPath $prompt.FullName -Value $newContent
             Write-Host "Injected default front matter into $relativePath" -ForegroundColor Cyan
+            Write-Warning "Auto-injected description contains a TODO marker in '$relativePath' - edit before committing."
             $frontMatterBlock = $defaultFrontMatter
         } else {
             $missingMetadata += [PSCustomObject]@{ File = $relativePath; Missing = 'front matter' }

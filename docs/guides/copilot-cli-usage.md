@@ -361,7 +361,7 @@ If you hit context limits:
 ### Model Selection
 
 Agents use fallback arrays:
-- **Premium**: Claude Opus 4.6 -> Claude Opus 4.7 -> Claude Sonnet 4.6 (Planner only)
+- **Premium**: Claude Opus 4.7 -> Claude Opus 4.6 -> Claude Sonnet 4.6 (Planner only)
 - **Execution**: Claude Sonnet 4.6 -> GPT-5.4 -> GPT-5.3-Codex (12 agents)
 - **Fast**: Claude Haiku 4.5 -> GPT-5.4 mini -> GPT-5 mini (3 agents)
 

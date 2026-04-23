@@ -4,16 +4,24 @@ description: "Orchestrates full-repository code translation from one language to
 argument-hint: "Specify source repo, source language, and target language to begin full translation orchestration"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: high
-agents: ['translator', 'translation-validator', 'translation-styler', 'translation-analyzer', 'test', 'reviewer', 'security', 'docs', 'researcher', 'planner', 'implementer', 'github-ops']
-mcp-allowlist: [translation]
-hooks:
-  - trigger: session-pause
-    run:
-      command: powershell
-      args: ["-File", "scripts/hooks/agent-pause.ps1", "-Agent", "translation-conductor"]
-      timeoutMs: 10000
-    on_fail: continue
+agents: ['translator', 'translation-validator', 'translation-styler', 'translation-analyzer', 'test', 'reviewer', 'security', 'docs', 'researcher', 'planner', 'implementer', 'ops']
+mcp-servers:
+  translation:
+    type: stdio
 tools: [agent, todo, web, search, githubRepo, changes, edit, execute, read, fileSearch, problems, askQuestions]
+handoffs:
+  - label: Return to Conductor
+    agent: conductor
+    prompt: "Translation workflow complete. All phases validated. Ready for PR."
+    send: false
+  - label: Request Review
+    agent: reviewer
+    prompt: "Review the full translation output for correctness and idiomatic quality."
+    send: false
+  - label: Publish PR
+    agent: ops
+    prompt: "Open a pull request for the completed translation branch."
+    send: false
 ---
 
 # Translation Conductor â€” Full Repository Translation Orchestrator

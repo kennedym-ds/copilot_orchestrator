@@ -1,6 +1,8 @@
 ---
 name: documentation-style
 description: "Documentation patterns for Markdown formatting, structure, voice/tone, and technical writing best practices. Use for user guides, API docs, code comments, and content reviews."
+user-invocable: true
+argument-hint: "[component or feature to document or review]"
 ---
 
 # Documentation Style & Standards

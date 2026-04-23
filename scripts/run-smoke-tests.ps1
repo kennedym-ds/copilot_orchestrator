@@ -82,14 +82,14 @@ Invoke-SmokeTest -Name 'Validation scripts runnable' -Test {
 }
 
 Invoke-SmokeTest -Name 'plans directory populated' -Test {
-    $plansPath = Resolve-RepositoryPath -Path 'plans'
+    $plansPath = Resolve-RepositoryPath -Path 'artifacts/plans'
     if (-not (Test-Path -LiteralPath $plansPath)) {
-        throw 'plans directory missing.'
+        throw 'artifacts/plans directory missing.'
     }
 
     $items = @(Get-ChildItem -Path $plansPath)
     if ($items.Count -eq 0) {
-        throw 'plans directory does not contain any items.'
+        throw 'artifacts/plans directory does not contain any items.'
     }
 }
 

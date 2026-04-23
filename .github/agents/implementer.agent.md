@@ -4,19 +4,18 @@ description: "Executes the approved plan, making disciplined, tested code change
 argument-hint: "Specify the phase or task to implement with TDD approach"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: medium
-cli-affinity: [ide, diff, rewind, undo, ask]
+cli-affinity: []
 agents: ['conductor', 'reviewer', 'researcher', 'test']
-mcp-allowlist: [validation, context7]
+mcp-servers:
+  validation:
+    type: stdio
+  context7:
+    type: http
 hooks:
-  - trigger: post-tool
-    when:
-      tool: edit
-      pathGlob: ".github/**"
-    run:
-      command: powershell
-      args: ["-File", "scripts/validate-copilot-assets.ps1", "-RepositoryRoot", "."]
-      timeoutMs: 60000
-    on_fail: escalate
+  PostToolUse:
+    - type: command
+      command: "pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot ."
+      windows: "powershell -File scripts/validate-copilot-assets.ps1 -RepositoryRoot ."
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, edit, execute, problems, usages, rename, askQuestions]
 handoffs:
   - label: Return to Conductor

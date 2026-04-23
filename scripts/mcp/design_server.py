@@ -2,10 +2,14 @@
 # No network except explicitly configured endpoints. Windows has no sandbox yet — review required.
 # Closes gap G6 from the SOTA gap analysis.
 """
-Design System Pilot MCP Server — Model Context Protocol server for design system operations.
+Design System MCP Server — Model Context Protocol server for design system operations.
 
 Provides tools for color contrast checking, component inventory, and spacing/typography
-validation against a brand palette. Currently uses mock data for pilot evaluation.
+validation against a brand palette.
+
+Configuration:
+    Update BRAND_PALETTE and COMPONENTS below to match your design system before deploying.
+    WCAG contrast-checking logic is implementation-independent and needs no changes.
 
 Usage:
     python scripts/mcp/design_server.py
@@ -18,9 +22,11 @@ from mcp.server.fastmcp import FastMCP
 from mcp.types import ToolAnnotations
 
 # Initialize the MCP server
-mcp = FastMCP("Design System Pilot")
+mcp = FastMCP("Design System")
 
-# TODO: Replace with dynamic data source — currently hardcoded mock data for pilot
+# ---------------------------------------------------------------------------
+# Configure to match your design system
+# ---------------------------------------------------------------------------
 BRAND_PALETTE = [
     {"name": "Primary Blue", "hex": "#0052CC", "usage": "Buttons, Links"},
     {"name": "Secondary Teal", "hex": "#00B8D9", "usage": "Accents"},
@@ -31,10 +37,10 @@ BRAND_PALETTE = [
 ]
 
 COMPONENTS = [
-    {"name": "PrimaryButton", "status": "Stable", "docs": "https://design.example.com/button"},
-    {"name": "SecondaryButton", "status": "Stable", "docs": "https://design.example.com/button"},
-    {"name": "TextInput", "status": "Beta", "docs": "https://design.example.com/input"},
-    {"name": "Modal", "status": "Deprecated", "docs": "https://design.example.com/modal"},
+    {"name": "PrimaryButton", "status": "Stable", "docs": ""},
+    {"name": "SecondaryButton", "status": "Stable", "docs": ""},
+    {"name": "TextInput", "status": "Beta", "docs": ""},
+    {"name": "Modal", "status": "Deprecated", "docs": ""},
 ]
 
 def _hex_to_rgb(hex_color: str):

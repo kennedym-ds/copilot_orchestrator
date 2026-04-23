@@ -41,8 +41,8 @@ powershell -File scripts/cleanup-artifacts.ps1
 # Session analytics
 pwsh -File scripts/analyze-sessions.ps1
 
-# Run Pester tests
-Invoke-Pester -Path tests -Output Detailed
+# Run Pester tests (fast — excludes slow out-of-process tests)
+Invoke-Pester -Path tests -ExcludeTag Slow -Output Detailed
 ```
 
 ---
@@ -54,7 +54,6 @@ Invoke-Pester -Path tests -Output Detailed
   "chat.useAgentsMdFile": true,
   "chat.useNestedAgentsMdFiles": true,
   "chat.useAgentSkills": true,
-  "chat.useClaudeSkills": true,
   "chat.agentCustomizationSkill.enabled": true,
   "chat.customAgentInSubagent.enabled": true,
   "chat.askQuestions.enabled": true,
@@ -119,7 +118,7 @@ Invoke-Pester -Path tests -Output Detailed
 
 | Tier | Primary -> Fallback | Target Usage | Typical effort |
 |------|---------------------|--------------|----------------|
-| **Premium** | Claude Opus 4.6 -> Claude Opus 4.7 -> Claude Sonnet 4.6 | ~6% (Planner) | high |
+| **Premium** | Claude Opus 4.7 -> Claude Opus 4.6 -> Claude Sonnet 4.6 | ~6% (Planner) | high |
 | **Execution** | Claude Sonnet 4.6 -> GPT-5.4 -> GPT-5.3-Codex | ~75% (12 agents) | low / medium / high |
 | **Fast** | Claude Haiku 4.5 -> GPT-5.4 mini -> GPT-5 mini | ~19% (3 agents) | low / medium |
 

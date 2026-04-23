@@ -64,13 +64,13 @@ All agents use fallback arrays and a `thinkingEffort:` hint. VS Code picks the f
 
 | Tier | Primary -> Fallback chain | Agents | Typical effort |
 |------|---------------------------|--------|----------------|
-| **Premium** | Claude Opus 4.6 -> Claude Opus 4.7 -> Claude Sonnet 4.6 | Planner | high |
+| **Premium** | Claude Opus 4.7 -> Claude Opus 4.6 -> Claude Sonnet 4.6 | Planner | high |
 | **Execution** | Claude Sonnet 4.6 -> GPT-5.4 -> GPT-5.3-Codex | Conductor, Reviewer, Implementer, Researcher, Ops, Test, IaC, GUI Tester, Translation Conductor, Translator, Translation Analyzer, Translation Validator | low / medium / high |
 | **Fast** | Claude Haiku 4.5 -> GPT-5.4 mini -> GPT-5 mini | Docs, UX, Translation Styler | low / medium |
 
-Security-mode review promotes Claude Opus 4.7 to the top of the fallback chain via a prompt-level override (see `.github/prompts/support/security-review.prompt.md`).
+Security-mode review pins `Claude Opus 4.7` at the prompt level (see `.github/prompts/support/security-review.prompt.md`).
 
-Never pin a single model. Models deprecate monthly.
+Never pin a single model. Models deprecate monthly. **BYOK (VS Code 1.117+):** Business/Enterprise users can connect their own API keys (OpenRouter, Ollama, Google, OpenAI, and more) via `Settings > Language Models`. BYOK models are additive — insert them into agent fallback chains by adding them to each agent's `model:` frontmatter array.
 
 ---
 
@@ -105,7 +105,7 @@ Maps the conductor's complexity tiers to Copilot CLI permission modes and per-ag
 
 ---
 
-### Nested Subagent Allow-List
+## Nested Subagent Allow-List
 
 Per [ADR](artifacts/plans/close-all-gaps/phase-2-nested-subagents.md) — the `chat.subagents.allowInvocationsFromSubagents` setting (VS Code March 2026) is enabled for these edges only, with depth capped at 2:
 
@@ -132,7 +132,8 @@ All other edges relay through the conductor. Explicitly denied: `implementer -> 
 | Token budget report | `pwsh -File scripts/token-report.ps1 -Path .` |
 | Session analytics | `pwsh -File scripts/analyze-sessions.ps1` |
 | Initialize artifacts | `pwsh -File scripts/init-artifacts.ps1` |
-| Pester tests | `Invoke-Pester -Path tests -Output Detailed` |
+| Pester tests (fast) | `Invoke-Pester -Path tests -ExcludeTag Slow -Output Detailed` |
+| Pester tests (full, CI) | `Invoke-Pester -Path tests -Output Detailed` |
 
 **Shell**: Windows PowerShell 5.1. Use `;` when chaining commands.
 
@@ -162,6 +163,8 @@ Agents declare `cli-affinity:` in frontmatter listing Copilot CLI slash commands
 | implementer | `/ide`, `/diff`, `/rewind`, `/undo`, `/ask` | IDE bridge, safe TDD revert, side-questions |
 
 `/fleet` coexists with our `team-state.json` telemetry: the native command drives execution, hook JSONL feeds analytics. Validator warns on unknown `cli-affinity` entries (warn-only — CLI surface evolves).
+
+**Terminal tool scope (VS Code 1.116+):** `send_to_terminal` and `get_terminal_output` now work with any **foreground terminal** visible in the terminal panel — not just agent-spawned background terminals. This means agents can read from and write to running REPLs, interactive scripts, and SSH sessions without having launched them. Useful for `implementer` and `ops` workflows involving pre-existing terminals.
 
 
 ---
@@ -195,26 +198,68 @@ Initialize with: `pwsh -File scripts/init-artifacts.ps1`
 
 ---
 
+## Copilot Memory
+
+VS Code Copilot Memory (GA 1.111) lets agents and instructions persist knowledge across sessions. Enabled via `"github.copilot.chat.copilotMemory.enabled": true` in `.vscode/settings.json`.
+
+### What to store
+
+- Naming conventions and shell idioms specific to this repo
+- Verified build/test invocation patterns and quirks
+- Architectural constraints or decisions that affect everyday coding
+- Model tier allocation decisions with rationale
+
+### What to skip
+
+- Current branch, today's error count, in-flight session context
+- Anything already documented in `AGENTS.md` or instruction files
+- Secrets, tokens, or PII
+
+### Memory scopes
+
+| Scope | Path | Loaded automatically? | Purpose |
+|-------|------|-----------------------|---------|
+| User | `/memories/` | Yes (first 200 lines) | Cross-workspace preferences, patterns |
+| Session | `/memories/session/` | No (read on demand) | In-progress notes, task context |
+| Repository | `/memories/repo/` | No (read on demand) | Codebase-specific facts via Copilot Memory API |
+
+---
+
 ## Skills Ecosystem
 
-Our SKILL.md files follow the [vercel-labs/skills](https://github.com/vercel-labs/skills) standard (`name` + `description` frontmatter). This makes them compatible with the cross-agent skills ecosystem.
+Our SKILL.md files follow the [agentskills.io specification](https://agentskills.io/specification) (`name` + `description` frontmatter — both required). This makes them compatible with the cross-agent skills ecosystem (GitHub Copilot, Claude Code, Cursor, Codex, Gemini CLI).
 
-> **Publishing status:** Our 12 skills are **not yet published** to the community catalogue (skills.sh / vercel-labs registry). See `artifacts/decisions/ADR-sota-2026-04-22-remaining-gaps.md` §G65 for the deferred publishing decision. The commands below apply once we publish or for installing *other* community skills.
+> **Publishing status:** Our 12 skills are **not yet published** to a marketplace. See `artifacts/decisions/ADR-sota-2026-04-22-remaining-gaps.md` §G65 for the deferred publishing decision. The commands below apply once we publish or for installing *other* community skills.
 
-### Installing Community Skills
+### Managing Skills with GitHub CLI
+
+GitHub CLI v2.90.0+ (April 2026) provides `gh skill` as the canonical interface. Install or update `gh` CLI before using these commands.
 
 ```bash
-# Browse available skills
-npx skills find <query>
+# Discover skills in a repository
+gh skill search mcp-apps
 
-# Install a community skill
-npx skills add owner/repo
+# Install a community skill interactively
+gh skill install github/awesome-copilot
 
-# List installed skills
-npx skills list
+# Install a specific skill (and pin to a release tag for supply chain integrity)
+gh skill install github/awesome-copilot documentation-writer --pin v1.2.0
+
+# Target a specific agent host
+gh skill install github/awesome-copilot documentation-writer --agent claude-code
+
+# Check for and apply updates
+gh skill update --all
+
+# Validate and publish (for skill authors)
+gh skill publish --fix
 ```
 
-Community skills install to `.github/skills/` and are auto-discovered by agents. Review security audits before installing — `npx skills find` shows trust scores.
+Community skills install to `.github/skills/` and are auto-discovered by agents. Run `gh skill preview <skill>` to inspect content before installation — skills can contain executable instructions.
+
+**Supply chain guarantees:** `gh skill` records tree SHA provenance in `SKILL.md` frontmatter and supports version pinning (`--pin`). Use pinned installs in production to prevent silent upstream changes.
+
+**Supported agent hosts:** `--agent copilot` (default), `--agent claude-code`, `--agent cursor`, `--agent codex`, `--agent gemini`.
 
 ### Context7 Integration
 

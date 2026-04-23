@@ -213,13 +213,14 @@ foreach ($agent in $agentFiles) {
 
     # Validate cli-affinity (warn-only): advisory list of Copilot CLI slash commands this agent prefers.
     # Unknown entries warn but do not fail; CLI surface evolves.
+    # Verified against live CLI docs 2026-04-22: fleet, research, chronicle, compact, context, resume, session, login, model, new
     if ($frontMatter -match '(?m)^cli-affinity:\s*\[([^\]]*)\]') {
         $rawList = $Matches[1]
-        $knownCli = @('fleet','tasks','delegate','compact','model','research','context','usage','remote','plan','review','diff','pr','ide','rewind','undo','ask','share')
+        $knownCli = @('fleet','research','chronicle','compact','context','resume','session','login','model','new')
         $entries = $rawList -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne '' }
         foreach ($e in $entries) {
             if ($knownCli -notcontains $e) {
-                Add-Issue -Collector $issues -File $relativePath -Severity 'Warning' -Message "cli-affinity entry '$e' not in known Copilot CLI command list."
+                Add-Issue -Collector $issues -File $relativePath -Severity 'Warning' -Message "cli-affinity entry '$e' not in verified Copilot CLI command list (fleet, research, chronicle, compact, context, resume, session, login, model, new)."
             }
         }
     }
@@ -246,6 +247,86 @@ foreach ($agent in $agentFiles) {
     if ($unknown.Count -gt 0) {
         $list = ($unknown.Keys | Sort-Object) -join ', '
         Add-Issue -Collector $issues -File $relativePath -Severity 'Warning' -Message "Unknown #runSubagent target(s): $list. Expected one of the agent roster or known aliases (security, performance, accessibility)."
+    }
+}
+
+# 3b-ii. Validate agents: frontmatter list for unknown targets
+foreach ($agent in $agentFiles) {
+    $frontMatter = Get-FrontMatter -FilePath $agent.FullName
+    $relativePath = $agent.FullName.Replace($RepoRoot + [IO.Path]::DirectorySeparatorChar, '')
+    if (-not $frontMatter) { continue }
+
+    $agentsLine = [regex]::Match($frontMatter, "(?m)^agents:\s*\[([^\]]+)\]")
+    if (-not $agentsLine.Success) { continue }
+
+    $agentsValue = $agentsLine.Groups[1].Value
+    $agentRefs = [regex]::Matches($agentsValue, "'([^']+)'|""([^""]+)""")
+    $unknownFrontmatter = @{}
+    foreach ($ref in $agentRefs) {
+        $name = if ($ref.Groups[1].Success) { $ref.Groups[1].Value } else { $ref.Groups[2].Value }
+        if (-not $validSubagentNames.Contains($name)) {
+            $unknownFrontmatter[$name] = $true
+        }
+    }
+    if ($unknownFrontmatter.Count -gt 0) {
+        $list = ($unknownFrontmatter.Keys | Sort-Object) -join ', '
+        Add-Issue -Collector $issues -File $relativePath -Severity 'Warning' -Message "Unknown agent(s) in 'agents:' frontmatter list: $list. Expected one of the agent roster or known aliases."
+    }
+}
+
+# 3c. Validate skill definitions
+$skillsRoot = Join-Path $RepoRoot '.github/skills'
+$skillFiles = @(Get-ChildItem -Path $skillsRoot -Filter 'SKILL.md' -Recurse -File -ErrorAction SilentlyContinue)
+
+foreach ($skill in $skillFiles) {
+    $frontMatter = Get-FrontMatter -FilePath $skill.FullName
+    $relativePath = $skill.FullName.Replace($RepoRoot + [IO.Path]::DirectorySeparatorChar, '')
+
+    if (-not $frontMatter) {
+        Add-Issue -Collector $issues -File $relativePath -Severity 'Error' -Message 'Missing or malformed YAML front matter.'
+        continue
+    }
+
+    $missing = @(Test-YamlKeyPresence -FrontMatter $frontMatter -RequiredKeys @('name', 'description'))
+    if ($missing.Length -gt 0) {
+        Add-Issue -Collector $issues -File $relativePath -Severity 'Error' -Message "Missing required front matter keys: $([string]::Join(', ', $missing))."
+    }
+
+    if ($frontMatter -notmatch '(?m)^user-invocable:') {
+        Add-Issue -Collector $issues -File $relativePath -Severity 'Error' -Message 'Missing user-invocable field. All skills must declare user-invocable: true or false.'
+    }
+
+    if ($frontMatter -notmatch '(?m)^argument-hint:') {
+        Add-Issue -Collector $issues -File $relativePath -Severity 'Error' -Message 'Missing argument-hint field. Add a short usage hint for slash-command discovery.'
+    }
+}
+
+if ($skillFiles.Count -eq 0) {
+    Add-Issue -Collector $issues -File '.github/skills' -Severity 'Warning' -Message 'No SKILL.md files found under .github/skills/.'
+}
+
+# 3d. Validate hook event names in agent frontmatter
+# Canonical VS Code hook events (PascalCase, 1.114+). Requires chat.useCustomAgentHooks: true.
+$canonicalHookEvents = @('SessionStart','UserPromptSubmit','PreToolUse','PostToolUse','PreCompact','SubagentStart','SubagentStop','Stop')
+
+foreach ($agent in $agentFiles) {
+    $frontMatter = Get-FrontMatter -FilePath $agent.FullName
+    $relativePath = $agent.FullName.Replace($RepoRoot + [IO.Path]::DirectorySeparatorChar, '')
+    if (-not $frontMatter) { continue }
+    if ($frontMatter -notmatch '(?m)^hooks:') { continue }
+
+    # Detect old array-of-objects format (- trigger: ...)
+    if ($frontMatter -match '(?m)^\s*-\s+trigger:') {
+        Add-Issue -Collector $issues -File $relativePath -Severity 'Error' -Message "Hook uses deprecated array-of-objects format ('- trigger: ...'). Migrate to map-of-arrays: hooks: { EventName: [{ type: command, ... }] }"
+    }
+
+    # Validate event names in new map-of-arrays format: lines indented exactly 2 spaces, PascalCase key
+    $eventMatches = [regex]::Matches($frontMatter, '(?m)^  ([A-Z][A-Za-z]+):')
+    foreach ($em in $eventMatches) {
+        $eventName = $em.Groups[1].Value
+        if ($canonicalHookEvents -notcontains $eventName) {
+            Add-Issue -Collector $issues -File $relativePath -Severity 'Warning' -Message "Hook event '$eventName' is not a VS Code canonical event. Expected one of: $([string]::Join(', ', $canonicalHookEvents))"
+        }
     }
 }
 

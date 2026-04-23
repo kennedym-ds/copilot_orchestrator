@@ -1,6 +1,8 @@
 ---
 name: code-topology
 description: "Structured protocol for understanding codebase architecture through dependency mapping, call-chain tracing, data-flow analysis, and impact assessment. Use for planning, implementation, review, and any task requiring structural code understanding."
+user-invocable: true
+argument-hint: "[path or module to map dependencies for]"
 ---
 
 # Code Topology — Structural Code Understanding

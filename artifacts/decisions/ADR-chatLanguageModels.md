@@ -9,7 +9,7 @@ gaps_closed: [G28]
 
 ## Status
 
-**Defer**, 2026-04-22. Re-evaluate at Phase 5 once VS Code 1.116 ships the GA version.
+**Defer — extended**, 2026-04-23. VS Code 1.116 (Apr 15) and 1.117 (Apr 22) both shipped without promoting `chatLanguageModels.json` to stable. The schema is not announced as GA in either release. Deferral continues; next review trigger: first release that explicitly marks the feature GA or deprecates frontmatter `model:` arrays.
 
 ## Context
 

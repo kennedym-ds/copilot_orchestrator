@@ -2,6 +2,8 @@
 name: validation-scripts
 description: "PowerShell 5.1 validation script operations for asset validation, lint checks, smoke tests, and pause-point verification."
 version: "2.0.0"
+user-invocable: true
+argument-hint: "[path to validate — defaults to repo root]"
 ---
 
 # Validation Scripts

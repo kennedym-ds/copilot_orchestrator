@@ -1,7 +1,7 @@
 ---
 title: "Agent hooks standard"
-version: "2.0.0"
-lastUpdated: "2026-04-22"
+version: "3.0.0"
+lastUpdated: "2026-04-23"
 status: "active"
 reviewOwners:
   - "Copilot Orchestrator maintainers"
@@ -9,94 +9,114 @@ reviewOwners:
 
 # Agent hooks standard
 
-Agent-scoped hooks attach deterministic shell-level behavior to an agent's lifecycle events via a `hooks` section in frontmatter. All hooks run PowerShell scripts under `scripts/hooks/` and emit structured JSONL to `artifacts/sessions/hooks/`.
+Agent-scoped hooks attach deterministic shell-level behavior to an agent's lifecycle events via a `hooks` map in the agent's YAML frontmatter. All hooks run PowerShell scripts under `scripts/hooks/` and emit structured JSONL to `artifacts/sessions/hooks/`.
+
+> **Requires:** `"chat.useCustomAgentHooks": true` in `.vscode/settings.json` (Preview feature, VS Code 1.111+).
+
+## Two hook systems — do not conflate
+
+| System | Location | Event casing | Input | Key |
+|--------|----------|-------------|-------|-----|
+| **VS Code agent hooks** (this doc) | Agent `hooks:` frontmatter | PascalCase | stdin JSON | `command:`/`windows:` |
+| **GitHub Cloud Agent hooks** | `.github/hooks/hooks.json` | lowerCamelCase | stdin JSON | `bash:`/`powershell:` |
+
+The scripts in `scripts/hooks/` target the **VS Code** system only.
 
 ## Frontmatter syntax
 
 ```yaml
 hooks:
-  - trigger: <event-name>
-    when:                         # optional — scope by tool or path
-      tool: <tool-name>
-      pathGlob: "**/*.ps1"
-    run:
-      command: powershell
-      args: ["-File", "scripts/hooks/<script>.ps1"]
-      timeoutMs: 5000
-    on_fail: continue | block | escalate
+  EventName:
+    - type: command
+      command: "pwsh -File scripts/hooks/script.ps1"
+      windows: "powershell -File scripts/hooks/script.ps1"
+  AnotherEvent:
+    - type: command
+      command: "pwsh -File scripts/hooks/other.ps1 -Arg value"
+      windows: "powershell -File scripts/hooks/other.ps1 -Arg value"
 ```
 
-`on_fail` controls what happens if the hook script exits non-zero:
+- Keys are PascalCase VS Code event names (see canonical list below).
+- `command:` runs on Linux/macOS (pwsh = PowerShell Core).
+- `windows:` overrides on Windows (powershell = Windows PowerShell 5.1).
+- Multiple hooks per event are supported (array of entries).
+- `pathGlob` / `when` matchers are **parsed but permanently ignored** by VS Code — do not rely on them for scoping.
 
-| Value | Behaviour |
-|-------|-----------|
-| `continue` | Log the failure; agent proceeds normally |
-| `block` | Halt the agent turn; surface the error to the user |
-| `escalate` | Re-run the validation step; treat failure as a blocking finding |
+## Canonical VS Code hook events
 
-## Supported triggers
+| Event | When it fires | stdin extras |
+|-------|---------------|--------------|
+| `SessionStart` | Start of a new chat session | — |
+| `UserPromptSubmit` | Before each user prompt is processed | — |
+| `PreToolUse` | Before a tool call is executed | `tool_name`, `tool_input` |
+| `PostToolUse` | After any tool call completes | `tool_name`, `tool_input`, `tool_exit_code` |
+| `PreCompact` | Before a `/compact` context compaction | — |
+| `SubagentStart` | Before a nested subagent is launched | `agent_id`, `agent_type` |
+| `SubagentStop` | After a nested subagent completes | `agent_id`, `agent_type` |
+| `Stop` | When the agent session ends | — |
 
-| Trigger | When it fires | Scripts |
-|---------|---------------|---------|
-| `session-pause` | Agent emits a pause point (phase gate, plan approval) | `session-pause.ps1` |
-| `user-prompt-submit` | Before each user prompt is processed | `user-prompt-submit.ps1` |
-| `subagent-start` | Before a nested subagent is launched | `subagent-start.ps1` |
-| `subagent-stop` | After a nested subagent completes | `subagent-stop.ps1` |
-| `post-tool-failure` | After any tool call exits non-zero | `post-tool-failure.ps1` |
-| `pre-compact` | Before a `/compact` context compaction | `pre-compact.ps1` |
-| `task-created` | When a task is created in the session | `task-created.ps1` |
-| `task-completed` | When a task is marked complete | `task-completed.ps1` |
-| `post-tool` (conditional) | After a specific tool, filtered by `when.tool` and `when.pathGlob` | `validate-copilot-assets.ps1` |
+All events receive these standard fields via stdin JSON:
 
-## Environment variables
+```json
+{
+  "timestamp": "2026-04-23T10:00:00Z",
+  "cwd": "/workspace",
+  "sessionId": "abc-123",
+  "hookEventName": "PostToolUse",
+  "transcript_path": "/path/to/transcript.jsonl"
+}
+```
 
-Hook scripts receive context via environment variables set by the runtime:
+## Hook output (stdout JSON)
 
-| Variable | Set by trigger | Purpose |
-|----------|---------------|---------|
-| `COPILOT_PARENT_AGENT` | `subagent-start` | Parent agent name |
-| `COPILOT_CHILD_AGENT` | `subagent-start` | Child agent name |
-| `COPILOT_SUBAGENT_DEPTH` | `subagent-start` | Current nesting depth |
-| `COPILOT_TASK_ID` | `task-created`, `task-completed` | Task identifier |
-| `COPILOT_TASK_ASSIGNEE` | `task-created`, `task-completed` | Assigned agent |
-| `COPILOT_TASK_STATUS` | `task-completed` | Final status string |
-| `COPILOT_SESSION_ID` | `user-prompt-submit` | Session identifier |
-| `COPILOT_SESSION_TOKENS` | `user-prompt-submit` | Tokens used so far |
-| `COPILOT_SESSION_BUDGET` | `user-prompt-submit` | Budget ceiling (0 = no limit) |
-| `COPILOT_ACTIVE_AGENT` | `pre-compact`, `post-tool-failure` | Active agent name |
-| `COPILOT_CONTEXT_TOKENS` | `pre-compact` | Context size at compaction |
-| `COPILOT_TOOL_NAME` | `post-tool-failure` | Tool that failed |
-| `COPILOT_TOOL_EXIT_CODE` | `post-tool-failure` | Exit code |
-| `COPILOT_TOOL_ERROR_TAIL` | `post-tool-failure` | Last lines of stderr |
-| `COPILOT_ACTIVE_CONTEXT` | `pre-compact` | Serialised context snapshot |
+Scripts can return JSON to stdout to inject context or control flow:
 
-## Deployed hooks (conductor)
+| Field | Supported by | Purpose |
+|-------|-------------|---------|
+| `additionalContext` | `SessionStart`, `SubagentStart`, `PostToolUse` | Inject text into the assistant's context |
+| `permissionDecision` (`"allow"/"deny"/"ask"`) | `PreToolUse` | Gate tool execution |
+| `block` + `reason` | `Stop`, `SubagentStop`, `PostToolUse` | Halt the operation with explanation |
 
-The conductor has the most hooks. All other agents inherit none by default — add hooks to an agent frontmatter only when there is a concrete observability or enforcement need.
-
-| Trigger | Script | `on_fail` | Purpose |
-|---------|--------|-----------|---------|
-| `session-pause` | `session-pause.ps1` | continue | Log pause point to `pause-log.txt` |
-| `user-prompt-submit` | `user-prompt-submit.ps1` | continue | Budget cap check; warn at 80% |
-| `subagent-start` | `subagent-start.ps1` | **block** | Enforce nested-subagent allowlist; `exit 1` on violation |
-| `subagent-stop` | `subagent-stop.ps1` | continue | Log completion metrics |
-| `post-tool-failure` | `post-tool-failure.ps1` | continue | Capture tool failure to JSONL |
-| `pre-compact` | `pre-compact.ps1` | continue | Snapshot active context before compaction |
-| `task-created` | `task-created.ps1` | continue | Log task creation event |
-| `task-completed` | `task-completed.ps1` | continue | Update `team-state.json` task status |
-
-The implementer adds one conditional hook:
-
-| Trigger | Condition | Script | `on_fail` | Purpose |
-|---------|-----------|--------|-----------|---------|
-| `post-tool` | `tool: edit`, `pathGlob: .github/**` | `validate-copilot-assets.ps1` | escalate | Re-validate assets after any edit to `.github/` |
+Exit code non-zero signals a hook error; behavior depends on the event type.
 
 ## Shared helpers (`scripts/hooks/_common.ps1`)
 
 All hook scripts dot-source `_common.ps1` which provides:
 
+- `Read-HookInput` — reads stdin JSON; returns parsed object or empty object if no stdin
+- `Write-AdditionalContext -Context <string>` — emits `{additionalContext: ...}` JSON to stdout
 - `Write-HookEvent -Event <name> -Payload <hashtable>` — appends a JSON record to `artifacts/sessions/hooks/<name>.jsonl`
-- `Write-HookError -Agent -Trigger -ExitCode -StderrTail` — appends to `artifacts/sessions/hooks-errors.jsonl` (legacy path, kept for back-compat)
+- `Write-HookError -Agent -Trigger -ExitCode -StderrTail` — appends to `artifacts/sessions/hooks-errors.jsonl`
+
+## Deployed hooks
+
+### conductor
+
+| Event | Script | Purpose |
+|-------|--------|---------|
+| `UserPromptSubmit` | `user-prompt-submit.ps1` | Budget cap check; warn at 80% |
+| `SubagentStart` | `subagent-start.ps1` | Enforce nested-subagent allowlist; exit 1 on violation |
+| `SubagentStop` | `subagent-stop.ps1` | Log completion metrics |
+| `PostToolUse` | `post-tool-failure.ps1` | Capture tool failures (exit_code ≠ 0) to JSONL |
+| `PreCompact` | `pre-compact.ps1` | Copy transcript to snapshots before compaction |
+
+### reviewer
+
+| Event | Script | Purpose |
+|-------|--------|---------|
+| `UserPromptSubmit` | `load-security-context.ps1` | Emit 3 most recent security findings as additionalContext |
+
+### implementer
+
+| Event | Script | Purpose |
+|-------|--------|---------|
+| `PostToolUse` | `validate-copilot-assets.ps1 -RepositoryRoot .` | Re-validate assets after every tool use |
+
+### All other agents (docs, test, researcher, iac, gui-tester, ux, translator, translation-*)
+
+| Event | Script | Purpose |
+|-------|--------|---------|
+| `PostToolUse` | `capture-error.ps1 -Agent <name>` | Log failed tool calls to `artifacts/sessions/<agent>-errors/` |
 
 ## Hard safety rules
 
@@ -105,30 +125,29 @@ All hook scripts dot-source `_common.ps1` which provides:
 3. Hooks **MUST NOT** carry secrets or credentials.
 4. Every hook **MUST** be documented in the owning agent's frontmatter — no undocumented magic.
 5. Hooks **MUST** be idempotent — safe to re-run without changing meaning or state.
-6. `on_fail: block` is reserved for enforcement hooks (allowlist, security gates). Observability hooks use `continue`.
+6. Blocking hooks (exit 1 / `permissionDecision: deny`) are reserved for enforcement (allowlist, security gates). Observability hooks must exit 0 on success.
 
 ## Adding a new hook
 
 1. Write the script to `scripts/hooks/<name>.ps1`. Dot-source `_common.ps1`, call `Write-HookEvent`.
-2. If the hook can block, add `exit 1` explicitly — `Write-HookError` does **not** exit.
-3. Add the hook to the agent frontmatter with the appropriate `on_fail`.
-4. Add a Pester test in `tests/powershell/Test-Hooks.Tests.ps1` covering at least: exit code on success, exit code on failure, JSONL record schema.
-5. Run `Invoke-Pester -Path tests` and `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .` — both must pass.
+2. Use `Read-HookInput` to get stdin JSON context rather than env vars.
+3. If the hook should block, emit JSON with `permissionDecision: deny` / `block: true` AND exit 1.
+4. Add the hook to the agent frontmatter using the map-of-arrays syntax above.
+5. Add a Pester test in `tests/powershell/Test-Hooks.Tests.ps1` — pipe JSON via stdin, verify exit code and JSONL record.
+6. Run `Invoke-Pester -Path tests` and `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .` — both must pass.
 
 ## JSONL output locations
 
 ```
 artifacts/sessions/hooks/
-├── subagent-start.jsonl      # Every subagent invocation (allowed + denied)
-├── subagent-stop.jsonl       # Subagent completions
-├── task-created.jsonl
-├── task-completed.jsonl
-├── pre-compact.jsonl
-├── post-tool-failure.jsonl
-├── user-prompt-submit.jsonl
-├── session-pause.jsonl (via session-pause.ps1 → pause-log.txt)
+├── SubagentStart.jsonl       # Every subagent invocation (allowed + denied)
+├── SubagentStop.jsonl        # Subagent completions
+├── PostToolUse.jsonl         # Tool failures captured by conductor
+├── PreCompact.jsonl
+├── UserPromptSubmit.jsonl
 └── snapshots/                # pre-compact-<timestamp>.txt context snapshots
 artifacts/sessions/hooks-errors.jsonl  # legacy error stream
+artifacts/sessions/<agent>-errors/     # per-agent error logs
 ```
 
 ## Verification
@@ -136,7 +155,7 @@ artifacts/sessions/hooks-errors.jsonl  # legacy error stream
 After adding or updating hooks:
 
 1. Run `Invoke-Pester -Path tests/powershell/Test-Hooks.Tests.ps1 -Output Detailed`.
-2. Trigger the hook manually by invoking the script with test parameters.
+2. Trigger the hook by piping a JSON payload to the script: `'{"agent_type":"test",...}' | pwsh -File scripts/hooks/subagent-start.ps1`.
 3. Confirm the expected JSONL record appears in `artifacts/sessions/hooks/`.
 4. Run `pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot .` — must be green.
 
@@ -144,6 +163,7 @@ After adding or updating hooks:
 
 - `scripts/hooks/` — all hook scripts
 - `scripts/hooks/_common.ps1` — shared JSONL helpers
-- `tests/powershell/Test-Hooks.Tests.ps1` — hook unit tests (7 tests)
+- `tests/powershell/Test-Hooks.Tests.ps1` — hook unit tests
 - `AGENTS.md § Nested Subagent Allow-List` — allowlist enforced by `subagent-start.ps1`
+- `.vscode/settings.json` — `chat.useCustomAgentHooks: true`
 - [Agent standard template](../templates/agent-standard.md)

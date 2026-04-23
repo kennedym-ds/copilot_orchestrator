@@ -1,6 +1,8 @@
 ---
 name: delegation-routing
 description: "Agent-to-agent routing patterns for autonomous delegation via #runSubagent. Defines keyword matching, context templates, model preferences, escalation rules, and invocation guardrails. Use for routing decisions, subagent dispatch, delegation context preparation, and handoff target selection."
+user-invocable: true
+argument-hint: "[task to route — include complexity hint: INSTANT/STANDARD/DEEP/ULTRADEEP]"
 ---
 
 # Delegation Routing
@@ -109,7 +111,6 @@ All inter-agent delegation uses `#runSubagent`:
 | **terraform** | "Terraform", "multi-cloud", "IaC", "drift detection", "HCL" | Infrastructure-as-code planning, drift detection | GPT-5.4 | Low |
 | **bicep** | "Azure", "Bicep", "ARM template", "Azure IaC" | Azure infrastructure implementation, ARM compatibility | GPT-5.4 | Low |
 | **design** | "design system", "brand colors", "components", "design tokens" | Design system queries, component search, contrast validation | GPT-5.4 | Low |
-| **beast-mode** | "deep analysis", "complex reasoning", "step-by-step", "thorough investigation" | Extended reasoning with visible thinking, complex problem solving | GPT-5.4 | High |
 | **gui-tester** | "GUI test", "browser test", "visual regression", "interaction test", "screenshot", "Playwright", "page load", "UI validation" | Browser automation, visual regression, interaction testing, form validation | GPT-5.4 | Low |
 | **rubber-duck** | "stuck", "confused", "think through", "debug thinking", "rubber duck", "talk it out", "help me understand" | Socratic problem-solving, guided debugging via probing questions | Claude Haiku 4.5 | N/A |
 
@@ -179,7 +180,7 @@ Before keyword-matching to a specific agent, assess the request's **complexity t
 | **FAST** | Single-file fixes, typo corrections, config changes, "fix this lint error" | Route to a single specialist (lint, implementer) — skip planning |
 | **STANDARD** | Feature implementation, bug investigation, documentation overhaul | Standard lifecycle: Planner → Implementer → Reviewer |
 | **DEEP** | Multi-system architecture, cross-cutting refactor, security audit + performance review | Full lifecycle with support personas (security, performance, red-team) |
-| **ULTRADEEP** | Full-repo translation, compliance overhaul, production incident RCA | Extended reasoning (beast-mode), parallel subagent tracks, mandatory trilateral review |
+| **ULTRADEEP** | Full-repo translation, compliance overhaul, production incident RCA | Trilateral consensus: planner (architecture scan) → implementer (draft) → reviewer --adversarial (challenge); all three must reach consensus before output is accepted |
 
 #### Complexity Signal Detection
 
@@ -203,7 +204,7 @@ Before keyword-matching to a specific agent, assess the request's **complexity t
 3. If FAST → Skip planning, delegate to single specialist
 4. If STANDARD → Standard lifecycle (plan → implement → review)
 5. If DEEP → Standard lifecycle + engage support personas
-6. If ULTRADEEP → Beast-mode reasoning + parallel tracks + trilateral review
+6. If ULTRADEEP → Trilateral consensus: planner → implementer → reviewer --adversarial (all must agree)
 ```
 
 **Integration with keyword routing:** Complexity tier determines the *workflow depth*; keyword matching determines the *target agent*. Apply complexity assessment first, then use the routing table below to select the specific agent.
@@ -269,7 +270,6 @@ Notable cost-tier assignments:
 | rubber-duck | Claude Haiku 4.5 | Routine (0.33×) | N/A | Socratic questions don't require deep reasoning |
 | visualizer | Claude Haiku 4.5 | Routine (0.33×) | N/A | Diagram generation and UX feedback are template-driven |
 | translation-conductor | Claude Sonnet 4.6 | Execution (1×) | Medium | Multi-phase orchestration needs Anthropic tool-use strengths |
-| beast-mode | GPT-5.4 | Execution (1×) | High | Extended reasoning is the core purpose |
 | red-team | GPT-5.4 | Execution (1×) | High | Adversarial analysis requires exhaustive thinking |
 
 ### Nested Delegation (VS Code 1.113+)
@@ -282,7 +282,6 @@ With `chat.subagents.allowInvocationsFromSubagents: true`, subagents can invoke 
 |--------|-------------------|---------|-------|
 | implementer | test, lint | After coding, invoke test directly for TDD | 1 conductor round-trip |
 | reviewer | security, red-team | Parallel quality review without conductor relay | 1-2 conductor round-trips |
-| beast-mode | researcher | Autonomous deep analysis with evidence gathering | 1 conductor round-trip |
 | translation-conductor | (already has full access) | No change needed | — |
 
 #### Nested Delegation Rules
@@ -366,7 +365,6 @@ When delegating to a sub-agent, load the relevant skills to ensure the agent fol
 | terraform | — | IaC planning (standalone) |
 | bicep | — | Azure IaC (standalone) |
 | design | — | Design system queries (standalone) |
-| beast-mode | memory-management | Extended sessions, context management |
 | gui-tester | — | Browser automation (standalone) |
 | rubber-duck | — | Conversational only (no skills needed) |
 | spec | spec-development, documentation-style | Requirements elicitation, spec authoring |

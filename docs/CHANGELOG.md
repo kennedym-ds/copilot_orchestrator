@@ -1,12 +1,41 @@
 title: "Copilot Orchestrator Changelog"
-version: "3.1.0"
-lastUpdated: "2026-04-22"
+version: "3.1.1"
+lastUpdated: "2026-04-23"
 status: stable
 ---
 
 # Changelog
 
 All notable changes are documented here following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
+
+## [3.1.1] — 2026-04-23
+
+### Fixed
+- `design_server.py` — removed `# TODO` marker and "mock data for pilot" language from docstring; replaced `https://design.example.com/...` placeholder URLs with empty strings; server is now configurable, not a stub
+- `scripts/run-smoke-tests.ps1` — smoke test checked `plans/` at repo root (does not exist); corrected to `artifacts/plans/`
+- `docs/guides/copilot-cli-onboarding.md` — agent count corrected from 29 → 16
+- `.github/agents/translation-conductor.agent.md` — removed deleted agent `github-ops` from `agents:` list (replaced with `ops`)
+- `.vscode/settings.json` — `github.copilot.chat.implementAgent.model` corrected from unrecognised `"Codex 5.2 (copilot)"` to canonical `"GPT-5.2-Codex (copilot)"`
+- `README.md` — version bumped to 3.1.1, MCP server count corrected (6 → 5), script count corrected (6 → 12), `chat.useClaudeSkills` unverified setting removed from quick-start snippet
+- `docs/quick-reference.md` — `chat.useClaudeSkills` removed from VS Code Configuration snippet
+- `scripts/mcp/validation_server.py` — added `_validate_repository_root()` guard to all tools accepting `repository_root`; user-supplied path is now verified to resolve within REPO_ROOT before being passed to subprocess
+- `INSTRUCTION_CHANGELOG.md` — corrected stale reference `demo_bleeding_edge.py` → `design_server.py`
+
+### Added
+- `.github/agents/translation-conductor.agent.md` — `handoffs:` frontmatter field (return to conductor, request review, publish PR)
+- `.github/agents/translation-styler.agent.md` — `handoffs:` frontmatter field (return to translation-conductor, validate translation)
+- `scripts/validate-copilot-assets.ps1` — section 3b-ii: validates `agents:` frontmatter list against the agent roster (catches stale references like `github-ops`)
+- `scripts/add-prompt-metadata.ps1` — `Write-Warning` emitted when auto-injected frontmatter contains a `TODO:` description marker
+
+### Changed
+- `AGENTS.md` — `gh skill` replaces `npx skills` in Skills Ecosystem section; Opus 4.7→4.6 Premium chain; BYOK note; foreground terminal scope note
+- `instructions/global/01_quality.instructions.md` — Opus 4.7 now leads Premium chain; security-mode pin updated to Opus 4.7
+- `.github/agents/planner.agent.md` — model frontmatter: `Claude Opus 4.7` now first
+- `.github/prompts/new-agent.prompt.md`, `docs/quick-reference.md`, `docs/guides/copilot-cli-usage.md` — Opus chain order updated
+- `.vscode/settings.json` — version comment bumped to VS Code 1.117; added `backgroundNotifications: true`, `confirmationCarousel.enabled: true`; plugin section comment updated; security-intent comment on autopilot settings
+- `docs/guides/copilot-cli-onboarding.md` — v1.2.0: new `gh skill`, BYOK, and foreground terminal sections
+- `plugin.json` — created at repo root; agent plugin manifest for external distribution via `copilot plugin install`
+- `artifacts/decisions/ADR-chatLanguageModels.md` — deferral extended; 1.116 and 1.117 shipped without GA promotion
 
 ## [3.1.0] — 2026-04-22
 

@@ -1,6 +1,8 @@
 ---
 name: memory-management
 description: "Memory lifecycle patterns for artifact retention, decision recording, context compaction, and Copilot Memory hygiene. Use for session context management, ADR creation, and rolloff strategies."
+user-invocable: true
+argument-hint: "[session or context to snapshot or clean up]"
 ---
 
 # Memory Management

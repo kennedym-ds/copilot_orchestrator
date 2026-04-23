@@ -4,17 +4,17 @@ description: "Performs targeted research, evidence gathering, and knowledge synt
 argument-hint: "Ask about technologies, patterns, or gather evidence from docs and repos"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: high
-cli-affinity: [research, ask, share]
-mcp-allowlist: [research, context7]
+cli-affinity: [research]
+mcp-servers:
+  research:
+    type: stdio
+  context7:
+    type: http
 hooks:
-  - trigger: error
-    when:
-      tool: execute
-    run:
-      command: powershell
-      args: ["-File", "scripts/hooks/capture-error.ps1", "-Agent", "researcher"]
-      timeoutMs: 5000
-    on_fail: continue
+  PostToolUse:
+    - type: command
+      command: "pwsh -File scripts/hooks/capture-error.ps1 -Agent researcher"
+      windows: "powershell -File scripts/hooks/capture-error.ps1 -Agent researcher"
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, usages, problems, askQuestions]
 handoffs:
   - label: Return to Conductor
