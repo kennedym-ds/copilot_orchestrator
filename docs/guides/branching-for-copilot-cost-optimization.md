@@ -7,7 +7,7 @@ status: stable
 
 # Branching for Copilot Cost Optimization
 
-GitHub Copilot plans ship different models at different multipliers. Opus 4.6 (3x) is Enterprise-only; Opus 4.7 (7.5x) is Pro+/Business/Enterprise; Sonnet 4.6 and GPT-5.4 (1x) need Pro+ or above; GPT-5.3-Codex and GPT-5.4 mini reach down to Pro/Student; only GPT-5 mini and GPT-4.1 (0x) are available on Free.
+GitHub Copilot plans ship different models at different multipliers. Opus 4.6 (3x) is Enterprise-only; Opus 4.7 (7.5x) is Pro+/Business/Enterprise; Sonnet 4.6 and GPT-5 mini (1x) need Pro+ or above; GPT-5 mini and GPT-5 mini reach down to Pro/Student; only GPT-5 mini and GPT-4.1 (0x) are available on Free.
 
 Rather than forcing every user onto a lowest-common-denominator model set, we ship **four branches aligned to the plan matrix**. Develop on `enterprise`, push once, and GitHub Actions rewrites the model strings on the other three branches.
 
@@ -16,7 +16,7 @@ Rather than forcing every user onto a lowest-common-denominator model set, we sh
 ```
 enterprise -> Enterprise plan  (Opus 4.6 flagship, Sonnet 4.6 execution, Haiku 4.5 fast)
 pro-plus   -> Pro+/Business (Opus 4.7 flagship, Sonnet 4.6 execution, Haiku 4.5 fast)
-pro        -> Pro/Student  (GPT-5.3-Codex, GPT-5.4 mini, Haiku 4.5)
+pro        -> Pro/Student  (GPT-5 mini, GPT-5 mini, Haiku 4.5)
 free       -> Free         (GPT-5 mini, GPT-4.1)
 ```
 
@@ -30,37 +30,37 @@ Each agent declares a fallback array in frontmatter and a `defaultEffort:` hint.
 
 | Agent class | Primary | Fallback 1 | Fallback 2 | Effort range |
 |-------------|---------|-----------|-----------|--------------|
-| Premium (planner) | Claude Opus 4.6 | Claude Opus 4.7 | Claude Sonnet 4.6 | high |
-| Execution (12 agents) | Claude Sonnet 4.6 | GPT-5.4 | GPT-5.3-Codex | low - high |
-| Fast (docs, ux, translation-styler) | Claude Haiku 4.5 | GPT-5.4 mini | GPT-5 mini | low - medium |
+| Premium (planner) | GPT-5 mini | GPT-5 mini | GPT-5 mini | high |
+| Execution (12 agents) | GPT-5 mini | GPT-5 mini | GPT-5 mini | low - high |
+| Fast (docs, ux, translation-styler) | GPT-4.1 | GPT-5 mini | GPT-5 mini | low - medium |
 
-The Reviewer runs on the execution chain by default. Security-mode review pins `Claude Opus 4.6` via a prompt-level `model:` override so only the security invocation uses a 3x model.
+The Reviewer runs on the execution chain by default. Security-mode review pins `GPT-5 mini` via a prompt-level `model:` override so only the security invocation uses a 3x model.
 
 ### pro-plus (Pro+ / Business)
 
 Opus 4.6 is Enterprise-only, so the pro-plus branch substitutes the flagship:
 
-- `Claude Opus 4.6` -> `Claude Opus 4.7` (3x -> 7.5x, but available on Pro+)
+- `GPT-5 mini` -> `GPT-5 mini` (3x -> 7.5x, but available on Pro+)
 
-All other models (Sonnet 4.6, GPT-5.4, Haiku 4.5, GPT-5.3-Codex, GPT-5.4 mini) are available on Pro+ and pass through unchanged.
+All other models (Sonnet 4.6, GPT-5 mini, Haiku 4.5, GPT-5 mini, GPT-5 mini) are available on Pro+ and pass through unchanged.
 
 ### pro (Pro / Student)
 
-Neither Opus 4.6 nor Opus 4.7 is on Pro. Sonnet 4.6 and GPT-5.4 also require Pro+. The pro branch rewrites:
+Neither Opus 4.6 nor Opus 4.7 is on Pro. Sonnet 4.6 and GPT-5 mini also require Pro+. The pro branch rewrites:
 
-- `Claude Opus 4.7` -> `GPT-5.3-Codex` (1x)
-- `Claude Opus 4.6` -> `GPT-5.3-Codex` (1x)
-- `Claude Sonnet 4.6` -> `GPT-5.3-Codex` (1x)
-- `GPT-5.4` (bare) -> `GPT-5.4 mini` (0.33x)
+- `GPT-5 mini` -> `GPT-5 mini` (1x)
+- `GPT-5 mini` -> `GPT-5 mini` (1x)
+- `GPT-5 mini` -> `GPT-5 mini` (1x)
+- `GPT-5 mini` (bare) -> `GPT-5 mini` (0.33x)
 
-GPT-5.3-Codex, GPT-5.4 mini, and Haiku 4.5 all stay on Pro.
+GPT-5 mini, GPT-5 mini, and Haiku 4.5 all stay on Pro.
 
 ### free (Free plan)
 
 Only `GPT-5 mini` and `GPT-4.1` are truly 0x on Free. Everything else is substituted:
 
-- All Opus / Sonnet / GPT-5.4 / GPT-5.3-Codex / Gemini / GPT-5.4 mini -> `GPT-5 mini` (0x)
-- `Claude Haiku 4.5` (0.33x, paid-only) -> `GPT-4.1` (0x)
+- All Opus / Sonnet / GPT-5 mini / GPT-5 mini / Gemini / GPT-5 mini -> `GPT-5 mini` (0x)
+- `GPT-4.1` (0.33x, paid-only) -> `GPT-4.1` (0x)
 
 Five speed-first agents (docs, ux, gui-tester, ops, translation-styler) have their frontmatter array collapsed to `[GPT-4.1]`. The other eleven collapse to `[GPT-5 mini]`.
 
@@ -81,12 +81,12 @@ The key design choice is **reset-then-substitute, not merge**. The derived branc
 
 - name: Apply Pro plan substitutions
   run: |
-    sed -i 's/Claude Opus 4\.6/GPT-5.3-Codex/g' "$file"
-    sed -i 's/Claude Sonnet 4\.6/GPT-5.3-Codex/g' "$file"
-    sed -i 's/GPT-5\.4/GPT-5.4 mini/g' "$file"   # with placeholder dance
+    sed -i 's/Claude Opus 4\.6/GPT-5 mini/g' "$file"
+    sed -i 's/Claude Sonnet 4\.6/GPT-5 mini/g' "$file"
+    sed -i 's/GPT-5\.4/GPT-5 mini/g' "$file"   # with placeholder dance
 ```
 
-Substitution order matters. The pro workflow protects `GPT-5.4 mini` with a placeholder before rewriting bare `GPT-5.4` to avoid `GPT-5.4 mini mini`.
+Substitution order matters. The pro workflow protects `GPT-5 mini` with a placeholder before rewriting bare `GPT-5 mini` to avoid `GPT-5 mini mini`.
 
 ## Switching Tiers
 

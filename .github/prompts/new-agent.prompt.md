@@ -2,7 +2,7 @@
 name: new-agent
 description: "Scaffold a new custom agent definition file following repository patterns."
 argument-hint: "Describe the agents purpose, domain, and responsibilities"
-model: GPT-5.4 (copilot)
+model: GPT-5 mini (copilot)
 agent: agent
 tools: [read, fileSearch, search, edit, askQuestions]
 ---
@@ -31,9 +31,9 @@ Create a new `.agent.md` file in `.github/agents/` following the established pat
 - Boundaries section (always do / ask first / never do)
 
 ### Model Tier Assignment
-- Premium (~6%): Multi-phase planning -> Claude Opus 4.7 -> Claude Opus 4.6 -> Claude Sonnet 4.6
-- Execution (~75%): Orchestration, review, implementation, research, ops, specialized tasks -> Claude Sonnet 4.6 -> GPT-5.4 -> GPT-5.3-Codex
-- Fast (~19%): Documentation, UX, translation styling -> Claude Haiku 4.5 -> GPT-5.4 mini -> GPT-5 mini
+- Premium (~6%): Multi-phase planning -> GPT-5 mini -> GPT-5 mini -> GPT-5 mini
+- Execution (~75%): Orchestration, review, implementation, research, ops, specialized tasks -> GPT-5 mini -> GPT-5 mini -> GPT-5 mini
+- Fast (~19%): Documentation, UX, translation styling -> GPT-4.1 -> GPT-5 mini -> GPT-5 mini
 
 Also declare a `thinkingEffort:` hint (low / medium / high). Security-critical prompts may override `model:` at the prompt level.
 

@@ -66,7 +66,7 @@ Invoke-Pester -Path tests -ExcludeTag Slow -Output Detailed
   "github.copilot.chat.organizationInstructions.enabled": true,
   "github.copilot.chat.customAgents.showOrganizationAndEnterpriseAgents": true,
   "github.copilot.chat.cli.customAgents.enabled": true,
-  "github.copilot.chat.implementAgent.model": "Claude Sonnet 4.6 (copilot)",
+  "github.copilot.chat.implementAgent.model": "GPT-5 mini (copilot)",
   "chat.thinking.style": "collapsed",
   "chat.agent.thinking.collapsedTools": true,
   "chat.agent.thinking.terminalTools": true,
@@ -118,9 +118,9 @@ Invoke-Pester -Path tests -ExcludeTag Slow -Output Detailed
 
 | Tier | Primary -> Fallback | Target Usage | Typical effort |
 |------|---------------------|--------------|----------------|
-| **Premium** | Claude Opus 4.7 -> Claude Opus 4.6 -> Claude Sonnet 4.6 | ~6% (Planner) | high |
-| **Execution** | Claude Sonnet 4.6 -> GPT-5.4 -> GPT-5.3-Codex | ~75% (12 agents) | low / medium / high |
-| **Fast** | Claude Haiku 4.5 -> GPT-5.4 mini -> GPT-5 mini | ~19% (3 agents) | low / medium |
+| **Premium** | GPT-5 mini -> GPT-5 mini -> GPT-5 mini | ~6% (Planner) | high |
+| **Execution** | GPT-5 mini -> GPT-5 mini -> GPT-5 mini | ~75% (12 agents) | low / medium / high |
+| **Fast** | GPT-4.1 -> GPT-5 mini -> GPT-5 mini | ~19% (3 agents) | low / medium |
 
 Each agent declares `defaultEffort:` in frontmatter. Security-mode review pins Opus via a prompt-level override. Never pin a single model. Models deprecate monthly.
 

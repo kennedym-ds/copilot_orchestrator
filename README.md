@@ -67,7 +67,7 @@ Add these settings to your user or workspace `settings.json`:
    "chat.agentsControl.enabled": true,
    "chat.agentsControl.clickBehavior": "cycle",
    "workbench.startupEditor": "agentSessionsWelcomePage",
-   "github.copilot.chat.implementAgent.model": "Claude Sonnet 4.6 (copilot)",
+   "github.copilot.chat.implementAgent.model": "GPT-5 mini (copilot)",
    "chat.tools.terminal.enableAutoApprove": true,
    "chat.tools.terminal.autoApproveWorkspaceNpmScripts": true,
    "chat.tools.terminal.preventShellHistory": true,
@@ -112,9 +112,9 @@ The orchestrator ships four branches aligned to GitHub Copilot plan pricing. Pus
 
 | Branch | Target Plan | Flagship Model | Use Case |
 |--------|-------------|----------------|----------|
-| `enterprise` | **Enterprise** | Claude Opus 4.6 (3x) | Source of truth - flagship reasoning on Enterprise-only Opus 4.6 |
-| `pro-plus` | **Pro+ / Business** | Claude Opus 4.7 (7.5x) | Flagship reasoning via Opus 4.7 (available on Pro+, Business, Enterprise) |
-| `pro` | **Pro / Student** | GPT-5.3-Codex (1x) | No Anthropic premium - routes to GPT-5.3-Codex + GPT-5.4 mini + Haiku 4.5 |
+| `enterprise` | **Enterprise** | GPT-5 mini (3x) | Source of truth - flagship reasoning on Enterprise-only Opus 4.6 |
+| `pro-plus` | **Pro+ / Business** | GPT-5 mini (7.5x) | Flagship reasoning via Opus 4.7 (available on Pro+, Business, Enterprise) |
+| `pro` | **Pro / Student** | GPT-5 mini (1x) | No Anthropic premium - routes to GPT-5 mini + GPT-5 mini + Haiku 4.5 |
 | `free` | **Free** | GPT-5 mini (0x) | Zero premium requests - all agents on GPT-5 mini or GPT-4.1 |
 
 Each agent's `model:` field is a fallback array. VS Code picks the first model you have access to, so the published branches substitute unavailable models with plan-available equivalents.
@@ -124,7 +124,7 @@ Each agent's `model:` field is a fallback array. VS Code picks the first model y
 1. **Develop on `enterprise`** - all agents run Enterprise-tier models with full capability.
 2. **Push to `enterprise`** - three GitHub Actions workflows trigger automatically:
    - [`sync-pro-plus-branch.yml`](.github/workflows/sync-pro-plus-branch.yml) resets `pro-plus` from `enterprise` and swaps Opus 4.6 -> Opus 4.7.
-   - [`sync-pro-branch.yml`](.github/workflows/sync-pro-branch.yml) resets `pro` from `enterprise` and swaps Anthropic premium/execution + GPT-5.4 to Pro-available models.
+   - [`sync-pro-branch.yml`](.github/workflows/sync-pro-branch.yml) resets `pro` from `enterprise` and swaps Anthropic premium/execution + GPT-5 mini to Pro-available models.
    - [`sync-free-branch.yml`](.github/workflows/sync-free-branch.yml) resets `free` from `enterprise` and swaps all paid models to GPT-5 mini / GPT-4.1.
 3. **Switch tiers** - clone or checkout the branch matching your plan:
    ```bash
@@ -142,22 +142,22 @@ Each agent's `model:` field is a fallback array. VS Code picks the first model y
 
 | Agent | Tier | Default Model (enterprise) | Effort | Purpose |
 |-------|------|----------------------|--------|---------|
-| Planner | Premium | Claude Opus 4.6 | high | Multi-phase planning |
-| Conductor | Execution | Claude Sonnet 4.6 | medium | Lifecycle orchestration |
-| Reviewer | Execution | Claude Sonnet 4.6 | high | Multi-mode code review (security mode pins Opus) |
-| Implementer | Execution | Claude Sonnet 4.6 | medium | TDD implementation |
-| Researcher | Execution | Claude Sonnet 4.6 | high | Evidence gathering |
-| Ops | Execution | Claude Sonnet 4.6 | low | Issues, PRs, CI/CD |
-| Test | Execution | Claude Sonnet 4.6 | medium | Test authoring |
-| IaC | Execution | Claude Sonnet 4.6 | medium | Terraform/Bicep/Pulumi |
-| GUI Tester | Execution | Claude Sonnet 4.6 | low | Browser automation |
-| Translation Conductor | Execution | Claude Sonnet 4.6 | high | Translation orchestration |
-| Translator | Execution | Claude Sonnet 4.6 | medium | File-level translation |
-| Translation Analyzer | Execution | Claude Sonnet 4.6 | high | Dependency analysis |
-| Translation Validator | Execution | Claude Sonnet 4.6 | high | Validation scoring |
-| Docs | Fast | Claude Haiku 4.5 | medium | Documentation |
-| UX | Fast | Claude Haiku 4.5 | low | UX/accessibility review |
-| Translation Styler | Fast | Claude Haiku 4.5 | medium | Target language idioms |
+| Planner | Premium | GPT-5 mini | high | Multi-phase planning |
+| Conductor | Execution | GPT-5 mini | medium | Lifecycle orchestration |
+| Reviewer | Execution | GPT-5 mini | high | Multi-mode code review (security mode pins Opus) |
+| Implementer | Execution | GPT-5 mini | medium | TDD implementation |
+| Researcher | Execution | GPT-5 mini | high | Evidence gathering |
+| Ops | Execution | GPT-5 mini | low | Issues, PRs, CI/CD |
+| Test | Execution | GPT-5 mini | medium | Test authoring |
+| IaC | Execution | GPT-5 mini | medium | Terraform/Bicep/Pulumi |
+| GUI Tester | Execution | GPT-5 mini | low | Browser automation |
+| Translation Conductor | Execution | GPT-5 mini | high | Translation orchestration |
+| Translator | Execution | GPT-5 mini | medium | File-level translation |
+| Translation Analyzer | Execution | GPT-5 mini | high | Dependency analysis |
+| Translation Validator | Execution | GPT-5 mini | high | Validation scoring |
+| Docs | Fast | GPT-4.1 | medium | Documentation |
+| UX | Fast | GPT-4.1 | low | UX/accessibility review |
+| Translation Styler | Fast | GPT-4.1 | medium | Target language idioms |
 
 `thinkingEffort` is the role's baseline reasoning depth — individual prompts can override with the `effort:` frontmatter key.
 

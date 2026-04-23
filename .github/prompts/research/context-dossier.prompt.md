@@ -2,7 +2,7 @@
 name: research-context-dossier
 description: "Research prompt that compels the researcher agent to gather evidence, cite sources, and surface open questions."
 argument-hint: "Describe the topic or technology to research with source citations"
-model: Claude Sonnet 4.6 (copilot)
+model: GPT-5 mini (copilot)
 agent: researcher
 tools: [web, search, read, githubRepo, todo]
 ---

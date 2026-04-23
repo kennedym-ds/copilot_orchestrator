@@ -2,7 +2,7 @@
 name: support-performance-audit
 description: "Performance support prompt for evaluating runtime, memory, and cost implications of planned or implemented changes."
 argument-hint: "Specify the module or endpoint to audit for performance"
-model: GPT-5.4 (copilot)
+model: GPT-5 mini (copilot)
 agent: reviewer
 tools: [todo, changes, read, search, githubRepo, web]
 ---

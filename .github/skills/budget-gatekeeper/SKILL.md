@@ -71,7 +71,7 @@ Each delegation carries a cost weight based on the target agent's model tier:
 | Tier | Weight | Agents | Monthly Budget Target |
 |------|--------|--------|----------------------|
 | Premium (Opus 4.6) | 3x | conductor, planner, security | ≤10% of total delegations |
-| Execution (GPT-5.4, Sonnet 4.6) | 1x | implementer, reviewer, researcher, ops, docs, test, iac, gui-tester, translation-conductor, translator, translation-analyzer, translation-validator, translation-styler | ~75% of total delegations |
+| Execution (GPT-5 mini, Sonnet 4.6) | 1x | implementer, reviewer, researcher, ops, docs, test, iac, gui-tester, translation-conductor, translator, translation-analyzer, translation-validator, translation-styler | ~75% of total delegations |
 | Routine (Haiku 4.5) | 0.3x | lint, rubber-duck, visualizer | ~10% of total delegations |
 
 ### Budget State Tracking
@@ -148,9 +148,9 @@ When approaching premium-tier limits, apply these substitution patterns:
 | Instead of... | Use... | When acceptable |
 |---------------|--------|-----------------|
 | `planner` (Opus) | Conductor drafts inline plan | Minor scope adjustments, single-phase additions |
-| `researcher` (GPT-5.4) | `implementer` with search tools | Gathering file contents or API docs (not strategic research) |
-| `reviewer` (GPT-5.4) | `quick-review` prompt (Haiku) | Minor changes, NIT-only expected findings |
-| `red-team` (GPT-5.4) | `reviewer` with adversarial prompt | When red-team findings are optional, not mandatory |
+| `researcher` (GPT-5 mini) | `implementer` with search tools | Gathering file contents or API docs (not strategic research) |
+| `reviewer` (GPT-5 mini) | `quick-review` prompt (Haiku) | Minor changes, NIT-only expected findings |
+| `red-team` (GPT-5 mini) | `reviewer` with adversarial prompt | When red-team findings are optional, not mandatory |
 | `reviewer --adversarial` | Standard reviewer with adversarial prompt | When red-team depth is needed but not a full dedicated pass |
 
 ### Circuit Breaker Pattern

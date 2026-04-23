@@ -14,17 +14,17 @@ This guide provides tier-specific prompt crafting strategies to maximize effecti
 ## Architecture Context
 
 **Planning/Review Tier (20% of invocations):**
-- Models: Claude Opus 4.6
+- Models: GPT-5 mini
 - Strengths: Advanced reasoning, ambiguity handling, synthesis, creative problem-solving
 - Use cases: Research, planning, architecture decisions, code review
 
 **Execution Tier (75% of invocations):**
-- Models: Claude Sonnet 4.6, GPT-5.4
+- Models: GPT-5 mini, GPT-5 mini
 - Strengths: Structured execution, code generation, pattern following, efficiency
 - Use cases: Implementation, testing, refactoring, documentation updates
 
 **Fast Tier (5% of invocations):**
-- Models: Claude Haiku 4.5
+- Models: GPT-4.1
 - Strengths: Fast pattern-matching, template-driven output
 - Use cases: UX review, diagrams, style checking
 
@@ -453,7 +453,7 @@ Implement JWT authentication following this workflow:
 
 ## Model-Specific Nuances
 
-### Claude Opus 4.6 (Planning Tier)
+### GPT-5 mini (Planning Tier)
 
 **Strengths:**
 - Strategic planning and architecture
@@ -465,7 +465,7 @@ Implement JWT authentication following this workflow:
 - Ask for multiple phases with pause points
 - Encourage identification of open questions
 
-### GPT-5.4 (Execution Tier)
+### GPT-5 mini (Execution Tier)
 
 **Strengths:**
 - Code understanding and refactoring
@@ -479,7 +479,7 @@ Implement JWT authentication following this workflow:
 - Leverage for complex code reviews and threat modeling
 - Use for fallback when Claude models are unavailable
 
-### Claude Sonnet 4.6 (Execution Tier)
+### GPT-5 mini (Execution Tier)
 
 **Strengths:**
 - Versatile code generation and completion

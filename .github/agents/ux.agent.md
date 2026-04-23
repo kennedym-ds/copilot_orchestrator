@@ -2,7 +2,7 @@
 name: ux
 description: "Reviews UX design, WCAG accessibility, visual hierarchy, and user journey flows."
 argument-hint: "Review user flows, wireframes, accessibility, color contrast, or create diagrams"
-model: ['Claude Haiku 4.5 (copilot)', 'GPT-5.4 mini (copilot)', 'GPT-5 mini (copilot)']
+model: ['GPT-4.1 (copilot)']
 thinkingEffort: low
 hooks:
   PostToolUse:

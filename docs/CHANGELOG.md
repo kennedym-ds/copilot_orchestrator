@@ -30,7 +30,7 @@ All notable changes are documented here following [Keep a Changelog](https://kee
 ### Changed
 - `AGENTS.md` — `gh skill` replaces `npx skills` in Skills Ecosystem section; Opus 4.7→4.6 Premium chain; BYOK note; foreground terminal scope note
 - `instructions/global/01_quality.instructions.md` — Opus 4.7 now leads Premium chain; security-mode pin updated to Opus 4.7
-- `.github/agents/planner.agent.md` — model frontmatter: `Claude Opus 4.7` now first
+- `.github/agents/planner.agent.md` — model frontmatter: `GPT-5 mini` now first
 - `.github/prompts/new-agent.prompt.md`, `docs/quick-reference.md`, `docs/guides/copilot-cli-usage.md` — Opus chain order updated
 - `.vscode/settings.json` — version comment bumped to VS Code 1.117; added `backgroundNotifications: true`, `confirmationCarousel.enabled: true`; plugin section comment updated; security-intent comment on autopilot settings
 - `docs/guides/copilot-cli-onboarding.md` — v1.2.0: new `gh skill`, BYOK, and foreground terminal sections
@@ -46,7 +46,7 @@ All notable changes are documented here following [Keep a Changelog](https://kee
 - `budget-gatekeeper/SKILL.md` agent count corrected: 29 → 16
 - `AGENTS.md` Skills Ecosystem section flags publishing (G65) as deferred to prevent `npx skills` commands being mistaken for current capability
 - `.mcp.json` comment now references `setup-claude-code.ps1` for automatic reconciliation with `.vscode/mcp.json`
-- Model catalog in `validate-copilot-assets.ps1` reconciled against official GitHub Copilot supported-models page (2026-04-22); GPT-5.2, GPT-5.4 nano, Gemini 2.5 Pro, Grok Code Fast 1, and preview models added; retired models removed
+- Model catalog in `validate-copilot-assets.ps1` reconciled against official GitHub Copilot supported-models page (2026-04-22); GPT-5.2, GPT-5 mini nano, Gemini 2.5 Pro, Grok Code Fast 1, and preview models added; retired models removed
 
 ### Added
 - `tests/powershell/Test-Hooks.Tests.ps1` — 7 Pester tests for hook exit codes, JSONL schema, and `task-completed.ps1` JSON round-trip
@@ -88,12 +88,12 @@ All notable changes are documented here following [Keep a Changelog](https://kee
 - Complete rewrite of Copilot CLI usage guide with all 16 agents and new features
 - Template audit: fixed 1 stale reference (spec.md), confirmed 10 templates clean
 - Removed all dead links to deleted files
-- Updated all GPT-5.3-Codex references to current model names
+- Updated all GPT-5 mini references to current model names
 
 ### Model Updates
-- Premium tier: Claude Opus 4.6 → Claude Opus 4.7 → Claude Sonnet 4.6 (Planner only)
-- Execution tier: Claude Sonnet 4.6 → GPT-5.4 → GPT-5.3-Codex (12 agents)
-- Fast tier: Claude Haiku 4.5 → GPT-5.4 mini → GPT-5 mini (3 agents)
+- Premium tier: GPT-5 mini → GPT-5 mini → GPT-5 mini (Planner only)
+- Execution tier: GPT-5 mini → GPT-5 mini → GPT-5 mini (12 agents)
+- Fast tier: GPT-4.1 → GPT-5 mini → GPT-5 mini (3 agents)
 
 ## [0.20.0] - 2026-04-02
 
@@ -343,7 +343,7 @@ All notable changes are documented here following [Keep a Changelog](https://kee
 - **Agent MCP Wiring**: Added scoped tool allowlists to conductor, implementer, reviewer, test, lint, observability, translation-conductor
 - **MCP Integration Guide** (`docs/guides/mcp-integration.md`): Rewritten to cover HTTP transport, workspace config, resource annotations, prompts, validation/analytics servers, agent-to-MCP mapping
 - **Python MCP Instructions** (`instructions/languages/python-mcp-server.instructions.md`): Updated from low-level `Server` class to `FastMCP` high-level API matching actual server implementations
-- **Model Allocation**: Updated model tiers — Premium (Opus 4.6, Sonnet 4.6), Execution (GPT-5.3-Codex, Sonnet 4.6), Routine (Haiku 4.5, Gemini 3 Flash)
+- **Model Allocation**: Updated model tiers — Premium (Opus 4.6, Sonnet 4.6), Execution (GPT-5 mini, Sonnet 4.6), Routine (Haiku 4.5, Gemini 3 Flash)
 
 ## [0.8.0] - 2026-02-09
 

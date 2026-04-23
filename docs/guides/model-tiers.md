@@ -10,11 +10,11 @@ The Copilot Orchestrator uses a three-tier model allocation across 16 specialize
 
 | Multiplier | Models | Plan availability |
 |------------|--------|-------------------|
-| **7.5x** | Claude Opus 4.7 | Pro+, Business, Enterprise |
-| **3x** | Claude Opus 4.6 | Enterprise only |
-| **1x** | GPT-5.4, Claude Sonnet 4.6 | Pro+ and above |
-| **1x** | GPT-5.3-Codex | Pro and above (incl. Student) |
-| **0.33x** | Claude Haiku 4.5, GPT-5.4 mini, Gemini 3 Flash | Pro and above |
+| **7.5x** | GPT-5 mini | Pro+, Business, Enterprise |
+| **3x** | GPT-5 mini | Enterprise only |
+| **1x** | GPT-5 mini, GPT-5 mini | Pro+ and above |
+| **1x** | GPT-5 mini | Pro and above (incl. Student) |
+| **0.33x** | GPT-4.1, GPT-5 mini, Gemini 3 Flash | Pro and above |
 | **0x** | GPT-5 mini, GPT-4.1, GPT-4o, Raptor mini | All plans, including Free |
 
 Source: [GitHub Copilot premium request documentation](https://docs.github.com/en/copilot/managing-copilot/monitoring-usage-and-entitlements/about-premium-requests)
@@ -30,7 +30,7 @@ A `low` effort Sonnet call costs a fraction of a `high` effort Sonnet call. Righ
 
 ## Three-Tier Model Allocation (enterprise branch)
 
-### Premium Tier - Claude Opus 4.6 (3x)
+### Premium Tier - GPT-5 mini (3x)
 
 Reserved for agents where reasoning depth directly determines output quality.
 
@@ -42,7 +42,7 @@ Reserved for agents where reasoning depth directly determines output quality.
 
 The Reviewer previously sat in this tier but has been demoted to the execution chain. Standard-mode review benefits less from premium reasoning than planning does, and security-mode review is now pinned to Opus via a prompt-level override (`.github/prompts/support/security-review.prompt.md`). This means premium cost is paid only when a security review is actually requested, not on every review.
 
-### Execution Tier - Claude Sonnet 4.6 (1x)
+### Execution Tier - GPT-5 mini (1x)
 
 The workhorse tier for orchestration, implementation, analysis, and specialized tasks.
 
@@ -63,7 +63,7 @@ The workhorse tier for orchestration, implementation, analysis, and specialized 
 
 **Execution tier agents:** 12 (~75% of invocations).
 
-### Fast Tier - Claude Haiku 4.5 (0.33x)
+### Fast Tier - GPT-4.1 (0.33x)
 
 For tasks where pattern-matching suffices and deep reasoning is unnecessary.
 
@@ -81,15 +81,15 @@ When a primary model is unavailable (plan tier, capacity, deprecation), agents f
 
 | Tier | Primary | Fallback 1 | Fallback 2 |
 |------|---------|------------|------------|
-| Premium | Claude Opus 4.6 | Claude Opus 4.7 | Claude Sonnet 4.6 |
-| Execution | Claude Sonnet 4.6 | GPT-5.4 | GPT-5.3-Codex |
-| Fast | Claude Haiku 4.5 | GPT-5.4 mini | GPT-5 mini |
+| Premium | GPT-5 mini | GPT-5 mini | GPT-5 mini |
+| Execution | GPT-5 mini | GPT-5 mini | GPT-5 mini |
+| Fast | GPT-4.1 | GPT-5 mini | GPT-5 mini |
 
 VS Code picks the first model from the array that the current plan can access. Plan-aligned branches (`pro-plus`, `pro`, `free`) additionally rewrite the strings at sync time so the array content always matches the target plan.
 
 ## Security-Mode Override
 
-The reviewer-security prompt (`.github/prompts/support/security-review.prompt.md`) declares its own `model: Claude Opus 4.6 (copilot)` line. This overrides the agent-level array only for that prompt, so:
+The reviewer-security prompt (`.github/prompts/support/security-review.prompt.md`) declares its own `model: GPT-5 mini (copilot)` line. This overrides the agent-level array only for that prompt, so:
 
 - Routine reviews run on Sonnet (execution tier, ~1x).
 - Security reviews run on Opus (premium, 3x).
@@ -100,9 +100,9 @@ Threat modeling, STRIDE analysis, and adversarial pattern recognition warrant th
 
 | Tier | Model(s) | Agent Count | Cost | Use Case |
 |------|----------|-------------|------|----------|
-| Premium | Claude Opus 4.6 | 1 (~6%) | 3x | Multi-phase planning |
-| Execution | Claude Sonnet 4.6 | 12 (~75%) | 1x | Orchestration, review, implementation, research, ops, translation |
-| Fast | Claude Haiku 4.5 | 3 (~19%) | 0.33x | Documentation, UX, translation styling |
+| Premium | GPT-5 mini | 1 (~6%) | 3x | Multi-phase planning |
+| Execution | GPT-5 mini | 12 (~75%) | 1x | Orchestration, review, implementation, research, ops, translation |
+| Fast | GPT-4.1 | 3 (~19%) | 0.33x | Documentation, UX, translation styling |
 
 **Total:** 16 agents (11 core + 5 translation). Net effect: only 1 agent pays the 3x Opus rate on default calls; the reviewer bumps to Opus only when invoked in security mode.
 

@@ -116,24 +116,24 @@ $agentFiles += Get-ChildItem -Path (Join-Path $RepoRoot '.github/agents') -Filte
 # Claude Sonnet 3.5/3.7, Gemini 2.0/3 Pro, o1/o3/o4 family) are intentionally excluded.
 $validModels = @(
     # Anthropic — GA
-    'Claude Haiku 4.5 (copilot)',
+    'GPT-4.1 (copilot)',
     'Claude Opus 4.5 (copilot)',
-    'Claude Opus 4.6 (copilot)',
-    'Claude Opus 4.7 (copilot)',
+    'GPT-5 mini (copilot)',
+    'GPT-5 mini (copilot)',
     'Claude Sonnet 4 (copilot)',
     'Claude Sonnet 4.5 (copilot)',
-    'Claude Sonnet 4.6 (copilot)',
+    'GPT-5 mini (copilot)',
     # Anthropic — Public preview
-    'Claude Opus 4.6 (fast mode) (preview) (copilot)',
+    'GPT-5 mini (fast mode) (preview) (copilot)',
     # OpenAI — GA
     'GPT-4.1 (copilot)',
     'GPT-5 mini (copilot)',
     'GPT-5.2 (copilot)',
     'GPT-5.2-Codex (copilot)',
-    'GPT-5.3-Codex (copilot)',
-    'GPT-5.4 (copilot)',
-    'GPT-5.4 mini (copilot)',
-    'GPT-5.4 nano (copilot)',
+    'GPT-5 mini (copilot)',
+    'GPT-5 mini (copilot)',
+    'GPT-5 mini (copilot)',
+    'GPT-5 mini nano (copilot)',
     # OpenAI — Fine-tuned / preview
     'Raptor mini (copilot)',
     'Goldeneye (copilot)',

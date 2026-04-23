@@ -2,7 +2,7 @@
 name: support-onboarding-playbook
 description: "Support prompt that helps documentation specialists craft onboarding guidance and sample artifacts."
 argument-hint: "Describe the repository or project to create an onboarding guide for"
-model: Claude Sonnet 4.6 (copilot)
+model: GPT-5 mini (copilot)
 agent: docs
 tools: [todo, read, web, search, githubRepo]
 ---

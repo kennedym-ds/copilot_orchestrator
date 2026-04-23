@@ -78,7 +78,7 @@ Use this configuration to make all 29 orchestrator agents available in **any VS 
      "github.copilot.chat.organizationInstructions.enabled": true,
      "github.copilot.chat.customAgents.showOrganizationAndEnterpriseAgents": true,
      "github.copilot.chat.cli.customAgents.enabled": true,
-     "github.copilot.chat.implementAgent.model": "Claude Sonnet 4.6 (copilot)",
+     "github.copilot.chat.implementAgent.model": "GPT-5 mini (copilot)",
      "github.copilot.chat.advanced.workspace.codeSearchExternalIngest.enabled": true,
 
      "chat.thinking.style": "collapsed",
@@ -182,7 +182,7 @@ Agent Skills are now generally available in VS Code 1.109. Skills in `.github/sk
 Agent frontmatter now accepts `model` as an array. The first available model is used, providing automatic fallback:
 
 ```yaml
-model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
+model: ['GPT-5 mini (copilot)', 'GPT-5 mini (copilot)']
 ```
 
 All 29 agents in this repo now use model fallback arrays for resilience.
@@ -201,7 +201,7 @@ Handoffs can now specify a `model` parameter for per-handoff model selection:
 handoffs:
   - label: Deep Analysis
     agent: reviewer
-    model: Claude Opus 4.6 (copilot)
+    model: GPT-5 mini (copilot)
     prompt: Perform adversarial review with extended analysis.
 ```
 
@@ -266,7 +266,7 @@ Enables remote indexing for non-GitHub workspaces, making code search fast even 
 | `simpleBrowser.useIntegratedBrowser` | `true` | Uses new integrated browser with DevTools |
 
 ### Plan Agent
-**Setting:** `github.copilot.chat.implementAgent.model` (`"Claude Sonnet 4.6 (copilot)"`)
+**Setting:** `github.copilot.chat.implementAgent.model` (`"GPT-5 mini (copilot)"`)
 
 The `/plan` command provides a 4-phase workflow (Discovery → Alignment → Design → Refinement) with integrated `askQuestions`. The `implementAgent.model` setting controls which model is used for the implementation step.
 
@@ -614,7 +614,7 @@ Installable bundles of skills, tools, and hooks from the Extensions view. Config
 Gives agents full browser control with tools: `openBrowserPage`, `navigatePage`, `readPage`, `screenshotPage`, `clickElement`, `hoverElement`, `dragElement`, `typeInPage`, `handleDialog`, `runPlaywrightCode`. Enables web app testing and interaction from agent sessions.
 
 ### Explore Subagent
-**Setting:** `chat.exploreAgent.defaultModel` (`"Claude Haiku 4.5 (copilot)"`)
+**Setting:** `chat.exploreAgent.defaultModel` (`"GPT-4.1 (copilot)"`)
 
 The Plan agent delegates codebase research to the Explore subagent, which runs in a read-only context with a fast model. Replaces expensive inline search calls during planning.
 

@@ -2,7 +2,7 @@
 name: quick-review
 description: "Fast code review with severity-tagged findings — no conductor workflow needed."
 argument-hint: "Paste code or describe the file to review quickly"
-model: GPT-5.4 (copilot)
+model: GPT-5 mini (copilot)
 agent: agent
 tools: [changes, search]
 ---
