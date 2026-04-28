@@ -130,8 +130,8 @@ def _run_powershell(script: str, extra_args: list[str] | None = None,
             timeout=timeout,
             cwd=str(REPO_ROOT),
         )
-        stdout = result.stdout.strip()
-        stderr = result.stderr.strip()
+        stdout = (result.stdout or "").strip()
+        stderr = (result.stderr or "").strip()
 
         # Truncate to avoid blowing up context windows
         if len(stdout) > 6000:

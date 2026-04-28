@@ -1,4 +1,4 @@
-﻿# Common hook logging helpers.
+# Common hook logging helpers.
 # Errors -> artifacts/sessions/hooks-errors.jsonl (legacy, kept for back-compat).
 # Events -> artifacts/sessions/hooks/{event}.jsonl (structured per-hook stream).
 #
@@ -7,15 +7,41 @@
 # PostToolUse adds: tool_name, tool_input, tool_exit_code
 # SubagentStart adds: agent_id, agent_type
 
+$script:HookInput = $null
+
 function Read-HookInput {
     # Reads VS Code hook payload from stdin JSON. Returns empty object on no input.
     try {
-        $raw = [Console]::In.ReadToEnd()
+        $raw = $null
+        if ([Console]::IsInputRedirected) {
+            $raw = [Console]::In.ReadToEnd()
+        }
+        if ([string]::IsNullOrWhiteSpace($raw)) {
+            for ($scope = 1; $scope -le 6 -and [string]::IsNullOrWhiteSpace($raw); $scope++) {
+                $callerInput = Get-Variable -Name input -Scope $scope -ErrorAction SilentlyContinue
+                if ($callerInput -and $callerInput.Value) {
+                    $raw = ($callerInput.Value | Out-String)
+                    break
+                }
+            }
+        }
         if (-not [string]::IsNullOrWhiteSpace($raw)) {
-            return ($raw | ConvertFrom-Json)
+            $script:HookInput = ($raw | ConvertFrom-Json -Depth 6)
+            return $script:HookInput
         }
     } catch {}
-    return [PSCustomObject]@{}
+    $script:HookInput = [PSCustomObject]@{}
+    return $script:HookInput
+}
+
+function Get-HookSessionId {
+    if ($script:HookInput -and $script:HookInput.sessionId) {
+        return [string]$script:HookInput.sessionId
+    }
+    if ($env:COPILOT_SESSION_ID) {
+        return [string]$env:COPILOT_SESSION_ID
+    }
+    return ''
 }
 
 function Write-AdditionalContext {
@@ -53,6 +79,12 @@ function Write-HookEvent {
     $dir = Join-Path $PSScriptRoot "../../artifacts/sessions/hooks"
     if (-not (Test-Path -LiteralPath $dir)) {
         New-Item -ItemType Directory -Path $dir -Force | Out-Null
+    }
+    if (-not $Payload.ContainsKey('session_id')) {
+        $sessionId = Get-HookSessionId
+        if (-not [string]::IsNullOrWhiteSpace($sessionId)) {
+            $Payload['session_id'] = $sessionId
+        }
     }
     $record = [ordered]@{ event = $Event; ts = (Get-Date).ToString("o") }
     foreach ($k in $Payload.Keys) { $record[$k] = $Payload[$k] }

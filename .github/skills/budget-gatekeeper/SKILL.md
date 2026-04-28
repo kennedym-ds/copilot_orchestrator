@@ -60,19 +60,27 @@ The conductor tracks four budget dimensions across a workflow session:
 | Dimension | Soft Limit (80%) | Hard Limit (100%) | Action at Soft | Action at Hard |
 |-----------|------------------|--------------------|--------------------|---------------------|
 | **Delegations** | 16 | 20 | Warn user, suggest consolidation | Pause + require explicit approval |
-| **Premium-Tier Calls** | 4 | 5 | Switch to execution-tier alternatives | Block further premium calls |
+| **Premium-Tier Calls** | 2 | 3 | Reserve for security-only reviews | Block further premium calls |
 | **Estimated Session Tokens** | 400K | 500K | Recommend context compaction | Require session handoff |
 | **Wall Clock Time** | 24 min | 30 min | Suggest checkpoint + fresh session | Force pause point |
 
 ### Model Tier Cost Weights
 
-Each delegation carries a cost weight based on the target agent's model tier:
+Each delegation carries a cost weight based on the target agent's model tier. Weights are approximate ratios based on current per-token pricing.
 
-| Tier | Weight | Agents | Monthly Budget Target |
-|------|--------|--------|----------------------|
-| Premium (Opus 4.6) | 3x | conductor, planner, security | ≤10% of total delegations |
-| Execution (GPT-5.4, Sonnet 4.6) | 1x | implementer, reviewer, researcher, ops, docs, test, iac, gui-tester, translation-conductor, translator, translation-analyzer, translation-validator, translation-styler | ~75% of total delegations |
-| Routine (Haiku 4.5) | 0.3x | lint, rubber-duck, visualizer | ~10% of total delegations |
+| Tier | Relative weight | Agents | Monthly Budget Target |
+|------|-----------------|--------|----------------------|
+| Premium (Opus 4.7/4.6) | ~1.7x | security-mode reviewer only | ≤5% of total delegations |
+| Execution (Sonnet 4.6, GPT-5.4, GPT-5.3-Codex) | 1x | conductor, reviewer, implementer, planner, researcher, ops, test, iac, gui-tester, translation-conductor, translator, translation-analyzer, translation-validator | ~80% of total delegations |
+| Fast (Haiku 4.5, GPT-5.4 mini) | ~0.33x | docs, ux, translation-styler | ~15% of total delegations |
+
+#### Annual Plan Multiplier Mode
+
+If the workspace is still on annual-plan multipliers, override the weights with the policy multipliers (e.g., Opus 27x, Sonnet 6x) and treat premium invocations as budget-exception-only.
+
+#### AI Credits Mode (Default)
+
+Under usage-based billing, cost is driven by token volume and per-model pricing. The tier weights are directional only; apply stricter controls on context size and effort before escalating tiers.
 
 ### Budget State Tracking
 
@@ -109,7 +117,7 @@ When tracking estimated session tokens, multiply the base estimate by the effort
 When approaching budget limits, reduce effort before switching model tiers:
 
 1. Switch Execution-Medium agents to Execution-Low (save ~30% thinking tokens)
-2. Switch Premium-Medium agents to Premium-Low only for non-critical orchestration
+2. Use premium tier only for explicit security review requests
 3. Reserve High effort for security and adversarial reviews only
 
 ### Enforcement Patterns
@@ -147,7 +155,7 @@ When approaching premium-tier limits, apply these substitution patterns:
 
 | Instead of... | Use... | When acceptable |
 |---------------|--------|-----------------|
-| `planner` (Opus) | Conductor drafts inline plan | Minor scope adjustments, single-phase additions |
+| `reviewer --security` (Opus) | Standard reviewer (Sonnet) | Non-security review requests, low-risk changes |
 | `researcher` (GPT-5.4) | `implementer` with search tools | Gathering file contents or API docs (not strategic research) |
 | `reviewer` (GPT-5.4) | `quick-review` prompt (Haiku) | Minor changes, NIT-only expected findings |
 | `red-team` (GPT-5.4) | `reviewer` with adversarial prompt | When red-team findings are optional, not mandatory |
@@ -227,7 +235,7 @@ When the conductor needs to hand off to a fresh session due to budget constraint
 ```markdown
 ## Budget Status
 - **Delegations:** 12/20 (60%)
-- **Premium Calls:** 3/5 (planner, reviewer, security)
+- **Premium Calls:** 1/3 (security review)
 - **Est. Tokens:** ~280K / 500K
 - **Session Time:** 18 min / 30 min
 - **Zone:** 🟢 Green
@@ -239,12 +247,12 @@ All limits within normal range. Proceeding with Phase 4.
 ```markdown
 ## Budget Status
 - **Delegations:** 17/20 (85%)
-- **Premium Calls:** 4/5 (80%)
+- **Premium Calls:** 2/3 (67%)
 - **Est. Tokens:** ~410K / 500K
 - **Session Time:** 22 min / 30 min
 - **Zone:** 🟡 Yellow
 
-⚠️ **Budget Warning**: Delegations at 85% (17/20) and premium calls at 80% (4/5).
+⚠️ **Budget Warning**: Delegations at 85% (17/20) and premium calls at 67% (2/3).
 Recommendations:
 1. Consolidate remaining 2 phases into a single implementer delegation
 2. Use the `quick-review` prompt instead of full reviewer for the final phase

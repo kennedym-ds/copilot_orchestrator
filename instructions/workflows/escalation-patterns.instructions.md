@@ -1,41 +1,41 @@
 ---
-description: "Dynamic escalation framework for transitioning from cost-efficient to premium models."
+description: "Dynamic escalation framework for transitioning from execution to security-only premium models."
 applyTo: ".github/agents/implementer.agent.md,.github/agents/conductor.agent.md"
 ---
 
-# Escalation Patterns — Cost-Efficient to Premium Model Assistance
+# Escalation Patterns — Execution to Security Premium Assistance
 
 ## Overview
 
-This document defines triggers and patterns for escalating from cost-efficient models (GPT-5.3-Codex, Claude Sonnet 4.6) to premium reasoning models (Claude Opus 4.6, Claude Sonnet 4.6, GPT-5.3-Codex) during implementation phases. Escalation preserves cost efficiency while ensuring quality recovery when complexity exceeds the capabilities of execution-tier models.
+This document defines triggers and patterns for escalating from execution-tier models (GPT-5.3-Codex, Claude Sonnet 4.6) to security-only premium review (Claude Opus 4.6/4.7) during implementation phases. Escalation preserves cost efficiency while ensuring security risks receive the deepest review when warranted.
 
 Escalation is not failure — it's the Senior Principal Engineer persona in action: understand the problem first, and when the problem genuinely exceeds the current tool's capability, reach for the right one. Don't escalate out of convenience; escalate out of necessity.
 
 ## Cost-Tier Architecture
 
-**Execution Tier (80% of invocations):**
+**Execution Tier (~81% of invocations):**
 - Default models: GPT-5.3-Codex, Claude Sonnet 4.6
 - Optimized for: Structured implementation, test execution, routine refactoring
 - Tool access: `edit`, `runCommands`, `search`, `todos`, `changes`, `problems`
 - No access to: `fetch`, `githubRepo` (prevents context bloat)
 
-**Planning/Review Tier (20% of invocations):**
-- Premium models: Claude Opus 4.6, Claude Sonnet 4.6, GPT-5.3-Codex
-- Optimized for: Research, architecture decisions, ambiguity resolution, code review
+**Security Tier (<5% of invocations):**
+- Premium models: Claude Opus 4.6 / 4.7 (reviewer --security prompt override)
+- Optimized for: Threat modeling, vulnerability discovery, compliance checkpoints
 - Full tool access including `fetch`, `search`, `githubRepo`, `usages`
 
-**Expected cost reduction:** 60-75% vs. all-premium approach
+**Expected cost reduction:** Reserve Opus for explicit security review only.
 
 ## Escalation Triggers
 
 ### Tier 0.5: Effort Bump (Try Before Model Escalation)
 
-Before escalating from execution-tier to premium-tier, increase thinking effort:
+Before escalating from execution-tier to security-tier Opus, increase thinking effort:
 
 1. **Raise effort from Low → Medium or Medium → High**
    - Pattern: Agent produces shallow or incomplete output at current effort level
    - Action: Recommend user adjust thinking effort in model picker for the current model
-   - Rationale: Higher effort adds reasoning tokens at the same pricing tier — cheaper than switching to 3× premium models
+   - Rationale: Higher effort adds reasoning tokens at the same pricing tier — cheaper than switching to Opus
 
 2. **Indicators that effort bump is sufficient:**
    - Problem is well-scoped but requires more careful reasoning
@@ -44,15 +44,15 @@ Before escalating from execution-tier to premium-tier, increase thinking effort:
    - Context window has room for additional thinking tokens
 
 3. **Indicators that effort bump is NOT sufficient:**
-   - Repeated failures even at High effort — escalate to premium model
+   - Repeated failures even at High effort — escalate to Conductor or security review as appropriate
    - Task requires capabilities the current model lacks (e.g., extended context)
    - Cross-cutting concerns requiring multi-agent coordination
 
-> **Cost comparison:** Effort bump costs ~1.5× token estimate at same model price. Model escalation costs 3× multiplier. Always try effort first.
+> **Cost comparison:** Effort bump costs ~1.5× token estimate at same model price. Opus escalation is premium-priced. Always try effort first.
 
 ### Tier 1: Automatic Escalation (Implementer Must Escalate)
 
-Escalate immediately to Conductor (which may invoke premium models) when:
+Escalate immediately to Conductor (which may invoke security review) when:
 
 1. **Repeated test failures after 2+ fix attempts**
    - Pattern: Same test fails despite code changes
@@ -81,17 +81,17 @@ Consider escalating to Conductor when:
 1. **Implementation requires significant architectural changes**
    - Pattern: Minimal fix requires modifying 5+ files or introducing new abstractions
    - Action: Present options to Conductor with trade-offs before proceeding
-   - Rationale: Architecture decisions benefit from premium model reasoning
+   - Rationale: Architecture decisions benefit from planner-led structure and explicit trade-offs
 
 2. **External API integration with unclear documentation**
    - Pattern: Third-party API behavior unclear from docs alone
    - Action: Request Researcher investigation via Conductor
-   - Rationale: Research tasks benefit from `fetch` tool and premium model synthesis
+   - Rationale: Research tasks benefit from the researcher agent's tool access and synthesis
 
 3. **Context window approaching 75% capacity**
    - Pattern: Token usage warnings or truncated responses
    - Action: Request phase split or context compression from Conductor
-   - Rationale: Premium models have larger context windows and better summarization
+   - Rationale: Conductor can split phases or request summaries to reduce context pressure
 
 4. **Cross-cutting concerns affecting multiple modules**
    - Pattern: Change impacts logging, error handling, or shared utilities
@@ -156,7 +156,7 @@ When receiving escalation:
    - Tier 3: Defer to next review unless critical
 
 2. **Route to appropriate agent:**
-   - **Ambiguity/Research:** Invoke Researcher with premium model
+   - **Ambiguity/Research:** Invoke Researcher (execution tier)
    - **Architecture decisions:** Invoke Planner for options analysis
    - **Security concerns:** Invoke Security agent for threat assessment
    - **Performance issues:** Invoke Performance agent for profiling
@@ -164,7 +164,7 @@ When receiving escalation:
 
 3. **Document escalation in phase summary:**
    - Record trigger, routing decision, outcome
-   - Update cost metrics (premium vs. execution tier usage)
+   - Update cost metrics (security vs. execution tier usage)
    - Note any process improvements for future phases
 
 ## Context Overflow Prevention
@@ -200,10 +200,10 @@ When Implementer approaches context limits:
    - Start new phase with clean context + artifact reference
    - Preserve continuity without token bloat
 
-3. **Premium model escalation:**
-   - Larger context windows (Claude Sonnet 4.6: 200K, Claude Opus 4.6: 200K)
-   - Better summarization capabilities
-   - Use for complex integrations or refactorings
+3. **Security review escalation (rare):**
+   - Use Opus only when a security risk is identified
+   - Do not use as a workaround for context overflow
+   - Prefer phase splitting and summaries for large scopes
 
 ### Proactive Memory Management
 
@@ -232,8 +232,8 @@ Track escalation effectiveness in `docs/operations.md`:
    - Identify patterns requiring process improvements
 
 2. **Cost efficiency:**
-   - Premium model invocations / Total invocations
-   - Actual vs. target ratio (20% premium)
+   - Security review invocations / Total invocations
+   - Actual vs. target ratio (<5% security)
    - Cost per completed phase
 
 3. **Quality recovery rate:**

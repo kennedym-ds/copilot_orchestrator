@@ -12,6 +12,7 @@ BeforeAll {
     $sandboxHooks = Join-Path $script:sandbox "scripts/hooks"
     New-Item -ItemType Directory -Path $sandboxHooks -Force | Out-Null
     Copy-Item (Join-Path $script:hooksDir "*.ps1") -Destination $sandboxHooks -Force
+    Copy-Item (Join-Path $script:repoRoot "scripts/run-lint.ps1") -Destination (Join-Path $script:sandbox "scripts") -Force
     $script:sandboxHooks = $sandboxHooks
 }
 
@@ -102,6 +103,114 @@ Describe "session-start.ps1" {
         $last.event | Should -Be 'SessionStart'
         $last.session_id | Should -Be 'sess-abc-123'
         $last.ts | Should -Match '^\d{4}-\d{2}-\d{2}T'
+    }
+}
+
+Describe "session-stop.ps1" {
+    It "writes a SessionStop JSONL record and recap" {
+        $p = Join-Path $script:sandboxHooks "session-stop.ps1"
+        $ctx = Join-Path $script:sandbox "artifacts/memory/activeContext.md"
+        Remove-Item -LiteralPath $ctx -ErrorAction SilentlyContinue
+        '{"sessionId":"sess-stop-001","cwd":"C:/workspace"}' |
+            & powershell -NoProfile -File $p | Out-Null
+        $log = Join-Path $script:sandbox "artifacts/sessions/hooks/SessionStop.jsonl"
+        Test-Path $log | Should -BeTrue
+        $last = Get-Content $log | Select-Object -Last 1 | ConvertFrom-Json
+        $last.event | Should -Be 'SessionStop'
+        $last.session_id | Should -Be 'sess-stop-001'
+        Test-Path $ctx | Should -BeTrue
+        (Get-Content -LiteralPath $ctx -Raw) | Should -Match 'Session Recap'
+    }
+}
+
+Describe "post-tool-lint.ps1" {
+    It "logs lint telemetry when a markdown path is edited" {
+        $p = Join-Path $script:sandboxHooks "post-tool-lint.ps1"
+        $log = Join-Path $script:sandbox "artifacts/sessions/hooks/PostToolUseLint.jsonl"
+        Remove-Item -LiteralPath $log -ErrorAction SilentlyContinue
+        '{"tool_name":"edit","tool_input":{"path":"README.md"}}' |
+            & powershell -NoProfile -File $p -Agent docs | Out-Null
+        Test-Path $log | Should -BeTrue
+        $last = Get-Content $log | Select-Object -Last 1 | ConvertFrom-Json
+        $last.event | Should -Be "PostToolUseLint"
+        $last.path | Should -Be "README.md"
+        $last.agent | Should -Be "docs"
+    }
+
+    It "skips lint telemetry for non-markdown paths" {
+        $p = Join-Path $script:sandboxHooks "post-tool-lint.ps1"
+        $log = Join-Path $script:sandbox "artifacts/sessions/hooks/PostToolUseLint.jsonl"
+        Remove-Item -LiteralPath $log -ErrorAction SilentlyContinue
+        '{"tool_name":"edit","tool_input":{"path":"README.txt"}}' |
+            & powershell -NoProfile -File $p -Agent docs | Out-Null
+        Test-Path $log | Should -BeFalse
+    }
+}
+
+Describe "post-tool-format-markdown.ps1" {
+    It "trims trailing whitespace in markdown files" {
+        $p = Join-Path $script:sandboxHooks "post-tool-format-markdown.ps1"
+        $file = Join-Path $script:sandbox "README.md"
+        Set-Content -LiteralPath $file -Value @("Line one  ", "Line two") -Encoding UTF8
+        '{"tool_name":"edit","tool_exit_code":0,"tool_input":{"path":"README.md"}}' |
+            & powershell -NoProfile -File $p | Out-Null
+        (Get-Content -LiteralPath $file)[0] | Should -Be "Line one"
+        $log = Join-Path $script:sandbox "artifacts/sessions/hooks/PostToolUseMarkdownFormat.jsonl"
+        Test-Path $log | Should -BeTrue
+        $last = Get-Content $log | Select-Object -Last 1 | ConvertFrom-Json
+        $last.changed | Should -BeTrue
+    }
+}
+
+Describe "post-tool-token-report.ps1" {
+    It "records a skipped token report when opted out" {
+        $p = Join-Path $script:sandboxHooks "post-tool-token-report.ps1"
+        $log = Join-Path $script:sandbox "artifacts/sessions/hooks/PostToolUseTokenReport.jsonl"
+        Remove-Item -LiteralPath $log -ErrorAction SilentlyContinue
+        $env:COPILOT_SKIP_TOKEN_REPORT = '1'
+        '{"tool_name":"edit","tool_exit_code":0,"tool_input":{"path":"docs\\guide.md"}}' |
+            & powershell -NoProfile -File $p | Out-Null
+        Remove-Item Env:\COPILOT_SKIP_TOKEN_REPORT -ErrorAction SilentlyContinue
+        Test-Path $log | Should -BeTrue
+        $last = Get-Content $log | Select-Object -Last 1 | ConvertFrom-Json
+        $last.skipped | Should -BeTrue
+    }
+}
+
+Describe "post-tool-dependency-check.ps1" {
+    It "logs a recommendation when dependency files change" {
+        $p = Join-Path $script:sandboxHooks "post-tool-dependency-check.ps1"
+        $log = Join-Path $script:sandbox "artifacts/sessions/hooks/PostToolUseDependencyCheck.jsonl"
+        Remove-Item -LiteralPath $log -ErrorAction SilentlyContinue
+        $env:COPILOT_AUTO_INSTALL = '0'
+        '{"tool_name":"edit","tool_exit_code":0,"tool_input":{"path":"requirements.txt"}}' |
+            & powershell -NoProfile -File $p | Out-Null
+        Remove-Item Env:\COPILOT_AUTO_INSTALL -ErrorAction SilentlyContinue
+        Test-Path $log | Should -BeTrue
+        $last = Get-Content $log | Select-Object -Last 1 | ConvertFrom-Json
+        $last.dependency_type | Should -Be 'python-requirements'
+        $last.ran_install | Should -BeFalse
+    }
+}
+
+Describe "post-tool-large-edit.ps1" {
+    It "emits a warning event for oversized edits" {
+        $p = Join-Path $script:sandboxHooks "post-tool-large-edit.ps1"
+        $log = Join-Path $script:sandbox "artifacts/sessions/hooks/PostToolUseLargeEdit.jsonl"
+        Remove-Item -LiteralPath $log -ErrorAction SilentlyContinue
+        $payload = @{
+            tool_name = "edit"
+            tool_exit_code = 0
+            tool_input = @{
+                path = "README.md"
+                content = "a`n b`n c`n d`n e`n f"
+            }
+        } | ConvertTo-Json -Depth 6
+        $payload | & powershell -NoProfile -File $p -LineThreshold 5 | Out-Null
+        Test-Path $log | Should -BeTrue
+        $last = Get-Content $log | Select-Object -Last 1 | ConvertFrom-Json
+        $last.line_count | Should -BeGreaterThan 5
+        $last.threshold | Should -Be 5
     }
 }
 

@@ -1,7 +1,7 @@
 ---
 title: "Copilot CLI Onboarding Guide"
-version: "1.2.0"
-lastUpdated: "2026-04-23"
+version: "1.2.1"
+lastUpdated: "2026-04-28"
 status: stable
 ---
 
@@ -305,7 +305,7 @@ VS Code 1.117+ (Business and Enterprise) lets you connect your own API keys for 
 3. The added models appear in the model picker alongside Copilot-provided models
 4. To make a BYOK model available to an agent, add it to the agent's `model:` frontmatter fallback array
 
-BYOK models count toward your Copilot premium request quota. Enterprise admins can disable BYOK via the **Bring Your Own Language Model Key** group policy.
+BYOK usage is billed by your provider and does not consume Copilot AI credits. BYOK does not apply to code completions. Enterprise admins can disable BYOK via the **Bring Your Own Language Model Key** group policy.
 
 ## Foreground Terminal Integration (VS Code 1.116+)
 

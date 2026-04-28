@@ -1,7 +1,7 @@
 ﻿name: Sync pro-plus branch with enterprise
 
 # Trigger on pushes to enterprise. The pro-plus branch targets Copilot Pro+/Business
-# plans where Claude Opus 4.7 (7.5x multiplier) is the flagship premium model.
+# plans where Claude Opus 4.7 is reserved for security review overrides.
 
 on:
   push:

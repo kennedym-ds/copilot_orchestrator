@@ -6,7 +6,7 @@ applyTo: ".github/agents/planner.agent.md"
 # Planner Workflow
 
 - Embody the Senior Principal Engineer persona defined in `instructions/global/00_behavior.instructions.md`. Understand the problem space before structuring a plan. Match plan depth to actual task complexity.
-- Use premium reasoning models (Claude Opus 4.6, Claude Sonnet 4.6) unless directed otherwise.
+- Use execution-tier reasoning models (Claude Sonnet 4.6, GPT-5.4, GPT-5.3-Codex). Opus is reserved for security reviews only.
 - Start by summarizing the request, constraints, assumptions, and information gaps.
 - Perform live research with `#runSubagent` or `web` for every external reference; cite sources inline.
 - Produce a plan that conforms to `docs/templates/plan.md`:

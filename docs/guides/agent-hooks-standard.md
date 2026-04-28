@@ -1,6 +1,6 @@
 ---
 title: "Agent hooks standard"
-version: "3.0.0"
+version: "3.1.0"
 lastUpdated: "2026-04-23"
 status: "active"
 reviewOwners:
@@ -94,11 +94,13 @@ All hook scripts dot-source `_common.ps1` which provides:
 
 | Event | Script | Purpose |
 |-------|--------|---------|
+| `SessionStart` | `session-start.ps1` | Inject runtime context (Python/venv, repo metadata) |
 | `UserPromptSubmit` | `user-prompt-submit.ps1` | Budget cap check; warn at 80% |
 | `SubagentStart` | `subagent-start.ps1` | Enforce nested-subagent allowlist; exit 1 on violation |
 | `SubagentStop` | `subagent-stop.ps1` | Log completion metrics |
 | `PostToolUse` | `post-tool-failure.ps1` | Capture tool failures (exit_code ≠ 0) to JSONL |
 | `PreCompact` | `pre-compact.ps1` | Copy transcript to snapshots before compaction |
+| `Stop` | `session-stop.ps1` | Append a session recap and emit SessionStop JSONL |
 
 ### reviewer
 
@@ -111,8 +113,24 @@ All hook scripts dot-source `_common.ps1` which provides:
 | Event | Script | Purpose |
 |-------|--------|---------|
 | `PostToolUse` | `validate-copilot-assets.ps1 -RepositoryRoot .` | Re-validate assets after every tool use |
+| `PostToolUse` | `post-tool-lint.ps1 -Agent implementer` | Run markdown lint when a `.md` file is edited |
+| `PostToolUse` | `post-tool-format-markdown.ps1` | Trim trailing whitespace in Markdown edits |
+| `PostToolUse` | `post-tool-token-report.ps1` | Run token report for docs-related Markdown edits |
+| `PostToolUse` | `post-tool-dependency-check.ps1` | Recommend install when dependency files change |
+| `PostToolUse` | `post-tool-large-edit.ps1` | Warn on oversized edits for review clarity |
 
-### All other agents (docs, test, researcher, iac, gui-tester, ux, translator, translation-*)
+### docs
+
+| Event | Script | Purpose |
+|-------|--------|---------|
+| `PostToolUse` | `capture-error.ps1 -Agent docs` | Log failed tool calls to `artifacts/sessions/docs-errors/` |
+| `PostToolUse` | `post-tool-lint.ps1 -Agent docs` | Run markdown lint when a `.md` file is edited |
+| `PostToolUse` | `post-tool-format-markdown.ps1` | Trim trailing whitespace in Markdown edits |
+| `PostToolUse` | `post-tool-token-report.ps1` | Run token report for docs-related Markdown edits |
+| `PostToolUse` | `post-tool-dependency-check.ps1` | Recommend install when dependency files change |
+| `PostToolUse` | `post-tool-large-edit.ps1` | Warn on oversized edits for review clarity |
+
+### All other agents (test, researcher, iac, gui-tester, ux, translator, translation-*)
 
 | Event | Script | Purpose |
 |-------|--------|---------|
@@ -138,12 +156,19 @@ All hook scripts dot-source `_common.ps1` which provides:
 
 ## JSONL output locations
 
+Every JSONL record includes `event` + `ts`, and adds `session_id` when VS Code provides it.
+
 ```
 artifacts/sessions/hooks/
 ├── SubagentStart.jsonl       # Every subagent invocation (allowed + denied)
 ├── SubagentStop.jsonl        # Subagent completions
 ├── PostToolUse.jsonl         # Tool failures captured by conductor
+├── PostToolUseDependencyCheck.jsonl
+├── PostToolUseLargeEdit.jsonl
+├── PostToolUseMarkdownFormat.jsonl
+├── PostToolUseTokenReport.jsonl
 ├── PreCompact.jsonl
+├── SessionStop.jsonl
 ├── UserPromptSubmit.jsonl
 └── snapshots/                # pre-compact-<timestamp>.txt context snapshots
 artifacts/sessions/hooks-errors.jsonl  # legacy error stream

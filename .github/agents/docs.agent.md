@@ -2,13 +2,28 @@
 name: docs
 description: "Generates and reviews documentation, onboarding materials, and knowledge artifacts."
 argument-hint: "Request documentation updates, onboarding materials, or knowledge artifacts"
-model: ['Claude Haiku 4.5 (copilot)', 'GPT-5.4 mini (copilot)', 'GPT-5 mini (copilot)']
+model: ['Claude Haiku 4.5 (copilot)', 'GPT-5.4 mini (copilot)']
 thinkingEffort: medium
 hooks:
   PostToolUse:
     - type: command
       command: "pwsh -File scripts/hooks/capture-error.ps1 -Agent docs"
       windows: "powershell -File scripts/hooks/capture-error.ps1 -Agent docs"
+    - type: command
+      command: "pwsh -File scripts/hooks/post-tool-lint.ps1 -Agent docs"
+      windows: "powershell -File scripts/hooks/post-tool-lint.ps1 -Agent docs"
+    - type: command
+      command: "pwsh -File scripts/hooks/post-tool-format-markdown.ps1"
+      windows: "powershell -File scripts/hooks/post-tool-format-markdown.ps1"
+    - type: command
+      command: "pwsh -File scripts/hooks/post-tool-token-report.ps1"
+      windows: "powershell -File scripts/hooks/post-tool-token-report.ps1"
+    - type: command
+      command: "pwsh -File scripts/hooks/post-tool-dependency-check.ps1"
+      windows: "powershell -File scripts/hooks/post-tool-dependency-check.ps1"
+    - type: command
+      command: "pwsh -File scripts/hooks/post-tool-large-edit.ps1"
+      windows: "powershell -File scripts/hooks/post-tool-large-edit.ps1"
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, problems, edit, execute, askQuestions]
 handoffs:
   - label: Return to Conductor

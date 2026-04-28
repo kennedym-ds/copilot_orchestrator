@@ -1,0 +1,344 @@
+Validation run started at 23/04/2026 16:20:23.79
+Running validate-copilot-assets...
+Scanning Copilot assets under C:\Users\Micha\OneDrive\Documents\Projects\copilot_orchestrator ...
+A›"ƒ?Ý All Copilot assets passed validation.
+Running lint...
+Lint findings:
+  [Warning] .github\agents\translation-conductor.agent.md:187 - Line length 431 exceeds maximum 400 characters.
+  [Warning] .github\skills\conductor-lifecycle\SKILL.md:287 - Line length 466 exceeds maximum 400 characters.
+  [Warning] AGENTS.md:167 - Line length 414 exceeds maximum 400 characters.
+  [Warning] docs\guides\memory-management.md:209 - Trailing whitespace detected.
+  [Warning] docs\guides\memory-management.md:230 - Trailing whitespace detected.
+  [Warning] docs\guides\memory-management.md:238 - Trailing whitespace detected.
+  [Warning] docs\guides\policy-and-operations.md:21 - Line length 407 exceeds maximum 400 characters.
+  [Warning] docs\guides\vscode-copilot-configuration.md:219 - Line length 443 exceeds maximum 400 characters.
+  [Warning] docs\guides\vscode-copilot-configuration.md:338 - Line length 409 exceeds maximum 400 characters.
+  [Warning] INSTRUCTION_CHANGELOG.md:145 - Line length 785 exceeds maximum 400 characters.
+  [Warning] INSTRUCTION_CHANGELOG.md:189 - Line length 414 exceeds maximum 400 characters.
+  [Warning] INSTRUCTION_CHANGELOG.md:222 - Line length 483 exceeds maximum 400 characters.
+  [Warning] INSTRUCTION_CHANGELOG.md:500 - Line length 455 exceeds maximum 400 characters.
+  [Warning] INSTRUCTION_CHANGELOG.md:524 - Line length 440 exceeds maximum 400 characters.
+  [Warning] plans\copilot-subagents-research.md:3 - Line length 493 exceeds maximum 400 characters.
+  [Warning] plans\copilot-subagents-research.md:12 - Line length 1562 exceeds maximum 400 characters.
+  [Warning] plans\copilot-subagents-research.md:31 - Line length 746 exceeds maximum 400 characters.
+  [Warning] plans\copilot-subagents-research.md:32 - Line length 949 exceeds maximum 400 characters.
+  [Warning] plans\copilot-subagents-research.md:48 - Line length 483 exceeds maximum 400 characters.
+  [Warning] plans\copilot-subagents-research.md:53 - Line length 719 exceeds maximum 400 characters.
+  [Warning] plans\copilot-subagents-research-phase-3-complete.md:3 - Line length 520 exceeds maximum 400 characters.
+  [Warning] plans\copilot-subagents-research-phase-3-plan.md:11 - Line length 680 exceeds maximum 400 characters.
+  [Warning] plans\copilot-subagents-research-phase-3-plan.md:13 - Line length 470 exceeds maximum 400 characters.
+  [Warning] plans\copilot-subagents-research-phase-3-plan.md:22 - Line length 472 exceeds maximum 400 characters.
+  [Warning] plans\copilot-subagents-research-phase-3-plan.md:23 - Line length 470 exceeds maximum 400 characters.
+  [Warning] plans\copilot-subagents-research-phase-3-plan.md:33 - Line length 426 exceeds maximum 400 characters.
+  [Warning] plans\copilot-subagents-research-phase-3-plan.md:34 - Line length 455 exceeds maximum 400 characters.
+  [Warning] plans\ds-star-integration-complete.md:18 - Line length 435 exceeds maximum 400 characters.
+  [Warning] plans\ds-star-routing-alignment-complete.md:3 - Line length 467 exceeds maximum 400 characters.
+  [Warning] plans\ds-star-routing-alignment-complete.md:105 - Line length 607 exceeds maximum 400 characters.
+  [Warning] plans\ds-star-routing-alignment-plan.md:92 - Line length 441 exceeds maximum 400 characters.
+Running smoke tests...
+[PASS] Root instructions exist
+[PASS] Validation scripts runnable
+[PASS] plans directory populated
+Running Pester (fast)...
+[95mPester v5.7.1[0m
+[95m
+[95mStarting discovery in 3 files.[0m
+[95mDiscovery found 162 tests in 334ms.[0m
+[95mFilter 'ExcludeTag' set to ('Slow').[0m
+[95mFilters selected 159 tests to run.[0m
+[95mRunning tests.[0m
+[95m
+[95mRunning tests from 'Test-AgentTooling.Tests.ps1'[0m
+[92mDescribing Agent Tooling Requirements[0m
+[32m  [+] Agents directory exists[0m[90m 66ms (38ms|28ms)[0m
+[32m  [+] Found at least one agent file[0m[90m 9ms (8ms|1ms)[0m
+[96m Context conductor.agent.md[0m
+[32m   [+] has a tools declaration[0m[90m 17ms (13ms|4ms)[0m
+[32m   [+] includes agent tool[0m[90m 8ms (8ms|1ms)[0m
+[32m   [+] includes read tool[0m[90m 4ms (3ms|1ms)[0m
+[32m   [+] includes edit tool (role-appropriate)[0m[90m 3ms (2ms|1ms)[0m
+[32m   [+] includes execute tool (role-appropriate)[0m[90m 2ms (2ms|1ms)[0m
+[96m Context docs.agent.md[0m
+[32m   [+] has a tools declaration[0m[90m 3ms (1ms|3ms)[0m
+[32m   [+] includes agent tool[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] includes read tool[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] includes edit tool (role-appropriate)[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] includes execute tool (role-appropriate)[0m[90m 2ms (1ms|1ms)[0m
+[96m Context gui-tester.agent.md[0m
+[32m   [+] has a tools declaration[0m[90m 5ms (1ms|4ms)[0m
+[32m   [+] includes agent tool[0m[90m 3ms (1ms|2ms)[0m
+[32m   [+] includes read tool[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] includes edit tool (role-appropriate)[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] includes execute tool (role-appropriate)[0m[90m 1ms (1ms|1ms)[0m
+[96m Context iac.agent.md[0m
+[32m   [+] has a tools declaration[0m[90m 5ms (2ms|3ms)[0m
+[32m   [+] includes agent tool[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] includes read tool[0m[90m 3ms (2ms|1ms)[0m
+[32m   [+] includes edit tool (role-appropriate)[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] includes execute tool (role-appropriate)[0m[90m 2ms (1ms|1ms)[0m
+[96m Context implementer.agent.md[0m
+[32m   [+] has a tools declaration[0m[90m 3ms (1ms|2ms)[0m
+[32m   [+] includes agent tool[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] includes read tool[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] includes edit tool (role-appropriate)[0m[90m 3ms (2ms|1ms)[0m
+[32m   [+] includes execute tool (role-appropriate)[0m[90m 2ms (1ms|1ms)[0m
+[96m Context ops.agent.md[0m
+[32m   [+] has a tools declaration[0m[90m 3ms (1ms|2ms)[0m
+[32m   [+] includes agent tool[0m[90m 3ms (2ms|1ms)[0m
+[32m   [+] includes read tool[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] includes edit tool (role-appropriate)[0m[90m 1ms (1ms|1ms)[0m
+[32m   [+] includes execute tool (role-appropriate)[0m[90m 1ms (1ms|1ms)[0m
+[96m Context planner.agent.md[0m
+[32m   [+] has a tools declaration[0m[90m 6ms (3ms|3ms)[0m
+[32m   [+] includes agent tool[0m[90m 3ms (2ms|1ms)[0m
+[32m   [+] includes read tool[0m[90m 1ms (1ms|1ms)[0m
+[93m   [!] includes edit tool (role-appropriate)[0m[90m 4ms (0ms|4ms)[0m
+[93m   [!] includes execute tool (role-appropriate)[0m[90m 1ms (0ms|1ms)[0m
+[96m Context researcher.agent.md[0m
+[32m   [+] has a tools declaration[0m[90m 6ms (2ms|5ms)[0m
+[32m   [+] includes agent tool[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] includes read tool[0m[90m 4ms (3ms|1ms)[0m
+[93m   [!] includes edit tool (role-appropriate)[0m[90m 0ms (0ms|0ms)[0m
+[93m   [!] includes execute tool (role-appropriate)[0m[90m 0ms (0ms|0ms)[0m
+[96m Context reviewer.agent.md[0m
+[32m   [+] has a tools declaration[0m[90m 4ms (1ms|3ms)[0m
+[32m   [+] includes agent tool[0m[90m 1ms (1ms|1ms)[0m
+[32m   [+] includes read tool[0m[90m 1ms (1ms|1ms)[0m
+[93m   [!] includes edit tool (role-appropriate)[0m[90m 1ms (0ms|1ms)[0m
+[93m   [!] includes execute tool (role-appropriate)[0m[90m 0ms (0ms|0ms)[0m
+[96m Context test.agent.md[0m
+[32m   [+] has a tools declaration[0m[90m 3ms (1ms|2ms)[0m
+[32m   [+] includes agent tool[0m[90m 1ms (1ms|1ms)[0m
+[32m   [+] includes read tool[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] includes edit tool (role-appropriate)[0m[90m 1ms (1ms|1ms)[0m
+[32m   [+] includes execute tool (role-appropriate)[0m[90m 2ms (1ms|1ms)[0m
+[96m Context translation-analyzer.agent.md[0m
+[32m   [+] has a tools declaration[0m[90m 4ms (2ms|3ms)[0m
+[32m   [+] includes agent tool[0m[90m 3ms (3ms|0ms)[0m
+[32m   [+] includes read tool[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] includes edit tool (role-appropriate)[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] includes execute tool (role-appropriate)[0m[90m 1ms (1ms|0ms)[0m
+[96m Context translation-conductor.agent.md[0m
+[32m   [+] has a tools declaration[0m[90m 2ms (1ms|2ms)[0m
+[32m   [+] includes agent tool[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] includes read tool[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] includes edit tool (role-appropriate)[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] includes execute tool (role-appropriate)[0m[90m 2ms (1ms|1ms)[0m
+[96m Context translation-styler.agent.md[0m
+[32m   [+] has a tools declaration[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] includes agent tool[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] includes read tool[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] includes edit tool (role-appropriate)[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] includes execute tool (role-appropriate)[0m[90m 1ms (1ms|0ms)[0m
+[96m Context translation-validator.agent.md[0m
+[32m   [+] has a tools declaration[0m[90m 3ms (1ms|2ms)[0m
+[32m   [+] includes agent tool[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] includes read tool[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] includes edit tool (role-appropriate)[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] includes execute tool (role-appropriate)[0m[90m 1ms (1ms|0ms)[0m
+[96m Context translator.agent.md[0m
+[32m   [+] has a tools declaration[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] includes agent tool[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] includes read tool[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] includes edit tool (role-appropriate)[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] includes execute tool (role-appropriate)[0m[90m 3ms (1ms|2ms)[0m
+[96m Context ux.agent.md[0m
+[32m   [+] has a tools declaration[0m[90m 2ms (1ms|2ms)[0m
+[32m   [+] includes agent tool[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] includes read tool[0m[90m 1ms (1ms|0ms)[0m
+[93m   [!] includes edit tool (role-appropriate)[0m[90m 0ms (0ms|0ms)[0m
+[93m   [!] includes execute tool (role-appropriate)[0m[90m 0ms (0ms|0ms)[0m
+[0m
+[92mDescribing Agent Structural Requirements[0m
+[96m Context conductor.agent.md[0m
+[32m   [+] has a Boundaries section[0m[90m 6ms (2ms|4ms)[0m
+[32m   [+] has a Delegation section[0m[90m 3ms (2ms|1ms)[0m
+[32m   [+] has a Workflow section[0m[90m 2ms (2ms|0ms)[0m
+[32m   [+] has an Output Contract section[0m[90m 2ms (1ms|0ms)[0m
+[96m Context docs.agent.md[0m
+[32m   [+] has a Boundaries section[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] has a Delegation section[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] has a Workflow section[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] has an Output Contract section[0m[90m 1ms (1ms|0ms)[0m
+[96m Context gui-tester.agent.md[0m
+[32m   [+] has a Boundaries section[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] has a Delegation section[0m[90m 3ms (1ms|3ms)[0m
+[32m   [+] has a Workflow section[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] has an Output Contract section[0m[90m 1ms (1ms|0ms)[0m
+[96m Context iac.agent.md[0m
+[32m   [+] has a Boundaries section[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] has a Delegation section[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] has a Workflow section[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] has an Output Contract section[0m[90m 1ms (1ms|0ms)[0m
+[96m Context implementer.agent.md[0m
+[32m   [+] has a Boundaries section[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] has a Delegation section[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] has a Workflow section[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] has an Output Contract section[0m[90m 1ms (1ms|1ms)[0m
+[96m Context ops.agent.md[0m
+[32m   [+] has a Boundaries section[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] has a Delegation section[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] has a Workflow section[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] has an Output Contract section[0m[90m 1ms (1ms|0ms)[0m
+[96m Context planner.agent.md[0m
+[32m   [+] has a Boundaries section[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] has a Delegation section[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] has a Workflow section[0m[90m 1ms (1ms|1ms)[0m
+[32m   [+] has an Output Contract section[0m[90m 1ms (1ms|0ms)[0m
+[96m Context researcher.agent.md[0m
+[32m   [+] has a Boundaries section[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] has a Delegation section[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] has a Workflow section[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] has an Output Contract section[0m[90m 1ms (1ms|0ms)[0m
+[96m Context reviewer.agent.md[0m
+[32m   [+] has a Boundaries section[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] has a Delegation section[0m[90m 5ms (4ms|0ms)[0m
+[32m   [+] has a Workflow section[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] has an Output Contract section[0m[90m 1ms (1ms|0ms)[0m
+[96m Context test.agent.md[0m
+[32m   [+] has a Boundaries section[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] has a Delegation section[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] has a Workflow section[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] has an Output Contract section[0m[90m 1ms (1ms|0ms)[0m
+[96m Context translation-analyzer.agent.md[0m
+[32m   [+] has a Boundaries section[0m[90m 2ms (1ms|2ms)[0m
+[32m   [+] has a Delegation section[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] has a Workflow section[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] has an Output Contract section[0m[90m 1ms (1ms|0ms)[0m
+[96m Context translation-conductor.agent.md[0m
+[32m   [+] has a Boundaries section[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] has a Delegation section[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] has a Workflow section[0m[90m 1ms (1ms|0ms)[0m
+[32m   [+] has an Output Contract section[0m[90m 1ms (1ms|0ms)[0m
+[96m Context translation-styler.agent.md[0m
+[32m   [+] has a Boundaries section[0m[90m 4ms (1ms|3ms)[0m
+[32m   [+] has a Delegation section[0m[90m 1ms (1ms|1ms)[0m
+[32m   [+] has a Workflow section[0m[90m 1ms (1ms|1ms)[0m
+[32m   [+] has an Output Contract section[0m[90m 2ms (1ms|1ms)[0m
+[96m Context translation-validator.agent.md[0m
+[32m   [+] has a Boundaries section[0m[90m 4ms (2ms|3ms)[0m
+[32m   [+] has a Delegation section[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] has a Workflow section[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] has an Output Contract section[0m[90m 1ms (1ms|0ms)[0m
+[96m Context translator.agent.md[0m
+[32m   [+] has a Boundaries section[0m[90m 5ms (1ms|4ms)[0m
+[32m   [+] has a Delegation section[0m[90m 3ms (2ms|1ms)[0m
+[32m   [+] has a Workflow section[0m[90m 2ms (1ms|1ms)[0m
+[32m   [+] has an Output Contract section[0m[90m 1ms (1ms|1ms)[0m
+[96m Context ux.agent.md[0m
+[32m   [+] has a Boundaries section[0m[90m 2ms (1ms|2ms)[0m
+[32m   [+] has a Delegation section[0m[90m 1ms (1ms|1ms)[0m
+[32m   [+] has a Workflow section[0m[90m 1ms (1ms|1ms)[0m
+[32m   [+] has an Output Contract section[0m[90m 2ms (1ms|1ms)[0m
+[95m
+[95mRunning tests from 'Test-Hooks.Tests.ps1'[0m
+[92mDescribing subagent-start.ps1[0m
+[32m  [+] exits 0 on an allowed edge (implementer -> test, depth 1)[0m[90m 341ms (338ms|4ms)[0m
+[32m  [+] exits 1 on a disallowed edge (implementer -> reviewer)[0m[90m 299ms (298ms|1ms)[0m
+[32m  [+] exits 1 when depth exceeds cap (2)[0m[90m 299ms (298ms|1ms)[0m
+[32m  [+] writes a structured JSONL record to hooks/SubagentStart.jsonl[0m[90m 341ms (340ms|1ms)[0m
+[32m  [+] emits additionalContext JSON to stdout on an allowed edge[0m[90m 306ms (305ms|1ms)[0m
+[32m  [+] does not emit additionalContext on a disallowed edge[0m[90m 304ms (303ms|1ms)[0m
+[0m
+[92mDescribing session-start.ps1[0m
+[32m  [+] emits additionalContext containing project name and validate command[0m[90m 306ms (302ms|4ms)[0m
+[32m  [+] writes a SessionStart JSONL record with session_id[0m[90m 282ms (282ms|1ms)[0m
+[0m
+[92mDescribing _common.ps1 Write-HookEvent[0m
+[32m  [+] emits a record with event + ts + payload fields[0m[90m 309ms (305ms|4ms)[0m
+[0m
+[92mDescribing task-completed.ps1 JSON round-trip[0m
+[32m  [+] mutates the matching task's status and preserves siblings[0m[90m 332ms (330ms|2ms)[0m
+[32m  [+] no-ops silently when task id does not match any entry[0m[90m 298ms (298ms|1ms)[0m
+[95m
+[95mRunning tests from 'ValidationScripts.Tests.ps1'[0m
+[92mDescribing Copilot validation scripts[0m
+[32m  [+] validate-copilot-assets.ps1 completes successfully[0m[90m 563ms (561ms|2ms)[0m
+[32m  [+] add-prompt-metadata.ps1 passes in check-only mode[0m[90m 44ms (43ms|1ms)[0m
+[97mTests completed in 5.92s[0m
+[32mTests Passed: 151, [0m[90mFailed: 0, [0m[93mSkipped: 8, [0m[90mInconclusive: 0, [0m[37m[0m[37mNotRun: 3[0m
+Running pytest...
+============================= test session starts =============================
+platform win32 -- Python 3.14.3, pytest-9.0.2, pluggy-1.6.0 -- C:\Python314\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Micha\OneDrive\Documents\Projects\copilot_orchestrator
+plugins: anyio-4.12.1, cov-7.0.0
+collecting ... collected 52 items
+
+tests/mcp/test_analytics_server.py::TestAnalyticsServer::test_get_metrics_returns_string PASSED [  1%]
+tests/mcp/test_analytics_server.py::TestAnalyticsServer::test_get_session_missing_file PASSED [  3%]
+tests/mcp/test_analytics_server.py::TestAnalyticsServer::test_list_artifacts_returns_json PASSED [  5%]
+tests/mcp/test_analytics_server.py::TestAnalyticsServer::test_list_sessions_empty PASSED [  7%]
+tests/mcp/test_analytics_server.py::TestAnalyticsServer::test_module_exists PASSED [  9%]
+tests/mcp/test_analytics_server.py::TestAnalyticsServer::test_prompt_functions_return_strings PASSED [ 11%]
+tests/mcp/test_analytics_server.py::TestAnalyticsServer::test_repo_root_resolved PASSED [ 13%]
+tests/mcp/test_analytics_server.py::TestAnalyticsServer::test_resource_functions_return_strings PASSED [ 15%]
+tests/mcp/test_analytics_server.py::TestAnalyticsServer::test_safe_read_missing_file PASSED [ 17%]
+tests/mcp/test_analytics_server.py::TestAnalyticsServer::test_search_artifacts_empty_query PASSED [ 19%]
+tests/mcp/test_analytics_server.py::TestAnalyticsServer::test_ui_budget_card_envelope PASSED [ 21%]
+tests/mcp/test_analytics_server.py::TestAnalyticsServer::test_ui_delegations_table_envelope PASSED [ 23%]
+tests/mcp/test_analytics_server.py::TestLoopMetrics::test_loop_metrics_handles_missing_hooks_dir PASSED [ 25%]
+tests/mcp/test_analytics_server.py::TestLoopMetrics::test_loop_metrics_returns_json PASSED [ 26%]
+tests/mcp/test_design_server.py::TestDesignServer::test_check_contrast PASSED [ 28%]
+tests/mcp/test_design_server.py::TestDesignServer::test_get_brand_palette PASSED [ 30%]
+tests/mcp/test_design_server.py::TestDesignServer::test_module_exists PASSED [ 32%]
+tests/mcp/test_design_server.py::TestDesignServer::test_search_components PASSED [ 34%]
+tests/mcp/test_translation_server.py::TestTranslationServer::test_analyze_imports_rejects_outside_repo PASSED [ 36%]
+tests/mcp/test_translation_server.py::TestTranslationServer::test_calculate_confidence_clamps_out_of_range PASSED [ 38%]
+tests/mcp/test_translation_server.py::TestTranslationServer::test_calculate_confidence_medium_band PASSED [ 40%]
+tests/mcp/test_translation_server.py::TestTranslationServer::test_calculate_confidence_perfect_scores PASSED [ 42%]
+tests/mcp/test_translation_server.py::TestTranslationServer::test_calculate_confidence_weights_sum_to_one PASSED [ 44%]
+tests/mcp/test_translation_server.py::TestTranslationServer::test_calculate_confidence_zero_scores PASSED [ 46%]
+tests/mcp/test_translation_server.py::TestTranslationServer::test_calculate_repo_confidence_band_distribution PASSED [ 48%]
+tests/mcp/test_translation_server.py::TestTranslationServer::test_calculate_repo_confidence_empty_list PASSED [ 50%]
+tests/mcp/test_translation_server.py::TestTranslationServer::test_calculate_repo_confidence_invalid_json PASSED [ 51%]
+tests/mcp/test_translation_server.py::TestTranslationServer::test_calculate_repo_confidence_weighted_average PASSED [ 53%]
+tests/mcp/test_translation_server.py::TestTranslationServer::test_get_translation_status_returns_valid_json PASSED [ 55%]
+tests/mcp/test_translation_server.py::TestTranslationServer::test_load_state_falls_back_on_corrupt_json PASSED [ 57%]
+tests/mcp/test_translation_server.py::TestTranslationServer::test_load_state_returns_default_when_no_file PASSED [ 59%]
+tests/mcp/test_translation_server.py::TestTranslationServer::test_module_exists PASSED [ 61%]
+tests/mcp/test_translation_server.py::TestTranslationServer::test_repo_root_resolved PASSED [ 63%]
+tests/mcp/test_translation_server.py::TestTranslationServer::test_save_and_load_state_round_trip PASSED [ 65%]
+tests/mcp/test_translation_server.py::TestTranslationServer::test_suggest_target_dependencies_known_mapping PASSED [ 67%]
+tests/mcp/test_translation_server.py::TestTranslationServer::test_suggest_target_dependencies_unknown_mapping PASSED [ 69%]
+tests/mcp/test_translation_server.py::TestTranslationServer::test_suggest_target_dependencies_unsupported_pair PASSED [ 71%]
+tests/mcp/test_translation_server.py::TestTranslationServer::test_update_module_status_invalid_status PASSED [ 73%]
+tests/mcp/test_translation_server.py::TestTranslationServer::test_update_module_status_module_not_found PASSED [ 75%]
+tests/mcp/test_translation_server.py::TestTranslationServer::test_update_module_status_updates_and_persists PASSED [ 76%]
+tests/mcp/test_translation_server.py::TestTranslationServer::test_validate_path_accepts_repo_file PASSED [ 78%]
+tests/mcp/test_translation_server.py::TestTranslationServer::test_validate_path_rejects_outside_repo PASSED [ 80%]
+tests/mcp/test_validation_server.py::TestValidationServer::test_module_exists PASSED [ 82%]
+tests/mcp/test_validation_server.py::TestValidationServer::test_prompt_functions_return_strings PASSED [ 84%]
+tests/mcp/test_validation_server.py::TestValidationServer::test_repo_root_resolved PASSED [ 86%]
+tests/mcp/test_validation_server.py::TestValidationServer::test_resource_functions_return_strings PASSED [ 88%]
+tests/mcp/test_validation_server.py::TestValidationServer::test_run_lint_returns_json PASSED [ 90%]
+tests/mcp/test_validation_server.py::TestValidationServer::test_run_powershell_missing_script PASSED [ 92%]
+tests/mcp/test_validation_server.py::TestValidationServer::test_run_powershell_timeout PASSED [ 94%]
+tests/mcp/test_validation_server.py::TestValidationServer::test_token_report_returns_json PASSED [ 96%]
+tests/mcp/test_validation_server.py::TestValidationServer::test_validate_assets_failure PASSED [ 98%]
+tests/mcp/test_validation_server.py::TestValidationServer::test_validate_assets_success PASSED [100%]
+
+============================= 52 passed in 0.25s ==============================
+Running token report...
+Token budget summary for C:\Users\Micha\OneDrive\Documents\Projects\copilot_orchestrator
+  agents             32263
+  docs              110049
+  instructions       81446
+  prompts             9786
+  total             233544
+  (Note: Total is informational; per-file limits are enforced)
+
+WARNING: Found 2 file(s) exceeding per-file token limit of 10000:
+WARNING:   docs\guides\vscode-copilot-configuration.md (docs): 15346 tokens (+5346 / +53.5%)
+WARNING:   docs\CHANGELOG.md (docs): 12945 tokens (+2945 / +29.4%)
+
+Largest files by token count:
+  [WARN] docs\guides\vscode-copilot-configuration.md         15346 tokens
+  [WARN] docs\CHANGELOG.md                                   12945 tokens
+  [OK] docs\guides\agent-skills-pilot.md                    4984 tokens
+  [OK] docs\guides\prompt-engineering-by-tier.md            4728 tokens
+  [OK] docs\guides\memory-management.md                     4522 tokens
+
+INFO: Total token count 233544 exceeds informational threshold 150000.
+      (Per-file limits are the primary enforcement mechanism)
+All checks completed.

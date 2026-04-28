@@ -35,6 +35,10 @@ hooks:
     - type: command
       command: "pwsh -File scripts/hooks/pre-compact.ps1"
       windows: "powershell -File scripts/hooks/pre-compact.ps1"
+  Stop:
+    - type: command
+      command: "pwsh -File scripts/hooks/session-stop.ps1"
+      windows: "powershell -File scripts/hooks/session-stop.ps1"
 tools: [agent, todo, web, search, githubRepo, changes, edit, execute, read, fileSearch, problems, askQuestions]
 handoffs:
   - label: Engage Planner
@@ -257,4 +261,3 @@ When running under `copilot` CLI (VS Code 1.113+), prefer native slash commands 
 | `/remote` | Long-running ULTRADEEP sessions | Enables laptop-sleep-safe continuation. |
 
 `/fleet` coexists with our `team-state.json` telemetry — native command drives execution, hooks feed analytics.
-

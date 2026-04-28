@@ -35,7 +35,7 @@ Complexity scales the ceremony:
 | Agent | File | Tier | Purpose |
 |-------|------|------|---------|
 | Conductor | `conductor.agent.md` | Execution | Lifecycle orchestration, delegation, pause points |
-| Planner | `planner.agent.md` | Premium | Multi-phase planning, risk analysis |
+| Planner | `planner.agent.md` | Execution | Multi-phase planning, risk analysis |
 | Reviewer | `reviewer.agent.md` | Execution | Multi-mode review (security mode pins Opus) |
 | Implementer | `implementer.agent.md` | Execution | TDD execution, validation |
 | Researcher | `researcher.agent.md` | Execution | Evidence gathering, citation |
@@ -64,9 +64,9 @@ All agents use fallback arrays and a `thinkingEffort:` hint. VS Code picks the f
 
 | Tier | Primary -> Fallback chain | Agents | Typical effort |
 |------|---------------------------|--------|----------------|
-| **Premium** | Claude Opus 4.7 -> Claude Opus 4.6 -> Claude Sonnet 4.6 | Planner | high |
-| **Execution** | Claude Sonnet 4.6 -> GPT-5.4 -> GPT-5.3-Codex | Conductor, Reviewer, Implementer, Researcher, Ops, Test, IaC, GUI Tester, Translation Conductor, Translator, Translation Analyzer, Translation Validator | low / medium / high |
-| **Fast** | Claude Haiku 4.5 -> GPT-5.4 mini -> GPT-5 mini | Docs, UX, Translation Styler | low / medium |
+| **Premium (security-only)** | Claude Opus 4.7 -> Claude Opus 4.6 | Reviewer (security-mode prompt override only) | high |
+| **Execution** | Claude Sonnet 4.6 -> GPT-5.4 -> GPT-5.3-Codex | Conductor, Reviewer, Implementer, Planner, Researcher, Ops, Test, IaC, GUI Tester, Translation Conductor, Translator, Translation Analyzer, Translation Validator | low / medium / high |
+| **Fast** | Claude Haiku 4.5 -> GPT-5.4 mini | Docs, UX, Translation Styler | low / medium |
 
 Security-mode review pins `Claude Opus 4.7` at the prompt level (see `.github/prompts/support/security-review.prompt.md`).
 
@@ -80,7 +80,7 @@ Maps the conductor's complexity tiers to Copilot CLI permission modes and per-ag
 
 | Complexity tier | Conductor path | Copilot CLI permission | Autopilot allowed? | Notes |
 |-----------------|----------------|------------------------|--------------------|-------|
-| INSTANT         | Implementer direct | Bypass Approvals    | Yes (free/pro branches only) | Single-file reads/edits; no multi-phase ceremony |
+| INSTANT         | Implementer direct | Bypass Approvals    | Yes (pro/pro-plus/enterprise only) | Single-file reads/edits; no multi-phase ceremony |
 | STANDARD        | Implementer + inline plan | Default      | No                 | Human confirms destructive actions |
 | DEEP            | Planner -> Implementer -> Reviewer | Default | No              | Mandatory pause points |
 | ULTRADEEP       | Full cycle + trilateral review | Default     | No                 | Explicit human ratification at every gate |
@@ -99,7 +99,7 @@ Maps the conductor's complexity tiers to Copilot CLI permission modes and per-ag
 
 | Branch | Autopilot policy |
 |--------|------------------|
-| free / pro | Autopilot permitted for INSTANT tier only |
+| pro | Autopilot permitted for INSTANT tier only |
 | pro-plus | Autopilot permitted for INSTANT and read-only STANDARD |
 | enterprise | Autopilot permitted (ratified 2026-04-22); security review remains human-confirmed |
 

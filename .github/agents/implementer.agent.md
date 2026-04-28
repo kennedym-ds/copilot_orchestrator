@@ -20,6 +20,21 @@ hooks:
     - type: command
       command: "pwsh -File scripts/validate-copilot-assets.ps1 -RepositoryRoot ."
       windows: "powershell -File scripts/validate-copilot-assets.ps1 -RepositoryRoot ."
+    - type: command
+      command: "pwsh -File scripts/hooks/post-tool-lint.ps1 -Agent implementer"
+      windows: "powershell -File scripts/hooks/post-tool-lint.ps1 -Agent implementer"
+    - type: command
+      command: "pwsh -File scripts/hooks/post-tool-format-markdown.ps1"
+      windows: "powershell -File scripts/hooks/post-tool-format-markdown.ps1"
+    - type: command
+      command: "pwsh -File scripts/hooks/post-tool-token-report.ps1"
+      windows: "powershell -File scripts/hooks/post-tool-token-report.ps1"
+    - type: command
+      command: "pwsh -File scripts/hooks/post-tool-dependency-check.ps1"
+      windows: "powershell -File scripts/hooks/post-tool-dependency-check.ps1"
+    - type: command
+      command: "pwsh -File scripts/hooks/post-tool-large-edit.ps1"
+      windows: "powershell -File scripts/hooks/post-tool-large-edit.ps1"
 tools: [agent, todo, web, search, githubRepo, read, fileSearch, changes, edit, execute, problems, usages, rename, askQuestions]
 handoffs:
   - label: Return to Conductor
@@ -243,4 +258,3 @@ Formal schemas: review requests use **HS-REVIEW**, research requests use **HS-RE
 | `/diff` | Before handing back to conductor; confirm the phase delta. |
 | `/rewind`, `/undo` | Safe revert after a failing TDD red stage — preferred over `git reset` because it preserves conversation history. |
 | `/ask` | Mid-TDD side questions (e.g. library syntax) without polluting the main conversation. |
-

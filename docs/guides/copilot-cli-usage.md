@@ -1,6 +1,6 @@
 ---
-version: 3.1.0
-lastUpdated: 2026-04-22
+version: 3.1.2
+lastUpdated: 2026-04-29
 ---
 
 # GitHub Copilot CLI Usage Guide
@@ -44,7 +44,7 @@ Copilot CLI gained the same model-picker thinking-effort control as local VS Cod
 
 | Tier | CLI effort |
 |---|---|
-| Premium agents (planner) | High |
+| Premium calls (security-only) | High |
 | Execution agents (conductor, reviewer, implementer, test) | Low or Medium |
 | Fast agents (docs, ux) | None (non-reasoning default) |
 
@@ -59,7 +59,7 @@ See [policy-and-operations.md #5](policy-and-operations.md) for the interaction 
 | Agent | Tier | Purpose | When to Use |
 |-------|------|---------|-------------|
 | **conductor** | Execution | Lifecycle orchestration, delegation, pause points | Multi-phase tasks requiring planning → implementation → review |
-| **planner** | Premium | Multi-phase planning, risk analysis | Deep/Ultra complexity tasks before implementation |
+| **planner** | Execution | Multi-phase planning, risk analysis | Deep/Ultra complexity tasks before implementation |
 | **reviewer** | Execution | Multi-mode code review (standard/security/adversarial/performance) | After implementation or for standalone review |
 | **implementer** | Execution | TDD execution, validation, pushback | Execute plans, implement features, fix bugs |
 | **researcher** | Execution | Evidence gathering, citation | Investigate issues, gather context before planning |
@@ -361,11 +361,13 @@ If you hit context limits:
 ### Model Selection
 
 Agents use fallback arrays:
-- **Premium**: Claude Opus 4.7 -> Claude Opus 4.6 -> Claude Sonnet 4.6 (Planner only)
-- **Execution**: Claude Sonnet 4.6 -> GPT-5.4 -> GPT-5.3-Codex (12 agents)
-- **Fast**: Claude Haiku 4.5 -> GPT-5.4 mini -> GPT-5 mini (3 agents)
+- **Premium (security-only)**: Claude Opus 4.7 -> Claude Opus 4.6 (security review prompt override only)
+- **Execution**: Claude Sonnet 4.6 -> GPT-5.4 -> GPT-5.3-Codex (13 agents)
+- **Fast**: Claude Haiku 4.5 -> GPT-5.4 mini (3 agents)
 
 If a model is unavailable, the next in the array is used automatically.
+
+Usage-based billing now tracks AI credits per token, so prefer lower-cost models for routine work. See [Models and pricing for GitHub Copilot](https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing) for current rates.
 
 ### Agent Not Responding
 

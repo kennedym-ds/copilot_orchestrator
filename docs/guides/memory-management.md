@@ -366,7 +366,7 @@ Copilot Memory stores cross-session facts that are auto-injected into every conv
 ### Store
 
 - Durable conventions unlikely to change (`"use powershell not pwsh on this machine"`)
-- Facts not discoverable from a limited code sample (`"model tiers: Premium, Execution, Routine"`)
+- Facts not discoverable from a limited code sample (`"model tiers: Security-only premium, Execution, Fast"`)
 - Verified build/test commands (`"powershell -File scripts/run-lint.ps1 -RepositoryRoot ."`)
 - Architectural constraints (`"all agents use model fallback arrays"`)
 

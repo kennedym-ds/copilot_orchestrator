@@ -83,7 +83,7 @@ Copilot's model matrix includes models at different lifecycle stages (GA, previe
 
 **Policy**
 - **Enterprise branch**: first model in each fallback array must be **GA** (generally available, not in preview). Preview models may be second or later.
-- **Pro / Free branches**: preview models may appear first, provided a GA fallback exists.
+- **Pro branch**: preview models may appear first, provided a GA fallback exists.
 - **Security review**: always GA, per the prompt-level override in `.github/prompts/support/security-review.prompt.md`.
 
 Annotation is informal (comment in the YAML when a model is in preview). Formal LTS marking awaits `chatLanguageModels.json` adoption — see [ADR-chatLanguageModels](../../artifacts/decisions/ADR-chatLanguageModels.md).

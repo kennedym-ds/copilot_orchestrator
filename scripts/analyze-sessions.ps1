@@ -15,11 +15,21 @@
 
 .PARAMETER SessionsPath
     Path to directory containing session metadata JSON files.
-    Default: ./plans/sessions
+    Default: ./artifacts/sessions
+
+.PARAMETER HooksPath
+    Path to directory containing hook JSONL files.
+    Default: ./artifacts/sessions/hooks
 
 .PARAMETER OutputPath
     Path where analysis reports will be saved.
     Default: ./docs/dashboards
+
+.PARAMETER ExportPath
+    Optional explicit output file path. When set, overrides OutputPath and Format file naming.
+
+.PARAMETER UseHooks
+    When true, merges hook-derived sessions from HooksPath into analytics.
 
 .PARAMETER StartDate
     Start date for analysis window (ISO 8601 format).
@@ -54,10 +64,16 @@
 [CmdletBinding()]
 param(
     [Parameter()]
-    [string]$SessionsPath = "./plans/sessions",
+    [string]$SessionsPath = "./artifacts/sessions",
+
+    [Parameter()]
+    [string]$HooksPath = "./artifacts/sessions/hooks",
 
     [Parameter()]
     [string]$OutputPath = "./docs/dashboards",
+
+    [Parameter()]
+    [string]$ExportPath = "",
 
     [Parameter()]
     [datetime]$StartDate = (Get-Date).AddDays(-30),
@@ -67,7 +83,10 @@ param(
 
     [Parameter()]
     [ValidateSet('Markdown', 'JSON', 'CSV')]
-    [string]$Format = 'Markdown'
+    [string]$Format = 'Markdown',
+
+    [Parameter()]
+    [bool]$UseHooks = $true
 )
 
 Set-StrictMode -Version 2.0
@@ -143,6 +162,88 @@ function ConvertFrom-JsonSafe {
     return $Json | ConvertFrom-Json
 }
 
+function Read-HookEvents {
+    param(
+        [string]$Path,
+        [datetime]$Start,
+        [datetime]$End
+    )
+
+    if (-not (Test-Path -LiteralPath $Path)) {
+        return @()
+    }
+
+    $events = New-Object System.Collections.Generic.List[object]
+    $files = Get-ChildItem -Path $Path -Filter "*.jsonl" -File -ErrorAction SilentlyContinue
+    foreach ($file in $files) {
+        $lines = Get-Content -LiteralPath $file.FullName -ErrorAction SilentlyContinue
+        foreach ($line in $lines) {
+            if ([string]::IsNullOrWhiteSpace($line)) { continue }
+            try {
+                $record = ConvertFrom-JsonSafe -Json $line -Depth 12
+            } catch {
+                continue
+            }
+            if (-not $record.ts) { continue }
+            try {
+                $ts = [datetime]$record.ts
+            } catch {
+                continue
+            }
+            if ($ts -lt $Start -or $ts -gt $End) { continue }
+            $record | Add-Member -NotePropertyName "_ts" -NotePropertyValue $ts -Force
+            $events.Add($record) | Out-Null
+        }
+    }
+
+    return $events
+}
+
+function Build-HookSessions {
+    param(
+        [object[]]$Events
+    )
+
+    $sessions = @{}
+    foreach ($event in $Events) {
+        $sessionId = $event.session_id
+        if ([string]::IsNullOrWhiteSpace($sessionId)) { continue }
+
+        if (-not $sessions.ContainsKey($sessionId)) {
+            $sessions[$sessionId] = [ordered]@{
+                sessionId = $sessionId
+                startTime = $event._ts
+                endTime = $event._ts
+                status = 'in_progress'
+                agentActions = @()
+            }
+        }
+
+        if ($event._ts -lt $sessions[$sessionId].startTime) { $sessions[$sessionId].startTime = $event._ts }
+        if ($event._ts -gt $sessions[$sessionId].endTime) { $sessions[$sessionId].endTime = $event._ts }
+
+        if ($event.event -eq 'PostToolUse' -and $event.tool) {
+            $sessions[$sessionId].agentActions += [PSCustomObject]@{
+                agent = $event.agent
+                tool  = $event.tool
+            }
+        }
+    }
+
+    $output = @()
+    foreach ($session in $sessions.Values) {
+        $output += [PSCustomObject]@{
+            sessionId    = $session.sessionId
+            startTime    = $session.startTime.ToString('o')
+            endTime      = $session.endTime.ToString('o')
+            status       = $session.status
+            agentActions = $session.agentActions
+        }
+    }
+
+    return $output
+}
+
 function Get-SessionFiles {
     <#
     .SYNOPSIS
@@ -198,7 +299,7 @@ function Update-Metrics {
     switch ($Session.status) {
         { $_ -in 'complete', 'completed' } { $script:SessionMetadata.CompletedSessions++ }
         'failed' { $script:SessionMetadata.FailedSessions++ }
-        { $_ -in 'in_progress', 'in-progress' } { $script:SessionMetadata.InProgressSessions++ }
+        { $_ -in 'in_progress', 'in-progress', 'initialized', 'paused' } { $script:SessionMetadata.InProgressSessions++ }
         'blocked' { $script:SessionMetadata.FailedSessions++ }
     }
 
@@ -343,8 +444,8 @@ pie title Current Phase Distribution
 **No session data available for this period.**
 
 To start collecting analytics:
-1. Ensure session metadata is being written to ``$SessionsPath``
-2. Follow the session metadata schema (see docs/templates/)
+1. Ensure hook telemetry exists under ``$HooksPath``
+2. Optionally write session metadata to ``$SessionsPath`` for richer phase and review metrics
 3. Run this script again after sessions complete
 "@
 
@@ -453,7 +554,7 @@ $insights
 
 **Dashboard Status:** Active
 **Next Update:** Run ``scripts/analyze-sessions.ps1`` as needed
-**Data Source:** ``$SessionsPath``
+**Data Source:** ``$SessionsPath`` + ``$HooksPath``
 "@
 
     return $report
@@ -579,23 +680,79 @@ function Format-JsonReport {
 # Main execution
 Write-Host "Analyzing sessions from $($StartDate.ToString('yyyy-MM-dd')) to $($EndDate.ToString('yyyy-MM-dd'))..." -ForegroundColor Cyan
 
+$legacySessionsPath = "./plans/sessions"
+if (-not (Test-Path -LiteralPath $SessionsPath) -and (Test-Path -LiteralPath $legacySessionsPath)) {
+    Write-Warning "Legacy sessions path detected ($legacySessionsPath). Using it for this run."
+    $SessionsPath = $legacySessionsPath
+}
+
 $sessionFiles = Get-SessionFiles -Path $SessionsPath -Start $StartDate -End $EndDate
 Write-Host "Found $($sessionFiles.Count) session files" -ForegroundColor Gray
 
+$sessionsById = @{}
+$sessionList = New-Object System.Collections.Generic.List[object]
 foreach ($file in $sessionFiles) {
     $session = Read-SessionMetadata -File $file
-    if ($session) {
-        Update-Metrics -Session $session
+    if (-not $session) { continue }
+    if ($session.sessionId) {
+        $sessionsById[$session.sessionId] = $session
+    } else {
+        $sessionList.Add($session) | Out-Null
     }
 }
 
+$hookSessions = @()
+if ($UseHooks) {
+    $hookEvents = Read-HookEvents -Path $HooksPath -Start $StartDate -End $EndDate
+    $hookSessions = Build-HookSessions -Events $hookEvents
+    foreach ($hookSession in $hookSessions) {
+        if ($sessionsById.ContainsKey($hookSession.sessionId)) {
+            $existing = $sessionsById[$hookSession.sessionId]
+            if (-not $existing.startTime -and $hookSession.startTime) {
+                $existing | Add-Member -NotePropertyName startTime -NotePropertyValue $hookSession.startTime -Force
+            }
+            if (-not $existing.endTime -and $hookSession.endTime) {
+                $existing | Add-Member -NotePropertyName endTime -NotePropertyValue $hookSession.endTime -Force
+            }
+            if (-not $existing.agentActions -or $existing.agentActions.Count -eq 0) {
+                $existing | Add-Member -NotePropertyName agentActions -NotePropertyValue $hookSession.agentActions -Force
+            }
+        } else {
+            $sessionsById[$hookSession.sessionId] = $hookSession
+        }
+    }
+    Write-Host "Found $($hookSessions.Count) hook-derived sessions" -ForegroundColor Gray
+}
+
+foreach ($session in $sessionsById.Values) {
+    $sessionList.Add($session) | Out-Null
+}
+
+foreach ($session in $sessionList) {
+    Update-Metrics -Session $session
+}
+
 # Ensure output directory exists
-if (-not (Test-Path $OutputPath)) {
-    New-Item -ItemType Directory -Path $OutputPath -Force | Out-Null
+$targetDir = if (-not [string]::IsNullOrWhiteSpace($ExportPath)) {
+    Split-Path -Parent $ExportPath
+} else {
+    $OutputPath
+}
+if ([string]::IsNullOrWhiteSpace($targetDir)) {
+    $targetDir = $OutputPath
+}
+if (-not (Test-Path $targetDir)) {
+    New-Item -ItemType Directory -Path $targetDir -Force | Out-Null
 }
 
 # Generate report
-$outputFile = Join-Path $OutputPath "workflow-metrics.md"
+$outputFile = if (-not [string]::IsNullOrWhiteSpace($ExportPath)) {
+    $ExportPath
+} elseif ($Format -eq 'JSON') {
+    Join-Path $OutputPath "workflow-metrics.json"
+} else {
+    Join-Path $OutputPath "workflow-metrics.md"
+}
 $report = switch ($Format) {
     'Markdown' { Format-MarkdownReport }
     'JSON' { Format-JsonReport }

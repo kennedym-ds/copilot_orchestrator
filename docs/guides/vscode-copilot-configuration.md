@@ -1,7 +1,7 @@
 ---
 title: "VS Code Copilot Configuration"
-version: "1.0.0"
-lastUpdated: "2026-03-24"
+version: "1.1.1"
+lastUpdated: "2026-04-29"
 status: stable
 ---
 
@@ -182,7 +182,7 @@ Agent Skills are now generally available in VS Code 1.109. Skills in `.github/sk
 Agent frontmatter now accepts `model` as an array. The first available model is used, providing automatic fallback:
 
 ```yaml
-model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
+model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)']
 ```
 
 All 29 agents in this repo now use model fallback arrays for resilience.
@@ -199,10 +199,10 @@ Handoffs can now specify a `model` parameter for per-handoff model selection:
 
 ```yaml
 handoffs:
-  - label: Deep Analysis
+  - label: Security Review
     agent: reviewer
     model: Claude Opus 4.6 (copilot)
-    prompt: Perform adversarial review with extended analysis.
+    prompt: Perform security review with threat modeling and exploit analysis.
 ```
 
 ### Thinking & Reasoning Enhancements
@@ -289,6 +289,28 @@ Auto-generates workspace instruction files based on codebase analysis — accele
 | `terminal.integrated.enableKittyKeyboardProtocol` | `true` | Better key handling (shift+enter in agentic CLIs) |
 | `git.worktreeIncludeFiles` | array | Copies specified files to worktrees for background agents |
 | `inlineChat.affordance` | `"editor"` | Inline chat affordance in editor (changed from boolean to enum in 1.110) |
+
+## VS Code 1.117 Features
+
+Released 2026-04-22. BYOK for Business and Enterprise, incremental chat rendering, and terminal UX updates.
+
+### Bring Your Own Key (BYOK) for Business and Enterprise
+BYOK lets Business and Enterprise users connect provider API keys (OpenRouter, Ollama, Google, OpenAI, Anthropic, and more) for chat and agents. Admins can disable the **Bring Your Own Language Model Key** policy in GitHub Copilot settings.
+
+**Notes:**
+- Usage is billed by the chosen provider and does not consume Copilot AI credits.
+- BYOK does not apply to code completions.
+
+### Incremental Rendering of Chat Responses (Experimental)
+**Settings:**
+- `chat.experimental.incrementalRendering.enabled` (default: `true`)
+- `chat.experimental.incrementalRendering.animationStyle` (`none`, `fade`, `rise`, `blur`, `scale`, `slide`, `reveal`)
+- `chat.experimental.incrementalRendering.buffering` (`off`, `word`, `paragraph`)
+
+### Terminal Improvements
+- Copilot CLI profile can launch from any terminal profile (fixes non-default shell launch errors).
+- Terminal tabs can show agent CLI titles. **Setting:** `terminal.integrated.tabs.allowAgentCliTitle` (default: `true`).
+- Background terminal commands now surface as system notifications in chat (uses `chat.tools.terminal.backgroundNotifications`).
 
 ## VS Code 1.116 Features
 
@@ -464,7 +486,7 @@ Replaces two deprecated settings:
 
 Remove both from your settings if present — they are no-ops in 1.113+.
 
-> **Note:** `github.copilot.chat.anthropic.thinking.budgetTokens` is **not** deprecated. It caps Anthropic thinking token count per request and is orthogonal to the effort control. Keep it configured (default `10000`, we use `32000` for premium-tier work).
+> **Note:** `github.copilot.chat.anthropic.thinking.budgetTokens` is **not** deprecated. It caps Anthropic thinking token count per request and is orthogonal to the effort control. Keep it configured (default `10000`, we use `32000` for security review work).
 
 Our agent frontmatter uses `thinkingEffort:` as a recommendation-only hint that a user's picker should honour by default. See `instructions/global/01_quality.instructions.md` for the per-tier default allocation.
 

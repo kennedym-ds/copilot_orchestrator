@@ -1,7 +1,7 @@
 ---
 title: "Prompt Engineering by Model Tier"
-version: "2.0.0"
-lastUpdated: "2026-04-22"
+version: "2.1.0"
+lastUpdated: "2026-04-29"
 status: stable
 ---
 
@@ -9,30 +9,30 @@ status: stable
 
 ## Overview
 
-This guide provides tier-specific prompt crafting strategies to maximize effectiveness of the multi-tier LLM architecture. Premium models (planning/review tier) benefit from open-ended, exploratory prompting, while cost-efficient models (execution tier) perform best with structured, step-by-step instructions.
+This guide provides tier-specific prompt crafting strategies to maximize effectiveness of the multi-tier LLM architecture. Premium models are reserved for security reviews, while execution-tier models handle planning, research, and implementation with structured prompts.
 
 ## Architecture Context
 
-**Planning/Review Tier (20% of invocations):**
-- Models: Claude Opus 4.6
-- Strengths: Advanced reasoning, ambiguity handling, synthesis, creative problem-solving
-- Use cases: Research, planning, architecture decisions, code review
+**Security Tier (≤5% of invocations):**
+- Models: Claude Opus 4.6 / 4.7
+- Strengths: Threat modeling, adversarial analysis, vulnerability detection
+- Use cases: Security reviews only
 
-**Execution Tier (75% of invocations):**
+**Execution Tier (~80% of invocations):**
 - Models: Claude Sonnet 4.6, GPT-5.4
 - Strengths: Structured execution, code generation, pattern following, efficiency
-- Use cases: Implementation, testing, refactoring, documentation updates
+- Use cases: Planning, research, implementation, testing, refactoring, documentation updates, standard reviews
 
-**Fast Tier (5% of invocations):**
+**Fast Tier (~15% of invocations):**
 - Models: Claude Haiku 4.5
 - Strengths: Fast pattern-matching, template-driven output
 - Use cases: UX review, diagrams, style checking
 
-## Planning/Review Tier Prompting
+## Advanced Reasoning Prompting (Execution + Security)
 
 ### Principles
 
-1. **Open-ended exploration** — Premium models excel at navigating ambiguity
+1. **Open-ended exploration** — Advanced reasoning prompts excel at navigating ambiguity
 2. **Multi-perspective analysis** — Encourage options, trade-offs, implications
 3. **Synthesis over prescription** — Let model integrate diverse information
 4. **Uncertainty acknowledgment** — Request explicit discussion of assumptions and risks
@@ -156,12 +156,12 @@ Return status: APPROVED, NEEDS_REVISION, or FAILED.
 - Requests severity tagging and remediation guidance
 - Balances thoroughness with actionability
 
-### Prompting Anti-Patterns (Planning/Review Tier)
+### Prompting Anti-Patterns (Advanced Reasoning)
 
 **Avoid:**
 - ❌ **Over-prescription** — "Do X, then Y, then Z" eliminates model's reasoning advantage
 - ❌ **Single-path thinking** — "Implement feature F using approach A" misses better alternatives
-- ❌ **Missing context** — Premium models need background to reason effectively
+- ❌ **Missing context** — Advanced reasoning prompts need background to reason effectively
 - ❌ **Ignoring uncertainty** — Premature certainty leads to brittle plans
 
 **Instead:**
@@ -407,7 +407,7 @@ If Implementer receives instructions with unclear requirements:
 **Artifacts:** Phase 2 plan excerpt, existing auth code samples
 ```
 
-### When Planning Tier Provides Execution Instructions
+### When Planner Provides Execution Instructions
 
 If Planner/Researcher provides implementation details in response:
 
@@ -419,7 +419,7 @@ If Planner/Researcher provides implementation details in response:
 
 **Example transformation:**
 
-**Planner output (premium tier):**
+**Planner output (execution tier):**
 ```
 For authentication, consider using JWT tokens with:
 - HS256 algorithm (or RS256 for distributed systems)
@@ -453,17 +453,17 @@ Implement JWT authentication following this workflow:
 
 ## Model-Specific Nuances
 
-### Claude Opus 4.6 (Planning Tier)
+### Claude Opus 4.6 (Security Tier)
 
 **Strengths:**
-- Strategic planning and architecture
-- Clear, structured communication
-- Good balance of creativity and pragmatism
+- Threat modeling and vulnerability discovery
+- Adversarial analysis and risk prioritization
+- Security-focused synthesis of mitigations
 
 **Prompting tips:**
-- Request explicit trade-off analysis
-- Ask for multiple phases with pause points
-- Encourage identification of open questions
+- Ask for explicit attack surfaces and exploit paths
+- Require severity tagging and concrete remediation steps
+- Demand verification steps (tests, scans, configs)
 
 ### GPT-5.4 (Execution Tier)
 
@@ -504,7 +504,7 @@ In `docs/operations.md`, track:
 1. **Escalation triggers by prompt pattern:**
    - Which prompt styles lead to more/fewer escalations?
    - Are execution-tier prompts structured enough?
-   - Are planning-tier prompts too prescriptive?
+    - Are planner prompts too prescriptive?
 
 2. **Review rejection by prompt quality:**
    - Do more structured prompts lead to fewer rejections?
@@ -518,7 +518,7 @@ In `docs/operations.md`, track:
 
 Maintain reusable prompt templates in `.github/prompts/`:
 
-- `planning/` — Open-ended, exploratory prompts for premium tier
+- `planning/` — Open-ended, exploratory prompts for execution tier (planner)
 - `implementation/` — Structured, step-by-step prompts for execution tier
 - `review/` — Comprehensive review frameworks
 - `research/` — Research synthesis templates
@@ -531,11 +531,11 @@ Tag prompts with:
 
 ## Summary
 
-**Planning/Review Tier (Premium Models):**
-- Open-ended, exploratory prompts
-- Multi-perspective analysis
-- Synthesis and framework creation
-- Uncertainty acknowledgment
+**Security Tier (Premium Models):**
+- Threat-modeling and adversarial prompts
+- Multi-perspective analysis for risk exposure
+- Synthesis of attack surface and mitigations
+- Uncertainty acknowledgment and verification steps
 
 **Execution Tier (Cost-Efficient Models):**
 - Step-by-step instructions
@@ -543,10 +543,10 @@ Tag prompts with:
 - Pattern reinforcement
 - Explicit validation steps
 
-**Key Principle:** Match prompt structure to model capabilities. Premium models reason about ambiguity; execution models execute structure.
+**Key Principle:** Match prompt structure to model capabilities. Premium models focus on security risk analysis; execution models execute structure and planning.
 
 ## Related Documentation
 
-- `instructions/workflows/escalation-patterns.instructions.md` — When to escalate from execution to planning tier
+- `instructions/workflows/escalation-patterns.instructions.md` — When to escalate from execution to planning workflow
 - `docs/operations.md` — Metrics for tracking prompt effectiveness
 - `.github/prompts/` — Reusable prompt templates by tier and task type

@@ -111,3 +111,54 @@ jobs:
             Write-Host "::error::Reviewer exited with unexpected code $code"
             exit $code
           }
+
+      - name: Notice — eval replay skipped
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          if ('${{ secrets.COPILOT_TOKEN }}' -eq '') {
+            Write-Host "::notice title=Eval replay skipped::COPILOT_TOKEN secret not configured. Real-model eval replay did not run."
+          }
+
+      - name: Copilot eval replay (best-effort)
+        id: copilot-eval-replay
+        if: ${{ github.event_name == 'pull_request' && env.COPILOT_TOKEN != '' }}
+        continue-on-error: true
+        env:
+          COPILOT_TOKEN: ${{ secrets.COPILOT_TOKEN }}
+          COPILOT_HEADLESS_MAX_TIER: DEEP
+        run: |
+          if (-not (Get-Command copilot -ErrorAction SilentlyContinue)) {
+            Write-Host "copilot CLI not available on runner; skipping."
+            exit 0
+          }
+          $fixturesDir = "artifacts/evals/fixtures"
+          if (-not (Test-Path -LiteralPath $fixturesDir)) {
+            Write-Host "No eval fixtures found; skipping."
+            exit 0
+          }
+          $fixtures = Get-ChildItem -Path $fixturesDir -Filter "*.json" -File | Where-Object { $_.Name -ne "schema.json" }
+          if ($fixtures.Count -eq 0) {
+            Write-Host "No eval fixtures found; skipping."
+            exit 0
+          }
+          $failures = @()
+          foreach ($fixture in $fixtures) {
+            $data = Get-Content -LiteralPath $fixture.FullName -Raw | ConvertFrom-Json
+            $agent = if ($data.tags -and ($data.tags -contains "reviewer")) { "reviewer" } else { "conductor" }
+            Write-Host "Running eval: $($data.id) (agent=$agent)"
+            $response = copilot chat --agent $agent -p $data.prompt
+            $responsePath = Join-Path $env:TEMP ("eval-" + $data.id + ".txt")
+            Set-Content -Path $responsePath -Value $response -Encoding UTF8
+            $python = "from scripts.mcp import analytics_server as a; import pathlib; print(a.run_eval('$($data.id)', pathlib.Path(r'$responsePath').read_text(encoding='utf-8')))"
+            $resultJson = python -c $python
+            $result = $resultJson | ConvertFrom-Json
+            $verdict = $result.verdict
+            Write-Host "Eval verdict: $verdict (score=$($result.score))"
+            if ($verdict -ne "PASS") {
+              $failures += $data.id
+              Write-Host "::warning::Eval $($data.id) returned $verdict (score=$($result.score))."
+            }
+          }
+          if ($failures.Count -gt 0) {
+            Write-Host "::warning::Eval failures: $($failures -join ', ')"
+          }

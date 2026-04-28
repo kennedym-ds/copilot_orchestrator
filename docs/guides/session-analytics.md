@@ -1,7 +1,7 @@
 ﻿# Session Analytics Guide
 
-version: 2.0.0
-lastUpdated: 2026-04-22
+version: 2.1.0
+lastUpdated: 2026-04-29
 
 ## Overview
 
@@ -22,6 +22,8 @@ The Copilot Orchestrator session analytics system provides data-driven insights 
 .\scripts\analyze-sessions.ps1 -Format JSON
 ```
 
+`analyze-sessions.ps1` automatically merges hook telemetry from `artifacts/sessions/hooks/`. Session metadata JSON is optional but enables phase and review metrics.
+
 ### View the Dashboard
 
 After running the analytics script, open:
@@ -31,7 +33,8 @@ docs/dashboards/workflow-metrics.md
 
 ## Session Metadata Structure
 
-Sessions are tracked using JSON metadata files stored in `plans/sessions/`.
+Sessions are tracked using JSON metadata files stored in `artifacts/sessions/`.
+Hook telemetry is captured under `artifacts/sessions/hooks/` and is used as the primary analytics source.
 
 ### Required Fields
 
@@ -60,7 +63,7 @@ Sessions are tracked using JSON metadata files stored in `plans/sessions/`.
 #### 4. Model Usage & Cost
 - Premium vs. efficient model invocations
 - Cost breakdown by agent
-- Adherence to 80/20 cost optimization target
+- Adherence to security-only premium target (~5%)
 - Total estimated costs
 
 #### 5. Quality Metrics
@@ -92,15 +95,13 @@ For manual session tracking, create a JSON file following the schema:
 }
 ```
 
-See `plans/sessions/example-session-2025-11-07.json` for a complete example.
+Session metadata files are git-ignored; the JSON example above is the canonical reference.
 
-### Automated Collection (Future)
+### Automated Collection (Implemented)
 
-Future enhancement will add automatic session metadata collection:
-- Conductor agent emits structured state updates
-- Agents log escalations and model usage
-- Reviews automatically record findings
-- Metrics aggregated in real-time
+Automatic collection now aggregates hook JSONL streams:
+- `SessionStart`, `UserPromptSubmit`, `SubagentStart/Stop`, and `PostToolUse` contribute to telemetry
+- `scripts/analyze-sessions.ps1` merges hook-derived sessions with any explicit session metadata JSON
 
 ## Understanding the Dashboard
 
@@ -119,10 +120,10 @@ Tracks escalation frequency and patterns. Monitor for:
 - **Low overall rate**: Good instruction quality
 
 ### Model Usage & Cost
-Tracks adherence to 80/20 cost optimization target:
-- **Target**: â‰¤20% premium model usage
-- **Acceptable**: â‰¤25% premium model usage
-- **Review needed**: >25% premium model usage
+Tracks adherence to the security-only premium target:
+- **Target**: â‰¤5% premium model usage
+- **Acceptable**: â‰¤10% premium model usage
+- **Review needed**: >10% premium model usage
 
 ### Quality Metrics
 Review outcomes and findings. Target: â‰¥90% approval rate.
@@ -140,9 +141,9 @@ The dashboard auto-generates recommendations based on:
 - Rare escalations: Healthy workflow
 
 ### Cost Efficiency
-- <20% premium: Excellent optimization
-- 20-25% premium: Within target
-- >25% premium: Review escalation triggers
+- â‰¤5% premium: Excellent optimization
+- 5-10% premium: Within target
+- >10% premium: Review escalation triggers
 
 ### Quality Trends
 - â‰¥90% approval: Meeting quality target
@@ -188,7 +189,7 @@ Use analytics to drive improvements:
 |--------|--------|------------|---------------|
 | Completion Rate | â‰¥80% | â‰¥70% | <70% |
 | Review Pass Rate | â‰¥90% | â‰¥80% | <80% |
-| Premium Model % | â‰¤20% | â‰¤25% | >25% |
+| Premium Model % | â‰¤5% | â‰¤10% | >10% |
 | Escalation Rate | <0.5 per session | <1.0 per session | â‰¥1.0 per session |
 | Avg Phase Duration | Trending down | Stable | Trending up |
 
@@ -198,7 +199,7 @@ Use analytics to drive improvements:
 **Issue**: Report shows "No session data available"
 
 **Solutions**:
-1. Check that `plans/sessions/` contains JSON files
+1. Check that `artifacts/sessions/` contains JSON files
 2. Verify date range includes session timestamps
 3. Ensure JSON files follow the schema
 4. Check for parsing errors in script output
@@ -235,7 +236,7 @@ Planned improvements:
 
 - `INSTRUCTION_CHANGELOG.md` - Track instruction changes
 - `docs/operations.md` - Operational procedures
-- `plans/sessions/session-metadata.schema.json` - Metadata schema
+- Hook telemetry reference: `docs/guides/agent-hooks-standard.md`
 
 ---
 

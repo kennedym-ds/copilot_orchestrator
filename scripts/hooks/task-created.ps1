@@ -6,6 +6,7 @@ param(
     [string]$Title = $env:COPILOT_TASK_TITLE
 )
 . (Join-Path $PSScriptRoot "_common.ps1")
-Write-HookEvent -Event 'task-created' -Payload @{
+$null = Read-HookInput
+Write-HookEvent -Event 'TaskCreated' -Payload @{
     task_id = $TaskId; assignee = $Assignee; title = $Title
 }

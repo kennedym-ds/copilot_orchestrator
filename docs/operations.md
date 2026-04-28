@@ -1,7 +1,7 @@
 ﻿---
 title: "Operations & Continuous Improvement Plan"
-version: "3.1.0"
-lastUpdated: "2026-04-22"
+version: "3.1.1"
+lastUpdated: "2026-04-29"
 status: active
 ---
 
@@ -45,7 +45,7 @@ Files historically over the 10k limit: `vscode-copilot-configuration.md`, `CHANG
 ### Multi-Tier Model Effectiveness
 
 **Cost Efficiency Metrics:**
-- **Premium vs. execution tier ratio** — Target: ~6% premium (Planner) / ~75% execution / ~19% fast. Track actual ratio weekly.
+- **Premium vs. execution tier ratio** — Target: <5% premium (security-only) / ~81% execution / ~19% fast. Track actual ratio weekly.
 - **Cost per completed phase** — Total model costs divided by phases completed successfully.
 - **Cost per agent type** — Break down costs by Conductor, Planner, Implementer, Reviewer, Researcher, Ops, Test, IaC, GUI Tester, Docs, UX.
 - **Budget variance** — Actual spend vs. projected spend; alert when >10% over budget.

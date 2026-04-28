@@ -108,29 +108,26 @@ macOS/Linux users: use the `.sh` equivalents (`setup-vs-cli.sh`, `setup-claude-c
 
 ## Model Tiers
 
-The orchestrator ships four branches aligned to GitHub Copilot plan pricing. Push to `enterprise` and GitHub Actions automatically syncs the other three.
+The orchestrator ships three branches aligned to GitHub Copilot plan pricing. Push to `enterprise` and GitHub Actions automatically syncs the other two.
 
 | Branch | Target Plan | Flagship Model | Use Case |
 |--------|-------------|----------------|----------|
-| `enterprise` | **Enterprise** | Claude Opus 4.6 (3x) | Source of truth - flagship reasoning on Enterprise-only Opus 4.6 |
-| `pro-plus` | **Pro+ / Business** | Claude Opus 4.7 (7.5x) | Flagship reasoning via Opus 4.7 (available on Pro+, Business, Enterprise) |
-| `pro` | **Pro / Student** | GPT-5.3-Codex (1x) | No Anthropic premium - routes to GPT-5.3-Codex + GPT-5.4 mini + Haiku 4.5 |
-| `free` | **Free** | GPT-5 mini (0x) | Zero premium requests - all agents on GPT-5 mini or GPT-4.1 |
+| `enterprise` | **Enterprise** | Claude Sonnet 4.6 (execution) | Source of truth - Opus 4.6 reserved for security review only |
+| `pro-plus` | **Pro+ / Business** | Claude Sonnet 4.6 (execution) | Opus 4.7 reserved for security review; full execution tier |
+| `pro` | **Pro / Student** | GPT-5.3-Codex | No Opus/Sonnet - routes to GPT-5.3-Codex + GPT-5.4 mini + Haiku 4.5 |
 
-Each agent's `model:` field is a fallback array. VS Code picks the first model you have access to, so the published branches substitute unavailable models with plan-available equivalents.
+Each agent's `model:` field is a fallback array. VS Code picks the first model you have access to, so the published branches substitute unavailable models with plan-available equivalents. Usage-based billing now tracks GitHub AI Credits per token, so model choice and effort drive spend.
 
 ### How It Works
 
 1. **Develop on `enterprise`** - all agents run Enterprise-tier models with full capability.
-2. **Push to `enterprise`** - three GitHub Actions workflows trigger automatically:
-   - [`sync-pro-plus-branch.yml`](.github/workflows/sync-pro-plus-branch.yml) resets `pro-plus` from `enterprise` and swaps Opus 4.6 -> Opus 4.7.
-   - [`sync-pro-branch.yml`](.github/workflows/sync-pro-branch.yml) resets `pro` from `enterprise` and swaps Anthropic premium/execution + GPT-5.4 to Pro-available models.
-   - [`sync-free-branch.yml`](.github/workflows/sync-free-branch.yml) resets `free` from `enterprise` and swaps all paid models to GPT-5 mini / GPT-4.1.
+2. **Push to `enterprise`** - two GitHub Actions workflows trigger automatically:
+    - [`sync-pro-plus-branch.yml`](.github/workflows/sync-pro-plus-branch.yml) resets `pro-plus` from `enterprise` and swaps Opus 4.6 -> Opus 4.7.
+    - [`sync-pro-branch.yml`](.github/workflows/sync-pro-branch.yml) resets `pro` from `enterprise` and swaps Anthropic premium/execution + GPT-5.4 to Pro-available models.
 3. **Switch tiers** - clone or checkout the branch matching your plan:
    ```bash
    git checkout pro-plus   # Pro+ / Business
    git checkout pro        # Pro / Student
-   git checkout free       # Free
    git checkout enterprise       # Enterprise (source of truth)
    ```
 
@@ -138,11 +135,11 @@ Each agent's `model:` field is a fallback array. VS Code picks the first model y
 
 ## Agent Roster
 
-16 specialized agents across three model tiers. Each agent declares a `model:` fallback array and a `thinkingEffort:` hint (low/medium/high). The `pro-plus` / `pro` / `free` branches sync automatically from `enterprise`. See [Model Tiers](#model-tiers) for details.
+16 specialized agents across three model tiers. Each agent declares a `model:` fallback array and a `thinkingEffort:` hint (low/medium/high). The `pro-plus` / `pro` branches sync automatically from `enterprise`. See [Model Tiers](#model-tiers) for details.
 
 | Agent | Tier | Default Model (enterprise) | Effort | Purpose |
 |-------|------|----------------------|--------|---------|
-| Planner | Premium | Claude Opus 4.6 | high | Multi-phase planning |
+| Planner | Execution | Claude Sonnet 4.6 | high | Multi-phase planning |
 | Conductor | Execution | Claude Sonnet 4.6 | medium | Lifecycle orchestration |
 | Reviewer | Execution | Claude Sonnet 4.6 | high | Multi-mode code review (security mode pins Opus) |
 | Implementer | Execution | Claude Sonnet 4.6 | medium | TDD implementation |

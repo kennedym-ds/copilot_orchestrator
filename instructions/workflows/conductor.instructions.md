@@ -84,7 +84,7 @@ Track session budget across four dimensions after every delegation:
 | Dimension | Soft Limit (80%) | Hard Limit (100%) |
 |-----------|------------------|--------------------|
 | Delegations | 16 | 20 |
-| Premium-Tier Calls | 4 | 5 |
+| Premium-Tier Calls | 2 | 3 |
 | Est. Session Tokens | 400K | 500K |
 | Wall Clock Time | 24 min | 30 min |
 

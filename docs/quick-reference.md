@@ -1,7 +1,7 @@
 ﻿---
 title: "Copilot Orchestrator Quick Reference"
-version: "3.1.0"
-lastUpdated: "2026-04-22"
+version: "3.1.1"
+lastUpdated: "2026-04-29"
 status: stable
 ---
 
@@ -91,7 +91,7 @@ Invoke-Pester -Path tests -ExcludeTag Slow -Output Detailed
 | Agent | Tier | Purpose |
 |-------|------|---------|
 | conductor | Execution | Lifecycle orchestration, delegation, pause points |
-| planner | Premium | Multi-phase planning, risk analysis |
+| planner | Execution | Multi-phase planning, risk analysis |
 | reviewer | Execution | Multi-mode review: standard, security, adversarial, performance |
 | implementer | Execution | TDD execution, validation |
 | researcher | Execution | Evidence gathering, citation |
@@ -118,9 +118,9 @@ Invoke-Pester -Path tests -ExcludeTag Slow -Output Detailed
 
 | Tier | Primary -> Fallback | Target Usage | Typical effort |
 |------|---------------------|--------------|----------------|
-| **Premium** | Claude Opus 4.7 -> Claude Opus 4.6 -> Claude Sonnet 4.6 | ~6% (Planner) | high |
-| **Execution** | Claude Sonnet 4.6 -> GPT-5.4 -> GPT-5.3-Codex | ~75% (12 agents) | low / medium / high |
-| **Fast** | Claude Haiku 4.5 -> GPT-5.4 mini -> GPT-5 mini | ~19% (3 agents) | low / medium |
+| **Premium (security-only)** | Claude Opus 4.7 -> Claude Opus 4.6 | <5% (security review only) | high |
+| **Execution** | Claude Sonnet 4.6 -> GPT-5.4 -> GPT-5.3-Codex | ~81% (13 agents) | low / medium / high |
+| **Fast** | Claude Haiku 4.5 -> GPT-5.4 mini | ~19% (3 agents) | low / medium |
 
 Each agent declares `defaultEffort:` in frontmatter. Security-mode review pins Opus via a prompt-level override. Never pin a single model. Models deprecate monthly.
 

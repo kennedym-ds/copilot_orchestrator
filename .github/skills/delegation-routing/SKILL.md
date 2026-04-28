@@ -70,8 +70,8 @@ All inter-agent delegation uses `#runSubagent`:
 
 | Agent | Keyword Triggers | When to Delegate | Model Preference | Effort |
 |-------|-----------------|------------------|------------------|--------|
-| **conductor** | "orchestrate", "coordinate", "multi-phase", "lifecycle" | Escalate scope changes, ambiguous routing, multi-agent coordination | Claude Opus 4.6 | Medium |
-| **planner** | "plan", "scope", "phases", "strategy", "breakdown", "estimate", "impact analysis", "blast radius" | Need structured multi-phase plan, risk analysis, option evaluation, impact assessment | Claude Opus 4.6 | Medium |
+| **conductor** | "orchestrate", "coordinate", "multi-phase", "lifecycle" | Escalate scope changes, ambiguous routing, multi-agent coordination | Claude Sonnet 4.6 | Medium |
+| **planner** | "plan", "scope", "phases", "strategy", "breakdown", "estimate", "impact analysis", "blast radius" | Need structured multi-phase plan, risk analysis, option evaluation, impact assessment | Claude Sonnet 4.6 | Medium |
 | **implementer** | "implement", "build", "code", "fix", "apply", "execute", "create" | Execute approved changes, apply fixes, generate code | GPT-5.4 | Medium |
 | **reviewer** | "review", "audit", "quality", "check", "verify", "validate" | After implementation, quality gates, diff review, compliance checks | GPT-5.4 | Medium |
 | **researcher** | "research", "investigate", "evidence", "compare", "explore", "context", "code topology", "codebase overview", "architecture map" | Gather background info, evaluate alternatives, find documentation, structural codebase analysis | GPT-5.4 | Medium |
@@ -82,7 +82,7 @@ All inter-agent delegation uses `#runSubagent`:
 
 | Agent | Keyword Triggers | When to Delegate | Model Preference | Effort | Restriction |
 |-------|-----------------|------------------|------------------|--------|-------------|
-| **security** | "threat", "vulnerability", "compliance", "STRIDE", "credentials", "auth" | Security review, threat modeling, compliance checkpoint | Claude Opus 4.6 | High | `user-invokable: false` — subagent-only |
+| **security** | "threat", "vulnerability", "compliance", "STRIDE", "credentials", "auth" | Security review, threat modeling, compliance checkpoint | Claude Opus 4.7 | High | `user-invokable: false` — subagent-only |
 | **performance** | "latency", "memory", "profiling", "scalability", "Big O", "cost" | Runtime analysis, memory profiling, cost modeling | GPT-5.4 | Medium | `user-invokable: false` — subagent-only |
 | **accessibility** | "WCAG", "ARIA", "a11y", "screen reader", "keyboard navigation", "contrast" | Accessibility audit, WCAG compliance, ARIA review | GPT-5.4 | Low | — |
 | **docs** | "documentation", "onboarding", "guide", "README", "tutorial", "knowledge" | Documentation drafts, onboarding materials, template creation | GPT-5.4 | Low | — |

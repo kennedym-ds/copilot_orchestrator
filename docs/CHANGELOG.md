@@ -1,12 +1,65 @@
 title: "Copilot Orchestrator Changelog"
-version: "3.1.1"
-lastUpdated: "2026-04-23"
+version: "3.1.6"
+lastUpdated: "2026-04-29"
 status: stable
 ---
 
 # Changelog
 
 All notable changes are documented here following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
+
+## [3.1.6] — 2026-04-29
+
+### Changed
+- `README.md`, `AGENTS.md`, `docs/quick-reference.md` — removed free branch references; planner moved to execution tier; security-only premium guidance
+- `docs/guides/model-tiers.md`, `docs/guides/branching-for-copilot-cost-optimization.md` — security-only Opus usage, three-branch model, updated tier counts
+- `.github/agents/planner.agent.md`, `.github/prompts/planning/multi-phase-plan.prompt.md` — planner demoted to execution tier (Sonnet/GPT fallbacks)
+- `.github/agents/docs.agent.md`, `.github/agents/ux.agent.md`, `.github/agents/translation-styler.agent.md` — fast tier fallback trimmed to remove GPT-5 mini
+- `.github/skills/budget-gatekeeper/SKILL.md`, `.github/skills/delegation-routing/SKILL.md` — premium usage constrained to security; routing preferences updated
+- `docs/guides/prompt-engineering-by-tier.md`, `docs/guides/copilot-cli-usage.md`, `docs/guides/onboarding.md`, `docs/guides/vscode-copilot-configuration.md`, `.github/prompts/new-agent.prompt.md` — tier guidance aligned to security-only premium
+- `instructions/global/01_quality.instructions.md`, `instructions/workflows/planner.instructions.md`, `instructions/workflows/researcher.instructions.md`, `instructions/workflows/escalation-patterns.instructions.md` — escalation and workflow guidance aligned to security-only premium
+- `.github/workflows/sync-free-branch.yml` — removed legacy free-branch workflow
+
+## [3.1.5] — 2026-04-28
+
+### Changed
+- `README.md`, `AGENTS.md` — free branch marked deprecated/unsupported; updated branch policy table
+- `docs/guides/branching-for-copilot-cost-optimization.md` — free branch deprecated and called out in branch list/switching guidance
+- `docs/guides/model-tiers.md` — free tier deprecation note added
+- `docs/guides/policy-and-operations.md` — free branch reference removed from LTS policy note
+
+## [3.1.4] — 2026-04-28
+
+### Changed
+- `docs/guides/model-tiers.md` — added cost-aware defaults for AI credits pricing
+- `docs/guides/branching-for-copilot-cost-optimization.md` — clarified AI credits as default pricing model
+- `.github/skills/budget-gatekeeper/SKILL.md` — added AI Credits mode guidance
+
+## [3.1.3] — 2026-04-28
+
+### Changed
+- `README.md` — model tier table updated for usage-based billing language
+- `docs/guides/model-tiers.md` — AI credits pricing guidance and annual plan multipliers link
+- `docs/guides/branching-for-copilot-cost-optimization.md` — AI credits notes and multiplier language removed
+- `docs/guides/copilot-cli-onboarding.md` — BYOK billing updated to provider charges
+- `docs/guides/copilot-cli-usage.md` — AI credits note added to model selection
+- `docs/guides/vscode-copilot-configuration.md` — new VS Code 1.117 features section
+- `.github/skills/budget-gatekeeper/SKILL.md` — updated tier cost weights for AI credit pricing and current agent roster
+- `docs/guides/model-tiers.md`, `docs/guides/branching-for-copilot-cost-optimization.md`, `.github/skills/budget-gatekeeper/SKILL.md` — annual plan multiplier notes (Opus 27x, Sonnet 6x)
+
+## [3.1.2] — 2026-04-23
+
+### Added
+- `scripts/hooks/session-stop.ps1` — Stop hook that appends a session recap and emits `SessionStop` JSONL
+- `scripts/hooks/post-tool-format-markdown.ps1` — trims trailing whitespace in Markdown edits
+- `scripts/hooks/post-tool-token-report.ps1` — runs token report on docs Markdown edits (skippable via `COPILOT_SKIP_TOKEN_REPORT`)
+- `scripts/hooks/post-tool-dependency-check.ps1` — recommends install when dependency files change (auto-install gated by `COPILOT_AUTO_INSTALL`)
+- `scripts/hooks/post-tool-large-edit.ps1` — warns on oversized edits for review clarity
+
+### Changed
+- `.github/agents/conductor.agent.md` — Stop hook wired to `session-stop.ps1`
+- `.github/agents/implementer.agent.md`, `.github/agents/docs.agent.md` — PostToolUse hooks wired for Markdown formatting, token reporting, dependency checks, and large-edit warnings
+- `docs/guides/agent-hooks-standard.md` — documented new hooks and JSONL streams
 
 ## [3.1.1] — 2026-04-23
 
@@ -26,6 +79,7 @@ All notable changes are documented here following [Keep a Changelog](https://kee
 - `.github/agents/translation-styler.agent.md` — `handoffs:` frontmatter field (return to translation-conductor, validate translation)
 - `scripts/validate-copilot-assets.ps1` — section 3b-ii: validates `agents:` frontmatter list against the agent roster (catches stale references like `github-ops`)
 - `scripts/add-prompt-metadata.ps1` — `Write-Warning` emitted when auto-injected frontmatter contains a `TODO:` description marker
+- `.github/workflows/ci/validate.yml` — best-effort Copilot eval replay step that scores eval fixtures when COPILOT_TOKEN is configured
 
 ### Changed
 - `AGENTS.md` — `gh skill` replaces `npx skills` in Skills Ecosystem section; Opus 4.7→4.6 Premium chain; BYOK note; foreground terminal scope note
@@ -36,6 +90,16 @@ All notable changes are documented here following [Keep a Changelog](https://kee
 - `docs/guides/copilot-cli-onboarding.md` — v1.2.0: new `gh skill`, BYOK, and foreground terminal sections
 - `plugin.json` — created at repo root; agent plugin manifest for external distribution via `copilot plugin install`
 - `artifacts/decisions/ADR-chatLanguageModels.md` — deferral extended; 1.116 and 1.117 shipped without GA promotion
+- `scripts/analyze-sessions.ps1` — now defaults to `artifacts/sessions`, merges hook JSONL telemetry, and supports `-ExportPath` with format-based output filenames
+- `scripts/hooks/_common.ps1`, `scripts/hooks/task-created.ps1`, `scripts/hooks/task-completed.ps1` — hook JSONL now auto-stamps `session_id`, task hook events standardized to PascalCase
+- `scripts/hooks/_common.ps1` — Read-HookInput now avoids blocking when stdin is not redirected (prevents hanging CLI runs)
+- `docs/guides/session-analytics.md`, `docs/dashboards/workflow-metrics.md`, `.github/instructions/artifacts.instructions.md` — session telemetry docs aligned to `artifacts/sessions` + hook streams
+- `docs/guides/agent-hooks-standard.md` — JSONL records now document `session_id` when available
+- `scripts/mcp/validation_server.py` — hardened PowerShell runner against null stdout/stderr
+- `scripts/hooks/post-tool-lint.ps1` — new markdown lint hook (runs on `.md` edits)
+- `.github/agents/implementer.agent.md`, `.github/agents/docs.agent.md` — lint hook wired into PostToolUse
+- `scripts/hooks/session-start.ps1` — emits Python version + venv detection in session context
+- `tests/powershell/Test-Hooks.Tests.ps1` — adds lint hook coverage
 
 ## [3.1.0] — 2026-04-22
 

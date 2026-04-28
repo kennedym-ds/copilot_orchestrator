@@ -53,7 +53,7 @@ All hook event streams and session records use JSONL (one JSON object per line):
 
 Example well-formed record:
 ```jsonl
-{"event":"SubagentStart","ts":"2026-04-23T10:00:00.000Z","parent":"conductor","child":"implementer","depth":1,"allowed":true}
+{"event":"SubagentStart","ts":"2026-04-23T10:00:00.000Z","session_id":"sess-abc-123","parent":"conductor","child":"implementer","depth":1,"allowed":true}
 ```
 
 ## `activeContext.md` Discipline

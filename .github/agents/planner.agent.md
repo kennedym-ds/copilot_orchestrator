@@ -2,7 +2,7 @@
 name: planner
 description: "Clarifies objectives, gathers context, and drafts multi-phase implementation plans."
 argument-hint: "Describe what you want to build and I'll create a phased implementation plan"
-model: ['Claude Opus 4.7 (copilot)', 'Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
+model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: high
 cli-affinity: [research, context]
 agents: ['conductor', 'researcher', 'implementer']
@@ -101,4 +101,3 @@ Formal schemas: planning uses **HS-PLAN**, implementation launches use **HS-IMPL
 | `/plan` | Initial draft of multi-phase plans. Persist output to `artifacts/plans/{feature}/` as always — `/plan` is the authoring surface, not the storage. |
 | `/research` | Before finalising a phase when evidence is thin. Prefer delegating to the researcher agent for deeper analysis. |
 | `/context` | At each phase boundary to confirm working set fits. |
-

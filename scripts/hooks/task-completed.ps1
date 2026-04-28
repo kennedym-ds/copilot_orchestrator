@@ -6,7 +6,8 @@ param(
     [string]$Status = $env:COPILOT_TASK_STATUS
 )
 . (Join-Path $PSScriptRoot "_common.ps1")
-Write-HookEvent -Event 'task-completed' -Payload @{
+$null = Read-HookInput
+Write-HookEvent -Event 'TaskCompleted' -Payload @{
     task_id = $TaskId; assignee = $Assignee; status = $Status
 }
 $state = Join-Path $PSScriptRoot "../../artifacts/sessions/team-state.json"
@@ -18,6 +19,6 @@ if (Test-Path -LiteralPath $state) {
             if ($task) { $task.status = $Status; $json | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $state -Encoding UTF8 }
         }
     } catch {
-        Write-HookError -Agent 'conductor' -Trigger 'task-completed' -ExitCode 1 -StderrTail $_.Exception.Message
+        Write-HookError -Agent 'conductor' -Trigger 'TaskCompleted' -ExitCode 1 -StderrTail $_.Exception.Message
     }
 }

@@ -54,8 +54,7 @@ jobs:
           #   Claude Sonnet 4.6 (Pro+ and above)  -> GPT-5.3-Codex (1x)
           #   GPT-5.4 (Pro+ and above)            -> GPT-5.4 mini (0.33x)
           # Unchanged (available on Pro):
-          #   GPT-5.3-Codex, GPT-5.4 mini, Claude Haiku 4.5, Gemini 3.1 Pro,
-          #   GPT-5 mini, GPT-4.1
+          #   GPT-5.3-Codex, GPT-5.4 mini, Claude Haiku 4.5, Gemini 3.1 Pro
 
           DIRS=".github/agents .github/prompts .github/skills instructions .claude docs"
 

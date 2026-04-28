@@ -47,10 +47,10 @@ pie title Current Phase Distribution
 | Efficient Model Calls | 0 |
 | Total Calls | 0 |
 | Premium Usage % | 0% |
-| **Target Premium Usage** | **20%** |
+| **Target Premium Usage** | **5%** |
 | Estimated Total Cost | $0.00 |
 
-**Status:** ⚠️ Above target (>25%)
+**Status:** ✅ Within target (≤5%)
 
 ---
 
@@ -107,12 +107,12 @@ _Data source:_ `C:\Users\Micha\OneDrive\Documents\Projects\copilot_orchestrator\
 **No session data available for this period.**
 
 To start collecting analytics:
-1. Ensure session metadata is being written to `./plans/sessions`
-2. Follow the session metadata schema (see docs/templates/)
+1. Ensure hook telemetry exists under `./artifacts/sessions/hooks`
+2. Optionally write session metadata to `./artifacts/sessions` for richer phase and review metrics
 3. Run this script again after sessions complete
 
 ---
 
 **Dashboard Status:** Active
 **Next Update:** Run `scripts/analyze-sessions.ps1` as needed
-**Data Source:** `./plans/sessions`
+**Data Source:** `./artifacts/sessions` + `./artifacts/sessions/hooks`
