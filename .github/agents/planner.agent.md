@@ -2,7 +2,7 @@
 name: planner
 description: "Clarifies objectives, gathers context, and drafts multi-phase implementation plans."
 argument-hint: "Describe what you want to build and I'll create a phased implementation plan"
-model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
+model: ['GPT-5.3-Codex (copilot)', 'GPT-5.4 mini mini (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: high
 cli-affinity: [research, context]
 agents: ['conductor', 'researcher', 'implementer']

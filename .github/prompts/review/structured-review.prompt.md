@@ -2,7 +2,7 @@
 name: reviewer-structured-checklist
 description: "Review prompt ensuring diffs are evaluated for correctness, tests, compliance, and documentation coverage."
 argument-hint: "Provide the code or changes for a structured severity-tagged review"
-model: GPT-5.4 (copilot)
+model: GPT-5.4 mini mini (copilot)
 agent: reviewer
 tools: [todo, changes, search, githubRepo]
 ---

@@ -37,7 +37,7 @@ Agents, instructions, and skills are auto-discovered from workspace paths. MCP s
 Copilot CLI gained the same model-picker thinking-effort control as local VS Code sessions (1.113). When a reasoning model is selected in the CLI picker, an arrow reveals **None / Low / Medium / High** effort levels.
 
 - **Non-reasoning models** do not show the submenu.
-- **Available levels vary per model.** Claude Sonnet 4.6 and GPT-5.4 expose all four; smaller models (Haiku, mini) typically expose fewer.
+- **Available levels vary per model.** GPT-5.3-Codex and GPT-5.4 mini expose all four; smaller models (Haiku, mini) typically expose fewer.
 - Effort persists per-model across CLI conversations, mirroring the local-session behaviour.
 
 **Recommendation for orchestrator use:**
@@ -361,8 +361,8 @@ If you hit context limits:
 ### Model Selection
 
 Agents use fallback arrays:
-- **Premium (security-only)**: Claude Opus 4.7 -> Claude Opus 4.6 (security review prompt override only)
-- **Execution**: Claude Sonnet 4.6 -> GPT-5.4 -> GPT-5.3-Codex (13 agents)
+- **Premium (security-only)**: GPT-5.3-Codex -> GPT-5.3-Codex (security review prompt override only)
+- **Execution**: GPT-5.3-Codex -> GPT-5.4 mini -> GPT-5.3-Codex (13 agents)
 - **Fast**: Claude Haiku 4.5 -> GPT-5.4 mini (3 agents)
 
 If a model is unavailable, the next in the array is used automatically.

@@ -2,7 +2,7 @@
 name: final-report
 description: "Generate the final translation report with per-file and repo-level confidence scores, test coverage, and security findings."
 argument-hint: "Provide the translation session ID for the final report"
-model: Claude Sonnet 4.6 (copilot)
+model: GPT-5.3-Codex (copilot)
 agent: translation-conductor
 tools: [search, read, changes]
 ---

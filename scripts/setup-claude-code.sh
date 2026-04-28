@@ -90,7 +90,7 @@ map_model() {
     echo "sonnet"  # fallback for non-Anthropic models
 }
 
-# Extract first model from YAML array like ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
+# Extract first model from YAML array like ['GPT-5.3-Codex (copilot)', 'GPT-5.3-Codex (copilot)']
 extract_first_model() {
     local raw="$1"
     echo "$raw" \

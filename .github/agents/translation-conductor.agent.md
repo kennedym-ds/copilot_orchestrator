@@ -2,7 +2,7 @@
 name: translation-conductor
 description: "Orchestrates full-repository code translation from one language to another through discovery, translation, validation, and documentation phases."
 argument-hint: "Specify source repo, source language, and target language to begin full translation orchestration"
-model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
+model: ['GPT-5.3-Codex (copilot)', 'GPT-5.4 mini mini (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: medium
 agents: ['translator', 'translation-validator', 'translation-styler', 'translation-analyzer', 'test', 'reviewer', 'security', 'docs', 'researcher', 'planner', 'implementer', 'ops']
 mcp-servers:

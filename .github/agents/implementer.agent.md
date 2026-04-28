@@ -2,7 +2,7 @@
 name: implementer
 description: "Executes the approved plan, making disciplined, tested code changes."
 argument-hint: "Specify the phase or task to implement with TDD approach"
-model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
+model: ['GPT-5.3-Codex (copilot)', 'GPT-5.4 mini mini (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: medium
 cli-affinity: []
 agents: ['conductor', 'reviewer', 'researcher', 'test']

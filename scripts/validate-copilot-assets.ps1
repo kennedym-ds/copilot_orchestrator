@@ -118,22 +118,22 @@ $validModels = @(
     # Anthropic — GA
     'Claude Haiku 4.5 (copilot)',
     'Claude Opus 4.5 (copilot)',
-    'Claude Opus 4.6 (copilot)',
-    'Claude Opus 4.7 (copilot)',
+    'GPT-5.3-Codex (copilot)',
+    'GPT-5.3-Codex (copilot)',
     'Claude Sonnet 4 (copilot)',
     'Claude Sonnet 4.5 (copilot)',
-    'Claude Sonnet 4.6 (copilot)',
+    'GPT-5.3-Codex (copilot)',
     # Anthropic — Public preview
-    'Claude Opus 4.6 (fast mode) (preview) (copilot)',
+    'GPT-5.3-Codex (fast mode) (preview) (copilot)',
     # OpenAI — GA
     'GPT-4.1 (copilot)',
     'GPT-5 mini (copilot)',
     'GPT-5.2 (copilot)',
     'GPT-5.2-Codex (copilot)',
     'GPT-5.3-Codex (copilot)',
-    'GPT-5.4 (copilot)',
+    'GPT-5.4 mini mini (copilot)',
     'GPT-5.4 mini (copilot)',
-    'GPT-5.4 nano (copilot)',
+    'GPT-5.4 mini nano (copilot)',
     # OpenAI — Fine-tuned / preview
     'Raptor mini (copilot)',
     'Goldeneye (copilot)',

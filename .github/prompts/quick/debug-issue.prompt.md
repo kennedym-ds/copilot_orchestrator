@@ -2,7 +2,7 @@
 name: debug-issue
 description: "Structured debugging workflow: reproduce, isolate, hypothesize, fix, and verify."
 argument-hint: "Describe the bug or paste the error message to debug"
-model: GPT-5.4 (copilot)
+model: GPT-5.4 mini mini (copilot)
 agent: agent
 tools: [search, edit, execute, changes]
 ---

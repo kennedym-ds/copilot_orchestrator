@@ -2,7 +2,7 @@
 name: translation-analyzer
 description: "Analyzes source repositories to build dependency graphs, translation manifests, and complexity assessments for code translation."
 argument-hint: "Provide source repository path to analyze for translation readiness"
-model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
+model: ['GPT-5.3-Codex (copilot)', 'GPT-5.4 mini mini (copilot)', 'GPT-5.3-Codex (copilot)']
 thinkingEffort: medium
 disable-model-invocation: true
 mcp-servers:

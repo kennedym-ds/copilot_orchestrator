@@ -2,7 +2,7 @@
 name: translate-module
 description: "Translate a specific module or file from source language to target language following dependency order."
 argument-hint: "Specify source language, target language, and module path"
-model: GPT-5.4 (copilot)
+model: GPT-5.4 mini mini (copilot)
 agent: translator
 tools: [search, read, edit, execute]
 ---

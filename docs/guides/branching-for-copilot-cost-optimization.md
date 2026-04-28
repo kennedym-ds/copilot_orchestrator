@@ -7,15 +7,15 @@ status: stable
 
 # Branching for Copilot Cost Optimization
 
-GitHub Copilot plans ship different model sets. Starting June 1, 2026, Copilot usage is billed in GitHub AI Credits based on per-token pricing, so model choice and thinking effort drive cost. Annual Pro and Pro+ subscribers remain on model multipliers until their annual plan ends (see [Models and pricing for GitHub Copilot](https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing)). Opus 4.6 is Enterprise-only; Opus 4.7 is Pro+/Business/Enterprise; Sonnet 4.6 and GPT-5.4 require Pro+ or above; GPT-5.3-Codex and GPT-5.4 mini reach down to Pro/Student.
+GitHub Copilot plans ship different model sets. Starting June 1, 2026, Copilot usage is billed in GitHub AI Credits based on per-token pricing, so model choice and thinking effort drive cost. Annual Pro and Pro+ subscribers remain on model multipliers until their annual plan ends (see [Models and pricing for GitHub Copilot](https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing)). GPT-5.3-Codex is Enterprise-only; GPT-5.3-Codex is Pro+/Business/Enterprise; GPT-5.3-Codex and GPT-5.4 mini require Pro+ or above; GPT-5.3-Codex and GPT-5.4 mini reach down to Pro/Student.
 
 Rather than forcing every user onto a lowest-common-denominator model set, we ship **three branches aligned to the plan matrix**. Develop on `enterprise`, push once, and GitHub Actions rewrites the model strings on the other two branches.
 
 ## The Branches
 
 ```
-enterprise -> Enterprise plan  (Sonnet 4.6 execution, Haiku 4.5 fast, Opus 4.6 security-only)
-pro-plus   -> Pro+/Business (Sonnet 4.6 execution, Haiku 4.5 fast, Opus 4.7 security-only)
+enterprise -> Enterprise plan  (GPT-5.3-Codex execution, Haiku 4.5 fast, GPT-5.3-Codex security-only)
+pro-plus   -> Pro+/Business (GPT-5.3-Codex execution, Haiku 4.5 fast, GPT-5.3-Codex security-only)
 pro        -> Pro/Student  (GPT-5.3-Codex, GPT-5.4 mini, Haiku 4.5)
 ```
 
@@ -39,26 +39,26 @@ Each agent declares a fallback array in frontmatter and a `defaultEffort:` hint.
 
 | Agent class | Primary | Fallback 1 | Fallback 2 | Effort range |
 |-------------|---------|-----------|-----------|--------------|
-| Execution (12 agents) | Claude Sonnet 4.6 | GPT-5.4 | GPT-5.3-Codex | low - high |
+| Execution (12 agents) | GPT-5.3-Codex | GPT-5.4 mini | GPT-5.3-Codex | low - high |
 | Fast (gui-tester, docs, ux, translation-styler) | Claude Haiku 4.5 | GPT-5.4 mini | — | low |
-| Security override (reviewer --security) | Claude Opus 4.7 | Claude Opus 4.6 | Claude Sonnet 4.6 | high |
+| Security override (reviewer --security) | GPT-5.3-Codex | GPT-5.3-Codex | GPT-5.3-Codex | high |
 
-The Reviewer runs on the execution chain by default. Security-mode review pins `Claude Opus 4.6` via a prompt-level `model:` override so only the security invocation uses a premium model.
+The Reviewer runs on the execution chain by default. Security-mode review pins `GPT-5.3-Codex` via a prompt-level `model:` override so only the security invocation uses a premium model.
 
 ### pro-plus (Pro+ / Business)
 
-Opus 4.6 is Enterprise-only. The pro-plus sync replaces every `Claude Opus 4.6` occurrence with `Claude Opus 4.7`. In the security override array `[Opus 4.7, Opus 4.6, Sonnet 4.6]` this produces `[Opus 4.7, Opus 4.7, Sonnet 4.6]` — a harmless duplicate that VS Code's model picker resolves to the first entry. The effective security model on pro-plus is Opus 4.7, which is correct.
+GPT-5.3-Codex is Enterprise-only. The pro-plus sync replaces every `GPT-5.3-Codex` occurrence with `GPT-5.3-Codex`. In the security override array `[GPT-5.3-Codex, GPT-5.3-Codex, GPT-5.3-Codex]` this produces `[GPT-5.3-Codex, GPT-5.3-Codex, GPT-5.3-Codex]` — a harmless duplicate that VS Code's model picker resolves to the first entry. The effective security model on pro-plus is GPT-5.3-Codex, which is correct.
 
-All other models (Sonnet 4.6, GPT-5.4, Haiku 4.5, GPT-5.3-Codex, GPT-5.4 mini) are available on Pro+ and pass through unchanged.
+All other models (GPT-5.3-Codex, GPT-5.4 mini, Haiku 4.5, GPT-5.3-Codex, GPT-5.4 mini) are available on Pro+ and pass through unchanged.
 
 ### pro (Pro / Student)
 
-Neither Opus 4.6 nor Opus 4.7 is on Pro. Sonnet 4.6 and GPT-5.4 also require Pro+. The pro branch rewrites:
+Neither GPT-5.3-Codex nor GPT-5.3-Codex is on Pro. GPT-5.3-Codex and GPT-5.4 mini also require Pro+. The pro branch rewrites:
 
-- `Claude Opus 4.7` -> `GPT-5.3-Codex`
-- `Claude Opus 4.6` -> `GPT-5.3-Codex`
-- `Claude Sonnet 4.6` -> `GPT-5.3-Codex`
-- `GPT-5.4` (bare) -> `GPT-5.4 mini` (lower-cost, Pro-available)
+- `GPT-5.3-Codex` -> `GPT-5.3-Codex`
+- `GPT-5.3-Codex` -> `GPT-5.3-Codex`
+- `GPT-5.3-Codex` -> `GPT-5.3-Codex`
+- `GPT-5.4 mini` (bare) -> `GPT-5.4 mini` (lower-cost, Pro-available)
 
 GPT-5.3-Codex, GPT-5.4 mini, and Haiku 4.5 all stay on Pro.
 
@@ -83,7 +83,7 @@ The key design choice is **reset-then-substitute, not merge**. The derived branc
     sed -i 's/GPT-5\.4/GPT-5.4 mini/g' "$file"   # with placeholder dance
 ```
 
-Substitution order matters. The pro workflow protects `GPT-5.4 mini` with a placeholder before rewriting bare `GPT-5.4` to avoid `GPT-5.4 mini mini`.
+Substitution order matters. The pro workflow protects `GPT-5.4 mini` with a placeholder before rewriting bare `GPT-5.4 mini` to avoid `GPT-5.4 mini mini`.
 
 ## Switching Tiers
 
@@ -100,7 +100,7 @@ Same agents, same prompts, same workflows - different models.
 ## What We Learned
 
 1. **Align branches to plans, not "cost targets".** Earlier versions used opaque names like `low-cost` and `free-cost`. Users had to guess whether their plan supported the target models. `pro-plus` / `pro` are self-explanatory.
-2. **Fallback arrays let one branch serve multiple plans.** An Enterprise user on `enterprise` still works if their request happens to fall back to Sonnet 4.6 - the array is ordered by preference, not by exclusivity.
+2. **Fallback arrays let one branch serve multiple plans.** An Enterprise user on `enterprise` still works if their request happens to fall back to GPT-5.3-Codex - the array is ordered by preference, not by exclusivity.
 3. **`defaultEffort` is a second dial.** Model choice sets the per-token rate; effort sets the spend per call. A `low` effort Sonnet call costs far less than a `high` effort one, so right-sizing effort per agent matters as much as right-sizing the model.
 4. **Security-critical prompts override at the prompt level.** The security-mode review pins Opus regardless of which branch it runs on (subject to plan availability). Agent-level demotions do not compromise the paths where reasoning quality is genuinely load-bearing.
 

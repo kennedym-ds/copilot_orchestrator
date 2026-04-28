@@ -67,7 +67,7 @@ Add these settings to your user or workspace `settings.json`:
    "chat.agentsControl.enabled": true,
    "chat.agentsControl.clickBehavior": "cycle",
    "workbench.startupEditor": "agentSessionsWelcomePage",
-   "github.copilot.chat.implementAgent.model": "Claude Sonnet 4.6 (copilot)",
+   "github.copilot.chat.implementAgent.model": "GPT-5.3-Codex (copilot)",
    "chat.tools.terminal.enableAutoApprove": true,
    "chat.tools.terminal.autoApproveWorkspaceNpmScripts": true,
    "chat.tools.terminal.preventShellHistory": true,
@@ -112,8 +112,8 @@ The orchestrator ships three branches aligned to GitHub Copilot plan pricing. Pu
 
 | Branch | Target Plan | Flagship Model | Use Case |
 |--------|-------------|----------------|----------|
-| `enterprise` | **Enterprise** | Claude Sonnet 4.6 (execution) | Source of truth - Opus 4.6 reserved for security review only |
-| `pro-plus` | **Pro+ / Business** | Claude Sonnet 4.6 (execution) | Opus 4.7 reserved for security review; full execution tier |
+| `enterprise` | **Enterprise** | GPT-5.3-Codex (execution) | Source of truth - GPT-5.3-Codex reserved for security review only |
+| `pro-plus` | **Pro+ / Business** | GPT-5.3-Codex (execution) | GPT-5.3-Codex reserved for security review; full execution tier |
 | `pro` | **Pro / Student** | GPT-5.3-Codex | No Opus/Sonnet - routes to GPT-5.3-Codex + GPT-5.4 mini + Haiku 4.5 |
 
 Each agent's `model:` field is a fallback array. VS Code picks the first model you have access to, so the published branches substitute unavailable models with plan-available equivalents. Usage-based billing now tracks GitHub AI Credits per token, so model choice and effort drive spend.
@@ -122,8 +122,8 @@ Each agent's `model:` field is a fallback array. VS Code picks the first model y
 
 1. **Develop on `enterprise`** - all agents run Enterprise-tier models with full capability.
 2. **Push to `enterprise`** - two GitHub Actions workflows trigger automatically:
-    - [`sync-pro-plus-branch.yml`](.github/workflows/sync-pro-plus-branch.yml) resets `pro-plus` from `enterprise` and swaps Opus 4.6 -> Opus 4.7.
-    - [`sync-pro-branch.yml`](.github/workflows/sync-pro-branch.yml) resets `pro` from `enterprise` and swaps Anthropic premium/execution + GPT-5.4 to Pro-available models.
+    - [`sync-pro-plus-branch.yml`](.github/workflows/sync-pro-plus-branch.yml) resets `pro-plus` from `enterprise` and swaps GPT-5.3-Codex -> GPT-5.3-Codex.
+    - [`sync-pro-branch.yml`](.github/workflows/sync-pro-branch.yml) resets `pro` from `enterprise` and swaps Anthropic premium/execution + GPT-5.4 mini to Pro-available models.
 3. **Switch tiers** - clone or checkout the branch matching your plan:
    ```bash
    git checkout pro-plus   # Pro+ / Business
@@ -141,19 +141,19 @@ Each agent's `model:` field is a fallback array. VS Code picks the first model y
 
 | Agent | Tier | Default Model (enterprise) | Effort | Purpose |
 |-------|------|----------------------|--------|---------|
-| Planner | Execution | Claude Sonnet 4.6 | high | Multi-phase planning |
-| Conductor | Execution | Claude Sonnet 4.6 | medium | Lifecycle orchestration |
-| Reviewer | Execution | Claude Sonnet 4.6 | high | Multi-mode code review (security mode pins Opus) |
-| Implementer | Execution | Claude Sonnet 4.6 | medium | TDD implementation |
-| Researcher | Execution | Claude Sonnet 4.6 | high | Evidence gathering |
-| Ops | Execution | Claude Sonnet 4.6 | low | Issues, PRs, CI/CD |
-| Test | Execution | Claude Sonnet 4.6 | medium | Test authoring |
-| IaC | Execution | Claude Sonnet 4.6 | medium | Terraform/Bicep/Pulumi |
+| Planner | Execution | GPT-5.3-Codex | high | Multi-phase planning |
+| Conductor | Execution | GPT-5.3-Codex | medium | Lifecycle orchestration |
+| Reviewer | Execution | GPT-5.3-Codex | high | Multi-mode code review (security mode pins Opus) |
+| Implementer | Execution | GPT-5.3-Codex | medium | TDD implementation |
+| Researcher | Execution | GPT-5.3-Codex | high | Evidence gathering |
+| Ops | Execution | GPT-5.3-Codex | low | Issues, PRs, CI/CD |
+| Test | Execution | GPT-5.3-Codex | medium | Test authoring |
+| IaC | Execution | GPT-5.3-Codex | medium | Terraform/Bicep/Pulumi |
 | GUI Tester | Fast | Claude Haiku 4.5 | low | Browser automation |
-| Translation Conductor | Execution | Claude Sonnet 4.6 | medium | Translation orchestration |
-| Translator | Execution | Claude Sonnet 4.6 | medium | File-level translation |
-| Translation Analyzer | Execution | Claude Sonnet 4.6 | medium | Dependency analysis |
-| Translation Validator | Execution | Claude Sonnet 4.6 | medium | Validation scoring |
+| Translation Conductor | Execution | GPT-5.3-Codex | medium | Translation orchestration |
+| Translator | Execution | GPT-5.3-Codex | medium | File-level translation |
+| Translation Analyzer | Execution | GPT-5.3-Codex | medium | Dependency analysis |
+| Translation Validator | Execution | GPT-5.3-Codex | medium | Validation scoring |
 | Docs | Fast | Claude Haiku 4.5 | low | Documentation |
 | UX | Fast | Claude Haiku 4.5 | low | UX/accessibility review |
 | Translation Styler | Fast | Claude Haiku 4.5 | low | Target language idioms |

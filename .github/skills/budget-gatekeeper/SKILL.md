@@ -70,8 +70,8 @@ Each delegation carries a cost weight based on the target agent's model tier. We
 
 | Tier | Relative weight | Agents | Monthly Budget Target |
 |------|-----------------|--------|----------------------|
-| Premium (Opus 4.7/4.6) | ~1.7x | security-mode reviewer only | ≤5% of total delegations |
-| Execution (Sonnet 4.6, GPT-5.4, GPT-5.3-Codex) | 1x | conductor, reviewer, implementer, planner, researcher, ops, test, iac, gui-tester, translation-conductor, translator, translation-analyzer, translation-validator | ~80% of total delegations |
+| Premium (GPT-5.3-Codex/4.6) | ~1.7x | security-mode reviewer only | ≤5% of total delegations |
+| Execution (GPT-5.3-Codex, GPT-5.4 mini, GPT-5.3-Codex) | 1x | conductor, reviewer, implementer, planner, researcher, ops, test, iac, gui-tester, translation-conductor, translator, translation-analyzer, translation-validator | ~80% of total delegations |
 | Fast (Haiku 4.5, GPT-5.4 mini) | ~0.33x | docs, ux, translation-styler | ~15% of total delegations |
 
 #### Annual Plan Multiplier Mode
@@ -156,9 +156,9 @@ When approaching premium-tier limits, apply these substitution patterns:
 | Instead of... | Use... | When acceptable |
 |---------------|--------|-----------------|
 | `reviewer --security` (Opus) | Standard reviewer (Sonnet) | Non-security review requests, low-risk changes |
-| `researcher` (GPT-5.4) | `implementer` with search tools | Gathering file contents or API docs (not strategic research) |
-| `reviewer` (GPT-5.4) | `quick-review` prompt (Haiku) | Minor changes, NIT-only expected findings |
-| `red-team` (GPT-5.4) | `reviewer` with adversarial prompt | When red-team findings are optional, not mandatory |
+| `researcher` (GPT-5.4 mini) | `implementer` with search tools | Gathering file contents or API docs (not strategic research) |
+| `reviewer` (GPT-5.4 mini) | `quick-review` prompt (Haiku) | Minor changes, NIT-only expected findings |
+| `red-team` (GPT-5.4 mini) | `reviewer` with adversarial prompt | When red-team findings are optional, not mandatory |
 | `reviewer --adversarial` | Standard reviewer with adversarial prompt | When red-team depth is needed but not a full dedicated pass |
 
 ### Circuit Breaker Pattern

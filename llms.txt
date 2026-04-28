@@ -13,7 +13,7 @@ This repository implements a structured multi-agent orchestration pattern for VS
 - **Skills:** 12 Agent Skills in `.github/skills/` providing domain expertise (TDD, security review, performance analysis, delegation routing, accessibility, etc.)
 - **Instructions:** 15 layered instruction files in `instructions/` (global, workflow, compliance, language-specific)
 - **Prompts:** 22 reusable prompt templates in `.github/prompts/` organized by workflow phase
-- **Model Tiers:** Security-only premium (Claude Opus 4.6/4.7 override), Execution (GPT-5.4, Claude Sonnet 4.6), Fast (Claude Haiku 4.5, GPT-5.4 mini)
+- **Model Tiers:** Security-only premium (GPT-5.3-Codex/4.7 override), Execution (GPT-5.4 mini, GPT-5.3-Codex), Fast (Claude Haiku 4.5, GPT-5.4 mini)
 
 ## Key Files
 

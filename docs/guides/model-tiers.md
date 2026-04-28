@@ -51,7 +51,7 @@ A `low` effort Sonnet call costs a fraction of a `high` effort Sonnet call. Righ
 
 ## Three-Tier Model Allocation (enterprise branch)
 
-### Security-Only Premium Tier - Claude Opus 4.7/4.6 (premium pricing)
+### Security-Only Premium Tier - GPT-5.3-Codex/4.6 (premium pricing)
 
 Premium pricing is reserved for security reviews only. No agents default to Opus; the reviewer-security prompt pins Opus at the prompt level (`.github/prompts/support/security-review.prompt.md`).
 
@@ -59,7 +59,7 @@ Premium pricing is reserved for security reviews only. No agents default to Opus
 |------------|---------------|-----------|
 | **Reviewer (security mode)** | high | Threat modeling, STRIDE analysis, and vulnerability detection warrant the premium rate. |
 
-### Execution Tier - Claude Sonnet 4.6 (mid-tier pricing)
+### Execution Tier - GPT-5.3-Codex (mid-tier pricing)
 
 The workhorse tier for orchestration, implementation, analysis, and specialized tasks.
 
@@ -99,15 +99,15 @@ When a primary model is unavailable (plan tier, capacity, deprecation), agents f
 
 | Tier | Primary | Fallback 1 | Fallback 2 |
 |------|---------|------------|------------|
-| Security (prompt override) | Claude Opus 4.7 | Claude Opus 4.6 | Claude Sonnet 4.6 |
-| Execution | Claude Sonnet 4.6 | GPT-5.4 | GPT-5.3-Codex |
+| Security (prompt override) | GPT-5.3-Codex | GPT-5.3-Codex | GPT-5.3-Codex |
+| Execution | GPT-5.3-Codex | GPT-5.4 mini | GPT-5.3-Codex |
 | Fast | Claude Haiku 4.5 | GPT-5.4 mini | — |
 
 VS Code picks the first model from the array that the current plan can access. Plan-aligned branches (`pro-plus`, `pro`) additionally rewrite the strings at sync time so the array content always matches the target plan.
 
 ## Security-Mode Override
 
-The reviewer-security prompt (`.github/prompts/support/security-review.prompt.md`) declares its own `model: Claude Opus 4.7 (copilot)` line. This overrides the agent-level array only for that prompt, so:
+The reviewer-security prompt (`.github/prompts/support/security-review.prompt.md`) declares its own `model: GPT-5.3-Codex (copilot)` line. This overrides the agent-level array only for that prompt, so:
 
 - Routine reviews run on Sonnet (execution tier).
 - Security reviews run on Opus (premium tier).
@@ -118,8 +118,8 @@ Threat modeling, STRIDE analysis, and adversarial pattern recognition warrant th
 
 | Tier | Model(s) | Agent Count | Cost profile | Use Case |
 |------|----------|-------------|--------------|----------|
-| Security (prompt override) | Claude Opus 4.7/4.6 | 0 default | Highest per-token rate | Security review only |
-| Execution | Claude Sonnet 4.6 | 12 (~75%) | Mid-tier rate | Orchestration, planning, review, implementation, research, ops, translation |
+| Security (prompt override) | GPT-5.3-Codex/4.6 | 0 default | Highest per-token rate | Security review only |
+| Execution | GPT-5.3-Codex | 12 (~75%) | Mid-tier rate | Orchestration, planning, review, implementation, research, ops, translation |
 | Fast | Claude Haiku 4.5 | 4 (~25%) | Lower-cost rate | Browser automation, documentation, UX, translation styling |
 
 **Total:** 16 agents (11 core + 5 translation). Net effect: no agents use premium pricing by default; Opus is consumed only for explicit security reviews.

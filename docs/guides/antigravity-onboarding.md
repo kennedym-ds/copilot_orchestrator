@@ -103,11 +103,11 @@ Antigravity uses short aliases instead of VS Code's full model names:
 
 | VS Code Model | Antigravity |
 |--------------|------------|
-| `Claude Opus 4.6 (copilot)` | `opus` |
-| `Claude Sonnet 4.6 (copilot)` | `sonnet` |
+| `GPT-5.3-Codex (copilot)` | `opus` |
+| `GPT-5.3-Codex (copilot)` | `sonnet` |
 | `Claude Haiku 4.5 (copilot)` | `haiku` |
 | `Gemini 3.1 Pro (Preview) (copilot)` | `gemini-pro` |
-| `GPT-5.4 (copilot)` | `inherit` (uses IDE default) |
+| `GPT-5.4 mini mini (copilot)` | `inherit` (uses IDE default) |
 
 ### Tool mapping
 

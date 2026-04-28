@@ -2,7 +2,7 @@
 name: pr-description
 description: "Generate a structured pull request description from the current diff."
 argument-hint: "Describe the PR scope or provide the branch name"
-model: Claude Sonnet 4.6 (copilot)
+model: GPT-5.3-Codex (copilot)
 agent: agent
 tools: [changes, search]
 ---

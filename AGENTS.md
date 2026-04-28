@@ -64,11 +64,11 @@ All agents use fallback arrays and a `thinkingEffort:` hint. VS Code picks the f
 
 | Tier | Primary -> Fallback chain | Agents | Typical effort |
 |------|---------------------------|--------|----------------|
-| **Premium (security-only)** | Claude Opus 4.7 -> Claude Opus 4.6 | Reviewer (security-mode prompt override only) | high |
-| **Execution** | Claude Sonnet 4.6 -> GPT-5.4 -> GPT-5.3-Codex | Conductor, Reviewer, Implementer, Planner, Researcher, Ops, Test, IaC, Translation Conductor, Translator, Translation Analyzer, Translation Validator | low / medium / high |
+| **Premium (security-only)** | GPT-5.3-Codex -> GPT-5.3-Codex | Reviewer (security-mode prompt override only) | high |
+| **Execution** | GPT-5.3-Codex -> GPT-5.4 mini -> GPT-5.3-Codex | Conductor, Reviewer, Implementer, Planner, Researcher, Ops, Test, IaC, Translation Conductor, Translator, Translation Analyzer, Translation Validator | low / medium / high |
 | **Fast** | Claude Haiku 4.5 -> GPT-5.4 mini | GUI Tester, Docs, UX, Translation Styler | low |
 
-Security-mode review pins `Claude Opus 4.7` at the prompt level (see `.github/prompts/support/security-review.prompt.md`).
+Security-mode review pins `GPT-5.3-Codex` at the prompt level (see `.github/prompts/support/security-review.prompt.md`).
 
 Never pin a single model. Models deprecate monthly. **BYOK (VS Code 1.117+):** Business/Enterprise users can connect their own API keys (OpenRouter, Ollama, Google, OpenAI, and more) via `Settings > Language Models`. BYOK models are additive — insert them into agent fallback chains by adding them to each agent's `model:` frontmatter array.
 

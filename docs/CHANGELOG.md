@@ -11,7 +11,7 @@ All notable changes are documented here following [Keep a Changelog](https://kee
 ## [3.1.8] — 2026-04-28
 
 ### Changed
-- `.github/agents/gui-tester.agent.md` — moved from Execution tier (Sonnet 4.6) to Fast tier (Haiku 4.5); browser automation is tool coordination at low effort, not reasoning work (~3× per-call saving)
+- `.github/agents/gui-tester.agent.md` — moved from Execution tier (GPT-5.3-Codex) to Fast tier (Haiku 4.5); browser automation is tool coordination at low effort, not reasoning work (~3× per-call saving)
 - `.github/agents/translation-conductor.agent.md` — `thinkingEffort` high → medium; orchestration/routing workload is the same reasoning profile as the main conductor
 - `.github/agents/translation-analyzer.agent.md` — `thinkingEffort` high → medium; dependency graph analysis is structured, not open-ended
 - `.github/agents/translation-validator.agent.md` — `thinkingEffort` high → medium; 6-layer validation is primarily tool execution and result interpretation
@@ -22,12 +22,12 @@ All notable changes are documented here following [Keep a Changelog](https://kee
 ## [3.1.7] — 2026-04-28
 
 ### Fixed
-- `docs/guides/model-tiers.md`, `docs/guides/branching-for-copilot-cost-optimization.md` — Opus 4.7 now correctly leads the security-only fallback chain in all docs (was Opus 4.6 in two files, contradicting `AGENTS.md` and the actual `security-review.prompt.md`)
-- `docs/guides/model-tiers.md` — security-mode override example corrected from `Claude Opus 4.6 (copilot)` to `Claude Opus 4.7 (copilot)`
+- `docs/guides/model-tiers.md`, `docs/guides/branching-for-copilot-cost-optimization.md` — GPT-5.3-Codex now correctly leads the security-only fallback chain in all docs (was GPT-5.3-Codex in two files, contradicting `AGENTS.md` and the actual `security-review.prompt.md`)
+- `docs/guides/model-tiers.md` — security-mode override example corrected from `GPT-5.3-Codex (copilot)` to `GPT-5.3-Codex (copilot)`
 
 ### Changed
 - `docs/guides/model-tiers.md` — annual plan multipliers (27×/6×) now explicitly labeled as effective June 1, 2026 values (pre-June-1 multipliers are lower); added promotional credit amounts for Business ($30) and Enterprise ($70) June–August 2026; added GitHub Actions minutes billing note for Copilot code review; added GitHub-native budget controls section
-- `docs/guides/branching-for-copilot-cost-optimization.md` — annual multiplier increase note; promotional credits note; code review GitHub Actions minutes note; overage opt-in vs. cap note; pro-plus sync explanation updated to document the harmless Opus 4.7 deduplication in the security array; Copilot Free fallback guidance added to Switching Tiers section
+- `docs/guides/branching-for-copilot-cost-optimization.md` — annual multiplier increase note; promotional credits note; code review GitHub Actions minutes note; overage opt-in vs. cap note; pro-plus sync explanation updated to document the harmless GPT-5.3-Codex deduplication in the security array; Copilot Free fallback guidance added to Switching Tiers section
 - `docs/guides/policy-and-operations.md` — §3 billing note added (code review Actions minutes); §9 added (pooled org-wide AI Credits); §10 added (GitHub-native budget controls with enforcement layer comparison table; overage opt-in policy)
 - `README.md`, `docs/quick-reference.md` — version bumped to 3.1.7; annual plan expiry / Copilot Free fallback note added to README model tiers section
 
@@ -105,9 +105,9 @@ All notable changes are documented here following [Keep a Changelog](https://kee
 - `.github/workflows/ci/validate.yml` — best-effort Copilot eval replay step that scores eval fixtures when COPILOT_TOKEN is configured
 
 ### Changed
-- `AGENTS.md` — `gh skill` replaces `npx skills` in Skills Ecosystem section; Opus 4.7→4.6 Premium chain; BYOK note; foreground terminal scope note
-- `instructions/global/01_quality.instructions.md` — Opus 4.7 now leads Premium chain; security-mode pin updated to Opus 4.7
-- `.github/agents/planner.agent.md` — model frontmatter: `Claude Opus 4.7` now first
+- `AGENTS.md` — `gh skill` replaces `npx skills` in Skills Ecosystem section; GPT-5.3-Codex→4.6 Premium chain; BYOK note; foreground terminal scope note
+- `instructions/global/01_quality.instructions.md` — GPT-5.3-Codex now leads Premium chain; security-mode pin updated to GPT-5.3-Codex
+- `.github/agents/planner.agent.md` — model frontmatter: `GPT-5.3-Codex` now first
 - `.github/prompts/new-agent.prompt.md`, `docs/quick-reference.md`, `docs/guides/copilot-cli-usage.md` — Opus chain order updated
 - `.vscode/settings.json` — version comment bumped to VS Code 1.117; added `backgroundNotifications: true`, `confirmationCarousel.enabled: true`; plugin section comment updated; security-intent comment on autopilot settings
 - `docs/guides/copilot-cli-onboarding.md` — v1.2.0: new `gh skill`, BYOK, and foreground terminal sections
@@ -133,7 +133,7 @@ All notable changes are documented here following [Keep a Changelog](https://kee
 - `budget-gatekeeper/SKILL.md` agent count corrected: 29 → 16
 - `AGENTS.md` Skills Ecosystem section flags publishing (G65) as deferred to prevent `npx skills` commands being mistaken for current capability
 - `.mcp.json` comment now references `setup-claude-code.ps1` for automatic reconciliation with `.vscode/mcp.json`
-- Model catalog in `validate-copilot-assets.ps1` reconciled against official GitHub Copilot supported-models page (2026-04-22); GPT-5.2, GPT-5.4 nano, Gemini 2.5 Pro, Grok Code Fast 1, and preview models added; retired models removed
+- Model catalog in `validate-copilot-assets.ps1` reconciled against official GitHub Copilot supported-models page (2026-04-22); GPT-5.2, GPT-5.4 mini nano, Gemini 2.5 Pro, Grok Code Fast 1, and preview models added; retired models removed
 
 ### Added
 - `tests/powershell/Test-Hooks.Tests.ps1` — 7 Pester tests for hook exit codes, JSONL schema, and `task-completed.ps1` JSON round-trip
@@ -178,8 +178,8 @@ All notable changes are documented here following [Keep a Changelog](https://kee
 - Updated all GPT-5.3-Codex references to current model names
 
 ### Model Updates
-- Premium tier: Claude Opus 4.6 → Claude Opus 4.7 → Claude Sonnet 4.6 (Planner only)
-- Execution tier: Claude Sonnet 4.6 → GPT-5.4 → GPT-5.3-Codex (12 agents)
+- Premium tier: GPT-5.3-Codex → GPT-5.3-Codex → GPT-5.3-Codex (Planner only)
+- Execution tier: GPT-5.3-Codex → GPT-5.4 mini → GPT-5.3-Codex (12 agents)
 - Fast tier: Claude Haiku 4.5 → GPT-5.4 mini → GPT-5 mini (3 agents)
 
 ## [0.20.0] - 2026-04-02
@@ -430,7 +430,7 @@ All notable changes are documented here following [Keep a Changelog](https://kee
 - **Agent MCP Wiring**: Added scoped tool allowlists to conductor, implementer, reviewer, test, lint, observability, translation-conductor
 - **MCP Integration Guide** (`docs/guides/mcp-integration.md`): Rewritten to cover HTTP transport, workspace config, resource annotations, prompts, validation/analytics servers, agent-to-MCP mapping
 - **Python MCP Instructions** (`instructions/languages/python-mcp-server.instructions.md`): Updated from low-level `Server` class to `FastMCP` high-level API matching actual server implementations
-- **Model Allocation**: Updated model tiers — Premium (Opus 4.6, Sonnet 4.6), Execution (GPT-5.3-Codex, Sonnet 4.6), Routine (Haiku 4.5, Gemini 3 Flash)
+- **Model Allocation**: Updated model tiers — Premium (GPT-5.3-Codex, GPT-5.3-Codex), Execution (GPT-5.3-Codex, GPT-5.3-Codex), Routine (Haiku 4.5, Gemini 3 Flash)
 
 ## [0.8.0] - 2026-02-09
 

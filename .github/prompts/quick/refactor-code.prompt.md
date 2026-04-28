@@ -2,7 +2,7 @@
 name: refactor-code
 description: "Refactor selected code for clarity, maintainability, and adherence to language idioms."
 argument-hint: "Select or describe the code to refactor"
-model: GPT-5.4 (copilot)
+model: GPT-5.4 mini mini (copilot)
 agent: agent
 tools: [search, edit, execute, changes]
 ---

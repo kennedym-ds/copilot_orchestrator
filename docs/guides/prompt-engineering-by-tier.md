@@ -14,12 +14,12 @@ This guide provides tier-specific prompt crafting strategies to maximize effecti
 ## Architecture Context
 
 **Security Tier (≤5% of invocations):**
-- Models: Claude Opus 4.6 / 4.7
+- Models: GPT-5.3-Codex / 4.7
 - Strengths: Threat modeling, adversarial analysis, vulnerability detection
 - Use cases: Security reviews only
 
 **Execution Tier (~80% of invocations):**
-- Models: Claude Sonnet 4.6, GPT-5.4
+- Models: GPT-5.3-Codex, GPT-5.4 mini
 - Strengths: Structured execution, code generation, pattern following, efficiency
 - Use cases: Planning, research, implementation, testing, refactoring, documentation updates, standard reviews
 
@@ -453,7 +453,7 @@ Implement JWT authentication following this workflow:
 
 ## Model-Specific Nuances
 
-### Claude Opus 4.6 (Security Tier)
+### GPT-5.3-Codex (Security Tier)
 
 **Strengths:**
 - Threat modeling and vulnerability discovery
@@ -465,7 +465,7 @@ Implement JWT authentication following this workflow:
 - Require severity tagging and concrete remediation steps
 - Demand verification steps (tests, scans, configs)
 
-### GPT-5.4 (Execution Tier)
+### GPT-5.4 mini (Execution Tier)
 
 **Strengths:**
 - Code understanding and refactoring
@@ -479,7 +479,7 @@ Implement JWT authentication following this workflow:
 - Leverage for complex code reviews and threat modeling
 - Use for fallback when Claude models are unavailable
 
-### Claude Sonnet 4.6 (Execution Tier)
+### GPT-5.3-Codex (Execution Tier)
 
 **Strengths:**
 - Versatile code generation and completion

@@ -2,7 +2,7 @@
 name: plan-multi-phase-delivery
 description: "Planner prompt for breaking complex requests into conductor-ready phases with risks, compliance, and TODO tracking."
 argument-hint: "Describe the feature or task to plan with phased implementation"
-model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)']
+model: ['GPT-5.3-Codex (copilot)', 'GPT-5.4 mini mini (copilot)']
 agent: planner
 tools: [todo, read, web, search, githubRepo]
 ---
