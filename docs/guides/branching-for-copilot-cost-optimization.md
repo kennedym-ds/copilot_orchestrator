@@ -25,8 +25,11 @@ pro        -> Pro/Student  (GPT-5.3-Codex, GPT-5.4 mini, Haiku 4.5)
 
 - GitHub AI Credits are consumed for chat/agent usage based on per-token pricing; code completions remain included.
 - When AI credits or budgets are exhausted, usage is blocked or billed. There is no automatic fallback to lower-cost models.
-- If you are still on annual-plan multipliers, apply your multiplier weights (e.g., Opus 27x, Sonnet 6x) when sizing budgets and deciding where premium models are justified.
+- If you are still on annual-plan multipliers, apply your multiplier weights (e.g., Opus 27x, Sonnet 6x) when sizing budgets. These are the values **effective June 1, 2026** — pre-June-1 multipliers are lower. Multipliers increase on June 1 for annual subscribers before they transition at plan expiry.
 - From June 1, AI credits are the default pricing model, so treat tiers as relative cost guidance rather than fixed multipliers.
+- **Promotional included credits (June–August 2026):** Business subscribers get $30/month (standard: $19); Enterprise get $70/month (standard: $39). Adjust budget-gatekeeper limits during this window.
+- **Copilot code review (GitHub's automated PR review) now consumes GitHub Actions minutes** in addition to AI Credits. Agent chat-driven review via the Reviewer agent uses only AI Credits.
+- Admins can configure whether usage is blocked or charged at overage rates when credits are exhausted — set this in org Copilot settings before June 1.
 
 ## Per-Branch Mapping
 
@@ -38,15 +41,13 @@ Each agent declares a fallback array in frontmatter and a `defaultEffort:` hint.
 |-------------|---------|-----------|-----------|--------------|
 | Execution (13 agents) | Claude Sonnet 4.6 | GPT-5.4 | GPT-5.3-Codex | low - high |
 | Fast (docs, ux, translation-styler) | Claude Haiku 4.5 | GPT-5.4 mini | — | low - medium |
-| Security override (reviewer --security) | Claude Opus 4.6 | Claude Opus 4.7 | Claude Sonnet 4.6 | high |
+| Security override (reviewer --security) | Claude Opus 4.7 | Claude Opus 4.6 | Claude Sonnet 4.6 | high |
 
 The Reviewer runs on the execution chain by default. Security-mode review pins `Claude Opus 4.6` via a prompt-level `model:` override so only the security invocation uses a premium model.
 
 ### pro-plus (Pro+ / Business)
 
-Opus 4.6 is Enterprise-only, so the pro-plus branch rewrites the security override:
-
-- `Claude Opus 4.6` -> `Claude Opus 4.7` (Enterprise-only to Pro+-available flagship)
+Opus 4.6 is Enterprise-only. The pro-plus sync replaces every `Claude Opus 4.6` occurrence with `Claude Opus 4.7`. In the security override array `[Opus 4.7, Opus 4.6, Sonnet 4.6]` this produces `[Opus 4.7, Opus 4.7, Sonnet 4.6]` — a harmless duplicate that VS Code's model picker resolves to the first entry. The effective security model on pro-plus is Opus 4.7, which is correct.
 
 All other models (Sonnet 4.6, GPT-5.4, Haiku 4.5, GPT-5.3-Codex, GPT-5.4 mini) are available on Pro+ and pass through unchanged.
 
@@ -93,6 +94,8 @@ git checkout enterprise       # Enterprise (source of truth)
 ```
 
 Same agents, same prompts, same workflows - different models.
+
+> **Annual plan expiry:** When an annual Pro or Pro+ plan expires, GitHub converts the account to either Copilot Free or a monthly paid plan. The `free` branch was removed in v3.1.6 — `pro` is the lowest supported tier. Copilot Free provides access to Haiku 4.5 and GPT-5.3-Codex (same models as `pro`) but with tighter rate limits; verify your model access against the [GitHub model matrix](https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing) before relying on the `pro` branch on a Free plan.
 
 ## What We Learned
 

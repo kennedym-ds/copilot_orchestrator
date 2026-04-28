@@ -48,6 +48,8 @@ Two review surfaces exist:
 
 **Operational note**: CI runs in `.github/workflows/ci/validate.yml`. The standalone repo rule (if enabled at the org level) is complementary, not duplicative.
 
+**Billing note (June 1, 2026)**: GitHub's automated PR code review ("Request Copilot review" button) now consumes **both AI Credits and GitHub Actions minutes**. The Reviewer agent invoked via chat uses only AI Credits. If your org uses both surfaces, account for the Actions minute spend separately from the AI credit budget.
+
 ---
 
 ## 4. Skills ecosystem audit (G16)
@@ -142,6 +144,39 @@ Distributing this orchestrator across an organisation via `organizationInstructi
 **Rollback**: clear `organizationInstructions` in org settings. Workspace-level `.github/` files in individual repos remain authoritative.
 
 **Do not** distribute `.github/prompts/` or `.vscode/mcp.json` at the org level — those are workspace-specific.
+
+---
+
+## 9. Pooled org-wide AI Credits (Business/Enterprise, June 1, 2026)
+
+As of June 1, included AI Credits are **pooled across the organization** — unused credits from one member's allocation are available to others in the same org. This eliminates the previous problem of isolated per-seat credits going to waste.
+
+**Impact on org-level deployment:**
+- The total org credit budget is `seats × per-seat included amount` (e.g., 10-seat Enterprise = 10 × $39 = $390/month pooled).
+- Heavy orchestrator users (planner + reviewer cycles) now draw from the shared pool rather than their own seat allocation. High-volume users can exhaust org credits faster than with isolated buckets.
+- Monitor aggregate org credit consumption in GitHub org settings → Copilot → Usage, not just individual seat usage.
+
+**Policy**: flag in the rollout plan (§8 step 4 "Soak on one team first") that soak-period usage is pooled, so a single power-user team can silently affect the budget of the wider org.
+
+---
+
+## 10. GitHub-native budget controls (Business/Enterprise)
+
+GitHub now provides platform-level budget controls at three scopes:
+- **Enterprise level** — aggregate cap across all orgs in the enterprise
+- **Cost center level** — budget per team or department
+- **User level** — per-seat spending cap
+
+**Relationship to the budget-gatekeeper skill:**
+
+| Layer | Scope | Enforcement | Configured in |
+|-------|-------|-------------|---------------|
+| GitHub platform controls | Org/enterprise billing | Hard stop or overage charge | GitHub org settings → Copilot |
+| Budget-gatekeeper skill | Session / conductor workflow | Soft/hard limits on delegations and tokens | `budget-gatekeeper/SKILL.md` |
+
+Configure platform controls **before** the June 1 transition. The gatekeeper is a development-time guardrail; platform controls are the billing authority. Both should be set.
+
+**Policy**: enterprise admins must explicitly decide whether to allow overage billing (usage continues at published per-token rates after included credits are exhausted) or cap spending (usage blocked). Default is block. Set this in org Copilot settings.
 
 ---
 

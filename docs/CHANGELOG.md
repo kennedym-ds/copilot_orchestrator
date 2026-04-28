@@ -1,12 +1,24 @@
 title: "Copilot Orchestrator Changelog"
-version: "3.1.6"
-lastUpdated: "2026-04-29"
+version: "3.1.7"
+lastUpdated: "2026-04-28"
 status: stable
 ---
 
 # Changelog
 
 All notable changes are documented here following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
+
+## [3.1.7] — 2026-04-28
+
+### Fixed
+- `docs/guides/model-tiers.md`, `docs/guides/branching-for-copilot-cost-optimization.md` — Opus 4.7 now correctly leads the security-only fallback chain in all docs (was Opus 4.6 in two files, contradicting `AGENTS.md` and the actual `security-review.prompt.md`)
+- `docs/guides/model-tiers.md` — security-mode override example corrected from `Claude Opus 4.6 (copilot)` to `Claude Opus 4.7 (copilot)`
+
+### Changed
+- `docs/guides/model-tiers.md` — annual plan multipliers (27×/6×) now explicitly labeled as effective June 1, 2026 values (pre-June-1 multipliers are lower); added promotional credit amounts for Business ($30) and Enterprise ($70) June–August 2026; added GitHub Actions minutes billing note for Copilot code review; added GitHub-native budget controls section
+- `docs/guides/branching-for-copilot-cost-optimization.md` — annual multiplier increase note; promotional credits note; code review GitHub Actions minutes note; overage opt-in vs. cap note; pro-plus sync explanation updated to document the harmless Opus 4.7 deduplication in the security array; Copilot Free fallback guidance added to Switching Tiers section
+- `docs/guides/policy-and-operations.md` — §3 billing note added (code review Actions minutes); §9 added (pooled org-wide AI Credits); §10 added (GitHub-native budget controls with enforcement layer comparison table; overage opt-in policy)
+- `README.md`, `docs/quick-reference.md` — version bumped to 3.1.7; annual plan expiry / Copilot Free fallback note added to README model tiers section
 
 ## [3.1.6] — 2026-04-29
 

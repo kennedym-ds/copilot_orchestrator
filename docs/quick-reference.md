@@ -1,7 +1,7 @@
 ﻿---
 title: "Copilot Orchestrator Quick Reference"
-version: "3.1.1"
-lastUpdated: "2026-04-29"
+version: "3.1.7"
+lastUpdated: "2026-04-28"
 status: stable
 ---
 

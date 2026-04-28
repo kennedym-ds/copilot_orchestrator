@@ -12,11 +12,23 @@ Copilot usage is billed in GitHub AI Credits based on token consumption (input, 
 
 Model prices are per 1M tokens. See [Models and pricing for GitHub Copilot](https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing) for current rates.
 
-Annual Pro and Pro+ subscribers on existing annual plans remain on model multipliers until their annual plan ends. Multipliers change on June 1, 2026 (see [annual plan multipliers](https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing#model-multipliers-for-annual-copilot-pro-and-copilot-pro-subscribers)).
+Annual Pro and Pro+ subscribers on existing annual plans remain on model multipliers until their annual plan ends. Multipliers **increase** on June 1, 2026 (see [annual plan multipliers](https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing#model-multipliers-for-annual-copilot-pro-and-copilot-pro-subscribers)).
 
 **Annual plan multiplier mode (cost override):**
-- Treat Opus as **27x** and Sonnet as **6x** for budget weighting when you are still on annual-plan multipliers.
+- Treat Opus as **27x** and Sonnet as **6x** for budget weighting when you are still on annual-plan multipliers. These are the values **effective June 1, 2026** — pre-June-1 multipliers are lower.
 - Revert to per-token pricing once the subscription moves to usage-based billing.
+
+**Promotional included credits (June–August 2026):**
+- Copilot Business subscribers receive **$30/month** (vs. standard $19) for the three-month transition period.
+- Copilot Enterprise subscribers receive **$70/month** (vs. standard $39) for the three-month transition period.
+- Adjust budget-gatekeeper soft/hard limits accordingly if you are on Business or Enterprise during this period.
+
+**Copilot code review and GitHub Actions minutes:**
+- GitHub's automated PR code review (the "Request Copilot review" feature) now consumes **both** AI Credits and GitHub Actions minutes. Agent-driven review via the Reviewer agent in chat sessions consumes only AI Credits.
+
+**GitHub-native budget controls:**
+- Business and Enterprise plans now include platform-level budget controls at the enterprise, cost center, and user levels — configurable in GitHub org settings. These are the authoritative billing-authority layer. The budget-gatekeeper skill is a complementary session-level safeguard, not a replacement.
+- Admins can choose to allow additional usage at published rates (overage billing) or cap spending when included credits are exhausted. Configure this in org Copilot settings before June 1.
 
 ## Cost-Aware Usage (Default)
 
@@ -87,7 +99,7 @@ When a primary model is unavailable (plan tier, capacity, deprecation), agents f
 
 | Tier | Primary | Fallback 1 | Fallback 2 |
 |------|---------|------------|------------|
-| Security (prompt override) | Claude Opus 4.6 | Claude Opus 4.7 | Claude Sonnet 4.6 |
+| Security (prompt override) | Claude Opus 4.7 | Claude Opus 4.6 | Claude Sonnet 4.6 |
 | Execution | Claude Sonnet 4.6 | GPT-5.4 | GPT-5.3-Codex |
 | Fast | Claude Haiku 4.5 | GPT-5.4 mini | — |
 
@@ -95,7 +107,7 @@ VS Code picks the first model from the array that the current plan can access. P
 
 ## Security-Mode Override
 
-The reviewer-security prompt (`.github/prompts/support/security-review.prompt.md`) declares its own `model: Claude Opus 4.6 (copilot)` line. This overrides the agent-level array only for that prompt, so:
+The reviewer-security prompt (`.github/prompts/support/security-review.prompt.md`) declares its own `model: Claude Opus 4.7 (copilot)` line. This overrides the agent-level array only for that prompt, so:
 
 - Routine reviews run on Sonnet (execution tier).
 - Security reviews run on Opus (premium tier).

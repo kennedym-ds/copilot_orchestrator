@@ -1,7 +1,7 @@
 ---
 title: "Copilot Orchestrator"
-version: "3.1.1"
-lastUpdated: "2026-04-23"
+version: "3.1.7"
+lastUpdated: "2026-04-28"
 status: stable
 ---
 
@@ -132,6 +132,8 @@ Each agent's `model:` field is a fallback array. VS Code picks the first model y
    ```
 
 > **Deep dive:** [Branching for Copilot Cost Optimization](docs/guides/branching-for-copilot-cost-optimization.md) - explains the design choices, sync mechanism, and lessons learned.
+>
+> **Annual plan expiry:** When an annual Pro/Pro+ plan expires, GitHub converts the account to Copilot Free or a monthly paid plan. `pro` is the lowest supported branch — the `free` branch was removed in v3.1.6. Copilot Free may have tighter rate limits than Pro; verify model access before relying on the `pro` branch on a Free plan.
 
 ## Agent Roster
 
