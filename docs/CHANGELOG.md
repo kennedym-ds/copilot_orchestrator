@@ -1,5 +1,5 @@
 title: "Copilot Orchestrator Changelog"
-version: "3.1.7"
+version: "3.1.8"
 lastUpdated: "2026-04-28"
 status: stable
 ---
@@ -7,6 +7,17 @@ status: stable
 # Changelog
 
 All notable changes are documented here following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
+
+## [3.1.8] — 2026-04-28
+
+### Changed
+- `.github/agents/gui-tester.agent.md` — moved from Execution tier (Sonnet 4.6) to Fast tier (Haiku 4.5); browser automation is tool coordination at low effort, not reasoning work (~3× per-call saving)
+- `.github/agents/translation-conductor.agent.md` — `thinkingEffort` high → medium; orchestration/routing workload is the same reasoning profile as the main conductor
+- `.github/agents/translation-analyzer.agent.md` — `thinkingEffort` high → medium; dependency graph analysis is structured, not open-ended
+- `.github/agents/translation-validator.agent.md` — `thinkingEffort` high → medium; 6-layer validation is primarily tool execution and result interpretation
+- `.github/agents/translation-styler.agent.md` — `thinkingEffort` medium → low; idiom pattern application is pattern-matching, not reasoning
+- `.github/agents/docs.agent.md` — `thinkingEffort` medium → low; template-driven documentation generation does not benefit from extended thinking
+- `AGENTS.md`, `README.md`, `docs/guides/model-tiers.md`, `docs/guides/branching-for-copilot-cost-optimization.md` — updated tier tables, agent counts (Execution 12/~75%, Fast 4/~25%), and per-agent effort rationale
 
 ## [3.1.7] — 2026-04-28
 

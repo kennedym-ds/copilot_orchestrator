@@ -73,13 +73,12 @@ The workhorse tier for orchestration, implementation, analysis, and specialized 
 | **Ops** | low | Issues, PRs, CI/CD, releases, telemetry. Tool-heavy agent where MCP tool access matters more than reasoning depth. |
 | **Test** | medium | TDD test authoring and coverage gap analysis. |
 | **IaC** | medium | Terraform / Bicep / Pulumi. Infrastructure-as-code planning, drift detection. |
-| **GUI Tester** | low | Browser automation, visual regression. Heavy tool usage; model coordinates more than it reasons. |
-| **Translation Conductor** | high | Orchestrates 6-phase translation lifecycle across 4 sub-agents. |
+| **Translation Conductor** | medium | Orchestrates 6-phase translation lifecycle across 4 sub-agents. Routing and coordination — same reasoning profile as the main Conductor. |
 | **Translator** | medium | File-level code translation. |
-| **Translation Analyzer** | high | Dependency graph analysis, complexity assessment. |
-| **Translation Validator** | high | 6-layer validation stack with equivalence checking. |
+| **Translation Analyzer** | medium | Dependency graph analysis, complexity assessment. Structured analysis; Sonnet at medium catches the same issues as high. |
+| **Translation Validator** | medium | 6-layer validation stack with equivalence checking. Primarily tool execution and result interpretation. |
 
-**Execution tier agents:** 13 (~81% of invocations).
+**Execution tier agents:** 12 (~75% of invocations).
 
 ### Fast Tier - Claude Haiku 4.5 (lower-cost pricing)
 
@@ -87,11 +86,12 @@ For tasks where pattern-matching suffices and deep reasoning is unnecessary.
 
 | Agent | defaultEffort | Rationale |
 |-------|---------------|-----------|
-| **Docs** | medium | Documentation generation with template-driven patterns. |
+| **GUI Tester** | low | Browser automation, visual regression. Heavy tool usage; model coordinates tool calls rather than reasoning. Moved from Execution tier — Haiku handles tool coordination cleanly at a ~3× lower cost. |
+| **Docs** | low | Documentation generation with template-driven patterns. No open-ended reasoning needed. |
 | **UX** | low | Visualizer + accessibility. Mermaid diagram generation, UX feedback, WCAG compliance review. |
-| **Translation Styler** | medium | Target-language idiom application. Small, structured transformation. |
+| **Translation Styler** | low | Target-language idiom application. Small, structured pattern-matching transformation. |
 
-**Fast tier agents:** 3 (~19% of invocations).
+**Fast tier agents:** 4 (~25% of invocations).
 
 ## Fallback Chains
 
@@ -118,9 +118,9 @@ Threat modeling, STRIDE analysis, and adversarial pattern recognition warrant th
 
 | Tier | Model(s) | Agent Count | Cost profile | Use Case |
 |------|----------|-------------|--------------|----------|
-| Security (prompt override) | Claude Opus 4.6/4.7 | 0 default | Highest per-token rate | Security review only |
-| Execution | Claude Sonnet 4.6 | 13 (~81%) | Mid-tier rate | Orchestration, planning, review, implementation, research, ops, translation |
-| Fast | Claude Haiku 4.5 | 3 (~19%) | Lower-cost rate | Documentation, UX, translation styling |
+| Security (prompt override) | Claude Opus 4.7/4.6 | 0 default | Highest per-token rate | Security review only |
+| Execution | Claude Sonnet 4.6 | 12 (~75%) | Mid-tier rate | Orchestration, planning, review, implementation, research, ops, translation |
+| Fast | Claude Haiku 4.5 | 4 (~25%) | Lower-cost rate | Browser automation, documentation, UX, translation styling |
 
 **Total:** 16 agents (11 core + 5 translation). Net effect: no agents use premium pricing by default; Opus is consumed only for explicit security reviews.
 

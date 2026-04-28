@@ -42,7 +42,7 @@ Complexity scales the ceremony:
 | Ops | `ops.agent.md` | Execution | Issues, PRs, CI/CD, releases, telemetry |
 | Test | `test.agent.md` | Execution | Test authoring, coverage analysis |
 | IaC | `iac.agent.md` | Execution | Terraform, Bicep, Pulumi |
-| GUI Tester | `gui-tester.agent.md` | Execution | Browser automation, visual regression |
+| GUI Tester | `gui-tester.agent.md` | Fast | Browser automation, visual regression |
 | Docs | `docs.agent.md` | Fast | Documentation, onboarding |
 | UX | `ux.agent.md` | Fast | UX review, WCAG accessibility, diagrams |
 
@@ -65,8 +65,8 @@ All agents use fallback arrays and a `thinkingEffort:` hint. VS Code picks the f
 | Tier | Primary -> Fallback chain | Agents | Typical effort |
 |------|---------------------------|--------|----------------|
 | **Premium (security-only)** | Claude Opus 4.7 -> Claude Opus 4.6 | Reviewer (security-mode prompt override only) | high |
-| **Execution** | Claude Sonnet 4.6 -> GPT-5.4 -> GPT-5.3-Codex | Conductor, Reviewer, Implementer, Planner, Researcher, Ops, Test, IaC, GUI Tester, Translation Conductor, Translator, Translation Analyzer, Translation Validator | low / medium / high |
-| **Fast** | Claude Haiku 4.5 -> GPT-5.4 mini | Docs, UX, Translation Styler | low / medium |
+| **Execution** | Claude Sonnet 4.6 -> GPT-5.4 -> GPT-5.3-Codex | Conductor, Reviewer, Implementer, Planner, Researcher, Ops, Test, IaC, Translation Conductor, Translator, Translation Analyzer, Translation Validator | low / medium / high |
+| **Fast** | Claude Haiku 4.5 -> GPT-5.4 mini | GUI Tester, Docs, UX, Translation Styler | low |
 
 Security-mode review pins `Claude Opus 4.7` at the prompt level (see `.github/prompts/support/security-review.prompt.md`).
 

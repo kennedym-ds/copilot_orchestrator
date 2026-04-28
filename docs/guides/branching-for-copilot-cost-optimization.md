@@ -39,8 +39,8 @@ Each agent declares a fallback array in frontmatter and a `defaultEffort:` hint.
 
 | Agent class | Primary | Fallback 1 | Fallback 2 | Effort range |
 |-------------|---------|-----------|-----------|--------------|
-| Execution (13 agents) | Claude Sonnet 4.6 | GPT-5.4 | GPT-5.3-Codex | low - high |
-| Fast (docs, ux, translation-styler) | Claude Haiku 4.5 | GPT-5.4 mini | — | low - medium |
+| Execution (12 agents) | Claude Sonnet 4.6 | GPT-5.4 | GPT-5.3-Codex | low - high |
+| Fast (gui-tester, docs, ux, translation-styler) | Claude Haiku 4.5 | GPT-5.4 mini | — | low |
 | Security override (reviewer --security) | Claude Opus 4.7 | Claude Opus 4.6 | Claude Sonnet 4.6 | high |
 
 The Reviewer runs on the execution chain by default. Security-mode review pins `Claude Opus 4.6` via a prompt-level `model:` override so only the security invocation uses a premium model.

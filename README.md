@@ -1,6 +1,6 @@
 ---
 title: "Copilot Orchestrator"
-version: "3.1.7"
+version: "3.1.8"
 lastUpdated: "2026-04-28"
 status: stable
 ---
@@ -149,14 +149,14 @@ Each agent's `model:` field is a fallback array. VS Code picks the first model y
 | Ops | Execution | Claude Sonnet 4.6 | low | Issues, PRs, CI/CD |
 | Test | Execution | Claude Sonnet 4.6 | medium | Test authoring |
 | IaC | Execution | Claude Sonnet 4.6 | medium | Terraform/Bicep/Pulumi |
-| GUI Tester | Execution | Claude Sonnet 4.6 | low | Browser automation |
-| Translation Conductor | Execution | Claude Sonnet 4.6 | high | Translation orchestration |
+| GUI Tester | Fast | Claude Haiku 4.5 | low | Browser automation |
+| Translation Conductor | Execution | Claude Sonnet 4.6 | medium | Translation orchestration |
 | Translator | Execution | Claude Sonnet 4.6 | medium | File-level translation |
-| Translation Analyzer | Execution | Claude Sonnet 4.6 | high | Dependency analysis |
-| Translation Validator | Execution | Claude Sonnet 4.6 | high | Validation scoring |
-| Docs | Fast | Claude Haiku 4.5 | medium | Documentation |
+| Translation Analyzer | Execution | Claude Sonnet 4.6 | medium | Dependency analysis |
+| Translation Validator | Execution | Claude Sonnet 4.6 | medium | Validation scoring |
+| Docs | Fast | Claude Haiku 4.5 | low | Documentation |
 | UX | Fast | Claude Haiku 4.5 | low | UX/accessibility review |
-| Translation Styler | Fast | Claude Haiku 4.5 | medium | Target language idioms |
+| Translation Styler | Fast | Claude Haiku 4.5 | low | Target language idioms |
 
 `thinkingEffort` is the role's baseline reasoning depth — individual prompts can override with the `effort:` frontmatter key.
 
