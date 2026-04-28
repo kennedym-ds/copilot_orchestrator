@@ -189,7 +189,7 @@ VS Code 1.114 integration — a streamlining release focused on chat experience 
 **File:** `.github/agents/spec.agent.md` (new), `.github/skills/spec-development/SKILL.md` (new), `docs/templates/spec.md` (new), `instructions/workflows/spec.instructions.md` (new), `.claude/rules/workflows/spec.instructions.md` (new), `.github/agents/conductor.agent.md`, `.github/skills/delegation-routing/SKILL.md`, `AGENTS.md`, `.github/copilot-instructions.md`, `.claude/CLAUDE.md`, + ~25 documentation files
 **Type:** Added (5 new files), Modified (~30 files)
 **Description:** Added a dedicated Spec agent for structured project specification and requirements elicitation before planning:
-- New premium-tier agent (Claude Opus 4.6 / Sonnet 4.6) with 3 complexity tiers (LIGHTWEIGHT, STANDARD, COMPREHENSIVE)
+- New premium-tier agent (Claude Opus 4.7 / Sonnet 4.6) with 3 complexity tiers (LIGHTWEIGHT, STANDARD, COMPREHENSIVE)
 - New `spec-development` skill with requirements ID conventions (REQ-F/NF/S/D/I-NNN), acceptance criteria patterns (Given/When/Then), and spec→plan handoff protocol
 - New 14-section spec template with Mermaid diagram support, quality summary footer, and section status tracking
 - Conductor lifecycle extended: Spec → Planning → Implementation → Review → Completion
@@ -318,7 +318,7 @@ Generalizes patterns proven in the translation system (translation-analyzer's de
 **File:** `.github/agents/*.agent.md` (all 22 agents)
 **Type:** Modified
 **Description:** Replaced all single-model assignments with model fallback arrays (1.109 feature). Updated model tiers:
-- Premium (~20%): Claude Opus 4.6, Claude Sonnet 4.6 → conductor, planner, reviewer, security, beast-mode, researcher
+- Premium (~20%): Claude Opus 4.7, Claude Sonnet 4.6 → conductor, planner, reviewer, security, beast-mode, researcher
 - Execution (~70%): Claude Sonnet 4.6, GPT-5.3-Codex → implementer, test, red-team, performance, data-analytics, accessibility, observability, visualizer, deployment, github-ops, maintainer, terraform, bicep, design
 - Routine (~10%): Claude Sonnet 4.6 → docs, lint
 

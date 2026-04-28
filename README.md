@@ -112,7 +112,7 @@ The orchestrator ships three branches aligned to GitHub Copilot plan pricing. Pu
 
 | Branch | Target Plan | Flagship Model | Use Case |
 |--------|-------------|----------------|----------|
-| `enterprise` | **Enterprise** | Claude Sonnet 4.6 (execution) | Source of truth - Opus 4.6 reserved for security review only |
+| `enterprise` | **Enterprise** | Claude Sonnet 4.6 (execution) | Source of truth - Opus 4.7 reserved for security review only |
 | `pro-plus` | **Pro+ / Business** | Claude Sonnet 4.6 (execution) | Opus 4.7 reserved for security review; full execution tier |
 | `pro` | **Pro / Student** | GPT-5.3-Codex | No Opus/Sonnet - routes to GPT-5.3-Codex + GPT-5.4 mini + Haiku 4.5 |
 
@@ -122,7 +122,7 @@ Each agent's `model:` field is a fallback array. VS Code picks the first model y
 
 1. **Develop on `enterprise`** - all agents run Enterprise-tier models with full capability.
 2. **Push to `enterprise`** - two GitHub Actions workflows trigger automatically:
-    - [`sync-pro-plus-branch.yml`](.github/workflows/sync-pro-plus-branch.yml) resets `pro-plus` from `enterprise` and swaps Opus 4.6 -> Opus 4.7.
+    - [`sync-pro-plus-branch.yml`](.github/workflows/sync-pro-plus-branch.yml) resets `pro-plus` from `enterprise` and swaps Opus 4.7 -> Opus 4.7.
     - [`sync-pro-branch.yml`](.github/workflows/sync-pro-branch.yml) resets `pro` from `enterprise` and swaps Anthropic premium/execution + GPT-5.4 to Pro-available models.
 3. **Switch tiers** - clone or checkout the branch matching your plan:
    ```bash

@@ -201,7 +201,7 @@ Handoffs can now specify a `model` parameter for per-handoff model selection:
 handoffs:
   - label: Security Review
     agent: reviewer
-    model: Claude Opus 4.6 (copilot)
+    model: Claude Opus 4.7 (copilot)
     prompt: Perform security review with threat modeling and exploit analysis.
 ```
 

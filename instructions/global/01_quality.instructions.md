@@ -61,7 +61,7 @@ All agents use fallback arrays in frontmatter `model:` and a `thinkingEffort:` h
 
 | Tier | Agents | Primary -> Fallback | Typical effort |
 |------|--------|---------------------|----------------|
-| **Premium (security-only)** | Reviewer (security-mode prompt override only) | Claude Opus 4.7 -> Claude Opus 4.6 | high |
+| **Premium (security-only)** | Reviewer (security-mode prompt override only) | Claude Opus 4.7 -> Claude Opus 4.7 | high |
 | **Execution** | Conductor, Reviewer, Implementer, Planner, Researcher, Ops, Test, IaC, GUI Tester, Translation Conductor, Translator, Translation Analyzer, Translation Validator | Claude Sonnet 4.6 -> GPT-5.4 -> GPT-5.3-Codex | low / medium / high |
 | **Fast** | Docs, UX, Translation Styler | Claude Haiku 4.5 -> GPT-5.4 mini | low / medium |
 

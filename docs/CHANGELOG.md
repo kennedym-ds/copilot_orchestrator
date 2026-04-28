@@ -22,8 +22,8 @@ All notable changes are documented here following [Keep a Changelog](https://kee
 ## [3.1.7] — 2026-04-28
 
 ### Fixed
-- `docs/guides/model-tiers.md`, `docs/guides/branching-for-copilot-cost-optimization.md` — Opus 4.7 now correctly leads the security-only fallback chain in all docs (was Opus 4.6 in two files, contradicting `AGENTS.md` and the actual `security-review.prompt.md`)
-- `docs/guides/model-tiers.md` — security-mode override example corrected from `Claude Opus 4.6 (copilot)` to `Claude Opus 4.7 (copilot)`
+- `docs/guides/model-tiers.md`, `docs/guides/branching-for-copilot-cost-optimization.md` — Opus 4.7 now correctly leads the security-only fallback chain in all docs (was Opus 4.7 in two files, contradicting `AGENTS.md` and the actual `security-review.prompt.md`)
+- `docs/guides/model-tiers.md` — security-mode override example corrected from `Claude Opus 4.7 (copilot)` to `Claude Opus 4.7 (copilot)`
 
 ### Changed
 - `docs/guides/model-tiers.md` — annual plan multipliers (27×/6×) now explicitly labeled as effective June 1, 2026 values (pre-June-1 multipliers are lower); added promotional credit amounts for Business ($30) and Enterprise ($70) June–August 2026; added GitHub Actions minutes billing note for Copilot code review; added GitHub-native budget controls section
@@ -178,7 +178,7 @@ All notable changes are documented here following [Keep a Changelog](https://kee
 - Updated all GPT-5.3-Codex references to current model names
 
 ### Model Updates
-- Premium tier: Claude Opus 4.6 → Claude Opus 4.7 → Claude Sonnet 4.6 (Planner only)
+- Premium tier: Claude Opus 4.7 → Claude Opus 4.7 → Claude Sonnet 4.6 (Planner only)
 - Execution tier: Claude Sonnet 4.6 → GPT-5.4 → GPT-5.3-Codex (12 agents)
 - Fast tier: Claude Haiku 4.5 → GPT-5.4 mini → GPT-5 mini (3 agents)
 
@@ -430,7 +430,7 @@ All notable changes are documented here following [Keep a Changelog](https://kee
 - **Agent MCP Wiring**: Added scoped tool allowlists to conductor, implementer, reviewer, test, lint, observability, translation-conductor
 - **MCP Integration Guide** (`docs/guides/mcp-integration.md`): Rewritten to cover HTTP transport, workspace config, resource annotations, prompts, validation/analytics servers, agent-to-MCP mapping
 - **Python MCP Instructions** (`instructions/languages/python-mcp-server.instructions.md`): Updated from low-level `Server` class to `FastMCP` high-level API matching actual server implementations
-- **Model Allocation**: Updated model tiers — Premium (Opus 4.6, Sonnet 4.6), Execution (GPT-5.3-Codex, Sonnet 4.6), Routine (Haiku 4.5, Gemini 3 Flash)
+- **Model Allocation**: Updated model tiers — Premium (Opus 4.7, Sonnet 4.6), Execution (GPT-5.3-Codex, Sonnet 4.6), Routine (Haiku 4.5, Gemini 3 Flash)
 
 ## [0.8.0] - 2026-02-09
 

@@ -106,7 +106,7 @@ Claude Code uses short aliases instead of VS Code's full model names:
 
 | VS Code Model | Claude Code |
 |--------------|------------|
-| `Claude Opus 4.6 (copilot)` | `opus` |
+| `Claude Opus 4.7 (copilot)` | `opus` |
 | `Claude Sonnet 4.6 (copilot)` | `sonnet` |
 | `Claude Haiku 4.5 (copilot)` | `haiku` |
 | `GPT-5.4 (copilot)` | `sonnet` (nearest equivalent) |

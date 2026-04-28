@@ -14,7 +14,7 @@ This guide provides tier-specific prompt crafting strategies to maximize effecti
 ## Architecture Context
 
 **Security Tier (≤5% of invocations):**
-- Models: Claude Opus 4.6 / 4.7
+- Models: Claude Opus 4.7 / 4.7
 - Strengths: Threat modeling, adversarial analysis, vulnerability detection
 - Use cases: Security reviews only
 
@@ -453,7 +453,7 @@ Implement JWT authentication following this workflow:
 
 ## Model-Specific Nuances
 
-### Claude Opus 4.6 (Security Tier)
+### Claude Opus 4.7 (Security Tier)
 
 **Strengths:**
 - Threat modeling and vulnerability discovery

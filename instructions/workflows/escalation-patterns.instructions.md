@@ -7,7 +7,7 @@ applyTo: ".github/agents/implementer.agent.md,.github/agents/conductor.agent.md"
 
 ## Overview
 
-This document defines triggers and patterns for escalating from execution-tier models (GPT-5.3-Codex, Claude Sonnet 4.6) to security-only premium review (Claude Opus 4.6/4.7) during implementation phases. Escalation preserves cost efficiency while ensuring security risks receive the deepest review when warranted.
+This document defines triggers and patterns for escalating from execution-tier models (GPT-5.3-Codex, Claude Sonnet 4.6) to security-only premium review (Claude Opus 4.7/4.7) during implementation phases. Escalation preserves cost efficiency while ensuring security risks receive the deepest review when warranted.
 
 Escalation is not failure — it's the Senior Principal Engineer persona in action: understand the problem first, and when the problem genuinely exceeds the current tool's capability, reach for the right one. Don't escalate out of convenience; escalate out of necessity.
 
@@ -20,7 +20,7 @@ Escalation is not failure — it's the Senior Principal Engineer persona in acti
 - No access to: `fetch`, `githubRepo` (prevents context bloat)
 
 **Security Tier (<5% of invocations):**
-- Premium models: Claude Opus 4.6 / 4.7 (reviewer --security prompt override)
+- Premium models: Claude Opus 4.7 / 4.7 (reviewer --security prompt override)
 - Optimized for: Threat modeling, vulnerability discovery, compliance checkpoints
 - Full tool access including `fetch`, `search`, `githubRepo`, `usages`
 

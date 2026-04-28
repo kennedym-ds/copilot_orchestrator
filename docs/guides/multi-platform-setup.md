@@ -134,7 +134,7 @@ Claude Code uses a different agent format than VS Code. The setup scripts automa
 
 | VS Code Model | Claude Code Alias |
 |--------------|-------------------|
-| `Claude Opus 4.6 (copilot)` | `opus` |
+| `Claude Opus 4.7 (copilot)` | `opus` |
 | `Claude Sonnet 4.6 (copilot)` | `sonnet` |
 | `Claude Haiku 4.5 (copilot)` | `haiku` |
 | `GPT-5.4 (copilot)` | `sonnet` (fallback) |
@@ -252,7 +252,7 @@ Antigravity is a Google DeepMind AI coding IDE that uses a different directory s
 
 | VS Code Model | Antigravity Alias |
 |--------------|-------------------|
-| `Claude Opus 4.6 (copilot)` | `opus` |
+| `Claude Opus 4.7 (copilot)` | `opus` |
 | `Claude Sonnet 4.6 (copilot)` | `sonnet` |
 | `Claude Haiku 4.5 (copilot)` | `haiku` |
 | `Gemini 3.1 Pro (Preview) (copilot)` | `gemini-pro` |

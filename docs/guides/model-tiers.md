@@ -99,7 +99,7 @@ When a primary model is unavailable (plan tier, capacity, deprecation), agents f
 
 | Tier | Primary | Fallback 1 | Fallback 2 |
 |------|---------|------------|------------|
-| Security (prompt override) | Claude Opus 4.7 | Claude Opus 4.6 | Claude Sonnet 4.6 |
+| Security (prompt override) | Claude Opus 4.7 | Claude Opus 4.7 | Claude Sonnet 4.6 |
 | Execution | Claude Sonnet 4.6 | GPT-5.4 | GPT-5.3-Codex |
 | Fast | Claude Haiku 4.5 | GPT-5.4 mini | — |
 

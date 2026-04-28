@@ -173,7 +173,7 @@ Period: 2026-01-01 to 2026-02-09
 Sessions analyzed: 42
 
 Model Usage:
-  Claude Opus 4.6:   18% (target: ≤20%)  ✅
+  Claude Opus 4.7:   18% (target: ≤20%)  ✅
   GPT-5.4:            52%
   Claude Sonnet 4.6:  30%
 

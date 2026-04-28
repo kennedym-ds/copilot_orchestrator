@@ -31,7 +31,7 @@ Create a new `.agent.md` file in `.github/agents/` following the established pat
 - Boundaries section (always do / ask first / never do)
 
 ### Model Tier Assignment
-- Premium (security-only): Security review prompt override -> Claude Opus 4.7 -> Claude Opus 4.6
+- Premium (security-only): Security review prompt override -> Claude Opus 4.7 -> Claude Opus 4.7
 - Execution (~81%): Orchestration, planning, review, implementation, research, ops, specialized tasks -> Claude Sonnet 4.6 -> GPT-5.4 -> GPT-5.3-Codex
 - Fast (~19%): Documentation, UX, translation styling -> Claude Haiku 4.5 -> GPT-5.4 mini
 
